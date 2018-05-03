@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Pemarsa.Domain
 {
-    class Cliente
+    public class Cliente : Entity
     {
+        public string RazonSocial { get; set; }
     }
 }
