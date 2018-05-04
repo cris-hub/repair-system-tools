@@ -12,7 +12,7 @@ export class AppComponent {
     router.navigate(['home']);
     this.openMenu = false;
   }
-  title = 'MTA Platform';
+  title = 'Pemarsa';
   @ViewChild('sidenav') sidenav: MatSidenav;
   events = [];
 
