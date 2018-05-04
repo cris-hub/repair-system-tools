@@ -19,8 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "mta-theme.scss"
+        "styles.css"
       ],
       "scripts": [
       ],
