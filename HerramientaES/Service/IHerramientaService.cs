@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HerramientaES.Service
 {
-    interface IHerramientaService
+    internal interface IHerramientaService
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HerramientaES.Repository
 {
-    public class HerramientaRepository
+    internal class HerramientaRepository
     {
     }
 }

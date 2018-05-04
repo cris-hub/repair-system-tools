@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HerramientaES.Repository
+namespace ClienteES.Repository
 {
-    internal interface IHerramientaRepository
+    internal class ClienteRepository
     {
     }
 }

@@ -1,0 +1,4 @@
+{
+  "webApiBaseUrl1": "http://192.168.15.174:1324/api/",
+  "webApiBaseUrl": "http://localhost:58906/api/"
+}

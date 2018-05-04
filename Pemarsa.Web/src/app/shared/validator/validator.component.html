@@ -1,0 +1,22 @@
+<!--Requerido-->
+<div>
+  {{field?.touched}}
+  <span *ngIf="field?.hasError('required')">Este campo es <strong>obligatorio.</strong><br /></span>
+
+  <span *ngIf="field?.hasError('pattern')">Este campo debe ser <strong>numerico.</strong><br /></span>
+
+  <span *ngIf="field?.hasError('minlength')">
+    Este campo debe ser mayor a
+    <strong>{{field.errors.minlength.requiredLength}}.</strong> ({{field.errors.minlength.actualLength}})<br />
+  </span>
+
+  <span *ngIf="field?.hasError('maxlength')">
+    Este campo debe ser menor a
+    <strong>{{field.errors.maxlength.requiredLength}}.</strong> ({{field.errors.maxlength.actualLength}})<br />
+  </span>
+
+  <span *ngIf="field?.hasError('email') && !field?.hasError('required')">
+    Este campo debe ser un correo
+    <strong>valido.</strong><br />
+  </span>
+</div>

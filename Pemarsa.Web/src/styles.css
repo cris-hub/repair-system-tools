@@ -1,0 +1,294 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+body{
+    padding: 0px;
+    margin:0px;
+    background-color: #fafafa;
+}
+
+.width_100 {
+  width: 100%;
+}
+.width_20 {
+  width: 20%;
+}
+.width_33 {
+  width: 32%;
+}
+.width_40 {
+  width: 40%;
+}
+
+.width_50 {
+  width: 49%;
+}
+
+.width_60 {
+  width: 59%;
+}
+.width_70 {
+  width: 69%;
+}
+
+.width_80 {
+  width: 79%;
+}
+.width_90 {
+  width:89%;
+}
+.width_95 {
+  width:94%;
+}
+
+.heigth_100 {
+  height: 100%;
+}
+
+.heigth_5 {
+  max-height: 5% !important;
+  overflow-y: visible !important;
+}
+.heigth_10 {
+  max-height: 20% !important;
+  overflow-y:visible!important;
+}
+.heigth_20 {
+  max-height: 20%!important;
+}
+
+.heigth_33 {
+  height: 32%;
+}
+
+.heigth_40 {
+  height: 40%;
+}
+
+.heigth_50 {
+  height: 49%;
+}
+
+.heigth_60 {
+  height: 59%;
+}
+
+.heigth_70 {
+  height: 69%;
+}
+
+.heigth_80 {
+  height: 79%;
+}
+.inner_text_rigth{
+  right:auto;
+}
+
+mat-sidenav {
+  width: 250px;
+  height:100%!important;
+  min-height:920px!important;
+}
+
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.complete-space {
+  flex: 1 1 auto;
+
+}
+.complete-vertical-space {
+  flex: 1 1 auto;
+  min-height:910px;
+}
+
+.pull-right {
+  float: right !important;
+  right:5px;
+}
+
+.pull-left{
+  float: left !important;
+  left:5px;
+}
+
+.table-filter-header {
+  min-height: 50px;
+  padding: 2px 2px 2px 50px;
+}
+.example-card {
+  min-width: 950px !important;
+}
+
+.min-size {
+  font-size: 12px;
+  max-height: 12px;
+}
+
+.container {
+  padding: 20px 20px 20px 20px;
+}
+
+.container-fluid {
+  padding: 20px 10% 20px 10%;
+  overflow: hidden;
+}
+.title {
+  color: gray;
+}
+
+.form {
+  box-shadow: inset 0px -1px 12px -1px rgba(194,192,194,1);
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.containerForm {
+  margin-left : 3%;
+  width:100%;
+}
+.containerFormRight{
+  margin-right:3%;
+  width:100%;
+  margin-left:4%;
+}
+
+.navColor {
+  background-color: #01579b;
+  color: white;
+}
+
+.dropdown-toggle::after {
+  opacity: 0;
+}
+.lista {
+  list-style: none;
+  position: relative;
+  top: -20px;
+  height: 0px;
+}
+
+.container-form {
+  padding: 20px 10px 20px 10px;
+}
+
+/*Thead para todas la tablas*/
+
+.theadTittle {
+  background-color: #0277bd;
+  color: #FFF;
+}
+
+/*Tamaño y color de la letra de los fomularios*/
+
+.grey-text {
+  color: #1878c4 !important;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.md-form label.active {
+  color: #1878c4 !important;
+  font-weight: 600;
+  font-size: 15px;
+}
+/*Barra Lateral*/
+.left {
+  position: fixed;
+  background: #01579b;
+  display: inline-block;
+  white-space: nowrap;
+  width: 52px;
+  transition: width 1s;
+  height: 100%;
+}
+
+.right {
+  background: #fafafa;
+  transition: width 1s;
+  width: 97%;
+  height: 100%;
+  margin-left: 2.7%;
+  transition-duration: 1.5s;
+}
+
+.left:hover {
+  width: 160px;
+}
+
+  .left:hover ~ .right {
+    width: 92%;
+    margin-left: 145px;
+    transition-duration: 1.5s;
+  }
+
+.item:hover {
+  background-color: #ccc;
+}
+
+.left .fa {
+  margin: 15px;
+  width: 20px;
+  color: #FFF;
+}
+
+.fixed{
+  position: fixed;
+}
+.item {
+  height: 50px;
+  overflow: hidden;
+  color: #FFF;
+  cursor: pointer;
+}
+
+
+@media (max-width: 1700px) {
+  .right{
+    margin-left: 60px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .right {
+    width: 90%;
+  }
+}
+
+@media (max-width: 760px) {
+  .right {
+    width: 93%;
+  }
+}
+
+
+/*Estilos drag and drop*/
+
+.gu-mirror {
+  display:none;
+}
+
+.gu-transit {
+  cursor: move;
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+  border: 1px solid red;
+}
+
+
+/*Estilos acordeon*/
+
+.mb-0, .my-0 {
+  color: white;
+}
+
+.card-header {
+  background-color: #0277bd;
+  color: white;
+  opacity: 0.9;
+}

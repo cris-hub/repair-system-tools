@@ -1,0 +1,47 @@
+
+<mat-list>
+  <br /><br /><br /><br /><br /><br /><br /><br /><br />
+  <mat-list-item>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+
+  <mat-list-item routerLink="home">
+    <mat-icon color="primary">home</mat-icon>
+    <span *ngIf="showText">
+      &nbsp;&nbsp;Inicio
+    </span>
+  </mat-list-item>
+  <mat-divider color="primary"></mat-divider>
+
+  <mat-list-item color="primary">
+    <mat-icon color="primary">contacts</mat-icon>
+    <span *ngIf="showText">
+      &nbsp;&nbsp;Perfil
+    </span>
+  </mat-list-item>
+  <mat-divider color="primary"></mat-divider>
+
+  <mat-list-item color="primary" routerLink="plataforma">
+    <mat-icon color="primary">computer</mat-icon>
+    <span *ngIf="showText">
+      &nbsp;&nbsp;Plataforma
+    </span>
+  </mat-list-item>
+  <mat-divider color="primary"></mat-divider>
+
+  <mat-list-item color="primary" routerLink="cliente">
+    <mat-icon color="primary">face</mat-icon>
+    <span *ngIf="showText">
+      &nbsp;&nbsp;Clientes
+    </span>
+  </mat-list-item>
+
+  <mat-divider color="primary"></mat-divider>
+  <mat-list-item color="primary">
+    <mat-icon color="primary">assignment ind</mat-icon>
+    <span *ngIf="showText">
+      &nbsp;&nbsp;Auditor
+    </span>
+
+  </mat-list-item>
+</mat-list>
