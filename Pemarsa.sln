@@ -23,11 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UtilityTasks", "UtilityTask
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pemarsa.API", "Pemarsa.API\Pemarsa.API.csproj", "{20319DDC-981C-4D62-B3CF-D92852AB3A1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pemarsa.Web", "Pemarsa.Web\Pemarsa.Web.csproj", "{2E70BF65-E553-4A10-AA31-AEF1C730CEFB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HerramientaES", "HerramientaES\HerramientaES.csproj", "{C694F5FA-55BA-40A9-B6A0-558CB6BA5659}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClienteES", "ClienteES\ClienteES.csproj", "{0FF11D7C-4F42-489C-9CB1-282D4838D7A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClienteES", "ClienteES\ClienteES.csproj", "{0FF11D7C-4F42-489C-9CB1-282D4838D7A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pemarsa.Web", "Pemarsa.Web\Pemarsa.Web.csproj", "{DE0657B5-75E4-4022-8C2B-15B54AC0D829}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +51,6 @@ Global
 		{20319DDC-981C-4D62-B3CF-D92852AB3A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20319DDC-981C-4D62-B3CF-D92852AB3A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20319DDC-981C-4D62-B3CF-D92852AB3A1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E70BF65-E553-4A10-AA31-AEF1C730CEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E70BF65-E553-4A10-AA31-AEF1C730CEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E70BF65-E553-4A10-AA31-AEF1C730CEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E70BF65-E553-4A10-AA31-AEF1C730CEFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C694F5FA-55BA-40A9-B6A0-558CB6BA5659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C694F5FA-55BA-40A9-B6A0-558CB6BA5659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C694F5FA-55BA-40A9-B6A0-558CB6BA5659}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{0FF11D7C-4F42-489C-9CB1-282D4838D7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF11D7C-4F42-489C-9CB1-282D4838D7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF11D7C-4F42-489C-9CB1-282D4838D7A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0657B5-75E4-4022-8C2B-15B54AC0D829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0657B5-75E4-4022-8C2B-15B54AC0D829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0657B5-75E4-4022-8C2B-15B54AC0D829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0657B5-75E4-4022-8C2B-15B54AC0D829}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
