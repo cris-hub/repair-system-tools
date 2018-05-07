@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClienteES.Service;
 using Microsoft.AspNetCore.Mvc;
+using Pemarsa.API.fwk;
 using Pemarsa.Domain;
 
 namespace Pemarsa.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ClienteESController : Controller
+    public class ClienteESController : BaseController
     {
         private readonly IClienteService _service;
 

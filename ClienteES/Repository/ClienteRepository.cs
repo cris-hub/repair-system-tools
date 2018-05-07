@@ -31,7 +31,8 @@ namespace ClienteES.Repository
             try
             {
                 cliente.Guid = Guid.NewGuid();
-                await _context.Cliente.AddAsync(cliente);
+                _context.Cliente.Add(cliente);
+                await _context.SaveChangesAsync();
                 return cliente.Guid;
             }
             catch (Exception) { throw; }
