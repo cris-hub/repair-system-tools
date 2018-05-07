@@ -8,7 +8,6 @@ using Pemarsa.Domain;
 
 namespace Pemarsa.API.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class ClienteESController : Controller
     {
