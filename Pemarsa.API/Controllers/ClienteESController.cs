@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ClienteES.Service;
 using Microsoft.AspNetCore.Mvc;
 using Pemarsa.API.fwk;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Domain;
 
 namespace Pemarsa.API.Controllers
@@ -33,11 +34,11 @@ namespace Pemarsa.API.Controllers
         }
 
         [HttpGet("ConsultarClientes")]
-        public async Task<IActionResult> ConsultarClientes()
+        public async Task<IActionResult> ConsultarClientes(Paginacion paginacion)
         {
             try
             {
-                return Ok((await _service.ConsultarClientes()));
+                return Ok((await _service.ConsultarClientes(paginacion)));
             }
             catch (Exception e)
             {
@@ -45,5 +46,43 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpGet("ConsultarClientePorGuid/{Guid}")]
+        public async Task<IActionResult> ConsultarClientePorGuid(Guid guidCliente)
+        {
+            try
+            {
+                return Ok((await _service.ConsultarClientePorGuid(guidCliente)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ConsultarLineasPorGuidCliente/{Guid}")]
+        public async Task<IActionResult> ConsultarLineasPorGuidCliente(Guid guidCliente)
+        {
+            try
+            {
+                return Ok((await _service.ConsultarLineasPorGuidCliente(guidCliente)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("ActualizarCliente")]
+        public async Task<IActionResult> ActualizarCliente([FromBody]Cliente cliente)
+        {
+            try
+            {
+                return Ok(await _service.CrearCliente(cliente));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

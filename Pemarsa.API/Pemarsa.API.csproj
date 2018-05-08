@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClienteES\ClienteES.csproj" />
+    <ProjectReference Include="..\DocumentoAdjuntoUS\DocumentoAdjuntoUS.csproj" />
+    <ProjectReference Include="..\ParametroUs\ParametroUS.csproj" />
     <ProjectReference Include="..\Pemarsa.Data\Pemarsa.Data.csproj" />
   </ItemGroup>
 

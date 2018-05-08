@@ -1,4 +1,5 @@
-﻿using Pemarsa.Domain;
+﻿using Pemarsa.CanonicalModels;
+using Pemarsa.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,9 @@ namespace ClienteES.Repository
     public interface IClienteRepository
     {
         Task<Guid> CrearCliente(Cliente cliente);
-        Task<IEnumerable<Cliente>> ConsultarClientes();
+        Task<Tuple<int,IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion);
+        Task<Cliente> ConsultarClientePorGuid(Guid guidCliente);
+        Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente);
+        Task<bool> ActualizarCliente(Cliente cliente);
     }
 }

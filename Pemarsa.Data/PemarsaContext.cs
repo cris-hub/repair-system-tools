@@ -11,7 +11,12 @@ namespace Pemarsa.Data
 
         #region Entities
         public DbSet<Cliente> Cliente { get; set; }
-        public DbSet<ClienteLinea> Linea { get; set; }
+        public DbSet<ClienteLinea> ClienteLinea { get; set; }
+        public DbSet<Catalogo> Catalogo { get; set; }
+        public DbSet<Consulta> Consulta { get; set; }
+        public DbSet<DocumentoAdjunto> DocumentoAdjunto { get; set; }
+        public DbSet<ParametroCatalogo> ParametroCatalogo { get; set; }
+        public DbSet<ParametroConsulta> ParametroConsulta { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
