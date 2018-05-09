@@ -73,12 +73,12 @@ namespace Pemarsa.API.Controllers
             }
         }
 
-        [HttpGet("ConsultarLineasPorGuidCliente/{Guid}")]
-        public async Task<IActionResult> ConsultarLineasPorGuidCliente(Guid guidCliente)
+        [HttpGet("ConsultarLineasPorGuidCliente")]
+        public async Task<IActionResult> ConsultarLineasPorGuidCliente([FromQuery]string guidCliente)
         {
             try
             {
-                return Ok((await _service.ConsultarLineasPorGuidCliente(guidCliente)));
+                return Ok((await _service.ConsultarLineasPorGuidCliente(Guid.Parse(guidCliente))));
             }
             catch (Exception e)
             {
