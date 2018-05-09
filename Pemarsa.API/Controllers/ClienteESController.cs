@@ -37,9 +37,7 @@ namespace Pemarsa.API.Controllers
                 Configuration = builder.Build();
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
-                cliente.Rut = new DocumentoAdjunto();
-                cliente.Rut.NombreUsuarioCrea = "Admin";
-                cliente.Rut.GuidUsuarioCrea = Guid.NewGuid();
+
                 return Ok(await _service.CrearCliente(cliente, pathServer));
             }
             catch (Exception e)

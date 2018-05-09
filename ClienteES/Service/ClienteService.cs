@@ -13,14 +13,15 @@ namespace ClienteES.Service
     public class ClienteService : IClienteService
     {
         private readonly IClienteRepository _repository;
-        private PemarsaContext _context;
         private readonly IDocumentoAdjuntoService _serviceDocumentoAdjunto;
+        private PemarsaContext _context;
+        
 
         public ClienteService(PemarsaContext context, IDocumentoAdjuntoService serviceDocumentoAdjunto)
         {
             _repository = new ClienteRepository(context);
-            _context = context;
             _serviceDocumentoAdjunto = serviceDocumentoAdjunto;
+            _context = context;
         }
 
         public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion)

@@ -52,10 +52,6 @@ namespace ClienteES.Repository
                     .Include(c => c.Lineas)
                     .Include(c => c.Rut)
                     .FirstOrDefaultAsync(c => c.Guid ==guidCliente);
-
-
-
-                //return await _context.Cliente.Where(c => c.Guid == guidCliente).FirstOrDefaultAsync();
             }
             catch (Exception) { throw; }
         }
