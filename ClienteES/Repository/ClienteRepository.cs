@@ -23,7 +23,13 @@ namespace ClienteES.Repository
         {
             try
             {
-                var result = await _context.Cliente.ToListAsync();
+                var result = await _context.Cliente
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.Lineas)
+                                    .Include(c => c.Rut)
+                                    .Skip(paginacion.RegistrosOmitir())
+                                    .Take(paginacion.CantidadRegistros)
+                                    .ToListAsync();
                 var cantidad = await _context.Cliente.CountAsync();
                 return new Tuple<int, IEnumerable<Cliente>>(cantidad, result);
             }
