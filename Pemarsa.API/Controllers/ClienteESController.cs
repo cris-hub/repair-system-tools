@@ -108,7 +108,19 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        
+        [HttpGet("ActualizarEstadoCliente")]
+        public async Task<IActionResult> ActualizarEstadoCliente([FromQuery]string guidCliente, [FromQuery]string estado)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarEstadoCliente(Guid.Parse(guidCliente), estado));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         /*
         [HttpPut("ActualizarCliente")]
         public async Task<IActionResult> ActualizarCliente([FromBody]Cliente cliente)

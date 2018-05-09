@@ -83,5 +83,14 @@ namespace ClienteES.Service
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado)
+        {
+            try
+            {
+                return await _repository.ActualizarEstadoCliente(guidCliente, estado);
+            }
+            catch (Exception) { throw; }
+        }
     }
 }

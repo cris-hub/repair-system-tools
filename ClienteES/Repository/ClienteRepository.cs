@@ -110,5 +110,24 @@ namespace ClienteES.Repository
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado)
+        {
+            try
+            {
+                var cliente = await _context.Cliente.FirstOrDefaultAsync(a => a.Guid == guidCliente);
+
+                var estadoId = (await _context.Catalogo
+                                .FirstOrDefaultAsync(a => a.Valor == estado))?.Id;
+
+                cliente.EstadoId = estadoId
+                    ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoNoEncontrado);
+                cliente.FechaModifica = DateTime.Now;
+                _context.Cliente.Add(cliente);
+                _context.Entry(cliente).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception) { throw; }
+        }
     }
 }

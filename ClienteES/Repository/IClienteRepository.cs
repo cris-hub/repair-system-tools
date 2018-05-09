@@ -14,6 +14,7 @@ namespace ClienteES.Repository
         Task<Cliente> ConsultarClientePorGuid(Guid guidCliente);
         Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente);
         Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO);
+        Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado);
         Task<bool> ActualizarCliente(Cliente cliente);
     }
 }
