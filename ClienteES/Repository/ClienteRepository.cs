@@ -35,6 +35,7 @@ namespace ClienteES.Repository
             try
             {
                 cliente.Guid = Guid.NewGuid();
+                cliente.FechaRegistro = DateTime.Now;
                 _context.Cliente.Add(cliente);
                 await _context.SaveChangesAsync();
                 return cliente.Guid;
@@ -45,8 +46,16 @@ namespace ClienteES.Repository
         public async Task<Cliente> ConsultarClientePorGuid (Guid guidCliente)
         {
             try
-            {   
-                return await _context.Cliente.Where(c => c.Guid == guidCliente).FirstOrDefaultAsync();
+            {
+                return await _context.Cliente
+                    .Include(c => c.Estado)
+                    .Include(c => c.Lineas)
+                    .Include(c => c.Rut)
+                    .FirstOrDefaultAsync(c => c.Guid ==guidCliente);
+
+
+
+                //return await _context.Cliente.Where(c => c.Guid == guidCliente).FirstOrDefaultAsync();
             }
             catch (Exception) { throw; }
         }

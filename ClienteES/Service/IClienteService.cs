@@ -9,7 +9,7 @@ namespace ClienteES.Service
 {
     public interface IClienteService
     {
-        Task<Guid> CrearCliente(Cliente cliente);
+        Task<Guid> CrearCliente(Cliente cliente, string RutaServer);
         Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion);
         Task<Cliente>ConsultarClientePorGuid(Guid guidCliente);
         Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente);

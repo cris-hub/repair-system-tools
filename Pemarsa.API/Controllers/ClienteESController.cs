@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ClienteES.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Pemarsa.API.fwk;
 using Pemarsa.CanonicalModels;
 using Pemarsa.Domain;
@@ -14,6 +16,7 @@ namespace Pemarsa.API.Controllers
     public class ClienteESController : BaseController
     {
         private readonly IClienteService _service;
+        public static IConfiguration Configuration { get; set; }
 
         public ClienteESController(IClienteService service)
         {
@@ -25,7 +28,19 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.CrearCliente(cliente));
+                //se obtiene la informacion del appsettings
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json");
+
+                //se obtiene la configuracion establecida en el appsettings
+                Configuration = builder.Build();
+
+                var pathServer = Configuration["FileServer:VirtualPath"];
+                cliente.Rut = new DocumentoAdjunto();
+                cliente.Rut.NombreUsuarioCrea = "Admin";
+                cliente.Rut.GuidUsuarioCrea = Guid.NewGuid();
+                return Ok(await _service.CrearCliente(cliente, pathServer));
             }
             catch (Exception e)
             {
@@ -46,12 +61,12 @@ namespace Pemarsa.API.Controllers
             }
         }
 
-        [HttpGet("ConsultarClientePorGuid/{Guid}")]
-        public async Task<IActionResult> ConsultarClientePorGuid(Guid guidCliente)
+        [HttpGet("ConsultarClientePorGuid")]
+        public async Task<IActionResult> ConsultarClientePorGuid([FromQuery]string guidCliente)
         {
             try
             {
-                return Ok((await _service.ConsultarClientePorGuid(guidCliente)));
+                return Ok((await _service.ConsultarClientePorGuid(Guid.Parse(guidCliente))));
             }
             catch (Exception e)
             {
@@ -71,7 +86,7 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        /*
         [HttpPut("ActualizarCliente")]
         public async Task<IActionResult> ActualizarCliente([FromBody]Cliente cliente)
         {
@@ -83,6 +98,6 @@ namespace Pemarsa.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-        }
+        }*/
     }
 }

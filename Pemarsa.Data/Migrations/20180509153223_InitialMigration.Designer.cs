@@ -11,7 +11,7 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180509132824_InitialMigration")]
+    [Migration("20180509153223_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,8 @@ namespace Pemarsa.Data.Migrations
                     b.Property<string>("Direccion")
                         .IsRequired();
 
+                    b.Property<int?>("DocumentoAdjuntoId");
+
                     b.Property<int>("EstadoId");
 
                     b.Property<DateTime?>("FechaModifica");
@@ -101,16 +103,14 @@ namespace Pemarsa.Data.Migrations
                     b.Property<string>("RazonSocial")
                         .IsRequired();
 
-                    b.Property<int?>("RutId");
-
                     b.Property<string>("Telefono")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EstadoId");
+                    b.HasIndex("DocumentoAdjuntoId");
 
-                    b.HasIndex("RutId");
+                    b.HasIndex("EstadoId");
 
                     b.ToTable("Cliente");
                 });
@@ -288,14 +288,14 @@ namespace Pemarsa.Data.Migrations
 
             modelBuilder.Entity("Pemarsa.Domain.Cliente", b =>
                 {
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "Rut")
+                        .WithMany()
+                        .HasForeignKey("DocumentoAdjuntoId");
+
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "Rut")
-                        .WithMany()
-                        .HasForeignKey("RutId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.ClienteLinea", b =>

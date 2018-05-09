@@ -6,6 +6,7 @@ using ClienteES.Repository;
 using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
+using DocumentoAdjuntoUS.Service;
 
 namespace ClienteES.Service
 {
@@ -13,11 +14,13 @@ namespace ClienteES.Service
     {
         private readonly IClienteRepository _repository;
         private PemarsaContext _context;
+        private readonly IDocumentoAdjuntoService _serviceDocumentoAdjunto;
 
-        public ClienteService(PemarsaContext context)
+        public ClienteService(PemarsaContext context, IDocumentoAdjuntoService serviceDocumentoAdjunto)
         {
             _repository = new ClienteRepository(context);
             _context = context;
+            _serviceDocumentoAdjunto = serviceDocumentoAdjunto;
         }
 
         public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion)
@@ -29,10 +32,16 @@ namespace ClienteES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearCliente(Cliente cliente)
+        public async Task<Guid> CrearCliente(Cliente cliente, string RutaServer)
         {
             try
             {
+                if (cliente.Rut != null)
+                {
+                    cliente.Rut.NombreUsuarioCrea = cliente.NombreUsuarioCrea;
+                    cliente.Rut.GuidUsuarioCrea = cliente.GuidUsuarioCrea;
+                    cliente.DocumentoAdjuntoId = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut, RutaServer);
+                }
                 return await _repository.CrearCliente(cliente);
             }
             catch (Exception) { throw; }

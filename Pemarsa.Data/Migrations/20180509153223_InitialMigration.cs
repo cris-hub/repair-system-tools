@@ -98,6 +98,7 @@ namespace Pemarsa.Data.Migrations
                     ContactoNombre = table.Column<string>(nullable: false),
                     ContactoTelefono = table.Column<string>(nullable: false),
                     Direccion = table.Column<string>(nullable: false),
+                    DocumentoAdjuntoId = table.Column<int>(nullable: true),
                     EstadoId = table.Column<int>(nullable: false),
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     FechaRegistro = table.Column<DateTime>(nullable: false),
@@ -112,24 +113,23 @@ namespace Pemarsa.Data.Migrations
                     NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
                     NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
                     RazonSocial = table.Column<string>(nullable: false),
-                    RutId = table.Column<int>(nullable: true),
                     Telefono = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cliente", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Cliente_DocumentoAdjunto_DocumentoAdjuntoId",
+                        column: x => x.DocumentoAdjuntoId,
+                        principalTable: "DocumentoAdjunto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Cliente_Catalogo_EstadoId",
                         column: x => x.EstadoId,
                         principalTable: "Catalogo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Cliente_DocumentoAdjunto_RutId",
-                        column: x => x.RutId,
-                        principalTable: "DocumentoAdjunto",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,14 +222,14 @@ namespace Pemarsa.Data.Migrations
                 column: "CatalogoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cliente_DocumentoAdjuntoId",
+                table: "Cliente",
+                column: "DocumentoAdjuntoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cliente_EstadoId",
                 table: "Cliente",
                 column: "EstadoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cliente_RutId",
-                table: "Cliente",
-                column: "RutId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClienteLinea_ClienteId",
@@ -278,10 +278,10 @@ namespace Pemarsa.Data.Migrations
                 name: "Parametro");
 
             migrationBuilder.DropTable(
-                name: "Catalogo");
+                name: "DocumentoAdjunto");
 
             migrationBuilder.DropTable(
-                name: "DocumentoAdjunto");
+                name: "Catalogo");
         }
     }
 }

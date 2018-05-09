@@ -44,6 +44,9 @@ namespace Pemarsa.Domain
         [Required]
         public string Telefono { get; set; }
 
+        [ForeignKey("Rut")]
+        public int? DocumentoAdjuntoId { get; set; }
+
 
         public virtual Catalogo Estado { get; set; }
         public virtual DocumentoAdjunto Rut { get; set; }
