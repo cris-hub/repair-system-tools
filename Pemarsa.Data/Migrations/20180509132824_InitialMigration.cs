@@ -185,7 +185,7 @@ namespace Pemarsa.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Linea",
+                name: "ClienteLinea",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -207,9 +207,9 @@ namespace Pemarsa.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Linea", x => x.Id);
+                    table.PrimaryKey("PK_ClienteLinea", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Linea_Cliente_ClienteId",
+                        name: "FK_ClienteLinea_Cliente_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Cliente",
                         principalColumn: "Id",
@@ -232,8 +232,8 @@ namespace Pemarsa.Data.Migrations
                 column: "RutId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Linea_ClienteId",
-                table: "Linea",
+                name: "IX_ClienteLinea_ClienteId",
+                table: "ClienteLinea",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
@@ -260,7 +260,7 @@ namespace Pemarsa.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Linea");
+                name: "ClienteLinea");
 
             migrationBuilder.DropTable(
                 name: "ParametroCatalogo");

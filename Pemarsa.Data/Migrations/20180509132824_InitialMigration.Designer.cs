@@ -11,7 +11,7 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180508222420_InitialMigration")]
+    [Migration("20180509132824_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,7 +160,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Linea");
+                    b.ToTable("ClienteLinea");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Consulta", b =>

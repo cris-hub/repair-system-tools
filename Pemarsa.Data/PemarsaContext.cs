@@ -14,6 +14,7 @@ namespace Pemarsa.Data
         public DbSet<ClienteLinea> ClienteLinea { get; set; }
         public DbSet<Catalogo> Catalogo { get; set; }
         public DbSet<Consulta> Consulta { get; set; }
+        public DbSet<Parametro> Parametro { get; set; }
         public DbSet<DocumentoAdjunto> DocumentoAdjunto { get; set; }
         public DbSet<ParametroCatalogo> ParametroCatalogo { get; set; }
         public DbSet<ParametroConsulta> ParametroConsulta { get; set; }

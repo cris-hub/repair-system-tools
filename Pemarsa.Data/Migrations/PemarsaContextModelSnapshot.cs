@@ -159,7 +159,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Linea");
+                    b.ToTable("ClienteLinea");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Consulta", b =>

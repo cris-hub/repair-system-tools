@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Pemarsa.API.ServicesDI;
 using Pemarsa.Data;
+using Pemarsa.Data.DBInitialize;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pemarsa.API

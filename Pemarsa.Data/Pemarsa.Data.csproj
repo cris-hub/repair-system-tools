@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Pemarsa.CanonicalModels\Pemarsa.CanonicalModels.csproj" />
     <ProjectReference Include="..\Pemarsa.Domain\Pemarsa.Domain.csproj" />
   </ItemGroup>
 
