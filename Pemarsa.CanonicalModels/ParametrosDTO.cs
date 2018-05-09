@@ -9,10 +9,8 @@ namespace Pemarsa.CanonicalModels
         public int? IdCliente { get; set; }
         public string RazonSocial { get; set; }
         public string Nit { get; set; }
-        public string Ciudad { get; set; }
+        public string Telefono { get; set; }
         public string Direccion { get; set; }
-        public string Contacto { get; set; }
-        public string TelefonoContacto { get; set; }
         public string Estado { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace ClienteES.Repository
         Task<Tuple<int,IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion);
         Task<Cliente> ConsultarClientePorGuid(Guid guidCliente);
         Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente);
+        Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO);
         Task<bool> ActualizarCliente(Cliente cliente);
     }
 }

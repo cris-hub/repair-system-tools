@@ -83,5 +83,32 @@ namespace ClienteES.Repository
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO)
+        {
+            try
+            {
+                var query = _context.Cliente
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.Lineas)
+                                    .Include(c => c.Rut)
+                                    .Where(e => (string.IsNullOrEmpty(parametrosDTO.RazonSocial) || e.RazonSocial.Contains(parametrosDTO.RazonSocial))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Nit) || e.Nit.Contains(parametrosDTO.Nit))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Telefono) || e.Telefono.Contains(parametrosDTO.Telefono))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Direccion) || e.Direccion.Contains(parametrosDTO.Direccion))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Estado) || e.Estado.Valor.Contains(parametrosDTO.Estado))
+                                            );
+
+                var queryPagination = await query
+                    .OrderBy(e => e.RazonSocial)
+                    .Skip(parametrosDTO.RegistrosOmitir())
+                    .Take(parametrosDTO.CantidadRegistros)
+                    .ToListAsync();
+                                   
+                var cantidad = query.Count();
+                return new Tuple<int, IEnumerable<Cliente>>(cantidad, queryPagination);
+            }
+            catch (Exception) { throw; }
+        }
     }
 }

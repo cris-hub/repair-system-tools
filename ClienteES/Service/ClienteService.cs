@@ -74,5 +74,14 @@ namespace ClienteES.Service
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO)
+        {
+            try
+            {
+                return await _repository.ConsultarClientesPorFiltro(parametrosDTO);
+            }
+            catch (Exception) { throw; }
+        }
     }
 }
