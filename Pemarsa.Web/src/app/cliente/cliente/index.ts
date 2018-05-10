@@ -1,0 +1,1 @@
+export * from './listar-cliente/listar-cliente.component';

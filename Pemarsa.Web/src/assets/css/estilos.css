@@ -1,0 +1,129 @@
+@font-face {
+  font-family: OpenSans-Light;
+  src: url(../fonts/OpenSans-Light.ttf);
+}
+
+.imagenFondo {
+  background-image: url('../img/Fondo3.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #66999;
+}
+
+.fondo {
+  height: 100%;
+  background-color: #FFF;
+}
+
+.color {
+  background-color: #f5f5f5;
+}
+
+#icono {
+  font-size: 50px;
+  color: #FFF;
+}
+
+#iconoMenu {
+  font-size: 50px;
+  color: #FFF;
+}
+
+#iconoSubMenu1 {
+  font-size: 30px;
+  color: #FFF;
+}
+
+#iconoSubMenu2 {
+  font-size: 25px;
+  color: #FFF;
+}
+
+#iconoUser {
+  font-size: 25px;
+  color: #FFF;
+}
+
+img.imagen {
+  width: 25%;
+  height: 15%;
+}
+
+img.imagenUser {
+  width: 14%;
+  height: 10%;
+}
+
+.form-login {
+  position: absolute;
+  top: 20%;
+  left: 42%;
+  background-color: #EDEDED;
+  width: 20%;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 15px;
+  border-color: #d2d2d2;
+  border-width: 5px;
+  box-shadow: 0 1px 0 #cfcfcf;
+  opacity: 0.8;
+}
+
+.form-control {
+  border-radius: 10px;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+.right {
+  font-family: OpenSans-Light;
+  font-size: 15px;
+  color: gray;
+  position: absolute;
+  left: 7%;
+  width: 90%;
+  height: auto;
+}
+
+.right2 {
+  position: absolute;
+  left: 250px;
+  width: 0%;
+  height: auto;
+}
+
+#corre {
+  text-align: right;
+}
+
+.contenido-interno{
+  background-color: #f4f4f4;
+  padding: 65px;
+}
+
+h4 {
+  padding-bottom: 10px;
+  text-align: center;
+  font-family: Some;
+}
+
+@media (max-width: 767px) {
+  .form-login {
+    left: 30%;
+    width: 40%
+  }
+  .right {
+    color: gray;
+    position: absolute;
+    left: 15%;
+    width: 83%;
+    height: auto;
+  }
+}
+
+

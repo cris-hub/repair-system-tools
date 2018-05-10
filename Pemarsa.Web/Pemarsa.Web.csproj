@@ -6,11 +6,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\app\cliente\cliente\cliente.module.ts" />
+    <None Remove="src\app\common\components\home\home.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\app\cliente\cliente\" />
+    <Folder Include="src\app\common\components\login\" />
+    <Folder Include="src\app\common\components\logout\" />
+    <Folder Include="src\assets\img\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\cliente\cliente.module.ts" />
+    <TypeScriptCompile Include="src\app\common\components\home\home.component.ts" />
   </ItemGroup>
 
 </Project>
