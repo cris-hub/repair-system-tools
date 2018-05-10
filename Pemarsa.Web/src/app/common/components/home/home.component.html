@@ -1,237 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Pemarsa</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-</head>
-<body class="imagenFondo">
-
-  <div class="nav-side-menu">
-    <div class="brand">Pemarsa  </div>
-    <div>
-      <ul>
-        <li class="" (click)="ocultar('submenu','estilo')" id="desactivar">
-          <a href="#">
-            <br>
-            <br>
-            <span class="icon-lista" id="iconoMenu"></span>
-            <i class="glyphicon glyphicon-plus" id="estilo" style="display: none;"></i>
-          </a>
-          <br><br><p style="font-size: 14px;">OIT</p>
-        </li>
-        <li class="" onclick="ocultar2()" id="activar">
-          <a href="#">
-            <br>
-            <br>
-            <span class="icon-pieza" id="iconoMenu"></span>
-            <i class="glyphicon glyphicon-plus" id="estilo2" style="display: none;"></i>
-          </a>
-          <br><br> <p style="font-size: 14px;">PROCESOS</p>
-        </li>
-        <li class="" onclick="ocultar3()" id="activar2">
-          <a href="#">
-            <br>
-            <br>
-            <span class="icon-herramientas" id="iconoMenu"></span>
-            <i class="glyphicon glyphicon-plus" id="estilo3" style="display: none;"></i>
-          </a>
-          <br><br> <p style="font-size: 14px;">CATÁLOGOS</p>
-        </li>
-        <li class="" onclick="ocultar4()" id="activar3">
-          <a href="#">
-            <br>
-            <br>
-            <span class="icon-grafica" id="iconoMenu"></span>
-            <i class="glyphicon glyphicon-plus" id="estilo4" style="display: none;"></i>
-          </a>
-          <br> <br><p style="font-size: 14px;">INDICADORES</p>
-        </li>
-        <span style="position: absolute; bottom: 5px;left: 5px;"
-              href="#">
-          &nbsp;
-          <span class="icon-usuario" id="iconoUser"></span>&nbsp; John Freddy
-        </span>
-
-      </ul>
-    </div>
-  </div>
-
-
-
-  <div class="nav-side-menu2" id="submenu" style="display: none;">
-    <div class="brand2">Procesos</div>
-    <div>
-      <ul>
-        <li id="color">
-
-          <a href="#">
-            <br>
-            <span class="icon-alerta" id="icono"></span>
-            <br>
-            <br>
-            Alertas
-          </a>
-
-        </li>
-        <br>
-        <li class="" id="color2">
-          <a href="#">
-            <br>
-            <span class="icon-lista2" id="icono"></span>
-            <br> <br> OIT
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-
-
-  <div class="nav-side-menu2" id="submenu2" style="display: none;">
-    <div class="brand2">Procesos</div>
-    <div>
-      <ul>
-        <li class="" id="color2">
-
-          <a href="#">
-            <br>
-
-            <span class="icon-entrada" id="icono"></span>
-            <br><br>
-            Insp. entrada
-          </a>
-
-        </li>
-        <br>
-        <li class="" id="color3">
-          <a href="#">
-            <br>
-            <span class="icon-torneado" id="icono"></span>
-            <br><br> Torneado
-          </a>
-        </li>
-        <br>
-        <li class="" id="color4">
-          <a href="#">
-            <br>
-
-            <span class="icon-fresado" id="icono"></span>
-            <br> <br> Fresado
-          </a>
-        </li>
-        <br>
-        <li class="" id="color5">
-          <a href="#">
-            <br>
-
-            <span class="icon-soldadura" id="icono"></span>
-            <br> <br>  Soldadura
-          </a>
-        </li>
-        <br>
-        <li class="" id="color6">
-          <a href="#">
-            <br>
-
-            <span class="icon-alistamiento" id="icono"></span>
-            <br> <br> Alistamiento
-          </a>
-        </li>
-        <br>
-        <li class="" id="color7">
-          <a href="#">
-            <br>
-            <span class="icon-rectificado" id="icono"></span>
-            <br> <br> Rectificado
-          </a>
-        </li>
-        <br>
-        <li class="" id="color8">
-          <a href="">
-            <br>
-            <span class="icon-listacopia" id="icono"></span>
-            <br> <br> Insp. Salida
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-
-  <!--<div class="nav-side-menu2" id="submenu3" style="display: none;">-->
-  <div class="nav-side-menu2" id="submenu3" >
-      <div class="brand2">Procesos</div>
+<div class="nav-side-menu">
+  <div class="brand">Pemarsa  </div>
+  <div *ngFor="let menu of ListaMenu">
+    <ul>
+      <li class="" (click)="ocultar('submenu','estilo')" id="desactivar">
+        <a href="#">
+          <br>
+          <br>
+          <span class="icon-lista" id="iconoMenu"></span>
+          <i class="glyphicon glyphicon-plus" id="estilo" style="display: none;"></i>
+        </a>
+        <br><br><p style="font-size: 14px;">{{menu.title}}</p>
+      </li>
       <div>
-        <ul>
-          <li onclick="document.location = 'Cliente2.html'" class="" id="color9">
-            <a href="Cliente2.html">
-              <br>
-              <span class="icon-clientes" id="icono"></span>
-              <br><br>
-              Clientes
-            </a>
 
-          </li>
-          <br>
-          <li class="" id="color10">
-            <a href="#">
-              <br>
-              <span class="icon-herramientas2" id="icono"></span>
-              <br><br>
-              Herramientas
-            </a>
-          </li>
-          <br>
-          <li class="" id="color11">
-            <a href="#">
-              <br>
-              <span class="icon-formatos" id="icono"></span>
-              <br><br>
-              Formatos
-            </a>
-          </li>
-        </ul>
       </div>
-    </div>
-
-
-    <div class="nav-side-menu2" id="submenu4" style="display: none;">
-      <div class="brand2">Procesos</div>
-      <div class="menu-list">
-        <ul>
-          <li class="" id="color9">
-
-            <a href="#">
-              <br>
-              <span class="icon-reprocesos" id="icono"></span>
-              <br><br>
-              Reprocesos
-            </a>
-
-          </li>
-          <br>
-          <li class="" id="color10">
-            <a href="#">
-              <br>
-              <span class="icon-capacidad2" id="icono"></span>
-              <br><br>
-              Capacidad
-            </a>
-          </li>
-          <br>
-          <li class="" id="color11">
-            <a href="#">
-              <br>
-              <span class="icon-tardias" id="icono"></span>
-              <br><br>
-              Entregas tardías
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-</body>
-</html>
+    </ul>
+  </div>
+  <span style="position: absolute; bottom: 5px;left: 5px;"
+        href="#">
+    &nbsp;
+    <span class="icon-usuario" id="iconoUser"></span>&nbsp; John Freddy
+  </span>
+</div>
+<!--<app-listar-cliente></app-listar-cliente>-->

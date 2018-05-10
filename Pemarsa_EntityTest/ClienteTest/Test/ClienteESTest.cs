@@ -1,4 +1,5 @@
-﻿using Pemarsa.Domain;
+﻿using ClienteES.Service;
+using Pemarsa.Domain;
 using Pemarsa_EntityTest.ClienteTest.Fixture;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,21 @@ namespace Pemarsa_EntityTest.ClienteTest.Test
     public class ClienteESTest : IClassFixture<ClienteESFixture>
     {
         private ClienteESFixture _fixture;
+        private readonly IClienteService _service;
 
-        public ClienteESTest(ClienteESFixture fixture)
+        public ClienteESTest(ClienteESFixture fixture, IClienteService service)
         {
             _fixture = fixture;
+            _service = service;
         }
 
         [Fact(DisplayName = "Crear Cliente")]
-        public void CrearCuenta()
+        public async void CrearCuenta()
         {
-            //Assert.NotNull(_fixture.Cliente);
-            //Assert.NotEqual(_fixture.Cliente.Guid, Guid.Empty);
-            Assert.NotNull(new Cliente());
+            Guid result = await _service.CrearCliente(_fixture.Cliente, _fixture.RutaServer);
+            Assert.NotNull(_fixture.Cliente);
+            Assert.NotEqual(result, Guid.Empty);
+            //Assert.NotNull(new Cliente());
         }
     }
 }

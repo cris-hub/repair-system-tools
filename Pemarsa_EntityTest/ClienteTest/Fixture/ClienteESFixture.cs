@@ -10,6 +10,7 @@ namespace Pemarsa_EntityTest.ClienteTest.Fixture
     public class ClienteESFixture
     {
         public Cliente Cliente { get; set; }
+        public string RutaServer { get; set; }
 
         public ClienteESFixture()
         {
@@ -20,6 +21,7 @@ namespace Pemarsa_EntityTest.ClienteTest.Fixture
             try
             {
                 Cliente = ClienteESData.GenerarDatosCliente();
+                RutaServer = ClienteESData.RutaServer();
             }
             catch(Exception) { throw; }
         }

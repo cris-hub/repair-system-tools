@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClienteES\ClienteES.csproj" />
     <ProjectReference Include="..\Pemarsa.Domain\Pemarsa.Domain.csproj" />
   </ItemGroup>
 
