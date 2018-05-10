@@ -66,7 +66,9 @@ namespace ClienteES.Repository
         {
             try
             {
-                _context.Entry(cliente).State = EntityState.Modified;
+                cliente.FechaModifica = DateTime.Now;
+                _context.Cliente.Update(cliente);
+                //_context.Entry(cliente).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;   
             }
             catch (Exception) { throw; }

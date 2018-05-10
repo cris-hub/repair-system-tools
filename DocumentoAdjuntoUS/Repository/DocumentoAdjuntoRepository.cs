@@ -23,17 +23,21 @@ namespace DocumentoAdjuntoUS.Repository
         {
             try
             {
-                var dbAttachment = await _context.DocumentoAdjunto.Where(att => att.Id == documentoAdjunto.Id).SingleAsync();
+                var dbAttachment = await _context.DocumentoAdjunto.Where(att => att.Id == documentoAdjunto.Id).AsNoTracking().FirstOrDefaultAsync();
                 documentoAdjunto.FechaModifica = DateTime.Now;
+
+
 
                 documentoAdjunto.Guid = dbAttachment.Guid;
                 documentoAdjunto.NombreUsuarioCrea = dbAttachment.NombreUsuarioCrea;
                 documentoAdjunto.FechaRegistro = dbAttachment.FechaRegistro;
 
                 _context.Entry(dbAttachment).Property(x => x.Id).IsModified = false;
-                
+
                 //Update attachment
                 _context.Entry(dbAttachment).CurrentValues.SetValues(documentoAdjunto);
+
+                _context.Entry(dbAttachment).State = EntityState.Detached;
                 _context.Entry(documentoAdjunto).State = EntityState.Modified;
 
                 return await _context.SaveChangesAsync() > 0;

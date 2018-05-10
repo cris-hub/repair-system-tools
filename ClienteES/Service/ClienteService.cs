@@ -57,10 +57,18 @@ namespace ClienteES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarCliente(Cliente cliente)
+        public async Task<bool> ActualizarCliente(Cliente cliente, string RutaServer)
         {
             try
-            {
+            { 
+                if (cliente.Rut != null)
+                {
+                    cliente.Rut.GuidUsuarioModifica = cliente.GuidUsuarioModifica;
+                    cliente.Rut.NombreUsuarioModifica = cliente.NombreUsuarioModifica;
+                    cliente.Rut.FechaModifica = DateTime.Now;
+                    cliente.Rut.Id = cliente.DocumentoAdjuntoId.Value;
+                    await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(cliente.Rut, RutaServer);
+                }
                 return await _repository.ActualizarCliente(cliente);
             }
             catch (Exception) { throw; }
