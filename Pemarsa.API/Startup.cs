@@ -66,7 +66,7 @@ namespace Pemarsa.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("MTAPlatformPolicy");
+            app.UseCors("PemarsaPolicy");
             app.UseMvcWithDefaultRoute();
             app.UseSwagger();
 

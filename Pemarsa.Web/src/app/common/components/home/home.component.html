@@ -2,18 +2,15 @@
   <div class="brand">Pemarsa  </div>
   <div *ngFor="let menu of ListaMenu">
     <ul>
-      <li class="" (click)="ocultar('submenu','estilo')" id="desactivar">
+      <li class="" id="desactivar" data-toggle="collapse" data-target="#demo" (click)="subMenu(menu)">
         <a href="#">
           <br>
           <br>
-          <span class="icon-lista" id="iconoMenu"></span>
+          <span class="{{menu.image}}" id="iconoMenu"></span>
           <i class="glyphicon glyphicon-plus" id="estilo" style="display: none;"></i>
         </a>
         <br><br><p style="font-size: 14px;">{{menu.title}}</p>
       </li>
-      <div>
-
-      </div>
     </ul>
   </div>
   <span style="position: absolute; bottom: 5px;left: 5px;"
@@ -22,4 +19,29 @@
     <span class="icon-usuario" id="iconoUser"></span>&nbsp; John Freddy
   </span>
 </div>
-<!--<app-listar-cliente></app-listar-cliente>-->
+
+<div *ngIf="ListaSubMenuActual" class="nav-side-menu2">  
+
+    <div id="submenu">
+      <div class="brand2">Procesos</div>
+      <div>
+        <ul *ngFor="let subMenu of ListaSubMenuActual">
+          <li id="{{subMenu.color}}" [routerLink]="['/cliente']">
+
+            <a>
+              <br>
+              <span class="icon-alerta" id="icono"></span>
+              <br>
+              <br>
+              {{subMenu.name}}
+            </a>
+          </li>
+          <br/>
+        </ul>
+      </div>
+    </div>
+</div>
+
+<div class="right" id="contenido">
+  <router-outlet></router-outlet>
+</div>

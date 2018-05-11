@@ -5,83 +5,68 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-
+  public ListaSubMenuActual = false;
   ListaMenu: any =
     [
       {
-        id: "OIT",
+        id: "1",
         name: "OIT",
-        style: "",
-        image: "",
-        url: "",
-        class: "",
+        image: "icon-lista",
+        url: "/home",
         title: "OIT",
-        option: true,
+        submenu: false
+      },
+      {
+        id: "2",
+        name: "PROCESOS",
+        image: "icon-pieza",
+        url: "/home",
+        title: "PROCESOS",
+        submenu: false
+      },
+      {
+        id: "3",
+        name: "CATÁLOGOS",
+        image: "icon-herramientas",
+        url: "/home",
+        title: "CATÁLOGOS",
         submenu:
           [
             {
-              id: "Clientes",
+              id: "5",
               name: "Clientes",
-              style: "",
               image: "",
-              url: "Cliente",
-              class: "icon-clientes",
+              url: "/Cliente",
+              color: "color9",
               title: "Clientes",
               submenu: false
             },
             {
-              id: "Herramientas",
+              id: "6",
               name: "Herramientas",
-              style: "",
               image: "",
-              url: "Herramientas",
-              class: "icon-herramientas2",
+              url: "/home",
+              color: "color10",
               title: "Herramientas",
               submenu: false
             },
             {
-              id: "Formatos",
+              id: "7",
               name: "Formatos",
-              style: "",
               image: "",
-              url: "Formatos",
-              class: "icon-formatos",
+              url: "/home",
+              color: "color11",
               title: "Formatos",
               submenu: false
             }
           ] 
       },
       {
-        id: "PROCESOS",
-        name: "PROCESOS",
-        style: "",
-        image: "",
-        url: "",
-        class: "",
-        title: "PROCESOS",
-        option: true,
-        submenu: false
-      },
-      {
-        id: "CATÁLOGOS",
-        name: "CATÁLOGOS",
-        style: "",
-        image: "",
-        url: "",
-        class: "",
-        title: "CATÁLOGOS",
-        option: true,
-        submenu: false
-      },
-      {
-        id: "INDICADORES",
+        id: "4",
         name: "INDICADORES",
-        style: "",
-        image: "",
-        url: "",
-        class: "",
+        image: "icon-grafica",
+        url: "/home",
         title: "INDICADORES",
-        option: true,
         submenu: false
       }
     ];
@@ -89,7 +74,8 @@ export class HomeComponent {
   constructor() {
   }
 
-  ocultar(submenu: any, estilo: any) {
-    alert("hola");
+  subMenu(menu: any) {
+    this.ListaSubMenuActual = menu.submenu;
+    
   }
 }
