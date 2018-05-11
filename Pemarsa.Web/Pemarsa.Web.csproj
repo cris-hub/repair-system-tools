@@ -17,13 +17,16 @@
     <None Remove="src\app\common\models\CatalogoModel.ts" />
     <None Remove="src\app\common\models\ClienteLineaModel.ts" />
     <None Remove="src\app\common\models\ClienteModel.ts" />
+    <None Remove="src\app\common\models\EntidadDTOModel.ts" />
     <None Remove="src\app\common\models\EntityModel.ts" />
     <None Remove="src\app\common\models\Index.ts" />
     <None Remove="src\app\common\models\ListadoResponseModel.ts" />
     <None Remove="src\app\common\models\PaginacionModel.ts" />
+    <None Remove="src\app\common\models\ParametrosModel.ts" />
     <None Remove="src\app\common\modules\util.module.ts" />
     <None Remove="src\app\common\services\entity\cliente.service.ts" />
     <None Remove="src\app\common\services\entity\index.ts" />
+    <None Remove="src\app\common\services\entity\parametro.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,13 +54,16 @@
     <TypeScriptCompile Include="src\app\common\models\CatalogoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ClienteLineaModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ClienteModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\EntidadDTOModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\EntityModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\Index.ts" />
     <TypeScriptCompile Include="src\app\common\models\ListadoResponseModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\PaginacionModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\ParametrosModel.ts" />
     <TypeScriptCompile Include="src\app\common\modules\util.module.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\cliente.service.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\index.ts" />
+    <TypeScriptCompile Include="src\app\common\services\entity\parametro.service.ts" />
   </ItemGroup>
 
 </Project>

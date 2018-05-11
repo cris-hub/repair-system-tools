@@ -12,7 +12,6 @@ export class ClienteService {
   private urlServer: string;
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
-    debugger
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
 //    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'ClienteES/'
     this.urlServer = 'http://localhost:58906/api/ClienteES/'

@@ -20,6 +20,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { ClienteService } from './common/services/entity';
 import { ConfigService } from './common/config/config.service';
 import { UtilModule } from './common/modules/util.module';
+import { ParametroService } from './common/services/entity/parametro.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,9 @@ import { UtilModule } from './common/modules/util.module';
       deps: [ConfigService],
       multi: true
     },
-    ClienteService
+    ClienteService,
+    ParametroService
+
   ],
   bootstrap: [AppComponent],
   exports: [

@@ -1,5 +1,6 @@
 ﻿using DocumentoAdjuntoUS.Service;
 using Microsoft.Extensions.DependencyInjection;
+using ParametroUS.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Pemarsa.API.ServicesDI
         public static void AddUtilityServices(this IServiceCollection services)
         {
             services.AddTransient<IDocumentoAdjuntoService, DocumentoAdjuntoService>();
+            services.AddTransient<IParametroService, ParametroService>();
         }
     }
 }

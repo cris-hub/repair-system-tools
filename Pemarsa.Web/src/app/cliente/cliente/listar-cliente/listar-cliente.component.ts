@@ -6,6 +6,8 @@ import {
 } from '../../../common/models/Index';
 import { PaginacionModel } from '../../../common/models/PaginacionModel';
 import { debug } from 'util';
+import { ParametroService } from '../../../common/services/entity/parametro.service';
+import { ParametrosModel } from '../../../common/models/ParametrosModel';
 
 @Component({
   selector: 'app-listar-cliente',
@@ -17,9 +19,12 @@ export class ListarClienteComponent implements OnInit {
 
   // paginacion
   private paginacion: PaginacionModel;
+  private parametros: ParametrosModel;
   private esFiltrar: boolean = false;
 
-  constructor(public clienteSrv: ClienteService) {
+  constructor(
+    public clienteSrv: ClienteService,
+    public parametroSrv: ParametroService,) {
     this.paginacion = new PaginacionModel(1, 8);
   }
 
@@ -47,7 +52,7 @@ export class ListarClienteComponent implements OnInit {
   }
 
   actualizarEstadoCliente(cliente: ClienteModel, estado: string) {
-    this.clienteSrv.actualizarEstadoCliente(cliente.Guid, estado)
+    /*this.clienteSrv.ActualizarEstadoCliente(cliente.Guid, estado)
       .subscribe(response => {
         if (response) {
           cliente.Estado = estado;
@@ -57,6 +62,14 @@ export class ListarClienteComponent implements OnInit {
           verticalPosition: 'top',
           horizontalPosition: 'end'
         });
-      })
+      })*/
+  }
+
+  consultarParametros() {
+    this.parametroSrv.consultarParametrosPorEntidad("Cliente")
+      .subscribe(response => {
+        this.parametros = response;
+      });
+    setTimeout(() => { console.log(this.parametros); }, 1);
   }
 }
