@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Pemarsa_EntityTest.ClienteTest.Data
 {
-    internal static class ClienteESData
+    public static class ClienteESData
     {
         public static Cliente GenerarDatosCliente()
         {
