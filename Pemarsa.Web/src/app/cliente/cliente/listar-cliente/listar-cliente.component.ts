@@ -4,6 +4,9 @@ import { ClienteService } from '../../../common/services/entity/index';
 import {
   ClienteModel
 } from '../../../common/models/Index';
+
+import { FiltroClienteComponent } from '../filtro-cliente/filtro-cliente.component'
+
 import { PaginacionModel } from '../../../common/models/PaginacionModel';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ParametrosModel } from '../../../common/models/ParametrosModel';
@@ -72,5 +75,9 @@ export class ListarClienteComponent implements OnInit {
         this.parametros = response;
       });
     setTimeout(() => { console.log(this.parametros); }, 1);
+  }
+
+  consultarClientesPorFiltro() {
+    alert("Consulta Por filtro");
   }
 }

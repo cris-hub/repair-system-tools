@@ -18,8 +18,13 @@
               </div>
               <div class="col-md-4">
                 <br>
-                <div class="col-md-2">
-                  <i class="glyphicon glyphicon-plus" style="cursor: pointer;"></i>
+                <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Filtro" popover-placement="right" style="padding-top:7px;">
+                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-glass"></span>
+                  </a>
+                  <div class="dropdown-menu">
+                    <filtro-cliente></filtro-cliente>
+                  </div>
                 </div>
                 <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,8 +54,8 @@
                     </li>
                   </ul>
                 </div>
-                <div class="col-md-2">
-                  <i class="glyphicon glyphicon-glass"></i>
+                <div class="col-md-1" style="padding-top:8px;">
+                  <i class="glyphicon glyphicon-plus"></i>
                 </div>
               </div>
             </div>

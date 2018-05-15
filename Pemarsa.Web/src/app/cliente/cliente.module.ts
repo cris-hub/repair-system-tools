@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UtilModule } from '../common/modules/util.module';
 import {
-  ListarClienteComponent
+  ListarClienteComponent,
+  FiltroClienteComponent
 } from './cliente/index'
 
 @NgModule({
@@ -13,7 +14,8 @@ import {
     UtilModule
   ],
   declarations: [
-    ListarClienteComponent
+    ListarClienteComponent,
+    FiltroClienteComponent
   ],
   exports: [
     ListarClienteComponent
