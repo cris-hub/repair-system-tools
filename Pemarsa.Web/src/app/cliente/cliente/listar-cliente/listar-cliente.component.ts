@@ -12,6 +12,7 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { ParametrosModel } from '../../../common/models/ParametrosModel';
 import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-listar-cliente',
@@ -31,7 +32,7 @@ export class ListarClienteComponent implements OnInit {
     public parametroSrv: ParametroService,
     private toastr: ToastrService)
   {
-    this.paginacion = new PaginacionModel(1, 8);
+    this.paginacion = new PaginacionModel(1, 30);
     this.parametros = new ParametrosModel();
   }
 
@@ -77,7 +78,17 @@ export class ListarClienteComponent implements OnInit {
     setTimeout(() => { console.log(this.parametros); }, 1);
   }
 
-  consultarClientesPorFiltro() {
-    alert("Consulta Por filtro");
+  consultarClientesPorFiltro(filtro) {
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    this.clienteSrv.consultarClientesPorFiltro(filtro)
+      .subscribe(response => {
+        this.clientes = response.Listado;
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+        //this.sortedCollection = this.orderPipe.transform(this.clientes, 'RazonSocial');
+      });
+      
+   
+    
   }
 }

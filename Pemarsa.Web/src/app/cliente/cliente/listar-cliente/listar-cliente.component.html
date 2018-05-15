@@ -18,13 +18,8 @@
               </div>
               <div class="col-md-4">
                 <br>
-                <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Filtro" popover-placement="right" style="padding-top:7px;">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-glass"></span>
-                  </a>
-                  <div class="dropdown-menu">
-                    <filtro-cliente></filtro-cliente>
-                  </div>
+                <div class="col-md-2" style="padding-top:7px;">
+                    <filtro-cliente [estadosCatalogo]="parametros.Catalogos" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>
                 </div>
                 <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,7 +92,7 @@
                     <span class="glyphicon glyphicon-star"></span>
                   </a>
                   <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li *ngFor="let estado of parametros.Catalogos; let i = index" class="records-page-contactos">
+                    <li *ngFor="let estado of parametros.Catalogos" class="records-page-contactos">
                       <a (click)="actualizarEstadoCliente(cliente, estado.Valor)" data-toggle="modal" data-target="#exampleModalCenter">{{estado.Valor}}</a>
                     </li>
                   </ul>

@@ -6,12 +6,14 @@ import {
   ListarClienteComponent,
   FiltroClienteComponent
 } from './cliente/index'
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     NgxPaginationModule,
-    UtilModule
+    UtilModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ListarClienteComponent,

@@ -20,6 +20,7 @@
     <None Remove="src\app\common\models\ClienteModel.ts" />
     <None Remove="src\app\common\models\EntidadDTOModel.ts" />
     <None Remove="src\app\common\models\EntityModel.ts" />
+    <None Remove="src\app\common\models\FiltroModel.ts" />
     <None Remove="src\app\common\models\Index.ts" />
     <None Remove="src\app\common\models\ListadoResponseModel.ts" />
     <None Remove="src\app\common\models\PaginacionModel.ts" />
@@ -57,6 +58,7 @@
     <TypeScriptCompile Include="src\app\common\models\ClienteModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\EntidadDTOModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\EntityModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\FiltroModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\Index.ts" />
     <TypeScriptCompile Include="src\app\common\models\ListadoResponseModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\PaginacionModel.ts" />

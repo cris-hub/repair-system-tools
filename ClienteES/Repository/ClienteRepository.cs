@@ -98,7 +98,7 @@ namespace ClienteES.Repository
                                             && (string.IsNullOrEmpty(parametrosDTO.Nit) || e.Nit.Contains(parametrosDTO.Nit))
                                             && (string.IsNullOrEmpty(parametrosDTO.Telefono) || e.Telefono.Contains(parametrosDTO.Telefono))
                                             && (string.IsNullOrEmpty(parametrosDTO.Direccion) || e.Direccion.Contains(parametrosDTO.Direccion))
-                                            && (string.IsNullOrEmpty(parametrosDTO.Estado) || e.Estado.Valor.Contains(parametrosDTO.Estado))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Estado) || e.Estado.Valor.Equals(parametrosDTO.Estado))
                                             );
 
                 var queryPagination = await query
