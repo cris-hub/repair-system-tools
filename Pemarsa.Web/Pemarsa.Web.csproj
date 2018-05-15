@@ -8,10 +8,10 @@
   <ItemGroup>
     <None Remove="src\app\cliente\cliente\cliente.module.ts" />
     <None Remove="src\app\common\components\home\home.component.ts" />
-    <None Remove="src\app\common\components\home\sub-menu.component.ts" />
     <None Remove="src\app\common\config\config.loader.ts" />
     <None Remove="src\app\common\config\config.model.ts" />
     <None Remove="src\app\common\config\config.service.ts" />
+    <None Remove="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <None Remove="src\app\common\directivas\paginacion\paginacion.component.ts" />
     <None Remove="src\app\common\models\AttachmentModel.ts" />
     <None Remove="src\app\common\models\CatalogoModel.ts" />
@@ -45,10 +45,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\app\cliente\cliente.module.ts" />
     <TypeScriptCompile Include="src\app\common\components\home\home.component.ts" />
-    <TypeScriptCompile Include="src\app\common\components\home\sub-menu.component.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.loader.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.service.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.model.ts" />
+    <TypeScriptCompile Include="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\paginacion\paginacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\models\AttachmentModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\CatalogoModel.ts" />

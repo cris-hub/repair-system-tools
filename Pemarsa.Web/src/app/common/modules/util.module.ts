@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { PaginationComponent } from '../directivas/paginacion/paginacion.component';
+import { ConfirmacionComponent } from '../directivas/confirmacion/confirmacion.component';
 
 
 @NgModule({
@@ -7,11 +8,13 @@ import { PaginationComponent } from '../directivas/paginacion/paginacion.compone
   ],
 
   declarations: [
-    PaginationComponent
+    PaginationComponent,
+    ConfirmacionComponent
   ],
 
   exports: [
-    PaginationComponent
+    PaginationComponent,
+    ConfirmacionComponent
   ],
 
   providers: [

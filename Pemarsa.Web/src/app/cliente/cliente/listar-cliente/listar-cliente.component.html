@@ -21,7 +21,7 @@
                 <div class="col-md-2">
                   <i class="glyphicon glyphicon-plus" style="cursor: pointer;"></i>
                 </div>
-                <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right" >
+                <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-list"></span>
                   </a>
@@ -81,22 +81,19 @@
               <td>{{cliente.Direccion}}</td>
               <td>{{cliente.Estado.Valor}}</td>
               <td>
-                <div>
+                <div style="padding-top:7px; width:14%; float:left; display:block;">
                   <i class="glyphicon glyphicon-eye-open"></i>
                 </div>
-                <div>
+                <div style="padding-top:7px; width:1%; float:left; display:block;">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </div>
-                <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div *ngIf="parametros.Catalogos" class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
+                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">
                     <span class="glyphicon glyphicon-star"></span>
                   </a>
                   <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li class="records-page-contactos" data-page="Activo">
-                      <a (click)="limiteConsulta(Activo)">Activo</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="Incativo">
-                      <a (click)="limiteConsulta(Incativo)">Incativo</a>
+                    <li *ngFor="let estado of parametros.Catalogos; let i = index" class="records-page-contactos">
+                      <a (click)="actualizarEstadoCliente(cliente, estado.Valor)" data-toggle="modal" data-target="#exampleModalCenter">{{estado.Valor}}</a>
                     </li>
                   </ul>
                 </div>
@@ -108,19 +105,19 @@
     </div>
   </div>
   <!--Paginacion -->
-  <div class="float-right">
+  <div class="row">
     <nav aria-label="pagination example">
       <ul class="pagination pagination-circle pg-blue mb-0">
         <pagination-controls maxSize="10"
-                             autoHide="true"
                              previousLabel="Anterior"
                              nextLabel="Siguiente"
                              id="cliente"
                              (pageChange)="cambioPagina($event)">
         </pagination-controls>
-
       </ul>
     </nav>
     <br />
   </div>
 </div>
+   
+

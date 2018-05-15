@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^6.0.0",
+    "@angular/animations": "^6.0.1",
     "@angular/cli": "^6.0.0",
     "@angular/common": "^6.0.0",
     "@angular/compiler": "^6.0.0",
@@ -24,8 +24,10 @@
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
+    "ng2-toastr": "^4.1.2",
     "ngx-bootstrap": "^2.0.5",
     "ngx-pagination": "^3.1.1",
+    "ngx-toastr": "^8.6.0",
     "popper.js": "^1.14.3",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"

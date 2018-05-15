@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
 import { ClienteService } from '../../../common/services/entity/index';
 import {
   ClienteModel
 } from '../../../common/models/Index';
 import { PaginacionModel } from '../../../common/models/PaginacionModel';
-import { debug } from 'util';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ParametrosModel } from '../../../common/models/ParametrosModel';
+import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-listar-cliente',
@@ -24,11 +25,15 @@ export class ListarClienteComponent implements OnInit {
 
   constructor(
     public clienteSrv: ClienteService,
-    public parametroSrv: ParametroService,) {
+    public parametroSrv: ParametroService,
+    private toastr: ToastrService)
+  {
     this.paginacion = new PaginacionModel(1, 8);
+    this.parametros = new ParametrosModel();
   }
 
   ngOnInit() {
+    this.consultarParametros();
     this.consultarClientes();
   }
 
@@ -52,17 +57,13 @@ export class ListarClienteComponent implements OnInit {
   }
 
   actualizarEstadoCliente(cliente: ClienteModel, estado: string) {
-    /*this.clienteSrv.ActualizarEstadoCliente(cliente.Guid, estado)
+    this.clienteSrv.ActualizarEstadoCliente(cliente.Guid, estado)
       .subscribe(response => {
         if (response) {
-          cliente.Estado = estado;
+          this.toastr.success('Se actualizó el estado del cliente', '');
         }
-        this.snackBar.open('Se actualizó el estado', null, {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'end'
-        });
-      })*/
+        this.consultarClientes();
+      })
   }
 
   consultarParametros() {

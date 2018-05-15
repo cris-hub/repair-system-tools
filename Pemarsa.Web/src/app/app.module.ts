@@ -1,5 +1,8 @@
 import { APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { RouterModule } from '@angular/router';
 import { RouterConfigLoader } from '@angular/router/src/router_config_loader';
 import { ConfigLoader } from './common/config/config.loader';
@@ -32,7 +35,9 @@ import { ParametroService } from './common/services/entity/parametro.service';
     HttpClientModule,
     ClienteModule,
     UtilModule,
-    AppRoutingModule    
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     ConfigService,
