@@ -4,7 +4,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UtilModule } from '../common/modules/util.module';
 import {
   ListarClienteComponent,
-  FiltroClienteComponent
+  FiltroClienteComponent,
+  LineaClienteComponent
 } from './cliente/index'
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   declarations: [
     ListarClienteComponent,
-    FiltroClienteComponent
+    FiltroClienteComponent,
+    LineaClienteComponent
   ],
   exports: [
     ListarClienteComponent

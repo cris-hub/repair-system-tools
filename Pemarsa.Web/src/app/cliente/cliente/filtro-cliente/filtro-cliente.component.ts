@@ -15,7 +15,6 @@ export class FiltroClienteComponent {
   constructor(private frmBuilder: FormBuilder) {
     this.filtro = new FiltroModel(1, 30);
     this.initForm();
-    console.log(this.estadosCatalogo);
   }
   consultarClientesPorFiltro() {
     console.log("filtro");

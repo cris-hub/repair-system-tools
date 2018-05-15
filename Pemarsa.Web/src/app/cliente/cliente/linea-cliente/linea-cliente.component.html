@@ -1,0 +1,45 @@
+<!-- Modal -->
+<!-- Button trigger modal -->
+<a data-toggle="modal" data-target="#LineaClienteModal">
+  <span class="glyphicon glyphicon-glass"></span>
+</a>
+<div class="modal fade" id="LineaClienteModal" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="margin-top: 150px !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>Linea {{accion}}</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="frmLineaCliente">
+          <div class="form-group">
+            <label for="Nombre" style="color: #6c757d;"><b>Nombre de liena</b></label>
+            <input type="text" class="form-control" formControlName="Nombre" placeholder="Nombre">
+          </div>
+          <div class="form-group">
+            <label for="ContactoNombre" style="color: #6c757d;"><b>Nombre Contacto</b></label>
+            <input type="text" class="form-control" formControlName="ContactoNombre" placeholder="Nombre Contacto">
+          </div>
+          <div class="form-group">
+            <label for="ContactoTelefono" style="color: #6c757d;"><b>Teléfono de Contacto</b></label>
+            <input type="text" class="form-control" formControlName="ContactoTelefono" placeholder="Teléfono de contacto">
+          </div>
+          <div class="form-group">
+            <label for="ContactoCorreo" style="color: #6c757d;"><b>Correo de Contacto</b></label>
+            <input type="text" class="form-control" formControlName="ContactoCorreo" placeholder="Correo de Contacto">
+          </div>
+          <div class="form-group">
+            <label for="Direccion" style="color: #6c757d;"><b>Direccion</b></label>
+            <input type="text" class="form-control" formControlName="Direccion" placeholder="Direccion">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="accion == 'crear'" (click)="submitlineaCliente(frmLineaCliente.value)" data-dismiss="modal" class="btn btn-primary">Agregar</button>
+        <button *ngIf="accion == 'ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+      </div>
+    </div>
+  </div>
+</div>

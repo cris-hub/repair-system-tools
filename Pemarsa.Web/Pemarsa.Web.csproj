@@ -8,6 +8,7 @@
   <ItemGroup>
     <None Remove="src\app\cliente\cliente\cliente.module.ts" />
     <None Remove="src\app\cliente\cliente\filtro-cliente\filtro-cliente.component.ts" />
+    <None Remove="src\app\cliente\cliente\linea-cliente\linea-cliente.component.ts" />
     <None Remove="src\app\common\components\home\home.component.ts" />
     <None Remove="src\app\common\config\config.loader.ts" />
     <None Remove="src\app\common\config\config.model.ts" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\app\cliente\cliente.module.ts" />
     <TypeScriptCompile Include="src\app\cliente\cliente\filtro-cliente\filtro-cliente.component.ts" />
+    <TypeScriptCompile Include="src\app\cliente\cliente\linea-cliente\linea-cliente.component.ts" />
     <TypeScriptCompile Include="src\app\common\components\home\home.component.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.loader.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.service.ts" />

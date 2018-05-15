@@ -6,6 +6,7 @@ import {
 } from '../../../common/models/Index';
 
 import { FiltroClienteComponent } from '../filtro-cliente/filtro-cliente.component'
+import { LineaClienteComponent } from '../linea-cliente/linea-cliente.component';
 
 import { PaginacionModel } from '../../../common/models/PaginacionModel';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
@@ -86,9 +87,10 @@ export class ListarClienteComponent implements OnInit {
         this.clientes = response.Listado;
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         //this.sortedCollection = this.orderPipe.transform(this.clientes, 'RazonSocial');
-      });
-      
-   
-    
+      }); 
+  }
+
+  PruebaLineaCliente(lineaCliente) {
+    console.log(lineaCliente);
   }
 }
