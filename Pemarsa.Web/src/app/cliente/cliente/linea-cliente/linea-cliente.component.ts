@@ -1,28 +1,25 @@
-import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
 
 @Component({
   selector: 'app-liena-cliente',
   templateUrl: './linea-cliente.component.html'
 })
-export class LineaClienteComponent implements OnInit {
-  
+export class LineaClienteComponent {
+  public data: any = {};
   public frmLineaCliente: FormGroup;
-  public lineaCliente: ClienteLineaModel;
+  private lineaCliente: ClienteLineaModel;
   @Input() ClienteLinea: ClienteLineaModel;
   @Input() accion: any; 
-  @Input() nameModal: any;
   @Output() paramsLineaCliente = new EventEmitter();
   constructor(private frmBuilder: FormBuilder) {
     this.lineaCliente = new ClienteLineaModel();
     this.initForm();
   }
 
-  ngOnInit(): void {
-  }
-
-  llenarObjectoCliente(ClienteLineaObj: ClienteLineaModel) {
+  llenarObjectoCliente(ClienteLineaObj: ClienteLineaModel, accion: any, index: any) {
+    console.log(ClienteLineaObj);
     this.lineaCliente.Id = ClienteLineaObj.Id;
     this.lineaCliente.ContactoCorreo = ClienteLineaObj.ContactoCorreo;
     this.lineaCliente.ContactoNombre = ClienteLineaObj.ContactoNombre;
@@ -30,11 +27,18 @@ export class LineaClienteComponent implements OnInit {
     this.lineaCliente.Direccion = ClienteLineaObj.Direccion;
     this.lineaCliente.Nombre = ClienteLineaObj.Nombre;
     this.lineaCliente.ClienteId = ClienteLineaObj.ClienteId;
-    this.nameModal = "LineaClienteModalVer";
-    this.accion = "ver";
+    this.accion = accion;
+    this.data.index = index;
+    this.initForm();
+
+  }
+  nuevoDataLineaCliente(accion: any) {
+    this.lineaCliente = new ClienteLineaModel();
+    this.accion = accion;
     this.initForm();
   }
   initForm() {
+    console.log(this.lineaCliente);
     this.frmLineaCliente = this.frmBuilder.group({
       Id: [this.lineaCliente.Id],
       ContactoCorreo: [this.lineaCliente.ContactoCorreo],
@@ -47,10 +51,13 @@ export class LineaClienteComponent implements OnInit {
   }
   submitlineaCliente(lineaClienteGroup: any) {
     this.lineaCliente = <ClienteLineaModel>lineaClienteGroup;
-    this.paramsLineaCliente.emit(this.lineaCliente);
+    this.data.lineaCliente = this.lineaCliente;
+    this.data.accion = this.accion;
+    this.paramsLineaCliente.emit(this.data);
   }
 
   limpiarlineaCliente() {
+    this.lineaCliente = new ClienteLineaModel();
     this.initForm();
   }
 }

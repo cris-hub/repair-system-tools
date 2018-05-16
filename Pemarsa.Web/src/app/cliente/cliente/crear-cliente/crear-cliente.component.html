@@ -1,0 +1,162 @@
+<div class="right" *ngIf="!loading">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 contenido-interno">
+
+        <div class="form-group row">
+          <div class="col-sm-12" align="center">
+            <h3>Crear clientes</h3>
+          </div>
+        </div>
+        <form [formGroup]="frmCliente">
+          <div class="form-group row">
+
+            <label class="col-sm-3 col-form-label" id="corre">
+              Razón social:
+            </label>
+            <div class="col-sm-7">
+              <input type="text" formControlName="RazonSocial" name="Nombre" class="form-control" placeholder="Razón social">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              Nit:
+            </label>
+            <div class="col-sm-3">
+              <input type="text" formControlName="Nit" name="Nit" class="form-control" placeholder="Nit">
+            </div>
+
+            <label class="col-sm-1 col-form-label" id="corre">
+              Teléfono:
+            </label>
+            <div class="col-sm-3">
+              <input type="text" formControlName="Telefono" name="Telefono" class="form-control" placeholder="Teléfono">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              Adjuntar RUT:
+            </label>
+            <div class="col-sm-4">
+              <input type="file" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              Dirección entrega:
+            </label>
+            <div class="col-sm-6">
+              <input type="text" formControlName="Direccion" name="Direccion" class="form-control" placeholder="Dirección entrega">
+            </div>
+          </div>
+
+          <div class="col-sm-2">
+
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-8">
+              <div class="panel panel-default">
+                <div class="panel-heading">Persona contacto</div>
+                <div class="panel-body">
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" id="corre">
+                      Nombre:
+                    </label>
+                    <div class="col-sm-9">
+                      <input type="text" formControlName="ContactoNombre" name="ContactoNombre" class="form-control" placeholder="Nombre">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" id="corre">
+                      Teléfono:
+                    </label>
+                    <div class="col-sm-4">
+                      <input type="text" formControlName="ContactoTelefono" name="ContactoTelefono" class="form-control" placeholder="Teléfono">
+                    </div>
+                    <label class="col-sm-1 col-form-label" id="corre">
+                      Correo:
+                    </label>
+                    <div class="col-sm-4">
+                      <input type="text" formControlName="ContactoCorreo" name="ContactoCorreo" class="form-control" placeholder="Correo">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              Responsable:
+            </label>
+            <div class="col-sm-4">
+              <select class="form-control form-control-lg">
+                <option>Seleccione</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-1">
+              <i data-toggle="modal" data-target="#LineaClienteModalCrear" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus" style="font-size: 20px;cursor: pointer;"> </i>
+            </div>
+            <label class="col-sm-4 col-form-label" style="text-align: left;">
+              Agregar líneas de negocio
+            </label>
+            <br>
+            <br>
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-8">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                  <thead>
+                  <th>Nombre de linea</th>
+                  <th>Nombre de contacto</th>
+                  <th>Telefono</th>
+                  <th>Correo</th>
+                  <th>Acciones</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let linea of lineaCliente; let i = index;">
+                      <td>{{linea.Nombre}}</td>
+                      <td>{{linea.ContactoNombre}}</td>
+                      <td>{{linea.ContactoTelefono}}</td>
+                      <td>{{linea.ContactoCorreo}}</td>
+                      <td>
+                        <i data-toggle="modal" data-target="#LineaClienteModalEdit" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="glyphicon glyphicon-pencil"></i>
+                        <i class="glyphicon glyphicon-minus" (click)="eliminarCliente(i)"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+
+              <button type="button" class="btn btn-sm" (click)="salir()">Cancelar</button>
+
+              <button *ngIf="isSubmitted" type="button" (click)="submitForm(frmCliente.value)" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+              <button *ngIf="!isSubmitted" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="LineaClienteModalCrear" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
+    <app-liena-cliente accion="crear" (paramsLineaCliente)="nuevaLineaCliente($event)"></app-liena-cliente>
+  </div>
+  <div class="modal fade" id="LineaClienteModalEdit" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
+    <app-liena-cliente accion="editar" (paramsLineaCliente)="nuevaLineaCliente($event)"></app-liena-cliente>
+  </div>

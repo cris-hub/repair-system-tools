@@ -6,6 +6,7 @@ import { HomeComponent } from './common/components/home/home.component';
 
 import { ListarClienteComponent } from './cliente/cliente/listar-cliente/listar-cliente.component';
 import { ClienteModule } from './cliente/cliente.module';
+import { CrearClienteComponent } from './cliente/cliente/crear-cliente/crear-cliente.component';
 
 const routes: Routes = [
 
@@ -14,7 +15,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   
    //Cliente
-   { path: 'cliente', component: ListarClienteComponent }
+  { path: 'cliente', component: ListarClienteComponent },
+  { path: 'cliente/crear', component: CrearClienteComponent },
+  { path: 'cliente/editar/:id', component: CrearClienteComponent }
 ];
 
 @NgModule({

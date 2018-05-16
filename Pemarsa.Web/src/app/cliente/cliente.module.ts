@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterModule } from '@angular/router';
 import { UtilModule } from '../common/modules/util.module';
 import {
   ListarClienteComponent,
   FiltroClienteComponent,
-  LineaClienteComponent
+  LineaClienteComponent,
+  CrearClienteComponent
 } from './cliente/index'
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -14,12 +16,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     NgxPaginationModule,
     UtilModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   declarations: [
     ListarClienteComponent,
     FiltroClienteComponent,
-    LineaClienteComponent
+    LineaClienteComponent,
+    CrearClienteComponent
   ],
   exports: [
     ListarClienteComponent
