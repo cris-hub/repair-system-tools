@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 
 import { ClienteService } from '../../../common/services/entity/index';
 import {
@@ -14,12 +14,14 @@ import { ParametrosModel } from '../../../common/models/ParametrosModel';
 import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
 import { debug } from 'util';
+import { ClienteLineaModel } from '../../../common/models/ClienteLineaModel';
 
 @Component({
   selector: 'app-listar-cliente',
   templateUrl: './listar-cliente.component.html'
 })
 export class ListarClienteComponent implements OnInit {
+
   private registroSeleccionado: string;
   private clientes: ClienteModel[];
 
@@ -48,7 +50,6 @@ export class ListarClienteComponent implements OnInit {
         this.clientes = response.Listado;
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
-  
   }
 
   limiteConsulta(event: any) {
@@ -76,7 +77,6 @@ export class ListarClienteComponent implements OnInit {
       .subscribe(response => {
         this.parametros = response;
       });
-    setTimeout(() => { console.log(this.parametros); }, 1);
   }
 
   consultarClientesPorFiltro(filtro) {
@@ -88,9 +88,5 @@ export class ListarClienteComponent implements OnInit {
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         //this.sortedCollection = this.orderPipe.transform(this.clientes, 'RazonSocial');
       }); 
-  }
-
-  PruebaLineaCliente(lineaCliente) {
-    console.log(lineaCliente);
   }
 }
