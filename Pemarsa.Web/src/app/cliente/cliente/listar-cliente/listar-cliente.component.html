@@ -19,7 +19,7 @@
               <div class="col-md-4">
                 <br>
                 <div class="col-md-2" style="padding-top:7px;">
-                    <filtro-cliente [estadosCatalogo]="parametros.Catalogos" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>
+                  <filtro-cliente [estadosCatalogo]="parametros.Catalogos" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>
                 </div>
                 <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,7 +93,7 @@
                   </a>
                   <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
                     <li *ngFor="let estado of parametros.Catalogos" class="records-page-contactos">
-                      <a (click)="actualizarEstadoCliente(cliente, estado.Valor)" data-toggle="modal" data-target="#exampleModalCenter">{{estado.Valor}}</a>
+                      <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
                     </li>
                   </ul>
                 </div>
@@ -119,5 +119,7 @@
     <br />
   </div>
 </div>
-   
+<div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
+</div>
 

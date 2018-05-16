@@ -1,18 +1,32 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: 'confirmacion-modal',
+  selector: 'app-confirmacion-modal',
   templateUrl: './confirmacion.component.html'
 })
 export class ConfirmacionComponent {
-  @Input() titulo: string;
-  @Input() Mensaje: string;
+  public data: any = {};
+  public titulo: string;
+  public Mensaje: string;
+  public Cancelar: boolean;
   @Output() confir = new EventEmitter();
 
   constructor() { }
-
-  confirmar()
+  cancelarAction()
   {
-    this.confir.emit(true);
+    this.data.response = false;
+    this.confir.emit(this.data);
+  }
+  confirmarAction()
+  {
+    this.data.response = true;
+    this.confir.emit(this.data);
+  }
+
+  llenarObjectoData(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    this.titulo = titulo;
+    this.Mensaje = Mensaje;
+    this.Cancelar = Cancelar;
+    this.data = objData;
   }
 }

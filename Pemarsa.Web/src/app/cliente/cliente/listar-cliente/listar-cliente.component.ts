@@ -21,6 +21,8 @@ import { ClienteLineaModel } from '../../../common/models/ClienteLineaModel';
   templateUrl: './listar-cliente.component.html'
 })
 export class ListarClienteComponent implements OnInit {
+  //ViewChild para funcionalidad del modal de confirmacion
+  @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
 
   private registroSeleccionado: string;
   private clientes: ClienteModel[];
@@ -88,5 +90,18 @@ export class ListarClienteComponent implements OnInit {
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         //this.sortedCollection = this.orderPipe.transform(this.clientes, 'RazonSocial');
       }); 
+  }
+  //Funcion para implementar el modal con la informacion respectiva
+  confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any)
+  {
+    this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
+  }
+  actualizarEstadoClienteConfirmacion(event: any) {
+    if (event.response == true) {
+      this.actualizarEstadoCliente(event.cliente, event.estado);
+    }
+    else {
+      this.consultarClientes();
+    }
   }
 }
