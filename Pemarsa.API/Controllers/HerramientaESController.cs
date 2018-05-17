@@ -31,5 +31,18 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("ConsultarHerramientasPorGuidCliente")]
+        public async Task<IActionResult> ConsultarHerramientasPorGuidCliente([FromQuery]string guidCliente)
+        {
+            try
+            {
+                return Ok((await _service.ConsultarHerramientasPorGuidCliente(Guid.Parse(guidCliente))));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pemarsa.Data;
 using Pemarsa.Domain;
+using System.Linq;
 
 namespace HerramientaES.Repository
 {
@@ -16,6 +17,27 @@ namespace HerramientaES.Repository
         {
             _context = (PemarsaContext)context;
         }
+
+        public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
+        {
+            try {
+                    return await (from h in _context.Herramienta
+                              join ht in _context.HerramientaTamano on h.Id equals ht.HerramientaId
+                              join htm in _context.HerramientaTamanoMotor on h.Id equals htm.HerramientaId
+                              join hef in _context.HerramientaEstudioFactibilidad on h.Id equals hef.HerramientaId
+                              join c in _context.Cliente on h.ClienteId equals c.Id
+                              where c.Guid == guidCliente
+                              select h)
+                              .Include(c => c.TamanosHerramienta)
+                              .Include(c => c.TamanosMotor)
+                              .Include(c => c.HerramientaEstudioFactibilidad)
+                              .Include(c => c.Estado)
+                              .Include(c => c.Cliente)
+                              .ToListAsync();
+            }
+            catch (Exception) { throw; }  
+        }
+
         public async Task<Guid> CrearHerramienta(Herramienta herramienta)
         {
             try

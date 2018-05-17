@@ -9,5 +9,6 @@ namespace HerramientaES.Service
     public interface IHerramientaService
     {
         Task<Guid> CrearHerramienta(Herramienta herramienta);
+        Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente);
     }
 }

@@ -9,5 +9,6 @@ namespace HerramientaES.Repository
     public interface IHerramientaRepository
     {
         Task<Guid> CrearHerramienta( Herramienta herramienta );
+        Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente);
     }
 }
