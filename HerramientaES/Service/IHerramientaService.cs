@@ -10,5 +10,6 @@ namespace HerramientaES.Service
     {
         Task<Guid> CrearHerramienta(Herramienta herramienta);
         Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente);
+        Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta);
     }
 }

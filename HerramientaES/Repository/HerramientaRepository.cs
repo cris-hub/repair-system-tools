@@ -18,6 +18,17 @@ namespace HerramientaES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
+        {
+            return await _context.Herramienta
+                            .Include(c => c.TamanosHerramienta)
+                            .Include(c => c.TamanosMotor)
+                            .Include(c => c.HerramientaEstudioFactibilidad)
+                            .Include(c => c.Estado)
+                            .Include(c => c.Cliente)
+                            .FirstOrDefaultAsync(c => c.Guid == guidHerramienta);
+        }
+
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
         {
             try {

@@ -19,6 +19,11 @@ namespace HerramientaES.Service
             _context = context;
         }
 
+        public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
+        {
+            return await _repository.ConsultarHerramientaPorGuid(guidHerramienta);
+        }
+
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
         {
             try
