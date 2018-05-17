@@ -216,6 +216,151 @@ namespace Pemarsa.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Herramienta",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ClienteId = table.Column<int>(nullable: false),
+                    EsHerramientaMotor = table.Column<bool>(nullable: false),
+                    EsHerramientaPetrolera = table.Column<bool>(nullable: false),
+                    EsHerramientaPorCantidad = table.Column<bool>(nullable: false),
+                    EstadoId = table.Column<int>(nullable: false),
+                    EstudioFactibilidadId = table.Column<int>(nullable: false),
+                    FechaModifica = table.Column<DateTime>(nullable: true),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
+                    Guid = table.Column<Guid>(nullable: false),
+                    GuidOrganizacion = table.Column<Guid>(nullable: false),
+                    GuidUsuarioCrea = table.Column<Guid>(nullable: false),
+                    GuidUsuarioModifica = table.Column<Guid>(nullable: true),
+                    GuidUsuarioVerifica = table.Column<Guid>(nullable: false),
+                    LineaId = table.Column<int>(nullable: false),
+                    MaterialesId = table.Column<int>(nullable: false),
+                    Moc = table.Column<int>(nullable: false),
+                    Nombre = table.Column<string>(nullable: false),
+                    NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
+                    NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
+                    NombreUsuarioVerifica = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Herramienta", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Herramienta_Cliente_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Herramienta_Catalogo_EstadoId",
+                        column: x => x.EstadoId,
+                        principalTable: "Catalogo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Herramienta_ClienteLinea_LineaId",
+                        column: x => x.LineaId,
+                        principalTable: "ClienteLinea",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Herramienta_Catalogo_MaterialesId",
+                        column: x => x.MaterialesId,
+                        principalTable: "Catalogo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HerramientaEstudioFactibilidad",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Admin = table.Column<bool>(nullable: false),
+                    FechaModifica = table.Column<DateTime>(nullable: true),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
+                    Guid = table.Column<Guid>(nullable: false),
+                    GuidOrganizacion = table.Column<Guid>(nullable: false),
+                    GuidUsuarioCrea = table.Column<Guid>(nullable: false),
+                    GuidUsuarioModifica = table.Column<Guid>(nullable: true),
+                    HerramientaId = table.Column<int>(nullable: false),
+                    ManoObra = table.Column<bool>(nullable: false),
+                    Mantenimiento = table.Column<bool>(nullable: false),
+                    Maquina = table.Column<bool>(nullable: false),
+                    Material = table.Column<bool>(nullable: false),
+                    Metodo = table.Column<bool>(nullable: false),
+                    NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
+                    NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HerramientaEstudioFactibilidad", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HerramientaEstudioFactibilidad_Herramienta_HerramientaId",
+                        column: x => x.HerramientaId,
+                        principalTable: "Herramienta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HerramientaTamano",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FechaModifica = table.Column<DateTime>(nullable: true),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
+                    Guid = table.Column<Guid>(nullable: false),
+                    GuidOrganizacion = table.Column<Guid>(nullable: false),
+                    GuidUsuarioCrea = table.Column<Guid>(nullable: false),
+                    GuidUsuarioModifica = table.Column<Guid>(nullable: true),
+                    HerramientaId = table.Column<int>(nullable: false),
+                    NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
+                    NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
+                    Tamano = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HerramientaTamano", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HerramientaTamano_Herramienta_HerramientaId",
+                        column: x => x.HerramientaId,
+                        principalTable: "Herramienta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HerramientaTamanoMotor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FechaModifica = table.Column<DateTime>(nullable: true),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
+                    Guid = table.Column<Guid>(nullable: false),
+                    GuidOrganizacion = table.Column<Guid>(nullable: false),
+                    GuidUsuarioCrea = table.Column<Guid>(nullable: false),
+                    GuidUsuarioModifica = table.Column<Guid>(nullable: true),
+                    HerramientaId = table.Column<int>(nullable: false),
+                    NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
+                    NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
+                    Tamano = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HerramientaTamanoMotor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HerramientaTamanoMotor_Herramienta_HerramientaId",
+                        column: x => x.HerramientaId,
+                        principalTable: "Herramienta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Catalogo_CatalogoId",
                 table: "Catalogo",
@@ -235,6 +380,42 @@ namespace Pemarsa.Data.Migrations
                 name: "IX_ClienteLinea_ClienteId",
                 table: "ClienteLinea",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Herramienta_ClienteId",
+                table: "Herramienta",
+                column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Herramienta_EstadoId",
+                table: "Herramienta",
+                column: "EstadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Herramienta_LineaId",
+                table: "Herramienta",
+                column: "LineaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Herramienta_MaterialesId",
+                table: "Herramienta",
+                column: "MaterialesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HerramientaEstudioFactibilidad_HerramientaId",
+                table: "HerramientaEstudioFactibilidad",
+                column: "HerramientaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HerramientaTamano_HerramientaId",
+                table: "HerramientaTamano",
+                column: "HerramientaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HerramientaTamanoMotor_HerramientaId",
+                table: "HerramientaTamanoMotor",
+                column: "HerramientaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ParametroCatalogo_CatalogoId",
@@ -260,7 +441,13 @@ namespace Pemarsa.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClienteLinea");
+                name: "HerramientaEstudioFactibilidad");
+
+            migrationBuilder.DropTable(
+                name: "HerramientaTamano");
+
+            migrationBuilder.DropTable(
+                name: "HerramientaTamanoMotor");
 
             migrationBuilder.DropTable(
                 name: "ParametroCatalogo");
@@ -269,13 +456,19 @@ namespace Pemarsa.Data.Migrations
                 name: "ParametroConsulta");
 
             migrationBuilder.DropTable(
-                name: "Cliente");
+                name: "Herramienta");
 
             migrationBuilder.DropTable(
                 name: "Consulta");
 
             migrationBuilder.DropTable(
                 name: "Parametro");
+
+            migrationBuilder.DropTable(
+                name: "ClienteLinea");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
 
             migrationBuilder.DropTable(
                 name: "DocumentoAdjunto");

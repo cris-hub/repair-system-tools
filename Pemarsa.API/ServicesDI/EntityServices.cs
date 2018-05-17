@@ -1,4 +1,5 @@
 ﻿using ClienteES.Service;
+using HerramientaES.Service;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Pemarsa.API.ServicesDI
@@ -8,6 +9,7 @@ namespace Pemarsa.API.ServicesDI
         public static void AddEntityServices(this IServiceCollection services)
         {
             services.AddTransient<IClienteService, ClienteService>();
+            services.AddTransient<IHerramientaService, HerramientaService>();
         }
     }
 }

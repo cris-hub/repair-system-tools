@@ -36,6 +36,34 @@ namespace Pemarsa.Data.DBInitialize
                 };
                 #endregion
 
+                #region Tipos
+                var tipos = new List<Catalogo>
+                {
+                    new Catalogo{
+                        Id = 3,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Prueba,
+                        Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 4,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Prueba1,
+                        Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 5,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Prueba2,
+                        Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    }
+                };
+                foreach (var tipo in tipos)
+                {
+                    if (context.Catalogo.Where(c => c.Id == tipo.Id).ToList().Count == 0)
+                        context.Catalogo.Add(tipo);
+                }
+                #endregion
                 if (!context.Catalogo.Any())
                 {
                     context.Catalogo.AddRange(estados);
@@ -45,7 +73,8 @@ namespace Pemarsa.Data.DBInitialize
                 #region Parametros
                 var entidades = new List<Parametro>
                     {
-                        new Parametro{ Entidad = CanonicalConstants.Entidades.Cliente}
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Cliente},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Materiales}
                     };
 
                 if (!context.Parametro.Any())
@@ -73,6 +102,27 @@ namespace Pemarsa.Data.DBInitialize
                                     Entidad = CanonicalConstants.Entidades.Cliente
                                 }
                             );
+                            break;
+                    }
+                }
+
+                // Tipos //
+                foreach (var tipo in tipos)
+                {
+                    switch (tipo.Grupo)
+                    {
+                        case CanonicalConstants.Grupos.HerramientasMateriales:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Materiales)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Materiales
+                                }
+                                );
+                            }
                             break;
                     }
                 }

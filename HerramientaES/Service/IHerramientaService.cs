@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Pemarsa.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HerramientaES.Service
 {
-    internal interface IHerramientaService
+    public interface IHerramientaService
     {
+        Task<Guid> CrearHerramienta(Herramienta herramienta);
     }
 }

@@ -42,6 +42,14 @@ namespace ClienteES.Repository
             {
                 cliente.Guid = Guid.NewGuid();
                 cliente.FechaRegistro = DateTime.Now;
+                if (cliente.Lineas != null)
+                {
+                    foreach (ClienteLinea linea in cliente.Lineas)
+                    {
+                        linea.Guid = Guid.NewGuid();
+                        linea.FechaRegistro = DateTime.Now;
+                    }
+                } 
                 _context.Cliente.Add(cliente);
                 await _context.SaveChangesAsync();
                 return cliente.Guid;
