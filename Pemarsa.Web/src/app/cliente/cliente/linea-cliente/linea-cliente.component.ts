@@ -10,7 +10,7 @@ export class LineaClienteComponent {
   public data: any = {};
   public frmLineaCliente: FormGroup;
   private lineaCliente: ClienteLineaModel;
-  @Input() ClienteLinea: ClienteLineaModel;
+  //@Input() ClienteLinea: ClienteLineaModel;
   @Input() accion: any; 
   @Output() paramsLineaCliente = new EventEmitter();
   constructor(private frmBuilder: FormBuilder) {
@@ -19,7 +19,6 @@ export class LineaClienteComponent {
   }
 
   llenarObjectoCliente(ClienteLineaObj: ClienteLineaModel, accion: any, index: any) {
-    console.log(ClienteLineaObj);
     this.lineaCliente.Id = ClienteLineaObj.Id;
     this.lineaCliente.ContactoCorreo = ClienteLineaObj.ContactoCorreo;
     this.lineaCliente.ContactoNombre = ClienteLineaObj.ContactoNombre;
@@ -34,11 +33,12 @@ export class LineaClienteComponent {
   }
   nuevoDataLineaCliente(accion: any) {
     this.lineaCliente = new ClienteLineaModel();
+    this.lineaCliente.Id = 0;
+    this.lineaCliente.ClienteId = 0;
     this.accion = accion;
     this.initForm();
   }
   initForm() {
-    console.log(this.lineaCliente);
     this.frmLineaCliente = this.frmBuilder.group({
       Id: [this.lineaCliente.Id],
       ContactoCorreo: [this.lineaCliente.ContactoCorreo],
@@ -46,7 +46,10 @@ export class LineaClienteComponent {
       ContactoTelefono: [this.lineaCliente.ContactoTelefono],
       Direccion: [this.lineaCliente.Direccion],
       Nombre: [this.lineaCliente.Nombre],
-      ClienteId: [this.lineaCliente.ClienteId]
+      ClienteId: [this.lineaCliente.ClienteId],
+      NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
+      GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
+      GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
     });
   }
   submitlineaCliente(lineaClienteGroup: any) {
@@ -54,6 +57,7 @@ export class LineaClienteComponent {
     this.data.lineaCliente = this.lineaCliente;
     this.data.accion = this.accion;
     this.paramsLineaCliente.emit(this.data);
+    this.lineaCliente = new ClienteLineaModel();
   }
 
   limpiarlineaCliente() {

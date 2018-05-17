@@ -1,4 +1,6 @@
-export class AttachmentModel {
+import { EntityModel } from "./EntityModel";
+
+export class AttachmentModel extends EntityModel{
   public Nombre: string;
   public Descripcion: string;
   public NombreArchivo: string;

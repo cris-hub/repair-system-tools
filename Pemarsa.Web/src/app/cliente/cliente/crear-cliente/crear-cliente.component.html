@@ -6,49 +6,63 @@
 
         <div class="form-group row">
           <div class="col-sm-12" align="center">
-            <h3>Crear clientes</h3>
+            <h3 *ngIf="esActualizar != true && esVer == false">Crear cliente</h3>
+            <h3 *ngIf="esActualizar == true && esVer == false">editar cliente</h3>
+            <h3 *ngIf="esVer">detalle cliente</h3>
           </div>
         </div>
         <form [formGroup]="frmCliente">
           <div class="form-group row">
 
             <label class="col-sm-3 col-form-label" id="corre">
-              Razón social:
+              *Razón social:
             </label>
             <div class="col-sm-7">
-              <input type="text" formControlName="RazonSocial" name="Nombre" class="form-control" placeholder="Razón social">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="RazonSocial" name="Nombre" class="form-control" placeholder="Razón social">
+            </div>
+          </div>
+          <div class="form-group row">
+
+            <label class="col-sm-3 col-form-label" id="corre">
+              *NickName:
+            </label>
+            <div class="col-sm-7">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="NickName" name="NickName" class="form-control" placeholder="NickName">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-3 col-form-label" id="corre">
-              Nit:
+              *Nit:
             </label>
             <div class="col-sm-3">
-              <input type="text" formControlName="Nit" name="Nit" class="form-control" placeholder="Nit">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Nit" name="Nit" class="form-control" placeholder="Nit">
             </div>
 
             <label class="col-sm-1 col-form-label" id="corre">
-              Teléfono:
+              *Teléfono:
             </label>
             <div class="col-sm-3">
-              <input type="text" formControlName="Telefono" name="Telefono" class="form-control" placeholder="Teléfono">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Telefono" name="Telefono" class="form-control" placeholder="Teléfono">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-3 col-form-label" id="corre">
               Adjuntar RUT:
             </label>
-            <div class="col-sm-4">
-              <input type="file" class="form-control">
+            <div *ngIf="esVer == false" class="col-sm-7">
+              <input type="file" (change)="addFile($event)" class="form-control" name="DocumentoAdjunto">
+            </div>
+            <div *ngIf="esVer" class="col-sm-7">
+              <a (click)="descargarAdjunto()" class="btn btn-sm col-sm-2" name="DocumentoAdjunto">Descargar Adjunto</a>
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-sm-3 col-form-label" id="corre">
-              Dirección entrega:
+              *Dirección entrega:
             </label>
             <div class="col-sm-6">
-              <input type="text" formControlName="Direccion" name="Direccion" class="form-control" placeholder="Dirección entrega">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Direccion" name="Direccion" class="form-control" placeholder="Dirección entrega">
             </div>
           </div>
 
@@ -62,24 +76,24 @@
                 <div class="panel-body">
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label" id="corre">
-                      Nombre:
+                      *Nombre:
                     </label>
                     <div class="col-sm-9">
-                      <input type="text" formControlName="ContactoNombre" name="ContactoNombre" class="form-control" placeholder="Nombre">
+                      <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="ContactoNombre" name="ContactoNombre" class="form-control" placeholder="Nombre">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label" id="corre">
-                      Teléfono:
+                      *Teléfono:
                     </label>
                     <div class="col-sm-4">
-                      <input type="text" formControlName="ContactoTelefono" name="ContactoTelefono" class="form-control" placeholder="Teléfono">
+                      <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="ContactoTelefono" name="ContactoTelefono" class="form-control" placeholder="Teléfono">
                     </div>
                     <label class="col-sm-1 col-form-label" id="corre">
-                      Correo:
+                      *Correo:
                     </label>
                     <div class="col-sm-4">
-                      <input type="text" formControlName="ContactoCorreo" name="ContactoCorreo" class="form-control" placeholder="Correo">
+                      <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="ContactoCorreo" name="ContactoCorreo" class="form-control" placeholder="Correo">
                     </div>
                   </div>
                 </div>
@@ -89,10 +103,10 @@
 
           <div class="form-group row">
             <label class="col-sm-3 col-form-label" id="corre">
-              Responsable:
+              *Responsable:
             </label>
             <div class="col-sm-4">
-              <select class="form-control form-control-lg">
+              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
                 <option>Seleccione</option>
               </select>
             </div>
@@ -104,7 +118,7 @@
             <div class="col-sm-2">
             </div>
             <div class="col-sm-1">
-              <i data-toggle="modal" data-target="#LineaClienteModalCrear" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus" style="font-size: 20px;cursor: pointer;"> </i>
+              <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus" style="font-size: 20px;cursor: pointer;"> </i>
             </div>
             <label class="col-sm-4 col-form-label" style="text-align: left;">
               Agregar líneas de negocio
@@ -114,7 +128,7 @@
             <div class="col-sm-2">
 
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12">
               <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                   <thead>
@@ -131,8 +145,8 @@
                       <td>{{linea.ContactoTelefono}}</td>
                       <td>{{linea.ContactoCorreo}}</td>
                       <td>
-                        <i data-toggle="modal" data-target="#LineaClienteModalEdit" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="glyphicon glyphicon-pencil"></i>
-                        <i class="glyphicon glyphicon-minus" (click)="eliminarCliente(i)"></i>
+                        <i *ngIf="!esVer" data-toggle="modal" data-target="#LineaClienteModal" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="glyphicon glyphicon-pencil"></i>
+                        <i *ngIf="!esVer" class="glyphicon glyphicon-minus" (click)="eliminarCliente(i)"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -144,19 +158,21 @@
           <div class="form-group row">
             <div class="col-sm-12">
 
-              <button type="button" class="btn btn-sm" (click)="salir()">Cancelar</button>
+              <button *ngIf="!esVer" type="button" class="btn btn-sm" (click)="salir()">Cancelar</button>
+              <button *ngIf="esVer" type="button" class="btn btn-sm" (click)="salir()">Regresar</button>
 
-              <button *ngIf="isSubmitted" type="button" (click)="submitForm(frmCliente.value)" class="btn btn-primary btn-md" id="guardar">Guardar</button>
-              <button *ngIf="!isSubmitted" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
+              <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+              <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
             </div>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div class="modal fade" id="LineaClienteModalCrear" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
+  <div class="modal fade" id="LineaClienteModal" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
     <app-liena-cliente accion="crear" (paramsLineaCliente)="nuevaLineaCliente($event)"></app-liena-cliente>
   </div>
-  <div class="modal fade" id="LineaClienteModalEdit" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
-    <app-liena-cliente accion="editar" (paramsLineaCliente)="nuevaLineaCliente($event)"></app-liena-cliente>
+  <div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
   </div>
+

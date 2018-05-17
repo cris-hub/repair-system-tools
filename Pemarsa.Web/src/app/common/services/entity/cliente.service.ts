@@ -5,6 +5,7 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
+import { ClienteModel } from "../../models/Index";
 
 @Injectable()
 export class ClienteService {
@@ -16,6 +17,26 @@ export class ClienteService {
 //    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'ClienteES/'
     this.urlServer = 'http://localhost:58906/api/ClienteES/'
     
+  }
+
+  public crearCliente(model: ClienteModel): Observable<boolean> {
+    console.log(model);
+    return this.http.post<boolean>(this.urlServer + 'CrearCliente',
+      model,
+      { headers: this.header }
+    );
+  }
+
+  public actualizarCliente(model: ClienteModel): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarCliente',
+      model,
+      { headers: this.header });
+  }
+
+  public consultarClientePorGuid(guidCliente: string): Observable<ClienteModel> {
+    return this.http.get<ClienteModel>(this.urlServer + 'ConsultarClientePorGuid?guidCliente=' +
+      guidCliente,
+      { headers: this.header });
   }
 
   public consultarClientes(paginacion: PaginacionModel): Observable<ListadoResponseModel>
