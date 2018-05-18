@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HerramientaES.Service;
 using Microsoft.AspNetCore.Mvc;
 using Pemarsa.Domain;
+using Pemarsa.CanonicalModels;
 
 namespace Pemarsa.API.Controllers
 {
@@ -51,6 +52,19 @@ namespace Pemarsa.API.Controllers
             try
             {
                 return Ok((await _service.ConsultarHerramientaPorGuid(Guid.Parse(guidHerramienta))));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ConsultarHerramientas")]
+        public async Task<IActionResult> ConsultarHerramientas(Paginacion paginacion)
+        {
+            try
+            {
+                return Ok(await _service.ConsultarHerramientas(paginacion));
             }
             catch (Exception e)
             {

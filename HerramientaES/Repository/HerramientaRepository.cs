@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 using System.Linq;
+using Pemarsa.CanonicalModels;
 
 namespace HerramientaES.Repository
 {
@@ -27,6 +28,25 @@ namespace HerramientaES.Repository
                             .Include(c => c.Estado)
                             .Include(c => c.Cliente)
                             .FirstOrDefaultAsync(c => c.Guid == guidHerramienta);
+        }
+
+        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion)
+        {
+            try
+            {
+                var result = await _context.Herramienta
+                                    .Include(c => c.TamanosHerramienta)
+                                    .Include(c => c.TamanosMotor)
+                                    .Include(c => c.HerramientaEstudioFactibilidad)
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.Cliente)
+                                    .Skip(paginacion.RegistrosOmitir())
+                                    .Take(paginacion.CantidadRegistros)
+                                    .ToListAsync();
+                var cantidad = await _context.Herramienta.CountAsync();
+                return new Tuple<int, IEnumerable<Herramienta>>(cantidad, result);
+            }
+            catch (Exception) { throw; }
         }
 
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)

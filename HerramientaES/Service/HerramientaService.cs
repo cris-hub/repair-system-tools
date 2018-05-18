@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using HerramientaES.Repository;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 
@@ -21,7 +22,20 @@ namespace HerramientaES.Service
 
         public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
         {
-            return await _repository.ConsultarHerramientaPorGuid(guidHerramienta);
+            try
+            {
+                return await _repository.ConsultarHerramientaPorGuid(guidHerramienta);
+            }
+            catch (Exception) { throw; }   
+        }
+
+        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion)
+        {
+            try
+            {
+                return await _repository.ConsultarHerramientas(paginacion);
+            }
+            catch (Exception) { throw; }
         }
 
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
