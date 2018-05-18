@@ -20,6 +20,15 @@ namespace HerramientaES.Service
             _context = context;
         }
 
+        public async Task<bool> ActualizarHerramienta(Herramienta herramienta)
+        {
+            try
+            {
+                return await _repository.ActualizarHerramienta(herramienta);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
         {
             try

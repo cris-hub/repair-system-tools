@@ -19,6 +19,87 @@ namespace HerramientaES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<bool> ActualizarHerramienta(Herramienta herramienta)
+        {
+            try
+            {
+                var herramientaBD = await _context.Herramienta
+                                    .Include(c => c.TamanosHerramienta)
+                                    .Include(c => c.TamanosMotor)
+                                    .Include(c => c.HerramientaEstudioFactibilidad)
+                                    .SingleOrDefaultAsync(c => c.Id == herramienta.Id);
+
+                _context.Entry(herramientaBD).CurrentValues.SetValues(herramienta);
+                #region Actualizar TamanosHerramienta
+                herramienta.TamanosHerramienta = herramienta.TamanosHerramienta ?? new List<HerramientaTamano>();
+                herramientaBD.TamanosHerramienta = herramientaBD.TamanosHerramienta ?? new List<HerramientaTamano>();
+                //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
+                var tamanosEliminar = (from hbd in herramientaBD.TamanosHerramienta
+                                     where !herramienta.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                     select hbd).ToList();
+
+                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
+                var tamanosInsertar = (from hbd in herramienta.TamanosHerramienta
+                                       where !herramientaBD.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                herramientaBD.TamanosHerramienta.ToList().ForEach(e => {
+                    
+                    tamanosEliminar.ForEach(ef => {
+                        if (e.Id == ef.Id) { e.Estado = false; }
+                    });
+                    HerramientaTamano hbd = (herramientaBD.TamanosHerramienta.FirstOrDefault(a => a.Id == e.Id));
+                    HerramientaTamano h = (herramienta.TamanosHerramienta.FirstOrDefault(a => a.Id == e.Id));
+                    //campos a actulizar
+                    e.Tamano = (h != null) ? h.Tamano : hbd.Tamano;
+                });
+
+                tamanosInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
+             
+                _context.HerramientaTamano.UpdateRange(herramientaBD.TamanosHerramienta);
+                _context.HerramientaTamano.AddRange(tamanosInsertar);
+                #endregion
+
+                #region Actualizar TamanosMotor
+                herramienta.TamanosMotor = herramienta.TamanosMotor ?? new List<HerramientaTamanoMotor>();
+                herramientaBD.TamanosMotor = herramientaBD.TamanosMotor ?? new List<HerramientaTamanoMotor>();
+                //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
+                var tamanosMotoEliminar = (from hbd in herramientaBD.TamanosMotor
+                                           where !herramienta.TamanosMotor.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
+                var tamanosMotorInsertar = (from hbd in herramienta.TamanosMotor
+                                            where !herramientaBD.TamanosMotor.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                herramientaBD.TamanosMotor.ToList().ForEach(e => {
+
+                    tamanosMotoEliminar.ForEach(ef => {
+                        if (e.Id == ef.Id) { e.Estado = false; }
+                    });
+                    HerramientaTamanoMotor hbd = (herramientaBD.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
+                    HerramientaTamanoMotor h = (herramienta.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
+                    //campos a actulizar
+                    e.Tamano = (h != null) ? h.Tamano : hbd.Tamano;
+                });
+
+                tamanosMotorInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
+
+                _context.HerramientaTamanoMotor.UpdateRange(herramientaBD.TamanosMotor);
+                _context.HerramientaTamanoMotor.AddRange(tamanosMotorInsertar);
+                #endregion
+
+                herramientaBD.FechaModifica = DateTime.Now;
+                
+                _context.Entry(herramientaBD).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+
+
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
         {
             try

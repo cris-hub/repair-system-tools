@@ -311,6 +311,7 @@ namespace Pemarsa.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Estado = table.Column<bool>(nullable: false),
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     FechaRegistro = table.Column<DateTime>(nullable: false),
                     Guid = table.Column<Guid>(nullable: false),
@@ -339,6 +340,7 @@ namespace Pemarsa.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Estado = table.Column<bool>(nullable: false),
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     FechaRegistro = table.Column<DateTime>(nullable: false),
                     Guid = table.Column<Guid>(nullable: false),

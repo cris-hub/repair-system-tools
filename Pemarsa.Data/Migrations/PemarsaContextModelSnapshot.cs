@@ -346,6 +346,8 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Estado");
+
                     b.Property<DateTime?>("FechaModifica");
 
                     b.Property<DateTime>("FechaRegistro");
@@ -381,6 +383,8 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Estado");
 
                     b.Property<DateTime?>("FechaModifica");
 

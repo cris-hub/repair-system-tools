@@ -11,6 +11,9 @@ namespace Pemarsa.Domain
         [Required]
         public string Tamano { get; set; }
 
+        [Required]
+        public bool Estado { get; set; }
+
         [ForeignKey("Herramienta")]
         public int HerramientaId { get; set; }
 

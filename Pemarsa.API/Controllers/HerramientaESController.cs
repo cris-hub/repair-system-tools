@@ -90,5 +90,19 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut("ActualizarHerramienta")]
+        public async Task<IActionResult> ActualizarHerramienta([FromBody]Herramienta herramienta)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarHerramienta(herramienta));
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
