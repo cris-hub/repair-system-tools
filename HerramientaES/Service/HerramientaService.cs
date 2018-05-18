@@ -38,6 +38,15 @@ namespace HerramientaES.Service
             catch (Exception) { throw; }
         }
 
+        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO)
+        {
+            try
+            {
+                return await _repository.ConsultarHerramientasPorFiltro(parametrosHerramientasDTO);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
         {
             try

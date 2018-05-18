@@ -13,5 +13,6 @@ namespace HerramientaES.Service
         Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente);
         Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta);
         Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion);
+        Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO);
     }
 }

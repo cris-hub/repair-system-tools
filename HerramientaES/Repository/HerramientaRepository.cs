@@ -21,13 +21,17 @@ namespace HerramientaES.Repository
 
         public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
         {
-            return await _context.Herramienta
+            try
+            {
+                return await _context.Herramienta
                             .Include(c => c.TamanosHerramienta)
                             .Include(c => c.TamanosMotor)
                             .Include(c => c.HerramientaEstudioFactibilidad)
                             .Include(c => c.Estado)
                             .Include(c => c.Cliente)
                             .FirstOrDefaultAsync(c => c.Guid == guidHerramienta);
+            }
+            catch (Exception) { throw; } 
         }
 
         public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion)
@@ -49,13 +53,35 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; }
         }
 
+        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO)
+        {
+            try
+            {
+                var query = _context.Herramienta
+                                    .Include(c => c.TamanosHerramienta)
+                                    .Include(c => c.TamanosMotor)
+                                    .Include(c => c.HerramientaEstudioFactibilidad)
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.Cliente)
+                                    .Where(e => (string.IsNullOrEmpty(parametrosHerramientasDTO.Nombre) || e.Nombre.Contains(parametrosHerramientasDTO.Nombre))
+                                            );
+
+                var queryPagination = await query
+                    .OrderBy(e => e.Id)
+                    .Skip(parametrosHerramientasDTO.RegistrosOmitir())
+                    .Take(parametrosHerramientasDTO.CantidadRegistros)
+                    .ToListAsync();
+
+                var cantidad = query.Count();
+                return new Tuple<int, IEnumerable<Herramienta>>(cantidad, queryPagination);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
         {
             try {
                     return await (from h in _context.Herramienta
-                              join ht in _context.HerramientaTamano on h.Id equals ht.HerramientaId
-                              join htm in _context.HerramientaTamanoMotor on h.Id equals htm.HerramientaId
-                              join hef in _context.HerramientaEstudioFactibilidad on h.Id equals hef.HerramientaId
                               join c in _context.Cliente on h.ClienteId equals c.Id
                               where c.Guid == guidCliente
                               select h)

@@ -71,5 +71,24 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("ConsultarHerramientasPorFiltro")]
+        public async Task<IActionResult> ConsultarHerramientasPorFiltro([FromQuery] ParametrosHerramientasDTO parametrosHerramientasDTO)
+        {
+            try
+            {
+                var result = (await _service.ConsultarHerramientasPorFiltro(new ParametrosHerramientasDTO
+                {
+                    Nombre = parametrosHerramientasDTO.Nombre,
+                    PaginaActual = parametrosHerramientasDTO.PaginaActual,
+                    CantidadRegistros = parametrosHerramientasDTO.CantidadRegistros
+                }));
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
