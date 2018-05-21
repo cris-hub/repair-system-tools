@@ -4,7 +4,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { UtilModule } from '../common/modules/util.module';
 import {
-  ListarHerramientaComponent
+  ListarHerramientaComponent,
+  FiltroHerramientaComponent
 } from './herramienta/index'
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     RouterModule
   ],
   declarations: [
-    ListarHerramientaComponent
+    ListarHerramientaComponent,
+    FiltroHerramientaComponent
   ],
   exports: [
     ListarHerramientaComponent

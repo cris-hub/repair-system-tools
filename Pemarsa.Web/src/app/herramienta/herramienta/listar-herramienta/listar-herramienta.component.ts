@@ -7,6 +7,8 @@ import { ParametrosModel } from '../../../common/models/ParametrosModel';
 import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
 import { HerramientaModel } from "../../../common/models/Index";
+
+import { FiltroHerramientaComponent } from '../filtro-herramienta/filtro-herramienta.component'
 @Component({
   selector: 'app-listar-herramienta',
   templateUrl: './listar-herramienta.component.html'
@@ -38,6 +40,17 @@ export class ListarHerramientaComponent implements OnInit {
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
     
+  }
+
+  ConsultarHerramientasPorFiltro(filtro) {
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    this.herramientaSrv.ConsultarHerramientasPorFiltro(filtro)
+      .subscribe(response => {
+        this.herramientas = response.Listado;
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+        //this.sortedCollection = this.orderPipe.transform(this.clientes, 'RazonSocial');
+      });
   }
 
   limiteConsulta(event: any) {

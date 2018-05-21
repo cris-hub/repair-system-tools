@@ -16,10 +16,6 @@ export class FiltroClienteComponent {
     this.filtro = new FiltroModel(1, 30);
     this.initForm();
   }
-  consultarClientesPorFiltro() {
-    console.log("filtro");
-    console.log(this.filtro);
-  }
 
   initForm() {
     this.frmFiltroCliente = this.frmBuilder.group({

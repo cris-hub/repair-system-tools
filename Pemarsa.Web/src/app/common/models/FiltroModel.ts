@@ -16,3 +16,12 @@ export class FiltroModel extends PaginacionModel {
     this.Estado = "";
   }
 }
+
+export class FiltroHerramientaModel extends PaginacionModel {
+  public Nombre: string;
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros);
+    this.Nombre = "";
+  }
+}
