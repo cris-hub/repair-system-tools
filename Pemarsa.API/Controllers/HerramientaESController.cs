@@ -64,7 +64,8 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.ConsultarHerramientas(paginacion));
+                var result = (await _service.ConsultarHerramientas(paginacion));
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
             {

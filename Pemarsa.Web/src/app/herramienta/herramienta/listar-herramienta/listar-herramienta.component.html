@@ -69,14 +69,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
-              <td>{{cliente.RazonSocial}}</td>
+            <tr *ngFor="let herramienta of herramientas | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+              <td>{{herramienta.Nombre}}</td>
               <td>
                 <div style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i class="glyphicon glyphicon-eye-open" routerLink="/cliente/ver/{{cliente.Guid}}"></i>
+                  <i class="glyphicon glyphicon-eye-open" routerLink="/cliente/ver/{{herramienta.Guid}}"></i>
                 </div>
                 <div style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i class="glyphicon glyphicon-pencil" routerLink="/cliente/editar/{{cliente.Guid}}"></i>
+                  <i class="glyphicon glyphicon-pencil" routerLink="/cliente/editar/{{herramienta.Guid}}"></i>
                 </div>
                 <div *ngIf="parametros.Catalogos" class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">
