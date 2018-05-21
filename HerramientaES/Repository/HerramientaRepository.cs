@@ -91,7 +91,10 @@ namespace HerramientaES.Repository
                 #endregion
 
                 herramientaBD.FechaModifica = DateTime.Now;
-                
+                _context.Entry(herramientaBD).Property("FechaRegistro").IsModified = false;
+                _context.Entry(herramientaBD).Property("NombreUsuarioCrea").IsModified = false;
+                _context.Entry(herramientaBD).Property("GuidUsuarioCrea").IsModified = false;
+
                 _context.Entry(herramientaBD).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;
 

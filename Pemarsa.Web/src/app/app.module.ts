@@ -21,6 +21,7 @@ import { HomeComponent } from './common/components/home/home.component';
 
 import { ClienteModule } from './cliente/cliente.module';
 import { ClienteService } from './common/services/entity';
+import { HerramientaModule } from './herramienta/herramienta.module';
 import { ConfigService } from './common/config/config.service';
 import { UtilModule } from './common/modules/util.module';
 import { ParametroService } from './common/services/entity/parametro.service';
@@ -34,6 +35,7 @@ import { ParametroService } from './common/services/entity/parametro.service';
     BrowserModule,
     HttpClientModule,
     ClienteModule,
+    HerramientaModule,
     UtilModule,
     AppRoutingModule,
     BrowserAnimationsModule,

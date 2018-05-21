@@ -74,9 +74,55 @@ namespace ClienteES.Repository
         {
             try
             {
+                var clienteBD = await _context.Cliente
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.Lineas)
+                                    .Include(c => c.Rut)
+                                    .SingleOrDefaultAsync(c => c.Id == cliente.Id);
+
+                _context.Entry(clienteBD).CurrentValues.SetValues(cliente);
+
+                #region Actualizar LineaCliente
+                cliente.Lineas = cliente.Lineas ?? new List<ClienteLinea>();
+                clienteBD.Lineas = clienteBD.Lineas ?? new List<ClienteLinea>();
+                //se obtinen las lineas que fueron eliminadas en el objeto cliente que se recibe del cliente.
+                var lineasEliminar = (from hbd in clienteBD.Lineas
+                                       where !cliente.Lineas.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid)
+                                       select hbd).ToList();
+
+                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
+                var lineasInsertar = (from hbd in cliente.Lineas
+                                       where !clienteBD.Lineas.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid)
+                                       select hbd).ToList();
+
+                clienteBD.Lineas.ToList().ForEach(e => {
+
+                    ClienteLinea cbd = (clienteBD.Lineas.FirstOrDefault(a => a.Id == e.Id));
+                    ClienteLinea c = (cliente.Lineas.FirstOrDefault(a => a.Id == e.Id));
+                    //campos a actualizar
+                    e.ContactoCorreo = (c != null) ? c.ContactoCorreo : cbd.ContactoCorreo;
+                    e.ContactoNombre = (c != null) ? c.ContactoNombre : cbd.ContactoNombre;
+                    e.ContactoTelefono = (c != null) ? c.ContactoTelefono : cbd.ContactoTelefono;
+                    e.Direccion = (c != null) ? c.Direccion : cbd.Direccion;
+                    e.Nombre = (c != null) ? c.Nombre : cbd.Nombre;
+
+                    lineasEliminar.ForEach(ef => {
+                        if (e.Id == ef.Id) { /*e.Estado = false;*/  }
+                    });
+                });
+
+                lineasInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.ClienteId = clienteBD.Id; });
+
+                _context.ClienteLinea.UpdateRange(clienteBD.Lineas);
+                _context.ClienteLinea.AddRange(lineasInsertar);
+                #endregion
+
                 cliente.FechaModifica = DateTime.Now;
-                _context.Cliente.Update(cliente);
-                //_context.Entry(cliente).State = EntityState.Modified;
+                _context.Entry(clienteBD).Property("FechaRegistro").IsModified = false;
+                _context.Entry(clienteBD).Property("NombreUsuarioCrea").IsModified = false;
+                _context.Entry(clienteBD).Property("GuidUsuarioCrea").IsModified = false;
+                //_context.Cliente.Update(cliente);
+                _context.Entry(clienteBD).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;   
             }
             catch (Exception) { throw; }
