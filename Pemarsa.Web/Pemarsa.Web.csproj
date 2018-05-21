@@ -36,6 +36,7 @@
     <None Remove="src\app\common\services\entity\herramienta.service.ts" />
     <None Remove="src\app\common\services\entity\index.ts" />
     <None Remove="src\app\common\services\entity\parametro.service.ts" />
+    <None Remove="src\app\herramienta\herramienta\crear-herramienta\crear-herramienta.component.ts" />
     <None Remove="src\app\herramienta\herramienta\factibilidad-herramienta\factibilidad-herramienta.component.ts" />
     <None Remove="src\app\herramienta\herramienta\filtro-herramienta\filtro-herramienta.component.ts" />
     <None Remove="src\app\herramienta\herramienta\herramienta.module.ts" />
@@ -87,6 +88,7 @@
     <TypeScriptCompile Include="src\app\common\services\entity\index.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\parametro.service.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta.module.ts" />
+    <TypeScriptCompile Include="src\app\herramienta\herramienta\crear-herramienta\crear-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\factibilidad-herramienta\factibilidad-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\filtro-herramienta\filtro-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\index.ts" />

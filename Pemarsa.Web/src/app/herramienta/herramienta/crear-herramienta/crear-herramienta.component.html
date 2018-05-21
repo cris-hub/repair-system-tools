@@ -1,0 +1,193 @@
+ <div class="right" *ngIf="!loading">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 contenido-interno">
+
+        <div class="form-group row">
+          <div class="col-sm-12" align="center">
+            <h3 *ngIf="esActualizar != true && esVer == false">Crear herramienta</h3>
+            <h3 *ngIf="esActualizar == true && esVer == false">editar herramienta</h3>
+            <h3 *ngIf="esVer">detalle herramienta</h3>
+          </div>
+        </div>
+        <form [formGroup]="frmHerramienta">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              *Creado:
+            </label>
+            <div class="col-sm-3">
+              <label class="col-form-label">
+                Usuario
+              </label>
+            </div>
+
+            <label class="col-sm-1 col-form-label" id="corre">
+              *Verificado:
+            </label>
+            <div class="col-sm-3">
+              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
+                <option>Seleccione</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              *Nombre:
+            </label>
+            <div class="col-sm-7">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Nombre" name="Nombre" class="form-control" placeholder="Nombre">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              *Materiales:
+            </label>
+            <div class="col-sm-3">
+              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
+                <option>Seleccione</option>
+              </select>
+            </div>
+
+            <label class="col-sm-2 col-form-label" id="corre">
+              *Herramienta por cantidad:
+            </label>
+            <div class="col-sm-2">
+              <div class="form-check form-check-inline col-md-1">
+                <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" value="true">
+                <label class="form-check-label" for="herramientaXCantidadRadioSi">SI</label>
+              </div>&nbsp;
+              <div class="form-check form-check-inline col-md-1">
+                <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioNo" value="false">
+                <label class="form-check-label" for="herramientaXCantidadRadioSi">NO</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              *Cliente:
+            </label>
+            <div class="col-sm-7">
+              <select [attr.disabled]="esVer == true ? '' : null" formControlName="ClienteId" class="form-control form-control-lg">
+                <option>Seleccione</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              *Linea:
+            </label>
+            <div class="col-sm-7">
+              <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
+                <option>Seleccione</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-1">
+
+            </div>
+            <div class="card col-md-10">
+              <div class="card-header">
+                <label class="col-sm-4 col-form-label" id="corre">
+                  *Herramienta por cantidad:
+                </label>
+                <div class="col-sm-8" style="padding-top: 7px;">
+                  <div class="form-check form-check-inline col-md-4">
+                    <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioSi" value="true">
+                    <label class="form-check-label" for="EsHerramientaPetroleraRadioSi">SI</label>
+                  </div>&nbsp;
+                  <div class="form-check form-check-inline col-md-4">
+                    <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioNo" value="false">
+                    <label class="form-check-label" for="EsHerramientaPetroleraRadio">NO</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="card-body col-sm-8">
+                <div class="form-group row">
+                  <label class="col-sm-5 col-form-label" id="corre">
+                    *Herramienta Motor:
+                  </label>
+                  <div class="col-sm-7" style="padding-top: 7px;">
+                    <div class="form-check form-check-inline col-md-4">
+                      <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioSi" value="true">
+                      <label class="form-check-label" for="EsHerramientaMotorRadioSi">SI</label>
+                    </div>&nbsp;
+                    <div class="form-check form-check-inline col-md-3">
+                      <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioNo" value="false">
+                      <label class="form-check-label" for="EsHerramientaMotorRadioNo">NO</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-5 col-form-label" id="corre">
+                    *Tamaños motor:
+                  </label>
+                  <div class="col-sm-7">
+                    <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
+                      <option>Seleccione</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-5 col-form-label" id="corre">
+                    *Tamaños de Herramienta:
+                  </label>
+                  <div class="col-sm-7">
+                    <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
+                      <option>Seleccione</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+              <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm">Estudio de factibilidad</button>
+            </div>
+            <div class="col-sm-1">
+              <span *ngIf="esEstudioFactibilidad == 'vacio'" class="glyphicon glyphicon-hourglass"></span>
+              <span *ngIf="esEstudioFactibilidad == 'ok'" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="esEstudioFactibilidad == 'falta'" class="glyphicon glyphicon-remove"></span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" id="corre">
+              *MOC:
+            </label>
+            <div class="col-sm-7">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Moc" name="Moc" class="form-control" placeholder="MOC">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+
+              <button *ngIf="!esVer" type="button" class="btn btn-sm" (click)="salir()">Cancelar</button>
+              <button *ngIf="esVer" type="button" class="btn btn-sm" (click)="salir()">Regresar</button>
+
+              <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+              <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="HerramientaEstudioFactibilidadModal" tabindex="-1" role="dialog" aria-labelledby="HerramientaEstudioFactibilidadModalLabel" aria-hidden="true">
+    <app-factibilidad-herramienta accion="crear" (paramsHerramientaEstudioFactibilidad)="nuevoEstudioFactibilidad($event)"></app-factibilidad-herramienta>
+  </div>
+  <div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
+  </div>
+

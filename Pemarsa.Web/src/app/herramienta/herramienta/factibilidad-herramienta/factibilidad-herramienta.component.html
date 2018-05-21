@@ -3,7 +3,7 @@
 <div class="modal-dialog" role="document" style="margin-top: 150px !important;">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>{{accion}} Estudio de factibilidad</b></h5>
+      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>Estudio de factibilidad</b></h5>
     </div>
     <div class="modal-body">
       <form [formGroup]="frmHerramientaEstudioFactibilidad">
@@ -106,7 +106,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitlineaCliente(frmHerramientaEstudioFactibilidad.value)" data-dismiss="modal" class="btn btn-primary">{{accion}}</button>
+      <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitEstudioFactibilidad(frmHerramientaEstudioFactibilidad.value)" data-dismiss="modal" class="btn btn-primary">Agregar</button>
       <button *ngIf="accion == 'ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
     </div>
   </div>

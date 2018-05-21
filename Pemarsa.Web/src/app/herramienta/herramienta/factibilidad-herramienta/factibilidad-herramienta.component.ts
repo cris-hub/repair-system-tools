@@ -20,7 +20,7 @@ export class FactibilidadHerramientaComponent {
     this.initForm();
   }
 
-  llenarObjectoCliente(HerramientaEstudioFactibilidadObj: HerramientaEstudioFactibilidadModel, accion: any, index: any) {
+  llenarObjectoEstudioFactibilidad(HerramientaEstudioFactibilidadObj: HerramientaEstudioFactibilidadModel, accion: any) {
     this.HerramientaEstudioFactibilidad.Id = HerramientaEstudioFactibilidadObj.Id;
     this.HerramientaEstudioFactibilidad.Admin = HerramientaEstudioFactibilidadObj.Admin;
     this.HerramientaEstudioFactibilidad.ManoObra = HerramientaEstudioFactibilidadObj.ManoObra;
@@ -30,15 +30,16 @@ export class FactibilidadHerramientaComponent {
     this.HerramientaEstudioFactibilidad.Metodo = HerramientaEstudioFactibilidadObj.Metodo;
     this.HerramientaEstudioFactibilidad.HerramientaId = HerramientaEstudioFactibilidadObj.HerramientaId;
     this.accion = accion;
-    this.data.index = index;
+    this.data.esEstudioFactibilidad = "";
     this.initForm();
 
   }
-  nuevoDataLineaCliente(accion: any) {
+  nuevoDataEstudioFactibilidad(accion: any) {
     this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
     this.HerramientaEstudioFactibilidad.Id = 0;
     this.HerramientaEstudioFactibilidad.HerramientaId = 0;
     this.accion = accion;
+    this.data.esEstudioFactibilidad = "";
     this.initForm();
   }
   initForm() {
@@ -56,11 +57,32 @@ export class FactibilidadHerramientaComponent {
       GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
     });
   }
-  submitlineaCliente(HerramientaEstudioFactibilidadGroup: any) {
+  submitEstudioFactibilidad(HerramientaEstudioFactibilidadGroup: any) {
     this.HerramientaEstudioFactibilidad = <HerramientaEstudioFactibilidadModel>HerramientaEstudioFactibilidadGroup;
     this.data.HerramientaEstudioFactibilidad = this.HerramientaEstudioFactibilidad;
     this.data.accion = this.accion;
-    console.log(this.HerramientaEstudioFactibilidad);
+    let contador = 0;
+    console.log(contador);
+    for (let prop in this.HerramientaEstudioFactibilidad) {
+      console.log(this.HerramientaEstudioFactibilidad[prop]);
+      if (this.HerramientaEstudioFactibilidad[prop] == "null") {
+        this.HerramientaEstudioFactibilidad[prop] = null;
+      }
+      if (this.HerramientaEstudioFactibilidad[prop] == null && prop != "Id" && prop != "HerramientaId") {
+        contador++;
+      }
+      else if (this.HerramientaEstudioFactibilidad[prop] == "false") {
+        contador++;
+      }
+    }
+    console.log(contador);
+
+      if (contador >= 1 && contador < 6) {
+      this.data.esEstudioFactibilidad = "falta";
+    }
+    else {
+      this.data.esEstudioFactibilidad = "ok";
+    }
     this.paramsHerramientaEstudioFactibilidad.emit(this.data);
     this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
   }

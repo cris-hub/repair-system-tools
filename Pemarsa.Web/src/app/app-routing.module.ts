@@ -8,7 +8,7 @@ import { ListarClienteComponent } from './cliente/cliente/listar-cliente/listar-
 import { ClienteModule } from './cliente/cliente.module';
 import { HerramientaModule } from './herramienta/herramienta.module';
 import { CrearClienteComponent } from './cliente/cliente/crear-cliente/crear-cliente.component';
-import { ListarHerramientaComponent } from './herramienta/herramienta';
+import { ListarHerramientaComponent, CrearHerramientaComponent } from './herramienta/herramienta';
 
 const routes: Routes = [
 
@@ -23,7 +23,10 @@ const routes: Routes = [
   { path: 'cliente/ver/:id', component: CrearClienteComponent },
 
   //Herramienta
-  { path: 'herramienta', component: ListarHerramientaComponent }
+  { path: 'herramienta', component: ListarHerramientaComponent },
+  { path: 'herramienta/crear', component: CrearHerramientaComponent },
+  { path: 'herramienta/editar/:id', component: CrearHerramientaComponent },
+  { path: 'herramienta/ver/:id', component: CrearHerramientaComponent }
 ];
 
 @NgModule({
