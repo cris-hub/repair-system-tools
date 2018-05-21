@@ -1,0 +1,113 @@
+<!-- Modal -->
+<!-- Button trigger modal -->
+<div class="modal-dialog" role="document" style="margin-top: 150px !important;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>{{accion}} Estudio de factibilidad</b></h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="frmHerramientaEstudioFactibilidad">
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right" for="Maquina" style="color: #6c757d;"><b>Máquina:&nbsp;&nbsp;</b></label>
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Maquina" class="form-check-input" type="radio" id="MaquinaRadioSi" value="true">
+            <label class="form-check-label" for="MaquinaRadioSi">SI</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Maquina" class="form-check-input" type="radio" id="MaquinaRadioNo" value="false">
+            <label class="form-check-label" for="MaquinaRadioNo">NO</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Maquina" class="form-check-input" type="radio" id="MaquinaRadioNull" value="null" [checked]="true">
+            <label class="form-check-label" for="MaquinaRadioNull">Ninguno</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right" for="Material" style="color: #6c757d;"><b>Material:&nbsp;&nbsp;</b></label>
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Material" class="form-check-input" type="radio" id="MaterialRadioSi" value="true">
+            <label class="form-check-label" for="MaterialRadioSi">SI</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Material" class="form-check-input" type="radio" id="MaterialRadioNo" value="false">
+            <label class="form-check-label" for="MaterialRadioNo">NO</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Material" class="form-check-input" type="radio" id="MaquinaRadioNull" value="null" [checked]="true">
+            <label class="form-check-label" for="MaterialRadioNull">Ninguno</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right" for="Metodo" style="color: #6c757d;"><b>Metodo:&nbsp;&nbsp;</b></label>
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Metodo" class="form-check-input" type="radio" id="MetodoRadioSi" value="true">
+            <label class="form-check-label" for="MetodoRadioSi">SI</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Metodo" class="form-check-input" type="radio" id="MetodoRadioNo" value="false">
+            <label class="form-check-label" for="MetodoRadioNo">NO</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Metodo" class="form-check-input" type="radio" id="MetodoRadioNull" value="null" [checked]="true">
+            <label class="form-check-label" for="MetodoRadioNull">Ninguno</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right" for="ManoObra" style="color: #6c757d;"><b>Mano de Obra:&nbsp;&nbsp;</b></label>
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="ManoObra" class="form-check-input" type="radio" id="ManoObraRadioSi" value="true">
+            <label class="form-check-label" for="ManoObraRadioSi">SI</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="ManoObra" class="form-check-input" type="radio" id="ManoObraRadioNo" value="false">
+            <label class="form-check-label" for="ManoObraRadioNo">NO</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="ManoObra" class="form-check-input" type="radio" id="ManoObraRadioNull" value="null" [checked]="true">
+            <label class="form-check-label" for="ManoObraRadioNull">Ninguno</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right" for="Admin" style="color: #6c757d;"><b>Administración:&nbsp;&nbsp;</b></label>
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Admin" class="form-check-input" type="radio" id="AdminRadioSi" value="true">
+            <label class="form-check-label" for="AdminRadioSi">SI</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Admin" class="form-check-input" type="radio" id="AdminRadioNo" value="false">
+            <label class="form-check-label" for="AdminRadioNo">NO</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Admin" class="form-check-input" type="radio" id="AdminRadioNull" value="null" [checked]="true">
+            <label class="form-check-label" for="AdminRadioNull">Ninguno</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right" for="Mantenimiento" style="color: #6c757d;"><b>Mantenimiento:&nbsp;&nbsp;</b></label>
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Mantenimiento" class="form-check-input" type="radio" id="MantenimientoRadioSi" value="true">
+            <label class="form-check-label" for="MantenimientoRadioSi">SI</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Mantenimiento" class="form-check-input" type="radio" id="MantenimientoRadioNo" value="false">
+            <label class="form-check-label" for="MantenimientoRadioNo">NO</label>
+          </div>&nbsp;
+          <div class="form-check form-check-inline col-md-2">
+            <input [attr.disabled]="accion == 'ver' ? '' : null" formControlName="Mantenimiento" class="form-check-input" type="radio" id="MantenimientoRadioNull" value="null" [checked]="true">
+            <label class="form-check-label" for="MantenimientoRadioNull">Ninguno</label>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitlineaCliente(frmHerramientaEstudioFactibilidad.value)" data-dismiss="modal" class="btn btn-primary">{{accion}}</button>
+      <button *ngIf="accion == 'ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+    </div>
+  </div>
+</div>

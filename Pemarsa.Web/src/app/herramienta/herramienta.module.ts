@@ -5,7 +5,8 @@ import { RouterModule } from '@angular/router';
 import { UtilModule } from '../common/modules/util.module';
 import {
   ListarHerramientaComponent,
-  FiltroHerramientaComponent
+  FiltroHerramientaComponent,
+  FactibilidadHerramientaComponent
 } from './herramienta/index'
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   declarations: [
     ListarHerramientaComponent,
-    FiltroHerramientaComponent
+    FiltroHerramientaComponent,
+    FactibilidadHerramientaComponent
   ],
   exports: [
     ListarHerramientaComponent
