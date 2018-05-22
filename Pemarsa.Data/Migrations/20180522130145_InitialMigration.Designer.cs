@@ -11,7 +11,7 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180518162720_InitialMigration")]
+    [Migration("20180522130145_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,7 +301,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Admin");
+                    b.Property<bool?>("Admin");
 
                     b.Property<DateTime?>("FechaModifica");
 
@@ -317,15 +317,15 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("HerramientaId");
 
-                    b.Property<bool>("ManoObra");
+                    b.Property<bool?>("ManoObra");
 
-                    b.Property<bool>("Mantenimiento");
+                    b.Property<bool?>("Mantenimiento");
 
-                    b.Property<bool>("Maquina");
+                    b.Property<bool?>("Maquina");
 
-                    b.Property<bool>("Material");
+                    b.Property<bool?>("Material");
 
-                    b.Property<bool>("Metodo");
+                    b.Property<bool?>("Metodo");
 
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()

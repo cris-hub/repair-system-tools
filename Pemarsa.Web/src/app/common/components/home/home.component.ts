@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'home.components',
+  selector: 'app-home-components',
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
@@ -12,7 +12,7 @@ export class HomeComponent {
         id: "1",
         name: "OIT",
         image: "icon-lista",
-        url: "/home",
+        url: false,
         title: "OIT",
         submenu: false
       },
@@ -20,7 +20,7 @@ export class HomeComponent {
         id: "2",
         name: "PROCESOS",
         image: "icon-pieza",
-        url: "/home",
+        url: false,
         title: "PROCESOS",
         submenu: false
       },
@@ -36,7 +36,7 @@ export class HomeComponent {
               id: "5",
               name: "Clientes",
               image: "",
-              url: "/Cliente",
+              url: "/cliente",
               color: "color9",
               title: "Clientes",
               submenu: false
@@ -45,7 +45,7 @@ export class HomeComponent {
               id: "6",
               name: "Herramientas",
               image: "",
-              url: "/home",
+              url: "/herramienta",
               color: "color10",
               title: "Herramientas",
               submenu: false
@@ -54,7 +54,7 @@ export class HomeComponent {
               id: "7",
               name: "Formatos",
               image: "",
-              url: "/home",
+              url: false,
               color: "color11",
               title: "Formatos",
               submenu: false
@@ -65,7 +65,7 @@ export class HomeComponent {
         id: "4",
         name: "INDICADORES",
         image: "icon-grafica",
-        url: "/home",
+        url: false,
         title: "INDICADORES",
         submenu: false
       }

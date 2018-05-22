@@ -47,7 +47,8 @@
             </label>
             <div class="col-sm-3">
               <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
-                <option>Seleccione</option>
+                <option value="null">Seleccione</option>
+                <option *ngFor="let material of paramsMateriales.Catalogos" >Seleccione</option>
               </select>
             </div>
 

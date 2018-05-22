@@ -27,7 +27,7 @@ export class CrearHerramientaComponent implements OnInit {
 
   private esEstudioFactibilidad: string = "vacio";
 
-  private paramsCliente: ParametrosModel;
+  private paramsMateriales: ParametrosModel;
   private estados: EntidadModel[];
 
   private herramienta: HerramientaModel = new HerramientaModel();
@@ -98,7 +98,7 @@ export class CrearHerramientaComponent implements OnInit {
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
 
-        this.paramsCliente = response;
+        this.paramsMateriales = response;
         this.estados = response.Catalogos.filter(c => c.Grupo == 'HERRAMIENTAS_MATERIALES');
         this.getValues();
       });
@@ -109,11 +109,7 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   nuevoEstudioFactibilidad(data: any) {
-    console.log("data recibida");
-    console.log(data);
     this.herramientaEstudioFactibilidad = data.HerramientaEstudioFactibilidad
-    console.log("data Actual");
-    console.log(data);
     this.esEstudioFactibilidad = data.esEstudioFactibilidad;
   }
 }

@@ -278,7 +278,7 @@ namespace Pemarsa.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Admin = table.Column<bool>(nullable: false),
+                    Admin = table.Column<bool>(nullable: true),
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     FechaRegistro = table.Column<DateTime>(nullable: false),
                     Guid = table.Column<Guid>(nullable: false),
@@ -286,11 +286,11 @@ namespace Pemarsa.Data.Migrations
                     GuidUsuarioCrea = table.Column<Guid>(nullable: false),
                     GuidUsuarioModifica = table.Column<Guid>(nullable: true),
                     HerramientaId = table.Column<int>(nullable: false),
-                    ManoObra = table.Column<bool>(nullable: false),
-                    Mantenimiento = table.Column<bool>(nullable: false),
-                    Maquina = table.Column<bool>(nullable: false),
-                    Material = table.Column<bool>(nullable: false),
-                    Metodo = table.Column<bool>(nullable: false),
+                    ManoObra = table.Column<bool>(nullable: true),
+                    Mantenimiento = table.Column<bool>(nullable: true),
+                    Maquina = table.Column<bool>(nullable: true),
+                    Material = table.Column<bool>(nullable: true),
+                    Metodo = table.Column<bool>(nullable: true),
                     NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
                     NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true)
                 },

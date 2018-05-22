@@ -3,7 +3,7 @@
   <div *ngFor="let menu of ListaMenu">
     <ul>
       <li class="" id="desactivar" data-toggle="collapse" data-target="#demo" (click)="subMenu(menu)">
-        <a href="#">
+        <a>
           <br>
           <br>
           <span class="{{menu.image}}" id="iconoMenu"></span>
@@ -26,8 +26,8 @@
       <div class="brand2">Procesos</div>
       <div>
         <ul *ngFor="let subMenu of ListaSubMenuActual">
-          <li id="{{subMenu.color}}" [routerLink]="['/cliente']">
-
+          <li id="{{subMenu.color}}" href="#" [routerLink]="[subMenu.url]">
+            {{subMenu.url}}
             <a>
               <br>
               <span class="icon-alerta" id="icono"></span>

@@ -300,7 +300,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Admin");
+                    b.Property<bool?>("Admin");
 
                     b.Property<DateTime?>("FechaModifica");
 
@@ -316,15 +316,15 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("HerramientaId");
 
-                    b.Property<bool>("ManoObra");
+                    b.Property<bool?>("ManoObra");
 
-                    b.Property<bool>("Mantenimiento");
+                    b.Property<bool?>("Mantenimiento");
 
-                    b.Property<bool>("Maquina");
+                    b.Property<bool?>("Maquina");
 
-                    b.Property<bool>("Material");
+                    b.Property<bool?>("Material");
 
-                    b.Property<bool>("Metodo");
+                    b.Property<bool?>("Metodo");
 
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()

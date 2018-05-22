@@ -62,6 +62,7 @@ export class FactibilidadHerramientaComponent {
     this.data.HerramientaEstudioFactibilidad = this.HerramientaEstudioFactibilidad;
     this.data.accion = this.accion;
     let contador = 0;
+    let contadorFalse = 0;
     console.log(contador);
     for (let prop in this.HerramientaEstudioFactibilidad) {
       console.log(this.HerramientaEstudioFactibilidad[prop]);
@@ -72,16 +73,17 @@ export class FactibilidadHerramientaComponent {
         contador++;
       }
       else if (this.HerramientaEstudioFactibilidad[prop] == "false") {
-        contador++;
+        contadorFalse++;
       }
     }
-    console.log(contador);
-
-      if (contador >= 1 && contador < 6) {
+    if (contador > 0 && contador < 6) {
       this.data.esEstudioFactibilidad = "falta";
     }
     else {
       this.data.esEstudioFactibilidad = "ok";
+    }
+    if (contadorFalse >= 1) {
+      this.data.esEstudioFactibilidad = "falta";
     }
     this.paramsHerramientaEstudioFactibilidad.emit(this.data);
     this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
