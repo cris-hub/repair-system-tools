@@ -7,7 +7,7 @@ import { ParametrosModel } from "../../../common/models/ParametrosModel";
 import { EntidadModel } from "../../../common/models/EntidadDTOModel";
 import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
 import { ToastrService } from "ngx-toastr";
-import { HerramientaModel, HerramientaEstudioFactibilidadModel } from "../../../common/models/Index";
+import { HerramientaModel, HerramientaEstudioFactibilidadModel, CatalogoModel } from "../../../common/models/Index";
 import { HerramientaService } from "../../../common/services/entity";
 
 @Component({
@@ -32,6 +32,9 @@ export class CrearHerramientaComponent implements OnInit {
 
   private herramienta: HerramientaModel = new HerramientaModel();
   private herramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel = new HerramientaEstudioFactibilidadModel();
+
+  private CatalogoMaterialesVer: EntidadModel[] = new Array<EntidadModel>();
+  private CatalogoMaterialesAdd: EntidadModel[] = new Array<EntidadModel>();
 
   constructor(
     private route: ActivatedRoute,
@@ -97,11 +100,13 @@ export class CrearHerramientaComponent implements OnInit {
   consultarParametros(entidad: string) {
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
-
+        
         this.paramsMateriales = response;
         this.estados = response.Catalogos.filter(c => c.Grupo == 'HERRAMIENTAS_MATERIALES');
         this.getValues();
+        this.CatalogoMaterialesVer = this.estados;
       });
+
   }
 
   nuevoDataEstudioFactibilidad(objEstudioFactibilidad: HerramientaEstudioFactibilidadModel, accion: any) {
@@ -111,5 +116,15 @@ export class CrearHerramientaComponent implements OnInit {
   nuevoEstudioFactibilidad(data: any) {
     this.herramientaEstudioFactibilidad = data.HerramientaEstudioFactibilidad
     this.esEstudioFactibilidad = data.esEstudioFactibilidad;
+  }
+
+  nuevoMaterial(event: any) {
+    let idSeleccionado: any = event.target.value;
+    if (idSeleccionado != "null") {
+      let nuevoItem: any = this.CatalogoMaterialesVer.filter(c => c.Id == idSeleccionado);
+      console.log(nuevoItem);
+    }
+    console.log(event.target.value);
+    //console.log(material);
   }
 }
