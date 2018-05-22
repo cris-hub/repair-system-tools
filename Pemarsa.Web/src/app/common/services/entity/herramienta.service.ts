@@ -13,8 +13,7 @@ export class HerramientaService {
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    //this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'HerramientaES/'
-    this.urlServer = 'http://localhost:58906/api/HerramientaES/'
+    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'HerramientaES/'
   }
 
   public ConsultarHerramientas(paginacion: PaginacionModel): Observable<ListadoResponseModel> {

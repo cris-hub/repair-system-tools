@@ -1,47 +1,32 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
-<a data-toggle="modal" data-target="#filtroClienteModal">
+<a data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
   <span class="glyphicon glyphicon-glass"></span>
 </a>
-<div class="modal fade" id="filtroClienteModal" tabindex="-1" role="dialog" aria-labelledby="filtroClienteModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document" style="margin-top: 150px !important;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>Filtro Clientes</b></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="frmFiltroCliente">
-          <div class="form-group">
-            <label for="RazonSocial"  style="color: #6c757d;"><b>Razón social</b></label>
-            <input type="text" class="form-control" formControlName="RazonSocial" placeholder="Razón social">
-          </div>
-          <div class="form-group">
-            <label for="Nit" style="color: #6c757d;"><b>NIT</b></label>
-            <input type="text" class="form-control" formControlName="Nit" placeholder="NIT">
-          </div>
-          <div class="form-group">
-            <label for="Telefono" style="color: #6c757d;"><b>Teléfono</b></label>
-            <input type="text" class="form-control" formControlName="Telefono" placeholder="Teléfono ">
-          </div>
-          <div class="form-group">
-            <label for="Direccion" style="color: #6c757d;"><b>Dirección</b></label>
-            <input type="text" class="form-control" formControlName="Direccion" placeholder="Dirección ">
-          </div>
-          <div class="form-group" *ngIf="estadosCatalogo">
-            <label for="Estado" style="color: #6c757d;"><b>Estado</b></label>
-            <select class="form-control form-control-lg" formControlName="Estado">
-              <option *ngFor="let estadoCatalogo of estadosCatalogo" [value]="estadoCatalogo.Valor">{{estadoCatalogo.Valor}}</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar Filtros</button>
-        <button (click)="submitFiltro(frmFiltroCliente.value)" data-dismiss="modal" class="btn btn-primary" >Filtrar</button>
-      </div>
+<div class="dropdown-menu">
+  <form [formGroup]="frmFiltroCliente" class="px-4 py-3">
+    <div class="form-group">
+      <label for="RazonSocial" style="color: #6c757d;"><b>Razón social</b></label>
+      <input type="text" class="form-control" formControlName="RazonSocial" placeholder="Razón social">
     </div>
-  </div>
+    <div class="form-group">
+      <label for="Nit" style="color: #6c757d;"><b>NIT</b></label>
+      <input type="text" class="form-control" formControlName="Nit" placeholder="NIT">
+    </div>
+    <div class="form-group">
+      <label for="Telefono" style="color: #6c757d;"><b>Teléfono</b></label>
+      <input type="text" class="form-control" formControlName="Telefono" placeholder="Teléfono ">
+    </div>
+    <div class="form-group">
+      <label for="Direccion" style="color: #6c757d;"><b>Dirección</b></label>
+      <input type="text" class="form-control" formControlName="Direccion" placeholder="Dirección ">
+    </div>
+    <div class="form-group" *ngIf="estadosCatalogo">
+      <label for="Estado" style="color: #6c757d;"><b>Estado</b></label>
+      <select class="form-control form-control-lg" formControlName="Estado" >
+        <option *ngFor="let estadoCatalogo of estadosCatalogo" [value]="estadoCatalogo.Valor">{{estadoCatalogo.Valor}}</option>
+      </select>
+    </div>
+    <button (click)="submitFiltro(frmFiltroCliente.value)" class="btn btn-primary">Filtrar</button>
+  </form>
 </div>

@@ -1,1 +1,47 @@
-<router-outlet></router-outlet>
+<div class="nav-side-menu">
+  <div class="brand">Pemarsa  </div>
+  <div *ngFor="let menu of ListaMenu">
+    <ul>
+      <li class="" id="desactivar" data-toggle="collapse" data-target="#demo" (click)="subMenu(menu)">
+        <a>
+          <br>
+          <br>
+          <span class="{{menu.image}}" id="iconoMenu"></span>
+          <i class="glyphicon glyphicon-plus" id="estilo" style="display: none;"></i>
+        </a>
+        <br><br><p style="font-size: 14px;">{{menu.title}}</p>
+      </li>
+    </ul>
+  </div>
+  <span style="position: absolute; bottom: 5px;left: 5px;"
+        href="#">
+    &nbsp;
+    <span class="icon-usuario" id="iconoUser"></span>&nbsp; John Freddy
+  </span>
+</div>
+
+<div *ngIf="ListaSubMenuActual" class="nav-side-menu2">
+
+  <div id="submenu">
+    <div class="brand2">Procesos</div>
+    <div style="color:#fff">
+      <ul *ngFor="let subMenu of ListaSubMenuActual">
+        <li id="{{subMenu.color}}" [routerLink]="[subMenu.url]" id="{{subMenu.complementarios.color}}">
+          <a>
+            <br>
+            <span class="{{subMenu.complementarios.icono}}" id="icono"></span>
+            <br>
+            <br>
+            {{subMenu.name}}
+          </a>
+        </li>
+        <br />
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="right" style="margin-left: 220px; margin-top:7px;">
+  <router-outlet></router-outlet>
+</div>
+

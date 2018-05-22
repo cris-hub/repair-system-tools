@@ -1,26 +1,25 @@
-<div class="right">
+<div class="col-md-10">
   <div class="row">
     <br>
     <div class="col-md-12">
-      <div class="panel panel-primary">
+      <div class="panel" style="background-color: rgba(36, 99, 194, .9);color: #FFF;" id="panel-listar">
         <div class="panel-heading">
           <div class="row">
 
-            <div class="col-md-2">
-              <label class="col-sm-6 col-form-label">
-                <h4>Listado de herramientas </h4>
+            <div class="col-md-3" style="padding-top:20px;">
+              <label class="col-sm-12 col-form-label">
+                <h4 style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200;">Listado de herramientas </h4>
               </label>
             </div>
-            <div class="col-md-10" style="text-align: right;">
-              <div class="col-md-6" style="text-align: right;">
+            <div class="col-md-9" style="text-align: right;">
+              <div class="col-md-6 col-sm-12" style="text-align: right;">
                 <br>
                 <input type="text" placeholder="Busqueda básica" class="form-control" name="">
               </div>
-              <div class="col-md-4">
-                <br>
-                <div class="col-md-2" style="padding-top:7px;">
-                  <app-filtro-herramienta (paramsFiltro)="ConsultarHerramientasPorFiltro($event)"></app-filtro-herramienta>
-                </div>
+              <div class="col-md-4" style="padding-top:30px;">
+                <app-filtro-herramienta (paramsFiltro)="ConsultarHerramientasPorFiltro($event)"></app-filtro-herramienta>
+              </div>
+              <div class="col-md-1" style="padding-top:22px;">
                 <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-list"></span>
@@ -49,9 +48,9 @@
                     </li>
                   </ul>
                 </div>
-                <div class="col-md-1" style="padding-top:8px;">
-                  <i [routerLink]="['/herramienta/crear']" class="glyphicon glyphicon-plus"></i>
-                </div>
+              </div>
+              <div class="col-md-1" style="padding-top:30px;float: right;">
+                <i [routerLink]="['/herramienta/crear']" class="glyphicon glyphicon-plus"></i>
               </div>
             </div>
           </div>

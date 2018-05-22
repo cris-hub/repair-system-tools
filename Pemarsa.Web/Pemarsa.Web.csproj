@@ -16,6 +16,7 @@
     <None Remove="src\app\common\config\config.service.ts" />
     <None Remove="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <None Remove="src\app\common\directivas\paginacion\paginacion.component.ts" />
+    <None Remove="src\app\common\directivas\validacion\validacion.directive.ts" />
     <None Remove="src\app\common\models\AttachmentModel.ts" />
     <None Remove="src\app\common\models\CatalogoModel.ts" />
     <None Remove="src\app\common\models\ClienteLineaModel.ts" />
@@ -67,6 +68,7 @@
     <TypeScriptCompile Include="src\app\common\config\config.model.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\paginacion\paginacion.component.ts" />
+    <TypeScriptCompile Include="src\app\common\directivas\validacion\validacion.directive.ts" />
     <TypeScriptCompile Include="src\app\common\models\AttachmentModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\CatalogoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ClienteLineaModel.ts" />

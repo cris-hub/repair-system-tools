@@ -1,4 +1,4 @@
- <div class="right" *ngIf="!loading">
+ <div *ngIf="!loading">
 
   <div class="container">
     <div class="row">
@@ -7,8 +7,8 @@
         <div class="form-group row">
           <div class="col-sm-12" align="center">
             <h3 *ngIf="esActualizar != true && esVer == false">Crear herramienta</h3>
-            <h3 *ngIf="esActualizar == true && esVer == false">editar herramienta</h3>
-            <h3 *ngIf="esVer">detalle herramienta</h3>
+            <h3 *ngIf="esActualizar == true && esVer == false">Editar herramienta</h3>
+            <h3 *ngIf="esVer">Detalle herramienta</h3>
           </div>
         </div>
         <form [formGroup]="frmHerramienta">

@@ -49,7 +49,6 @@ export class ListarClienteComponent implements OnInit {
   consultarClientes() {
     this.clienteSrv.consultarClientes(this.paginacion)
       .subscribe(response => {
-        debugger;
         this.clientes = response.Listado;
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
