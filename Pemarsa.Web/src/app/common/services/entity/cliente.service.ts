@@ -18,7 +18,6 @@ export class ClienteService {
   }
 
   public crearCliente(model: ClienteModel): Observable<boolean> {
-    console.log(model);
     return this.http.post<boolean>(this.urlServer + 'CrearCliente',
       model,
       { headers: this.header }

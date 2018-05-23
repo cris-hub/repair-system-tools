@@ -236,7 +236,6 @@ namespace Pemarsa.Data.Migrations
                     GuidUsuarioModifica = table.Column<Guid>(nullable: true),
                     GuidUsuarioVerifica = table.Column<Guid>(nullable: false),
                     LineaId = table.Column<int>(nullable: false),
-                    MaterialesId = table.Column<int>(nullable: false),
                     Moc = table.Column<int>(nullable: false),
                     Nombre = table.Column<string>(nullable: false),
                     NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
@@ -262,12 +261,6 @@ namespace Pemarsa.Data.Migrations
                         name: "FK_Herramienta_ClienteLinea_LineaId",
                         column: x => x.LineaId,
                         principalTable: "ClienteLinea",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Herramienta_Catalogo_MaterialesId",
-                        column: x => x.MaterialesId,
-                        principalTable: "Catalogo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -301,6 +294,41 @@ namespace Pemarsa.Data.Migrations
                         name: "FK_HerramientaEstudioFactibilidad_Herramienta_HerramientaId",
                         column: x => x.HerramientaId,
                         principalTable: "Herramienta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HerramientaMaterial",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Estado = table.Column<bool>(nullable: false),
+                    FechaModifica = table.Column<DateTime>(nullable: true),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
+                    Guid = table.Column<Guid>(nullable: false),
+                    GuidOrganizacion = table.Column<Guid>(nullable: false),
+                    GuidUsuarioCrea = table.Column<Guid>(nullable: false),
+                    GuidUsuarioModifica = table.Column<Guid>(nullable: true),
+                    HerramientaId = table.Column<int>(nullable: false),
+                    MaterialId = table.Column<int>(nullable: false),
+                    NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
+                    NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HerramientaMaterial", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HerramientaMaterial_Herramienta_HerramientaId",
+                        column: x => x.HerramientaId,
+                        principalTable: "Herramienta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HerramientaMaterial_Catalogo_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Catalogo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -399,15 +427,20 @@ namespace Pemarsa.Data.Migrations
                 column: "LineaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Herramienta_MaterialesId",
-                table: "Herramienta",
-                column: "MaterialesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_HerramientaEstudioFactibilidad_HerramientaId",
                 table: "HerramientaEstudioFactibilidad",
                 column: "HerramientaId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HerramientaMaterial_HerramientaId",
+                table: "HerramientaMaterial",
+                column: "HerramientaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HerramientaMaterial_MaterialId",
+                table: "HerramientaMaterial",
+                column: "MaterialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HerramientaTamano_HerramientaId",
@@ -444,6 +477,9 @@ namespace Pemarsa.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "HerramientaEstudioFactibilidad");
+
+            migrationBuilder.DropTable(
+                name: "HerramientaMaterial");
 
             migrationBuilder.DropTable(
                 name: "HerramientaTamano");

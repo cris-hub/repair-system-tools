@@ -11,7 +11,7 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180522130145_InitialMigration")]
+    [Migration("20180523153931_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,8 +266,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("LineaId");
 
-                    b.Property<int>("MaterialesId");
-
                     b.Property<int>("Moc");
 
                     b.Property<string>("Nombre")
@@ -290,8 +288,6 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("EstadoId");
 
                     b.HasIndex("LineaId");
-
-                    b.HasIndex("MaterialesId");
 
                     b.ToTable("Herramienta");
                 });
@@ -340,6 +336,45 @@ namespace Pemarsa.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("HerramientaEstudioFactibilidad");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.HerramientaMaterial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Estado");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("HerramientaId");
+
+                    b.Property<int>("MaterialId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HerramientaId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.ToTable("HerramientaMaterial");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.HerramientaTamano", b =>
@@ -507,11 +542,6 @@ namespace Pemarsa.Data.Migrations
                         .WithMany()
                         .HasForeignKey("LineaId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pemarsa.Domain.Catalogo", "Materiales")
-                        .WithMany()
-                        .HasForeignKey("MaterialesId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.HerramientaEstudioFactibilidad", b =>
@@ -519,6 +549,19 @@ namespace Pemarsa.Data.Migrations
                     b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
                         .WithOne("HerramientaEstudioFactibilidad")
                         .HasForeignKey("Pemarsa.Domain.HerramientaEstudioFactibilidad", "HerramientaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.HerramientaMaterial", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
+                        .WithMany("Materiales")
+                        .HasForeignKey("HerramientaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

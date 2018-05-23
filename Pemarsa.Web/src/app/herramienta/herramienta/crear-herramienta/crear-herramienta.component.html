@@ -51,7 +51,7 @@
             <div class="col-md-3">
               <select [attr.disabled]="esVer == true ? '' : null" class="custom-select mr-sm-2 form-control-lg" (change)="nuevoMaterial($event)">
                 <option value="null">Seleccione</option>
-                <option *ngFor="let material of CatalogoMaterialesVer" value="{{material.Id}}" >{{material.Valor}}</option>
+                <option *ngFor="let material of CatalogoMaterialesVer" value="{{material.Id}}">{{material.Valor}}</option>
               </select>
             </div>
 
@@ -60,13 +60,22 @@
             </label>
             <div class="col-md-2">
               <div class="form-check form-check-inline col-md-5">
-                <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" value="true">
+                <input [attr.disabled]="esVer == true ? '' : null" [checked]="EsHerramientaPorCantidad" [checked]="herramienta.EsHerramientaPorCantidad == true" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" value="true">
                 <label class="form-check-label" for="herramientaXCantidadRadioSi">SI</label>
               </div>&nbsp;
               <div class="form-check form-check-inline col-md-5">
-                <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioNo" value="false">
+                <input [attr.disabled]="esVer == true ? '' : null" [checked]="EsHerramientaPorCantidad" [checked]="herramienta.EsHerramientaPorCantidad == false" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioNo" value="false">
                 <label class="form-check-label" for="herramientaXCantidadRadioSi">NO</label>
               </div>
+            </div>
+          </div>
+
+          <div *ngFor="let materialNew of CatalogoMaterialesAdd" class="form-group row">
+            <div class="col-md-3 col-md-offset-3">
+              <input [attr.disabled]="true" class="form-control" type="text" value="{{materialNew.Valor}}">
+            </div>
+            <div class="col-md-5" style="padding-top:7px;float: right;">
+              <i class="glyphicon glyphicon-minus" (click)="eliminarMaterial(materialNew)"></i>
             </div>
           </div>
 
@@ -75,8 +84,9 @@
               *Cliente:
             </label>
             <div class="col-md-8">
-              <select [attr.disabled]="esVer == true ? '' : null" formControlName="ClienteId" class="form-control form-control-lg">
-                <option>Seleccione</option>
+              <select [attr.disabled]="esVer == true ? '' : null" formControlName="ClienteId" class="form-control form-control-lg" (change)="clienteLineaEvent($event)">
+                <option value="null">Seleccione</option>
+                <option *ngFor="let cliente of clientes" value="{{cliente.Id}}">{{cliente.NickName}}</option>
               </select>
             </div>
           </div>
@@ -86,8 +96,9 @@
               *Linea:
             </label>
             <div class="col-md-8">
-              <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
+              <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg" >
                 <option>Seleccione</option>
+                <option *ngFor="let clienteLn of clienteLinea" value="{{clienteLn.Id}}">{{clienteLn.Nombre}}</option>
               </select>
             </div>
           </div>
@@ -97,11 +108,11 @@
               <div class="panel panel-default">
                 <div class="panel-heading">
                   *Herramienta por cantidad:&nbsp;&nbsp;
-                  <input [attr.disabled]="esVer == true ? '' : null" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioSi" value="true">
+                  <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPetrolera == true" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioSi" value="true">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="form-check-label" for="EsHerramientaPetroleraRadioSi">SI</label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <input [attr.disabled]="esVer == true ? '' : null" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioNo" value="false">
+                  <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPetrolera == false" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioNo" value="false">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="form-check-label" for="EsHerramientaPetroleraRadio">NO</label>
                 </div>
@@ -114,11 +125,11 @@
                       </label>
                       <div class="col-md-7" style="padding-top: 7px;">
                         <div class="form-check form-check-inline col-md-4">
-                          <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioSi" value="true">
+                          <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaMotor == true" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioSi" value="true">
                           <label class="form-check-label" for="EsHerramientaMotorRadioSi">SI</label>
                         </div>&nbsp;
                         <div class="form-check form-check-inline col-md-3">
-                          <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioNo" value="false">
+                          <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaMotor == false" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioNo" value="false">
                           <label class="form-check-label" for="EsHerramientaMotorRadioNo">NO</label>
                         </div>
                       </div>
@@ -127,24 +138,44 @@
                       <label class="col-md-5 col-form-label" id="corre">
                         *Tamaños motor:
                       </label>
-                      <div class="col-md-7">
-                        <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
-                          <option>Seleccione</option>
-                        </select>
+                      <div class="col-md-6">
+                        <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños motor" #inputTamanoMotor>
+                      </div>
+                      <div class="col-md-1" style="padding-top:7px;float: right;">
+                        <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoMotor()"></i>
                       </div>
                     </div>
+
+                    <div *ngFor="let herramientaTM of herramientaTamanoMotor;let i = index" class="form-group row">
+                      <div class="col-md-6 col-md-offset-5" *ngIf="herramientaTM.Estado">
+                        <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaTM.Tamano}}">
+                      </div>
+                      <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaTM.Estado">
+                        <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamanoMotor(i)"></i>
+                      </div>
+                    </div>
+
                     <div class="form-group row">
                       <label class="col-md-5 col-form-label" id="corre">
                         *Tamaños de Herramienta:
                       </label>
-                      <div class="col-md-7">
-                        <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
-                          <option>Seleccione</option>
-                        </select>
+                      <div class="col-md-6">
+                        <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños de Herramienta" #inputTamanoHerramienta>
+                      </div>
+                      <div class="col-md-1" style="padding-top:7px;float: right;">
+                        <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoHerramienta()"></i>
+                      </div>
+                    </div>
+
+                    <div *ngFor="let herramientaT of herramientaTamano;let i = index" class="form-group row">
+                      <div class="col-md-6 col-md-offset-5" *ngIf="herramientaT.Estado">
+                        <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaT.Tamano}}">
+                      </div>
+                      <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaT.Estado">
+                        <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamano(i)"></i>
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -176,7 +207,7 @@
                 <button type="button" class="btn btn-md" (click)="salir()">Regresar</button>
               </div>
               <div class="col-md-5">
-                <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+                <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del la Herramienta?',true,{frmHerramienta: frmHerramienta.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
                 <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
               </div>
             </div>
@@ -189,6 +220,6 @@
     <app-factibilidad-herramienta accion="crear" (paramsHerramientaEstudioFactibilidad)="nuevoEstudioFactibilidad($event)"></app-factibilidad-herramienta>
   </div>
   <div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
+    <app-confirmacion-modal (confir)="ConfirmacionEvento($event)"></app-confirmacion-modal>
   </div>
 

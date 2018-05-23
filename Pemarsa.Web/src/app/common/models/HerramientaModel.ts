@@ -5,6 +5,7 @@ import { ClienteLineaModel } from "./ClienteLineaModel";
 import { HerramientaTamanoModel } from "./HerramientaTamanoModel";
 import { HerramientaTamanoMotorModel } from "./HerramientaTamanoMotorModel";
 import { HerramientaEstudioFactibilidadModel } from "./HerramientaEstudioFactibilidadModel";
+import { HerramientaMaterialModel } from "./HerramientaMaterialModel";
 
 export class HerramientaModel extends EntityModel {
   public ClienteId: number;
@@ -16,7 +17,7 @@ export class HerramientaModel extends EntityModel {
   public GuidUsuarioVerifica: string; 
   public NombreUsuarioVerifica: string;
   public LineaId: number
-  public MaterialesId: number;
+  public Materiales: HerramientaMaterialModel[];
   public Moc: number;
   public Nombre: string; 
   public TamanosHerramienta: HerramientaTamanoModel[]; 
@@ -25,7 +26,6 @@ export class HerramientaModel extends EntityModel {
   public Estado: CatalogoModel;
   public HerramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel;
   public Linea: ClienteLineaModel;
-  public Materiales: CatalogoModel;
 
   constructor() {
     super();
@@ -35,7 +35,7 @@ export class HerramientaModel extends EntityModel {
     this.Estado = new CatalogoModel();
     this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
     this.Linea = new ClienteLineaModel();
-    this.Materiales = new CatalogoModel();
+    this.Materiales = new Array<HerramientaMaterialModel>();
     
   }
 }

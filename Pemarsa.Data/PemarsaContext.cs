@@ -22,6 +22,7 @@ namespace Pemarsa.Data
         public DbSet<HerramientaEstudioFactibilidad> HerramientaEstudioFactibilidad { get; set; }
         public DbSet<HerramientaTamano> HerramientaTamano { get; set; }
         public DbSet<HerramientaTamanoMotor> HerramientaTamanoMotor { get; set; }
+        public DbSet<HerramientaMaterial> HerramientaMaterial { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

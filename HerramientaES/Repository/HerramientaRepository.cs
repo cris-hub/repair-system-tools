@@ -24,12 +24,40 @@ namespace HerramientaES.Repository
             try
             {
                 var herramientaBD = await _context.Herramienta
+                                    .Include(c => c.Materiales)
                                     .Include(c => c.TamanosHerramienta)
                                     .Include(c => c.TamanosMotor)
                                     .Include(c => c.HerramientaEstudioFactibilidad)
                                     .SingleOrDefaultAsync(c => c.Id == herramienta.Id);
 
                 _context.Entry(herramientaBD).CurrentValues.SetValues(herramienta);
+
+                #region Actualizar Materiales
+                herramienta.Materiales = herramienta.Materiales ?? new List<HerramientaMaterial>();
+                herramientaBD.Materiales = herramientaBD.Materiales ?? new List<HerramientaMaterial>();
+                //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
+                var materialesEliminar = (from hbd in herramientaBD.Materiales
+                                       where !herramienta.Materiales.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
+                var materialesInsertar = (from hbd in herramienta.Materiales
+                                       where !herramientaBD.Materiales.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                herramientaBD.Materiales.ToList().ForEach(e => {
+
+                    materialesEliminar.ForEach(ef => {
+                        if (e.Id == ef.Id) { e.Estado = false; }
+                    });
+                });
+
+                materialesInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
+
+                _context.HerramientaMaterial.UpdateRange(herramientaBD.Materiales);
+                _context.HerramientaMaterial.AddRange(materialesInsertar);
+                #endregion
+
                 #region Actualizar TamanosHerramienta
                 herramienta.TamanosHerramienta = herramienta.TamanosHerramienta ?? new List<HerramientaTamano>();
                 herramientaBD.TamanosHerramienta = herramientaBD.TamanosHerramienta ?? new List<HerramientaTamano>();
@@ -90,6 +118,15 @@ namespace HerramientaES.Repository
                 _context.HerramientaTamanoMotor.AddRange(tamanosMotorInsertar);
                 #endregion
 
+                herramientaBD.HerramientaEstudioFactibilidad.Admin = herramienta.HerramientaEstudioFactibilidad.Admin;
+                herramientaBD.HerramientaEstudioFactibilidad.ManoObra = herramienta.HerramientaEstudioFactibilidad.ManoObra;
+                herramientaBD.HerramientaEstudioFactibilidad.Mantenimiento = herramienta.HerramientaEstudioFactibilidad.Mantenimiento;
+                herramientaBD.HerramientaEstudioFactibilidad.Maquina = herramienta.HerramientaEstudioFactibilidad.Maquina;
+                herramientaBD.HerramientaEstudioFactibilidad.Material = herramienta.HerramientaEstudioFactibilidad.Material;
+                herramientaBD.HerramientaEstudioFactibilidad.Metodo = herramienta.HerramientaEstudioFactibilidad.Metodo;
+                herramientaBD.HerramientaEstudioFactibilidad.FechaModifica = DateTime.Now; ;
+
+                _context.HerramientaEstudioFactibilidad.Update(herramientaBD.HerramientaEstudioFactibilidad);
                 herramientaBD.FechaModifica = DateTime.Now;
                 _context.Entry(herramientaBD).Property("FechaRegistro").IsModified = false;
                 _context.Entry(herramientaBD).Property("NombreUsuarioCrea").IsModified = false;
@@ -108,6 +145,7 @@ namespace HerramientaES.Repository
             try
             {
                 return await _context.Herramienta
+                            .Include(c => c.Materiales)
                             .Include(c => c.TamanosHerramienta)
                             .Include(c => c.TamanosMotor)
                             .Include(c => c.HerramientaEstudioFactibilidad)
@@ -123,6 +161,7 @@ namespace HerramientaES.Repository
             try
             {
                 var result = await _context.Herramienta
+                                    .Include(c => c.Materiales)
                                     .Include(c => c.TamanosHerramienta)
                                     .Include(c => c.TamanosMotor)
                                     .Include(c => c.HerramientaEstudioFactibilidad)
@@ -142,6 +181,7 @@ namespace HerramientaES.Repository
             try
             {
                 var query = _context.Herramienta
+                                    .Include(c => c.Materiales)
                                     .Include(c => c.TamanosHerramienta)
                                     .Include(c => c.TamanosMotor)
                                     .Include(c => c.HerramientaEstudioFactibilidad)
@@ -169,6 +209,7 @@ namespace HerramientaES.Repository
                               join c in _context.Cliente on h.ClienteId equals c.Id
                               where c.Guid == guidCliente
                               select h)
+                              .Include(c => c.Materiales)
                               .Include(c => c.TamanosHerramienta)
                               .Include(c => c.TamanosMotor)
                               .Include(c => c.HerramientaEstudioFactibilidad)
@@ -185,6 +226,17 @@ namespace HerramientaES.Repository
             {
                 herramienta.Guid = Guid.NewGuid();
                 herramienta.FechaRegistro = DateTime.Now;
+
+                herramienta.HerramientaEstudioFactibilidad.Guid = Guid.NewGuid();
+                herramienta.HerramientaEstudioFactibilidad.FechaRegistro = DateTime.Now;
+                if (herramienta.Materiales != null)
+                {
+                    foreach (HerramientaMaterial HMaterial in herramienta.Materiales)
+                    {
+                        HMaterial.Guid = Guid.NewGuid();
+                        HMaterial.FechaRegistro = DateTime.Now;
+                    }
+                }
                 if (herramienta.TamanosHerramienta != null) {
                     foreach (HerramientaTamano HTamano in herramienta.TamanosHerramienta)
                     {

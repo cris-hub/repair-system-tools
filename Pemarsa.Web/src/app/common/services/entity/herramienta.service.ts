@@ -16,6 +16,14 @@ export class HerramientaService {
     this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'HerramientaES/'
   }
 
+  public CrearHerramienta(model: HerramientaModel): Observable<boolean> {
+    console.log(model);
+    return this.http.post<boolean>(this.urlServer + 'CrearHerramienta',
+      model,
+      { headers: this.header }
+    );
+  }
+
   public ConsultarHerramientas(paginacion: PaginacionModel): Observable<ListadoResponseModel> {
     return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarHerramientas",
       {
@@ -40,5 +48,17 @@ export class HerramientaService {
       }
     }
     return "?" + parts.join('&');
+  }
+
+  public ConsultarHerramientaPorGuid(guidHerramienta: string): Observable<HerramientaModel> {
+    return this.http.get<HerramientaModel>(this.urlServer + 'ConsultarHerramientaPorGuid?guidHerramienta=' +
+      guidHerramienta,
+      { headers: this.header });
+  }
+
+  public actualizarHerramienta(model: HerramientaModel): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarHerramienta',
+      model,
+      { headers: this.header });
   }
 }

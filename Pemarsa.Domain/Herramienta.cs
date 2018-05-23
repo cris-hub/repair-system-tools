@@ -33,8 +33,8 @@ namespace Pemarsa.Domain
         [ForeignKey("Linea")]
         public int LineaId { get; set; }
 
-        [ForeignKey("Materiales")]
-        public int MaterialesId { get; set; }
+        [Required]
+        public IEnumerable<HerramientaMaterial> Materiales { get; set; }
 
         public int Moc { get; set; }
 
@@ -57,6 +57,5 @@ namespace Pemarsa.Domain
 
         public virtual ClienteLinea Linea { get; set; }
 
-        public virtual Catalogo Materiales { get; set; }
     }
 }

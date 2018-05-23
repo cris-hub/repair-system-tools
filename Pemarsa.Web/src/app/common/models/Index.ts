@@ -12,3 +12,4 @@ export * from './HerramientaTamanoMotorModel';
 export * from './ListadoResponseModel';
 export * from './PaginacionModel';
 export * from './ParametrosModel';
+export * from './HerramientaMaterialModel';

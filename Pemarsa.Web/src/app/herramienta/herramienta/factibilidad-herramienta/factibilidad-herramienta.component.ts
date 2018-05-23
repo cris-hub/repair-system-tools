@@ -21,6 +21,7 @@ export class FactibilidadHerramientaComponent {
   }
 
   llenarObjectoEstudioFactibilidad(HerramientaEstudioFactibilidadObj: HerramientaEstudioFactibilidadModel, accion: any) {
+    console.log(HerramientaEstudioFactibilidadObj);
     this.HerramientaEstudioFactibilidad.Id = HerramientaEstudioFactibilidadObj.Id;
     this.HerramientaEstudioFactibilidad.Admin = HerramientaEstudioFactibilidadObj.Admin;
     this.HerramientaEstudioFactibilidad.ManoObra = HerramientaEstudioFactibilidadObj.ManoObra;
@@ -32,7 +33,6 @@ export class FactibilidadHerramientaComponent {
     this.accion = accion;
     this.data.esEstudioFactibilidad = "";
     this.initForm();
-
   }
   nuevoDataEstudioFactibilidad(accion: any) {
     this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
@@ -63,9 +63,7 @@ export class FactibilidadHerramientaComponent {
     this.data.accion = this.accion;
     let contador = 0;
     let contadorFalse = 0;
-    console.log(contador);
     for (let prop in this.HerramientaEstudioFactibilidad) {
-      console.log(this.HerramientaEstudioFactibilidad[prop]);
       if (this.HerramientaEstudioFactibilidad[prop] == "null") {
         this.HerramientaEstudioFactibilidad[prop] = null;
       }
