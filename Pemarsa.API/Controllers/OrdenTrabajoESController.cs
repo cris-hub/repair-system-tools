@@ -107,5 +107,28 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut("ActualizarSolcitudDeTrabajo")]
+        public async Task<IActionResult> ActualizarSolcitudDeTrabajo([FromBody]SolicitudOrdenTrabajo solicitudOrdenTrabajo)
+        {
+            try
+            {
+                //se obtiene la informacion del appsettings 
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+                // se obtiene la configuracion establecida en el appsettings 
+                Configuration = builder.Build();
+
+                var pathServer = Configuration["FileServer:VirtualPath"];
+
+                return Ok(await _service.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo, pathServer));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

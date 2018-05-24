@@ -38,6 +38,60 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
+        public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
+        {
+            try
+            {
+                var oitBD = await _context.SolicitudOrdenTrabajo
+                                    .Include(c => c.Anexos)
+                                    .Include(c => c.DocumentoAdjunto)
+                                    .Include(c => c.Cliente)
+                                    .Include(c => c.ClienteLinea)
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.OrigenSolicitud)
+                                    .Include(c => c.Prioridad)
+                                    .Include(c => c.Responsable)
+                                    .SingleOrDefaultAsync(c => c.Id == solicitudOrdenTrabajo.Id);
+
+                _context.Entry(solicitudOrdenTrabajo).CurrentValues.SetValues(solicitudOrdenTrabajo);
+
+                #region Actualizar Anexos
+                solicitudOrdenTrabajo.Anexos = solicitudOrdenTrabajo.Anexos ?? new List<SolicitudOrdenTrabajoAnexos>();
+                oitBD.Anexos = oitBD.Anexos ?? new List<SolicitudOrdenTrabajoAnexos>();
+                //se obtinen los anexos que fueron eliminados en el objeto SolicitudOrdenTrabajo que se recibe del cliente.
+                var anexosEliminar = (from hbd in oitBD.Anexos
+                                       where !solicitudOrdenTrabajo.Anexos.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                //se obtinen los anexos que fueron agregados en el objeto SolicitudOrdenTrabajo que se recibe del cliente.
+                var anexosInsertar = (from hbd in solicitudOrdenTrabajo.Anexos
+                                       where !oitBD.Anexos.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                       select hbd).ToList();
+
+                oitBD.Anexos.ToList().ForEach(e => {
+
+                    anexosEliminar.ForEach(ef => {
+                        if (e.Id == ef.Id) { e.Estado = false; }
+                    });
+                });
+
+                anexosInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.SolicitudOrdenTrabajoId = oitBD.Id; });
+
+                _context.SolicitudOrdenTrabajoAnexos.UpdateRange(oitBD.Anexos);
+                _context.SolicitudOrdenTrabajoAnexos.AddRange(anexosInsertar);
+                #endregion
+
+                oitBD.FechaModifica = DateTime.Now;
+                _context.Entry(oitBD).Property("FechaRegistro").IsModified = false;
+                _context.Entry(oitBD).Property("NombreUsuarioCrea").IsModified = false;
+                _context.Entry(oitBD).Property("GuidUsuarioCrea").IsModified = false;
+
+                _context.Entry(oitBD).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
         {
             try
