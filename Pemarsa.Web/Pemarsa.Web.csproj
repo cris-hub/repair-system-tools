@@ -33,17 +33,23 @@
     <None Remove="src\app\common\models\ListadoResponseModel.ts" />
     <None Remove="src\app\common\models\PaginacionModel.ts" />
     <None Remove="src\app\common\models\ParametrosModel.ts" />
+    <None Remove="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
+    <None Remove="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <None Remove="src\app\common\modules\util.module.ts" />
     <None Remove="src\app\common\services\entity\cliente.service.ts" />
     <None Remove="src\app\common\services\entity\herramienta.service.ts" />
     <None Remove="src\app\common\services\entity\index.ts" />
     <None Remove="src\app\common\services\entity\parametro.service.ts" />
+    <None Remove="src\app\common\services\entity\SolicitudOrdenTrabajo.service.ts" />
     <None Remove="src\app\herramienta\herramienta\crear-herramienta\crear-herramienta.component.ts" />
     <None Remove="src\app\herramienta\herramienta\factibilidad-herramienta\factibilidad-herramienta.component.ts" />
     <None Remove="src\app\herramienta\herramienta\filtro-herramienta\filtro-herramienta.component.ts" />
     <None Remove="src\app\herramienta\herramienta\herramienta.module.ts" />
     <None Remove="src\app\herramienta\herramienta\index.ts" />
     <None Remove="src\app\herramienta\herramienta\listar-herramienta\listar-herramienta.component.ts" />
+    <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
+    <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\index.ts" />
+    <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\listar-solicitudOrdenTrabajo\listar-solicitudOrdenTrabajo.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,17 +92,23 @@
     <TypeScriptCompile Include="src\app\common\models\ListadoResponseModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\PaginacionModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ParametrosModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <TypeScriptCompile Include="src\app\common\modules\util.module.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\cliente.service.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\herramienta.service.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\index.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\parametro.service.ts" />
+    <TypeScriptCompile Include="src\app\common\services\entity\SolicitudOrdenTrabajo.service.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta.module.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\crear-herramienta\crear-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\factibilidad-herramienta\factibilidad-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\filtro-herramienta\filtro-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\index.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\listar-herramienta\listar-herramienta.component.ts" />
+    <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
+    <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\index.ts" />
+    <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\listar-solicitudOrdenTrabajo\listar-solicitudOrdenTrabajo.component.ts" />
   </ItemGroup>
 
 </Project>

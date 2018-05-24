@@ -9,6 +9,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { HerramientaModule } from './herramienta/herramienta.module';
 import { CrearClienteComponent } from './cliente/cliente/crear-cliente/crear-cliente.component';
 import { ListarHerramientaComponent, CrearHerramientaComponent } from './herramienta/herramienta';
+import { ListarSolicitudOrdenTrabajoComponent } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo';
 
 const routes: Routes = [
 
@@ -26,7 +27,10 @@ const routes: Routes = [
   { path: 'herramienta', component: ListarHerramientaComponent },
   { path: 'herramienta/crear', component: CrearHerramientaComponent },
   { path: 'herramienta/editar/:id', component: CrearHerramientaComponent },
-  { path: 'herramienta/ver/:id', component: CrearHerramientaComponent }
+  { path: 'herramienta/ver/:id', component: CrearHerramientaComponent },
+
+  //SolicitudOrdenTrabajo
+  { path: 'solicitudOrdenTrabajo', component: ListarSolicitudOrdenTrabajoComponent }
 ];
 
 @NgModule({

@@ -20,11 +20,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './common/components/home/home.component';
 
 import { ClienteModule } from './cliente/cliente.module';
-import { ClienteService, HerramientaService } from './common/services/entity';
+import { ClienteService, HerramientaService, SolicitudOrdenTrabajoService } from './common/services/entity';
 import { HerramientaModule } from './herramienta/herramienta.module';
 import { ConfigService } from './common/config/config.service';
 import { UtilModule } from './common/modules/util.module';
 import { ParametroService } from './common/services/entity/parametro.service';
+import { SolicitudOrdenTrabajoModule } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ParametroService } from './common/services/entity/parametro.service';
     HttpClientModule,
     ClienteModule,
     HerramientaModule,
+    SolicitudOrdenTrabajoModule,
     UtilModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -51,7 +53,8 @@ import { ParametroService } from './common/services/entity/parametro.service';
     },
     ClienteService,
     HerramientaService,
-    ParametroService
+    ParametroService,
+    SolicitudOrdenTrabajoService
 
   ],
   bootstrap: [AppComponent],

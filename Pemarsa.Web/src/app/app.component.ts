@@ -17,7 +17,36 @@ export class AppComponent {
         image: "icon-lista",
         url: false,
         title: "OIT",
-        submenu: false,
+        submenu: [
+          /*{
+            id: "8",
+            name: "Alertas",
+            image: "",
+            url: false,
+            color: "color9",
+            title: "Alertas",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-alerta",
+                color: "color"
+              }
+          },*/
+          {
+            id: "9",
+            name: "OIT",
+            image: "",
+            url: "/solicitudOrdenTrabajo",
+            color: "color10",
+            title: "OIT",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-lista2",
+                color: "color2"
+              }
+          }
+        ],
         complementarios: false
       },
       {
