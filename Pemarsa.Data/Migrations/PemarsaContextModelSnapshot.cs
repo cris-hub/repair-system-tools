@@ -227,7 +227,11 @@ namespace Pemarsa.Data.Migrations
                     b.Property<string>("Ruta")
                         .IsRequired();
 
+                    b.Property<int?>("SolicitudOrdenTrabajoId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SolicitudOrdenTrabajoId");
 
                     b.ToTable("DocumentoAdjunto");
                 });
@@ -498,6 +502,110 @@ namespace Pemarsa.Data.Migrations
                     b.ToTable("ParametroConsulta");
                 });
 
+            modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Cantidad");
+
+                    b.Property<int>("CantidadInspeccionar");
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<string>("Contacto")
+                        .IsRequired();
+
+                    b.Property<int>("Cotizacion");
+
+                    b.Property<string>("DetallesSolicitud")
+                        .IsRequired();
+
+                    b.Property<int>("EstadoId");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("LineaId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<int>("OrigenSolicitudId");
+
+                    b.Property<int>("PrioridadId");
+
+                    b.Property<int>("ResponsableId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("LineaId");
+
+                    b.HasIndex("OrigenSolicitudId");
+
+                    b.HasIndex("PrioridadId");
+
+                    b.HasIndex("ResponsableId");
+
+                    b.ToTable("SolicitudOrdenTrabajo");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajoAnexos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DocumentoAdjuntoId");
+
+                    b.Property<bool>("Estado");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<int>("SolicitudOrdenTrabajoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentoAdjuntoId");
+
+                    b.HasIndex("SolicitudOrdenTrabajoId");
+
+                    b.ToTable("SolicitudOrdenTrabajoAnexos");
+                });
+
             modelBuilder.Entity("Pemarsa.Domain.Catalogo", b =>
                 {
                     b.HasOne("Pemarsa.Domain.Catalogo")
@@ -523,6 +631,13 @@ namespace Pemarsa.Data.Migrations
                         .WithMany("Lineas")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.DocumentoAdjunto", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo")
+                        .WithMany("DocumentoAdjunto")
+                        .HasForeignKey("SolicitudOrdenTrabajoId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Herramienta", b =>
@@ -602,6 +717,52 @@ namespace Pemarsa.Data.Migrations
                     b.HasOne("Pemarsa.Domain.Parametro", "Parametro")
                         .WithMany()
                         .HasForeignKey("Entidad");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajo", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.ClienteLinea", "ClienteLinea")
+                        .WithMany()
+                        .HasForeignKey("LineaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "OrigenSolicitud")
+                        .WithMany()
+                        .HasForeignKey("OrigenSolicitudId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Prioridad")
+                        .WithMany()
+                        .HasForeignKey("PrioridadId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Responsable")
+                        .WithMany()
+                        .HasForeignKey("ResponsableId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajoAnexos", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "DocumentoAdjunto")
+                        .WithMany()
+                        .HasForeignKey("DocumentoAdjuntoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo", "SolicitudOrdenTrabajo")
+                        .WithMany("Anexos")
+                        .HasForeignKey("SolicitudOrdenTrabajoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

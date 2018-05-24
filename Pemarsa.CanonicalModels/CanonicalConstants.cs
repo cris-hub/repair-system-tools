@@ -25,22 +25,48 @@ namespace Pemarsa.CanonicalModels
             }
         }
 
+        public struct Solicitud
+        {
+            public struct Origen
+            {
+                public const string Telefonica = "Teléfonica";
+                public const string CorreoElectronico = "Correo Electrónico";
+                public const string Sms = "SMS";
+                public const string Chat = "Chat";
+                public const string Remision = "Remision";
+            }
+
+            public struct Prioridad
+            {
+                public const string Inmediato = "Inmediato";
+                public const string Mediato = "Mediato";
+                public const string Normal = "Normal";
+                public const string Standby = "Standby";
+            }
+            
+        }
+
         public struct Grupos
         {
             public const string EstadosClientes = "ESTADOS_CLIENTES";
             public const string HerramientasMateriales = "HERRAMIENTAS_MATERIALES";
+            public const string OrigenSolicitud = "ORIGEN_SOLICITUD";
+            public const string PrioridadSolicitud = "PRIORIDAD_SOLICITUD";
         }
 
         public struct Entidades
         {
             public const string Cliente = "CLIENTE";
             public const string Materiales = "MATERIALES";
+            public const string Solicitud = "SOLICITUD";
         }
 
         public struct Excepciones
         {
             public const string EstadoNoEncontrado = "El estado no se ha encontrado";
             public const string MaterialNoEncontrado = "El material no se ha encontrado";
+            public const string OrigenSolicitudNoEncontrado = "La origen de la solicitud no se ha encontrado";
+            public const string PrioridadSolicitudNoEncontrado = "La prioridad de la solicitud no se ha encontrado";
         }
     }
 }
