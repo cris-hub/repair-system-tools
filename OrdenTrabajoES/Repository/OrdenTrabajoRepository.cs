@@ -59,6 +59,38 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
+        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        {
+            try
+            {
+                var query = _context.SolicitudOrdenTrabajo
+                                    .Include(c => c.Anexos)
+                                    .Include(c => c.DocumentoAdjunto)
+                                    .Include(c => c.Cliente)
+                                    .Include(c => c.ClienteLinea)
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.OrigenSolicitud)
+                                    .Include(c => c.Prioridad)
+                                    .Include(c => c.Responsable)
+                                    .Where(e => (string.IsNullOrEmpty(parametrosDTO.Responsable) || e.Responsable.Valor.Contains(parametrosDTO.Responsable))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Cliente) || e.Cliente.NickName.Contains(parametrosDTO.Cliente))
+                                            && (string.IsNullOrEmpty(parametrosDTO.ClienteLinea) || e.ClienteLinea.Nombre.Contains(parametrosDTO.ClienteLinea))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Prioridad) || e.Prioridad.Valor.Contains(parametrosDTO.Prioridad))
+                                            && (string.IsNullOrEmpty(parametrosDTO.DetallesSolicitud) || e.DetallesSolicitud.Contains(parametrosDTO.DetallesSolicitud))
+                                            && (string.IsNullOrEmpty(parametrosDTO.Estado) || e.Estado.Valor.Equals(parametrosDTO.Estado))
+                                            );
+
+                var queryPagination = await query
+                    .Skip(parametrosDTO.RegistrosOmitir())
+                    .Take(parametrosDTO.CantidadRegistros)
+                    .ToListAsync();
+
+                var cantidad = query.Count();
+                return new Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>(cantidad, queryPagination);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
         {
             try

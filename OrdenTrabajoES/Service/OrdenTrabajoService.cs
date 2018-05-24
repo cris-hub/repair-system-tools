@@ -42,6 +42,15 @@ namespace OrdenTrabajoES.Service
             catch (Exception) { throw; }
         }
 
+        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        {
+            try
+            {
+                return await _repository.ConsultarSolicitudesDeTrabajoPorFiltro(parametrosDTO);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer)
         {
             try

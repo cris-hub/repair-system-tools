@@ -72,53 +72,71 @@ namespace Pemarsa.Data.DBInitialize
                     new Catalogo{
                         Id = 6,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Solicitud.Origen.Telefonica,
-                        Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
+                        Valor = CanonicalConstants.Solicitud.Estados.Rechazado,
+                        Grupo = CanonicalConstants.Grupos.EstadosSolicitud,
                     },
                     new Catalogo{
                         Id = 7,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Solicitud.Origen.CorreoElectronico,
-                        Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
+                        Valor = CanonicalConstants.Solicitud.Estados.Liberado,
+                        Grupo = CanonicalConstants.Grupos.EstadosSolicitud,
                     },
                     new Catalogo{
                         Id = 8,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Solicitud.Origen.Sms,
-                        Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
+                        Valor = CanonicalConstants.Solicitud.Estados.Pendiente,
+                        Grupo = CanonicalConstants.Grupos.EstadosSolicitud,
                     },
                     new Catalogo{
                         Id = 9,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Solicitud.Origen.Chat,
+                        Valor = CanonicalConstants.Solicitud.Origen.Telefonica,
                         Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
                     },
                     new Catalogo{
                         Id = 10,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Solicitud.Origen.Remision,
+                        Valor = CanonicalConstants.Solicitud.Origen.CorreoElectronico,
                         Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
                     },
                     new Catalogo{
                         Id = 11,
                         Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Solicitud.Origen.Sms,
+                        Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
+                    },
+                    new Catalogo{
+                        Id = 12,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Solicitud.Origen.Chat,
+                        Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
+                    },
+                    new Catalogo{
+                        Id = 13,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Solicitud.Origen.Remision,
+                        Grupo = CanonicalConstants.Grupos.OrigenSolicitud,
+                    },
+                    new Catalogo{
+                        Id = 14,
+                        Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Solicitud.Prioridad.Inmediato,
                         Grupo = CanonicalConstants.Grupos.PrioridadSolicitud,
                     },
                     new Catalogo{
-                        Id = 12,
+                        Id = 15,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Solicitud.Prioridad.Mediato,
                         Grupo = CanonicalConstants.Grupos.PrioridadSolicitud,
                     },
                     new Catalogo{
-                        Id = 13,
+                        Id = 16,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Solicitud.Prioridad.Normal,
                         Grupo = CanonicalConstants.Grupos.PrioridadSolicitud,
                     },
                     new Catalogo{
-                        Id = 14,
+                        Id = 17,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Solicitud.Prioridad.Standby,
                         Grupo = CanonicalConstants.Grupos.PrioridadSolicitud,
@@ -215,6 +233,19 @@ namespace Pemarsa.Data.DBInitialize
                             break;
 
                         case CanonicalConstants.Grupos.PrioridadSolicitud:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == solicitud.Id) && (pc.Entidad == CanonicalConstants.Entidades.Solicitud)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = solicitud.Id,
+                                    Entidad = CanonicalConstants.Entidades.Solicitud
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.EstadosSolicitud:
                             if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == solicitud.Id) && (pc.Entidad == CanonicalConstants.Entidades.Solicitud)).ToList().Count == 0)
                             {
                                 context.ParametroCatalogo.Add

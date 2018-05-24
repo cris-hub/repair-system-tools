@@ -43,7 +43,13 @@ namespace Pemarsa.CanonicalModels
                 public const string Normal = "Normal";
                 public const string Standby = "Standby";
             }
-            
+
+            public struct Estados
+            {
+                public const string Rechazado = "Rechazado";
+                public const string Liberado = "Liberado";
+                public const string Pendiente = "Pendiente";
+            }
         }
 
         public struct Grupos
@@ -52,6 +58,7 @@ namespace Pemarsa.CanonicalModels
             public const string HerramientasMateriales = "HERRAMIENTAS_MATERIALES";
             public const string OrigenSolicitud = "ORIGEN_SOLICITUD";
             public const string PrioridadSolicitud = "PRIORIDAD_SOLICITUD";
+            public const string EstadosSolicitud = "ESTADOS_SOLICITUD";
         }
 
         public struct Entidades
@@ -67,6 +74,7 @@ namespace Pemarsa.CanonicalModels
             public const string MaterialNoEncontrado = "El material no se ha encontrado";
             public const string OrigenSolicitudNoEncontrado = "La origen de la solicitud no se ha encontrado";
             public const string PrioridadSolicitudNoEncontrado = "La prioridad de la solicitud no se ha encontrado";
+            public const string EstadoSolicitudNoEncontrado = "El estado no se ha encontrado";
         }
     }
 }
