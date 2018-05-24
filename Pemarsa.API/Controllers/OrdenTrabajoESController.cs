@@ -94,5 +94,18 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("ActualizarEstadoSolicitudDeTrabajo")]
+        public async Task<IActionResult> ActualizarEstadoSolicitudDeTrabajo([FromQuery]string guidSolicitudOrdenTrabajo, [FromQuery]string estado)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarEstadoSolicitudDeTrabajo(Guid.Parse(guidSolicitudOrdenTrabajo), estado));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

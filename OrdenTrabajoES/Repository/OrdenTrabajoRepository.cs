@@ -19,6 +19,25 @@ namespace OrdenTrabajoES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado)
+        {
+            try
+            {
+                var oit = await _context.SolicitudOrdenTrabajo.FirstOrDefaultAsync(a => a.Guid == guidSolicitudOrdenTrabajo);
+
+                var estadoId = (await _context.Catalogo
+                                .FirstOrDefaultAsync(a => a.Valor == estado && a.Grupo == "ESTADOS_SOLICITUD"))?.Id;
+
+                oit.EstadoId = estadoId
+                    ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
+                oit.FechaModifica = DateTime.Now;
+                _context.SolicitudOrdenTrabajo.Add(oit);
+                _context.Entry(oit).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
         {
             try

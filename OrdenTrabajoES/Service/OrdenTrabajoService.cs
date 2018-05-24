@@ -24,6 +24,15 @@ namespace OrdenTrabajoES.Service
             _context = context;
         }
 
+        public async Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado)
+        {
+            try
+            {
+                return await _repository.ActualizarEstadoSolicitudDeTrabajo(guidSolicitudOrdenTrabajo, estado);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
         {
             try
