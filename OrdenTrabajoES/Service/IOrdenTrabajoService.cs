@@ -9,5 +9,6 @@ namespace OrdenTrabajoES.Service
     public interface IOrdenTrabajoService
     {
         Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer);
+        Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo);
     }
 }

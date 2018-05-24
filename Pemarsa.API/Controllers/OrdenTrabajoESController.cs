@@ -43,5 +43,18 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("ConsultarSolicitudDeTrabajoPorGuid")]
+        public async Task<IActionResult> ConsultarSolicitudDeTrabajoPorGuid([FromQuery]string guidSolicitudOrdenTrabajo)
+        {
+            try
+            {
+                return Ok((await _service.ConsultarSolicitudDeTrabajoPorGuid(Guid.Parse(guidSolicitudOrdenTrabajo))));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

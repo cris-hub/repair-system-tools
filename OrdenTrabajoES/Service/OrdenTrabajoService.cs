@@ -23,6 +23,15 @@ namespace OrdenTrabajoES.Service
             _context = context;
         }
 
+        public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
+        {
+            try
+            {
+                return await _repository.ConsultarSolicitudDeTrabajoPorGuid(guidSolicitudOrdenTrabajo);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer)
         {
             try

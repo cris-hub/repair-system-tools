@@ -18,6 +18,24 @@ namespace OrdenTrabajoES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
+        {
+            try
+            {
+                return await _context.SolicitudOrdenTrabajo
+                    .Include(c => c.Anexos)
+                    .Include(c => c.DocumentoAdjunto)
+                    .Include(c => c.Cliente)
+                    .Include(c => c.ClienteLinea)
+                    .Include(c => c.Estado)
+                    .Include(c => c.OrigenSolicitud)
+                    .Include(c => c.Prioridad)
+                    .Include(c => c.Responsable)
+                    .FirstOrDefaultAsync(c => c.Guid == guidSolicitudOrdenTrabajo);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
         {
             try

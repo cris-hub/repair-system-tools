@@ -9,5 +9,6 @@ namespace OrdenTrabajoES.Repository
     public interface IOrdenTrabajoRepository
     {
         Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo);
+        Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo);
     }
 }
