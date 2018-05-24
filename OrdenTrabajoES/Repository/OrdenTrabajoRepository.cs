@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 
@@ -32,6 +33,28 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Prioridad)
                     .Include(c => c.Responsable)
                     .FirstOrDefaultAsync(c => c.Guid == guidSolicitudOrdenTrabajo);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajo(Paginacion paginacion)
+        {
+            try
+            {
+                var result = await _context.SolicitudOrdenTrabajo
+                                    .Include(c => c.Anexos)
+                                    .Include(c => c.DocumentoAdjunto)
+                                    .Include(c => c.Cliente)
+                                    .Include(c => c.ClienteLinea)
+                                    .Include(c => c.Estado)
+                                    .Include(c => c.OrigenSolicitud)
+                                    .Include(c => c.Prioridad)
+                                    .Include(c => c.Responsable)
+                                    .Skip(paginacion.RegistrosOmitir())
+                                    .Take(paginacion.CantidadRegistros)
+                                    .ToListAsync();
+                var cantidad = await _context.SolicitudOrdenTrabajo.CountAsync();
+                return new Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>(cantidad, result);
             }
             catch (Exception) { throw; }
         }

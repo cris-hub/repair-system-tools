@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using OrdenTrabajoES.Service;
 using Pemarsa.API.fwk;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Domain;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,20 @@ namespace Pemarsa.API.Controllers
             try
             {
                 return Ok((await _service.ConsultarSolicitudDeTrabajoPorGuid(Guid.Parse(guidSolicitudOrdenTrabajo))));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ConsultarSolicitudesDeTrabajo")]
+        public async Task<IActionResult> ConsultarSolicitudesDeTrabajo(Paginacion paginacion)
+        {
+            try
+            {
+                var result = (await _service.ConsultarSolicitudesDeTrabajo(paginacion));
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
             {

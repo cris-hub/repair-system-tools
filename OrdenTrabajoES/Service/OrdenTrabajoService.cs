@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DocumentoAdjuntoUS.Service;
 using OrdenTrabajoES.Repository;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 
@@ -28,6 +29,15 @@ namespace OrdenTrabajoES.Service
             try
             {
                 return await _repository.ConsultarSolicitudDeTrabajoPorGuid(guidSolicitudOrdenTrabajo);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajo(Paginacion paginacion)
+        {
+            try
+            {
+                return await _repository.ConsultarSolicitudesDeTrabajo(paginacion);
             }
             catch (Exception) { throw; }
         }
