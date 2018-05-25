@@ -24,4 +24,20 @@ export class SolicitudOrdenTrabajoService {
           .set('PaginaActual', paginacion.PaginaActual.toString())
       });
   }
+
+  public ConsultarSolicitudesDeTrabajoPorFiltro(filtro: any): Observable<ListadoResponseModel> {
+    var x = this.obj_to_query(filtro);
+    return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarSolicitudesDeTrabajoPorFiltro" + x,
+      { headers: this.header });
+  }
+
+  private obj_to_query(obj) {
+    var parts = [];
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key) && (encodeURIComponent(obj[key]) != 'undefined')) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+      }
+    }
+    return "?" + parts.join('&');
+  }
 }

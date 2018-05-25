@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { PaginacionModel, ParametrosModel, SolicitudOrdenTrabajoModel, CatalogoModel } from "../../../common/models/Index";
+import { Component, OnInit } from '@angular/core';
+import { PaginacionModel, ParametrosModel, SolicitudOrdenTrabajoModel, CatalogoModel } from '../../../common/models/Index';
 import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
-import { ParametroService } from "../../../common/services/entity/parametro.service";
-import { SolicitudOrdenTrabajoService } from "../../../common/services/entity/SolicitudOrdenTrabajo.service";
+import { ParametroService } from '../../../common/services/entity/parametro.service';
+import { SolicitudOrdenTrabajoService } from '../../../common/services/entity/SolicitudOrdenTrabajo.service';
+import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
 
 @Component({
   selector: 'app-listar-solicitudOrdenTrabajo',
@@ -17,8 +18,6 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   private paginacion: PaginacionModel;
   private parametros: ParametrosModel;
   private esFiltrar: boolean = false;
-
-  private estadosOit: CatalogoModel[]; 
 
   constructor(
     public solicitudOrdenTrabajoSrv: SolicitudOrdenTrabajoService,
@@ -46,7 +45,6 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     this.parametroSrv.consultarParametrosPorEntidad("SOLICITUD")
       .subscribe(response => {
         this.parametros = response;
-        this.estadosOit = this.parametros.Catalogos.filter(e => e.Grupo == "ESTADOS_SOLICITUD");
       });
   }
 
@@ -58,5 +56,15 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   cambioPagina(page: any) {
     this.paginacion.PaginaActual = page;
     this.consultarSolicitudesDeTrabajo();
+  }
+
+  consultarOitPorFiltro(filtro) { 
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    this.solicitudOrdenTrabajoSrv.ConsultarSolicitudesDeTrabajoPorFiltro(filtro)
+      .subscribe(response => {
+        this.solicitudesOrdenTrabajos = response.Listado;
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+      });
   }
 }

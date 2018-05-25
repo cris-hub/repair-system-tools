@@ -25,3 +25,22 @@ export class FiltroHerramientaModel extends PaginacionModel {
     this.Nombre = "";
   }
 }
+
+export class FiltroSolicitudOrdenTrabajoModel extends PaginacionModel {
+  public Responsable: string;
+  public Cliente: string;
+  public ClienteLinea: string;
+  public Prioridad: string;
+  public DetallesSolicitud: string;
+  public Estado: string;
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros);
+    this.Responsable = "";
+    this.Cliente = "";
+    this.ClienteLinea = "";
+    this.Prioridad = "";
+    this.DetallesSolicitud = "";
+    this.Estado = "";
+  }
+}

@@ -17,7 +17,7 @@
                 <input type="text" placeholder="Busqueda básica" class="form-control" name="">
               </div>
               <div class="col-md-4" style="padding-top:30px;">
-                <!--<filtro-cliente [estadosCatalogo]="parametros.Catalogos" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>-->
+                <app-filtro-solicitudOrdenTrabajo (paramsFiltro)="consultarOitPorFiltro($event)"></app-filtro-solicitudOrdenTrabajo>
               </div>
               <div class="col-md-1" style="padding-top:22px;">
                 <div class="btn-group" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">

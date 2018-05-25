@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { UtilModule } from '../common/modules/util.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  ListarSolicitudOrdenTrabajoComponent
+  ListarSolicitudOrdenTrabajoComponent, FiltroSolicitudOrdenTrabajoComponent
 } from "./solicitudOrdenTrabajo/index";
 @NgModule({
   imports: [
@@ -16,7 +16,8 @@ import {
     RouterModule
   ],
   declarations: [
-    ListarSolicitudOrdenTrabajoComponent
+    ListarSolicitudOrdenTrabajoComponent,
+    FiltroSolicitudOrdenTrabajoComponent
   ],
   exports: [
     ListarSolicitudOrdenTrabajoComponent
