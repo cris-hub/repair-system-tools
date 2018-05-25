@@ -151,6 +151,7 @@ namespace HerramientaES.Repository
                             .Include(c => c.HerramientaEstudioFactibilidad)
                             .Include(c => c.Estado)
                             .Include(c => c.Cliente)
+                            .Include(c => c.Linea)
                             .FirstOrDefaultAsync(c => c.Guid == guidHerramienta);
             }
             catch (Exception) { throw; } 
@@ -167,6 +168,7 @@ namespace HerramientaES.Repository
                                     .Include(c => c.HerramientaEstudioFactibilidad)
                                     .Include(c => c.Estado)
                                     .Include(c => c.Cliente)
+                                    .Include(c => c.Linea)
                                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros)
                                     .ToListAsync();
@@ -187,6 +189,7 @@ namespace HerramientaES.Repository
                                     .Include(c => c.HerramientaEstudioFactibilidad)
                                     .Include(c => c.Estado)
                                     .Include(c => c.Cliente)
+                                    .Include(c => c.Linea)
                                     .Where(e => (string.IsNullOrEmpty(parametrosHerramientasDTO.Nombre) || e.Nombre.Contains(parametrosHerramientasDTO.Nombre))
                                             );
 
@@ -215,6 +218,7 @@ namespace HerramientaES.Repository
                               .Include(c => c.HerramientaEstudioFactibilidad)
                               .Include(c => c.Estado)
                               .Include(c => c.Cliente)
+                              .Include(c => c.Linea)
                               .ToListAsync();
             }
             catch (Exception) { throw; }  

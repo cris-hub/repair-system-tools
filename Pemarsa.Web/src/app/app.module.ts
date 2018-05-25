@@ -11,7 +11,7 @@ import { HttpModule } from '@angular/http';
 
 
 import { NgModule } from '@angular/core';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 
@@ -41,7 +41,8 @@ import { SolicitudOrdenTrabajoModule } from './solicitudOrdenTrabajo/solicitudOr
     UtilModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModule.forRoot()
   ],
   providers: [
     ConfigService,

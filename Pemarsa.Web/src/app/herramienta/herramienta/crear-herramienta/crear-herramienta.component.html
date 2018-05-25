@@ -86,7 +86,7 @@
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="ClienteId" class="form-control form-control-lg" (change)="clienteLineaEvent($event)">
                 <option value="null">Seleccione</option>
-                <option *ngFor="let cliente of clientes" value="{{cliente.Id}}">{{cliente.NickName}}</option>
+                <option *ngFor="let cliente of clientes" value="{{cliente.Id}}">{{cliente.Valor}}</option>
               </select>
             </div>
           </div>
@@ -98,7 +98,7 @@
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg" >
                 <option>Seleccione</option>
-                <option *ngFor="let clienteLn of clienteLinea" value="{{clienteLn.Id}}">{{clienteLn.Nombre}}</option>
+                <option *ngFor="let clienteLn of clienteLinea" value="{{clienteLn.Id}}">{{clienteLn.Valor}}</option>
               </select>
             </div>
           </div>

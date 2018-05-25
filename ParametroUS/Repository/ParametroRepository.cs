@@ -76,14 +76,15 @@ namespace ParametroUS.Repository
                         {
                             while (await reader.ReadAsync())
                             {
-                                var row = new Catalogo {
-                                    Id = reader.GetInt16(0),
+                                var row = new Catalogo
+                                {
+                                    Id = reader.GetInt32(0),
                                     Guid = reader.GetGuid(1),
                                     Valor = reader.GetString(2),
-                                    Grupo  = reader.GetString(3),
-                                    Estado = reader.GetBoolean(4),
-                                    Simbolo = reader.GetString(5)
-                                    };
+                                    Grupo = consulta.Tabla,
+                                    Estado = false,
+                                    CatalogoId = reader.GetInt32(3)
+                                };
                                 catalogos.Add(row);
                             }
                         }

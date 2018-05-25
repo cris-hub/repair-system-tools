@@ -50,7 +50,7 @@
                 </div>
               </div>
               <div class="col-md-1" style="padding-top:30px;float: right;">
-                <i [routerLink]="['/cliente/crear']" class="glyphicon glyphicon-plus"></i>
+                <i data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus"></i>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@
     <br />
   </div>
 </div>
-<div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
+<div class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel" aria-hidden="true">
+  <app-crear-solicitudOrdenTrabajo></app-crear-solicitudOrdenTrabajo>
 </div>
 

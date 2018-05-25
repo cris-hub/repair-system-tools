@@ -264,6 +264,71 @@ namespace Pemarsa.Data.DBInitialize
                 #endregion
 
                 context.SaveChanges();
+
+                #region Consultas
+
+                var consultas = new List<Consulta>
+                {
+                    new Consulta
+                    {
+                        Id = 1,
+                        Guid = Guid.NewGuid(),
+                        Campos = "id, Guid, NickName, EstadoId",
+                        Tabla = "cliente",
+                    },
+                    new Consulta
+                    {
+                        Id = 2,
+                        Guid = Guid.NewGuid(),
+                        Campos = "id, Guid, Nombre, ClienteId",
+                        Tabla = "clientelinea",
+                    }
+
+                };
+
+                foreach (var consulta in consultas)
+                {
+                    if (context.Consulta.Where(c => c.Id == consulta.Id).ToList().Count == 0)
+                        context.Consulta.Add(consulta);
+                }
+
+
+                foreach (var consulta in consultas)
+                {
+                    switch (consulta.Id)
+                    {
+                        case 1:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 1) && (pc.Entidad == CanonicalConstants.Entidades.Cliente)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.Cliente
+                                }
+                                );
+                            }
+                            break;
+                        case 2:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 2) && (pc.Entidad == CanonicalConstants.Entidades.Cliente)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.Cliente
+                                }
+                                );
+                            }
+                            break;
+                    }
+                }
+
+                #endregion
+
+                context.SaveChanges();
             }
             catch (Exception)
             {

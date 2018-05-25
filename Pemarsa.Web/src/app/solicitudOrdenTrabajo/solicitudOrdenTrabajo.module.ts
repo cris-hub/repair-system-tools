@@ -3,21 +3,25 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { UtilModule } from '../common/modules/util.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
-  ListarSolicitudOrdenTrabajoComponent, FiltroSolicitudOrdenTrabajoComponent
+  ListarSolicitudOrdenTrabajoComponent, FiltroSolicitudOrdenTrabajoComponent, CrearSolicitudOrdenTrabajoComponent
 } from "./solicitudOrdenTrabajo/index";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     CommonModule,
     NgxPaginationModule,
     UtilModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgbModule,
+    FormsModule
   ],
   declarations: [
     ListarSolicitudOrdenTrabajoComponent,
-    FiltroSolicitudOrdenTrabajoComponent
+    FiltroSolicitudOrdenTrabajoComponent,
+    CrearSolicitudOrdenTrabajoComponent
   ],
   exports: [
     ListarSolicitudOrdenTrabajoComponent

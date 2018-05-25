@@ -30,7 +30,7 @@ export class CrearHerramientaComponent implements OnInit {
 
   private esEstudioFactibilidad: string = "vacio";
 
-  private paramsCliente: ParametrosModel;
+  
   private paramsMateriales: ParametrosModel;
   private estados: EntidadModel[];
   private materialHerramienta: EntidadModel[];
@@ -45,16 +45,17 @@ export class CrearHerramientaComponent implements OnInit {
   private herramientaTamanoMotor: HerramientaTamanoMotorModel[] = new Array<HerramientaTamanoMotorModel>();
   private herramientaTamano: HerramientaTamanoModel[] = new Array<HerramientaTamanoModel>();
 
-  private clientes: ClienteModel[] = new Array<ClienteModel>();
-  private clienteLinea: ClienteLineaModel[] = new Array<ClienteLineaModel>();
-  private paginacion = new PaginacionModel(1, 200);
+  private paramsCliente: ParametrosModel;
+  //parametro visualizar ui
+  private paramsClientes: ParametrosModel;
+  private clientes: CatalogoModel[] = new Array<CatalogoModel>();
+  private clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private frmBuilder: FormBuilder,
     private herramientaSrv: HerramientaService,
-    private clienteSrv: ClienteService,
     private parametroSrv: ParametroService,
     private toastr: ToastrService
   ) {
@@ -130,6 +131,9 @@ export class CrearHerramientaComponent implements OnInit {
         this.herramientaTamano = this.herramienta.TamanosHerramienta.filter(e => e.Estado == true);
         this.cargarHerramientaFactibilidad(this.herramienta.HerramientaEstudioFactibilidad);
         this.initForm(this.herramienta);
+        if (this.herramienta.LineaId != null) {
+          this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.CatalogoId == this.herramienta.LineaId && e.Grupo == "clientelinea");
+        }
       });
   }
 
@@ -146,9 +150,9 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   cargarLineas(herramienta: any) {
-    let objCliente: ClienteModel[] = this.clientes.filter(e => e.Id == herramienta.ClienteId);
+    let objCliente: CatalogoModel[] = this.clientes.filter(e => e.Id == herramienta.ClienteId && e.Grupo == "clientelinea");
     if (objCliente.length > 0) {
-      this.clienteLinea = objCliente[0].Lineas;
+      this.clienteLinea = objCliente;
     }
   }
 
@@ -183,7 +187,13 @@ export class CrearHerramientaComponent implements OnInit {
     this.herramienta.HerramientaEstudioFactibilidad = this.herramientaEstudioFactibilidad;
     for (let material in this.CatalogoMaterialesAdd) {
       let nuevoMaterial: HerramientaMaterialModel = new HerramientaMaterialModel();
-      let objHerramientaMaterial: HerramientaMaterialModel = this.herramienta.Materiales.find(e => e.MaterialId == this.CatalogoMaterialesAdd[material].Id);
+      let objHerramientaMaterial: HerramientaMaterialModel = new HerramientaMaterialModel();
+      if (this.herramienta.Materiales != undefined) {
+        objHerramientaMaterial = this.herramienta.Materiales.find(e => e.MaterialId == this.CatalogoMaterialesAdd[material].Id);
+      }
+      else {
+        objHerramientaMaterial = undefined;
+      }
       nuevoMaterial.Id = (objHerramientaMaterial != undefined ? objHerramientaMaterial.Id : 0);
       nuevoMaterial.Guid = (objHerramientaMaterial != undefined ? objHerramientaMaterial.Guid : "00000000-0000-0000-0000-000000000000")
       nuevoMaterial.Estado = true;
@@ -254,6 +264,9 @@ export class CrearHerramientaComponent implements OnInit {
 
   nuevoEstudioFactibilidad(data: any) {
     this.cargarHerramientaFactibilidad(data.HerramientaEstudioFactibilidad);
+    this.herramientaEstudioFactibilidad.HerramientaId = this.herramientaEstudioFactibilidad.HerramientaId == undefined ? 0 : this.herramientaEstudioFactibilidad.HerramientaId;
+    this.herramientaEstudioFactibilidad.Guid = this.herramientaEstudioFactibilidad.Guid == undefined ? "00000000-0000-0000-0000-000000000000" : this.herramientaEstudioFactibilidad.Guid;
+    this.herramientaEstudioFactibilidad.Id = this.herramientaEstudioFactibilidad.Id == undefined ? 0 : this.herramientaEstudioFactibilidad.Id;
     this.herramientaEstudioFactibilidad.GuidUsuarioCrea = "00000000-0000-0000-0000-000000000000";//este campo debe ser llenado desde la api de seguridad
     this.herramientaEstudioFactibilidad.GuidOrganizacion = "00000000-0000-0000-0000-000000000000";//este campo debe ser llenado desde la api de seguridad
     this.herramientaEstudioFactibilidad.NombreUsuarioCrea = "Admin";//este campo debe ser llenado desde la api de seguridad
@@ -312,21 +325,20 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   consultarClientes() {
-    this.clienteSrv.consultarClientes(this.paginacion)
+    this.parametroSrv.consultarParametrosPorEntidad("CLIENTE")
       .subscribe(response => {
-        this.clientes = response.Listado;
-        this.paginacion.TotalRegistros = response.CantidadRegistros;
+        this.paramsClientes = response;
+        this.clientes = this.paramsClientes.Consultas.filter(e => e.Grupo == "cliente");
       });
   }
 
   clienteLineaEvent(event: any) {
     let idSeleccionado: any = event.target.value;
     if (idSeleccionado != "null") {
-      let clienteSeleccionado: ClienteModel = this.clientes.find(e => e.Id == idSeleccionado);
-      this.clienteLinea = clienteSeleccionado.Lineas;
+      this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.CatalogoId == idSeleccionado && e.Grupo == "clientelinea");
     }
     else {
-      this.clienteLinea = new Array<ClienteLineaModel>();
+      this.clienteLinea = new Array<CatalogoModel>();
     }
   }
 
