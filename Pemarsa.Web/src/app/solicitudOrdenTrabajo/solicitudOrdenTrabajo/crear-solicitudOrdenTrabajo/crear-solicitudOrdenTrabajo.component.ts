@@ -1,28 +1,19 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { ClienteService } from "../../../common/services/entity";
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/operators';
+import { AutocompletarComponent } from "../../../common/directivas/autocompletar/autocompletar.component";
 
 @Component({
   selector: 'app-crear-solicitudOrdenTrabajo',
   templateUrl: './crear-solicitudOrdenTrabajo.component.html'
 })
-export class CrearSolicitudOrdenTrabajoComponent {
-
-  public states: any = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-    'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-    'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-    'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-    'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-    'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-    'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-    'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+export class CrearSolicitudOrdenTrabajoComponent implements OnInit {
 
   @ViewChild('inputFile') inputFile: ElementRef;
+  @ViewChild(AutocompletarComponent) autoCompletar: AutocompletarComponent;
+
   private frmSolicitudOit: FormGroup;
   private SolicitudOit: SolicitudOrdenTrabajoModel;
 
@@ -30,24 +21,26 @@ export class CrearSolicitudOrdenTrabajoComponent {
   public Prioridades: CatalogoModel[] = new Array<CatalogoModel>();
   public Estados: CatalogoModel[] = new Array<CatalogoModel>();
   private parametros: ParametrosModel;
-
+  public data: any = new Array();
   private paginacion = new PaginacionModel(1, 200);
 
   private paramsClientes: ParametrosModel;
   private clientes: CatalogoModel[] = new Array<CatalogoModel>();
   private clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
+  private tmpClienteLinea: any = new Array();
+  private tmpCliente: any = new Array();
+  private idSelCliente: number = 0;
+  private idSelClienteLinea: number = 0;
 
   private attachments: AttachmentModel[] = new Array<AttachmentModel>();
 
-  model: any;
-  @ViewChild('instance') instance: NgbTypeahead;
-  focus$ = new Subject<string>();
-  click$ = new Subject<string>();
-
   constructor(
     private frmBuilder: FormBuilder,
-    public parametroSrv: ParametroService,
-    private clienteSrv: ClienteService,) {
+    public parametroSrv: ParametroService) {
+    
+  }
+
+  ngOnInit(){
     this.SolicitudOit = new SolicitudOrdenTrabajoModel();
     this.consultarParametros();
     this.consultarParametrosCliente();
@@ -86,17 +79,9 @@ export class CrearSolicitudOrdenTrabajoComponent {
       .subscribe(response => {
         this.paramsClientes = response;
         this.clientes = this.paramsClientes.Consultas.filter(e => e.Grupo == "cliente");
+        this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.Grupo == "clientelinea");
+        this.cargarClientesArray();
       });
-  }
-
-  clienteLineaEvent(event: any) {
-    let idSeleccionado: any = event.target.value;
-    if (idSeleccionado != "null") {
-      this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.CatalogoId == idSeleccionado && e.Grupo == "clientelinea");
-    }
-    else {
-      this.clienteLinea = new Array<CatalogoModel>();
-    }
   }
 
   addFile(event: any) {
@@ -129,14 +114,22 @@ export class CrearSolicitudOrdenTrabajoComponent {
     this.attachments.splice(index, 1);
   }
 
-  search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      merge(this.focus$),
-      merge(this.click$.pipe(filter(() => !this.instance.isPopupOpen()))),
-      map(term => (term === '' ? this.states
-        : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
-    );
+  cargarClientesArray() {
+    this.data = [
+      {
+        opcion: 'clientes',
+        valor: this.clientes,
+        filtro: ['guid','valor']
+      },
+      {
+        opcion: 'linea',
+        valor: this.clienteLinea,
+        filtro: ['guid', 'valor']
+      }
+    ];
+  }
 
+  filtrarData(opcion) {
+    this.autoCompletar.opcion = opcion;
+  }
 }

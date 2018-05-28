@@ -14,6 +14,7 @@
     <None Remove="src\app\common\config\config.loader.ts" />
     <None Remove="src\app\common\config\config.model.ts" />
     <None Remove="src\app\common\config\config.service.ts" />
+    <None Remove="src\app\common\directivas\autocompletar\autocompletar.component.ts" />
     <None Remove="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <None Remove="src\app\common\directivas\paginacion\paginacion.component.ts" />
     <None Remove="src\app\common\directivas\validacion\validacion.directive.ts" />
@@ -75,6 +76,7 @@
     <TypeScriptCompile Include="src\app\common\config\config.loader.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.service.ts" />
     <TypeScriptCompile Include="src\app\common\config\config.model.ts" />
+    <TypeScriptCompile Include="src\app\common\directivas\autocompletar\autocompletar.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\paginacion\paginacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\validacion\validacion.directive.ts" />
