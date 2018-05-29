@@ -30,7 +30,7 @@ namespace Pemarsa.Domain
 
         public virtual Catalogo Estado { get; set; }
 
-        public virtual InspeccionConexionFormato InspeccionConexionFormato;
+        //public virtual InspeccionConexionFormato InspeccionConexionFormato;
 
         public virtual Catalogo TipoConexion { get; set; }
     }

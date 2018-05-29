@@ -8,7 +8,7 @@ namespace Pemarsa.Domain
 {
     public class OrdenTrabajo : Entity
     {
-        public IEnumerable<> Anexos { get; set; }
+        //public IEnumerable<> Anexos { get; set; }
 
         public int Cantidad { get; set; }
 
@@ -31,7 +31,7 @@ namespace Pemarsa.Domain
 
         public IEnumerable<OrdenTrabajoHistorialModificacion> HistorialModificaciones { get; set; }
 
-        public IEnumerable<> HistorialProcesos { get; set; }
+        //public IEnumerable<> HistorialProcesos { get; set; }
 
         [ForeignKey("ClienteLinea")]
         public int LineaID { get; set; }

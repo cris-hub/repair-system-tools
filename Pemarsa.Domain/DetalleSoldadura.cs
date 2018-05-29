@@ -41,7 +41,7 @@ namespace Pemarsa.Domain
         [Required, ForeignKey("TipoFuente")]
         public int TipoFuenteId { get; set; }
 
-        [Required, ForeignKey("TipoSoldadura");]
+        //[Required, ForeignKey("TipoSoldadura");]
         public int TipoSoldaduraId { get; set; }
 
         public int Voltaje { get; set; }
