@@ -50,7 +50,7 @@
                 </div>
               </div>
               <div class="col-md-1" style="padding-top:30px;float: right;">
-                <i data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus"></i>
+                <i (click)="habilitarNuevaOit(true)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus"></i>
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
                   <i class="glyphicon glyphicon-pencil" routerLink="/cliente/ver/{{oit.Guid}}"></i>
                 </div>
-                <div class="col-md-6"  style="padding-top:7px; width:14%; float:left; display:block;">
+                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
                   <i class="glyphicon glyphicon-wrench" routerLink="/cliente/editar/{{oit.Guid}}"></i>
                 </div>
               </td>
@@ -112,7 +112,7 @@
     <br />
   </div>
 </div>
-<div class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel" aria-hidden="true">
+<div *ngIf="esNuevaOit" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel" aria-hidden="true">
   <app-crear-solicitudOrdenTrabajo></app-crear-solicitudOrdenTrabajo>
 </div>
 

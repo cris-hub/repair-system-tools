@@ -7,14 +7,16 @@ import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/ope
   selector: 'app-autocompletar',
   templateUrl: './autocompletar.component.html'
 })
-export class AutocompletarComponent implements OnInit {
+export class AutocompletarComponent {
 
-  public data: any = { id: 'objId', name: 'objId', clase: 'form-control' };
+  public data: any = { id: 'objId', name: 'objId', clase: 'form-control', data: new Array() };
   public opcion: any;
   public response: any;
   public index: number;
   public dataArray: any = new Array;
   @Input('dataInf') dataInf: any;
+  @Input('dataNew') dataNew: Array<any>;
+
   @Output() confir = new EventEmitter();
 
   @ViewChild('instance') instance: NgbTypeahead;
@@ -22,11 +24,11 @@ export class AutocompletarComponent implements OnInit {
   click$ = new Subject<string>();
   public model: any
   constructor() {
-  }
-
-  ngOnInit() {
+    debugger
     this.llenarObjectoData(this.dataInf);
   }
+
+ 
 
 
   search = (text$: Observable<string>) =>
@@ -43,16 +45,23 @@ export class AutocompletarComponent implements OnInit {
   }
 
   llenarObjectoData(objData: any) {
-    console.log(objData);
-    if (objData != undefined) {
-      this.data.id = (objData.id == undefined) ? "objId" : objData.id;
-      this.data.name = (objData.name == undefined) ? "objId" : objData.name;
-      this.data.clase = (objData.clase == undefined) ? "form-control" : objData.clase;
-      this.opcion = objData.opcion;
-      if (objData.data != undefined) {
-        this.dataArray = objData.data;
+
+    setTimeout(function () {
+      console.log(this.dataNew);
+      console.log(objData);
+      if (objData != undefined) {
+        this.data.id = (objData.id == undefined) ? "objId" : objData.id;
+        this.data.name = (objData.name == undefined) ? "objId" : objData.name;
+        this.data.clase = (objData.clase == undefined) ? "form-control" : objData.clase;
+        this.opcion = objData.opcion;
+        if (objData.data != undefined) {
+          this.dataArray = objData.data;
+        }
       }
-    }
+    }, 700)
+
+
+    
   }
 
   cambioItemEvent(event) {

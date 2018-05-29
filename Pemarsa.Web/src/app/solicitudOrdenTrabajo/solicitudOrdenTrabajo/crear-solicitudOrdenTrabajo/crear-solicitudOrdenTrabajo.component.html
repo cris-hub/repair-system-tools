@@ -30,25 +30,35 @@
             </div>
           </div>
         </div>
-
         <div class="form-group">
           <label for="ClienteId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Cliente:</b></label>
-          <div class="col-sm-9">
-            <app-autocompletar [dataInf]="{id: 'ClienteId', name: 'ClienteId', clase: 'form-control', opcion: 'cliente', data: data}"
-                               (click)="filtrarData('cliente')"
-                               ></app-autocompletar>
+          <div class="col-sm-9" >
+            <input id="ClienteId"
+                   name="ClienteId"
+                   type="text"
+                   class="form-control"
+                   [(ngModel)]="model"
+                   [ngbTypeahead]="search"
+                   [resultFormatter]="formatter"
+                   [inputFormatter]="formatter"
+                   (selectItem)="cambioItemEvent($event)"
+                   formControlName="ClienteId"/>
           </div>
         </div>
         <div class="form-group">
           <label for="LineaId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Linea:</b></label>
           <div class="col-sm-9">
-           
-            <app-autocompletar [dataInf]="{id: 'LineaId', name: 'LineaId', clase: 'form-control', opcion: 'linea'}"
-                               (click)="filtrarData('linea')"></app-autocompletar>
-            <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="LineaId" formControlName="LineaId">
-              <option value="">Seleccione</option>
-              <option *ngFor="let clienteLn of clienteLinea" value="{{clienteLn.Id}}">{{clienteLn.Valor}}</option>
-            </select>
+
+            <input id="LineaId"
+                   name="LineaId"
+                   type="text"
+                   class="form-control"
+                   [(ngModel)]="model1"
+                   [ngbTypeahead]="search1"
+                   [resultFormatter]="formatter"
+                   [inputFormatter]="formatter"
+                   (selectItem)="cambioItemEvent($event)"
+                   formControlName="LineaId"/>
           </div>
         </div>
         <div class="form-group">

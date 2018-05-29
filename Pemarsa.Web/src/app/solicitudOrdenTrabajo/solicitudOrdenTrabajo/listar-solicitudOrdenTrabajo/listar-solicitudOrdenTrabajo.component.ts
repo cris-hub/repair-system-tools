@@ -19,6 +19,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   private parametros: ParametrosModel;
   private esFiltrar: boolean = false;
 
+  private esNuevaOit: boolean = false;
   constructor(
     public solicitudOrdenTrabajoSrv: SolicitudOrdenTrabajoService,
     public parametroSrv: ParametroService,
@@ -66,5 +67,9 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
         this.solicitudesOrdenTrabajos = response.Listado;
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
+  }
+
+  habilitarNuevaOit(estado: boolean) {
+    this.esNuevaOit = estado;
   }
 }

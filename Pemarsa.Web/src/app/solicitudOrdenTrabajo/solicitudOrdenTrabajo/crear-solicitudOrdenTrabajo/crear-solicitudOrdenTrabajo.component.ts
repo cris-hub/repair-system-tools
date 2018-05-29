@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { ClienteService } from "../../../common/services/entity";
-import { AutocompletarComponent } from "../../../common/directivas/autocompletar/autocompletar.component";
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/operators';
 
 @Component({
   selector: 'app-crear-solicitudOrdenTrabajo',
@@ -12,7 +14,7 @@ import { AutocompletarComponent } from "../../../common/directivas/autocompletar
 export class CrearSolicitudOrdenTrabajoComponent implements OnInit {
 
   @ViewChild('inputFile') inputFile: ElementRef;
-  @ViewChild(AutocompletarComponent) autoCompletar: AutocompletarComponent;
+  @ViewChild('instance') instance: NgbTypeahead;
 
   private frmSolicitudOit: FormGroup;
   private SolicitudOit: SolicitudOrdenTrabajoModel;
@@ -28,23 +30,24 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit {
   private clientes: CatalogoModel[] = new Array<CatalogoModel>();
   private clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
   private tmpClienteLinea: any = new Array();
-  private tmpCliente: any = new Array();
   private idSelCliente: number = 0;
   private idSelClienteLinea: number = 0;
 
   private attachments: AttachmentModel[] = new Array<AttachmentModel>();
 
+  public model: any;
+  public model1: any;
+
   constructor(
     private frmBuilder: FormBuilder,
     public parametroSrv: ParametroService) {
-    
-  }
-
-  ngOnInit(){
     this.SolicitudOit = new SolicitudOrdenTrabajoModel();
     this.consultarParametros();
     this.consultarParametrosCliente();
     this.initForm();
+  }
+
+  ngOnInit(){    
   }
 
   initForm() {
@@ -79,8 +82,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit {
       .subscribe(response => {
         this.paramsClientes = response;
         this.clientes = this.paramsClientes.Consultas.filter(e => e.Grupo == "cliente");
-        this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.Grupo == "clientelinea");
-        this.cargarClientesArray();
+        this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.Grupo == "clientelinea");  
       });
   }
 
@@ -114,22 +116,28 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit {
     this.attachments.splice(index, 1);
   }
 
-  cargarClientesArray() {
-    this.data = [
-      {
-        opcion: 'clientes',
-        valor: this.clientes,
-        filtro: ['guid','valor']
-      },
-      {
-        opcion: 'linea',
-        valor: this.clienteLinea,
-        filtro: ['guid', 'valor']
-      }
-    ];
-  }
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.clientes.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
 
-  filtrarData(opcion) {
-    this.autoCompletar.opcion = opcion;
+  search1 = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.tmpClienteLinea.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
+
+  formatter = (x: { Valor: string }) => x.Valor;
+
+  cambioItemEvent(event) {
+    console.log(event);
+    /*if (event != undefined) {
+      this.tmpClienteLinea = new Array<CatalogoModel>();
+      let tmpCliente = this.clientes.find(e => e.Guid == event.item.Guid);
+      this.tmpClienteLinea = this.clienteLinea.filter(e => e.CatalogoId == tmpCliente.Id &&  e.Grupo == "clientelinea");
+    }*/
   }
 }
