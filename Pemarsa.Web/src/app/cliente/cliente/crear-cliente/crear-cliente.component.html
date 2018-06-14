@@ -53,7 +53,8 @@
               Adjuntar RUT:
             </label>
             <div *ngIf="esVer == false" class="col-md-8">
-              <input type="file" (change)="addFile($event)" class="form-control" name="DocumentoAdjunto">
+              <a  *ngIf="cliente.Rut" [href]="cliente.Rut.Ruta" >{{cliente.Rut.NombreArchivo}}</a>
+              <input type="file" (change)="addFile($event)" class="form-control" formControlName="Rut" name="Rut">
             </div>
             <div *ngIf="esVer" class="col-md-8">
               <a (click)="descargarAdjunto()" class="btn btn-sm col-sm-2" name="DocumentoAdjunto">Descargar Adjunto</a>

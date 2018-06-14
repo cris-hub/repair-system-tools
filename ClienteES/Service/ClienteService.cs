@@ -60,13 +60,27 @@ namespace ClienteES.Service
         public async Task<bool> ActualizarCliente(Cliente cliente, string RutaServer)
         {
             try
-            { 
-                if (cliente.Rut != null)
+            {
+
+                if (cliente.Rut != null && cliente.DocumentoAdjuntoId == null)
                 {
+                    int idDocumentoAdjuntoCreado = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut, RutaServer);
+                    cliente.DocumentoAdjuntoId = idDocumentoAdjuntoCreado;
+                    cliente.Rut.GuidUsuarioModifica = cliente.GuidUsuarioCrea;
+                    cliente.Rut.NombreUsuarioModifica = cliente.NombreUsuarioCrea;
+                    cliente.Rut.FechaModifica = DateTime.Now;
+                    
+
+                }
+
+                if (cliente.Rut != null && cliente.DocumentoAdjuntoId != null)
+                {
+                    
                     cliente.Rut.GuidUsuarioModifica = cliente.GuidUsuarioModifica;
                     cliente.Rut.NombreUsuarioModifica = cliente.NombreUsuarioModifica;
                     cliente.Rut.FechaModifica = DateTime.Now;
                     cliente.Rut.Id = cliente.DocumentoAdjuntoId.Value;
+
                     await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(cliente.Rut, RutaServer);
                 }
                 return await _repository.ActualizarCliente(cliente);

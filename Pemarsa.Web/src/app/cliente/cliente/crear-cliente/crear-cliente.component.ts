@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ClienteModel } from "../../../common/models/Index";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -11,6 +11,7 @@ import { EntidadModel } from "../../../common/models/EntidadDTOModel";
 import { AttachmentModel } from "../../../common/models/AttachmentModel";
 import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
 import { ToastrService } from "ngx-toastr";
+import { ignoreElements } from "rxjs/operators";
 
 @Component({
   selector: 'app-crear-cliente',
@@ -106,9 +107,10 @@ export class CrearClienteComponent implements OnInit {
       NombreResponsable: [''],//este campo debe ser actualizado con la api de seguridad
       RazonSocial: [cliente.RazonSocial],
       Telefono: [cliente.Telefono],
+      Rut: [null],
       NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
       GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
-      GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
+      GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de 
     });
     this.loading = false;
     this.frmCliente.valueChanges.subscribe(val => {
@@ -124,7 +126,6 @@ export class CrearClienteComponent implements OnInit {
   submitForm(Cliente: FormGroup) {
     this.isSubmitted = false;
     this.frmCliente;
-
     //falta realizar la validacion del formulario if (this.validarForm() && this.arreglosValidos)
     if (this.esActualizar)
       this.actualizarCliente(Cliente);
@@ -159,12 +160,19 @@ export class CrearClienteComponent implements OnInit {
   actualizarCliente(formValues) {
 
     let cliente = <ClienteModel>Object.assign(this.cliente, formValues);
+    
     cliente.Lineas = this.lineaCliente;
+
     if (this.attachment.Stream == null && this.attachment.Extension == null) {
       cliente.Rut = null;
     } else {
+      cliente.DocumentoAdjuntoId = this.attachment.Id;
       cliente.Rut = this.attachment;
     }
+
+    cliente.GuidUsuarioModifica = '00000000-0000-0000-0000-000000000000'//este campo debe ser actualizado con la api de seguridad
+    cliente.NombreUsuarioModifica = 'admin'//este campo debe ser actualizado con la api de seguridad
+    
     this.clienteSrv.actualizarCliente(cliente)
       .subscribe(response => {
         this.toastr.success('cliente editado correctamente!', '');
@@ -203,19 +211,30 @@ export class CrearClienteComponent implements OnInit {
     try {
       let reader = new FileReader();
       if (event.target.files && event.target.files.length > 0) {
-        let file = event.target.files[0];
+        let file : File = event.target.files[0];
         reader.readAsDataURL(file);
         reader.onload = (e: any) => {
-          this.attachment.Extension = reader.result.split(',')[0];
+    
+          this.attachment.Extension = reader.result.split(',')[0].split('/')[1].split(';')[0];
           this.attachment.NombreArchivo = file.name;
           this.attachment.Stream = reader.result.split(',')[1];
+          if (this.cliente.DocumentoAdjuntoId) {
+            this.attachment.Id = this.cliente.DocumentoAdjuntoId;
+          }
 
-          //estos campo debe ser actualizado con la api de seguridad
+          //estos campo debe ser actualizado con la api de           
+          
           this.attachment.NombreUsuarioCrea = 'Admin';
           this.attachment.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
           this.attachment.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
+
         }
+        this.frmCliente.patchValue({
+          Rut: [this.attachment]
+        });
       }
+
+      
     } catch (ex) {
     }
   }

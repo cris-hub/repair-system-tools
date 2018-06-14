@@ -23,11 +23,9 @@ namespace DocumentoAdjuntoUS.Repository
         {
             try
             {
-                var dbAttachment = await _context.DocumentoAdjunto.Where(att => att.Id == documentoAdjunto.Id).AsNoTracking().FirstOrDefaultAsync();
+                var dbAttachment = await _context.DocumentoAdjunto.Where(att => att.Id == documentoAdjunto.Id).FirstOrDefaultAsync();
+                
                 documentoAdjunto.FechaModifica = DateTime.Now;
-
-
-
                 documentoAdjunto.Guid = dbAttachment.Guid;
                 documentoAdjunto.NombreUsuarioCrea = dbAttachment.NombreUsuarioCrea;
                 documentoAdjunto.FechaRegistro = dbAttachment.FechaRegistro;
