@@ -55,7 +55,19 @@ namespace Pemarsa.Data.DBInitialize
                         Id = 5,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Materiales.Prueba2,
-                        Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 18,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Formato.Conexion,
+                        Grupo = CanonicalConstants.Grupos.TiposFormatos
+                    },
+                    new Catalogo{
+                        Id = 19,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Formato.Otros,
+                        Grupo = CanonicalConstants.Grupos.TiposFormatos
                     }
                 };
                 foreach (var tipo in tipos)

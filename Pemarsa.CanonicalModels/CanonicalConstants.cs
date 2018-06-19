@@ -6,6 +6,9 @@ namespace Pemarsa.CanonicalModels
 {
     public class CanonicalConstants
     {
+
+
+
         public struct Estados
         {
             public struct Cliente
@@ -22,6 +25,12 @@ namespace Pemarsa.CanonicalModels
                 public const string Prueba = "Prueba";
                 public const string Prueba1 = "Prueba1";
                 public const string Prueba2 = "Prueba2";
+            }
+
+            public struct Formato
+            {
+                public const string Conexion = "Conexión";
+                public const string Otros = "Otros";
             }
         }
 
@@ -59,6 +68,7 @@ namespace Pemarsa.CanonicalModels
             public const string OrigenSolicitud = "ORIGEN_SOLICITUD";
             public const string PrioridadSolicitud = "PRIORIDAD_SOLICITUD";
             public const string EstadosSolicitud = "ESTADOS_SOLICITUD";
+            public const string TiposFormatos = "TIPOS_FORMATOS";
         }
 
         public struct Entidades

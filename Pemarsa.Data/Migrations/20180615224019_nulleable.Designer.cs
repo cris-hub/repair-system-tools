@@ -11,9 +11,10 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180615224019_nulleable")]
+    partial class nulleable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

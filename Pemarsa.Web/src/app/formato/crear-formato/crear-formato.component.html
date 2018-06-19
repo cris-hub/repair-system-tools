@@ -1,0 +1,339 @@
+<div *ngIf="!loading">
+  <div class="container">
+    <div class="row">
+      <div class="panel col-md-11" style="background-color: rgba(36, 99, 194, .9);color: #ffffff;">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12" style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200; text-align: center;">
+              <h3>Crear formato</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-11 contenido-interno">
+      <form [formGroup]="formFormato">
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" id="corre">
+            Codigo:
+          </label>
+          <div class="col-md-3">
+            <input formControlName="Codigo" class="form-control " type="text" name="name" />
+          </div>
+
+          <label class="col-md-2 col-form-label" id="corre">
+            *Tipo de formato:
+          </label>
+          <div class="col-md-4">
+            <div class="form-check form-check-inline col-md-5">
+              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" id="formatoOtros" value="0">
+              <label class="form-check-label" for="formatoOtros">formato de otros​</label>
+            </div>
+            <div class="form-check form-check-inline col-md-5">
+              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" id="formatoConexion" value="1">
+              <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
+
+          <label class="col-md-2  col-form-label" id="corre">
+            *Tipo de conexión
+          </label>
+          <div class="col-md-3">
+            <select  formControlName="TipoConexionId"  class=" form-control-lg select">
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+            <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
+              style="font-size: 20px;cursor: pointer;"> </i>
+          </div>
+
+          <label class="col-md-2  col-form-label" id="corre">
+            *Conexión
+          </label>
+          <div class="col-md-3">
+            <select formControlName="ConexionId" class="form-control-lg select">
+              <option value="1" >Seleccione</option>
+              <option value="2" >Seleccione</option>
+              <option value="3" >Seleccione</option>
+            </select>
+            <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
+              style="font-size: 20px;cursor: pointer;"> </i>
+          </div>
+
+        </div>
+
+        <div *ngIf="formatoModel.TipoFormatoId == '0'" class="form-group row">
+          <label class="col-md-2  col-form-label" id="corre">
+            *Herramienta
+          </label>
+          <div class="col-md-8">
+            <select class="form-control form-control-lg pull-rigth">
+              <option>Seleccione</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div *ngIf="formatoModel.TipoFormatoId == '0' " class="form-group row">
+
+          <label class="col-md-2 col-form-label" id="corre">
+            Aletas:
+          </label>
+          <div class="col-md-4">
+            <div class="form-check form-check-inline col-md-5">
+              <input name="formatoOtros" class="form-check-input" type="radio" id="formatoOtros" value="true">
+              <label class="form-check-label" for="formatoOtros">Si​</label>
+            </div>
+            <div class="form-check form-check-inline col-md-5">
+              <input name="formatoConexion" class="form-check-input" type="radio" id="formatoConexion" value="false">
+              <label class="form-check-label" for="formatoConexion">No</label>
+            </div>
+          </div>
+
+        </div>
+        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
+
+          <label class="col-md-2 col-form-label" id="corre">
+            Documento adjunto:
+          </label>
+          <div class="col-md-4">
+            <div class="form-check form-check-inline col-md-5">
+              <input name="formatoOtros" class="form-check-input" type="radio" id="formatoOtros" value="true">
+              <label class="form-check-label" for="formatoOtros">Si​</label>
+            </div>
+            <div class="form-check form-check-inline col-md-5">
+              <input name="formatoConexion" class="form-check-input" type="radio" id="formatoConexion" value="false">
+              <label class="form-check-label" for="formatoConexion">No</label>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
+          <div class="row">
+            <label class="col-md-4 col-form-label" id="corre">
+              *TPI:
+            </label>
+            <div class="col-md-8">
+              <input class="form-control " type="text" name="name" value="" />
+            </div>
+            <label class="col-md-4 col-form-label" id="corre">
+              *TPF:
+            </label>
+            <div class="col-md-8">
+              <input class="form-control " type="text" name="name" value="" />
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="form-group row">
+          <label class="col-md-2 col-form-label" id="corre">
+            *Adjuntar plano:
+          </label>
+          <div class="col-md-2">
+            <input type="file" (change)="addFile($event)" class="form-control-file" multiple="true" formControlName="plano" name="planos">
+          </div>
+          <div class="col-md-5 col-md-offset-2">
+            <div *ngIf="planos.length > 0" class="panel panel-default">
+              <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos {{planos.length}}</a>
+                <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
+                  <i class="glyphicon glyphicon-chevron-down"></i>
+                </span>
+              </div>
+              <div>
+
+              </div>
+              <div id="archivos" class="panel-collapse panel-collapse collapse">
+                <div class="panel-body">
+                  <ul>
+                    <li *ngFor="let plano of planos">
+                      <a>{{plano.NombreArchivo}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="form-group row">
+          <label class="col-md-2 col-form-label" id="corre">
+            Especificación:
+          </label>
+          <div class="col-md-8">
+            <textarea class=" form-control pull-rigth "></textarea>
+
+          </div>
+        </div>
+
+
+
+
+        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="panel panel-default">
+          <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel">ADENDUM tabla</a>
+            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#filterPanel">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+
+          </div>
+          <div id="filterPanel" class="panel-collapse panel-collapse collapse">
+            <div class="panel-body">
+              <div>
+                <div class="row">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="panel panel-default">
+          <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel">*detalles</a>
+            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#filterPanel">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+
+          </div>
+          <div id="filterPanel" class="panel-collapse panel-collapse collapse">
+            <div class="panel-body">
+              <div>
+                <div class="row">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="formatoModel.TipoFormatoId == '0'" class="panel panel-default">
+          <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion2" href="#filterPanel2">*detalles</a>
+            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion2" href="#filterPanel2">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+          </div>
+          <div id="filterPanel2" class="panel-collapse panel-collapse collapse">
+            <div class="panel-body">
+              <div>
+                <div class="row">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div class="col-md-2 col-md-offset-4 text-right">
+              <button type="button" class="btn btn-md">Regresar</button>
+            </div>
+            <div class="col-md-5">
+              <button type="submit" [disabled]="!esValido" (click)="enviarFormulario($event)" class="btn btn-primary btn-md">Guardar</button>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>

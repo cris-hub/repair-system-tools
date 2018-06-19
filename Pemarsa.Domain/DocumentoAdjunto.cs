@@ -19,8 +19,13 @@ namespace Pemarsa.Domain
 
         [Required]
         public string Extension { get; set; }
-
+        
         [NotMapped]
         public string Stream { get; set; }
+
+        [ForeignKey("Formato")]
+        public int? FormatoId { get; set; }
+        public virtual Formato Formato { get; set; }
+
     }
 }

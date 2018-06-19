@@ -10,19 +10,23 @@ import { HerramientaModule } from './herramienta/herramienta.module';
 import { CrearClienteComponent } from './cliente/cliente/crear-cliente/crear-cliente.component';
 import { ListarHerramientaComponent, CrearHerramientaComponent } from './herramienta/herramienta';
 import { ListarSolicitudOrdenTrabajoComponent } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo';
+import { CrearFormatoComponent } from './formato/crear-formato/crear-formato.component';
 
 const routes: Routes = [
 
   //Common
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  
-   //Cliente
+
+  //Cliente
   { path: 'cliente', component: ListarClienteComponent },
   { path: 'cliente/crear', component: CrearClienteComponent },
   { path: 'cliente/editar/:id', component: CrearClienteComponent },
   { path: 'cliente/ver/:id', component: CrearClienteComponent },
 
+
+  //formato
+  { path: 'formato', component: CrearFormatoComponent }
   //Herramienta
   { path: 'herramienta', component: ListarHerramientaComponent },
   { path: 'herramienta/crear', component: CrearHerramientaComponent },

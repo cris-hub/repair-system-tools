@@ -11,8 +11,8 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180524171253_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180615201740_inital-migrtn")]
+    partial class initalmigrtn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -202,6 +202,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<DateTime>("FechaRegistro");
 
+                    b.Property<int>("FormatoId");
+
                     b.Property<Guid>("Guid");
 
                     b.Property<Guid>("GuidOrganizacion");
@@ -232,9 +234,56 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FormatoId");
+
                     b.HasIndex("SolicitudOrdenTrabajoId");
 
                     b.ToTable("DocumentoAdjunto");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.Formato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Codigo");
+
+                    b.Property<string>("Especificacion");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("HerramientaId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("TPF");
+
+                    b.Property<string>("TPI");
+
+                    b.Property<int>("TipoFormatoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HerramientaId");
+
+                    b.HasIndex("TipoFormatoId");
+
+                    b.ToTable("Formato");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Herramienta", b =>
@@ -636,9 +685,27 @@ namespace Pemarsa.Data.Migrations
 
             modelBuilder.Entity("Pemarsa.Domain.DocumentoAdjunto", b =>
                 {
+                    b.HasOne("Pemarsa.Domain.Formato", "Formato")
+                        .WithMany("Planos")
+                        .HasForeignKey("FormatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo")
                         .WithMany("DocumentoAdjunto")
                         .HasForeignKey("SolicitudOrdenTrabajoId");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.Formato", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
+                        .WithMany()
+                        .HasForeignKey("HerramientaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoFormato")
+                        .WithMany()
+                        .HasForeignKey("TipoFormatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Herramienta", b =>

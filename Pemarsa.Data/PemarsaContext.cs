@@ -25,6 +25,7 @@ namespace Pemarsa.Data
         public DbSet<HerramientaMaterial> HerramientaMaterial { get; set; }
         public DbSet<SolicitudOrdenTrabajo> SolicitudOrdenTrabajo { get; set; }
         public DbSet<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
+        public DbSet<Formato> Formato { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

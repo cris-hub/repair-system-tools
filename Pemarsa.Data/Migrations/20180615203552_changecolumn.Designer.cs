@@ -11,9 +11,10 @@ using System;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180615203552_changecolumn")]
+    partial class changecolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,7 +202,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<DateTime>("FechaRegistro");
 
-                    b.Property<int?>("FormatoId");
+                    b.Property<int>("FormatoId");
 
                     b.Property<Guid>("Guid");
 
@@ -261,7 +262,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid?>("GuidUsuarioModifica");
 
-                    b.Property<int?>("HerramientaId");
+                    b.Property<int>("HerramientaId");
 
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()
@@ -269,8 +270,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("NombreUsuarioModifica")
                         .HasMaxLength(60);
-
-                    b.Property<string>("TPF");
 
                     b.Property<string>("TPI");
 
@@ -686,7 +685,8 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Formato", "Formato")
                         .WithMany("Planos")
-                        .HasForeignKey("FormatoId");
+                        .HasForeignKey("FormatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo")
                         .WithMany("DocumentoAdjunto")
@@ -697,7 +697,8 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
                         .WithMany()
-                        .HasForeignKey("HerramientaId");
+                        .HasForeignKey("HerramientaId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoFormato")
                         .WithMany()

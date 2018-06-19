@@ -26,6 +26,7 @@ import { ConfigService } from './common/config/config.service';
 import { UtilModule } from './common/modules/util.module';
 import { ParametroService } from './common/services/entity/parametro.service';
 import { SolicitudOrdenTrabajoModule } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo.module';
+import { FormatoModule } from './formato/formato.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SolicitudOrdenTrabajoModule } from './solicitudOrdenTrabajo/solicitudOr
     BrowserModule,
     HttpClientModule,
     ClienteModule,
+    FormatoModule,
     HerramientaModule,
     SolicitudOrdenTrabajoModule,
     UtilModule,

@@ -98,7 +98,7 @@ export class AppComponent {
               id: "7",
               name: "Formatos",
               image: "",
-              url: false,
+              url: "/formato",
               color: "color11",
               title: "Formatos",
               submenu: false,

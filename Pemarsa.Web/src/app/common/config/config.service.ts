@@ -8,9 +8,9 @@ import { Configuration } from './config.model';
 @Injectable()
 export class ConfigService {
   private config: Configuration;
-
+  
   constructor(private http: HttpClient) {
-    this.config = new Configuration("", "");
+    this.config = new Configuration("http://localhost:58906/api/" , "");
   }
 
   load(url: string) {

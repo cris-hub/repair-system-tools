@@ -15,3 +15,4 @@ export * from './ParametrosModel';
 export * from './HerramientaMaterialModel';
 export * from './SolicitudOrdenTrabajoAnexosModel';
 export * from './SolicitudOrdenTrabajoModel';
+export * from './FormatoModel';

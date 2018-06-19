@@ -1,4 +1,5 @@
 ﻿using ClienteES.Service;
+using FormatoES.Service;
 using HerramientaES.Service;
 using Microsoft.Extensions.DependencyInjection;
 using OrdenTrabajoES.Service;
@@ -12,6 +13,7 @@ namespace Pemarsa.API.ServicesDI
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IHerramientaService, HerramientaService>();
             services.AddTransient<IOrdenTrabajoService, OrdenTrabajoService>();
+            services.AddTransient<IFormatoService, FormatoService>();
         }
     }
 }
