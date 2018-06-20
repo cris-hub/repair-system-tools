@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel } from "../../common/models/index";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel } from "../../common/models/index";
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { attachEmbeddedView } from '@angular/core/src/view';
 import { HerramientaService } from '../../common/services/entity';
 import { isObject } from 'util';
@@ -19,6 +19,7 @@ import { ValidacionDirective } from '../../common/directivas/validacion/validaci
 export class CrearFormatoComponent implements OnInit {
 
   private formatoModel: FormatoModel;
+  private formatoAdendumModel: Array<FormatoAdendumModel>;
   private planos: Array<AttachmentModel> = new Array<AttachmentModel>();
   private planoView: AttachmentModel;
   private herramientaModel: HerramientaModel;
@@ -27,7 +28,9 @@ export class CrearFormatoComponent implements OnInit {
   private esValido: boolean;
 
   private formFormato: FormGroup;
+  private formFormatoAdendum: FormArray;
   private lectorArchivos: FileReader;
+
   constructor(
     private formBuilder: FormBuilder,
     private herramientaServicio: HerramientaService,
@@ -38,9 +41,9 @@ export class CrearFormatoComponent implements OnInit {
 
   ngOnInit() {
     this.paginacion = new PaginacionModel(1, 30);
-    this.formatoModel = new FormatoModel(this.planos, 1);
+    this.formatoModel = new FormatoModel(this.planos, this.formatoAdendumModel, 1);
     this.listarHerramienta();
-    this.initForm(this.formatoModel);
+    this.initForm(this.formatoModel, this.formatoAdendumModel);
     this.esValido = false;
   }
 
@@ -51,20 +54,20 @@ export class CrearFormatoComponent implements OnInit {
     return formato.TipoFormatoId == 1
   }
 
-  initForm(formato: FormatoModel) {
+  initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>) {
 
     if (this.esTipoFormatoOtros(formato)) {
       this.initFormularioFormatoOtros(formato);
     }
     else if (this.esTipoFormatoConexion(formato)) {
-      this.initFormularioFormatoConexion(formato);
+      this.initFormularioFormatoConexion(formato, Adendum);
     }
     console.log(this.formFormato);
     this.cambioDatosFormulario(this.formFormato);
 
   }
 
-  initFormularioFormatoConexion(formato: FormatoModel) {
+  initFormularioFormatoConexion(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>) {
     this.formFormato = this.formBuilder.group({
       plano: [null, Validators.required],
       Codigo: [formato.Codigo],
@@ -74,12 +77,33 @@ export class CrearFormatoComponent implements OnInit {
       TPI: [formato.TPI, Validators.required],
       TPF: [formato.TPF, Validators.required],
       Especificacion: [formato.Especificacion, Validators.required],
-      Herramienta: [this.Herramientas],
+      Herramienta: [],
       DocumentoAdjunto: [formato.DocumentoAdjunto],
-      Aletas: [formato.Aletas]
+      Aletas: [formato.Aletas],
+      formFormatoAdendum: this.formBuilder.array([this.crearFormFormatoAdendum()])
+
+    });
+    console.log(this.formFormato)
+  }
+
+  crearFormFormatoAdendum() {
+    return this.formBuilder.group({
+      Id: '',
+      Posicion: '',
+      Tipo: '',
+      Valor: ''
     });
   }
 
+  addItem(): void {
+    this.formFormatoAdendum = this.formFormato.get('formFormatoAdendum') as FormArray;
+    this.formFormatoAdendum.push(this.crearFormFormatoAdendum());
+    console.log(this.formFormatoAdendum);
+  }
+
+  removeItem(i) {
+    this.formFormatoAdendum.removeAt(i);
+  }
 
   initFormularioFormatoOtros(formato: FormatoModel) {
     this.formFormato = this.formBuilder.group({
@@ -102,8 +126,8 @@ export class CrearFormatoComponent implements OnInit {
     formulario.valueChanges.subscribe(val => {
       this.asignarValoresFormularioFormato(val);
       this.esFormularioValido(this.formFormato)
- 
 
+      console.log(this.formFormato)
     });
   }
 
