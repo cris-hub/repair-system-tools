@@ -22,16 +22,17 @@
             <input formControlName="Codigo" class="form-control " type="text" name="name" />
           </div>
 
-          <label class="col-md-2 col-form-label" id="corre">
+
+          <label [ngClass]="{'red' : formFormato.controls.TipoFormatoId.status=='INVALID'}" class="col-md-2 col-form-label" id="corre">
             *Tipo de formato:
           </label>
           <div class="col-md-4">
             <div class="form-check form-check-inline col-md-5">
-              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" id="formatoOtros" value="0">
+              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="formatoOtros" value="0">
               <label class="form-check-label" for="formatoOtros">formato de otros​</label>
             </div>
             <div class="form-check form-check-inline col-md-5">
-              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" id="formatoConexion" value="1">
+              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="formatoConexion" value="1">
               <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
             </div>
           </div>
@@ -39,75 +40,77 @@
 
         <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
 
-          <label class="col-md-2  col-form-label" id="corre">
+          <label [ngClass]="{'red' : formFormato.controls.TipoConexionId.status=='INVALID'}" class="col-md-2  col-form-label" id="corre">
             *Tipo de conexión
           </label>
           <div class="col-md-3">
-            <select  formControlName="TipoConexionId"  class=" form-control-lg select">
+            <select formControlName="TipoConexionId" class=" form-control-lg select">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
             <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
-              style="font-size: 20px;cursor: pointer;"> </i>
+               style="font-size: 20px;cursor: pointer;"></i>
           </div>
 
-          <label class="col-md-2  col-form-label" id="corre">
+          <label [ngClass]="{'red' : formFormato.controls.ConexionId.status=='INVALID'}"  class="col-md-2  col-form-label" id="corre">
             *Conexión
           </label>
-          <div class="col-md-3">
-            <select formControlName="ConexionId" class="form-control-lg select">
-              <option value="1" >Seleccione</option>
-              <option value="2" >Seleccione</option>
-              <option value="3" >Seleccione</option>
-            </select>
-            <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
-              style="font-size: 20px;cursor: pointer;"> </i>
+          <div class="col-md-3" >
+            <div>
+              <select formControlName="ConexionId" class="form-control-lg select"  >
+                <option value="1">Seleccione</option>
+                <option value="2">Seleccione</option>
+                <option value="3">Seleccione</option>
+              </select>
+              <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
+                 style="font-size: 20px;cursor: pointer;"></i>
+            </div>
           </div>
 
         </div>
 
         <div *ngIf="formatoModel.TipoFormatoId == '0'" class="form-group row">
-          <label class="col-md-2  col-form-label" id="corre">
+          <label   [ngClass]="{'red' : formFormato.controls.Herramienta.status=='INVALID', 'red' : formatoModel.Herramienta == null || formatoModel.Herramienta == 0 }"class="col-md-2  col-form-label" id="corre">
             *Herramienta
           </label>
           <div class="col-md-8">
-            <select class="form-control form-control-lg pull-rigth">
-              <option>Seleccione</option>
+            <select formControlName="Herramienta" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
+              <option value="0">Seleccione</option>
+              <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta | json}}">{{Herramienta.Nombre }}</option>
             </select>
           </div>
-
         </div>
 
         <div *ngIf="formatoModel.TipoFormatoId == '0' " class="form-group row">
 
-          <label class="col-md-2 col-form-label" id="corre">
+          <label  [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID'}"  class="col-md-2 col-form-label" id="corre">
             Aletas:
           </label>
           <div class="col-md-4">
             <div class="form-check form-check-inline col-md-5">
-              <input name="formatoOtros" class="form-check-input" type="radio" id="formatoOtros" value="true">
-              <label class="form-check-label" for="formatoOtros">Si​</label>
+              <input formControlName="Aletas" class="form-check-input" type="radio" id="AletasSi" value="true">
+              <label class="form-check-label" for="AletasSi">Si​</label>
             </div>
             <div class="form-check form-check-inline col-md-5">
-              <input name="formatoConexion" class="form-check-input" type="radio" id="formatoConexion" value="false">
-              <label class="form-check-label" for="formatoConexion">No</label>
+              <input formControlName="Aletas" class="form-check-input" type="radio" id="AletasNo" value="false">
+              <label class="form-check-label" for="AletasNo">No</label>
             </div>
           </div>
 
         </div>
         <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
 
-          <label class="col-md-2 col-form-label" id="corre">
+          <label   [ngClass]="{'red' : formFormato.controls.DocumentoAdjunto.status=='INVALID'}"  class="col-md-2 col-form-label" id="corre">
             Documento adjunto:
           </label>
           <div class="col-md-4">
             <div class="form-check form-check-inline col-md-5">
-              <input name="formatoOtros" class="form-check-input" type="radio" id="formatoOtros" value="true">
-              <label class="form-check-label" for="formatoOtros">Si​</label>
+              <input formControlName="DocumentoAdjunto"  class="form-check-input" type="radio" id="DocumentoAdjuntoSi" value="true" >
+              <label class="form-check-label" for="DocumentoAdjuntoSi">Si​</label>
             </div>
             <div class="form-check form-check-inline col-md-5">
-              <input name="formatoConexion" class="form-check-input" type="radio" id="formatoConexion" value="false">
-              <label class="form-check-label" for="formatoConexion">No</label>
+              <input formControlName="DocumentoAdjunto" class="form-check-input" type="radio" id="DocumentoAdjuntoNo" value="false">
+              <label class="form-check-label" for="DocumentoAdjuntoNo">No</label>
             </div>
           </div>
 
@@ -116,27 +119,27 @@
 
         <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
           <div class="row">
-            <label class="col-md-4 col-form-label" id="corre">
+            <label [ngClass]="{'red' : formFormato.controls.TPI.status=='INVALID'}" class="col-md-4 col-form-label" id="corre">
               *TPI:
             </label>
             <div class="col-md-8">
-              <input class="form-control " type="text" name="name" value="" />
+              <input formControlName="TPI" class="form-control " type="text" name="name" value="" />
             </div>
-            <label class="col-md-4 col-form-label" id="corre">
+            <label [ngClass]="{'red' : formFormato.controls.TPF.status=='INVALID'}" class="col-md-4 col-form-label" id="corre">
               *TPF:
             </label>
             <div class="col-md-8">
-              <input class="form-control " type="text" name="name" value="" />
+              <input formControlName="TPF" class="form-control " type="text" name="name" value="" />
             </div>
           </div>
         </div>
 
         <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="form-group row">
-          <label class="col-md-2 col-form-label" id="corre">
+          <label   [ngClass]="{'red' : formFormato.controls.plano.status=='INVALID'}"  class="col-md-2 col-form-label" id="corre">
             *Adjuntar plano:
           </label>
           <div class="col-md-2">
-            <input type="file" (change)="addFile($event)" class="form-control-file" multiple="true" formControlName="plano" name="planos">
+            <input formControlName="plano" type="file" (change)="addFile($event)" class="form-control-file" multiple >
           </div>
           <div class="col-md-5 col-md-offset-2">
             <div *ngIf="planos.length > 0" class="panel panel-default">
@@ -165,11 +168,11 @@
 
 
         <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="form-group row">
-          <label class="col-md-2 col-form-label" id="corre">
+          <label   [ngClass]="{'red' : formFormato.controls.Especificacion.status=='INVALID'}"  class="col-md-2 col-form-label" id="corre">
             Especificación:
           </label>
           <div class="col-md-8">
-            <textarea class=" form-control pull-rigth "></textarea>
+            <textarea formControlName="Especificacion" class=" form-control pull-rigth "></textarea>
 
           </div>
         </div>
@@ -327,7 +330,7 @@
               <button type="button" class="btn btn-md">Regresar</button>
             </div>
             <div class="col-md-5">
-              <button type="submit" [disabled]="!esValido" (click)="enviarFormulario($event)" class="btn btn-primary btn-md">Guardar</button>
+              <button type="submit" [disabled]="!esValido" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>
             </div>
           </div>
         </div>

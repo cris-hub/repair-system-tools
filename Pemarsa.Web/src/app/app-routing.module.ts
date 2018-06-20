@@ -26,7 +26,7 @@ const routes: Routes = [
 
 
   //formato
-  { path: 'formato', component: CrearFormatoComponent }
+  { path: 'formato', component: CrearFormatoComponent },
   //Herramienta
   { path: 'herramienta', component: ListarHerramientaComponent },
   { path: 'herramienta/crear', component: CrearHerramientaComponent },

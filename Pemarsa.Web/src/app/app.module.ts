@@ -20,7 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './common/components/home/home.component';
 
 import { ClienteModule } from './cliente/cliente.module';
-import { ClienteService, HerramientaService, SolicitudOrdenTrabajoService } from './common/services/entity';
+import { ClienteService, HerramientaService, SolicitudOrdenTrabajoService, FormatoService } from './common/services/entity';
 import { HerramientaModule } from './herramienta/herramienta.module';
 import { ConfigService } from './common/config/config.service';
 import { UtilModule } from './common/modules/util.module';
@@ -57,7 +57,8 @@ import { FormatoModule } from './formato/formato.module';
     ClienteService,
     HerramientaService,
     ParametroService,
-    SolicitudOrdenTrabajoService
+    SolicitudOrdenTrabajoService,
+    FormatoService
 
   ],
   bootstrap: [AppComponent],

@@ -27,13 +27,16 @@ namespace FormatoES.Repository
                 formato.FechaRegistro = new DateTime();
 
                 _context.Formato.Add(formato);
+
+     
+
                 await _context.SaveChangesAsync();
                 return formato.Guid;
             }
             catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
     }

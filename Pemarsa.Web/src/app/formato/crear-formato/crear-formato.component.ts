@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormatoModel, AttachmentModel } from "../../common/models/index";
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel } from "../../common/models/index";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { attachEmbeddedView } from '@angular/core/src/view';
+import { HerramientaService } from '../../common/services/entity';
+import { isObject } from 'util';
+import { format } from 'url';
+
+import { FormatoService } from '../../common/services/entity/formato.service';
+import { ValidacionDirective } from '../../common/directivas/validacion/validacion.directive';
 
 
 @Component({
@@ -12,58 +18,127 @@ import { attachEmbeddedView } from '@angular/core/src/view';
 })
 export class CrearFormatoComponent implements OnInit {
 
+  private formatoModel: FormatoModel;
   private planos: Array<AttachmentModel> = new Array<AttachmentModel>();
   private planoView: AttachmentModel;
-  private formatoModel: FormatoModel ;
+  private herramientaModel: HerramientaModel;
+  private Herramientas: Array<HerramientaModel>;
+  private paginacion: PaginacionModel;
   private esValido: boolean;
 
   private formFormato: FormGroup;
   private lectorArchivos: FileReader;
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private herramientaServicio: HerramientaService,
+    private formatoServicio: FormatoService
   ) {
 
   }
 
   ngOnInit() {
-    this.formatoModel =  new FormatoModel(this.planos,1);
+    this.paginacion = new PaginacionModel(1, 30);
+    this.formatoModel = new FormatoModel(this.planos, 1);
+    this.listarHerramienta();
     this.initForm(this.formatoModel);
-    
     this.esValido = false;
   }
 
+  esTipoFormatoOtros(formato: FormatoModel): boolean {
+    return formato.TipoFormatoId == 0
+  }
+  esTipoFormatoConexion(formato: FormatoModel): boolean {
+    return formato.TipoFormatoId == 1
+  }
+
   initForm(formato: FormatoModel) {
+
+    if (this.esTipoFormatoOtros(formato)) {
+      this.initFormularioFormatoOtros(formato);
+    }
+    else if (this.esTipoFormatoConexion(formato)) {
+      this.initFormularioFormatoConexion(formato);
+    }
+    console.log(this.formFormato);
+    this.cambioDatosFormulario(this.formFormato);
+
+  }
+
+  initFormularioFormatoConexion(formato: FormatoModel) {
     this.formFormato = this.formBuilder.group({
+      plano: [null, Validators.required],
       Codigo: [formato.Codigo],
-      plano: [null],
-      TipoFormatoId: [formato.TipoFormatoId],
-      TipoConexionId:[formato.TipoConexionId],
-      ConexionId:[formato.ConexionId],
+      TipoFormatoId: [formato.TipoFormatoId, Validators.required],
+      TipoConexionId: [formato.TipoConexionId, Validators.required],
+      ConexionId: [formato.ConexionId, Validators.required],
+      TPI: [formato.TPI, Validators.required],
+      TPF: [formato.TPF, Validators.required],
+      Especificacion: [formato.Especificacion, Validators.required],
+      Herramienta: [this.Herramientas],
+      DocumentoAdjunto: [formato.DocumentoAdjunto],
+      Aletas: [formato.Aletas]
+    });
+  }
+
+
+  initFormularioFormatoOtros(formato: FormatoModel) {
+    this.formFormato = this.formBuilder.group({
+      plano: [null, Validators.required],
+      Codigo: [formato.Codigo],
+      TipoFormatoId: [formato.TipoFormatoId, Validators.required],
+      TipoConexionId: [formato.TipoConexionId],
+      ConexionId: [formato.ConexionId],
       TPI: [formato.TPI],
       TPF: [formato.TPF],
-      Especificacion : [formato.Especificacion]
+      Especificacion: [formato.Especificacion],
+      Herramienta: [null, Validators.required],
+      DocumentoAdjunto: [formato.DocumentoAdjunto],
+      Aletas: [formato.Aletas]
     });
-    this.formFormato.valueChanges.subscribe(val => {
-      this.esFormularioValido();
-      this.asignarValoresFormularioFormato();
-    });
-  }
-
-
-  asignarValoresFormularioFormato() {
-    this.formatoModel = Object.assign(this.formatoModel, this.formFormato.value)
 
   }
 
-  enviarFormulario(formatoForm: FormGroup) {
+  cambioDatosFormulario(formulario: FormGroup) {
+    formulario.valueChanges.subscribe(val => {
+      this.asignarValoresFormularioFormato(val);
+      this.esFormularioValido(this.formFormato)
+ 
+
+    });
+  }
+
+  listarHerramienta() {
+    this.herramientaServicio.ConsultarHerramientas(this.paginacion).subscribe(r => {
+      this.Herramientas = r.Listado
+
+
+    });
+  }
+
+  asignarValoresFormularioFormato(val) {
+    this.formatoModel = Object.assign(this.formatoModel, val)
+    this.herramientaModel = JSON.parse(val.Herramienta);
+
+    if (val.Herramienta) {
+      if (typeof (val.Herramienta).isObject && val.Herramienta) {
+        Object.assign(this.formatoModel.Herramienta, this.herramientaModel)
+      }
+
+    }
+
+  }
+
+  enviarFormulario() {
     if (!this.esValido) {
       return;
     }
-    this.crearFormato(formatoForm);
+    this.crearFormato(this.formatoModel);
   }
 
-  crearFormato(formatoForm: FormGroup) {
-    console.log(this.formatoModel)
+  crearFormato(formato: FormatoModel) {
+    this.formatoServicio.crearFormato(formato).subscribe((a) => {
+      console.log(a)
+    });
   }
 
   addFile(event: any) {
@@ -123,9 +198,10 @@ export class CrearFormatoComponent implements OnInit {
     return e.currentTarget.result.split(',')[1];
   }
 
-  esFormularioValido(): boolean {
-    this.esValido = true;
-
+  esFormularioValido(formulario: FormGroup): boolean {
+    if (formulario.status == 'VALID') {
+      this.esValido = true;
+    }
     return this.esValido;
   }
 

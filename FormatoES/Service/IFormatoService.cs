@@ -7,7 +7,7 @@ namespace FormatoES.Service
 {
     public interface IFormatoService
     {
-        Task<Guid> CrearFormato(Formato formato);
+        Task<Guid> CrearFormato(Formato formato, string RutaServer);
 
     }
 }
