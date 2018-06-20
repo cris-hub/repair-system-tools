@@ -68,7 +68,8 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Formato.Otros,
                         Grupo = CanonicalConstants.Grupos.TiposFormatos
-                    }
+                    },
+
                 };
                 foreach (var tipo in tipos)
                 {
@@ -77,6 +78,29 @@ namespace Pemarsa.Data.DBInitialize
                 }
                 #endregion
 
+                #region Especificacion
+                var Especificaciones = new List<Catalogo>
+                {
+                    new Catalogo{
+                        Id = 20,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.Prueba,
+                        Grupo = CanonicalConstants.Grupos.Especificacion
+                    },
+                    new Catalogo{
+                        Id = 21,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.Prueba1,
+                        Grupo = CanonicalConstants.Grupos.Especificacion
+                     }
+                };
+                #endregion
+
+                foreach (var Especificacion in Especificaciones)
+                {
+                    if (context.Catalogo.Where(c => c.Id == Especificacion.Id).ToList().Count == 0)
+                        context.Catalogo.Add(Especificacion);
+                }
 
                 #region Solicitudes
                 var solicitudes = new List<Catalogo>
@@ -172,7 +196,9 @@ namespace Pemarsa.Data.DBInitialize
                     {
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Cliente},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Materiales},
-                        new Parametro{ Entidad = CanonicalConstants.Entidades.Solicitud}
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Solicitud},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Formato}
+
                     };
 
                 if (!context.Parametro.Any())
@@ -200,6 +226,28 @@ namespace Pemarsa.Data.DBInitialize
                                     Entidad = CanonicalConstants.Entidades.Cliente
                                 }
                             );
+                            break;
+                    }
+                }
+
+
+                // Especificaciones //
+                foreach (var tipo in tipos)
+                {
+                    switch (tipo.Grupo)
+                    {
+                        case CanonicalConstants.Grupos.Especificacion:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Formato)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Formato
+                                }
+                                );
+                            }
                             break;
                     }
                 }

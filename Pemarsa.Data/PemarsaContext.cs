@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using Pemarsa.Domain;
 
 namespace Pemarsa.Data
@@ -25,7 +27,11 @@ namespace Pemarsa.Data
         public DbSet<HerramientaMaterial> HerramientaMaterial { get; set; }
         public DbSet<SolicitudOrdenTrabajo> SolicitudOrdenTrabajo { get; set; }
         public DbSet<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
+        public DbSet<FormatoParametro> FormatoParametro { get; set; }
+        public DbSet<FormatoAdendum> FormatoAdendum { get; set; }
         public DbSet<Formato> Formato { get; set; }
+
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,5 +39,21 @@ namespace Pemarsa.Data
             base.OnModelCreating(modelBuilder);
         }
 
+
+    }
+
+    public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<PemarsaContext>
+    {
+        public IConfiguration Configuration { get; }
+        public PemarsaContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<PemarsaContext>();
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+
+              .Build();
+           
+            builder.UseMySql(configuration.GetConnectionString("Server=192.168.15.174;Database=pemarsa_neg_trunk;Uid=mysqldev;Pwd=MySqld3v1720*.;"));
+            return new PemarsaContext(builder.Options);
+        }
     }
 }

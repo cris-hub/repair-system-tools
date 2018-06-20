@@ -8,6 +8,11 @@ namespace Pemarsa.CanonicalModels
     {
 
 
+        public struct Especificacion
+        {
+            public const string Prueba = "Prueba";
+            public const string Prueba1 = "Prueba1";
+        }
 
         public struct Estados
         {
@@ -32,6 +37,7 @@ namespace Pemarsa.CanonicalModels
                 public const string Conexion = "Conexión";
                 public const string Otros = "Otros";
             }
+
         }
 
         public struct Solicitud
@@ -69,6 +75,8 @@ namespace Pemarsa.CanonicalModels
             public const string PrioridadSolicitud = "PRIORIDAD_SOLICITUD";
             public const string EstadosSolicitud = "ESTADOS_SOLICITUD";
             public const string TiposFormatos = "TIPOS_FORMATOS";
+            public const string Especificacion = "ESPECIFICACION";
+
         }
 
         public struct Entidades
@@ -76,15 +84,16 @@ namespace Pemarsa.CanonicalModels
             public const string Cliente = "CLIENTE";
             public const string Materiales = "MATERIALES";
             public const string Solicitud = "SOLICITUD";
+            public const string Formato = "FORMATO";
         }
 
-        public struct Excepciones
-        {
-            public const string EstadoNoEncontrado = "El estado no se ha encontrado";
-            public const string MaterialNoEncontrado = "El material no se ha encontrado";
-            public const string OrigenSolicitudNoEncontrado = "La origen de la solicitud no se ha encontrado";
-            public const string PrioridadSolicitudNoEncontrado = "La prioridad de la solicitud no se ha encontrado";
-            public const string EstadoSolicitudNoEncontrado = "El estado no se ha encontrado";
-        }
+    public struct Excepciones
+    {
+        public const string EstadoNoEncontrado = "El estado no se ha encontrado";
+        public const string MaterialNoEncontrado = "El material no se ha encontrado";
+        public const string OrigenSolicitudNoEncontrado = "La origen de la solicitud no se ha encontrado";
+        public const string PrioridadSolicitudNoEncontrado = "La prioridad de la solicitud no se ha encontrado";
+        public const string EstadoSolicitudNoEncontrado = "El estado no se ha encontrado";
     }
+}
 }

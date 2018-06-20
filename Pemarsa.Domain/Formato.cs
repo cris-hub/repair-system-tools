@@ -25,9 +25,26 @@ namespace Pemarsa.Domain
         public int? HerramientaId { get; set; }
         public virtual Herramienta Herramienta { get; set; }
 
-        public string Especificacion { get; set; }
+        public bool EsFormatoAdjunto { get; set; }
 
-     
+        [Required, ForeignKey("Especificacion")]
+        public int EspecificacionId { get; set; }
+        public virtual Catalogo Especificacion { get; set; }
+
+        [Required, ForeignKey("TiposConexiones")]
+        public int TiposConexionesId { get; set; }
+        public virtual Catalogo TiposConexiones { get; set; }
+        
+        [Required, ForeignKey("Conexion")]
+        public int ConexionId { get; set; }
+        public virtual Catalogo Conexion { get; set; }
+
+        public ICollection<FormatoAdendum> Adendum { get; set; }
+
+        public ICollection<FormatoParametro> Parametros { get; set; }
+
+
+
 
     }
 }
