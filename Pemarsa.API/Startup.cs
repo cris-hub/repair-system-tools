@@ -74,7 +74,7 @@ namespace Pemarsa.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pemarsa");
             });
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
 
 

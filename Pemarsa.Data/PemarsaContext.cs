@@ -52,7 +52,7 @@ namespace Pemarsa.Data
 
               .Build();
            
-            builder.UseMySql(configuration.GetConnectionString("Server=192.168.15.174;Database=pemarsa_neg_trunk;Uid=mysqldev;Pwd=MySqld3v1720*.;"));
+            builder.UseMySql("Server=192.168.15.174;Database=pemarsa_neg_trunk;Uid=mysqldev;Pwd=MySqld3v1720*.;");
             return new PemarsaContext(builder.Options);
         }
     }

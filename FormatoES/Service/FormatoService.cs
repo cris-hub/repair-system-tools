@@ -24,6 +24,27 @@ namespace FormatoES.Service
             _context = context;
         }
 
+
+        public async Task<bool> ActualizarCliente(Formato formato, string RutaServer)
+        {
+            try
+            {
+
+                return await _repository.ActualizarFormato(formato);
+            }
+            catch (Exception) { throw; }
+        }
+
+
+        public async Task<Formato> ConsultarClientePorGuid(Guid guidFormato)
+        {
+            try
+            {
+                return await _repository.ConsultarClientePorGuid(guidFormato);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Guid> CrearFormato(Formato formato, string RutaServer)
         {
             try
@@ -58,5 +79,8 @@ namespace FormatoES.Service
             }
             
         }
+
+
+
     }
 }

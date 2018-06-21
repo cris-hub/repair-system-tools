@@ -28,7 +28,7 @@ namespace FormatoES.Repository
 
                 _context.Formato.Add(formato);
 
-     
+
 
                 await _context.SaveChangesAsync();
                 return formato.Guid;
@@ -38,6 +38,26 @@ namespace FormatoES.Repository
 
                 throw e;
             }
+        }
+
+
+        public async Task<Formato> ConsultarClientePorGuid(Guid guidformato)
+        {
+            try
+            {
+                return await _context.Formato.FirstOrDefaultAsync(f => f.Guid == guidformato);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<bool> ActualizarFormato(Formato formato)
+        {
+            try
+            {
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception) { throw; }
         }
     }
 }
