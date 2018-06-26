@@ -15,5 +15,6 @@ namespace HerramientaES.Service
         Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion);
         Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO);
         Task<bool> ActualizarHerramienta(Herramienta herramienta);
+        Task<Herramienta> ConsultarHerramientaPorId(int id);
     }
 }

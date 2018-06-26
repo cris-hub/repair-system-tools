@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Remove="Migrations\20180524171253_InitialMigration.cs" />
     <Compile Remove="Migrations\20180615192608_initial-migration.cs" />
+    <Compile Remove="Migrations\20180621211836_ajuste-tabla-formato.cs" />
   </ItemGroup>
 
   <ItemGroup>

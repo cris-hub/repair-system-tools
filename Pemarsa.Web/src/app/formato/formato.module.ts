@@ -5,15 +5,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CrearFormatoComponent } from './crear-formato/crear-formato.component';
 import { UtilModule } from '../common/modules/util.module';
+import { ListarFormatoComponent } from './listar-formato/listar-formato.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FiltroFormatoComponent } from './filtro-formato/filtro-formato.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     UtilModule,
+    NgxPaginationModule,
     ReactiveFormsModule
   ],
-  declarations: [CrearFormatoComponent],
+  declarations: [CrearFormatoComponent, ListarFormatoComponent, FiltroFormatoComponent],
   exports: [
     CrearFormatoComponent
   ]

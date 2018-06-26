@@ -11,6 +11,7 @@ import { CrearClienteComponent } from './cliente/cliente/crear-cliente/crear-cli
 import { ListarHerramientaComponent, CrearHerramientaComponent } from './herramienta/herramienta';
 import { ListarSolicitudOrdenTrabajoComponent } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo';
 import { CrearFormatoComponent } from './formato/crear-formato/crear-formato.component';
+import { ListarFormatoComponent } from './formato/listar-formato/listar-formato.component';
 
 const routes: Routes = [
 
@@ -26,7 +27,11 @@ const routes: Routes = [
 
 
   //formato
-  { path: 'formato', component: CrearFormatoComponent },
+  { path: 'formato', component: ListarFormatoComponent },
+  { path: 'formato/crear', component: CrearFormatoComponent },
+  { path: 'formato/editar/:id', component: CrearFormatoComponent },
+  { path: 'formato/ver/:id', component: CrearFormatoComponent },
+
   //Herramienta
   { path: 'herramienta', component: ListarHerramientaComponent },
   { path: 'herramienta/crear', component: CrearHerramientaComponent },

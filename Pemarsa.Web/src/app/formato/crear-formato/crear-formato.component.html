@@ -19,7 +19,7 @@
             Codigo:
           </label>
           <div class="col-md-3">
-            <input formControlName="Codigo" class="form-control " type="text" name="name" />
+            <input formControlName="Codigo" class="form-control " type="text" />
           </div>
 
 
@@ -29,26 +29,25 @@
           </label>
           <div class="col-md-4">
             <div class="form-check form-check-inline col-md-5">
-              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="formatoOtros" value="0">
+              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="formatoOtros" value="19">
               <label class="form-check-label" for="formatoOtros">formato de otros​</label>
             </div>
             <div class="form-check form-check-inline col-md-5">
-              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="formatoConexion" value="1">
+              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="formatoConexion" value="18">
               <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
             </div>
           </div>
         </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
+        <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
 
           <label class="col-md-2  col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.TipoConexionId.status=='INVALID'}">*</span>
+            <span [ngClass]="{'red' : formFormato.controls.TiposConexionesId.status=='INVALID'}">*</span>
             Tipo de conexión
           </label>
           <div class="col-md-3">
-            <select formControlName="TipoConexionId" class=" form-control-lg select">
-              <option value="1">1</option>
-              <option value="2">2</option>
+            <select formControlName="TiposConexionesId" class=" form-control-lg select">
+              <option *ngFor="let TiposConexiones of parametrosTipoConexion" value="{{TiposConexiones.Id}}">{{ TiposConexiones.Valor}}</option>
             </select>
             <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
                style="font-size: 20px;cursor: pointer;"></i>
@@ -61,31 +60,29 @@
           <div class="col-md-3">
             <div>
               <select formControlName="ConexionId" class="form-control-lg select">
-                <option value="1">Seleccione</option>
-                <option value="2">Seleccione</option>
-                <option value="3">Seleccione</option>
+                <option *ngFor="let Conexion of parametrosConexion" value="{{Conexion.Id}}">{{Conexion.Valor}}</option>
+
               </select>
               <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
                  style="font-size: 20px;cursor: pointer;"></i>
             </div>
           </div>
-
         </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '0'" class="form-group row">
+
+        <div *ngIf="formatoModel.TipoFormatoId == '19' && formFormato.get('Herramienta')" class="form-group row">
           <label class="col-md-2  col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.Herramienta.status=='INVALID', 'red' : formatoModel.Herramienta == null || formatoModel.Herramienta == 0 }">*</span>
+            <span>*</span>
             Herramienta
           </label>
-          <div class="col-md-8">
-            <select formControlName="Herramienta" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
-              <option value="0">Seleccione</option>
-              <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta | json}}">{{Herramienta.Nombre }}</option>
+          <div formGroupName="Herramienta" class="col-md-8">
+            <select formControlName="Id" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
+              <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta.Id}}">{{ Herramienta.Nombre }}</option>
             </select>
           </div>
         </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '0' " class="form-group row">
+        <div *ngIf="formatoModel.TipoFormatoId == '19' " class="form-group row">
           <label [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID'}" class="col-md-2 col-form-label" id="corre">
             <span *ngIf="formFormato.controls.Aletas.status=='INVALID'" [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID' }">*</span>
             Aletas:
@@ -102,27 +99,27 @@
           </div>
 
         </div>
-        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
+        <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
 
           <label class="col-md-2 col-form-label" id="corre">
-            <span *ngIf="formFormato.controls.DocumentoAdjunto.status=='INVALID'" [ngClass]="{'red' : formFormato.controls.DocumentoAdjunto.status=='INVALID'}">*</span>
+            <span *ngIf="formFormato.controls.EsFormatoAdjunto" [ngClass]="{'red' : formFormato.controls.EsFormatoAdjunto.status=='INVALID'}">*</span>
             Documento adjunto:
           </label>
           <div class="col-md-4">
             <div class="form-check form-check-inline col-md-5">
-              <input formControlName="DocumentoAdjunto" class="form-check-input" type="radio" id="DocumentoAdjuntoSi" value="true">
-              <label class="form-check-label" for="DocumentoAdjuntoSi">Si​</label>
+              <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoSi" [value]="true">
+              <label class="form-check-label" for="EsFormatoAdjuntoSi">Si​</label>
             </div>
             <div class="form-check form-check-inline col-md-5">
-              <input formControlName="DocumentoAdjunto" class="form-check-input" type="radio" id="DocumentoAdjuntoNo" value="false">
-              <label class="form-check-label" for="DocumentoAdjuntoNo">No</label>
+              <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoNo" [value]="false">
+              <label class="form-check-label" for="EsFormatoAdjuntoNo">No</label>
             </div>
           </div>
 
         </div>
 
 
-        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="form-group row">
+        <div *ngIf=" ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
           <div class="row">
             <label class="col-md-4 col-form-label" id="corre">
               <span [ngClass]="{'red' : formFormato.controls.TPI.status=='INVALID'}">*</span>
@@ -141,18 +138,18 @@
           </div>
         </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="form-group row">
+        <div *ngIf="formatoModel.TipoFormatoId == '19' || ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
           <label class="col-md-2 col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.plano.status=='INVALID'}">*</span>
+            <span>*</span>
             Adjuntar plano:
           </label>
           <div class="col-md-2">
-            <input formControlName="plano" type="file" (change)="addFile($event)" class="form-control-file" multiple>
+            <input type="file" formControlName="Planos" (change)="addFile($event)" class="form-control-file" multiple>
           </div>
           <div class="col-md-5 col-md-offset-2">
-            <div *ngIf="planos.length > 0" class="panel panel-default">
+            <div *ngIf="Planos.length > 0" class="panel panel-default">
               <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos {{planos.length}}</a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos {{Planos.length}}</a>
                 <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
                   <i class="glyphicon glyphicon-chevron-down"></i>
                 </span>
@@ -174,65 +171,72 @@
           </div>
         </div>
 
-
-        <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="form-group row">
-          <label class="col-md-2 col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.Especificacion.status=='INVALID'}">*</span>
+        <div *ngIf=" ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  ) || formatoModel.TipoFormatoId == '19' " class="form-group row">
+          <label class="col-md-2  col-form-label" id="corre">
+            <span [ngClass]="{'red' : formFormato.controls.EspecificacionId.status=='INVALID'}">*</span>
             Especificación:
           </label>
-          <div class="col-md-8">
-            <textarea formControlName="Especificacion" class=" form-control pull-rigth "></textarea>
+          <select formControlName="EspecificacionId" class="form-control form-control-lg col-md-4" value="seleccione">
+            <option *ngFor="let Especificacion of parametrosEspecificacion" value="{{Especificacion.Id}}">{{ Especificacion.Valor }}</option>
 
-          </div>
+          </select>
         </div>
 
 
 
-
-        <div *ngIf="formatoModel.TipoFormatoId == '1'" class="panel panel-default">
+        <div *ngIf=" ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  ) " class="panel panel-default">
           <div class="panel-heading">
 
-            <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel">ADENDUM tabla</a>
-            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#filterPanel">
+            <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel1">Parametros Formato</a>
+            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#filterPanel1">
               <i class="glyphicon glyphicon-chevron-down"></i>
             </span>
-            <i (click)="addItem()" class="glyphicon glyphicon-plus float-right"
+            <i (click)="addItemFormParametro()" class="glyphicon glyphicon-plus float-right"
                style="font-size: 20px;cursor: pointer;margin-right:5px;"></i>
 
           </div>
-          <div id="filterPanel" class="panel-collapse panel-collapse collapse">
+          <div id="filterPanel1" class="panel-collapse panel-collapse collapse">
             <div class="panel-body">
               <div>
                 <div class="row">
-                  <table class="table table-bordered table-striped">
+                  <table *ngIf="formFormato.get('Parametros') && formatosAdendumModel" class="table table-bordered table-striped">
                     <thead>
                       <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Posicion</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">accion</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Parametro</th>
+                        <th scope="col">ToleranciaMin</th>
+                        <th scope="col">ToleranciaMax</th>
 
                       </tr>
                     </thead>
-                    <tbody formArrayName="formFormatoAdendum"
-                           *ngFor="let formFormatoAdendum of formFormato.get('formFormatoAdendum').controls; let i = index;">
+                    <tbody formArrayName="Parametros"
+                           *ngFor="let Parametros of formFormato.get('Parametros').controls; let i = index;">
                       <tr [formGroupName]="i">
-                        <td>
-                          {{i}}
+
+                        <td *ngIf="esActualizar || esVer ">
+                          <p> {{formFormato.get('Parametros').controls[i].controls.Id.value}} </p>
                         </td>
+
                         <td>
-                          <input formControlName="Posicion" class="form-control " type="text" />
+                          <input formControlName="Item" class="form-control" type="text" />
                         </td>
+
                         <td>
-                          <input formControlName="Tipo" class="form-control " type="text" />
+                          <input formControlName="Parametro" class="form-control" type="text" />
                         </td>
+
                         <td>
-                          <input formControlName="Valor" class="form-control " type="text" />
+                          <input formControlName="ToleranciaMin" class="form-control" type="text" />
                         </td>
+
+                        <td>
+                          <input formControlName="ToleranciaMax" class="form-control" type="text" />
+                        </td>
+
                         <td>
                           <button *ngIf="i" class="form-control ">
-                            <i (click)="removeItem(i)" class="glyphicon glyphicon glyphicon-minus float-right"
+                            <i (click)="removeItemFormFormatoPatamtros(i)" class="glyphicon glyphicon glyphicon-minus float-right"
                                style="font-size: 20px;cursor: pointer;margin-right:5px;"></i>
                           </button>
                         </td>
@@ -245,9 +249,14 @@
           </div>
         </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '1' || formatoModel.TipoFormatoId == '0' " class="panel panel-default">
+
+
+
+
+        <div *ngIf=" ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  ) " class="panel panel-default">
           <div class="panel-heading">
-            <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel">*detalles</a>
+
+            <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel">ADENDUM tabla</a>
             <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#filterPanel">
               <i class="glyphicon glyphicon-chevron-down"></i>
             </span>
@@ -257,34 +266,24 @@
             <div class="panel-body">
               <div>
                 <div class="row">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                  <table *ngIf="formFormato.get('Adendum') && formatosAdendumModel" class="table table-bordered table-striped">
+
+                    <tbody formArrayName="Adendum">
+                      <tr *ngFor="let Adendum of formFormato.get('Adendum').controls; let i = index;">
+                        <td [formGroupName]="i" >
+                          <div *ngFor="let Posicion of posiciones;let y = index">
+                            <input formControlName="Posicion" class="form-control" type="text" />
+                          </div>
+                          <div>
+                            <input formControlName="TipoId" class="form-control" type="text" />
+                          </div>
+                          <div>
+                            <input formControlName="Valor" class="form-control" type="text" />
+                          </div>
+                        </td>
+
                       </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
+
                     </tbody>
                   </table>
                 </div>
@@ -293,58 +292,15 @@
           </div>
         </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '0'" class="panel panel-default">
-          <div class="panel-heading">
-            <a data-toggle="collapse" data-parent="#accordion2" href="#filterPanel2">*detalles</a>
-            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion2" href="#filterPanel2">
-              <i class="glyphicon glyphicon-chevron-down"></i>
-            </span>
-          </div>
-          <div id="filterPanel2" class="panel-collapse panel-collapse collapse">
-            <div class="panel-body">
-              <div>
-                <div class="row">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
+
 
 
         <div class="form-group row">
           <div class="col-md-12">
             <div class="col-md-2 col-md-offset-4 text-right">
-              <button type="button" class="btn btn-md">Regresar</button>
+              <button [routerLink]="['/formato']" type="button" class="btn btn-md">Regresar</button>
             </div>
             <div class="col-md-5">
               <button type="submit" [disabled]="!esValido" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>

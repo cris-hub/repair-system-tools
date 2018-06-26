@@ -37,6 +37,14 @@ namespace HerramientaES.Service
             }
             catch (Exception) { throw; }   
         }
+        public async Task<Herramienta> ConsultarHerramientaPorId(int id)
+        {
+            try
+            {
+                return await _repository.ConsultarHerramientaPorId(id);
+            }
+            catch (Exception) { throw; }
+        }
 
         public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion)
         {

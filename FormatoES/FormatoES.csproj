@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DocumentoAdjuntoUS\DocumentoAdjuntoUS.csproj" />
+    <ProjectReference Include="..\HerramientaES\HerramientaES.csproj" />
     <ProjectReference Include="..\Pemarsa.Data\Pemarsa.Data.csproj" />
     <ProjectReference Include="..\Pemarsa.Domain\Pemarsa.Domain.csproj" />
   </ItemGroup>

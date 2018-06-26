@@ -13,10 +13,10 @@ export class AppComponent {
     [
       {
         id: "1",
-        name: "OIT",
+        name: "Solicitud",
         image: "icon-lista",
         url: false,
-        title: "OIT",
+        title: "Solicitud",
         submenu: [
           /*{
             id: "8",
@@ -34,11 +34,11 @@ export class AppComponent {
           },*/
           {
             id: "9",
-            name: "OIT",
+            name: "Solicitud",
             image: "",
             url: "/solicitudOrdenTrabajo",
             color: "color10",
-            title: "OIT",
+            title: "Solicitud",
             submenu: false,
             complementarios:
               {

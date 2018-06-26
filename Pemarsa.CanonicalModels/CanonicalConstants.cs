@@ -25,6 +25,14 @@ namespace Pemarsa.CanonicalModels
 
         public struct Tipos
         {
+            public struct FormatoAdendem
+            {
+                public const string Tipo1 = "Tipo1";
+                public const string Tipo2 = "Tipo1";
+
+            }
+
+
             public struct Materiales
             {
                 public const string Prueba = "Prueba";
@@ -34,11 +42,18 @@ namespace Pemarsa.CanonicalModels
 
             public struct Formato
             {
-                public const string Conexion = "Conexión";
-                public const string Otros = "Otros";
+                public const string FormatoConexion = "Conexión";
+                public const string FormatoOtros = "Otros";
+                public const string TipoConexionNC50 = "NC50";
+                public const string TipoConexionNK50 = "NK50";
+                public const string FormatoConexionPIG = "PIG";
+                public const string FormatoConexionBOX = "BOX";
+
             }
 
         }
+
+
 
         public struct Solicitud
         {
@@ -76,7 +91,9 @@ namespace Pemarsa.CanonicalModels
             public const string EstadosSolicitud = "ESTADOS_SOLICITUD";
             public const string TiposFormatos = "TIPOS_FORMATOS";
             public const string Especificacion = "ESPECIFICACION";
-
+            public const string TipoConexion = "TIPO_CONEXION";
+            public const string Conexion = "CONEXION";
+            public const string FormatoAdendum = "FORMATO_ADENDUM";
         }
 
         public struct Entidades
@@ -87,13 +104,13 @@ namespace Pemarsa.CanonicalModels
             public const string Formato = "FORMATO";
         }
 
-    public struct Excepciones
-    {
-        public const string EstadoNoEncontrado = "El estado no se ha encontrado";
-        public const string MaterialNoEncontrado = "El material no se ha encontrado";
-        public const string OrigenSolicitudNoEncontrado = "La origen de la solicitud no se ha encontrado";
-        public const string PrioridadSolicitudNoEncontrado = "La prioridad de la solicitud no se ha encontrado";
-        public const string EstadoSolicitudNoEncontrado = "El estado no se ha encontrado";
+        public struct Excepciones
+        {
+            public const string EstadoNoEncontrado = "El estado no se ha encontrado";
+            public const string MaterialNoEncontrado = "El material no se ha encontrado";
+            public const string OrigenSolicitudNoEncontrado = "La origen de la solicitud no se ha encontrado";
+            public const string PrioridadSolicitudNoEncontrado = "La prioridad de la solicitud no se ha encontrado";
+            public const string EstadoSolicitudNoEncontrado = "El estado no se ha encontrado";
+        }
     }
-}
 }

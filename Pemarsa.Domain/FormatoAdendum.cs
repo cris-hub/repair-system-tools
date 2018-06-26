@@ -13,7 +13,11 @@ namespace Pemarsa.Domain
 
         public int Posicion { get; set; }
 
-        public Catalogo Tipo { get; set; }
+
+        [ForeignKey("Tipo")]
+        public int? TipoId { get; set; }
+
+        public virtual Catalogo Tipo { get; set; }
 
         public string Valor { get; set; }
 

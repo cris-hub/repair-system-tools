@@ -157,6 +157,23 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; } 
         }
 
+        public async Task<Herramienta> ConsultarHerramientaPorId(int id)
+        {
+            try
+            {
+                return await _context.Herramienta
+                            .Include(c => c.Materiales)
+                            .Include(c => c.TamanosHerramienta)
+                            .Include(c => c.TamanosMotor)
+                            .Include(c => c.HerramientaEstudioFactibilidad)
+                            .Include(c => c.Estado)
+                            .Include(c => c.Cliente)
+                            .Include(c => c.Linea)
+                            .FirstOrDefaultAsync(c => c.Id == id);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion)
         {
             try

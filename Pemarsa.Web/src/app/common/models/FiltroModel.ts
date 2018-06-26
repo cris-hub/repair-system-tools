@@ -17,6 +17,21 @@ export class FiltroModel extends PaginacionModel {
   }
 }
 
+export class FiltroFormatoModel extends PaginacionModel {
+  public HerramientaId: string;
+  public Conexion: string;
+  public TipoConexion: string;
+  public HerramientaGuid: string;
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros);
+    this.HerramientaId = '';
+    this.Conexion = '';
+    this.TipoConexion = '';
+    this.HerramientaGuid = '';
+  }
+}
+
 export class FiltroHerramientaModel extends PaginacionModel {
   public Nombre: string;
 
