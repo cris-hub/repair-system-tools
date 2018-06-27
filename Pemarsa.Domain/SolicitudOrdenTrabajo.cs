@@ -41,7 +41,7 @@ namespace Pemarsa.Domain
         public int PrioridadId { get; set; }
 
         [ForeignKey("Responsable")]
-        public int ResponsableId { get; set; }
+        public int? ResponsableId { get; set; }
 
 
         public virtual IEnumerable<DocumentoAdjunto> DocumentoAdjunto { get; set; }

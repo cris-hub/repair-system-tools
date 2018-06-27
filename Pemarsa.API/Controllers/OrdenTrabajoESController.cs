@@ -27,7 +27,7 @@ namespace Pemarsa.API.Controllers
         public async Task<IActionResult> CrearSolicitudDeTrabajo([FromBody]SolicitudOrdenTrabajo solicitudOrdenTrabajo)
         {
             try
-            {
+                {
                 //se obtiene la informacion del appsettings
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())

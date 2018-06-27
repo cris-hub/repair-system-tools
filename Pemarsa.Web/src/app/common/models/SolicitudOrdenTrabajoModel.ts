@@ -23,12 +23,7 @@ export class SolicitudOrdenTrabajoModel extends EntityModel {
 
   constructor() {
     super();
-    this.DocumentoAdjunto = new Array<AttachmentModel>();
-    this.Cliente = new ClienteModel();
-    this.Estado = new CatalogoModel();
-    this.ClienteLinea = new ClienteLineaModel();
-    this.OrigenSolicitud = new CatalogoModel();
-    this.Prioridad = new CatalogoModel();
-    this.Responsable = new CatalogoModel();
+
+
   }
 }

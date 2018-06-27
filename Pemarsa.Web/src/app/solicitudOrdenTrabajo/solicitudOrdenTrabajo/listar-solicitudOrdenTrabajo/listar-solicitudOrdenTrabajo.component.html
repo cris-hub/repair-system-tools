@@ -50,7 +50,7 @@
                 </div>
               </div>
               <div class="col-md-1" style="padding-top:30px;float: right;">
-                <i (click)="habilitarNuevaOit(true)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus"></i>
+                <i (click)="habilitarNuevaOit()" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus pointer"></i>
               </div>
             </div>
           </div>
@@ -74,24 +74,28 @@
               <th class="col-md-1">Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
-              <td>{{oit.Responsable.Valor}}</td>
+          <tbody *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+            <tr [ngClass]="obtenerEstilosPorPrioridad(oit.Prioridad.Valor)">
               <td>{{oit.Cliente.NickName}}</td>
               <td>{{oit.ClienteLinea.Nombre}}</td>
               <td>{{oit.Prioridad.Valor}}</td>
+              <td>!!aqui va el responsable!!</td>
               <td>{{oit.DetallesSolicitud}}</td>
               <td>{{oit.FechaRegistro}}</td>
               <td>{{oit.Estado.Valor}}</td>
               <td class="col-md-12">
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i class="glyphicon glyphicon-pencil" routerLink="/cliente/ver/{{oit.Guid}}"></i>
+                  <i  (click)="actualizarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal"  class="glyphicon glyphicon-pencil pointer" ></i>
                 </div>
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i class="glyphicon glyphicon-wrench" routerLink="/cliente/editar/{{oit.Guid}}"></i>
+                  <i  (click)="ProcesarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal"  class="glyphicon glyphicon-wrench pointer"></i>
                 </div>
+                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
+                    <i  (click)="verSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal"  class="glyphicon glyphicon-eye-open pointer"></i>
+                  </div>
               </td>
             </tr>
+
           </tbody>
         </table>
       </div>
@@ -101,18 +105,14 @@
   <div class="row">
     <nav aria-label="pagination example">
       <ul class="pagination pagination-circle pg-blue mb-0">
-        <pagination-controls maxSize="10"
-                             previousLabel="Anterior"
-                             nextLabel="Siguiente"
-                             id="cliente"
-                             (pageChange)="cambioPagina($event)">
+        <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
         </pagination-controls>
       </ul>
     </nav>
     <br />
   </div>
 </div>
-<div *ngIf="esNuevaOit" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel" aria-hidden="true">
-  <app-crear-solicitudOrdenTrabajo></app-crear-solicitudOrdenTrabajo>
+<div *ngIf="esNuevaAccion" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
+  aria-hidden="true">
+  <app-crear-solicitudOrdenTrabajo [solicitudOrdenTrabajoModelInput]="solicitudOrdenTrabajoModelInput" [accion]="accion" ></app-crear-solicitudOrdenTrabajo>
 </div>
-

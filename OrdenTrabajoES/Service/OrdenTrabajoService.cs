@@ -119,7 +119,8 @@ namespace OrdenTrabajoES.Service
                         anexos.Add(anexo);
                     }
                     solicitudOrdenTrabajo.Anexos = anexos;
-                } 
+                }
+                solicitudOrdenTrabajo.EstadoId = 8;
                 return await _repository.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo);
             }
             catch (Exception) { throw; }
