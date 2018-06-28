@@ -9,7 +9,7 @@ namespace Pemarsa.Domain
     public class SolicitudOrdenTrabajo : Entity
     {
       
-        public List<SolicitudOrdenTrabajoAnexos> Anexos { get; set; }
+       
 
         [Required]
         public int Cantidad { get; set; }
@@ -44,7 +44,7 @@ namespace Pemarsa.Domain
         public int? ResponsableId { get; set; }
 
 
-        public virtual IEnumerable<DocumentoAdjunto> DocumentoAdjunto { get; set; }
+        public virtual ICollection<SolicitudOrdenTrabajoAnexos> Anexos { get; set; }
 
         public virtual Cliente Cliente { get; set; }
 

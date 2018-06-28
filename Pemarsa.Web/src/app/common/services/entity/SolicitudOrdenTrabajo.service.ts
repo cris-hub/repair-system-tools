@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { ConfigService } from "../../config/config.service";
-import { PaginacionModel, ListadoResponseModel, SolicitudOrdenTrabajoModel } from "../../models/Index";
+import { PaginacionModel, ListadoResponseModel, SolicitudOrdenTrabajoModel, AttachmentModel } from "../../models/Index";
 import { Observable } from "rxjs";
 
 @Injectable()
@@ -27,6 +27,13 @@ export class SolicitudOrdenTrabajoService {
     return "?" + parts.join('&');
   }
 
+  public consultarDocumentoAdjuntoPorId(documentoAdjuntoId: number) {
+    return this.http.get<AttachmentModel>(this.configSrv.getConfiguration().webApiBaseUrl + 'DocumentoAdjunto/' + "ConsultarDocumentoAdjunto?documentoAdjuntoId=" + documentoAdjuntoId,
+      {
+        headers: this.header
+      });
+  }
+
   public consultarSolicitudesDeTrabajo(paginacion: PaginacionModel): Observable<ListadoResponseModel> {
 
     return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarSolicitudesDeTrabajo",
@@ -45,12 +52,11 @@ export class SolicitudOrdenTrabajoService {
   }
 
   public crearSolicitudOit(model: SolicitudOrdenTrabajoModel): Observable<Boolean> {
-
     return this.http.post<Boolean>(this.urlServer + 'CrearSolicitudDeTrabajo', model, { headers: this.header });
   }
 
-  public actualizarEstadoSolicitudDeTrabajo(model:SolicitudOrdenTrabajoModel): Observable<boolean> {
-    return this.http.put<boolean>(this.urlServer + 'ActualizarSolcitudDeTrabajo' , model, { headers: this.header });
+  public actualizarEstadoSolicitudDeTrabajo(model: SolicitudOrdenTrabajoModel): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarSolcitudDeTrabajo', model, { headers: this.header });
   }
   public consultarSolicitudDeTrabajoPorGuid(Guid: string): Observable<SolicitudOrdenTrabajoModel> {
     return this.http.get<SolicitudOrdenTrabajoModel>(this.urlServer + 'consultarSolicitudDeTrabajoPorGuid?guidSolicitudOrdenTrabajo=' + Guid, { headers: this.header });

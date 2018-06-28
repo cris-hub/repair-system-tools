@@ -46,6 +46,19 @@ namespace DocumentoAdjuntoUS.Repository
             }
         }
 
+        public async Task<DocumentoAdjunto> ConsultarDocumentoAdjuntoPorId(int documentoAdjuntoId)
+        {
+            try
+            {
+                return await _context.DocumentoAdjunto.FirstOrDefaultAsync(c => c.Id == documentoAdjuntoId);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
         public async Task<string> ConsultarRutaActualPapelTrabajo(int AdjuntoId)
         {
             try

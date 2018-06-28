@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
-import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel } from "../../../common/models/Index";
+import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel, SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { ClienteService, SolicitudOrdenTrabajoService } from "../../../common/services/entity";
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
@@ -15,44 +15,25 @@ import { ToastrService } from "ngx-toastr";
 })
 export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
-
-
-  ngOnInit(): void {
-
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.accion.currentValue) {
-      this.accion = changes.accion.currentValue
-    }
-    
-    console.log(changes,this.accion)
-    
-    this.solicitudOrdenTrabajoModel = new SolicitudOrdenTrabajoModel();
-    this.model = new CatalogoModel();
-    this.model1 = new CatalogoModel();
-    this.consultarParametros();
-    this.consultarParametrosCliente();
-    this.initForm();
-  }
-
   @ViewChild('inputFile') inputFile: ElementRef;
   @ViewChild('instance') instance: NgbTypeahead;
   @Input() public accion: string[];
   @Input() public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
 
 
-
   private esActualizar: boolean = false;
-  private esVer: boolean =false;
+  private esVer: boolean = false;
   private esValido: boolean = false;
 
-  private frmSolicitudOit: FormGroup;
   private solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
-
   public Origenes: CatalogoModel[] = new Array<CatalogoModel>();
   public Prioridades: CatalogoModel[] = new Array<CatalogoModel>();
   public Estados: CatalogoModel[] = new Array<CatalogoModel>();
   private parametros: ParametrosModel;
+  private attachments: AttachmentModel[] = new Array<AttachmentModel>();
+
+
+  private frmSolicitudOit: FormGroup;
   public data: any = new Array();
   private paginacion = new PaginacionModel(1, 200);
 
@@ -63,10 +44,28 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   private idSelCliente: number = 0;
   private idSelClienteLinea: number = 0;
 
-  private attachments: AttachmentModel[] = new Array<AttachmentModel>();
 
   public model: CatalogoModel;
   public model1: CatalogoModel;
+
+
+
+  ngOnInit(): void {
+
+  }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.accion.currentValue) {
+      this.accion = changes.accion.currentValue
+    }
+    this.solicitudOrdenTrabajoModel = new SolicitudOrdenTrabajoModel();
+    this.model = new CatalogoModel();
+    this.model1 = new CatalogoModel();
+    this.consultarParametros();
+    this.consultarParametrosCliente();
+    this.initForm();
+  }
 
   constructor(
     private frmBuilder: FormBuilder,
@@ -80,99 +79,52 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   }
 
-
-
   initForm() {
-    
+
     if (this.solicitudOrdenTrabajoModelInput) {
       this.model.Valor = this.solicitudOrdenTrabajoModelInput.Cliente.NickName
       this.model.Id = this.solicitudOrdenTrabajoModelInput.Cliente.Id
       this.model1.Valor = this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre
       this.model1.Id = this.solicitudOrdenTrabajoModelInput.ClienteLinea.Id
       this.model1.CatalogoId = this.solicitudOrdenTrabajoModelInput.Cliente.Id
-      
-
-      this.frmSolicitudOit = this.frmBuilder.group({
-        Id: [this.solicitudOrdenTrabajoModelInput.Id],
-        
-        DocumentoAdjunto: [],
-        OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId],
-        Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName],
-        ClienteLinea: [this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre],
-        Contacto: [this.solicitudOrdenTrabajoModelInput.Contacto],
-        PrioridadId: [this.solicitudOrdenTrabajoModelInput.PrioridadId],
-        Cotizacion: [this.solicitudOrdenTrabajoModelInput.Cotizacion],
-        Cantidad: [this.solicitudOrdenTrabajoModelInput.Cantidad],
-        DetallesSolicitud: [this.solicitudOrdenTrabajoModelInput.DetallesSolicitud],
-        NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
-        GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
-        GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
+      this.attachments = new Array<AttachmentModel>();
+      this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
+        this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
+          this.attachments.push(response);
+        });
       });
-
-
 
     } else {
-      this.frmSolicitudOit = this.frmBuilder.group({
-        DocumentoAdjunto: [],
-        OrigenSolicitudId: [this.solicitudOrdenTrabajoModel.OrigenSolicitudId],
-        Cliente: [this.solicitudOrdenTrabajoModel.ClienteId],
-        ClienteLinea: [this.solicitudOrdenTrabajoModel.LineaId],
-        Contacto: [this.solicitudOrdenTrabajoModel.Contacto],
-        PrioridadId: [this.solicitudOrdenTrabajoModel.PrioridadId],
-        Cotizacion: [this.solicitudOrdenTrabajoModel.Cotizacion],
-        Cantidad: [this.solicitudOrdenTrabajoModel.Cantidad],
-        DetallesSolicitud: [this.solicitudOrdenTrabajoModel.DetallesSolicitud],
-        NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
-        GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
-        GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
-      });
-
+      this.solicitudOrdenTrabajoModelInput = new SolicitudOrdenTrabajoModel();
     }
-    console.log(this.accion)
+
+    this.frmSolicitudOit = this.frmBuilder.group({
+      Id: [this.solicitudOrdenTrabajoModelInput.Id],
+      DocumentoAdjunto: [],
+      OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId],
+      Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName],
+      ClienteLinea: [this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre],
+      Contacto: [this.solicitudOrdenTrabajoModelInput.Contacto],
+      PrioridadId: [this.solicitudOrdenTrabajoModelInput.PrioridadId],
+      Cotizacion: [this.solicitudOrdenTrabajoModelInput.Cotizacion],
+      Cantidad: [this.solicitudOrdenTrabajoModelInput.Cantidad],
+      DetallesSolicitud: [this.solicitudOrdenTrabajoModelInput.DetallesSolicitud],
+      NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
+      GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
+      GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
+    });
+
+
     if (this.accion[0] == 'Ver') {
-      this.desabilidarCamposFormulario();
       this.esVer = true;
     } else {
-      this.esVer = false
-      this.habilidarCamporFormulario();
+      this.esVer = false;
+    }
+    if (this.accion[0] == 'Procesar') {
+      this.esVer = true;
     }
 
   }
-
-
-  habilidarCamporFormulario() {
-    
-    this.frmSolicitudOit.get('OrigenSolicitudId').enable();;
-    this.frmSolicitudOit.get('Cliente').enable();
-    this.frmSolicitudOit.get('ClienteLinea').enable();
-    this.frmSolicitudOit.get('Contacto').enable();
-    this.frmSolicitudOit.get('PrioridadId').enable();
-    this.frmSolicitudOit.get('Cotizacion').enable();
-    this.frmSolicitudOit.get('Cantidad').enable();
-    this.frmSolicitudOit.get('DetallesSolicitud').enable();
-    this.frmSolicitudOit.get('NombreUsuarioCrea').enable();
-    this.frmSolicitudOit.get('GuidUsuarioCrea').enable();
-    this.frmSolicitudOit.get('GuidOrganizacion').enable();
-    this.frmSolicitudOit.get('DocumentoAdjunto').enable();
-  }
-  desabilidarCamposFormulario() {
-
-
-
-    this.frmSolicitudOit.get('OrigenSolicitudId').disable()
-    this.frmSolicitudOit.get('Cliente').disable();
-    this.frmSolicitudOit.get('ClienteLinea').disable();
-    this.frmSolicitudOit.get('Contacto').disable();
-    this.frmSolicitudOit.get('PrioridadId').disable();
-    this.frmSolicitudOit.get('Cotizacion').disable();
-    this.frmSolicitudOit.get('Cantidad').disable();
-    this.frmSolicitudOit.get('DetallesSolicitud').disable();
-    this.frmSolicitudOit.get('NombreUsuarioCrea').disable();
-    this.frmSolicitudOit.get('GuidUsuarioCrea').disable();
-    this.frmSolicitudOit.get('GuidOrganizacion').disable();
-    this.frmSolicitudOit.get('DocumentoAdjunto').disable();
-  }
-
 
   consultarParametros() {
     this.parametroSrv.consultarParametrosPorEntidad("SOLICITUD")
@@ -182,7 +134,6 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
         this.Estados = this.parametros.Catalogos.filter(e => e.Grupo == "ESTADOS_SOLICITUD");
         this.Prioridades = this.parametros.Catalogos.filter(e => e.Grupo == "PRIORIDAD_SOLICITUD");
       });
-
   }
 
   consultarParametrosCliente() {
@@ -191,7 +142,6 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
         this.paramsClientes = response;
         this.clientes = this.paramsClientes.Consultas.filter(e => e.Grupo == "cliente");
         this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.Grupo == "clientelinea");
-
       });
   }
 
@@ -206,6 +156,8 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
           let attachment: AttachmentModel = new AttachmentModel();
           attachment.Extension = reader.result.split(',')[0];
           attachment.NombreArchivo = file.name;
+          attachment.Nombre = file.name;
+
           attachment.Stream = reader.result.split(',')[1];
 
           //estos campo debe ser actualizado con la api de seguridad
@@ -213,10 +165,18 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
           attachment.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
           attachment.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
           this.attachments.push(attachment);
-
+          let solicitudOrdenTrabajoAnexosModel: SolicitudOrdenTrabajoAnexosModel = new SolicitudOrdenTrabajoAnexosModel();
+          solicitudOrdenTrabajoAnexosModel.DocumentoAdjunto = attachment;
+          solicitudOrdenTrabajoAnexosModel.Estado = true;
+          if (this.solicitudOrdenTrabajoModel.Anexos == null || this.solicitudOrdenTrabajoModel.Anexos == undefined) {
+            this.solicitudOrdenTrabajoModel.Anexos = new Array<SolicitudOrdenTrabajoAnexosModel>();
+          }
+          this.solicitudOrdenTrabajoModel.Anexos.push(solicitudOrdenTrabajoAnexosModel);
           this.inputFile.nativeElement.value = "";
         }
       }
+
+
     } catch (ex) {
     }
   }
@@ -251,7 +211,6 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   formatter = (x: { Valor: string }) => x.Valor;
 
   cambioItemEvent(event) {
-
     //.log(event);
     /*if (event != undefined) {
       this.tmpClienteLinea = new Array<CatalogoModel>();
@@ -261,10 +220,9 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   }
 
   enviarFormulario(datosFormulario) {
-
-
     if (this.accion[0] == 'Crear') {
       this.crearSolicitudOit(datosFormulario);
+      this.attachments = new Array<AttachmentModel>();
     }
 
     if (this.accion[0] == 'Editar') {
@@ -294,6 +252,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.solicitudOrdenTrabajoModel.LineaId = this.solicitudOrdenTrabajoModel.ClienteLinea.Id;
     delete this.solicitudOrdenTrabajoModel['Cliente']
     delete this.solicitudOrdenTrabajoModel['ClienteLinea']
+
     this.solicitudOrdenTrabajoSrv.actualizarEstadoSolicitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
       this.toastr.info(JSON.stringify(response));
     });

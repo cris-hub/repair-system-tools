@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pemarsa.Domain
@@ -26,6 +27,8 @@ namespace Pemarsa.Domain
         [ForeignKey("Formato")]
         public int? FormatoId { get; set; }
         public virtual Formato Formato { get; set; }
+        public virtual ICollection<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
+
 
     }
 }

@@ -7,7 +7,16 @@
   <ItemGroup>
     <Compile Remove="Migrations\20180524171253_InitialMigration.cs" />
     <Compile Remove="Migrations\20180615192608_initial-migration.cs" />
+    <Compile Remove="Migrations\20180621000302_initial-migration.cs" />
     <Compile Remove="Migrations\20180621211836_ajuste-tabla-formato.cs" />
+    <Compile Remove="Migrations\20180621212050_ajuste-tabla-formato.cs" />
+    <Compile Remove="Migrations\20180621221104_ajuste-tabla-formato-tipo-formatoademiun.cs" />
+    <Compile Remove="Migrations\20180627150523_nulleable-solicitudOrdenTrabajo-responsableId.cs" />
+    <Compile Remove="Migrations\20180628145421_modificacion-relacion-mucho-a-muchos-SolicitudOrden-SolicitudAnexos.cs" />
+    <Compile Remove="Migrations\20180628145800_modificaion-relacion.cs" />
+    <Compile Remove="Migrations\20180628160339_desabilitacion-de-herencia.cs" />
+    <Compile Remove="Migrations\20180628160653_cambios_model_relacion.cs" />
+    <Compile Remove="Migrations\20180628161230_changes.cs" />
   </ItemGroup>
 
   <ItemGroup>

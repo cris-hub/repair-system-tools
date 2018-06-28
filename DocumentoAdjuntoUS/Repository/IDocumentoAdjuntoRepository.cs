@@ -11,5 +11,6 @@ namespace DocumentoAdjuntoUS.Repository
         Task<int> CrearDocumentoAdjunto(DocumentoAdjunto documentoAdjunto);
         Task<bool> ActualizarDocumentoAdjunto(DocumentoAdjunto documentoAdjunto);
         Task<string> ConsultarRutaActualPapelTrabajo(int AdjuntoId);
+        Task<DocumentoAdjunto> ConsultarDocumentoAdjuntoPorId(int documentoAdjuntoId);
     }
 }

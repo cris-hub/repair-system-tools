@@ -7,5 +7,6 @@ namespace DocumentoAdjuntoUS.Service
     {
         Task<int> CrearDocumentoAdjunto(DocumentoAdjunto documentoAdjunto, string RutaServer);
         Task<bool> ActualizarDocumentoAdjunto(DocumentoAdjunto documentoAdjunto, string RutaServer);
+        Task<DocumentoAdjunto> ConsultarDocumentoAdjuntoPorId(int documentoAdjuntoId);
     }
 }

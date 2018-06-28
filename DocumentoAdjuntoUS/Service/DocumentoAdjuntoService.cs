@@ -41,13 +41,28 @@ namespace DocumentoAdjuntoUS.Service
                 string path = await _repository.ConsultarRutaActualPapelTrabajo(documentoAdjunto.Id);
                 File.Delete(path);
 
-                return await _repository.ActualizarDocumentoAdjunto(documentoAdjunto); 
+                return await _repository.ActualizarDocumentoAdjunto(documentoAdjunto);
             }
             catch (Exception)
             {
                 throw;
             }
         }
+
+        public async Task<DocumentoAdjunto> ConsultarDocumentoAdjuntoPorId(int documentoAdjuntoId)
+        {
+
+            try
+            {
+
+                return await _repository.ConsultarDocumentoAdjuntoPorId(documentoAdjuntoId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         public async Task<int> CrearDocumentoAdjunto(DocumentoAdjunto documentoAdjunto, string RutaServer)
         {
@@ -58,7 +73,7 @@ namespace DocumentoAdjuntoUS.Service
 
                 //Se valida si existe la carpeta en el servidor
                 if (!Directory.Exists($"{RutaServer}"))
-                        Directory.CreateDirectory($"{RutaServer}");
+                    Directory.CreateDirectory($"{RutaServer}");
 
                 //se guarda la ruta en el documentoAfjunto para registrarla en la base de datos
                 string nameSystem = $"{Guid.NewGuid().ToString()}.{documentoAdjunto.NombreArchivo.Split('.')[1]}";
@@ -66,7 +81,7 @@ namespace DocumentoAdjuntoUS.Service
                 documentoAdjunto.Nombre = nameSystem;
 
                 await File.WriteAllBytesAsync(documentoAdjunto.Ruta, bytes);
-                
+
 
                 return await _repository.CrearDocumentoAdjunto(documentoAdjunto);
             }

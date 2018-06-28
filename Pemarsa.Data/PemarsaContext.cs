@@ -36,7 +36,20 @@ namespace Pemarsa.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
+
+            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>()
+                .HasOne(ur => ur.DocumentoAdjunto)
+                .WithMany(u => u.SolicitudOrdenTrabajoAnexos)
+                .HasForeignKey(ur => ur.DocumentoAdjuntoId);
+            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>()
+                .HasOne(ur => ur.SolicitudOrdenTrabajo)
+                .WithMany(r => r.Anexos)
+                .HasForeignKey(ur => ur.SolicitudOrdenTrabajoId); 
+
+            
         }
 
 

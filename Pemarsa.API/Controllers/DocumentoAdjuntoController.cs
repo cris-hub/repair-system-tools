@@ -18,8 +18,8 @@ namespace Pemarsa.API.Controllers
             _service = documentoAdjuntoService;
         }
 
-       [HttpPut, Route("ActualizarDocumentoAdjunto")]
-       public async Task<IActionResult> ActualizarDocumentoAdjunto([FromBody] DocumentoAdjunto documentoAdjunto)
+        [HttpPut, Route("ActualizarDocumentoAdjunto")]
+        public async Task<IActionResult> ActualizarDocumentoAdjunto([FromBody] DocumentoAdjunto documentoAdjunto)
         {
             try
             {
@@ -31,6 +31,21 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpGet("ConsultarDocumentoAdjunto")]
+        public async Task<IActionResult> ConsultarDocumentoAdjunto(int documentoAdjuntoId)
+        {
+            try
+            {
+                var result = (await _service.ConsultarDocumentoAdjuntoPorId(documentoAdjuntoId));
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+
+        }
 
         [HttpPost, Route("CrearDocumentoAdjunto")]
         public async Task<IActionResult> CrearDocumentoAdjunto([FromBody] DocumentoAdjunto documentoAdjunto)
