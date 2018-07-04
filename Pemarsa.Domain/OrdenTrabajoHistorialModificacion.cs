@@ -31,8 +31,7 @@ namespace Pemarsa.Domain
 
         [Required, ForeignKey("SolicitudOrdenTrabajo")]
         public int SolicitudOrdenTrabajoId { get; set; }
-
-
+        
         public virtual SolicitudOrdenTrabajo SolicitudOrdenTrabajo { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using FormatoES.Service;
 using HerramientaES.Service;
 using Microsoft.Extensions.DependencyInjection;
 using OrdenTrabajoES.Service;
+using ProcesoES.Service;
 
 namespace Pemarsa.API.ServicesDI
 {
@@ -14,6 +15,9 @@ namespace Pemarsa.API.ServicesDI
             services.AddTransient<IHerramientaService, HerramientaService>();
             services.AddTransient<IOrdenTrabajoService, OrdenTrabajoService>();
             services.AddTransient<IFormatoService, FormatoService>();
+            services.AddTransient<IProcesoService, ProcesoService>();
+            
+
         }
     }
 }

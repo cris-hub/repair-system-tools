@@ -8,30 +8,27 @@ namespace Pemarsa.Domain
 {
     public class InspeccionConexion : Entity
     {
-        [Required, ForeignKey("Conexion")]
-        public int ConexionId { get; set; }
-
-        [Required, ForeignKey("Estado")]
-        public int EstadoId { get; set; }
-
-        [Required, ForeignKey("InspeccionConexionFormato")]
-        public int FormatoId { get; set; }
-
         public int NumeroConexion { get; set; }
 
         public string Observaciones { get; set; }
 
-        [Required, ForeignKey("TipoConexion")]
-        public int TipoConexionId { get; set; }
-
-
-
+        #region catalogos
+        [Required, ForeignKey("Conexion")]
+        public int ConexionId { get; set; }
         public virtual Catalogo Conexion { get; set; }
 
+        [Required, ForeignKey("Estado")]
+        public int EstadoId { get; set; }
         public virtual Catalogo Estado { get; set; }
 
-        //public virtual InspeccionConexionFormato InspeccionConexionFormato;
+        [Required, ForeignKey("TipoConexion")]
+        public int TipoConexionId { get; set; }
+        public virtual Catalogo TipoConexion { get; set; } 
+        #endregion
 
-        public virtual Catalogo TipoConexion { get; set; }
+        [Required, ForeignKey("InspeccionConexionFormato")]
+        public int FormatoId { get; set; }
+        public virtual InspeccionConexionFormato InspeccionConexionFormato { get; set; }
+
     }
 }

@@ -61,6 +61,11 @@ export class SolicitudOrdenTrabajoService {
   public consultarSolicitudDeTrabajoPorGuid(Guid: string): Observable<SolicitudOrdenTrabajoModel> {
     return this.http.get<SolicitudOrdenTrabajoModel>(this.urlServer + 'consultarSolicitudDeTrabajoPorGuid?guidSolicitudOrdenTrabajo=' + Guid, { headers: this.header });
   }
+
+  public procesarSolitudOit(model: SolicitudOrdenTrabajoModel): Observable<Boolean> {
+    return this.http.post<Boolean>(this.urlServer + 'CrearOrdenDeTrabajo', model, { headers: this.header });
+  }
+
 }
 
 

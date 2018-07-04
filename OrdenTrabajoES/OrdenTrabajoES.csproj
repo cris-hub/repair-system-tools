@@ -8,6 +8,7 @@
     <ProjectReference Include="..\DocumentoAdjuntoUS\DocumentoAdjuntoUS.csproj" />
     <ProjectReference Include="..\Pemarsa.Data\Pemarsa.Data.csproj" />
     <ProjectReference Include="..\Pemarsa.Domain\Pemarsa.Domain.csproj" />
+    <ProjectReference Include="..\ProcesoES\ProcesoES.csproj" />
   </ItemGroup>
 
 </Project>

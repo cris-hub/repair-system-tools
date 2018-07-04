@@ -27,6 +27,8 @@ import { UtilModule } from './common/modules/util.module';
 import { ParametroService } from './common/services/entity/parametro.service';
 import { SolicitudOrdenTrabajoModule } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo.module';
 import { FormatoModule } from './formato/formato.module';
+import { OrdenTrabajoModule } from './orden-trabajo/orden-trabajo.module';
+import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { FormatoModule } from './formato/formato.module';
     HttpClientModule,
     ClienteModule,
     FormatoModule,
+    OrdenTrabajoModule,
     HerramientaModule,
     SolicitudOrdenTrabajoModule,
     UtilModule,
@@ -58,7 +61,8 @@ import { FormatoModule } from './formato/formato.module';
     HerramientaService,
     ParametroService,
     SolicitudOrdenTrabajoService,
-    FormatoService
+    FormatoService,
+    OrdenTrabajoService
 
   ],
   bootstrap: [AppComponent],

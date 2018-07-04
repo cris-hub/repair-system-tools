@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdenTrabajoES", "OrdenTrab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcesoES", "ProcesoES\ProcesoES.csproj", "{EEF84161-F25D-4087-9926-9AFAB8006A8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormatoES", "FormatoES\FormatoES.csproj", "{BDBCEF0A-96A9-49C1-BFCD-E9259CC1B69E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormatoES", "FormatoES\FormatoES.csproj", "{BDBCEF0A-96A9-49C1-BFCD-E9259CC1B69E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

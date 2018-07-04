@@ -6,7 +6,15 @@ namespace Pemarsa.CanonicalModels
 {
     public class CanonicalConstants
     {
+        public static string Responsable { get; set; }
 
+
+        public struct Responsables
+        {
+            public const string JuanMarquez = "Juan Marquez";
+            public const string MiguelAndres = "Miguel Andres";
+
+        }
 
         public struct Especificacion
         {
@@ -16,7 +24,21 @@ namespace Pemarsa.CanonicalModels
 
         public struct Estados
         {
+
+
+            public struct OrdenTrabajo
+            {
+                public const string EnProceso = "En proceso";
+                public const string Inactiva = "Inactiva";
+            }
+
             public struct Cliente
+            {
+                public const string Activa = "Activo";
+                public const string Inactiva = "Inactivo";
+            }
+
+            public struct Proceso
             {
                 public const string Activa = "Activo";
                 public const string Inactiva = "Inactivo";
@@ -50,10 +72,58 @@ namespace Pemarsa.CanonicalModels
                 public const string FormatoConexionBOX = "BOX";
 
             }
+            public struct OrdenTrabajo
+            {
+                public const string Tipo1 = "Tipo1";
+                public const string Tipo2 = "Tipo2";
+
+            }
+
+            public struct Proceso
+            {
+
+     
+               
+                public struct TipoProceso
+                {
+                    public const string Tipo1 = "Tipo1";
+                    public const string Tipo2 = "Tipo2";
+                }
+               
+                
+                public struct TipoSoldadura
+                {
+                    public const string Tipo1 = "Tipo1";
+                    public const string Tipo2 = "Tipo2";
+                }
+            }
 
         }
 
+        public struct Proceso
+        {
+            public struct EquipoMedicionUtilizado
+            {
+                public const string Tipo1 = "Tipo1";
+                public const string Tipo2 = "Tipo2";
+            }
+            public struct Instructivo
+            {
+                public const string Tipo1 = "Tipo1";
+                public const string Tipo2 = "Tipo2";
+            }
+            public struct MaquinaAsignada
+            {
+                public const string Tipo1 = "Tipo1";
+                public const string Tipo2 = "Tipo2";
+            }
+            public struct Norma
+            {
+                public const string Tipo1 = "Tipo1";
+                public const string Tipo2 = "Tipo2";
+            }
 
+        }
 
         public struct Solicitud
         {
@@ -82,6 +152,17 @@ namespace Pemarsa.CanonicalModels
             }
         }
 
+
+
+        public struct OrdenTrabajo
+        {
+            public const string Inmediato = "Inmediato";
+            public const string Mediato = "Mediato";
+            public const string Normal = "Normal";
+            public const string Standby = "Standby";
+
+
+        }
         public struct Grupos
         {
             public const string EstadosClientes = "ESTADOS_CLIENTES";
@@ -94,14 +175,34 @@ namespace Pemarsa.CanonicalModels
             public const string TipoConexion = "TIPO_CONEXION";
             public const string Conexion = "CONEXION";
             public const string FormatoAdendum = "FORMATO_ADENDUM";
+
+
+            public const string Responsables = "RESPONSABLES";
+            public const string EstadosOrdenTrabajo = "ESTADOS_ORDENTRABAJO";
+            public const string PrioridadOrdenTrabajo = "PRIORIDAD_ORDENTRABAJO";
+            public const string TipoServicioOrdenTrabajo = "TIPO_SERVICIO_ORDEN_TRABAJO";
+            public const string EstadosProceso = "ESTADOS_PROCESO";
+            public const string EquipoMedicionUtilizado = "EQUIPO_MEDICION_UTILIZADO_PROCESO";
+            public const string Estado = "ESTADO_PROCESO";
+            public const string Instructivo = "INSTRUCTIVO_PROCESO";
+            public const string MaquinaAsignada = "MAQUINA_ASIGNADA_PROCESO";
+            public const string Norma = "NORMA_PROCESO";
+            public const string TipoProceso = "TIPO_PROCESO";
+            public const string TipoSoldadura = "TIPO_SOLDADURA_PROCESO";
+
+
+
         }
 
         public struct Entidades
         {
             public const string Cliente = "CLIENTE";
             public const string Materiales = "MATERIALES";
-            public const string Solicitud = "SOLICITUD";
             public const string Formato = "FORMATO";
+            public const string Solicitud = "SOLICITUD";
+            public const string OrdenTrabajo = "ORDEN_TRABAJO";
+            public const string Proceso = "PROCESO";
+
         }
 
         public struct Excepciones

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Pemarsa.Domain
 {
     public class OrdenTrabajoHistorialProceso
     {
+        [Key]
+        public int Id { get; set; }
         public int EstadoProceso { get; set; }
 
         public DateTime FechaProceso { get; set; }

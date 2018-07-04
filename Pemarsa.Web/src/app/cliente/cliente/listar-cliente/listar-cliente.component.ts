@@ -96,6 +96,7 @@ export class ListarClienteComponent implements OnInit {
   {
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
+
   actualizarEstadoClienteConfirmacion(event: any) {
     if (event.response == true) {
       this.actualizarEstadoCliente(event.cliente, event.estado);

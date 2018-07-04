@@ -6,18 +6,15 @@ using System.Text;
 
 namespace Pemarsa.Domain
 {
-    public class ProcesoInspeccionEntrada : Entity
+    public class ProcesoInspeccionEntrada 
     {
-        [Required, ForeignKey("Proceso")]
-        public int ProcesoId { get; set; }
 
         [Required, ForeignKey("Inspeccion")]
         public int InspeccionId { get; set; }
-
-
-
         public virtual Inspeccion Inspeccion { get; set; }
 
+        [Required, ForeignKey("Proceso")]
+        public int ProcesoId { get; set; }
         public virtual Proceso Proceso { get; set; }
     }
 }

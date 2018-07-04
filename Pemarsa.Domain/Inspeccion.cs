@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Pemarsa.Domain
@@ -7,49 +9,17 @@ namespace Pemarsa.Domain
     public class Inspeccion : Entity
     {
         public int Amperaje { get; set; }
-
-        public int BloqueEscalonadoUsadoId { get; set; }//falta la relacion
-
-        public int BobinaMagneticaId { get; set; }//falta la relacion
-
+        
         public int ConcentracionUtilizada { get; set; }
-
-        public IEnumerable<InspeccionConexion> Conexiones { get; set; }//falta crear la clase
-
-        public IEnumerable<InspeccionDimensionalOtro> Dimensionales { get; set; }//falta crear la clase
-
-        public int EquipoEmiId { get; set; }//falta la relacion
-
-        public int EquipoUtilizadoId { get; set; }//falta la relacion
-
-        public IEnumerable<InspeccionEspesor> Espesores { get; set; }//falta crear la clase
-
+        
         public bool EstaConforme { get; set; }
 
-        public int EstadoId { get; set; }//falta la relacion
-
         public DateTime FechaDePreparacion { get; set; }
-
-        public IEnumerable<DocumentoAdjunto> FotosId { get; set; }//falta la relacion
-
-        public int ImagenMedicionEspesoresId { get; set; }//falta la relacion
-
-        public int ImagenMflId { get; set; }//falta la relacion
-
-        public int ImagenPantallaUltrasonidoId { get; set; }//falta la relacion
-
-        public int ImagenUltrasonidoDespuesId { get; set; }//falta la relacion
-
-        public int ImagenUltrasonidoDuranteId { get; set; }//falta la relacion
-
-        public int ImagenUltrasonidoPreviaId { get; set; }//falta la relacion
-
+        
         public bool InspeccionLuzNegra { get; set; }
 
         public bool InspeccionParticulasMagneticas { get; set; }
-
-        public IEnumerable<InspeccionInsumo> Insumos { get; set; }
-
+        
         public int IntensidadLuzBlanca { get; set; }
 
         public int IntensidadLuzNegra { get; set; }
@@ -72,12 +42,85 @@ namespace Pemarsa.Domain
 
         public int TemperaturaDePieza { get; set; }
 
-        public int TipoDeLiquidosId { get; set; }
-
-        public int TipoInspeccionId { get; set; }
-
-        public int TurboPatronId { get; set; }
-
+     
         public int VelocidadBuggyDrive { get; set; }
+
+        #region catalogos
+        [ForeignKey("BloqueEscalonadoUsado")]
+        public int BloqueEscalonadoUsadoId { get; set; }
+        public virtual Catalogo BloqueEscalonadoUsado { get; set; }
+
+        [ForeignKey("BobinaMagnetica")]
+        public int BobinaMagneticaId { get; set; }
+        public virtual Catalogo BobinaMagnetica { get; set; }
+
+        [ForeignKey("EquipoEmi")]
+        public int EquipoEmiId { get; set; }
+        public virtual Catalogo EquipoEmi { get; set; }
+
+        [ForeignKey("Estado")]
+        public int EstadoId { get; set; }
+        public virtual Catalogo Estado { get; set; }
+
+        [ForeignKey("EquipoUtilizado")]
+        public int EquipoUtilizadoId { get; set; }
+        public virtual Catalogo EquipoUtilizado { get; set; }
+
+        [ForeignKey("TipoDeLiquidos")]
+        public int TipoDeLiquidosId { get; set; }
+        public virtual Catalogo TipoDeLiquidos { get; set; }
+
+        [ForeignKey("TipoInspeccion")]
+        public int TipoInspeccionId { get; set; }
+        public virtual Catalogo TipoInspeccion { get; set; }
+
+
+        [ForeignKey("TurboPatron")]
+        public int TurboPatronId { get; set; }
+        public virtual Catalogo TurboPatron { get; set; } 
+        #endregion
+        
+        #region DocumentosAdjuntos
+
+
+        [ForeignKey("ImagenMedicionEspesores")]
+        public int ImagenMedicionEspesoresId { get; set; }
+        public virtual DocumentoAdjunto ImagenMedicionEspesores { get; set; }
+
+        [ForeignKey("ImagenMfl")]
+        public int ImagenMflId { get; set; }
+        public virtual DocumentoAdjunto ImagenMfl { get; set; }
+
+        [ForeignKey("ImagenPantallaUltrasonido")]
+        public int ImagenPantallaUltrasonidoId { get; set; }
+        public virtual DocumentoAdjunto ImagenPantallaUltrasonido { get; set; }
+
+        [ForeignKey("ImagenUltrasonidoDespues")]
+        public int ImagenUltrasonidoDespuesId { get; set; }
+        public virtual DocumentoAdjunto ImagenUltrasonidoDespues { get; set; }
+
+        [ForeignKey("ImagenUltrasonidoDurante")]
+        public int ImagenUltrasonidoDuranteId { get; set; }
+        public virtual DocumentoAdjunto ImagenUltrasonidoDurante { get; set; }
+
+        [ForeignKey("ImagenUltrasonidoPrevia")]
+        public int ImagenUltrasonidoPreviaId { get; set; }
+        public virtual DocumentoAdjunto ImagenUltrasonidoPrevia { get; set; }
+        #endregion
+
+
+        public IEnumerable<DocumentoAdjunto> Fotos { get; set; }
+
+        public IEnumerable<InspeccionInsumo> Insumos { get; set; }
+
+        public IEnumerable<InspeccionConexion> Conexiones { get; set; }
+
+        public IEnumerable<InspeccionDimensionalOtro> Dimensionales { get; set; }
+
+        public IEnumerable<InspeccionEspesor> Espesores { get; set; }
+              
+        public IEnumerable<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
+
+
     }
 }

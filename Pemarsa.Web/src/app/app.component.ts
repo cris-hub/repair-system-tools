@@ -13,16 +13,16 @@ export class AppComponent {
     [
       {
         id: "1",
-        name: "Solicitud",
+        name: "OIT",
         image: "icon-lista",
         url: false,
-        title: "Solicitud",
+        title: "OIT",
         submenu: [
-          /*{
+          {
             id: "8",
             name: "Alertas",
             image: "",
-            url: false,
+            url: "/solicitudOrdenTrabajo",
             color: "color9",
             title: "Alertas",
             submenu: false,
@@ -31,14 +31,14 @@ export class AppComponent {
                 icono: "icon-alerta",
                 color: "color"
               }
-          },*/
+          },
           {
             id: "9",
-            name: "Solicitud",
+            name: "OIT",
             image: "",
-            url: "/solicitudOrdenTrabajo",
+            url: '/oit',
             color: "color10",
-            title: "Solicitud",
+            title: "OIT",
             submenu: false,
             complementarios:
               {

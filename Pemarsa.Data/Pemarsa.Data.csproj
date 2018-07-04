@@ -17,6 +17,7 @@
     <Compile Remove="Migrations\20180628160339_desabilitacion-de-herencia.cs" />
     <Compile Remove="Migrations\20180628160653_cambios_model_relacion.cs" />
     <Compile Remove="Migrations\20180628161230_changes.cs" />
+    <Compile Remove="Migrations\20180629163600_procesos.cs" />
   </ItemGroup>
 
   <ItemGroup>

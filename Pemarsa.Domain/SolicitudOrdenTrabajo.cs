@@ -7,10 +7,7 @@ using System.Text;
 namespace Pemarsa.Domain
 {
     public class SolicitudOrdenTrabajo : Entity
-    {
-      
-       
-
+    {    
         [Required]
         public int Cantidad { get; set; }
 

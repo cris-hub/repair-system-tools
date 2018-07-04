@@ -1,0 +1,104 @@
+<div *ngIf="!loading">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-11" style="background-color: rgba(36, 99, 194, .9);color: #ffffff;">
+        <div class="">
+          <div class="row">
+            <div class="col-md-12" style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200; text-align: center;">
+              <h3>{{accionRealizarTituloPagina}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-11 contenido-interno">
+      <form [formGroup]="formularioOrdenTrabajo">
+        <div *ngIf="ordenTrabajo">
+          <p>{{ordenTrabajo.Id}}</p>
+          <p>{{ordenTrabajo.FechaRegistro | date:'medium'}}</p>
+          <p>{{ordenTrabajo.Responsable.Valor}}</p>
+        </div>
+        <label>
+          Tipo servicio
+          <select formControlName="TipoServicio" class=" form-control-lg select">
+            <option *ngFor="let tipoServicio of parametrosTipoServicio.Catalogos" value="{{tipoServicio.Id}}">{{tipoServicio.Valor}}</option>
+          </select>
+
+        </label>
+
+
+
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" id="corre">
+            <span>*</span>
+            Adjuntar plano:
+          </label>
+          <div class="col-md-2">
+            <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
+          </div>
+          <div class="col-md-5 col-md-offset-2">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
+                <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
+                  <i class="glyphicon glyphicon-chevron-down"></i>
+                </span>
+              </div>
+              <div>
+
+              </div>
+              <div id="archivos" class="panel-collapse panel-collapse collapse">
+                <div class="panel-body">
+                  <ul>
+                    <!-- <li *ngFor="let plano of planos">
+                        <a>{{plano.NombreArchivo}}</a>
+                      </li> -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label for="ClienteId" style="color: #6c757d;" class="col-sm-3 control-label">
+            <b>Linea cliente:</b>
+          </label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" (ngModelChange)="lineas"  [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea" [resultFormatter]="formatoValorMostrarLinea"
+              [inputFormatter]="formatoValorMostrarLinea"  formControlName="Linea" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ClienteId" style="color: #6c757d;" class="col-sm-3 control-label">
+            <b>Cliente:</b>
+          </label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia" [resultFormatter]="formatoValorMostrar"
+              [inputFormatter]="formatoValorMostrar"  (selectItem)="cambioItemEvent($event)" formControlName="Cliente" />
+          </div>
+        </div>
+
+
+
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div class="col-md-2 col-md-offset-4 text-right">
+              <button [routerLink]="['/oit']" type="button" class="btn btn-md">Regresar</button>
+            </div>
+            <div class="col-md-5">
+              <button type="submit" class="btn btn-primary btn-md">Guardar</button>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -183,6 +183,81 @@ namespace Pemarsa.Data.Migrations
                     b.ToTable("Consulta");
                 });
 
+            modelBuilder.Entity("Pemarsa.Domain.DetalleSoldadura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Amperaje");
+
+                    b.Property<int>("CantidadSoldadura");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("Lote");
+
+                    b.Property<int>("ModoAplicacionId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<int>("PresionAcetileno");
+
+                    b.Property<int>("PresionGas1");
+
+                    b.Property<int>("PresionGas2");
+
+                    b.Property<int>("PresionOxigeno");
+
+                    b.Property<int>("ProcesoId");
+
+                    b.Property<int>("TamañoCortadoresId");
+
+                    b.Property<int>("TemperaturaDespuesProceso");
+
+                    b.Property<int>("TemperaturaDuranteProceso");
+
+                    b.Property<int>("TemperaturaPrecalentamiento");
+
+                    b.Property<int>("TiempoAplicacion");
+
+                    b.Property<int>("TiempoPrecalentamiento");
+
+                    b.Property<int>("TipoFuenteId");
+
+                    b.Property<int>("TipoSoldaduraId");
+
+                    b.Property<int>("Voltaje");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModoAplicacionId");
+
+                    b.HasIndex("ProcesoId");
+
+                    b.HasIndex("TamañoCortadoresId");
+
+                    b.HasIndex("TipoFuenteId");
+
+                    b.HasIndex("TipoSoldaduraId");
+
+                    b.ToTable("DetalleSoldadura");
+                });
+
             modelBuilder.Entity("Pemarsa.Domain.DocumentoAdjunto", b =>
                 {
                     b.Property<int>("Id")
@@ -208,6 +283,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid?>("GuidUsuarioModifica");
 
+                    b.Property<int?>("InspeccionId");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(45);
@@ -229,6 +306,8 @@ namespace Pemarsa.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FormatoId");
+
+                    b.HasIndex("InspeccionId");
 
                     b.ToTable("DocumentoAdjunto");
                 });
@@ -556,6 +635,537 @@ namespace Pemarsa.Data.Migrations
                     b.ToTable("HerramientaTamanoMotor");
                 });
 
+            modelBuilder.Entity("Pemarsa.Domain.Inspeccion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Amperaje");
+
+                    b.Property<int>("BloqueEscalonadoUsadoId");
+
+                    b.Property<int>("BobinaMagneticaId");
+
+                    b.Property<int>("ConcentracionUtilizada");
+
+                    b.Property<int>("EquipoEmiId");
+
+                    b.Property<int>("EquipoUtilizadoId");
+
+                    b.Property<bool>("EstaConforme");
+
+                    b.Property<int>("EstadoId");
+
+                    b.Property<DateTime>("FechaDePreparacion");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("ImagenMedicionEspesoresId");
+
+                    b.Property<int>("ImagenMflId");
+
+                    b.Property<int>("ImagenPantallaUltrasonidoId");
+
+                    b.Property<int>("ImagenUltrasonidoDespuesId");
+
+                    b.Property<int>("ImagenUltrasonidoDuranteId");
+
+                    b.Property<int>("ImagenUltrasonidoPreviaId");
+
+                    b.Property<bool>("InspeccionLuzNegra");
+
+                    b.Property<bool>("InspeccionParticulasMagneticas");
+
+                    b.Property<int>("IntensidadLuzBlanca");
+
+                    b.Property<int>("IntensidadLuzNegra");
+
+                    b.Property<int>("Lote");
+
+                    b.Property<int>("Lumens");
+
+                    b.Property<int>("Luxes");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("Observaciones");
+
+                    b.Property<string>("ObservacionesInspeccion");
+
+                    b.Property<bool>("SeIdentificaDefecto");
+
+                    b.Property<bool>("SeRealizoCalibracionEquipo");
+
+                    b.Property<int>("TemperaturaAmbiente");
+
+                    b.Property<int>("TemperaturaDePieza");
+
+                    b.Property<int>("TipoDeLiquidosId");
+
+                    b.Property<int>("TipoInspeccionId");
+
+                    b.Property<int>("TurboPatronId");
+
+                    b.Property<int>("VelocidadBuggyDrive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BloqueEscalonadoUsadoId");
+
+                    b.HasIndex("BobinaMagneticaId");
+
+                    b.HasIndex("EquipoEmiId");
+
+                    b.HasIndex("EquipoUtilizadoId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("ImagenMedicionEspesoresId");
+
+                    b.HasIndex("ImagenMflId");
+
+                    b.HasIndex("ImagenPantallaUltrasonidoId");
+
+                    b.HasIndex("ImagenUltrasonidoDespuesId");
+
+                    b.HasIndex("ImagenUltrasonidoDuranteId");
+
+                    b.HasIndex("ImagenUltrasonidoPreviaId");
+
+                    b.HasIndex("TipoDeLiquidosId");
+
+                    b.HasIndex("TipoInspeccionId");
+
+                    b.HasIndex("TurboPatronId");
+
+                    b.ToTable("Inspeccion");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ConexionId");
+
+                    b.Property<int>("EstadoId");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<int>("FormatoId");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int?>("InspeccionId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<int>("NumeroConexion");
+
+                    b.Property<string>("Observaciones");
+
+                    b.Property<int>("TipoConexionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConexionId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("FormatoId");
+
+                    b.HasIndex("InspeccionId");
+
+                    b.HasIndex("TipoConexionId");
+
+                    b.ToTable("InspeccionConexion");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<int>("EquipoUsadoId");
+
+                    b.Property<bool>("EsBoreBack");
+
+                    b.Property<bool>("EsCw");
+
+                    b.Property<bool>("EsEstampado");
+
+                    b.Property<bool>("EsStandBlasting");
+
+                    b.Property<bool>("EstaConforme");
+
+                    b.Property<int>("FlatBoardId");
+
+                    b.Property<int>("FlatBoardLongitud");
+
+                    b.Property<int>("FloatValveId");
+
+                    b.Property<int>("FormatoAdjuntoId");
+
+                    b.Property<Guid>("GuidUsuarioElabora");
+
+                    b.Property<int>("HerramientaId");
+
+                    b.Property<int>("InspeccionConexionFormatoAdendumId");
+
+                    b.Property<int>("InspeccionConexionFormatoParametrosId");
+
+                    b.Property<string>("NombreUsuarioElabora");
+
+                    b.Property<int>("OIT");
+
+                    b.Property<int>("Od");
+
+                    b.Property<string>("Serial");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("EquipoUsadoId");
+
+                    b.HasIndex("FloatValveId");
+
+                    b.HasIndex("FormatoAdjuntoId");
+
+                    b.HasIndex("HerramientaId");
+
+                    b.HasIndex("InspeccionConexionFormatoAdendumId");
+
+                    b.HasIndex("InspeccionConexionFormatoParametrosId");
+
+                    b.ToTable("InspeccionConexionFormato");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormatoAdendum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InspeccionConexionFormatoAdendum");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormatoParametros", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("EstaConforme");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InspeccionConexionFormatoParametros");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionDimensionalOtro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Conformidad");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("InspeccionId");
+
+                    b.Property<string>("MedidaActual");
+
+                    b.Property<string>("MedidaNominal");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("Tolerancia");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InspeccionId");
+
+                    b.ToTable("InspeccionDimensionalOtro");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionEspesor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Desviacion");
+
+                    b.Property<int>("EspesorActual");
+
+                    b.Property<int>("EspesorNominal");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("InspeccionId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InspeccionId");
+
+                    b.ToTable("InspeccionEspesor");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionInsumo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("InspeccionId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<int>("NumeroLote");
+
+                    b.Property<int>("TipoInsumoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InspeccionId");
+
+                    b.HasIndex("TipoInsumoId");
+
+                    b.ToTable("InspeccionInsumo");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Cantidad");
+
+                    b.Property<int>("CantidadInspeccionar");
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<int>("Cotizacion");
+
+                    b.Property<string>("DetallesSolicitud");
+
+                    b.Property<int>("EstadoId");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int?>("HerramientaId");
+
+                    b.Property<int>("LineaId");
+
+                    b.Property<int?>("MaterialId");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("ObservacionRemision");
+
+                    b.Property<int>("OrdenCompra");
+
+                    b.Property<int>("PrioridadId");
+
+                    b.Property<bool>("ProvieneDeSolicitud");
+
+                    b.Property<int>("RemisionCliente");
+
+                    b.Property<int?>("RemisionInicialId");
+
+                    b.Property<int?>("ResponsableId");
+
+                    b.Property<string>("SerialHerramienta");
+
+                    b.Property<string>("SerialMaterial");
+
+                    b.Property<int?>("SolicitudOrdenTrabajoId");
+
+                    b.Property<int?>("TamanoHerramientaId");
+
+                    b.Property<int>("TipoServicioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("HerramientaId");
+
+                    b.HasIndex("LineaId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("PrioridadId");
+
+                    b.HasIndex("RemisionInicialId");
+
+                    b.HasIndex("ResponsableId");
+
+                    b.HasIndex("SolicitudOrdenTrabajoId");
+
+                    b.HasIndex("TamanoHerramientaId");
+
+                    b.HasIndex("TipoServicioId");
+
+                    b.ToTable("OrdenTrabajo");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialModificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Campo")
+                        .IsRequired();
+
+                    b.Property<DateTime>("FechaModificacion");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidUsuarioModifica");
+
+                    b.Property<int?>("OrdenTrabajoId");
+
+                    b.Property<int>("SolicitudOrdenTrabajoId");
+
+                    b.Property<string>("UsuarioModifica")
+                        .IsRequired();
+
+                    b.Property<string>("ValorAnterior")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrdenTrabajoId");
+
+                    b.HasIndex("SolicitudOrdenTrabajoId");
+
+                    b.ToTable("OrdenTrabajoHistorialModificacion");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialProceso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EstadoProceso");
+
+                    b.Property<DateTime>("FechaProceso");
+
+                    b.Property<int>("LiberaProcesoAnteriorId");
+
+                    b.Property<string>("Observaciones");
+
+                    b.Property<int>("OperarioId");
+
+                    b.Property<int?>("OrdenTrabajoId");
+
+                    b.Property<int>("TipoProcesoAnteriorId");
+
+                    b.Property<int>("TipoProcesoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrdenTrabajoId");
+
+                    b.ToTable("OrdenTrabajoHistorialProceso");
+                });
+
             modelBuilder.Entity("Pemarsa.Domain.Parametro", b =>
                 {
                     b.Property<string>("Entidad")
@@ -600,6 +1210,127 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("Entidad");
 
                     b.ToTable("ParametroConsulta");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.Proceso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CantidadInspeccion");
+
+                    b.Property<int?>("DetalleSoldaduraId");
+
+                    b.Property<int?>("EquipoMedicionUtilizadoId");
+
+                    b.Property<bool?>("EsPruebaConGauge");
+
+                    b.Property<int>("EstadoId");
+
+                    b.Property<DateTime?>("FechaModifica");
+
+                    b.Property<DateTime>("FechaRegistro");
+
+                    b.Property<Guid>("Guid");
+
+                    b.Property<Guid>("GuidOperario");
+
+                    b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidUsuarioCrea");
+
+                    b.Property<Guid?>("GuidUsuarioModifica");
+
+                    b.Property<int>("InstructivoId");
+
+                    b.Property<int>("MaquinaAsignadaId");
+
+                    b.Property<string>("NombreOperario");
+
+                    b.Property<string>("NombreUsuarioCrea")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<string>("NombreUsuarioModifica")
+                        .HasMaxLength(60);
+
+                    b.Property<int?>("NormaId");
+
+                    b.Property<int>("OrdenTrabajoId");
+
+                    b.Property<int>("ProcesoAnteriorId");
+
+                    b.Property<int>("ProcesoSiguienteId");
+
+                    b.Property<int>("ProcesosRealizarId");
+
+                    b.Property<int>("TipoProcesoAnteriorId");
+
+                    b.Property<int>("TipoProcesoId");
+
+                    b.Property<int>("TipoProcesoSiguienteId");
+
+                    b.Property<int>("TipoProcesoSiguienteSugeridoId");
+
+                    b.Property<int>("TipoSoldaduraId");
+
+                    b.Property<string>("TrabajoRealizadoId");
+
+                    b.Property<string>("TrabajoRealizar");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DetalleSoldaduraId");
+
+                    b.HasIndex("EquipoMedicionUtilizadoId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("InstructivoId");
+
+                    b.HasIndex("MaquinaAsignadaId");
+
+                    b.HasIndex("NormaId");
+
+                    b.HasIndex("OrdenTrabajoId");
+
+                    b.HasIndex("TipoProcesoAnteriorId");
+
+                    b.HasIndex("TipoProcesoId");
+
+                    b.HasIndex("TipoProcesoSiguienteId");
+
+                    b.HasIndex("TipoProcesoSiguienteSugeridoId");
+
+                    b.HasIndex("TipoSoldaduraId");
+
+                    b.ToTable("Proceso");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.ProcesoInspeccionEntrada", b =>
+                {
+                    b.Property<int>("InspeccionId");
+
+                    b.Property<int>("ProcesoId");
+
+                    b.HasKey("InspeccionId", "ProcesoId");
+
+                    b.HasIndex("ProcesoId");
+
+                    b.ToTable("ProcesoInspeccionEntrada");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.ProcesoInspeccionSalida", b =>
+                {
+                    b.Property<int>("InspeccionId");
+
+                    b.Property<int>("ProcesoId");
+
+                    b.HasKey("InspeccionId", "ProcesoId");
+
+                    b.HasIndex("ProcesoId");
+
+                    b.ToTable("ProcesoInspeccionSalida");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajo", b =>
@@ -675,9 +1406,13 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<bool>("Estado");
 
+                    b.Property<int?>("OrdenTrabajoId");
+
                     b.HasKey("SolicitudOrdenTrabajoId", "DocumentoAdjuntoId");
 
                     b.HasIndex("DocumentoAdjuntoId");
+
+                    b.HasIndex("OrdenTrabajoId");
 
                     b.ToTable("SolicitudOrdenTrabajoAnexos");
                 });
@@ -709,11 +1444,43 @@ namespace Pemarsa.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Pemarsa.Domain.DetalleSoldadura", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Catalogo", "ModoAplicacion")
+                        .WithMany()
+                        .HasForeignKey("ModoAplicacionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "Proceso")
+                        .WithMany()
+                        .HasForeignKey("ProcesoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TamanoCortadores")
+                        .WithMany()
+                        .HasForeignKey("TamañoCortadoresId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoFuente")
+                        .WithMany()
+                        .HasForeignKey("TipoFuenteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoSoldadura")
+                        .WithMany()
+                        .HasForeignKey("TipoSoldaduraId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Pemarsa.Domain.DocumentoAdjunto", b =>
                 {
                     b.HasOne("Pemarsa.Domain.Formato", "Formato")
                         .WithMany("Planos")
                         .HasForeignKey("FormatoId");
+
+                    b.HasOne("Pemarsa.Domain.Inspeccion")
+                        .WithMany("Fotos")
+                        .HasForeignKey("InspeccionId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Formato", b =>
@@ -813,6 +1580,244 @@ namespace Pemarsa.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Pemarsa.Domain.Inspeccion", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Catalogo", "BloqueEscalonadoUsado")
+                        .WithMany()
+                        .HasForeignKey("BloqueEscalonadoUsadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "BobinaMagnetica")
+                        .WithMany()
+                        .HasForeignKey("BobinaMagneticaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoEmi")
+                        .WithMany()
+                        .HasForeignKey("EquipoEmiId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoUtilizado")
+                        .WithMany()
+                        .HasForeignKey("EquipoUtilizadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenMedicionEspesores")
+                        .WithMany()
+                        .HasForeignKey("ImagenMedicionEspesoresId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenMfl")
+                        .WithMany()
+                        .HasForeignKey("ImagenMflId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenPantallaUltrasonido")
+                        .WithMany()
+                        .HasForeignKey("ImagenPantallaUltrasonidoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenUltrasonidoDespues")
+                        .WithMany()
+                        .HasForeignKey("ImagenUltrasonidoDespuesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenUltrasonidoDurante")
+                        .WithMany()
+                        .HasForeignKey("ImagenUltrasonidoDuranteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenUltrasonidoPrevia")
+                        .WithMany()
+                        .HasForeignKey("ImagenUltrasonidoPreviaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoDeLiquidos")
+                        .WithMany()
+                        .HasForeignKey("TipoDeLiquidosId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoInspeccion")
+                        .WithMany()
+                        .HasForeignKey("TipoInspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TurboPatron")
+                        .WithMany()
+                        .HasForeignKey("TurboPatronId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexion", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Conexion")
+                        .WithMany()
+                        .HasForeignKey("ConexionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormato", "InspeccionConexionFormato")
+                        .WithMany()
+                        .HasForeignKey("FormatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Inspeccion")
+                        .WithMany("Conexiones")
+                        .HasForeignKey("InspeccionId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoConexion")
+                        .WithMany()
+                        .HasForeignKey("TipoConexionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormato", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoUsado")
+                        .WithMany()
+                        .HasForeignKey("EquipoUsadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "FloatValve")
+                        .WithMany()
+                        .HasForeignKey("FloatValveId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "FormatoAdjunto")
+                        .WithMany()
+                        .HasForeignKey("FormatoAdjuntoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
+                        .WithMany()
+                        .HasForeignKey("HerramientaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormatoAdendum", "InspeccionConexionFormatoAdendum")
+                        .WithMany()
+                        .HasForeignKey("InspeccionConexionFormatoAdendumId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormatoParametros", "InspeccionConexionFormatoParametros")
+                        .WithMany()
+                        .HasForeignKey("InspeccionConexionFormatoParametrosId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionDimensionalOtro", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
+                        .WithMany("Dimensionales")
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionEspesor", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
+                        .WithMany("Espesores")
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionInsumo", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
+                        .WithMany("Insumos")
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoInsumo")
+                        .WithMany()
+                        .HasForeignKey("TipoInsumoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajo", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
+                        .WithMany()
+                        .HasForeignKey("HerramientaId");
+
+                    b.HasOne("Pemarsa.Domain.ClienteLinea", "ClienteLinea")
+                        .WithMany()
+                        .HasForeignKey("LineaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.HerramientaMaterial", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Prioridad")
+                        .WithMany()
+                        .HasForeignKey("PrioridadId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "RemisionInicial")
+                        .WithMany()
+                        .HasForeignKey("RemisionInicialId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Responsable")
+                        .WithMany()
+                        .HasForeignKey("ResponsableId");
+
+                    b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo", "SolicitudOrdenTrabajo")
+                        .WithMany()
+                        .HasForeignKey("SolicitudOrdenTrabajoId");
+
+                    b.HasOne("Pemarsa.Domain.HerramientaTamano", "TamanoHerramienta")
+                        .WithMany()
+                        .HasForeignKey("TamanoHerramientaId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoServicio")
+                        .WithMany()
+                        .HasForeignKey("TipoServicioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialModificacion", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.OrdenTrabajo")
+                        .WithMany("HistorialModificaciones")
+                        .HasForeignKey("OrdenTrabajoId");
+
+                    b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo", "SolicitudOrdenTrabajo")
+                        .WithMany()
+                        .HasForeignKey("SolicitudOrdenTrabajoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialProceso", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.OrdenTrabajo")
+                        .WithMany("HistorialProcesos")
+                        .HasForeignKey("OrdenTrabajoId");
+                });
+
             modelBuilder.Entity("Pemarsa.Domain.ParametroCatalogo", b =>
                 {
                     b.HasOne("Pemarsa.Domain.Catalogo", "Catalogo")
@@ -835,6 +1840,92 @@ namespace Pemarsa.Data.Migrations
                     b.HasOne("Pemarsa.Domain.Parametro", "Parametro")
                         .WithMany()
                         .HasForeignKey("Entidad");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.Proceso", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.DetalleSoldadura", "DetalleSoldadura")
+                        .WithMany()
+                        .HasForeignKey("DetalleSoldaduraId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoMedicionUtilizado")
+                        .WithMany()
+                        .HasForeignKey("EquipoMedicionUtilizadoId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Instructivo")
+                        .WithMany()
+                        .HasForeignKey("InstructivoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "MaquinaAsignada")
+                        .WithMany()
+                        .HasForeignKey("MaquinaAsignadaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "Norma")
+                        .WithMany()
+                        .HasForeignKey("NormaId");
+
+                    b.HasOne("Pemarsa.Domain.OrdenTrabajo", "OrdenTrabajo")
+                        .WithMany("Procesos")
+                        .HasForeignKey("OrdenTrabajoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoProcesoAnterior")
+                        .WithMany()
+                        .HasForeignKey("TipoProcesoAnteriorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoProceso")
+                        .WithMany()
+                        .HasForeignKey("TipoProcesoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoProcesoSiguiente")
+                        .WithMany()
+                        .HasForeignKey("TipoProcesoSiguienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoProcesoSiguienteSugerido")
+                        .WithMany()
+                        .HasForeignKey("TipoProcesoSiguienteSugeridoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoSoldadura")
+                        .WithMany()
+                        .HasForeignKey("TipoSoldaduraId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.ProcesoInspeccionEntrada", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
+                        .WithMany()
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "Proceso")
+                        .WithMany("InspeccionEntrada")
+                        .HasForeignKey("ProcesoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.ProcesoInspeccionSalida", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
+                        .WithMany("ProcesoInspeccionSalida")
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "Proceso")
+                        .WithMany("ProcesoInspeccionSalida")
+                        .HasForeignKey("ProcesoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajo", b =>
@@ -875,6 +1966,10 @@ namespace Pemarsa.Data.Migrations
                         .WithMany("SolicitudOrdenTrabajoAnexos")
                         .HasForeignKey("DocumentoAdjuntoId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.OrdenTrabajo")
+                        .WithMany("Anexos")
+                        .HasForeignKey("OrdenTrabajoId");
 
                     b.HasOne("Pemarsa.Domain.SolicitudOrdenTrabajo", "SolicitudOrdenTrabajo")
                         .WithMany("Anexos")

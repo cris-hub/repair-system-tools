@@ -10,6 +10,7 @@ import {
   CrearHerramientaComponent
 } from './herramienta/index'
 import { ReactiveFormsModule } from '@angular/forms';
+import { AutoCompletarComponent } from './herramienta/auto-completar/auto-completar.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListarHerramientaComponent,
     FiltroHerramientaComponent,
     FactibilidadHerramientaComponent,
-    CrearHerramientaComponent
+    CrearHerramientaComponent,
+    AutoCompletarComponent
   ],
   exports: [
     ListarHerramientaComponent

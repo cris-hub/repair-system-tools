@@ -10,16 +10,13 @@ namespace Pemarsa.Domain
     {
         public int NumeroLote { get; set; }
 
+
         [Required, ForeignKey("TipoInsumo")]
         public int TipoInsumoId { get; set; }
+        public virtual Catalogo TipoInsumo { get; set; }
 
         [Required, ForeignKey("Inspeccion")]
         public int InspeccionId { get; set; }
-
-
-
-        public virtual Catalogo TipoInsumo { get; set; }
-
         public virtual Inspeccion Inspeccion { get; set; }
     }
 }

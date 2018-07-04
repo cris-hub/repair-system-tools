@@ -13,12 +13,10 @@ namespace Pemarsa.Domain
 
         [ForeignKey("Herramienta")]
         public int HerramientaId { get; set; }
+        public virtual Herramienta Herramienta { get; set; }
 
         [ForeignKey("Material")]
         public int MaterialId { get; set; }
-
-        public virtual Herramienta Herramienta { get; set; }
-
         public virtual Catalogo Material { get; set; }
     }
 }

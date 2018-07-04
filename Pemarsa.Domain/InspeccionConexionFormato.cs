@@ -8,13 +8,10 @@ namespace Pemarsa.Domain
 {
     public class InspeccionConexionFormato
     {
-        public int AdendumId { get; set; }//falta crear clase InspeccionConexionFormatoAdendum
 
-        [Required, ForeignKey("Estado")]
-        public int ClienteId { get; set; }
 
-        [Required, ForeignKey("EquipoUsado")]
-        public int EquipoUsadoId { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         public bool EsBoreBack { get; set; }
 
@@ -30,39 +27,48 @@ namespace Pemarsa.Domain
 
         public int FlatBoardLongitud { get; set; }
 
-        [Required, ForeignKey("FloatValve")]
-        public int FloatValveId { get; set; }
-
-        [Required, ForeignKey("FormatoAdjunto")]
-        public int FormatoAdjuntoId { get; set; }
-
         public Guid GuidUsuarioElabora { get; set; }
-
-        [Required, ForeignKey("Herramienta")]
-        public int HerramientaId { get; set; }
-
-        public int Id { get; set; }
-
-        public string NombreUsuarioElabora { get; set; }
 
         public int Od { get; set; }
 
         public int OIT { get; set; }
 
-        public int Parametros { get; set; }//falta crear clase InspeccionConexionFormatoParametro
+        public string NombreUsuarioElabora { get; set; }
 
         public string Serial { get; set; }
 
-
-
-        public virtual Cliente Cliente { get; set; }
-
-        public virtual Catalogo EquipoUsado { get; set; }
-
+        [ForeignKey("FloatValve")]
+        public int FloatValveId { get; set; }
         public virtual Catalogo FloatValve { get; set; }
 
+        [ForeignKey("EquipoUsado")]
+        public int EquipoUsadoId { get; set; }
+        public virtual Catalogo EquipoUsado { get; set; }
+
+
+
+        [ForeignKey("InspeccionConexionFormatoAdendum")]
+        public int InspeccionConexionFormatoAdendumId { get; set; }
+        public virtual InspeccionConexionFormatoAdendum InspeccionConexionFormatoAdendum { get; set; }
+        
+
+        [ForeignKey("InspeccionConexionFormatoParametros")]
+        public int InspeccionConexionFormatoParametrosId { get; set; }
+        public virtual InspeccionConexionFormatoParametros InspeccionConexionFormatoParametros { get; set; }
+        
+
+
+
+        [ForeignKey("Cliente")]
+        public int ClienteId { get; set; }
+        public virtual Cliente Cliente { get; set; }
+
+        [ForeignKey("FormatoAdjunto")]
+        public int FormatoAdjuntoId { get; set; }
         public virtual DocumentoAdjunto FormatoAdjunto { get; set; }
 
+        [ForeignKey("Herramienta")]
+        public int HerramientaId { get; set; }
         public virtual Herramienta Herramienta { get; set; }
     }
 }

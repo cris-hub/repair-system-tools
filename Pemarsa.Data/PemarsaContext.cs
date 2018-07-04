@@ -11,6 +11,20 @@ namespace Pemarsa.Data
         {
         }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
+            modelBuilder.Entity<ProcesoInspeccionSalida>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
+            modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
+
+
+
+
+
+        }
+
         #region Entities
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<ClienteLinea> ClienteLinea { get; set; }
@@ -30,28 +44,12 @@ namespace Pemarsa.Data
         public DbSet<FormatoParametro> FormatoParametro { get; set; }
         public DbSet<FormatoAdendum> FormatoAdendum { get; set; }
         public DbSet<Formato> Formato { get; set; }
+        public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }
+        public DbSet<Proceso> Proceso { get; set; }
+
 
 
         #endregion
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
-
-            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
-
-            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>()
-                .HasOne(ur => ur.DocumentoAdjunto)
-                .WithMany(u => u.SolicitudOrdenTrabajoAnexos)
-                .HasForeignKey(ur => ur.DocumentoAdjuntoId);
-            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>()
-                .HasOne(ur => ur.SolicitudOrdenTrabajo)
-                .WithMany(r => r.Anexos)
-                .HasForeignKey(ur => ur.SolicitudOrdenTrabajoId); 
-
-            
-        }
-
 
     }
 
@@ -64,7 +62,7 @@ namespace Pemarsa.Data
             IConfigurationRoot configuration = new ConfigurationBuilder()
 
               .Build();
-           
+
             builder.UseMySql("Server=192.168.15.174;Database=pemarsa_neg_trunk;Uid=mysqldev;Pwd=MySqld3v1720*.;");
             return new PemarsaContext(builder.Options);
         }

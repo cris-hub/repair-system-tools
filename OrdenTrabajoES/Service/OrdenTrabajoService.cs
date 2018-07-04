@@ -8,19 +8,25 @@ using OrdenTrabajoES.Repository;
 using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
+using ProcesoES.Service;
 
 namespace OrdenTrabajoES.Service
 {
     public class OrdenTrabajoService : IOrdenTrabajoService
     {
-        private readonly IOrdenTrabajoRepository _repository;
+        private readonly IOrdenTrabajoRepository _ordenTrabajoRepositorio;
+        private readonly IProcesoService _procesoService;
         private readonly IDocumentoAdjuntoService _serviceDocumentoAdjunto;
         private PemarsaContext _context;
 
-        public OrdenTrabajoService(PemarsaContext context, IDocumentoAdjuntoService serviceDocumentoAdjunto)
+        public OrdenTrabajoService(
+            PemarsaContext context,
+            IDocumentoAdjuntoService serviceDocumentoAdjunto,
+             IProcesoService procesoService)
         {
-            _repository = new OrdenTrabajoRepository(context);
+            _ordenTrabajoRepositorio = new OrdenTrabajoRepository(context);
             _serviceDocumentoAdjunto = serviceDocumentoAdjunto;
+            _procesoService = procesoService;
             _context = context;
         }
 
@@ -28,7 +34,7 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                return await _repository.ActualizarEstadoSolicitudDeTrabajo(guidSolicitudOrdenTrabajo, estado);
+                return await _ordenTrabajoRepositorio.ActualizarEstadoSolicitudDeTrabajo(guidSolicitudOrdenTrabajo, estado);
             }
             catch (Exception) { throw; }
         }
@@ -50,7 +56,7 @@ namespace OrdenTrabajoES.Service
                 }
                 solicitudOrdenTrabajo.EstadoId = 8;
 
-                return await _repository.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo);
+                return await _ordenTrabajoRepositorio.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo);
             }
             catch (Exception e) { throw e; }
         }
@@ -59,7 +65,7 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                return await _repository.ConsultarSolicitudDeTrabajoPorGuid(guidSolicitudOrdenTrabajo);
+                return await _ordenTrabajoRepositorio.ConsultarSolicitudDeTrabajoPorGuid(guidSolicitudOrdenTrabajo);
             }
             catch (Exception) { throw; }
         }
@@ -68,7 +74,7 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                return await _repository.ConsultarSolicitudesDeTrabajo(paginacion);
+                return await _ordenTrabajoRepositorio.ConsultarSolicitudesDeTrabajo(paginacion);
             }
             catch (Exception) { throw; }
         }
@@ -77,9 +83,46 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                return await _repository.ConsultarSolicitudesDeTrabajoPorFiltro(parametrosDTO);
+                return await _ordenTrabajoRepositorio.ConsultarSolicitudesDeTrabajoPorFiltro(parametrosDTO);
             }
             catch (Exception) { throw; }
+        }
+
+        public async Task<Guid> CrearOrdenDeTrabajoDesdeSolicitudTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer)
+        {
+            try
+            {
+                OrdenTrabajo ordenTrabajo = asignarValoresSolicitudAOrdenDeTrabajo(solicitudOrdenTrabajo);
+                OrdenTrabajo OrdenTrabajo = await _ordenTrabajoRepositorio.CrearOrdenDeTrabajo(ordenTrabajo);
+
+                if (OrdenTrabajo != null)
+                {
+                    await _procesoService.CrearProcesoDesdeOrdenDeTrabajo(OrdenTrabajo);
+                }
+
+                return OrdenTrabajo.Guid;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        private static OrdenTrabajo asignarValoresSolicitudAOrdenDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
+        {
+            return new OrdenTrabajo
+            {
+                Cantidad = solicitudOrdenTrabajo.Cantidad,
+                CantidadInspeccionar = solicitudOrdenTrabajo.CantidadInspeccionar,
+                Cotizacion = solicitudOrdenTrabajo.Cotizacion,
+                DetallesSolicitud = solicitudOrdenTrabajo.DetallesSolicitud,
+                Estado = solicitudOrdenTrabajo.Estado,
+                Responsable = solicitudOrdenTrabajo.Responsable,
+                PrioridadId = solicitudOrdenTrabajo.PrioridadId,
+                LineaId = solicitudOrdenTrabajo.LineaId,
+                ClienteId = solicitudOrdenTrabajo.ClienteId,
+            };
         }
 
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer)
@@ -91,11 +134,64 @@ namespace OrdenTrabajoES.Service
                     await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto, RutaServer);
                 }
 
-
+                solicitudOrdenTrabajo.ResponsableId = 28;// este codigo cambia dependiendo de la api de seguridad
                 solicitudOrdenTrabajo.EstadoId = 8;
-                return await _repository.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo);
+                return await _ordenTrabajoRepositorio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo);
             }
             catch (Exception) { throw; }
+        }
+
+        public async Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajo)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guidOrdenDeTrabajo);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajo(Paginacion paginacion)
+        {
+            return await _ordenTrabajoRepositorio.ConsultarOrdenesDeTrabajo(paginacion);
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ConsultarOrdenesDeTrabajoPorFiltro(parametrosDTO);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+        }
+
+        public async Task<bool> ActualizarEstadoOrdenDeTrabajo(Guid guid, string estado)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ActualizarEstadoOrdenDeTrabajo(guid, estado);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<bool> ActualizarOrdenDeTrabajo(OrdenTrabajo ordenTrabajo)
+        {
+            try
+            {
+
+                return await _ordenTrabajoRepositorio.ActualizarOrdenDeTrabajo(ordenTrabajo);
+            }
+            catch (Exception e) { throw e; }
         }
     }
 }

@@ -19,6 +19,25 @@ namespace OrdenTrabajoES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<bool> ActualizarEstadoOrdenDeTrabajo(Guid guid, string estado)
+        {
+            try
+            {
+                var oit = await _context.OrdenTrabajo.FirstOrDefaultAsync(a => a.Guid == guid);
+
+                var estadoId = (await _context.Catalogo
+                                .FirstOrDefaultAsync(a => a.Valor == estado && a.Grupo == "ESTADOS_ORDENTRABAJO"))?.Id;
+
+                oit.EstadoId = estadoId
+                    ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
+                oit.FechaModifica = DateTime.Now;
+                _context.OrdenTrabajo.Add(oit);
+                _context.Entry(oit).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado)
         {
             try
@@ -38,6 +57,17 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
+        public async Task<bool> ActualizarOrdenDeTrabajo(OrdenTrabajo ordenTrabajo)
+        {
+            try
+            {
+                _context.OrdenTrabajo.Update(ordenTrabajo);
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception e) { throw e; }
+        }
+
         public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
         {
             try
@@ -46,7 +76,77 @@ namespace OrdenTrabajoES.Repository
 
                 return await _context.SaveChangesAsync() > 0;
             }
-            catch (Exception e ) { throw e; }
+            catch (Exception e) { throw e; }
+        }
+
+        public async Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajo)
+        {
+
+            try
+            {
+                return await _context.OrdenTrabajo
+                    .Include(c => c.Cliente)
+                    .Include(c => c.Herramienta)
+                    .Include(c => c.TipoServicio)
+                    .Include(c => c.Estado)
+                    .Include(c => c.Responsable)
+                    .FirstOrDefaultAsync(c => c.Guid.ToString() == guidOrdenDeTrabajo);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajo(Paginacion paginacion)
+        {
+            try
+            {
+                var result = await _context.OrdenTrabajo
+                    .Include(c => c.Cliente)
+                    .Include(c => c.Herramienta)
+                    .Include(c => c.TipoServicio)
+                    .Include(c => c.Estado)
+                    .Include(c => c.Responsable)
+                    .Skip(paginacion.RegistrosOmitir())
+                    .Take(paginacion.CantidadRegistros)
+                    .ToListAsync();
+
+                var cantidad = await _context.OrdenTrabajo.CountAsync();
+                return new Tuple<int, IEnumerable<OrdenTrabajo>>(cantidad, result);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        {
+            try
+            {
+                var query = _context.OrdenTrabajo
+                    .Where(ordern => Int32.Equals(parametrosDTO.OrdenTrabajoId, null) || ordern.Id == parametrosDTO.OrdenTrabajoId &&
+                    string.IsNullOrEmpty(parametrosDTO.HerraminetaNombre) || ordern.Herramienta.Nombre.Contains(parametrosDTO.HerraminetaNombre) &&
+                    string.IsNullOrEmpty(parametrosDTO.ClienteNombre) || ordern.Cliente.NickName.Contains(parametrosDTO.ClienteNombre) &&
+                    string.IsNullOrEmpty(parametrosDTO.OrdenTabajoSerial) || ordern.SerialHerramienta.Contains(parametrosDTO.OrdenTabajoSerial) &&
+                    string.IsNullOrEmpty(parametrosDTO.fecha) || ordern.FechaRegistro.ToShortDateString().ToString() == parametrosDTO.fecha &&
+                    string.IsNullOrEmpty(parametrosDTO.Estado) || ordern.Estado.Id.ToString() == parametrosDTO.Estado &&
+                    Int32.Equals(parametrosDTO.Prioridad, null) || ordern.Prioridad.Id.ToString() == parametrosDTO.Prioridad
+
+
+
+
+                    );
+
+                var queryPagination = await query
+                    .Skip(parametrosDTO.RegistrosOmitir())
+                    .Take(parametrosDTO.CantidadRegistros)
+                    .ToListAsync();
+
+                var cantidad = query.Count();
+                return new Tuple<int, IEnumerable<OrdenTrabajo>>(cantidad, queryPagination);
+            }
+            catch (Exception) { throw; }
         }
 
         public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
@@ -81,7 +181,7 @@ namespace OrdenTrabajoES.Repository
                                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros)
                                     .ToListAsync();
-                
+
                 var cantidad = await _context.SolicitudOrdenTrabajo.CountAsync();
                 return new Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>(cantidad, result);
             }
@@ -117,6 +217,27 @@ namespace OrdenTrabajoES.Repository
                 return new Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>(cantidad, queryPagination);
             }
             catch (Exception) { throw; }
+        }
+
+        public async Task<OrdenTrabajo> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo)
+        {
+            try
+            {
+                ordenTrabajo.Guid = Guid.NewGuid();
+                ordenTrabajo.EstadoId = 1;
+                ordenTrabajo.TipoServicioId = 36;
+                ordenTrabajo.ResponsableId = 28;
+                await _context.OrdenTrabajo.AddAsync(ordenTrabajo);
+                await _context.SaveChangesAsync();
+                ordenTrabajo = await _context.OrdenTrabajo.FirstOrDefaultAsync(oit => oit.Guid == ordenTrabajo.Guid);
+                return ordenTrabajo;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)

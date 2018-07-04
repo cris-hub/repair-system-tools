@@ -15,5 +15,12 @@ namespace OrdenTrabajoES.Service
         Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO);
         Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado);
         Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer);
+        Task<Guid> CrearOrdenDeTrabajoDesdeSolicitudTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer);
+        Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajoPor);
+        Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajo(Paginacion parametrosSolicitudOrdenTrabajoDTO);
+
+        Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO);
+        Task<bool> ActualizarEstadoOrdenDeTrabajo(Guid guid, string estado);
+        Task<bool> ActualizarOrdenDeTrabajo(OrdenTrabajo ordenTrabajo);
     }
 }

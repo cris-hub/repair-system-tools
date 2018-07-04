@@ -12,8 +12,12 @@ namespace Pemarsa.Domain
 
         [Required]
         public bool Estado { get; set; }
+
+        [Required, ForeignKey("SolicitudOrdenTrabajo")]
         public int SolicitudOrdenTrabajoId { get; set; }
         public virtual SolicitudOrdenTrabajo SolicitudOrdenTrabajo { get; set; }
+
+        [Required, ForeignKey("DocumentoAdjunto")]
         public int DocumentoAdjuntoId { get; set; }
         public virtual DocumentoAdjunto DocumentoAdjunto { get; set; }
     }

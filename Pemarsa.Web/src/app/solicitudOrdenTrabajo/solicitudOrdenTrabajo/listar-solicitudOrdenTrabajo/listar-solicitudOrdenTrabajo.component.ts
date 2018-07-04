@@ -86,11 +86,13 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     this.accion = ['Procesar', value]
     this.esNuevaAccion = true;
   }
+
   actualizarSolicitudOit(value) {
     this.solicitudOrdenTrabajoModelInput = value
     this.accion = ['Editar', value]
     this.esNuevaAccion = true;
   }
+
   verSolicitudOit(value) {
     this.solicitudOrdenTrabajoModelInput = value
     this.accion = ['Ver', value]
@@ -105,7 +107,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   obtenerEstilosPorPrioridad(prioridad: string) {
     switch (prioridad) {
       case "Inmediato": return "Inmediato";
-      case "Mediatoa": return "Mediatoa";
+      case "Mediato": return "Mediato";
       case "Normal": return "Normal";
       case "Standby": return "Standby";
     }

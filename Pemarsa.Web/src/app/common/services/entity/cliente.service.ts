@@ -5,7 +5,7 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
-import { ClienteModel } from "../../models/Index";
+import { ClienteModel, ClienteLineaModel } from "../../models/Index";
 
 @Injectable()
 export class ClienteService {
@@ -35,17 +35,21 @@ export class ClienteService {
       guidCliente,
       { headers: this.header });
   }
+  public consultarLineasPorGuidCliente(guidCliente: string): Observable<Array<ClienteLineaModel>> {
+    return this.http.get<Array<ClienteLineaModel>>(this.urlServer + 'ConsultarLineasPorGuidCliente?guidCliente=' +
+      guidCliente,
+      { headers: this.header });
+  }
 
-  public consultarClientes(paginacion: PaginacionModel): Observable<ListadoResponseModel>
-  {
- 
+  public consultarClientes(paginacion: PaginacionModel): Observable<ListadoResponseModel> {
+
     return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarClientes",
       {
         headers: this.header,
         params: new HttpParams()
           .set('CantidadRegistros', paginacion.CantidadRegistros.toString())
           .set('PaginaActual', paginacion.PaginaActual.toString())
-      });    
+      });
   }
 
   public ActualizarEstadoCliente(guidCliente: string, estado: string): Observable<boolean> {

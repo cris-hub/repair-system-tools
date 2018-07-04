@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Pemarsa.Domain
 {
-    public class InspeccionDimensionalOtro
+    public class InspeccionDimensionalOtro :Entity
     {
         public bool Conformidad { get; set; }
 
@@ -18,9 +18,6 @@ namespace Pemarsa.Domain
 
         [Required, ForeignKey("Inspeccion")]
         public int InspeccionId { get; set; }
-
-
-
         public virtual Inspeccion Inspeccion { get; set; }
     }
 }

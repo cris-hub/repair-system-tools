@@ -32,8 +32,39 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Cliente.Inactiva,
                         Grupo = CanonicalConstants.Grupos.EstadosClientes,
+                    },
+                    new Catalogo{
+                        Id = 30,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.OrdenTrabajo.Inactiva,
+                        Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
+                    },
+                      new Catalogo{
+                        Id = 31,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.OrdenTrabajo.EnProceso,
+                        Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
+                    },
+                      new Catalogo{
+                        Id = 38,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Activa,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
+                        Id = 39,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Inactiva,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
                     }
                 };
+
+
+                foreach (var estado in estados)
+                {
+                    if (context.Catalogo.Where(c => c.Id == estado.Id).ToList().Count == 0)
+                        context.Catalogo.Add(estado);
+                }
                 #endregion
 
                 #region Tipos
@@ -105,7 +136,42 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Tipos.FormatoAdendem.Tipo2,
                         Grupo = CanonicalConstants.Grupos.FormatoAdendum
                     },
-
+                      new Catalogo{
+                        Id = 36,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.TipoServicioOrdenTrabajo
+                    },
+                      new Catalogo{
+                        Id = 37,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.TipoServicioOrdenTrabajo
+                    },
+                      new Catalogo{
+                        Id = 40,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },
+                      new Catalogo{
+                        Id = 41,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },
+                      new Catalogo{
+                        Id = 42,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },
+                      new Catalogo{
+                        Id = 43,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    }
                 };
                 foreach (var tipo in tipos)
                 {
@@ -138,6 +204,68 @@ namespace Pemarsa.Data.DBInitialize
 
                 #endregion
 
+                #region Responsables
+                var responsables = new List<Catalogo>
+                {
+                    new Catalogo{
+                        Id = 28,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Responsables.JuanMarquez,
+                        Grupo = CanonicalConstants.Grupos.Responsables,
+                    },
+                     new Catalogo{
+                        Id = 29,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Responsables.MiguelAndres,
+                        Grupo = CanonicalConstants.Grupos.Responsables,
+                    },
+                };
+
+
+                foreach (var responsable in responsables)
+                {
+                    if (context.Catalogo.Where(c => c.Id == responsable.Id).ToList().Count == 0)
+                        context.Catalogo.Add(responsable);
+                }
+                #endregion
+
+                #region Prioridades
+                var prioridades = new List<Catalogo>
+                {
+                    new Catalogo{
+                        Id = 32,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.OrdenTrabajo.Inmediato,
+                        Grupo = CanonicalConstants.Grupos.PrioridadOrdenTrabajo,
+                    },
+                      new Catalogo{
+                        Id = 33,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.OrdenTrabajo.Mediato,
+                        Grupo = CanonicalConstants.Grupos.PrioridadOrdenTrabajo,
+                    },
+                      new Catalogo{
+                        Id = 34,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.OrdenTrabajo.Normal,
+                        Grupo = CanonicalConstants.Grupos.PrioridadOrdenTrabajo,
+                    },
+                       new Catalogo{
+                        Id = 35,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.OrdenTrabajo.Standby,
+                        Grupo = CanonicalConstants.Grupos.PrioridadOrdenTrabajo,
+                    }
+
+                };
+
+
+                foreach (var prioridad in prioridades)
+                {
+                    if (context.Catalogo.Where(c => c.Id == prioridad.Id).ToList().Count == 0)
+                        context.Catalogo.Add(prioridad);
+                }
+                #endregion
 
                 #region Solicitudes
                 var solicitudes = new List<Catalogo>
@@ -222,11 +350,71 @@ namespace Pemarsa.Data.DBInitialize
                 }
                 #endregion
 
-                if (!context.Catalogo.Any())
+                #region Proceso
+                var procesos = new List<Catalogo>
                 {
-                    context.Catalogo.AddRange(estados);
-                    context.SaveChanges();
+                    new Catalogo{
+                        Id = 44,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.EquipoMedicionUtilizado.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.EquipoMedicionUtilizado
+                    },
+                    new Catalogo{
+                        Id = 45,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.EquipoMedicionUtilizado.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.EquipoMedicionUtilizado
+                     },
+                    new Catalogo{
+                        Id = 46,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.Instructivo.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.Instructivo
+                     },
+                    new Catalogo{
+                        Id = 47,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.Instructivo.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.Instructivo
+                     },
+                    new Catalogo{
+                        Id = 48,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.MaquinaAsignada.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.MaquinaAsignada
+                     },
+                    new Catalogo{
+                        Id = 49,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.MaquinaAsignada.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.MaquinaAsignada
+                     },
+                    new Catalogo{
+                        Id = 50,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.Norma.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.Norma
+                     },
+                    new Catalogo{
+                        Id = 51,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.Norma.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.Norma
+                     }
+                };
+                foreach (var proceso in procesos)
+                {
+                    if (context.Catalogo.Where(c => c.Id == proceso.Id).ToList().Count == 0)
+                        context.Catalogo.Add(proceso);
                 }
+
+                #endregion
+
+                //if (!context.Catalogo.Any())
+                //{
+                //    context.Catalogo.AddRange(estados);
+                //    context.SaveChanges();
+                //}
 
                 #region Parametros
                 var entidades = new List<Parametro>
@@ -234,6 +422,8 @@ namespace Pemarsa.Data.DBInitialize
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Cliente},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Materiales},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Solicitud},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.OrdenTrabajo},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Proceso},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Formato}
 
                     };
@@ -257,41 +447,44 @@ namespace Pemarsa.Data.DBInitialize
                         case CanonicalConstants.Grupos.EstadosClientes:
                             if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == estado.Id) && (pc.Entidad == CanonicalConstants.Entidades.Cliente)).ToList().Count == 0)
                             {
-                                    context.ParametroCatalogo.AddRange
-                               (
-                                   new ParametroCatalogo
-                                   {
-                                       CatalogoId = estado.Id,
-                                       Entidad = CanonicalConstants.Entidades.Cliente
-                                   }
-                               );
+                                context.ParametroCatalogo.AddRange
+                           (
+                               new ParametroCatalogo
+                               {
+                                   CatalogoId = estado.Id,
+                                   Entidad = CanonicalConstants.Entidades.Cliente
+                               }
+                           );
                             }
                             break;
-                    }
-                }
-
-
-                // Especificaciones //
-                foreach (var Especificacione in Especificaciones)
-                {
-                    switch (Especificacione.Grupo)
-                    {
-                        case CanonicalConstants.Grupos.Especificacion:
-                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == Especificacione.Id) && (pc.Entidad == CanonicalConstants.Entidades.Formato)).ToList().Count == 0)
+                        case CanonicalConstants.Grupos.EstadosOrdenTrabajo:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == estado.Id) && (pc.Entidad == CanonicalConstants.Entidades.OrdenTrabajo)).ToList().Count == 0)
                             {
-                                context.ParametroCatalogo.Add
-                                (
-                                new ParametroCatalogo
-                                {
-                                    CatalogoId = Especificacione.Id,
-                                    Entidad = CanonicalConstants.Entidades.Formato
-                                }
-                                );
+                                context.ParametroCatalogo.AddRange
+                           (
+                               new ParametroCatalogo
+                               {
+                                   CatalogoId = estado.Id,
+                                   Entidad = CanonicalConstants.Entidades.OrdenTrabajo
+                               }
+                           );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.EstadosProceso:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == estado.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.AddRange
+                           (
+                               new ParametroCatalogo
+                               {
+                                   CatalogoId = estado.Id,
+                                   Entidad = CanonicalConstants.Entidades.Proceso
+                               }
+                           );
                             }
                             break;
                     }
                 }
-
                 // Tipos //
                 foreach (var tipo in tipos)
                 {
@@ -362,6 +555,154 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
+                        case CanonicalConstants.Grupos.TipoServicioOrdenTrabajo:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.OrdenTrabajo)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.OrdenTrabajo
+                                }
+                                );
+                            }
+                            break;
+                    }
+                }
+                // Especificaciones //
+                foreach (var Especificacione in Especificaciones)
+                {
+                    switch (Especificacione.Grupo)
+                    {
+                        case CanonicalConstants.Grupos.Especificacion:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == Especificacione.Id) && (pc.Entidad == CanonicalConstants.Entidades.Formato)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = Especificacione.Id,
+                                    Entidad = CanonicalConstants.Entidades.Formato
+                                }
+                                );
+                            }
+                            break;
+                    }
+                }
+                //Responsables // 
+                foreach (var responsable in responsables)
+                {
+                    switch (responsable.Grupo)
+                    {
+                        case CanonicalConstants.Grupos.Responsables:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == responsable.Id) && (pc.Entidad == CanonicalConstants.Entidades.Solicitud)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = responsable.Id,
+                                    Entidad = CanonicalConstants.Entidades.Solicitud
+                                }
+                                );
+                            }
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == responsable.Id) && (pc.Entidad == CanonicalConstants.Entidades.OrdenTrabajo)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = responsable.Id,
+                                    Entidad = CanonicalConstants.Entidades.OrdenTrabajo
+                                }
+                                );
+                            }
+                            break;
+                    }
+                }
+
+                // Prioridad //
+                foreach (var prioridad in prioridades)
+                {
+                    switch (prioridad.Grupo)
+                    {
+                        case CanonicalConstants.Grupos.PrioridadOrdenTrabajo:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == prioridad.Id) && (pc.Entidad == CanonicalConstants.Entidades.OrdenTrabajo)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = prioridad.Id,
+                                    Entidad = CanonicalConstants.Entidades.OrdenTrabajo
+                                }
+                                );
+                            }
+                            break;
+
+                    }
+                }
+
+                // Solicitudes //
+                foreach (var proceso in procesos)
+                {
+                    switch (proceso.Grupo)
+                    {
+                        case CanonicalConstants.Grupos.EquipoMedicionUtilizado:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.Instructivo:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.MaquinaAsignada:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.Norma:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+
+
                     }
                 }
 

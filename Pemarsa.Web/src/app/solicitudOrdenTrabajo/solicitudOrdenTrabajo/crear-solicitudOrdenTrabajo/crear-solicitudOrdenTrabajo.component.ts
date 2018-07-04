@@ -99,7 +99,9 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
 
     this.frmSolicitudOit = this.frmBuilder.group({
+      Responsable: [this.solicitudOrdenTrabajoModelInput.Responsable],
       Id: [this.solicitudOrdenTrabajoModelInput.Id],
+      Guid: [this.solicitudOrdenTrabajoModelInput.Guid],
       DocumentoAdjunto: [],
       OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId],
       Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName],
@@ -229,7 +231,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
       this.actualizarEstadoSolicitudDeTrabajo(datosFormulario);
     }
     if (this.accion[0] == 'Procesar') {
-      this.actualizarEstadoSolicitudDeTrabajo(datosFormulario);
+      this.procesarSolitudOit(datosFormulario);
     }
   }
 
@@ -242,20 +244,37 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.solicitudOrdenTrabajoModel.LineaId = this.solicitudOrdenTrabajoModel.ClienteLinea.Id;
     delete this.solicitudOrdenTrabajoModel['Cliente']
     delete this.solicitudOrdenTrabajoModel['ClienteLinea']
+    if (!this.solicitudOrdenTrabajoModel.Id) {
+      delete this.solicitudOrdenTrabajoModel['Id']
+      delete this.solicitudOrdenTrabajoModel['Guid']
+
+
+    }
     this.solicitudOrdenTrabajoSrv.crearSolicitudOit(this.solicitudOrdenTrabajoModel).subscribe(response => {
       this.toastr.info(JSON.stringify(response));
     });
   }
+
   actualizarEstadoSolicitudDeTrabajo(datosFormulario) {
     Object.assign(this.solicitudOrdenTrabajoModel, datosFormulario);
     this.solicitudOrdenTrabajoModel.ClienteId = this.solicitudOrdenTrabajoModel.Cliente.Id;
     this.solicitudOrdenTrabajoModel.LineaId = this.solicitudOrdenTrabajoModel.ClienteLinea.Id;
     delete this.solicitudOrdenTrabajoModel['Cliente']
     delete this.solicitudOrdenTrabajoModel['ClienteLinea']
+    if (!this.solicitudOrdenTrabajoModel.Id) {
+      delete this.solicitudOrdenTrabajoModel['Id']
 
+    }
     this.solicitudOrdenTrabajoSrv.actualizarEstadoSolicitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
       this.toastr.info(JSON.stringify(response));
+
     });
+    this.router.navigate(['/solicitudOrdenTrabajo']);
+  }
+
+
+  procesarSolitudOit(datosFormulario) {
+    this.router.navigate(['/oit/' + datosFormulario.Guid + '/procesar']);
   }
 
   consultarSolicitudDeTrabajoPorGuid(Guid: string) {

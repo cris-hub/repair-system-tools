@@ -1,0 +1,10 @@
+<input id="{{data.id}}"
+       name="{{data.name}}"
+       type="text"
+       class="{{data.clase}}"
+       [(ngModel)]="model"
+       [ngbTypeahead]="search"
+       [resultFormatter]="formatter"
+       [inputFormatter]="formatter"
+       (selectItem)="cambioItemEvent($event)"
+       />

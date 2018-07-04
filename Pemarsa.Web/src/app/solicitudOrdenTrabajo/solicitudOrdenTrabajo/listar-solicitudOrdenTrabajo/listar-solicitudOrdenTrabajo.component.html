@@ -76,23 +76,23 @@
           </thead>
           <tbody *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
             <tr [ngClass]="obtenerEstilosPorPrioridad(oit.Prioridad.Valor)">
+              <td>{{oit.Responsable.Valor}}</td>
               <td>{{oit.Cliente.NickName}}</td>
               <td>{{oit.ClienteLinea.Nombre}}</td>
               <td>{{oit.Prioridad.Valor}}</td>
-              <td>!!aqui va el responsable!!</td>
               <td>{{oit.DetallesSolicitud}}</td>
               <td>{{oit.FechaRegistro}}</td>
               <td>{{oit.Estado.Valor}}</td>
               <td class="col-md-12">
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i  (click)="actualizarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal"  class="glyphicon glyphicon-pencil pointer" ></i>
+                  <i (click)="actualizarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-pencil pointer"></i>
                 </div>
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i  (click)="ProcesarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal"  class="glyphicon glyphicon-wrench pointer"></i>
+                  <i (click)="ProcesarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-wrench pointer"></i>
                 </div>
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                    <i  (click)="verSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal"  class="glyphicon glyphicon-eye-open pointer"></i>
-                  </div>
+                  <i (click)="verSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-eye-open pointer"></i>
+                </div>
               </td>
             </tr>
 

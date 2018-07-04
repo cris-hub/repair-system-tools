@@ -12,6 +12,8 @@ import { ListarHerramientaComponent, CrearHerramientaComponent } from './herrami
 import { ListarSolicitudOrdenTrabajoComponent } from './solicitudOrdenTrabajo/solicitudOrdenTrabajo';
 import { CrearFormatoComponent } from './formato/crear-formato/crear-formato.component';
 import { ListarFormatoComponent } from './formato/listar-formato/listar-formato.component';
+import { ListarOitComponent } from './orden-trabajo/listar-oit/listar-oit.component';
+import { CrearOitComponent } from './orden-trabajo/crear-oit/crear-oit.component';
 
 const routes: Routes = [
 
@@ -39,7 +41,19 @@ const routes: Routes = [
   { path: 'herramienta/ver/:id', component: CrearHerramientaComponent },
 
   //SolicitudOrdenTrabajo
-  { path: 'solicitudOrdenTrabajo', component: ListarSolicitudOrdenTrabajoComponent }
+  { path: 'solicitudOrdenTrabajo', component: ListarSolicitudOrdenTrabajoComponent },
+
+  //OITs
+
+  { path: 'oit', component: ListarOitComponent },
+  { path: 'oit/nueva-oit', component: CrearOitComponent },
+  { path: 'oit/:id', component: CrearOitComponent },
+  { path: 'oit/:id/editar', component: CrearOitComponent },
+  { path: 'oit/:id/procesar', component: CrearOitComponent },
+
+
+
+
 ];
 
 @NgModule({
