@@ -88,19 +88,38 @@ namespace OrdenTrabajoES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearOrdenDeTrabajoDesdeSolicitudTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer)
+        public async Task<Guid> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, string RutaServer)
         {
             try
             {
-                OrdenTrabajo ordenTrabajo = asignarValoresSolicitudAOrdenDeTrabajo(solicitudOrdenTrabajo);
-                OrdenTrabajo OrdenTrabajo = await _ordenTrabajoRepositorio.CrearOrdenDeTrabajo(ordenTrabajo);
 
-                if (OrdenTrabajo != null)
+
+                if (ordenTrabajo.Id != 0)
                 {
-                    await _procesoService.CrearProcesoDesdeOrdenDeTrabajo(OrdenTrabajo);
+                    Proceso proceso = new Proceso();
+                    proceso = AsignarValoresOrdenTrabajoAProceso(ordenTrabajo);
+                    await _procesoService.CrearProceso(proceso);
                 }
+                else
+                {
 
-                return OrdenTrabajo.Guid;
+                    OrdenTrabajo OrdenTrabajo = await _ordenTrabajoRepositorio.CrearOrdenDeTrabajo(ordenTrabajo);
+
+                    if (OrdenTrabajo != null)
+                    {
+
+                        if (ordenTrabajo.SolicitudOrdenTrabajoId == 0)
+                        {
+                            Proceso proceso = new Proceso();
+                            proceso = AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo);
+                            await _procesoService.CrearProceso(proceso);
+                        }
+                        
+                    }
+                    return OrdenTrabajo.Guid;
+
+                }
+                return ordenTrabajo.Guid;
             }
             catch (Exception e)
             {
@@ -117,12 +136,23 @@ namespace OrdenTrabajoES.Service
                 CantidadInspeccionar = solicitudOrdenTrabajo.CantidadInspeccionar,
                 Cotizacion = solicitudOrdenTrabajo.Cotizacion,
                 DetallesSolicitud = solicitudOrdenTrabajo.DetallesSolicitud,
-                Estado = solicitudOrdenTrabajo.Estado,
                 Responsable = solicitudOrdenTrabajo.Responsable,
                 PrioridadId = solicitudOrdenTrabajo.PrioridadId,
                 LineaId = solicitudOrdenTrabajo.LineaId,
                 ClienteId = solicitudOrdenTrabajo.ClienteId,
+                SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id
             };
+        }
+
+        private static Proceso AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo ordenTrabajo)
+        {
+            Proceso proceso = new Proceso()
+            {
+                CantidadInspeccion = ordenTrabajo.CantidadInspeccionar,
+                EstadoId = 38,
+                OrdenTrabajoId = ordenTrabajo.Id
+            };
+            return proceso;
         }
 
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer)
@@ -145,7 +175,31 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                return await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guidOrdenDeTrabajo);
+
+
+                Guid guid;
+                OrdenTrabajo ordenTrabajo;
+                ordenTrabajo = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guidOrdenDeTrabajo);
+
+          
+              
+                if ( ordenTrabajo == null)
+                {
+
+                    ordenTrabajo = new OrdenTrabajo();
+                    SolicitudOrdenTrabajo solicitud = await _ordenTrabajoRepositorio.ConsultarSolicitudDeTrabajoPorGuid(Guid.Parse(guidOrdenDeTrabajo));
+                    if (solicitud != null)
+                    {
+                        ordenTrabajo = asignarValoresSolicitudAOrdenDeTrabajo(solicitud);
+
+                    }
+
+                    
+                    guid = await CrearOrdenDeTrabajo(ordenTrabajo, "");
+                    ordenTrabajo = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guid.ToString());
+                }
+
+                return ordenTrabajo;
 
             }
             catch (Exception e)

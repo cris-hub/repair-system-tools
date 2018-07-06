@@ -90,6 +90,9 @@
                 <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
                   <i routerLink="/oit/{{oit.Guid}}/editar" class="glyphicon glyphicon-pencil pointer"></i>
                 </div>
+                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
+                  <i routerLink="/oit/{{oit.Guid}}/procesar" class="glyphicon glyphicon-wrench pointer"></i>
+                </div>
 
                 <div *ngIf="parametrosEstadoOrden.Catalogos" class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">

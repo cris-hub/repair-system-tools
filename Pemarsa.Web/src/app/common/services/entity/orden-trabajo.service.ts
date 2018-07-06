@@ -6,7 +6,8 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class OrdenTrabajoService {
-  
+
+
 
   private header: HttpHeaders;
   private urlServer: string;
@@ -45,7 +46,15 @@ export class OrdenTrabajoService {
   public consultarOrdenDeTrabajoPorGuid(GuidOrdenDeTrabajo: any): Observable<OrdenTrabajoModel> {
     return this.http.get<OrdenTrabajoModel>(this.urlServer + 'ConsultarOrdenDeTrabajoPorGuid?GuidOrdenDeTrabajo=' + GuidOrdenDeTrabajo);
   }
-  
+
+
+  public crearOrdenDeTrabajo(ordenTrabajo: OrdenTrabajoModel): Observable<boolean> {
+   return this.http.post<boolean>(this.urlServer + 'CrearOrdenDeTrabajo', ordenTrabajo, { headers: this.header });
+  }
+  public actualizarOrdenDeTrabajo(ordenTrabajo: OrdenTrabajoModel): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarOrdenDeTrabajo', ordenTrabajo, { headers: this.header });
+  }
+
 }
 
 

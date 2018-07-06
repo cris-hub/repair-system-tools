@@ -23,6 +23,7 @@
     "@angular/router": "^6.0.5",
     "@ng-bootstrap/ng-bootstrap": "^2.0.0",
     "bootstrap": "^4.1.1",
+    "circular-json": "^0.5.5",
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
     "ng2-toastr": "^4.1.2",
@@ -30,6 +31,8 @@
     "ngx-pagination": "^3.1.1",
     "ngx-toastr": "^8.6.0",
     "popper.js": "^1.14.3",
+    "primeicons": "^1.0.0-beta.9",
+    "primeng": "^6.0.0",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
   },

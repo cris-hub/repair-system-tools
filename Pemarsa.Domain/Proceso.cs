@@ -29,23 +29,23 @@ namespace Pemarsa.Domain
         public virtual Catalogo Estado { get; set; }
 
         [ForeignKey("TipoProcesoAnterior")]
-        public int TipoProcesoAnteriorId { get; set; }
+        public int? TipoProcesoAnteriorId { get; set; }
         public virtual Catalogo TipoProcesoAnterior { get; set; }
 
         [ForeignKey("TipoProceso")]
-        public int TipoProcesoId { get; set; }
+        public int? TipoProcesoId { get; set; }
         public virtual Catalogo TipoProceso { get; set; }
 
         [ForeignKey("TipoProcesoSiguiente")]
-        public int TipoProcesoSiguienteId { get; set; }
+        public int? TipoProcesoSiguienteId { get; set; }
         public virtual Catalogo TipoProcesoSiguiente { get; set; }
 
         [ForeignKey("TipoProcesoSiguienteSugerido")]
-        public int TipoProcesoSiguienteSugeridoId { get; set; }
+        public int? TipoProcesoSiguienteSugeridoId { get; set; }
         public virtual Catalogo TipoProcesoSiguienteSugerido { get; set; }
 
         [ForeignKey("TipoSoldadura")]
-        public int TipoSoldaduraId { get; set; }
+        public int? TipoSoldaduraId { get; set; }
         public virtual Catalogo TipoSoldadura { get; set; }
 
         [ForeignKey("EquipoMedicionUtilizado")]
@@ -57,25 +57,25 @@ namespace Pemarsa.Domain
         public virtual Catalogo Norma { get; set; }
 
         [ForeignKey("MaquinaAsignada")]
-        public int MaquinaAsignadaId { get; set; }
+        public int? MaquinaAsignadaId { get; set; }
         public virtual Catalogo MaquinaAsignada { get; set; }
 
         [ForeignKey("Instructivo")]
-        public int InstructivoId { get; set; }
+        public int? InstructivoId { get; set; }
         public virtual Catalogo Instructivo { get; set; }
 
         #endregion
 
         [ForeignKey("ProcesosRealizar")]
-        public int ProcesosRealizarId { get; set; }
+        public int? ProcesosRealizarId { get; set; }
         public virtual Proceso ProcesosRealizar { get; set; }
 
         [ForeignKey("ProcesoSiguiente")]
-        public int ProcesoSiguienteId { get; set; }
+        public int? ProcesoSiguienteId { get; set; }
         public virtual Proceso ProcesoSiguiente { get; set; }
 
         [ForeignKey("ProcesoAnterior")]
-        public int ProcesoAnteriorId { get; set; }
+        public int? ProcesoAnteriorId { get; set; }
         public virtual Proceso ProcesoAnterior { get; set; }
 
         [ForeignKey("OrdenTrabajo")]

@@ -2,7 +2,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { AutoCompleteModule, AutoComplete } from 'primeng/autocomplete';
 import { RouterModule } from '@angular/router';
 import { RouterConfigLoader } from '@angular/router/src/router_config_loader';
 import { ConfigLoader } from './common/config/config.loader';
@@ -39,6 +39,7 @@ import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.serv
     BrowserModule,
     HttpClientModule,
     ClienteModule,
+    AutoCompleteModule,
     FormatoModule,
     OrdenTrabajoModule,
     HerramientaModule,
@@ -49,6 +50,8 @@ import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.serv
     ToastrModule.forRoot(),
     NgbModule.forRoot()
   ],
+  entryComponents: [AutoComplete]
+  ,
   providers: [
     ConfigService,
     {

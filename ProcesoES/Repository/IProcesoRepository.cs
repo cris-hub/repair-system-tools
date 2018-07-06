@@ -8,6 +8,6 @@ namespace ProcesoES.Repository
 {
     public interface IProcesoRepository
     {
-        Task<Guid> CrearPrpceso(Proceso proceso);
+        Task<Guid> CrearProceso(Proceso proceso);
     }
 }

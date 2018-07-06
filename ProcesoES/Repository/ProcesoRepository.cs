@@ -17,11 +17,21 @@ namespace ProcesoES.Repository
             _context = (PemarsaContext)context;
         }
 
-        public async Task<Guid> CrearPrpceso(Proceso proceso)
+        public async Task<Guid> CrearProceso(Proceso proceso)
         {
+            try
+            {
+                await _context.Proceso.AddAsync(proceso);
+                await _context.SaveChangesAsync();
+
+                return proceso.Guid;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
             
-            await _context.Proceso.AddAsync(proceso);
-            return proceso.Guid;
         }
     }
 }

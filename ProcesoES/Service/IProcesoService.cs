@@ -8,6 +8,6 @@ namespace ProcesoES.Service
 {
     public interface IProcesoService
     {
-        Task<Guid> CrearProcesoDesdeOrdenDeTrabajo(OrdenTrabajo OrdenTrabajoGuid);
+        Task<Guid> CrearProceso(Proceso proceso);
     }
 }

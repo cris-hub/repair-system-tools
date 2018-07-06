@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180706134536_cammpos-nulleables")]
+    partial class cammposnulleables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1241,9 +1243,9 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid?>("GuidUsuarioModifica");
 
-                    b.Property<int?>("InstructivoId");
+                    b.Property<int>("InstructivoId");
 
-                    b.Property<int?>("MaquinaAsignadaId");
+                    b.Property<int>("MaquinaAsignadaId");
 
                     b.Property<string>("NombreOperario");
 
@@ -1258,11 +1260,11 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("OrdenTrabajoId");
 
-                    b.Property<int?>("ProcesoAnteriorId");
+                    b.Property<int>("ProcesoAnteriorId");
 
-                    b.Property<int?>("ProcesoSiguienteId");
+                    b.Property<int>("ProcesoSiguienteId");
 
-                    b.Property<int?>("ProcesosRealizarId");
+                    b.Property<int>("ProcesosRealizarId");
 
                     b.Property<int?>("TipoProcesoAnteriorId");
 
@@ -1859,11 +1861,13 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Instructivo")
                         .WithMany()
-                        .HasForeignKey("InstructivoId");
+                        .HasForeignKey("InstructivoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "MaquinaAsignada")
                         .WithMany()
-                        .HasForeignKey("MaquinaAsignadaId");
+                        .HasForeignKey("MaquinaAsignadaId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Norma")
                         .WithMany()

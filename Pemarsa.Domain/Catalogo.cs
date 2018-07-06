@@ -31,5 +31,7 @@ namespace Pemarsa.Domain
 
         public virtual IEnumerable<Catalogo> SubCatalogos { get; set; }
 
-    }
+        
+
+}
 }

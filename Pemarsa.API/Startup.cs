@@ -54,6 +54,7 @@ namespace Pemarsa.API
             services.AddRouting();
 
             //Dependency Injection
+            
             services.AddEntityServices();
             services.AddUtilityServices();
         }

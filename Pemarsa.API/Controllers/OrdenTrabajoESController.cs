@@ -136,7 +136,7 @@ namespace Pemarsa.API.Controllers
         }
 
         [HttpPost("CrearOrdenDeTrabajo")]
-        public async Task<IActionResult> CrearOrdenDeTrabajo([FromBody]SolicitudOrdenTrabajo solicitudOrdenTrabajo)
+        public async Task<IActionResult> CrearOrdenDeTrabajo([FromBody]OrdenTrabajo ordenTrabajo)
         {
             try
             {
@@ -151,15 +151,15 @@ namespace Pemarsa.API.Controllers
                 Configuration = builder.Build();
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
-                Guid OrdenDeTrabajoGuid = await _ordenTrabajoServicio.CrearOrdenDeTrabajoDesdeSolicitudTrabajo(solicitudOrdenTrabajo, pathServer);
+                Guid OrdenDeTrabajoGuid = await _ordenTrabajoServicio.CrearOrdenDeTrabajo(ordenTrabajo, pathServer);
 
-                return Ok();
+                return Ok(OrdenDeTrabajoGuid);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-        } // modioficar retorno de este metodo
+        } 
 
         [HttpGet("ConsultarOrdenDeTrabajoPorGuid")]
         public async Task<IActionResult> ConsultarOrdenDeTrabajoPorGuid([FromQuery]string GuidOrdenDeTrabajo)
@@ -227,11 +227,11 @@ namespace Pemarsa.API.Controllers
         }
 
 
-        [HttpPut("ActualizarOrdenDeTrabajo ")]
+        [HttpPut("ActualizarOrdenDeTrabajo")]
         public async Task<IActionResult> ActualizarOrdenDeTrabajo([FromBody]OrdenTrabajo ordenTrabajo)
         {
             try
-            {
+                {
           
 
                 return Ok(await _ordenTrabajoServicio.ActualizarOrdenDeTrabajo(ordenTrabajo));

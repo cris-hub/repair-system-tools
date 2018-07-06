@@ -19,14 +19,14 @@ namespace ProcesoES.Service
             _context = context;
         }
 
-        public async Task<Guid> CrearProcesoDesdeOrdenDeTrabajo(OrdenTrabajo ordenTrabajo)
+        public async Task<Guid> CrearProceso(Proceso proceso)
         {
             try
             {
-                Proceso proceso = AsignarValoresOrdenTrabajoAProceso(ordenTrabajo);
+               
 
-                await _procesoRepository.CrearPrpceso(proceso);
-                return proceso.Guid;
+                Guid procesoGuid  = await _procesoRepository.CrearProceso(proceso);
+                return procesoGuid;
 
 
             }

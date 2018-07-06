@@ -61,7 +61,11 @@ namespace OrdenTrabajoES.Repository
         {
             try
             {
+                HerramientaMaterial material = await _context.HerramientaMaterial.FirstOrDefaultAsync(c => c.Id == ordenTrabajo.Material.Id);
+                ordenTrabajo.Material = material;
+                _context.HerramientaMaterial.Update(ordenTrabajo.Material);
                 _context.OrdenTrabajo.Update(ordenTrabajo);
+
 
                 return await _context.SaveChangesAsync() > 0;
             }
@@ -86,7 +90,12 @@ namespace OrdenTrabajoES.Repository
             {
                 return await _context.OrdenTrabajo
                     .Include(c => c.Cliente)
+                    .Include(c => c.Linea)
                     .Include(c => c.Herramienta)
+                    .Include(c => c.TamanoHerramienta)
+                    .Include(c => c.Material)
+                    .Include(c => c.Material.Material)
+                    .Include(c => c.Herramienta.TamanosHerramienta)
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
                     .Include(c => c.Responsable)

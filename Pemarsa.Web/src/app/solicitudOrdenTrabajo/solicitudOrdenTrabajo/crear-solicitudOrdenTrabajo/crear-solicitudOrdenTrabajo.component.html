@@ -108,7 +108,7 @@
     </div>
     <div class="modal-footer">
       <button *ngIf="accion[0] == 'Crear' || accion[0] == 'Editar' || accion[0] == 'Procesar'" (click)="enviarFormulario(frmSolicitudOit.value)" data-dismiss="modal" class="btn btn-primary">{{accion[0]}}</button>
-      <button *ngIf="accion[0] == 'Ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+      <button *ngIf="accion[0] == 'Ver'" data-dismiss="modal" class="btn btn-primary">Regresar</button>
     </div>
   </div>
 </div>

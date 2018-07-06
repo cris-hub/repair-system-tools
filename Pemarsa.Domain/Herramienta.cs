@@ -34,7 +34,7 @@ namespace Pemarsa.Domain
         public int LineaId { get; set; }
 
         [Required]
-        public IEnumerable<HerramientaMaterial> Materiales { get; set; }
+        public virtual IEnumerable<HerramientaMaterial> Materiales { get; set; }
 
         public int Moc { get; set; }
 

@@ -44,6 +44,11 @@ export class OrdenTrabajoModel extends EntityModel {
     this.Prioridad = new CatalogoModel();
     this.Cliente = new ClienteModel();
     this.Herramienta = new HerramientaModel();
+    this.TipoServicio = new CatalogoModel();
+    this.TamanoHerramienta = new HerramientaTamanoModel();
+    this.Material = new HerramientaMaterialModel();
+
+
 
   }
 }
