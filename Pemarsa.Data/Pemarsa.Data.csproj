@@ -18,6 +18,7 @@
     <Compile Remove="Migrations\20180628160653_cambios_model_relacion.cs" />
     <Compile Remove="Migrations\20180628161230_changes.cs" />
     <Compile Remove="Migrations\20180629163600_procesos.cs" />
+    <Compile Remove="Migrations\20180709205935_propiedad-remision-solicitud-orden-trabajo.cs" />
   </ItemGroup>
 
   <ItemGroup>
