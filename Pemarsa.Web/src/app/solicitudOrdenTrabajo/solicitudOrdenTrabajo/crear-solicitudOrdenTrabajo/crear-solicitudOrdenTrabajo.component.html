@@ -10,6 +10,20 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="frmSolicitudOit" class="form-horizontal">
+
+        <div class="form-group">
+          <div class="col-sm-7">
+            <label for="Responsable" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Responsable:</b></label>
+            <div class="col-sm-7">
+              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="Responsable" formControlName="Responsable">
+                <option *ngFor="let responsable of Responsables" [value]="responsable.Id">{{responsable.Valor}}</option>
+              </select>
+            </div>
+          </div>
+          
+        </div>
+
+
         <div class="form-group">
           <div class="col-sm-7">
             <label for="OrigenSolicitudId" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Origen:</b></label>
@@ -23,7 +37,7 @@
           <div class="col-sm-5">
             <label for="PrioridadId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Prioridad:</b></label>
             <div class="col-sm-9">
-              <select  [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="PrioridadId" formControlName="PrioridadId">
+              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="PrioridadId" formControlName="PrioridadId">
                 <option value="">Seleccione</option>
                 <option *ngFor="let prioridad of Prioridades" [value]="prioridad.Id">{{prioridad.Valor}}</option>
               </select>
@@ -32,9 +46,9 @@
         </div>
         <div class="form-group">
           <label for="ClienteId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Cliente:</b></label>
-          <div class="col-sm-9" >
-            <input  [attr.disabled]="esVer == true ? '' : null"
-                  id="ClienteId"
+          <div class="col-sm-9">
+            <input [attr.disabled]="esVer == true ? '' : null"
+                   id="ClienteId"
                    name="ClienteId"
                    type="text"
                    class="form-control"
@@ -43,15 +57,15 @@
                    [resultFormatter]="formatter"
                    [inputFormatter]="formatter"
                    (selectItem)="cambioItemEvent($event)"
-                   formControlName="Cliente"/>
+                   formControlName="Cliente" />
           </div>
         </div>
         <div class="form-group">
           <label for="LineaId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Linea:</b></label>
           <div class="col-sm-9">
 
-            <input  [attr.disabled]="esVer == true ? '' : null"
-            id="LineaId"
+            <input [attr.disabled]="esVer == true ? '' : null"
+                   id="LineaId"
                    name="LineaId"
                    type="text"
                    class="form-control"
@@ -60,7 +74,7 @@
                    [resultFormatter]="formatter"
                    [inputFormatter]="formatter"
                    (selectItem)="cambioItemEvent($event)"
-                   formControlName="ClienteLinea"/>
+                   formControlName="ClienteLinea" />
           </div>
         </div>
         <div class="form-group">
@@ -74,31 +88,31 @@
           <div class="col-sm-7">
             <label for="Cotizacion" style="color: #6c757d;" class="col-sm-3 col-sm-offset-2 control-label"><b>Cotizacion:</b></label>
             <div class="col-sm-7">
-              <input  [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cotizacion" placeholder="Cotizacion">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cotizacion" placeholder="Cotizacion">
             </div>
           </div>
           <div class="col-sm-5">
             <label for="Cantidad" style="color: #6c757d;" class="col-sm-3 control-label"><b>Cantidad:</b></label>
             <div class="col-sm-9">
-              <input  [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cantidad" placeholder="Cantidad">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cantidad" placeholder="Cantidad">
             </div>
           </div>
         </div>
         <div class="form-group">
           <label for="DetallesSolicitud" style="color: #6c757d;" class="col-sm-3 control-label"><b>Detalle de solicitud:</b></label>
           <div class="col-sm-9">
-            <input   [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="DetallesSolicitud" placeholder="DetallesSolicitud">
+            <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="DetallesSolicitud" placeholder="DetallesSolicitud">
           </div>
         </div>
         <div class="form-group">
           <label for="DocumentoAdjunto" style="color: #6c757d;" class="col-sm-3 control-label"><b>Anexos:</b></label>
           <div class="col-sm-9">
-            <input   [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFile($event)" class="form-control-file"   formControlName="DocumentoAdjunto" name="DocumentoAdjunto" #inputFile>
+            <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFile($event)" class="form-control-file" formControlName="DocumentoAdjunto" name="DocumentoAdjunto" #inputFile>
           </div>
         </div>
         <div *ngFor="let attachment of attachments" class="form-group">
           <div class="col-sm-3 col-sm-offset-3">
-            <input  [attr.disabled]="esVer == true ? '' : null" class="form-control" type="text" value="{{attachment.NombreArchivo}}">
+            <input [attr.disabled]="esVer == true ? '' : null" class="form-control" type="text" value="{{attachment.NombreArchivo}}">
           </div>
           <div class="col-sm-5" style="padding-top:7px;float: right;">
             <i class="glyphicon glyphicon-minus" (click)="eliminarAdjunto(attachment)"></i>

@@ -29,6 +29,8 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   public Origenes: CatalogoModel[] = new Array<CatalogoModel>();
   public Prioridades: CatalogoModel[] = new Array<CatalogoModel>();
   public Estados: CatalogoModel[] = new Array<CatalogoModel>();
+  public Responsables: CatalogoModel[] = new Array<CatalogoModel>();
+
   private parametros: ParametrosModel;
   private attachments: AttachmentModel[] = new Array<AttachmentModel>();
 
@@ -135,6 +137,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
         this.Origenes = this.parametros.Catalogos.filter(e => e.Grupo == "ORIGEN_SOLICITUD");
         this.Estados = this.parametros.Catalogos.filter(e => e.Grupo == "ESTADOS_SOLICITUD");
         this.Prioridades = this.parametros.Catalogos.filter(e => e.Grupo == "PRIORIDAD_SOLICITUD");
+        this.Responsables = this.parametros.Catalogos.filter(e => e.Grupo == 'RESPONSABLES');
       });
   }
 
