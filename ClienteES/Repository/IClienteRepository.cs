@@ -9,12 +9,12 @@ namespace ClienteES.Repository
 {
     public interface IClienteRepository
     {
-        Task<Guid> CrearCliente(Cliente cliente);
-        Task<Tuple<int,IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion);
-        Task<Cliente> ConsultarClientePorGuid(Guid guidCliente);
-        Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente);
-        Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO);
-        Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado);
-        Task<bool> ActualizarCliente(Cliente cliente);
+        Task<Guid> CrearCliente(Cliente cliente , UsuarioDTO usuario);
+        Task<Tuple<int,IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion, UsuarioDTO usuario);
+        Task<Cliente> ConsultarClientePorGuid(Guid guidCliente, UsuarioDTO usuario);
+        Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario);
+        Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario);
+        Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado, UsuarioDTO usuario);
+        Task<bool> ActualizarCliente(Cliente cliente, UsuarioDTO usuario);
     }
 }

@@ -8,12 +8,16 @@ namespace FormatoES.Service
 {
     public interface IFormatoService
     {
-        Task<Guid> CrearFormato(Formato formato, string RutaServer);
-        Task<Formato> ConsultarFormatoPorGuid(Guid guidFormato);
-        Task<bool> ActualizarFormato(Formato formato, string RutaServer);
-        Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion);
+        Task<Guid> CrearFormato(Formato formato, string RutaServer, UsuarioDTO usuario);
 
-        Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO);
-        Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion);
+        Task<Formato> ConsultarFormatoPorGuid(Guid guidFormato, UsuarioDTO usuario);
+
+        Task<bool> ActualizarFormato(Formato formato, string RutaServer, UsuarioDTO usuario);
+
+        Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion, UsuarioDTO usuario);
+
+        Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario);
+
+        Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion, UsuarioDTO usuario);
     }
 }

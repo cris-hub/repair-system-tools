@@ -38,7 +38,7 @@ namespace Pemarsa.API.Controllers
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
 
-                return Ok(await _service.CrearCliente(cliente, pathServer));
+                return Ok(await _service.CrearCliente(cliente, pathServer,new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -51,7 +51,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                var result = (await _service.ConsultarClientes(paginacion));
+                var result = (await _service.ConsultarClientes(paginacion, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok((await _service.ConsultarClientePorGuid(Guid.Parse(guidCliente))));
+                return Ok((await _service.ConsultarClientePorGuid(Guid.Parse(guidCliente), new UsuarioDTO())));
             }
             catch (Exception e)
             {
@@ -78,7 +78,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok((await _service.ConsultarLineasPorGuidCliente(Guid.Parse(guidCliente))));
+                return Ok((await _service.ConsultarLineasPorGuidCliente(Guid.Parse(guidCliente), new UsuarioDTO())));
             }
             catch (Exception e)
             {
@@ -100,7 +100,7 @@ namespace Pemarsa.API.Controllers
                     Telefono = parametrosDTO.Telefono,
                     Direccion = parametrosDTO.Direccion,
                     Estado = parametrosDTO.Estado
-                }));
+                }, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -114,7 +114,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.ActualizarEstadoCliente(Guid.Parse(guidCliente), estado));
+                return Ok(await _service.ActualizarEstadoCliente(Guid.Parse(guidCliente), estado,new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -137,7 +137,7 @@ namespace Pemarsa.API.Controllers
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
 
-                return Ok(await _service.ActualizarCliente(cliente, pathServer));
+                return Ok(await _service.ActualizarCliente(cliente, pathServer,  new UsuarioDTO()));
             }
             catch (Exception e)
             {

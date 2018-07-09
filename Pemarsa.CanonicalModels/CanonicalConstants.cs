@@ -41,7 +41,7 @@ namespace Pemarsa.CanonicalModels
             public struct Proceso
             {
                 public const string Activa = "Activo";
-                public const string Inactiva = "Inactivo";
+                public const string Inactiva = "Anulada​";
             }
         }
 
@@ -74,8 +74,13 @@ namespace Pemarsa.CanonicalModels
             }
             public struct OrdenTrabajo
             {
-                public const string Tipo1 = "Tipo1";
-                public const string Tipo2 = "Tipo2";
+
+
+                public const string Reparación = "Reparación";
+                public const string Alquiler = "Alquiler";
+                public const string Fabricación = "Fabricación";
+                public const string Otro = "Otro";
+                
 
             }
 

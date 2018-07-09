@@ -19,7 +19,7 @@ namespace ClienteES.Repository
             _context = (PemarsaContext)context;
         }
 
-        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion)
+        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace ClienteES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearCliente(Cliente cliente)
+        public async Task<Guid> CrearCliente(Cliente cliente, UsuarioDTO usuario)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace ClienteES.Repository
                         linea.Guid = Guid.NewGuid();
                         linea.FechaRegistro = DateTime.Now;
                     }
-                } 
+                }
                 _context.Cliente.Add(cliente);
                 await _context.SaveChangesAsync();
                 return cliente.Guid;
@@ -57,7 +57,7 @@ namespace ClienteES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Cliente> ConsultarClientePorGuid (Guid guidCliente)
+        public async Task<Cliente> ConsultarClientePorGuid(Guid guidCliente, UsuarioDTO usuario)
         {
             try
             {
@@ -65,12 +65,12 @@ namespace ClienteES.Repository
                     .Include(c => c.Estado)
                     .Include(c => c.Lineas)
                     .Include(c => c.Rut)
-                    .FirstOrDefaultAsync(c => c.Guid ==guidCliente);
+                    .FirstOrDefaultAsync(c => c.Guid == guidCliente);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarCliente(Cliente cliente)
+        public async Task<bool> ActualizarCliente(Cliente cliente, UsuarioDTO usuario)
         {
             try
             {
@@ -87,15 +87,16 @@ namespace ClienteES.Repository
                 clienteBD.Lineas = clienteBD.Lineas ?? new List<ClienteLinea>();
                 //se obtinen las lineas que fueron eliminadas en el objeto cliente que se recibe del cliente.
                 var lineasEliminar = (from hbd in clienteBD.Lineas
-                                       where !cliente.Lineas.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid)
-                                       select hbd).ToList();
+                                      where !cliente.Lineas.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid)
+                                      select hbd).ToList();
 
                 //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
                 var lineasInsertar = (from hbd in cliente.Lineas
-                                       where !clienteBD.Lineas.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid)
-                                       select hbd).ToList();
+                                      where !clienteBD.Lineas.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid)
+                                      select hbd).ToList();
 
-                clienteBD.Lineas.ToList().ForEach(e => {
+                clienteBD.Lineas.ToList().ForEach(e =>
+                {
 
                     ClienteLinea cbd = (clienteBD.Lineas.FirstOrDefault(a => a.Id == e.Id));
                     ClienteLinea c = (cliente.Lineas.FirstOrDefault(a => a.Id == e.Id));
@@ -106,7 +107,8 @@ namespace ClienteES.Repository
                     e.Direccion = (c != null) ? c.Direccion : cbd.Direccion;
                     e.Nombre = (c != null) ? c.Nombre : cbd.Nombre;
 
-                    lineasEliminar.ForEach(ef => {
+                    lineasEliminar.ForEach(ef =>
+                    {
                         if (e.Id == ef.Id) { /*e.Estado = false;*/  }
                     });
                 });
@@ -123,24 +125,24 @@ namespace ClienteES.Repository
                 _context.Entry(clienteBD).Property("GuidUsuarioCrea").IsModified = false;
                 //_context.Cliente.Update(cliente);
                 _context.Entry(clienteBD).State = EntityState.Modified;
-                return await _context.SaveChangesAsync() > 0;   
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente)
+        public async Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario)
         {
             try
             {
                 return await (from cl in _context.ClienteLinea
-                              join c in _context.Cliente on cl.ClienteId equals c.Id 
+                              join c in _context.Cliente on cl.ClienteId equals c.Id
                               where c.Guid == guidCliente
                               select cl).ToListAsync();
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO)
+        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario)
         {
             try
             {
@@ -160,14 +162,14 @@ namespace ClienteES.Repository
                     .Skip(parametrosDTO.RegistrosOmitir())
                     .Take(parametrosDTO.CantidadRegistros)
                     .ToListAsync();
-                                   
+
                 var cantidad = query.Count();
                 return new Tuple<int, IEnumerable<Cliente>>(cantidad, queryPagination);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado)
+        public async Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado, UsuarioDTO usuario)
         {
             try
             {

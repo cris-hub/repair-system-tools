@@ -1,4 +1,5 @@
-﻿using Pemarsa.Domain;
+﻿using Pemarsa.CanonicalModels;
+using Pemarsa.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace ProcesoES.Repository
 {
     public interface IProcesoRepository
     {
-        Task<Guid> CrearProceso(Proceso proceso);
+        Task<Guid> CrearProceso(Proceso proceso,UsuarioDTO usuario);
     }
 }

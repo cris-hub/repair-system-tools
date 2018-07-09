@@ -40,7 +40,7 @@ namespace Pemarsa.API.Controllers
                 Configuration = builder.Build();
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
-                return Ok(await _ordenTrabajoServicio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo, pathServer));
+                return Ok(await _ordenTrabajoServicio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo, pathServer,new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -53,7 +53,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok((await _ordenTrabajoServicio.ConsultarSolicitudDeTrabajoPorGuid(Guid.Parse(guidSolicitudOrdenTrabajo))));
+                return Ok((await _ordenTrabajoServicio.ConsultarSolicitudDeTrabajoPorGuid(Guid.Parse(guidSolicitudOrdenTrabajo), new UsuarioDTO())));
             }
             catch (Exception e)
             {
@@ -66,7 +66,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                var result = (await _ordenTrabajoServicio.ConsultarSolicitudesDeTrabajo(paginacion));
+                var result = (await _ordenTrabajoServicio.ConsultarSolicitudesDeTrabajo(paginacion, new UsuarioDTO()));
 
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
@@ -90,7 +90,7 @@ namespace Pemarsa.API.Controllers
                     ClienteLinea = parametrosDTO.ClienteLinea,
                     DetallesSolicitud = parametrosDTO.DetallesSolicitud,
                     Estado = parametrosDTO.Estado
-                }));
+                }, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -104,7 +104,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _ordenTrabajoServicio.ActualizarEstadoSolicitudDeTrabajo(Guid.Parse(guidSolicitudOrdenTrabajo), estado));
+                return Ok(await _ordenTrabajoServicio.ActualizarEstadoSolicitudDeTrabajo(Guid.Parse(guidSolicitudOrdenTrabajo), estado, new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -127,7 +127,7 @@ namespace Pemarsa.API.Controllers
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
 
-                return Ok(await _ordenTrabajoServicio.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo, pathServer));
+                return Ok(await _ordenTrabajoServicio.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo, pathServer, new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -151,7 +151,7 @@ namespace Pemarsa.API.Controllers
                 Configuration = builder.Build();
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
-                Guid OrdenDeTrabajoGuid = await _ordenTrabajoServicio.CrearOrdenDeTrabajo(ordenTrabajo, pathServer);
+                Guid OrdenDeTrabajoGuid = await _ordenTrabajoServicio.CrearOrdenDeTrabajo(ordenTrabajo, pathServer, new UsuarioDTO());
 
                 return Ok(OrdenDeTrabajoGuid);
             }
@@ -167,7 +167,7 @@ namespace Pemarsa.API.Controllers
             try
             {
 
-                OrdenTrabajo ordenTrabajoConsultada = await _ordenTrabajoServicio.ConsultarOrdenDeTrabajoPorGuid(GuidOrdenDeTrabajo);
+                OrdenTrabajo ordenTrabajoConsultada = await _ordenTrabajoServicio.ConsultarOrdenDeTrabajoPorGuid(GuidOrdenDeTrabajo, new UsuarioDTO());
 
 
                 return Ok(ordenTrabajoConsultada);
@@ -183,7 +183,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajo(paginacion));
+                var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajo(paginacion, new UsuarioDTO()));
 
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
@@ -194,7 +194,6 @@ namespace Pemarsa.API.Controllers
         }
 
         [HttpGet("ConsultarOrdenesDeTrabajoPorFiltro")]
-
         public async Task<IActionResult> ConsultarOrdenesDeTrabajoPorFiltro([FromQuery]ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
         {
             try
@@ -204,7 +203,7 @@ namespace Pemarsa.API.Controllers
                     CantidadRegistros = parametrosDTO.CantidadRegistros,
                     PaginaActual = parametrosDTO.PaginaActual
                    
-                }));
+                }, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -218,14 +217,13 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _ordenTrabajoServicio.ActualizarEstadoOrdenDeTrabajo(Guid.Parse(guidSolicitudOrdenTrabajo), estado));
+                return Ok(await _ordenTrabajoServicio.ActualizarEstadoOrdenDeTrabajo(Guid.Parse(guidSolicitudOrdenTrabajo), estado, new UsuarioDTO()));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
 
         [HttpPut("ActualizarOrdenDeTrabajo")]
         public async Task<IActionResult> ActualizarOrdenDeTrabajo([FromBody]OrdenTrabajo ordenTrabajo)
@@ -234,7 +232,7 @@ namespace Pemarsa.API.Controllers
                 {
           
 
-                return Ok(await _ordenTrabajoServicio.ActualizarOrdenDeTrabajo(ordenTrabajo));
+                return Ok(await _ordenTrabajoServicio.ActualizarOrdenDeTrabajo(ordenTrabajo, new UsuarioDTO()));
             }
             catch (Exception e)
             {

@@ -9,13 +9,13 @@ namespace HerramientaES.Repository
 {
     public interface IHerramientaRepository
     {
-        Task<Guid> CrearHerramienta( Herramienta herramienta );
-        Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente);
-        Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta);
-        Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion);
-        Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO);
-        Task<bool> ActualizarHerramienta(Herramienta herramienta);
-        Task<Herramienta> ConsultarHerramientaPorId(int id);
+        Task<Guid> CrearHerramienta( Herramienta herramienta,UsuarioDTO usuario);
+        Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario);
+        Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta, UsuarioDTO usuario);
+        Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion, UsuarioDTO usuario);
+        Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO, UsuarioDTO usuario);
+        Task<bool> ActualizarHerramienta(Herramienta herramienta, UsuarioDTO usuario);
+        Task<Herramienta> ConsultarHerramientaPorId(int id, UsuarioDTO usuario);
 
     }
 }

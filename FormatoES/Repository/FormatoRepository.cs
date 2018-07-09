@@ -19,7 +19,7 @@ namespace FormatoES.Repository
             _context = (PemarsaContext)context;
         }
 
-        public async Task<Guid> CrearFormato(Formato formato)
+        public async Task<Guid> CrearFormato(Formato formato, UsuarioDTO usuario)
         {
             try
             {
@@ -43,7 +43,8 @@ namespace FormatoES.Repository
                 throw e;
             }
         }
-        public async Task<bool> ActualizarFormato(Formato formato)
+
+        public async Task<bool> ActualizarFormato(Formato formato, UsuarioDTO usuario)
         {
             try
             {
@@ -52,7 +53,8 @@ namespace FormatoES.Repository
             }
             catch (Exception) { throw; }
         }
-        public async Task<Formato> ConsultarFormatoPorGuid(Guid guidformato)
+
+        public async Task<Formato> ConsultarFormatoPorGuid(Guid guidformato, UsuarioDTO usuario)
         {
             try
             {
@@ -64,7 +66,8 @@ namespace FormatoES.Repository
             }
             catch (Exception) { throw; }
         }
-        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion)
+
+        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
@@ -81,7 +84,7 @@ namespace FormatoES.Repository
             catch (Exception e) { throw e; }
         }
 
-        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO)
+        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario)
         {
             var query =  _context.Formato
                 .Include(f => f.Herramienta)
@@ -105,7 +108,7 @@ namespace FormatoES.Repository
             return new Tuple<int, ICollection<Formato>>(cantidad, paginacion);
         }
 
-        public async Task<Formato> ConsultarFormatoPorGuidHerramienta(Guid guidHerramienta)
+        public async Task<Formato> ConsultarFormatoPorGuidHerramienta(Guid guidHerramienta, UsuarioDTO usuario)
         {
             try
             {
@@ -117,7 +120,7 @@ namespace FormatoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion)
+        public async Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion, UsuarioDTO usuario)
         {
             try
             {

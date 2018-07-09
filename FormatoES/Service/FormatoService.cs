@@ -30,16 +30,16 @@ namespace FormatoES.Service
             _context = context;
         }
 
-        public async Task<bool> ActualizarFormato(Formato formato, string RutaServer)
+        public async Task<bool> ActualizarFormato(Formato formato, string RutaServer, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ActualizarFormato(formato);
+                return await _repository.ActualizarFormato(formato,usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearFormato(Formato formato, string RutaServer)
+        public async Task<Guid> CrearFormato(Formato formato, string RutaServer, UsuarioDTO usuario)
         {
             try
             {
@@ -63,12 +63,12 @@ namespace FormatoES.Service
                 }
                 if (formato.Herramienta != null)
                 {
-                    formato.Herramienta = await _serviceHerramientaService.ConsultarHerramientaPorId(formato.Herramienta.Id);
+                    formato.Herramienta = await _serviceHerramientaService.ConsultarHerramientaPorId(formato.Herramienta.Id,usuario);
 
                 }
 
 
-                return await _repository.CrearFormato(formato);
+                return await _repository.CrearFormato(formato,usuario);
             }
             catch (Exception e)
             {
@@ -78,20 +78,20 @@ namespace FormatoES.Service
 
         }
 
-        public async Task<Formato> ConsultarFormatoPorGuid(Guid guidFormato)
+        public async Task<Formato> ConsultarFormatoPorGuid(Guid guidFormato, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarFormatoPorGuid(guidFormato);
+                return await _repository.ConsultarFormatoPorGuid(guidFormato,usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion)
+        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarFormatos(paginacion);
+                return await _repository.ConsultarFormatos(paginacion,usuario);
             }
             catch (Exception)
             {
@@ -99,31 +99,32 @@ namespace FormatoES.Service
                 throw;
             }
         }
-        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO)
+
+        public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario)
         {
 
             try
             {
-                return await _repository.ConsultarFormatosPorFiltro(parametrosDTO);
+                return await _repository.ConsultarFormatosPorFiltro(parametrosDTO,usuario);
             }
             catch (Exception) { throw; }
 
         }
 
-        public async Task<Formato> ConsultarFormatoPorGuidHerramienta(Guid GuidHerramienta)
+        public async Task<Formato> ConsultarFormatoPorGuidHerramienta(Guid GuidHerramienta, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarFormatoPorGuidHerramienta(GuidHerramienta);
+                return await _repository.ConsultarFormatoPorGuidHerramienta(GuidHerramienta,usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion)
+        public async Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarFormatoPorTipoConexion(tipoConexion);
+                return await _repository.ConsultarFormatoPorTipoConexion(tipoConexion,usuario);
             }
             catch (Exception) { throw; }
         }

@@ -25,7 +25,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.CrearHerramienta(herramienta));
+                return Ok(await _service.CrearHerramienta(herramienta,new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -38,7 +38,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok((await _service.ConsultarHerramientasPorGuidCliente(Guid.Parse(guidCliente))));
+                return Ok((await _service.ConsultarHerramientasPorGuidCliente(Guid.Parse(guidCliente), new UsuarioDTO())));
             }
             catch (Exception e)
             {
@@ -51,7 +51,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok((await _service.ConsultarHerramientaPorGuid(Guid.Parse(guidHerramienta))));
+                return Ok((await _service.ConsultarHerramientaPorGuid(Guid.Parse(guidHerramienta), new UsuarioDTO())));
             }
             catch (Exception e)
             {
@@ -64,7 +64,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                var result = (await _service.ConsultarHerramientas(paginacion));
+                var result = (await _service.ConsultarHerramientas(paginacion, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -83,7 +83,7 @@ namespace Pemarsa.API.Controllers
                     Nombre = parametrosHerramientasDTO.Nombre,
                     PaginaActual = parametrosHerramientasDTO.PaginaActual,
                     CantidadRegistros = parametrosHerramientasDTO.CantidadRegistros
-                }));
+                }, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -97,7 +97,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.ActualizarHerramienta(herramienta));
+                return Ok(await _service.ActualizarHerramienta(herramienta, new UsuarioDTO()));
             }
             catch (Exception e)
             {

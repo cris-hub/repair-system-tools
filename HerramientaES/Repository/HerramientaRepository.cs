@@ -19,7 +19,7 @@ namespace HerramientaES.Repository
             _context = (PemarsaContext)context;
         }
 
-        public async Task<bool> ActualizarHerramienta(Herramienta herramienta)
+        public async Task<bool> ActualizarHerramienta(Herramienta herramienta, UsuarioDTO usuario)
         {
             try
             {
@@ -140,7 +140,7 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta)
+        public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta, UsuarioDTO usuario)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; } 
         }
 
-        public async Task<Herramienta> ConsultarHerramientaPorId(int id)
+        public async Task<Herramienta> ConsultarHerramientaPorId(int id, UsuarioDTO usuario)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion)
+        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientas(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
@@ -195,7 +195,7 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO)
+        public async Task<Tuple<int, IEnumerable<Herramienta>>> ConsultarHerramientasPorFiltro(ParametrosHerramientasDTO parametrosHerramientasDTO, UsuarioDTO usuario)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente)
+        public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario)
         {
             try {
                     return await (from h in _context.Herramienta
@@ -241,7 +241,7 @@ namespace HerramientaES.Repository
             catch (Exception) { throw; }  
         }
 
-        public async Task<Guid> CrearHerramienta(Herramienta herramienta)
+        public async Task<Guid> CrearHerramienta(Herramienta herramienta, UsuarioDTO usuario)
         {
             try
             {
@@ -277,7 +277,7 @@ namespace HerramientaES.Repository
                 await _context.SaveChangesAsync();
                 return herramienta.Guid;
             }
-            catch (Exception) { throw; }
+            catch (Exception e) { throw e; }
         }
     }
 }

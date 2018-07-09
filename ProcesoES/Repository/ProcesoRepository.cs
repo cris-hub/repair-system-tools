@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 
@@ -17,7 +18,7 @@ namespace ProcesoES.Repository
             _context = (PemarsaContext)context;
         }
 
-        public async Task<Guid> CrearProceso(Proceso proceso)
+        public async Task<Guid> CrearProceso(Proceso proceso, UsuarioDTO usuario)
         {
             try
             {

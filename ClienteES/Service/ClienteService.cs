@@ -24,16 +24,16 @@ namespace ClienteES.Service
             _context = context;
         }
 
-        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion)
+        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientes(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarClientes(paginacion);
+                return await _repository.ConsultarClientes(paginacion, usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearCliente(Cliente cliente, string RutaServer)
+        public async Task<Guid> CrearCliente(Cliente cliente, string RutaServer, UsuarioDTO usuario)
         {
             try
             {
@@ -43,21 +43,21 @@ namespace ClienteES.Service
                     cliente.Rut.GuidUsuarioCrea = cliente.GuidUsuarioCrea;
                     cliente.DocumentoAdjuntoId = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut, RutaServer);
                 }
-                return await _repository.CrearCliente(cliente);
+                return await _repository.CrearCliente(cliente, usuario);
             }
             catch (Exception) { throw; }
         }
         
-        public async Task<Cliente> ConsultarClientePorGuid(Guid guidCliente)
+        public async Task<Cliente> ConsultarClientePorGuid(Guid guidCliente, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarClientePorGuid(guidCliente);
+                return await _repository.ConsultarClientePorGuid(guidCliente, usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarCliente(Cliente cliente, string RutaServer)
+        public async Task<bool> ActualizarCliente(Cliente cliente, string RutaServer, UsuarioDTO usuario)
         {
             try
             {
@@ -83,34 +83,34 @@ namespace ClienteES.Service
 
                     await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(cliente.Rut, RutaServer);
                 }
-                return await _repository.ActualizarCliente(cliente);
+                return await _repository.ActualizarCliente(cliente, usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente)
+        public async Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarLineasPorGuidCliente(guidCliente);
+                return await _repository.ConsultarLineasPorGuidCliente(guidCliente, usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO)
+        public async Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ConsultarClientesPorFiltro(parametrosDTO);
+                return await _repository.ConsultarClientesPorFiltro(parametrosDTO, usuario);
             }
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado)
+        public async Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ActualizarEstadoCliente(guidCliente, estado);
+                return await _repository.ActualizarEstadoCliente(guidCliente, estado ,usuario);
             }
             catch (Exception) { throw; }
         }

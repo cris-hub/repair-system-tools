@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 using ProcesoES.Repository;
@@ -19,13 +20,13 @@ namespace ProcesoES.Service
             _context = context;
         }
 
-        public async Task<Guid> CrearProceso(Proceso proceso)
+        public async Task<Guid> CrearProceso(Proceso proceso, UsuarioDTO usuario)
         {
             try
             {
                
 
-                Guid procesoGuid  = await _procesoRepository.CrearProceso(proceso);
+                Guid procesoGuid  = await _procesoRepository.CrearProceso(proceso,usuario);
                 return procesoGuid;
 
 

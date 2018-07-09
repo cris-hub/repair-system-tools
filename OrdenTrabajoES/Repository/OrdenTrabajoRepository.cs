@@ -19,7 +19,7 @@ namespace OrdenTrabajoES.Repository
             _context = (PemarsaContext)context;
         }
 
-        public async Task<bool> ActualizarEstadoOrdenDeTrabajo(Guid guid, string estado)
+        public async Task<bool> ActualizarEstadoOrdenDeTrabajo(Guid guid, string estado, UsuarioDTO usuario)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado)
+        public async Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado, UsuarioDTO usuario)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarOrdenDeTrabajo(OrdenTrabajo ordenTrabajo)
+        public async Task<bool> ActualizarOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, UsuarioDTO usuario)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception e) { throw e; }
         }
 
-        public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
+        public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception e) { throw e; }
         }
 
-        public async Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajo)
+        public async Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajo, UsuarioDTO usuario)
         {
 
             try
@@ -109,7 +109,7 @@ namespace OrdenTrabajoES.Repository
             }
         }
 
-        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajo(Paginacion paginacion)
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajo(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO, UsuarioDTO usuario)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo)
+        public async Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo, UsuarioDTO usuario)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajo(Paginacion paginacion)
+        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajo(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
@@ -197,7 +197,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        public async Task<Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>> ConsultarSolicitudesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO, UsuarioDTO usuario)
         {
             try
             {
@@ -228,7 +228,7 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<OrdenTrabajo> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo)
+        public async Task<OrdenTrabajo> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, UsuarioDTO usuario)
         {
             try
             {
@@ -249,7 +249,7 @@ namespace OrdenTrabajoES.Repository
             }
         }
 
-        public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
+        public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario)
         {
             try
             {

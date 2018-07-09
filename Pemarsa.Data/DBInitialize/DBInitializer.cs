@@ -135,38 +135,42 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.FormatoAdendem.Tipo2,
                         Grupo = CanonicalConstants.Grupos.FormatoAdendum
-                    },
-                      new Catalogo{
+                    },new Catalogo{
                         Id = 36,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Tipo2,
+                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Reparación,
                         Grupo = CanonicalConstants.Grupos.TipoServicioOrdenTrabajo
-                    },
-                      new Catalogo{
+                    },new Catalogo{
                         Id = 37,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Tipo1,
+                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Alquiler,
                         Grupo = CanonicalConstants.Grupos.TipoServicioOrdenTrabajo
-                    },
-                      new Catalogo{
+                    },new Catalogo{
+                        Id = 52,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Fabricación,
+                        Grupo = CanonicalConstants.Grupos.TipoServicioOrdenTrabajo
+                    }, new Catalogo{
+                        Id = 53,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.OrdenTrabajo.Otro,
+                        Grupo = CanonicalConstants.Grupos.TipoServicioOrdenTrabajo
+                    },new Catalogo{
                         Id = 40,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Tipo1,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
-                    },
-                      new Catalogo{
+                    },new Catalogo{
                         Id = 41,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Tipo2,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
-                    },
-                      new Catalogo{
+                    },new Catalogo{
                         Id = 42,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo1,
                         Grupo = CanonicalConstants.Grupos.TipoSoldadura
-                    },
-                      new Catalogo{
+                    },new Catalogo{
                         Id = 43,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo2,

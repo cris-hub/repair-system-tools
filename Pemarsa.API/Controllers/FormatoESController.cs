@@ -41,7 +41,7 @@ namespace Pemarsa.API.Controllers
                 var pathServer = Configuration["FileServer:VirtualPath"];
 
 
-                return Ok(await _service.CrearFormato(formato, pathServer));
+                return Ok(await _service.CrearFormato(formato, pathServer, new UsuarioDTO()));
 
             }
             catch (Exception e)
@@ -51,13 +51,12 @@ namespace Pemarsa.API.Controllers
             }
         }
 
-
         [HttpGet("ConsultarFormatos")]
         public async Task<IActionResult> ConsultarFormatos(Paginacion paginacion)
         {
             try
             {
-                var result = (await _service.ConsultarFormatos(paginacion));
+                var result = (await _service.ConsultarFormatos(paginacion, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -71,7 +70,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok((await _service.ConsultarFormatoPorGuid(Guid.Parse(guidFormato))));
+                return Ok((await _service.ConsultarFormatoPorGuid(Guid.Parse(guidFormato), new UsuarioDTO())));
             }
             catch (Exception e)
             {
@@ -92,7 +91,7 @@ namespace Pemarsa.API.Controllers
                     HerramientaGuid = parametrosDTO.HerramientaGuid,
                     Conexion = parametrosDTO.Conexion,
                     TipoConexion = parametrosDTO.TipoConexion,
-                }));
+                }, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -116,31 +115,33 @@ namespace Pemarsa.API.Controllers
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
 
-                return Ok(await _service.ActualizarFormato(formato, pathServer));
+                return Ok(await _service.ActualizarFormato(formato, pathServer, new UsuarioDTO()));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
         [HttpGet("ConsultarFormatoPorGuidHerramienta")]
         public async Task<IActionResult> ConsultarFormatoPorGuidHerramienta([FromQuery]string guidHerramienta)
         {
             try
             {
-                return Ok((await _service.ConsultarFormatoPorGuid(Guid.Parse(guidHerramienta))));
+                return Ok((await _service.ConsultarFormatoPorGuid(Guid.Parse(guidHerramienta), new UsuarioDTO())));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
         [HttpGet("ConsultarFormatoPorTipoConexion")]
-        public async Task<IActionResult> ConsultarFormatoPorTipoConexion([FromQuery]int TipoConexion)   
+        public async Task<IActionResult> ConsultarFormatoPorTipoConexion([FromQuery]int TipoConexion)
         {
             try
             {
-                return Ok((await _service.ConsultarFormatoPorTipoConexion(TipoConexion)));
+                return Ok((await _service.ConsultarFormatoPorTipoConexion(TipoConexion, new UsuarioDTO())));
             }
             catch (Exception e)
             {
