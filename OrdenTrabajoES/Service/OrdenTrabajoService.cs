@@ -44,7 +44,10 @@ namespace OrdenTrabajoES.Service
             try
             {
 
-
+                if (solicitudOrdenTrabajo.Remision != null )
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision, RutaServer);
+                }
                 foreach (var anexo in solicitudOrdenTrabajo.Anexos)
                 {
                     if (anexo.DocumentoAdjunto != null)
@@ -132,9 +135,16 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
+
+                if (solicitudOrdenTrabajo.Remision != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision, RutaServer);
+                }
+
                 foreach (var anexo in solicitudOrdenTrabajo.Anexos)
                 {
                     await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto, RutaServer);
+                    anexo.SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id;
                 }
 
                 solicitudOrdenTrabajo.ResponsableId = 28;// este codigo cambia dependiendo de la api de seguridad
@@ -188,7 +198,7 @@ namespace OrdenTrabajoES.Service
             return await _ordenTrabajoRepositorio.ConsultarOrdenesDeTrabajo(paginacion, usuario);
         }
 
-        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO, UsuarioDTO usuario)
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametroOrdenTrabajoDTO parametrosDTO, UsuarioDTO usuario)
         {
             try
             {
@@ -233,7 +243,9 @@ namespace OrdenTrabajoES.Service
                 PrioridadId = solicitudOrdenTrabajo.PrioridadId,
                 LineaId = solicitudOrdenTrabajo.LineaId,
                 ClienteId = solicitudOrdenTrabajo.ClienteId,
-                SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id
+                SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id,
+                NombreUsuarioCrea = solicitudOrdenTrabajo.NombreUsuarioCrea
+                
             };
         }
 

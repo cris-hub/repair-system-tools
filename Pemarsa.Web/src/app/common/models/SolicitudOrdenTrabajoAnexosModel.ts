@@ -8,7 +8,7 @@ export class SolicitudOrdenTrabajoAnexosModel {
   public DocumentoAdjunto: AttachmentModel;
 
   constructor() {
-    this.SolicitudOrdenTrabajo = new SolicitudOrdenTrabajoModel();
+    
     this.DocumentoAdjunto = new AttachmentModel();
   }
 }

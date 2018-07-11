@@ -1,24 +1,41 @@
 import { EntityModel, AttachmentModel, ClienteModel, CatalogoModel, ClienteLineaModel, SolicitudOrdenTrabajoAnexosModel } from "./Index";
 
 export class SolicitudOrdenTrabajoModel extends EntityModel {
-  public Anexos: SolicitudOrdenTrabajoAnexosModel[];
+
   public Cantidad: number;
+
   public CantidadInspeccionar: number;
-  public ClienteId: number;
+
   public Contacto: string;
+
   public Cotizacion: number;
+
   public DetallesSolicitud: string;
-  public EstadoId: number;
-  public LineaId: number;
-  public OrigenSolicitudId: number;
-  public PrioridadId: number;
-  public ResponsableId: number;
+
+  public ClienteId: number;
   public Cliente: ClienteModel;
+
+  public EstadoId: number;
   public Estado: CatalogoModel;
+
+  public LineaId: number;
   public ClienteLinea: ClienteLineaModel;
+
+  public OrigenSolicitudId: number;
   public OrigenSolicitud: CatalogoModel;
+
+  public PrioridadId: number;
   public Prioridad: CatalogoModel;
+
+  public ResponsableId: number;
   public Responsable: CatalogoModel;
+
+  public RemisionId: number;
+  public Remision: AttachmentModel;
+
+
+  public Anexos: SolicitudOrdenTrabajoAnexosModel[];
+
 
   constructor() {
     super();

@@ -139,7 +139,7 @@ namespace Pemarsa.API.Controllers
         public async Task<IActionResult> CrearOrdenDeTrabajo([FromBody]OrdenTrabajo ordenTrabajo)
         {
             try
-            {
+            {   
 
 
                 //se obtiene la informacion del appsettings
@@ -194,16 +194,11 @@ namespace Pemarsa.API.Controllers
         }
 
         [HttpGet("ConsultarOrdenesDeTrabajoPorFiltro")]
-        public async Task<IActionResult> ConsultarOrdenesDeTrabajoPorFiltro([FromQuery]ParametrosSolicitudOrdenTrabajoDTO parametrosDTO)
+        public async Task<IActionResult> ConsultarOrdenesDeTrabajoPorFiltro([FromQuery]ParametroOrdenTrabajoDTO parametrosDTO)
         {
             try
             {
-                var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajoPorFiltro(new ParametrosSolicitudOrdenTrabajoDTO
-                {
-                    CantidadRegistros = parametrosDTO.CantidadRegistros,
-                    PaginaActual = parametrosDTO.PaginaActual
-                   
-                }, new UsuarioDTO()));
+                var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajoPorFiltro(parametrosDTO,new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)

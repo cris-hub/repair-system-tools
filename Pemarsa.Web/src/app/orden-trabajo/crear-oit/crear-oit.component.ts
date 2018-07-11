@@ -57,7 +57,8 @@ export class CrearOitComponent implements OnInit {
   private herramienta: HerramientaModel = new HerramientaModel();
   private herraminetas: Array<HerramientaModel> = new Array<HerramientaModel>();
   private herraminetasview: Array<HerramientaModel> = new Array<HerramientaModel>();
-
+  private materialId;
+  private material = new HerramientaMaterialModel();;
 
 
   constructor(
@@ -229,48 +230,69 @@ export class CrearOitComponent implements OnInit {
 
   inicializarFormulario(ordenTrabajo: OrdenTrabajoModel) {
 
+    if (this.herramienta.Materiales.length > 0) {
+      if (this.herramienta.Materiales.find(c => { return c.Id == this.materialId || c.Id == ordenTrabajo.MaterialId})) {
+        if (ordenTrabajo.MaterialId) {
+          this.material = this.herramienta.Materiales.find(c => { return c.Id == ordenTrabajo.MaterialId });
+          this.materialId = ordenTrabajo.MaterialId
+        } else {
+          this.material = this.herramienta.Materiales.find(c => { return c.Id == this.materialId });
+        }
+      }
+    }
+
+
     this.formularioOrdenTrabajo = this.formBulder.group({
-      Id: [ordenTrabajo.Id],
-      FechaRegistro: [ordenTrabajo.FechaRegistro],
+
       Cantidad: [ordenTrabajo.Cantidad],
       CantidadInspeccionar: [ordenTrabajo.CantidadInspeccionar],
-      Cotizacion: [ordenTrabajo.Cotizacion],
       DetallesSolicitud: [ordenTrabajo.DetallesSolicitud],
       ObservacionRemision: [ordenTrabajo.ObservacionRemision],
       OrdenCompra: [ordenTrabajo.OrdenCompra],
-      ProvieneDeSolicitud: [ordenTrabajo.RemisionCliente],
       RemisionCliente: [ordenTrabajo.RemisionCliente],
       SerialHerramienta: [ordenTrabajo.SerialHerramienta],
       SerialMaterial: [ordenTrabajo.SerialMaterial],
-      Estado: [ordenTrabajo.Estado],
+
+      ProvieneDeSolicitud: [ordenTrabajo.SolicitudOrdenTrabajo ? true : false],
+
+
+      TipoServicioId: [ordenTrabajo.TipoServicio.Id],
       TipoServicio: this.formBulder.group({
         Id: [ordenTrabajo.TipoServicio.Id],
         Valor: [ordenTrabajo.TipoServicio.Valor]
       }),
-      Responsable: this.formBulder.group({
-        Id: [ordenTrabajo.Responsable.Id],
-        Valor: [ordenTrabajo.Responsable.Valor]
-      }),
-      Prioridad: [ordenTrabajo.Prioridad],
+  
+
+      
+
+      MaterialId: [this.material.Id],
+
       Material: this.formBulder.group({
-        Id: [ordenTrabajo.Material.Id],
-        Valor: [ordenTrabajo.Material.Material.Valor]
+        Id: [this.material.Id],
+        Material: this.formBulder.group({
+          Id: [this.material.Material.Id],
+          Valor: [this.material.Material.Valor]
+        })
+
       }),
+      TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],
       TamanoHerramienta: this.formBulder.group({
         Id: [ordenTrabajo.TamanoHerramienta.Id],
         Tamano: [ordenTrabajo.TamanoHerramienta.Tamano]
       }),
 
-
+      HerramientaId: [ordenTrabajo.Herramienta.Id],
       Herramienta: [ordenTrabajo.Herramienta],
+
+      LineaId: [ordenTrabajo.Linea.Id],
       Linea: [ordenTrabajo.Linea],
+
+      ClienteId: [ordenTrabajo.Cliente.Id],
       Cliente: [ordenTrabajo.Cliente],
       RemisionInicial: [ordenTrabajo.RemisionInicial],
       SolicitudOrdenTrabajo: [ordenTrabajo.SolicitudOrdenTrabajo],
     });
     this.esVer == true ? this.desabilitarCamposControlFormulario() : '';
-
-   
 
   }
 
@@ -283,8 +305,10 @@ export class CrearOitComponent implements OnInit {
 
   enviar(data) {
     var objeto = this.asignarValoresFormulario(data);
+    this.inicializarFormulario(objeto);
+    var objeto = this.asignarValoresFormulario(this.formularioOrdenTrabajo.value);
+    console.log(this.formularioOrdenTrabajo.value)
     console.log(JSON.stringify(objeto));
-
     this.persistirOrdenTrabajo(objeto);
 
   }
@@ -311,12 +335,17 @@ export class CrearOitComponent implements OnInit {
   }
 
 
-  asignarValoresFormulario(data)  {
+  asignarValoresFormulario(data) {
 
     Object.assign(this.ordenTrabajo, data);
 
 
     return this.ordenTrabajo;
-  
+
+  }
+
+
+  herramientaValor(evento) {
+    console.log(evento)
   }
 }

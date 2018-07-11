@@ -55,7 +55,7 @@ export class SolicitudOrdenTrabajoService {
     return this.http.post<Boolean>(this.urlServer + 'CrearSolicitudDeTrabajo', model, { headers: this.header });
   }
 
-  public actualizarEstadoSolicitudDeTrabajo(model: SolicitudOrdenTrabajoModel): Observable<boolean> {
+  public ActualizarSolcitudDeTrabajo(model: SolicitudOrdenTrabajoModel): Observable<boolean> {
     return this.http.put<boolean>(this.urlServer + 'ActualizarSolcitudDeTrabajo', model, { headers: this.header });
   }
   public consultarSolicitudDeTrabajoPorGuid(Guid: string): Observable<SolicitudOrdenTrabajoModel> {

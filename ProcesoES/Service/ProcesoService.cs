@@ -27,6 +27,7 @@ namespace ProcesoES.Service
                
 
                 Guid procesoGuid  = await _procesoRepository.CrearProceso(proceso,usuario);
+
                 return procesoGuid;
 
 
@@ -59,8 +60,25 @@ namespace ProcesoES.Service
             return proceso;
         }
 
+        public async Task<Proceso> ConsultarProcesoPorGuid(Guid guidProceso, UsuarioDTO usuarioDTO)
+        {
+            return await _procesoRepository.ConsultarProcesoPorGuid(guidProceso, usuarioDTO);
+        }
 
+        public async Task<bool> ActualizarEstadoProceso(Guid guid, string estado, UsuarioDTO usuarioDTO)
+        {
+            return await _procesoRepository.ActualizarEstadoProceso(guid,estado,usuarioDTO);
+        }
 
+        public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipo(int tipoProceso, Paginacion paginacion, UsuarioDTO usuarioDTO)
+        {
+            return await _procesoRepository.ConsultarProcesosPorTipo(tipoProceso,paginacion,usuarioDTO); ;
+        }
+
+        public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipoPorFiltro(ParametrosProcesosoDTO parametrosDTO, UsuarioDTO usuarioDTO)
+        {
+            return await _procesoRepository.ConsultarProcesosPorTipoPorFiltro(parametrosDTO, usuarioDTO);
+        }
     }
 }
 

@@ -61,10 +61,36 @@ namespace OrdenTrabajoES.Repository
         {
             try
             {
-                HerramientaMaterial material = await _context.HerramientaMaterial.FirstOrDefaultAsync(c => c.Id == ordenTrabajo.Material.Id);
-                ordenTrabajo.Material = material;
-                _context.HerramientaMaterial.Update(ordenTrabajo.Material);
-                _context.OrdenTrabajo.Update(ordenTrabajo);
+
+                
+
+                OrdenTrabajo ordenTrabajoBD = await _context.OrdenTrabajo
+                    .Include(c => c.Cliente)
+                    .Include(c => c.Linea)
+                    .Include(c => c.Herramienta)
+                    .Include(c => c.TamanoHerramienta)
+                    .Include(c => c.Material)
+                    .Include(c => c.Material.Material)
+                    .Include(c => c.Herramienta.TamanosHerramienta)
+                    .Include(c => c.TipoServicio)
+                    .Include(c => c.Estado)
+                    .Include(c => c.Responsable).AsNoTracking().FirstOrDefaultAsync(c => c.Id == ordenTrabajo.Id);
+
+                _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
+
+
+                ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
+                               
+
+                ordenTrabajoBD.HerramientaId = ordenTrabajo.Herramienta.Id;
+                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
+                ordenTrabajoBD.NombreUsuarioCrea = "admin";
+
+                _context.Entry(ordenTrabajoBD).State = EntityState.Modified;
+                _context.OrdenTrabajo.Update(ordenTrabajoBD);
+
+
+
 
 
                 return await _context.SaveChangesAsync() > 0;
@@ -94,6 +120,7 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Herramienta)
                     .Include(c => c.TamanoHerramienta)
                     .Include(c => c.Material)
+                    .Include(c => c.Prioridad)
                     .Include(c => c.Material.Material)
                     .Include(c => c.Herramienta.TamanosHerramienta)
                     .Include(c => c.TipoServicio)
@@ -129,23 +156,17 @@ namespace OrdenTrabajoES.Repository
             catch (Exception) { throw; }
         }
 
-        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametrosSolicitudOrdenTrabajoDTO parametrosDTO, UsuarioDTO usuario)
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajo>>> ConsultarOrdenesDeTrabajoPorFiltro(ParametroOrdenTrabajoDTO parametrosDTO, UsuarioDTO usuario)
         {
             try
             {
                 var query = _context.OrdenTrabajo
-                    .Where(ordern => Int32.Equals(parametrosDTO.OrdenTrabajoId, null) || ordern.Id == parametrosDTO.OrdenTrabajoId &&
-                    string.IsNullOrEmpty(parametrosDTO.HerraminetaNombre) || ordern.Herramienta.Nombre.Contains(parametrosDTO.HerraminetaNombre) &&
-                    string.IsNullOrEmpty(parametrosDTO.ClienteNombre) || ordern.Cliente.NickName.Contains(parametrosDTO.ClienteNombre) &&
-                    string.IsNullOrEmpty(parametrosDTO.OrdenTabajoSerial) || ordern.SerialHerramienta.Contains(parametrosDTO.OrdenTabajoSerial) &&
-                    string.IsNullOrEmpty(parametrosDTO.fecha) || ordern.FechaRegistro.ToShortDateString().ToString() == parametrosDTO.fecha &&
-                    string.IsNullOrEmpty(parametrosDTO.Estado) || ordern.Estado.Id.ToString() == parametrosDTO.Estado &&
-                    Int32.Equals(parametrosDTO.Prioridad, null) || ordern.Prioridad.Id.ToString() == parametrosDTO.Prioridad
-
-
-
-
-                    );
+                    .Where(ordern => string.IsNullOrEmpty(parametrosDTO.NumeroOIT) || ordern.Id.ToString().Contains(parametrosDTO.NumeroOIT) &&
+                    string.IsNullOrEmpty(parametrosDTO.Remision) || ordern.RemisionCliente.ToString().Contains(parametrosDTO.NumeroOIT) &&
+                    string.IsNullOrEmpty(parametrosDTO.FechaCreacion) || ordern.FechaRegistro.ToString().Contains(parametrosDTO.FechaCreacion) && ///agregar fecha de finalizacion cuando se trabajo    en remisiones
+                    parametrosDTO.Estado == 0|| ordern.EstadoId == parametrosDTO.Estado &&
+                    parametrosDTO.Responsable == 0|| ordern.ResponsableId == parametrosDTO.Responsable &&
+                    parametrosDTO.TipoServio == 0 || ordern.TipoServicioId == parametrosDTO.TipoServio );
 
                 var queryPagination = await query
                     .Skip(parametrosDTO.RegistrosOmitir())
@@ -233,13 +254,20 @@ namespace OrdenTrabajoES.Repository
             try
             {
                 ordenTrabajo.Guid = Guid.NewGuid();
-                ordenTrabajo.EstadoId = 1;
+                ordenTrabajo.EstadoId = 38;
                 ordenTrabajo.TipoServicioId = 36;
                 ordenTrabajo.ResponsableId = 28;
-                await _context.OrdenTrabajo.AddAsync(ordenTrabajo);
+                OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
+                _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
+                ordenTrabajoBD.NombreUsuarioCrea = "admin";
+                ordenTrabajoBD.PrioridadId = 32;
+
+
+
+                _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();
-                ordenTrabajo = await _context.OrdenTrabajo.FirstOrDefaultAsync(oit => oit.Guid == ordenTrabajo.Guid);
-                return ordenTrabajo;
+                OrdenTrabajo oit = await _context.OrdenTrabajo.FirstOrDefaultAsync(c => c.Guid == ordenTrabajo.Guid);
+                return oit;
 
             }
             catch (Exception e)
@@ -262,7 +290,7 @@ namespace OrdenTrabajoES.Repository
                 return solicitudOrdenTrabajo.Guid;
 
             }
-            catch (Exception) { throw; }
+            catch (Exception e) { throw e; }
         }
     }
 }

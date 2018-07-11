@@ -20,15 +20,14 @@
               </select>
             </div>
           </div>
-          
         </div>
 
 
         <div class="form-group">
           <div class="col-sm-7">
-            <label for="OrigenSolicitudId" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Origen:</b></label>
+            <label for="OrigenSolicitudId" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Origen: </b></label>
             <div class="col-sm-7">
-              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="OrigenSolicitudId" formControlName="OrigenSolicitudId">
+              <select [attr.disabled]="esVer == true ? '' : null"   [(ngModel)]="origen" (ngModelChange)="cambioOrigen($event)" class="form-control form-control-lg" name="OrigenSolicitudId" formControlName="OrigenSolicitudId">
                 <option value="">Seleccione</option>
                 <option *ngFor="let origen of Origenes" [value]="origen.Id">{{origen.Valor}}</option>
               </select>
@@ -44,6 +43,25 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+          <div class="col-sm-9"  *ngIf="tieneRemison || origen == 13 || solicitudOrdenTrabajoModelInput == 13" >
+            <div class="form-group">
+              <label for="Remision" style="color: #6c757d;" class="col-sm-2 col-sm-offset-2  control-label"><b>Remision:</b></label>
+              <div class="col-sm-8">
+                <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFileRemision($event)" class="form-control-file"  name="Remision" #inputFile>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <label>
+              {{ArchivoRemison.NombreArchivo}}
+            </label>
+          </div>
+        </div>
+
+
+
         <div class="form-group">
           <label for="ClienteId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Cliente:</b></label>
           <div class="col-sm-9">

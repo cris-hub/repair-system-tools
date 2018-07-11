@@ -24,12 +24,8 @@
         <div class="row">
 
           <div class="col-md-6">
-            <div formGroupName="Responsable" class="form-group">
-              <label class="control-label">Responsable:</label>
-              <div class="controls">
-                <input formControlName="Valor" type="text" class="form-control">
-              </div>
-            </div>
+            <label class="control-label">Responsable:</label>
+            <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.Responsable.Valor}}</p>
           </div>
 
           <div class="col-md-6">
@@ -147,13 +143,16 @@
 
 
           <div class="col-md-12">
-            <div formGroupName="Material" class="form-group">
-              <label *ngIf="herramienta">
+            <div *ngIf="herramienta.Materiales" formGroupName="Material" class="form-group">
+
+
+              <label *ngIf="herramienta.Materiales">
                 Material
-                <select formControlName="Id" class=" form-control-lg select">
-                  <option *ngFor="let Material of herramienta.Materiales" value="{{Material.Id}}">{{Material.Material.Valor}}</option>
+                <select formControlName="Id" class=" form-control-lg select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
+                  <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
                 </select>
               </label>
+
             </div>
           </div>
         </div>

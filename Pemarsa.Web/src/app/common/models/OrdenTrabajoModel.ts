@@ -8,7 +8,7 @@ export class OrdenTrabajoModel extends EntityModel {
   public DetallesSolicitud: string;
   public ObservacionRemision;
   public OrdenCompra: number;
-  public ProvieneDeSolicitud: number;
+  public ProvieneDeSolicitud: boolean;
   public RemisionCliente: number;
   public SerialHerramienta: string;
   public SerialMaterial: string;
@@ -39,10 +39,8 @@ export class OrdenTrabajoModel extends EntityModel {
 
   constructor() {
     super();
-    this.Estado = new CatalogoModel();
-    this.Responsable = new CatalogoModel();
-    this.Prioridad = new CatalogoModel();
     this.Cliente = new ClienteModel();
+    this.Linea = new ClienteLineaModel();
     this.Herramienta = new HerramientaModel();
     this.TipoServicio = new CatalogoModel();
     this.TamanoHerramienta = new HerramientaTamanoModel();

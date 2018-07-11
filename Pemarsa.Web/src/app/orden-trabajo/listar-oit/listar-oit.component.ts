@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OrdenTrabajoModel, PaginacionModel, ParametrosModel } from '../../common/models/Index';
+import { OrdenTrabajoModel, PaginacionModel, ParametrosModel, HerramientaModel } from '../../common/models/Index';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
@@ -15,7 +15,7 @@ export class ListarOitComponent implements OnInit {
   @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
 
   private parametrosEstadoOrden: ParametrosModel;
-  private ordenesTrabajo: Array<OrdenTrabajoModel>;
+  private ordenesTrabajo: Array<OrdenTrabajoModel> = new Array<OrdenTrabajoModel>();
 
 
   private paginacion: PaginacionModel;
@@ -38,8 +38,17 @@ export class ListarOitComponent implements OnInit {
     this.ordenTrabajoService.consultarOrdenesDeTrabajo(this.paginacion)
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
+        this.inicializarHerramienta();
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
+  }
+
+  private inicializarHerramienta() {
+    this.ordenesTrabajo.forEach(c => {
+      if (!c.Herramienta) {
+        c.Herramienta = new HerramientaModel();
+      }
+    });
   }
 
   cambioPagina(page: any) {

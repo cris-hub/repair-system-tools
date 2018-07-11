@@ -25,6 +25,7 @@ namespace Pemarsa.Data
 
         }
 
+
         #region Entities
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<ClienteLinea> ClienteLinea { get; set; }
@@ -51,6 +52,12 @@ namespace Pemarsa.Data
 
         #endregion
 
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+            // ...
+        }
     }
 
     public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<PemarsaContext>

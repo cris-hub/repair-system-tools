@@ -20,10 +20,13 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   @Input() public accion: string[];
   @Input() public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
 
+  private origen ;
 
   private esActualizar: boolean = false;
   private esVer: boolean = false;
   private esValido: boolean = false;
+  private tieneRemison: boolean = false;
+
 
   private solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
   public Origenes: CatalogoModel[] = new Array<CatalogoModel>();
@@ -33,6 +36,8 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   private parametros: ParametrosModel;
   private attachments: AttachmentModel[] = new Array<AttachmentModel>();
+  private ArchivoRemison: AttachmentModel = new AttachmentModel();
+
 
 
   private frmSolicitudOit: FormGroup;
@@ -90,6 +95,13 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
       this.model1.Id = this.solicitudOrdenTrabajoModelInput.ClienteLinea.Id
       this.model1.CatalogoId = this.solicitudOrdenTrabajoModelInput.Cliente.Id
       this.attachments = new Array<AttachmentModel>();
+      this.ArchivoRemison = new AttachmentModel();
+      if (this.solicitudOrdenTrabajoModelInput.RemisionId) {
+        this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(this.solicitudOrdenTrabajoModelInput.RemisionId).subscribe(response => {
+          this.ArchivoRemison = response;
+        });
+      }
+    
       this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
         this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
           this.attachments.push(response);
@@ -105,6 +117,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
       Id: [this.solicitudOrdenTrabajoModelInput.Id],
       Guid: [this.solicitudOrdenTrabajoModelInput.Guid],
       DocumentoAdjunto: [],
+      
       OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId],
       Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName],
       ClienteLinea: [this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre],
@@ -134,10 +147,10 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.parametroSrv.consultarParametrosPorEntidad("SOLICITUD")
       .subscribe(response => {
         this.parametros = response;
-        this.Origenes = this.parametros.Catalogos.filter(e => e.Grupo == "ORIGEN_SOLICITUD");
-        this.Estados = this.parametros.Catalogos.filter(e => e.Grupo == "ESTADOS_SOLICITUD");
-        this.Prioridades = this.parametros.Catalogos.filter(e => e.Grupo == "PRIORIDAD_SOLICITUD");
-        this.Responsables = this.parametros.Catalogos.filter(e => e.Grupo == 'RESPONSABLES');
+        this.Origenes = response.Catalogos.filter(e => e.Grupo == "ORIGEN_SOLICITUD");
+        this.Estados = response.Catalogos.filter(e => e.Grupo == "ESTADOS_SOLICITUD");
+        this.Prioridades = response.Catalogos.filter(e => e.Grupo == "PRIORIDAD_SOLICITUD");
+        this.Responsables = response.Catalogos.filter(e => e.Grupo == 'RESPONSABLES');
       });
   }
 
@@ -150,6 +163,47 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
       });
   }
 
+
+  cambioOrigen(evento) {
+
+    this.tieneRemison = false;
+    if (evento == 13) {
+      this.tieneRemison = true;
+    } 
+    console.log(evento,this.origen)
+  }
+  addFileRemision(event: any) {
+    try {
+      let reader = new FileReader();
+      if (event.target.files && event.target.files.length > 0) {
+        let file = event.target.files[0];
+        reader.readAsDataURL(file);
+        reader.onload = (e: any) => {
+          let attachment: AttachmentModel = new AttachmentModel();
+          attachment.Extension = reader.result.split(',')[0];
+          attachment.NombreArchivo = file.name;
+          attachment.Nombre = file.name;
+
+          attachment.Stream = reader.result.split(',')[1];
+
+          //estos campo debe ser actualizado con la api de seguridad
+          attachment.NombreUsuarioCrea = 'Admin';
+          attachment.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
+          attachment.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
+          this.ArchivoRemison = attachment;
+
+          if (this.solicitudOrdenTrabajoModel.Remision == null || this.solicitudOrdenTrabajoModel.Remision == undefined) {
+            this.solicitudOrdenTrabajoModel.Remision = new AttachmentModel();
+          }
+          this.solicitudOrdenTrabajoModel.Remision = attachment;
+          this.inputFile.nativeElement.value = "";
+        }
+      }
+
+
+    } catch (ex) {
+    }
+  }
 
   addFile(event: any) {
     try {
@@ -173,6 +227,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
           let solicitudOrdenTrabajoAnexosModel: SolicitudOrdenTrabajoAnexosModel = new SolicitudOrdenTrabajoAnexosModel();
           solicitudOrdenTrabajoAnexosModel.DocumentoAdjunto = attachment;
           solicitudOrdenTrabajoAnexosModel.Estado = true;
+          delete solicitudOrdenTrabajoAnexosModel['SolicitudOrdenTrabajo']
           if (this.solicitudOrdenTrabajoModel.Anexos == null || this.solicitudOrdenTrabajoModel.Anexos == undefined) {
             this.solicitudOrdenTrabajoModel.Anexos = new Array<SolicitudOrdenTrabajoAnexosModel>();
           }
@@ -231,7 +286,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
 
     if (this.accion[0] == 'Editar') {
-      this.actualizarEstadoSolicitudDeTrabajo(datosFormulario);
+      this.ActualizarSolcitudDeTrabajo(datosFormulario);
     }
     if (this.accion[0] == 'Procesar') {
       this.procesarSolitudOit(datosFormulario);
@@ -258,7 +313,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     });
   }
 
-  actualizarEstadoSolicitudDeTrabajo(datosFormulario) {
+  ActualizarSolcitudDeTrabajo(datosFormulario) {
     Object.assign(this.solicitudOrdenTrabajoModel, datosFormulario);
     this.solicitudOrdenTrabajoModel.ClienteId = this.solicitudOrdenTrabajoModel.Cliente.Id;
     this.solicitudOrdenTrabajoModel.LineaId = this.solicitudOrdenTrabajoModel.ClienteLinea.Id;
@@ -268,7 +323,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
       delete this.solicitudOrdenTrabajoModel['Id']
 
     }
-    this.solicitudOrdenTrabajoSrv.actualizarEstadoSolicitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
+    this.solicitudOrdenTrabajoSrv.ActualizarSolcitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
       this.toastr.info(JSON.stringify(response));
 
     });
