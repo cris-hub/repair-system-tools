@@ -137,7 +137,7 @@ namespace HerramientaES.Repository
 
 
             }
-            catch (Exception) { throw; }
+            catch (Exception e) { throw e; }
         }
 
         public async Task<Herramienta> ConsultarHerramientaPorGuid(Guid guidHerramienta, UsuarioDTO usuario)
@@ -179,7 +179,7 @@ namespace HerramientaES.Repository
             try
             {
                 var result = await _context.Herramienta
-                                    .Include(c => c.Materiales)
+                                    .Include(c => c.Materiales).ThenInclude(c => c.Material)
                                     .Include(c => c.TamanosHerramienta)
                                     .Include(c => c.TamanosMotor)
                                     .Include(c => c.HerramientaEstudioFactibilidad)
@@ -254,6 +254,9 @@ namespace HerramientaES.Repository
                 {
                     foreach (HerramientaMaterial HMaterial in herramienta.Materiales)
                     {
+                         Catalogo Material = await _context.Catalogo.FirstOrDefaultAsync(c => c.Id == HMaterial.Id);
+
+                        HMaterial.Material = Material;
                         HMaterial.Guid = Guid.NewGuid();
                         HMaterial.FechaRegistro = DateTime.Now;
                     }
