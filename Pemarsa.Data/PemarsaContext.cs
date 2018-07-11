@@ -47,6 +47,7 @@ namespace Pemarsa.Data
         public DbSet<Formato> Formato { get; set; }
         public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }
         public DbSet<Proceso> Proceso { get; set; }
+        public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
 
 
 

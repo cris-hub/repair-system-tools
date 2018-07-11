@@ -109,6 +109,18 @@ namespace OrdenTrabajoES.Repository
             catch (Exception e) { throw e; }
         }
 
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                var result = await _context.OrdenTrabajoHistorialModificacion.Where(c => c.OrdenTrabajo.Guid == guidOrdenTrabajo).ToListAsync();
+
+                var cantidad = await _context.SolicitudOrdenTrabajo.CountAsync();
+                return new Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>(cantidad, result);
+            }
+            catch (Exception) { throw; }
+        }
+
         public async Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajo, UsuarioDTO usuario)
         {
 
@@ -252,6 +264,12 @@ namespace OrdenTrabajoES.Repository
                 return new Tuple<int, IEnumerable<SolicitudOrdenTrabajo>>(cantidad, queryPagination);
             }
             catch (Exception) { throw; }
+        }
+
+        public async Task<bool> CrearHistorialModificacionesOrdenDeTrabajo(List<OrdenTrabajoHistorialModificacion> modificacionesOrdenTrabajo, UsuarioDTO usuario)
+        {
+            _context.OrdenTrabajoHistorialModificacion.AddRange(modificacionesOrdenTrabajo);
+            return await _context.SaveChangesAsync() > 1;
         }
 
         public async Task<OrdenTrabajo> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, UsuarioDTO usuario)

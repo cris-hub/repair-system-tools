@@ -29,9 +29,9 @@ namespace Pemarsa.Domain
         [Required]
         public string ValorAnterior { get; set; }
 
-        [Required, ForeignKey("SolicitudOrdenTrabajo")]
-        public int SolicitudOrdenTrabajoId { get; set; }
+        [Required, ForeignKey("OrdenTrabajo")]
+        public int OrdenTrabajoId { get; set; }
         
-        public virtual SolicitudOrdenTrabajo SolicitudOrdenTrabajo { get; set; }
+        public virtual OrdenTrabajo OrdenTrabajo { get; set; }
     }
 }

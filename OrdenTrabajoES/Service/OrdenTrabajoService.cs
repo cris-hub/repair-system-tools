@@ -259,5 +259,15 @@ namespace OrdenTrabajoES.Service
             };
             return proceso;
         }
+
+        public async Task<bool> CrearHistorialModificacionesOrdenDeTrabajo(List<OrdenTrabajoHistorialModificacion> modificacionesOrdenTrabajo, UsuarioDTO usuario)
+        {
+            return await _ordenTrabajoRepositorio.CrearHistorialModificacionesOrdenDeTrabajo(modificacionesOrdenTrabajo,usuario);
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        {
+            return await _ordenTrabajoRepositorio.ConsultarHistorialModificacionesOrdenDeTrabajo(guidOrdenTrabajo,usuario);
+        }
     }
 }
