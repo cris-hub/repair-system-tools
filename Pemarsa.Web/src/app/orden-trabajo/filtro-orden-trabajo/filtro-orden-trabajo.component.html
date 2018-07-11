@@ -1,0 +1,58 @@
+<!-- Modal -->
+<!-- Button trigger modal -->
+<a data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+  <span class="glyphicon glyphicon-glass"></span>
+</a>
+<div class="dropdown-menu">
+  <form [formGroup]="frmFiltroOit" class="px-4 py-3">
+    <div class="form-group">
+      <label for="NumeroOIT" style="color: #6c757d;"><b>Número de OIT</b></label>
+      <input type="text" class="form-control" formControlName="NumeroOIT" placeholder="Número de OIT registrada">
+    </div>
+    <div class="form-group">
+      <label for="FechaCreacion" style="color: #6c757d;"><b>Fecha creacion</b></label>
+      <input type="date" class="form-control" formControlName="FechaCreacion" placeholder="Fecha creacion">
+    </div>
+    <div class="form-group">
+      <label for="Remision" style="color: #6c757d;"><b>Remision</b></label>
+      <input type="text" class="form-control" formControlName="Remision" placeholder="Remision">
+    </div>
+
+    <div class="form-group">
+      <label for="Estado" style="color: #6c757d;"><b>Estado</b></label>
+      <select class="form-control form-control-lg" formControlName="Estado">
+        <option value="">Seleccione</option>
+        <option *ngFor="let estado of Estados" [value]="estado.Id">{{estado.Valor}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="Prioridad" style="color: #6c757d;"><b>Tipo servicio</b></label>
+      <select class="form-control form-control-lg" formControlName="TipoServio">
+        <option value="">Seleccione</option>
+        <option *ngFor="let TipoServicio of TipoServicios" [value]="TipoServicio.Id">{{TipoServicio.Valor}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="Prioridad" style="color: #6c757d;"><b>Responsable</b></label>
+      <select class="form-control form-control-lg" formControlName="Responsable">
+        <option value="">Seleccione</option>
+        <option *ngFor="let Responsable of Responsables" [value]="Responsable.Id">{{Responsable.Valor}}</option>
+      </select>
+    </div>
+    <button (click)="submitFiltro(frmFiltroOit.value)" class="btn btn-primary">Filtrar</button>
+  </form>
+</div>
+
+
+<!--public NumeroOIT: string;
+public FechaCreacion: string;
+public FechaFinalizacion: string;
+public Remision: string;
+public Estado: number;
+public Responsable: number;
+public TipoServio: number;-->
+<!--public TipoServicios: CatalogoModel[] = new Array<CatalogoModel>
+ ();
+ public Estados: CatalogoModel[] = new Array<CatalogoModel>
+   ();
+   public Responsables: CatalogoModel[] = new Array<CatalogoModel>();-->

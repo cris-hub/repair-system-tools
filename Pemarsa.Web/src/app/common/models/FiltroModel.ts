@@ -59,3 +59,24 @@ export class FiltroSolicitudOrdenTrabajoModel extends PaginacionModel {
     this.Estado = "";
   }
 }
+export class FiltroOrdenTrabajoModel extends PaginacionModel {
+  public NumeroOIT: string;
+  public FechaCreacion: string;
+  public FechaFinalizacion: string;
+  public Remision: string;
+  public Estado: number;
+  public Responsable: number;
+  public TipoServio: number;
+
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros);
+    this.NumeroOIT = "";
+    this.FechaCreacion = "";
+    this.FechaFinalizacion = "";
+    this.Remision = "";
+    this.Estado = 0;
+    this.Responsable = 0;
+    this.TipoServio = 0;
+  }
+}

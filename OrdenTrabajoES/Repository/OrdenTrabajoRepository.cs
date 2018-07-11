@@ -62,7 +62,7 @@ namespace OrdenTrabajoES.Repository
             try
             {
 
-                
+
 
                 OrdenTrabajo ordenTrabajoBD = await _context.OrdenTrabajo
                     .Include(c => c.Cliente)
@@ -80,7 +80,7 @@ namespace OrdenTrabajoES.Repository
 
 
                 ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
-                               
+
 
                 ordenTrabajoBD.HerramientaId = ordenTrabajo.Herramienta.Id;
                 ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
@@ -160,13 +160,18 @@ namespace OrdenTrabajoES.Repository
         {
             try
             {
-                var query = _context.OrdenTrabajo
-                    .Where(ordern => string.IsNullOrEmpty(parametrosDTO.NumeroOIT) || ordern.Id.ToString().Contains(parametrosDTO.NumeroOIT) &&
-                    string.IsNullOrEmpty(parametrosDTO.Remision) || ordern.RemisionCliente.ToString().Contains(parametrosDTO.NumeroOIT) &&
-                    string.IsNullOrEmpty(parametrosDTO.FechaCreacion) || ordern.FechaRegistro.ToString().Contains(parametrosDTO.FechaCreacion) && ///agregar fecha de finalizacion cuando se trabajo    en remisiones
-                    parametrosDTO.Estado == 0|| ordern.EstadoId == parametrosDTO.Estado &&
-                    parametrosDTO.Responsable == 0|| ordern.ResponsableId == parametrosDTO.Responsable &&
-                    parametrosDTO.TipoServio == 0 || ordern.TipoServicioId == parametrosDTO.TipoServio );
+                var query = _context.OrdenTrabajo.Include(c => c.Cliente)
+                    .Include(c => c.Herramienta)
+                    .Include(c => c.TipoServicio)
+                    .Include(c => c.Estado)
+                    .Include(c => c.Responsable)
+                    .Where(ordern =>
+                    (string.IsNullOrEmpty(parametrosDTO.NumeroOIT) || ordern.Id == Int32.Parse(parametrosDTO.NumeroOIT)) &&
+                    (string.IsNullOrEmpty(parametrosDTO.Remision) || ordern.RemisionCliente.ToString().Contains(parametrosDTO.NumeroOIT)) &&
+                    (string.IsNullOrEmpty(parametrosDTO.FechaCreacion) || ordern.FechaRegistro.ToString().Contains(parametrosDTO.FechaCreacion)) && ///agregar fecha de finalizacion cuando se trabajo    en remisiones
+                    (parametrosDTO.Estado == 0 || ordern.EstadoId == parametrosDTO.Estado) &&
+                   (parametrosDTO.Responsable == 0 || ordern.ResponsableId == parametrosDTO.Responsable) &&
+                    (parametrosDTO.TipoServio == 0 || ordern.TipoServicioId == parametrosDTO.TipoServio));
 
                 var queryPagination = await query
                     .Skip(parametrosDTO.RegistrosOmitir())

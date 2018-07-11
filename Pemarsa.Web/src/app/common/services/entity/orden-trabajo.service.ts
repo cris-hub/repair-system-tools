@@ -47,13 +47,20 @@ export class OrdenTrabajoService {
     return this.http.get<OrdenTrabajoModel>(this.urlServer + 'ConsultarOrdenDeTrabajoPorGuid?GuidOrdenDeTrabajo=' + GuidOrdenDeTrabajo);
   }
 
-
   public crearOrdenDeTrabajo(ordenTrabajo: OrdenTrabajoModel): Observable<boolean> {
    return this.http.post<boolean>(this.urlServer + 'CrearOrdenDeTrabajo', ordenTrabajo, { headers: this.header });
   }
+
   public actualizarOrdenDeTrabajo(ordenTrabajo: OrdenTrabajoModel): Observable<boolean> {
     return this.http.put<boolean>(this.urlServer + 'ActualizarOrdenDeTrabajo', ordenTrabajo, { headers: this.header });
   }
+
+  public consultarOrdenesDeTrabajoPorFiltro(filtro: any): Observable<ListadoResponseModel> {
+    var x = this.obj_to_query(filtro);
+    return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarOrdenesDeTrabajoPorFiltro" + x,
+      { headers: this.header });
+  }
+
 
 }
 

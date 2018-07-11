@@ -34,6 +34,16 @@ export class ListarOitComponent implements OnInit {
     this.consultarOrdenesDeTrabajo();
   }
 
+  consultarOitPorFiltro(filtro) {
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    this.ordenTrabajoService.consultarOrdenesDeTrabajoPorFiltro(filtro)
+      .subscribe(response => {
+        this.ordenesTrabajo = response.Listado;
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+      });
+  }
+
   consultarOrdenesDeTrabajo() {
     this.ordenTrabajoService.consultarOrdenesDeTrabajo(this.paginacion)
       .subscribe(response => {
