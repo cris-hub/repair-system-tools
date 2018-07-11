@@ -62,7 +62,7 @@ namespace OrdenTrabajoES.Repository
             try
             {
 
-
+                List<OrdenTrabajoHistorialModificacion> ModificacionOrdenTrabajo = new List<OrdenTrabajoHistorialModificacion>();
 
                 OrdenTrabajo ordenTrabajoBD = await _context.OrdenTrabajo
                     .Include(c => c.Cliente)
@@ -75,8 +75,8 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
                     .Include(c => c.Responsable).AsNoTracking().FirstOrDefaultAsync(c => c.Id == ordenTrabajo.Id);
-
                 _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
+
 
 
                 ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
@@ -86,10 +86,38 @@ namespace OrdenTrabajoES.Repository
                 ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
                 ordenTrabajoBD.NombreUsuarioCrea = "admin";
 
-                _context.Entry(ordenTrabajoBD).State = EntityState.Modified;
+
                 _context.OrdenTrabajo.Update(ordenTrabajoBD);
 
+                foreach (var entry in _context.Entry(ordenTrabajoBD).Properties)
+                {
+                    if (entry.IsModified)
+                    {
 
+                    ModificacionOrdenTrabajo.Add(new OrdenTrabajoHistorialModificacion()
+                    {
+                        UsuarioModifica = "admin",
+                        OrdenTrabajoId = ordenTrabajoBD.Id,
+                        Campo = entry.Metadata.Name,
+                        ValorAnterior = entry.OriginalValue == null ? "desconocidos" : entry.OriginalValue.ToString(),
+                        FechaModificacion = new DateTime(),
+                        Guid = Guid.NewGuid(),
+                        GuidUsuarioModifica = Guid.NewGuid()
+                    });
+                    }
+
+                    Console.WriteLine(
+                        $"Property '{entry.Metadata.Name}'" +
+                        $" is {(entry.IsModified ? "modified" : "not modified")} " +
+                        $"Current value: '{entry.CurrentValue}' " +
+                        $"Original value: '{entry.OriginalValue}'");
+                }
+
+
+
+
+
+                await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
 
 
 
@@ -268,8 +296,16 @@ namespace OrdenTrabajoES.Repository
 
         public async Task<bool> CrearHistorialModificacionesOrdenDeTrabajo(List<OrdenTrabajoHistorialModificacion> modificacionesOrdenTrabajo, UsuarioDTO usuario)
         {
-            _context.OrdenTrabajoHistorialModificacion.AddRange(modificacionesOrdenTrabajo);
-            return await _context.SaveChangesAsync() > 1;
+            try
+            {
+                _context.OrdenTrabajoHistorialModificacion.AddRange(modificacionesOrdenTrabajo);
+                return await _context.SaveChangesAsync() > 1;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public async Task<OrdenTrabajo> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, UsuarioDTO usuario)
