@@ -11,6 +11,7 @@ import { CrearOitComponent } from './crear-oit/crear-oit.component';
 import { AutocompletarComponent } from '../common/directivas/autocompletar/autocompletar.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { FiltroOrdenTrabajoComponent } from './filtro-orden-trabajo/filtro-orden-trabajo.component';
+import { HistorialModificacionesComponent } from './historial-modificaciones/historial-modificaciones.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { FiltroOrdenTrabajoComponent } from './filtro-orden-trabajo/filtro-orden
     NgbModule,
     FormsModule
   ],
-  declarations: [ ListarOitComponent, CrearOitComponent, FiltroOrdenTrabajoComponent]
+  declarations: [ ListarOitComponent, CrearOitComponent, FiltroOrdenTrabajoComponent, HistorialModificacionesComponent]
 })
 export class OrdenTrabajoModule { }

@@ -19,6 +19,8 @@ export * from './FormatoModel';
 export * from './FormatoAdendumModel';
 export * from './FormatoParametroModel';
 export * from './OrdenTrabajoModel';
+export * from './OrdenTrabajoHistorialModificacionModel';
+
 
 
 

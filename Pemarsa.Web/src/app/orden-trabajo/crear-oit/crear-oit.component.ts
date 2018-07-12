@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./crear-oit.component.css']
 })
 export class CrearOitComponent implements OnInit {
+  private oit: any;
   //directiva en html
   @ViewChild('instance') instance: NgbTypeahead;
 
@@ -344,6 +345,10 @@ export class CrearOitComponent implements OnInit {
 
   }
 
+  historial(ordenTrabajo) {
+    this.oit = ordenTrabajo;
+    this.esVer = true;
+  }
 
   herramientaValor(evento) {
     console.log(evento)

@@ -9,6 +9,7 @@ export class OrdenTrabajoService {
 
 
 
+  
   private header: HttpHeaders;
   private urlServer: string;
 
@@ -61,6 +62,16 @@ export class OrdenTrabajoService {
       { headers: this.header });
   }
 
+  public consultarHistorialModificacionesOrdenDeTrabajo(guidProceso: string, paginacion :PaginacionModel): Observable<ListadoResponseModel>  {
+    return this.http.get<ListadoResponseModel>(
+      this.urlServer + 'ConsultarHistorialModificacionesOrdenDeTrabajo?guidProceso=' + guidProceso,
+      {
+        headers: this.header,
+         params: new HttpParams()
+          .set('CantidadRegistros', paginacion.CantidadRegistros.toString())
+          .set('PaginaActual', paginacion.PaginaActual.toString())
+      });
+  }
 
 }
 

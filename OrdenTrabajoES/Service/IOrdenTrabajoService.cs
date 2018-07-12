@@ -35,7 +35,7 @@ namespace OrdenTrabajoES.Service
 
         Task<bool> CrearHistorialModificacionesOrdenDeTrabajo(List<OrdenTrabajoHistorialModificacion> modificacionesOrdenTrabajo, UsuarioDTO usuario);
 
-        Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidSolicitudOrdenTrabajo, UsuarioDTO usuario);
+        Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidSolicitudOrdenTrabajo, Paginacion paginacion, UsuarioDTO usuario);
 
 
 

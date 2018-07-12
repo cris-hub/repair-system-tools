@@ -40,7 +40,7 @@ namespace Pemarsa.API.Controllers
                 Configuration = builder.Build();
 
                 var pathServer = Configuration["FileServer:VirtualPath"];
-                return Ok(await _ordenTrabajoServicio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo, pathServer,new UsuarioDTO()));
+                return Ok(await _ordenTrabajoServicio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo, pathServer, new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -139,7 +139,7 @@ namespace Pemarsa.API.Controllers
         public async Task<IActionResult> CrearOrdenDeTrabajo([FromBody]OrdenTrabajo ordenTrabajo)
         {
             try
-            {   
+            {
 
 
                 //se obtiene la informacion del appsettings
@@ -159,7 +159,7 @@ namespace Pemarsa.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-        } 
+        }
 
         [HttpGet("ConsultarOrdenDeTrabajoPorGuid")]
         public async Task<IActionResult> ConsultarOrdenDeTrabajoPorGuid([FromQuery]string GuidOrdenDeTrabajo)
@@ -171,6 +171,22 @@ namespace Pemarsa.API.Controllers
 
 
                 return Ok(ordenTrabajoConsultada);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("ConsultarHistorialModificacionesOrdenDeTrabajo")]
+        public async Task<IActionResult> ConsultarHistorialModificacionesOrdenDeTrabajo([FromQuery]string guidProceso, Paginacion paginacion)
+        {
+            try
+            {
+
+                var historial = await _ordenTrabajoServicio.ConsultarHistorialModificacionesOrdenDeTrabajo(Guid.Parse(guidProceso), paginacion, new UsuarioDTO());
+
+
+                return Ok(new { CantidadRegistros = historial.Item1, Listado = historial.Item2.ToList() });
             }
             catch (Exception e)
             {
@@ -198,7 +214,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajoPorFiltro(parametrosDTO,new UsuarioDTO()));
+                var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajoPorFiltro(parametrosDTO, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }
             catch (Exception e)
@@ -224,8 +240,8 @@ namespace Pemarsa.API.Controllers
         public async Task<IActionResult> ActualizarOrdenDeTrabajo([FromBody]OrdenTrabajo ordenTrabajo)
         {
             try
-                {
-          
+            {
+
 
                 return Ok(await _ordenTrabajoServicio.ActualizarOrdenDeTrabajo(ordenTrabajo, new UsuarioDTO()));
             }

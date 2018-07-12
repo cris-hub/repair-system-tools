@@ -265,9 +265,9 @@ namespace OrdenTrabajoES.Service
             return await _ordenTrabajoRepositorio.CrearHistorialModificacionesOrdenDeTrabajo(modificacionesOrdenTrabajo,usuario);
         }
 
-        public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, Paginacion paginacion, UsuarioDTO usuario)
         {
-            return await _ordenTrabajoRepositorio.ConsultarHistorialModificacionesOrdenDeTrabajo(guidOrdenTrabajo,usuario);
+            return await _ordenTrabajoRepositorio.ConsultarHistorialModificacionesOrdenDeTrabajo(guidOrdenTrabajo,paginacion,usuario);
         }
     }
 }

@@ -100,7 +100,7 @@ namespace OrdenTrabajoES.Repository
                         OrdenTrabajoId = ordenTrabajoBD.Id,
                         Campo = entry.Metadata.Name,
                         ValorAnterior = entry.OriginalValue == null ? "desconocidos" : entry.OriginalValue.ToString(),
-                        FechaModificacion = new DateTime(),
+                        FechaModificacion = DateTime.Now,
                         Guid = Guid.NewGuid(),
                         GuidUsuarioModifica = Guid.NewGuid()
                     });
@@ -137,11 +137,14 @@ namespace OrdenTrabajoES.Repository
             catch (Exception e) { throw e; }
         }
 
-        public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, Paginacion paginacion, UsuarioDTO usuario)
         {
             try
             {
-                var result = await _context.OrdenTrabajoHistorialModificacion.Where(c => c.OrdenTrabajo.Guid == guidOrdenTrabajo).ToListAsync();
+                var result = await _context.OrdenTrabajoHistorialModificacion.Where(c => c.OrdenTrabajo.Guid == guidOrdenTrabajo)
+                    .Skip(paginacion.RegistrosOmitir())
+                    .Take(paginacion.CantidadRegistros)
+                    .ToListAsync();
 
                 var cantidad = await _context.SolicitudOrdenTrabajo.CountAsync();
                 return new Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>(cantidad, result);
@@ -314,6 +317,7 @@ namespace OrdenTrabajoES.Repository
             {
                 ordenTrabajo.Guid = Guid.NewGuid();
                 ordenTrabajo.EstadoId = 38;
+                ordenTrabajo.FechaRegistro = DateTime.Now;
                 ordenTrabajo.TipoServicioId = 36;
                 ordenTrabajo.ResponsableId = 28;
                 OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
