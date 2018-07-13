@@ -235,11 +235,7 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo2,
                         Grupo = CanonicalConstants.Grupos.TipoSoldadura
-                    }
-
-                    //visual-dimencional, MPI, LPI, UT, EMI, VR.
-
-                    ,new Catalogo{
+                    },new Catalogo{
                         Id = 65,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimencional,
@@ -693,7 +689,8 @@ namespace Pemarsa.Data.DBInitialize
                                 }
                                 );
                             }
-                            break;     case CanonicalConstants.Grupos.TiposInspeccion:
+                            break;
+                        case CanonicalConstants.Grupos.TiposInspeccion:
                             if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
                             {
                                 context.ParametroCatalogo.Add
@@ -913,7 +910,17 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Campos = "id, Guid, Nombre, ClienteId",
                         Tabla = "clientelinea",
+                    },
+                    new Consulta
+                    {
+                        Id = 3,
+                        Guid = Guid.NewGuid(),
+                        Campos = "Id, Guid, Valor, Grupo, Simbolo, Estado, CatalogoId, Dia",
+                        Tabla = "catalogo",
+                        Condicion = "Grupo = 'TIPOS_INSPECCION'",
                     }
+
+
 
                 };
 
@@ -950,6 +957,19 @@ namespace Pemarsa.Data.DBInitialize
                                 {
                                     ConsultaId = consulta.Id,
                                     Entidad = CanonicalConstants.Entidades.Cliente
+                                }
+                                );
+                            }
+                            break;
+                        case 3:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 3) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
                                 }
                                 );
                             }

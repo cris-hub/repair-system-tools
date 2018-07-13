@@ -111,8 +111,6 @@ namespace Pemarsa.CanonicalModels
                     public const string Soldadura = "Soldadura";
                 }
 
-
-                //visual-dimencional, MPI, LPI, UT, EMI, VR.
                 public struct TipoInspeccion
                 {
                     public const string VisualDimencional = "visual dimencional";
