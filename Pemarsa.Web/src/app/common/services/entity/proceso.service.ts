@@ -5,10 +5,11 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
-import { CatalogoModel } from "../../models/Index";
+import { CatalogoModel, ProcesoModel } from "../../models/Index";
 
 @Injectable()
 export class ProcesoService {
+
 
   private header: HttpHeaders;
   private urlServer: string;
@@ -28,13 +29,19 @@ export class ProcesoService {
     return "?" + parts.join('&');
   }
 
-  public consultarProcesosPorTipo(tipoProcesoActual: CatalogoModel, paginacion:PaginacionModel): Observable<ListadoResponseModel> {
+  public consultarProcesosPorTipo(tipoProcesoActual: CatalogoModel, paginacion: PaginacionModel): Observable<ListadoResponseModel> {
     return this.http.get<ListadoResponseModel>(this.urlServer + 'ConsultarProcesosPorTipo?tipoProceso=' + tipoProcesoActual.Id, {
       headers: this.header,
       params: new HttpParams()
         .set('CantidadRegistros', paginacion.CantidadRegistros.toString())
         .set('PaginaActual', paginacion.PaginaActual.toString())
-     
+
+    });
+  }
+
+  public consultarProcesoPorGuid(guidProceso: string): Observable<ProcesoModel> {
+    return this.http.get<ProcesoModel>(this.urlServer + 'consultarProcesoPorGuid?guidProceso=' + guidProceso, {
+      headers: this.header
     });
   }
 

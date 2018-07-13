@@ -41,7 +41,13 @@ namespace ProcesoES.Repository
         {
             try
             {
-                return await _context.Proceso.FirstOrDefaultAsync(c => c.Guid == guidProceso);
+                return await _context.Proceso
+                    .Include(c => c.OrdenTrabajo.Herramienta)
+                    .Include(c => c.OrdenTrabajo.Cliente)
+                    .Include(c => c.OrdenTrabajo.Anexos)
+
+
+                    .FirstOrDefaultAsync(c => c.Guid == guidProceso);
             }
             catch (Exception e)
             {

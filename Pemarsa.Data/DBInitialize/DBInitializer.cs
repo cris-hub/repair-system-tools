@@ -236,6 +236,42 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo2,
                         Grupo = CanonicalConstants.Grupos.TipoSoldadura
                     }
+
+                    //visual-dimencional, MPI, LPI, UT, EMI, VR.
+
+                    ,new Catalogo{
+                        Id = 65,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimencional,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }    ,new Catalogo{
+                        Id = 66,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.MPI,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }    ,new Catalogo{
+                        Id = 67,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.LPI,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }    ,new Catalogo{
+                        Id = 68,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.UT,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }    ,new Catalogo{
+                        Id = 69,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.EMI,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }    ,new Catalogo{
+                        Id = 70,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VR,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }
+
+
                 };
                 foreach (var tipo in tipos)
                 {
@@ -319,7 +355,7 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.OrdenTrabajo.Standby,
                         Grupo = CanonicalConstants.Grupos.PrioridadOrdenTrabajo,
-                    }
+                    },
 
                 };
 
@@ -646,6 +682,18 @@ namespace Pemarsa.Data.DBInitialize
                             }
                             break;
                         case CanonicalConstants.Grupos.TipoProceso:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;     case CanonicalConstants.Grupos.TiposInspeccion:
                             if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
                             {
                                 context.ParametroCatalogo.Add

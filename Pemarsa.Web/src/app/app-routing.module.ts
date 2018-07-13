@@ -47,7 +47,7 @@ const routes: Routes = [
 
   //Procesos
   { path: 'inspeccion/entrada', component: ListarInspeccionesComponent },
-  { path: 'inspeccion/entrada/:id/:id', component: InspeccionHerramientaComponent },
+  { path: 'inspeccion/entrada/:id', component: InspeccionHerramientaComponent },
 
 
 

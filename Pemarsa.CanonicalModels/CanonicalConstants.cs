@@ -112,6 +112,18 @@ namespace Pemarsa.CanonicalModels
                 }
 
 
+                //visual-dimencional, MPI, LPI, UT, EMI, VR.
+                public struct TipoInspeccion
+                {
+                    public const string VisualDimencional = "visual dimencional";
+                    public const string MPI = "MPI";
+                    public const string LPI = "LPI";
+                    public const string UT = "UT";
+                    public const string EMI = "EMI";
+                    public const string VR = "VR";
+                    
+                }
+
                 public struct TipoSoldadura
                 {
                     public const string Tipo1 = "Tipo1";
@@ -211,6 +223,7 @@ namespace Pemarsa.CanonicalModels
             public const string Norma = "NORMA_PROCESO";
             public const string TipoProceso = "TIPO_PROCESO";
             public const string TipoSoldadura = "TIPO_SOLDADURA_PROCESO";
+            public const string TiposInspeccion = "TIPOS_INSPECCION";
 
 
 
