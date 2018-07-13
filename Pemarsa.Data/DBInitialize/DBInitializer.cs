@@ -45,16 +45,46 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Estados.OrdenTrabajo.EnProceso,
                         Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
                     },
+                    new Catalogo{
+                        Id = 60,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.SolictudOdenTrabjo.Inactiva,
+                        Grupo = CanonicalConstants.Grupos.EstadosSolicitud,
+                    },
+                      new Catalogo{
+                        Id = 61,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.SolictudOdenTrabjo.EnProceso,
+                        Grupo = CanonicalConstants.Grupos.EstadosSolicitud,
+                    },
                       new Catalogo{
                         Id = 38,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Estados.Proceso.Activa,
+                        Valor = CanonicalConstants.Estados.Proceso.Pendiente,
                         Grupo = CanonicalConstants.Grupos.EstadosProceso,
                     },
                       new Catalogo{
                         Id = 39,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Estados.Proceso.Inactiva,
+                        Valor = CanonicalConstants.Estados.Proceso.Asignado,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
+                        Id = 62,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Completado,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
+                        Id = 63,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Liberado,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
+                        Id = 64,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Rechazado,
                         Grupo = CanonicalConstants.Grupos.EstadosProceso,
                     }
                 };
@@ -158,12 +188,42 @@ namespace Pemarsa.Data.DBInitialize
                     },new Catalogo{
                         Id = 40,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Tipo1,
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.InspeccionEntrada,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
                     },new Catalogo{
                         Id = 41,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Tipo2,
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.InspeccionSalida,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
+                        Id = 54,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Alistamiento,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
+                        Id = 55,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.AprobacionSupervisor,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
+                        Id = 56,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.MecanizadoFresa,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
+                        Id = 57,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.MecanizadoTorno,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
+                        Id = 58,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Rectificado,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
+                        Id = 59,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Soldadura,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
                     },new Catalogo{
                         Id = 42,
@@ -487,6 +547,19 @@ namespace Pemarsa.Data.DBInitialize
                            );
                             }
                             break;
+                        case CanonicalConstants.Grupos.EstadosSolicitud:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == estado.Id) && (pc.Entidad == CanonicalConstants.Entidades.Solicitud)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.AddRange
+                           (
+                               new ParametroCatalogo
+                               {
+                                   CatalogoId = estado.Id,
+                                   Entidad = CanonicalConstants.Entidades.Solicitud
+                               }
+                           );
+                            }
+                            break;
                     }
                 }
                 // Tipos //
@@ -568,6 +641,19 @@ namespace Pemarsa.Data.DBInitialize
                                 {
                                     CatalogoId = tipo.Id,
                                     Entidad = CanonicalConstants.Entidades.OrdenTrabajo
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.TipoProceso:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
                                 }
                                 );
                             }

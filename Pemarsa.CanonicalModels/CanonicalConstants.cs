@@ -32,6 +32,12 @@ namespace Pemarsa.CanonicalModels
                 public const string Inactiva = "Inactiva";
             }
 
+            public struct SolictudOdenTrabjo
+            {
+                public const string EnProceso = "En proceso";
+                public const string Inactiva = "Inactiva";
+            }
+
             public struct Cliente
             {
                 public const string Activa = "Activo";
@@ -40,8 +46,12 @@ namespace Pemarsa.CanonicalModels
 
             public struct Proceso
             {
-                public const string Activa = "Activo";
-                public const string Inactiva = "Anulada​";
+                public const string Pendiente = "Pendiente";
+                public const string Asignado = "Asignado​";
+                public const string Completado = "Completado​";
+                public const string Liberado = "Liberado";
+                public const string Rechazado = "Rechazado​";
+
             }
         }
 
@@ -80,22 +90,28 @@ namespace Pemarsa.CanonicalModels
                 public const string Alquiler = "Alquiler";
                 public const string Fabricación = "Fabricación";
                 public const string Otro = "Otro";
-                
+
 
             }
 
             public struct Proceso
             {
 
-     
-               
+
+
                 public struct TipoProceso
                 {
-                    public const string Tipo1 = "Tipo1";
-                    public const string Tipo2 = "Tipo2";
+                    public const string InspeccionEntrada = "Inspección entrada";
+                    public const string InspeccionSalida = "Inspección salida";
+                    public const string Alistamiento = "Alistamiento";
+                    public const string AprobacionSupervisor = "Aprobación supervisor";
+                    public const string MecanizadoFresa = "Mecanizado fresa";
+                    public const string MecanizadoTorno = "Mecanizado Torno";
+                    public const string Rectificado = "Rectificado";
+                    public const string Soldadura = "Soldadura";
                 }
-               
-                
+
+
                 public struct TipoSoldadura
                 {
                     public const string Tipo1 = "Tipo1";
@@ -184,6 +200,7 @@ namespace Pemarsa.CanonicalModels
 
             public const string Responsables = "RESPONSABLES";
             public const string EstadosOrdenTrabajo = "ESTADOS_ORDENTRABAJO";
+            public const string EstatosSolicitudOrdenTrabajo = "ESTATOS_SOLICITUD_ORDENTRABAJO";
             public const string PrioridadOrdenTrabajo = "PRIORIDAD_ORDENTRABAJO";
             public const string TipoServicioOrdenTrabajo = "TIPO_SERVICIO_ORDEN_TRABAJO";
             public const string EstadosProceso = "ESTADOS_PROCESO";

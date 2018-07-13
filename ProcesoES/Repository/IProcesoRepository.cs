@@ -14,5 +14,6 @@ namespace ProcesoES.Repository
         Task<bool> ActualizarEstadoProceso(Guid guid, string estado, UsuarioDTO usuarioDTO);
         Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipo(int tipoProceso, Paginacion paginacion, UsuarioDTO usuarioDTO);
         Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipoPorFiltro(ParametrosProcesosoDTO parametrosDTO, UsuarioDTO usuarioDTO);
+        Task<Proceso> ConsultarProcesoPorId(int idProceso, UsuarioDTO usuarioDTO);
     }
 }

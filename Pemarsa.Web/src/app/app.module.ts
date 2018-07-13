@@ -20,7 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './common/components/home/home.component';
 
 import { ClienteModule } from './cliente/cliente.module';
-import { ClienteService, HerramientaService, SolicitudOrdenTrabajoService, FormatoService } from './common/services/entity';
+import { ClienteService, HerramientaService, SolicitudOrdenTrabajoService, FormatoService, ProcesoService } from './common/services/entity';
 import { HerramientaModule } from './herramienta/herramienta.module';
 import { ConfigService } from './common/config/config.service';
 import { UtilModule } from './common/modules/util.module';
@@ -29,6 +29,7 @@ import { SolicitudOrdenTrabajoModule } from './solicitudOrdenTrabajo/solicitudOr
 import { FormatoModule } from './formato/formato.module';
 import { OrdenTrabajoModule } from './orden-trabajo/orden-trabajo.module';
 import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.service';
+import { ProcesoModule } from './proceso/proceso.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.serv
     FormatoModule,
     OrdenTrabajoModule,
     HerramientaModule,
+    ProcesoModule,
     SolicitudOrdenTrabajoModule,
     UtilModule,
     AppRoutingModule,
@@ -65,7 +67,8 @@ import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.serv
     ParametroService,
     SolicitudOrdenTrabajoService,
     FormatoService,
-    OrdenTrabajoService
+    OrdenTrabajoService,
+    ProcesoService
 
   ],
   bootstrap: [AppComponent],

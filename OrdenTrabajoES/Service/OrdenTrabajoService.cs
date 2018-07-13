@@ -111,13 +111,10 @@ namespace OrdenTrabajoES.Service
                     if (OrdenTrabajo != null)
                     {
 
-                        if (ordenTrabajo.SolicitudOrdenTrabajoId == 0)
-                        {
                             Proceso proceso = new Proceso();
                             proceso = AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo);
                             await _procesoService.CrearProceso(proceso,usuario);
-                        }
-
+                     
                     }
                     return OrdenTrabajo.Guid;
 
@@ -159,28 +156,9 @@ namespace OrdenTrabajoES.Service
             try
             {
 
+          
+                OrdenTrabajo ordenTrabajo = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guidOrdenDeTrabajo, usuario);
 
-                Guid guid;
-                OrdenTrabajo ordenTrabajo;
-                ordenTrabajo = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guidOrdenDeTrabajo, usuario);
-
-
-
-                if (ordenTrabajo == null)
-                {
-
-                    ordenTrabajo = new OrdenTrabajo();
-                    SolicitudOrdenTrabajo solicitud = await _ordenTrabajoRepositorio.ConsultarSolicitudDeTrabajoPorGuid(Guid.Parse(guidOrdenDeTrabajo), usuario);
-                    if (solicitud != null)
-                    {
-                        ordenTrabajo = asignarValoresSolicitudAOrdenDeTrabajo(solicitud);
-
-                    }
-
-
-                    guid = await CrearOrdenDeTrabajo(ordenTrabajo, "", usuario);
-                    ordenTrabajo = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guid.ToString(), usuario);
-                }
 
                 return ordenTrabajo;
 
@@ -231,30 +209,14 @@ namespace OrdenTrabajoES.Service
             catch (Exception e) { throw e; }
         }
 
-        private static OrdenTrabajo asignarValoresSolicitudAOrdenDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo)
-        {
-            return new OrdenTrabajo
-            {
-                Cantidad = solicitudOrdenTrabajo.Cantidad,
-                CantidadInspeccionar = solicitudOrdenTrabajo.CantidadInspeccionar,
-                Cotizacion = solicitudOrdenTrabajo.Cotizacion,
-                DetallesSolicitud = solicitudOrdenTrabajo.DetallesSolicitud,
-                Responsable = solicitudOrdenTrabajo.Responsable,
-                PrioridadId = solicitudOrdenTrabajo.PrioridadId,
-                LineaId = solicitudOrdenTrabajo.LineaId,
-                ClienteId = solicitudOrdenTrabajo.ClienteId,
-                SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id,
-                NombreUsuarioCrea = solicitudOrdenTrabajo.NombreUsuarioCrea
-                
-            };
-        }
+        
 
         private static Proceso AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo ordenTrabajo)
         {
             Proceso proceso = new Proceso()
             {
                 CantidadInspeccion = ordenTrabajo.CantidadInspeccionar,
-                EstadoId = 38,
+                
                 OrdenTrabajoId = ordenTrabajo.Id
             };
             return proceso;

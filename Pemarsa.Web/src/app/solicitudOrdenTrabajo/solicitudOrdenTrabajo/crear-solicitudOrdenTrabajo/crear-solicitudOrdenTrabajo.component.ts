@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges, Output ,EventEmitter} from "@angular/core";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel, SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
@@ -8,6 +8,7 @@ import { Observable, Subject, ObjectUnsubscribedError } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/operators';
 import { Router, ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
 
 @Component({
   selector: 'app-crear-solicitudOrdenTrabajo',
@@ -15,12 +16,14 @@ import { ToastrService } from "ngx-toastr";
 })
 export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
+  @ViewChild(ConfirmacionComponent) private confirmar: ConfirmacionComponent;
   @ViewChild('inputFile') inputFile: ElementRef;
   @ViewChild('instance') instance: NgbTypeahead;
   @Input() public accion: string[];
   @Input() public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
+  @Output() private accionEvento = new EventEmitter();
 
-  private origen ;
+  private origen;
 
   private esActualizar: boolean = false;
   private esVer: boolean = false;
@@ -58,7 +61,12 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-
+    this.solicitudOrdenTrabajoModel = new SolicitudOrdenTrabajoModel();
+    this.model = new CatalogoModel();
+    this.model1 = new CatalogoModel();
+    this.consultarParametros();
+    this.consultarParametrosCliente();
+    this.initForm();
   }
 
 
@@ -66,12 +74,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     if (changes.accion.currentValue) {
       this.accion = changes.accion.currentValue
     }
-    this.solicitudOrdenTrabajoModel = new SolicitudOrdenTrabajoModel();
-    this.model = new CatalogoModel();
-    this.model1 = new CatalogoModel();
-    this.consultarParametros();
-    this.consultarParametrosCliente();
-    this.initForm();
+    this.ngOnInit();
   }
 
   constructor(
@@ -101,7 +104,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
           this.ArchivoRemison = response;
         });
       }
-    
+
       this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
         this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
           this.attachments.push(response);
@@ -117,7 +120,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
       Id: [this.solicitudOrdenTrabajoModelInput.Id],
       Guid: [this.solicitudOrdenTrabajoModelInput.Guid],
       DocumentoAdjunto: [],
-      
+
       OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId],
       Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName],
       ClienteLinea: [this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre],
@@ -169,8 +172,8 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.tieneRemison = false;
     if (evento == 13) {
       this.tieneRemison = true;
-    } 
-    console.log(evento,this.origen)
+    }
+    console.log(evento, this.origen)
   }
   addFileRemision(event: any) {
     try {
@@ -280,9 +283,13 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   }
 
   enviarFormulario(datosFormulario) {
+
+   
     if (this.accion[0] == 'Crear') {
+
       this.crearSolicitudOit(datosFormulario);
       this.attachments = new Array<AttachmentModel>();
+
     }
 
     if (this.accion[0] == 'Editar') {
@@ -291,6 +298,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     if (this.accion[0] == 'Procesar') {
       this.procesarSolitudOit(datosFormulario);
     }
+
   }
 
 
@@ -309,7 +317,10 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
     }
     this.solicitudOrdenTrabajoSrv.crearSolicitudOit(this.solicitudOrdenTrabajoModel).subscribe(response => {
-      this.toastr.info(JSON.stringify(response));
+      if (response) {
+        this.toastr.info('creacion', 'la creacion de la solicitud ha sido correcta');
+      }
+      this.accionEvento.emit(response);
     });
   }
 
@@ -324,10 +335,13 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
     }
     this.solicitudOrdenTrabajoSrv.ActualizarSolcitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
-      this.toastr.info(JSON.stringify(response));
-
+      if (response) {
+        this.toastr.info('modificacion','la modificacion de los datos ha sido correcta');
+      }
+      this.accionEvento.emit(response);
+      
     });
-    this.router.navigate(['/solicitudOrdenTrabajo']);
+    
   }
 
 
@@ -339,4 +353,24 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.solicitudOrdenTrabajoSrv.consultarSolicitudDeTrabajoPorGuid(Guid).subscribe(response => this.solicitudOrdenTrabajoModel = response);
   }
 
+
+
+  confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
+  }
+
+  salir(preguntar?: boolean) {
+    //realizar la confirmacion
+    this.router.navigate(['/solicitudOrdenTrabajo']);
+  }
+  enviarFormularioConfir(event) {
+    if (event.response) {
+      this.enviarFormulario(event.frmSolicitudOit);
+    }
+  }
+
 }
+
+
+
+

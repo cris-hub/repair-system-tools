@@ -28,11 +28,12 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     public parametroSrv: ParametroService,
     private toastr: ToastrService,
      ) {
-    this.paginacion = new PaginacionModel(1, 30);
-    this.parametros = new ParametrosModel();
+    
   }
 
   ngOnInit() {
+    this.paginacion = new PaginacionModel(1, 30);
+
     this.consultarParametros();
     this.consultarSolicitudesDeTrabajo();
   }
@@ -113,4 +114,10 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     }
   }
 
+  persistenciaDatosResponse(evento) {
+    if (evento) {
+      this.consultarSolicitudesDeTrabajo();
+    }
+    
+  }
 }

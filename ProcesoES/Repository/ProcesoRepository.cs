@@ -50,17 +50,49 @@ namespace ProcesoES.Repository
             }
         }
 
+        public async Task<Proceso> ConsultarProcesoPorId(int idProceso, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var query = _context.Proceso
+                    .Include(p => p.TipoProceso);
+
+
+
+
+
+
+
+                var result = await query.Where(c => c.Id == idProceso).FirstOrDefaultAsync();
+
+
+                return result;
+            }
+            catch (Exception e) { throw e; }
+        }
+
         public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipo(int tipoProceso, Paginacion paginacion, UsuarioDTO usuarioDTO)
         {
 
             try
             {
-                var query = _context.Proceso.Where(c => c.TipoProceso.Id == tipoProceso);
-                
-                var result = await query.Skip(paginacion.RegistrosOmitir())
-                    .Take(paginacion.CantidadRegistros)
-                    .ToListAsync();
-                
+                var query = _context.Proceso
+                    .Include(proceso => proceso.OrdenTrabajo.Herramienta)
+                    .Include(proceso => proceso.OrdenTrabajo.Cliente)
+                    .Include(proceso => proceso.Estado)
+                    .Include(proceso => proceso.OrdenTrabajo.Prioridad);
+
+
+
+
+                var result = query.Where(c => c.TipoProcesoId == tipoProceso)
+                    .Skip(paginacion.RegistrosOmitir())
+                                    .Take(paginacion.CantidadRegistros);
+
+
+                await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO) );
+
+
                 var cantidad = await _context.Proceso.CountAsync();
                 return new Tuple<int, IEnumerable<Proceso>>(cantidad, result);
             }

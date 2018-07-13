@@ -24,9 +24,9 @@ namespace ProcesoES.Service
         {
             try
             {
-               
-
-                Guid procesoGuid  = await _procesoRepository.CrearProceso(proceso,usuario);
+                proceso.TipoProcesoId = (int)TIPOPROCESOS.INSPECCIONENTRADA;
+                proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
+                Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
 
                 return procesoGuid;
 
@@ -67,19 +67,43 @@ namespace ProcesoES.Service
 
         public async Task<bool> ActualizarEstadoProceso(Guid guid, string estado, UsuarioDTO usuarioDTO)
         {
-            return await _procesoRepository.ActualizarEstadoProceso(guid,estado,usuarioDTO);
+            return await _procesoRepository.ActualizarEstadoProceso(guid, estado, usuarioDTO);
         }
 
         public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipo(int tipoProceso, Paginacion paginacion, UsuarioDTO usuarioDTO)
         {
-            return await _procesoRepository.ConsultarProcesosPorTipo(tipoProceso,paginacion,usuarioDTO); ;
+            try
+            {
+                return await _procesoRepository.ConsultarProcesosPorTipo(tipoProceso, paginacion, usuarioDTO); 
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipoPorFiltro(ParametrosProcesosoDTO parametrosDTO, UsuarioDTO usuarioDTO)
         {
             return await _procesoRepository.ConsultarProcesosPorTipoPorFiltro(parametrosDTO, usuarioDTO);
         }
+
+        public async Task<Proceso> ConsultarProcesoPorId(int idProceso, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                return await _procesoRepository.ConsultarProcesoPorId(idProceso, usuarioDTO);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
     }
+
+
+
 }
 
 

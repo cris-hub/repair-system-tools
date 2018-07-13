@@ -55,7 +55,24 @@ export class AppComponent {
         image: "icon-pieza",
         url: false,
         title: "PROCESOS",
-        submenu: false,
+        submenu: [
+          {
+            id: "10",
+            name: "Insp. entrada",
+            image: "",
+            url: "/inspeccion/entrada",
+            color: "color11",
+            title: "Insp. entrada",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-entrada",
+                color: "color"
+              }
+
+          }
+
+        ],
         complementarios: false
       },
       {

@@ -14,6 +14,8 @@ import { CrearFormatoComponent } from './formato/crear-formato/crear-formato.com
 import { ListarFormatoComponent } from './formato/listar-formato/listar-formato.component';
 import { ListarOitComponent } from './orden-trabajo/listar-oit/listar-oit.component';
 import { CrearOitComponent } from './orden-trabajo/crear-oit/crear-oit.component';
+import { ListarInspeccionesComponent } from './proceso/inspeccion/listar-inspecciones/listar-inspecciones.component';
+import { InspeccionHerramientaComponent } from './proceso/inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
 
 const routes: Routes = [
 
@@ -43,8 +45,13 @@ const routes: Routes = [
   //SolicitudOrdenTrabajo
   { path: 'solicitudOrdenTrabajo', component: ListarSolicitudOrdenTrabajoComponent },
 
-  //OITs
+  //Procesos
+  { path: 'inspeccion/entrada', component: ListarInspeccionesComponent },
+  { path: 'inspeccion/entrada/:id/:id', component: InspeccionHerramientaComponent },
 
+
+
+  //OITs
   { path: 'oit', component: ListarOitComponent },
   { path: 'oit/nueva-oit', component: CrearOitComponent },
   { path: 'oit/:id', component: CrearOitComponent },

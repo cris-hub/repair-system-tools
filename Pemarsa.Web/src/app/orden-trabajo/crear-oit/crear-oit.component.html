@@ -7,7 +7,7 @@
             <div class="col-md-12" style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200; text-align: center;">
               <h3>{{accionRealizarTituloPagina}}</h3>
             </div>
-           
+
           </div>
         </div>
       </div>
@@ -18,10 +18,10 @@
         <fieldset>
           <legend>
             <b> Número de OIT:​ {{ordenTrabajo.Id}}</b>
-            <i  (click)="historial(ordenTrabajo.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
+            <i (click)="historial(ordenTrabajo.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
             <b class="pull-right">{{ordenTrabajo.FechaRegistro | date:'medium'}}</b>
           </legend>
-      
+
         </fieldset>
 
 
@@ -275,10 +275,16 @@
         <div class="form-group row">
           <div class="col-md-12">
             <div class="col-md-2 col-md-offset-4 text-right">
-              <button [routerLink]="['/oit']" type="button" class="btn btn-md">Regresar</button>
+              <button (click)="backClicked()" type="button" class="btn btn-md">Regresar</button>
             </div>
             <div *ngIf="!esVer" class="col-md-5">
-              <button type="submit" (click)="enviar(formularioOrdenTrabajo.value);" class="btn btn-primary btn-md">{{accionRealizarTituloPagina}}</button>
+              <button type="submit"
+                      (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar de ' + accionRealizarTituloPagina + ' de la orden ?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
+                      data-target="#confirmarModal"
+                      data-toggle="modal"
+                      class="btn btn-primary btn-md">
+                {{accionRealizarTituloPagina}}
+              </button>
             </div>
           </div>
         </div>
@@ -290,4 +296,8 @@
 <div *ngIf="esVer" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
      aria-hidden="true">
   <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
-  </div>
+</div>
+
+<div *ngIf="accionRealizarTituloPagina" class="modal fade" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
+</div>

@@ -1,9 +1,11 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
-<div class="modal-dialog modal-lg" role="document" style="margin-top: 200px !important;">
+
+
+<div class="modal-dialog modal-lg" role="document" style="margin-top: 200px !important; z-index: 1400;">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>{{accion[0]}} solicitud de nueva OIT</b></h5>
+      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>{{accion[0]}} solicitud OIT</b></h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -14,11 +16,11 @@
         <div class="form-group">
           <div class="col-sm-7">
             <label for="Responsable" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Responsable:</b></label>
-            <div class="col-sm-7">
-              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="Responsable" formControlName="Responsable">
-                <option *ngFor="let responsable of Responsables" [value]="responsable.Id">{{responsable.Valor}}</option>
-              </select>
+            <div class="col-md-6">
+              <label class="control-label">Responsable:</label>
+              <p *ngIf="solicitudOrdenTrabajoModelInput.Responsable">{{solicitudOrdenTrabajoModelInput.Responsable.Valor}}</p>
             </div>
+
           </div>
         </div>
 
@@ -27,7 +29,7 @@
           <div class="col-sm-7">
             <label for="OrigenSolicitudId" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Origen: </b></label>
             <div class="col-sm-7">
-              <select [attr.disabled]="esVer == true ? '' : null"   [(ngModel)]="origen" (ngModelChange)="cambioOrigen($event)" class="form-control form-control-lg" name="OrigenSolicitudId" formControlName="OrigenSolicitudId">
+              <select [attr.disabled]="esVer == true ? '' : null" (ngModelChange)="cambioOrigen($event)" class="form-control form-control-lg" name="OrigenSolicitudId" formControlName="OrigenSolicitudId">
                 <option value="">Seleccione</option>
                 <option *ngFor="let origen of Origenes" [value]="origen.Id">{{origen.Valor}}</option>
               </select>
@@ -45,11 +47,11 @@
         </div>
 
         <div class="form-group">
-          <div class="col-sm-9"  *ngIf="tieneRemison || origen == 13 || solicitudOrdenTrabajoModelInput == 13" >
+          <div class="col-sm-9" *ngIf="tieneRemison || origen == 13 || solicitudOrdenTrabajoModelInput == 13">
             <div class="form-group">
               <label for="Remision" style="color: #6c757d;" class="col-sm-2 col-sm-offset-2  control-label"><b>Remision:</b></label>
               <div class="col-sm-8">
-                <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFileRemision($event)" class="form-control-file"  name="Remision" #inputFile>
+                <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFileRemision($event)" class="form-control-file" name="Remision" #inputFile>
               </div>
             </div>
           </div>
@@ -137,10 +139,25 @@
           </div>
         </div>
       </form>
+
+
+
+    </div>
+
+    <div *ngIf="accion[0] == 'Crear' ||  accion[0] == 'Procesar'  || accion[0] == 'Editar' " class="modal fade" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
     </div>
     <div class="modal-footer">
-      <button *ngIf="accion[0] == 'Crear' || accion[0] == 'Editar' || accion[0] == 'Procesar'" (click)="enviarFormulario(frmSolicitudOit.value)" data-dismiss="modal" class="btn btn-primary">{{accion[0]}}</button>
-      <button *ngIf="accion[0] == 'Ver'" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+      <button *ngIf="accion[0] == 'Crear' || accion[0] == 'Editar' || accion[0] == 'Procesar'"
+              (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar la ' + accion[0] + ' la solicitud?', true, { frmSolicitudOit : frmSolicitudOit.value})"
+              data-target="#confirmarModal"
+              data-toggle="modal"
+              class="btn btn-primary">
+        {{accion[0]}}
+      </button>
+      <button *ngIf="accion[0] == 'Ver'" data-dismiss="modal" (click)="salir()" class="btn btn-primary">Regresar</button>
     </div>
   </div>
 </div>
+
+
