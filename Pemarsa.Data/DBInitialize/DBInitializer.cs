@@ -915,7 +915,7 @@ namespace Pemarsa.Data.DBInitialize
                     {
                         Id = 3,
                         Guid = Guid.NewGuid(),
-                        Campos = "Id, Guid, Valor, Grupo, Simbolo, Estado, CatalogoId, Dia",
+                        Campos = "Id, Guid, Valor, Id",
                         Tabla = "catalogo",
                         Condicion = "Grupo = 'TIPOS_INSPECCION'",
                     }
