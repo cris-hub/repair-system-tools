@@ -19,6 +19,29 @@ namespace ProcesoES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<bool> ActualizarEstadoInspeccion(Guid guid, int estado)
+        {
+            try
+            {
+
+                ESTADOS_INSPECCION estadoInspeccion = (ESTADOS_INSPECCION)Enum.Parse(typeof(ESTADOS_INSPECCION), estado.ToString());
+
+                Inspeccion inspeccion = await _context.Inspeccion.FirstOrDefaultAsync(c => c.Guid == guid);
+
+                inspeccion.EstadoId = (int)estadoInspeccion;
+
+                _context.Update(inspeccion);
+
+                return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<bool> ActualizarEstadoProceso(Guid guid, string estado, UsuarioDTO usuarioDTO)
         {
             try
@@ -37,17 +60,30 @@ namespace ProcesoES.Repository
             catch (Exception e) { throw e; }
         }
 
+        public async Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO)
+        {
+
+            _context.Inspeccion.Update(inspeccion);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<Proceso> ConsultarProcesoPorGuid(Guid guidProceso, UsuarioDTO usuarioDTO)
         {
             try
             {
-                return await _context.Proceso
-                    .Include(c => c.OrdenTrabajo.Herramienta)
-                    .Include(c => c.OrdenTrabajo.Cliente)
-                    .Include(c => c.OrdenTrabajo.Anexos)
+                var proceso = _context.Proceso
+                            .Include(c => c.InspeccionEntrada).ThenInclude(d => d.Inspeccion)
+                            .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
+
+                            .Include(c => c.OrdenTrabajo.Herramienta)
+                            .Include(c => c.OrdenTrabajo.Cliente)
+                            .Include(c => c.OrdenTrabajo.Anexos);
 
 
-                    .FirstOrDefaultAsync(c => c.Guid == guidProceso);
+
+
+                return await proceso.FirstOrDefaultAsync(c => c.Guid == guidProceso);
+
             }
             catch (Exception e)
             {
@@ -96,7 +132,7 @@ namespace ProcesoES.Repository
                                     .Take(paginacion.CantidadRegistros);
 
 
-                await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO) );
+                await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
 
 
                 var cantidad = await _context.Proceso.CountAsync();
@@ -124,6 +160,72 @@ namespace ProcesoES.Repository
 
             var cantidad = await _context.Proceso.CountAsync();
             return new Tuple<int, IEnumerable<Proceso>>(cantidad, result);
+        }
+
+        public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion,int pieza, UsuarioDTO usuarioDTO)
+        {
+
+            try
+            {
+                var proceso = await _context.Proceso
+                    .Include(c => c.InspeccionEntrada)
+                    .Include(c => c.ProcesoInspeccionSalida)
+                    .FirstOrDefaultAsync(a => a.Guid == guidProceso);
+
+
+                Inspeccion inspeccion = new Inspeccion()
+                {
+                    TipoInspeccionId = tipoInspeccion,
+                    Guid = Guid.NewGuid(),
+                    NombreUsuarioCrea = "admin",
+                    FechaRegistro = new DateTime(),
+                    EstadoId = (int)ESTADOS_INSPECCION.ENPROCESO,
+                    Pieza = pieza
+                };
+
+                await _context.Inspeccion.AddAsync(inspeccion);
+                await _context.SaveChangesAsync();
+                inspeccion = await _context.Inspeccion.FirstOrDefaultAsync(c => c.Guid == inspeccion.Guid);
+
+
+
+                if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADAINICIAL || proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
+                {
+
+                    ProcesoInspeccionEntrada inspeccionEntrada = new ProcesoInspeccionEntrada()
+                    {
+                        ProcesoId = proceso.Id,
+                        InspeccionId = inspeccion.Id
+                    };
+
+                    _context.ProcesoInspeccionEntrada.Add(inspeccionEntrada);
+
+                }
+                else if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+
+                    ProcesoInspeccionSalida procesoInspeccionSalida = new ProcesoInspeccionSalida()
+                    {
+                        ProcesoId = proceso.Id,
+                        InspeccionId = inspeccion.Id
+                    };
+                    _context.ProcesoInspeccionSalida.Add(procesoInspeccionSalida);
+
+
+                }
+
+
+                await _context.SaveChangesAsync();
+
+                return inspeccion.Guid;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
         }
 
         public async Task<Guid> CrearProceso(Proceso proceso, UsuarioDTO usuario)

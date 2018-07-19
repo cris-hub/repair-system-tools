@@ -1,12 +1,114 @@
+<div *ngIf="esPorCantidad && !esPieza">
+  <h1 class="col-sm-offset-3">Herramientas inspeccionar</h1>
+  <div *ngIf="Proceso" class="form-group">
+    <div *ngFor="let indexHerramienta of rangoHerramientasInspeccionar(Proceso.OrdenTrabajo.CantidadInspeccionar);index">
 
+      <div class="form-group row">
+        <div class="col-md-3 col-md-offset-3">
+          <p class="form-control ">
+            {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
+            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}"  class="glyphicon glyphicon-wrench pointer pull-right"></i>
+          </p>
+        </div>
+      </div>
 
-
-<h1 class="col-sm-offset-3" >Herramientas inspeccionar</h1>
-<div class="form-group">
-  <div class="col-sm-3 col-sm-offset-3">
-    <p>doc</p>
+    </div>
   </div>
-  <div class="col-sm-5" style="padding-top:7px;float: right;">
-    <i class="glyphicon glyphicon-wrench pointer"></i>
+</div>
+
+<div *ngIf="!esPorCantidad || esPieza">
+
+
+  <h2 class="col-md-offset-3 row">{{tipoProcesoActual.Valor}}</h2>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" id="corre">
+      Herramienta:
+    </label>
+    <div class="col-md-3">
+      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.Herramienta.Nombre}} </p>
+    </div>
   </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" id="corre">
+      Cliente:
+    </label>
+    <div class="col-md-3">
+      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.Cliente.NickName}} </p>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" id="corre">
+      Serial:
+    </label>
+    <div class="col-md-1">
+      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.SerialHerramienta}} </p>
+    </div>
+
+    <label class="col-md-1 col-form-label" id="corre">
+      Tamaño:
+    </label>
+    <div class="col-md-1">
+      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.TamanoHerramienta.Tamano}} </p>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" id="corre">
+      Anexos:
+    </label>
+
+    <div class="col-md-3">
+      <div *ngFor="let anexo of Proceso.OrdenTrabajo.Anexos">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <a href="{{anexo.DocumentoAdjunto.Ruta}}" class="form-control sin-margen"><p>{{anexo.DocumentoAdjunto.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" id="corre">
+      Tipos de inspecciones:
+    </label>
+    <div class="col-md-3">
+      <select [attr.disabled]="loading == true ? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
+        <option>Seleccione</option>
+        <option *ngFor="let tipoInspeccion of tiposInspecciones" value="{{tipoInspeccion.Id}}">{{tipoInspeccion.Valor}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-md-offset-3">
+    <div  *ngFor="let inspeccion of tiposInspeccionesSeleccionadas">
+      <div class="form-group row">
+        <p class="form-control sin-margen">
+          {{inspeccion.Valor}}
+          <i *ngIf="!loading" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}" class="glyphicon glyphicon-wrench pointer pull-right"></i>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+ 
+
+  <div class="form-group row">
+    <div class="form-group row col-md-3 col-md-offset-4">
+
+      <button class=" btn" (click)="procesar();">procesar</button>
+    </div>
+
+  </div>
+
+
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { ClienteModel } from "../../../common/models/Index";
+import { ClienteModel, CatalogoModel } from "../../../common/models/Index";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ClienteService } from "../../../common/services/entity";
@@ -29,6 +29,7 @@ export class CrearClienteComponent implements OnInit {
   private frmCliente: FormGroup;
 
   private paramsCliente: ParametrosModel;
+  private responsables: CatalogoModel[];
   private estados: EntidadModel[];
 
   private cliente: ClienteModel = new ClienteModel();
@@ -79,6 +80,7 @@ export class CrearClienteComponent implements OnInit {
 
         this.paramsCliente = response;
         this.estados = response.Catalogos.filter(c => c.Grupo == 'ESTADOS_CLIENTES');
+        this.responsables = response.Catalogos.filter(c => c.Grupo == 'RESPONSABLES');
         this.getValues();
       });
   }
@@ -103,6 +105,7 @@ export class CrearClienteComponent implements OnInit {
       Direccion: [cliente.Direccion],
       EstadoId: [cliente.EstadoId],
       NickName: [cliente.NickName],
+      GuidResponsable: [cliente.GuidResponsable],
       Nit: [cliente.Nit],
       NombreResponsable: [''],//este campo debe ser actualizado con la api de seguridad
       RazonSocial: [cliente.RazonSocial],

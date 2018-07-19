@@ -41,7 +41,7 @@ namespace ClienteES.Service
                 {
                     cliente.Rut.NombreUsuarioCrea = cliente.NombreUsuarioCrea;
                     cliente.Rut.GuidUsuarioCrea = cliente.GuidUsuarioCrea;
-                    cliente.DocumentoAdjuntoId = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut, RutaServer);
+                    cliente.DocumentoAdjuntoId = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut);
                 }
                 return await _repository.CrearCliente(cliente, usuario);
             }
@@ -64,7 +64,7 @@ namespace ClienteES.Service
 
                 if (cliente.Rut != null && cliente.DocumentoAdjuntoId == null)
                 {
-                    int idDocumentoAdjuntoCreado = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut, RutaServer);
+                    int idDocumentoAdjuntoCreado = await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(cliente.Rut);
                     cliente.DocumentoAdjuntoId = idDocumentoAdjuntoCreado;
                     cliente.Rut.GuidUsuarioModifica = cliente.GuidUsuarioCrea;
                     cliente.Rut.NombreUsuarioModifica = cliente.NombreUsuarioCrea;
@@ -81,7 +81,7 @@ namespace ClienteES.Service
                     cliente.Rut.FechaModifica = DateTime.Now;
                     cliente.Rut.Id = cliente.DocumentoAdjuntoId.Value;
 
-                    await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(cliente.Rut, RutaServer);
+                    await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(cliente.Rut);
                 }
                 return await _repository.ActualizarCliente(cliente, usuario);
             }

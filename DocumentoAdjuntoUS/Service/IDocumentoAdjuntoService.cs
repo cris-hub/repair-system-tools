@@ -5,8 +5,8 @@ namespace DocumentoAdjuntoUS.Service
 {
     public interface IDocumentoAdjuntoService
     {
-        Task<int> CrearDocumentoAdjunto(DocumentoAdjunto documentoAdjunto, string RutaServer);
-        Task<bool> ActualizarDocumentoAdjunto(DocumentoAdjunto documentoAdjunto, string RutaServer);
+        Task<int> CrearDocumentoAdjunto(DocumentoAdjunto documentoAdjunto);
+        Task<bool> ActualizarDocumentoAdjunto(DocumentoAdjunto documentoAdjunto);
         Task<DocumentoAdjunto> ConsultarDocumentoAdjuntoPorId(int documentoAdjuntoId);
     }
 }

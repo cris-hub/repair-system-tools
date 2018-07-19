@@ -10,5 +10,8 @@ export class ProcesoInspeccionSalidaModel extends EntityModel {
   private ProcesoId: number;
   private Proceso: ProcesoModel;
 
-  constructor() { super(); }
+  constructor() {
+    super();
+    this.Inspeccion = new InspeccionModel;
+  }
 }

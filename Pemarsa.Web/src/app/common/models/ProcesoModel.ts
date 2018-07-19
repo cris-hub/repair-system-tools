@@ -1,48 +1,71 @@
 import { EntityModel, CatalogoModel, OrdenTrabajoModel, DetalleSoldaduraModel } from "./Index";
+import { ProcesoInspeccionEntradaModel } from "./ProcesoInspeccionEntradaModel";
+import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
 
 export class ProcesoModel extends EntityModel {
 
-  private GuidOperario: string;
-  private CantidadInspeccion: number;
-  private EsPruebaConGauge: boolean;
-  private NombreOperario: string;
-  private TrabajoRealizadoId: number
-  private TrabajoRealizar: any;
-  private EstadoId: number
-  private TipoProcesoAnteriorId: number
-  private TipoProcesoId: number
-  private TipoProcesoSiguienteId: number
-  private TipoProcesoSiguienteSugeridoId: number
-  private TipoSoldaduraId: number
-  private EquipoMedicionUtilizadoId: number
-  private NormaId: number
-  private MaquinaAsignadaId: number
-  private InstructivoId: number
-  private ProcesosRealizarId: number
-  private ProcesoSiguienteId: number
-  private ProcesoAnteriorId: number
-  private OrdenTrabajoId: number
-  private DetalleSoldaduraId: number
-  private Estado: CatalogoModel;
-  private TipoProcesoAnterior: CatalogoModel;
-  private TipoProceso: CatalogoModel;
-  private TipoProcesoSiguiente: CatalogoModel;
-  private TipoProcesoSiguienteSugerido: CatalogoModel;
-  private TipoSoldadura: CatalogoModel;
-  private EquipoMedicionUtilizado: CatalogoModel;
-  private Norma: CatalogoModel;
-  private MaquinaAsignada: CatalogoModel;
-  private Instructivo: CatalogoModel;
-  private ProcesosRealizar: ProcesoModel;
-  private ProcesoSiguiente: ProcesoModel;
-  private ProcesoAnterior: ProcesoModel;
-  private OrdenTrabajo: OrdenTrabajoModel;
-  private DetalleSoldadura: DetalleSoldaduraModel;
+  public GuidOperario: string;
+  public CantidadInspeccion: number;
+  public EsPruebaConGauge: boolean;
+  public NombreOperario: string;
+  public TrabajoRealizadoId: number
+  public TrabajoRealizar: string;
+  public Pieza: number;
+
+  public EstadoId: number;
+  public Estado: CatalogoModel;
+
+  public TipoProcesoAnteriorId: number
+  public TipoProcesoAnterior: CatalogoModel;
+
+  public TipoProcesoId: number
+  public TipoProceso: CatalogoModel;
+
+  public TipoProcesoSiguienteId: number
+  public TipoProcesoSiguiente: CatalogoModel;
+
+  public TipoProcesoSiguienteSugeridoId: number
+  public TipoProcesoSiguienteSugerido: CatalogoModel;
+
+  public TipoSoldaduraId: number
+  public TipoSoldadura: CatalogoModel;
+
+  public EquipoMedicionUtilizadoId: number
+  public EquipoMedicionUtilizado: CatalogoModel;
+
+  public NormaId: number
+  public Norma: CatalogoModel;
+
+  public MaquinaAsignadaId: number
+  public MaquinaAsignada: CatalogoModel;
+
+  public InstructivoId: number
+  public Instructivo: CatalogoModel;
+
+  public ProcesosRealizarId: number
+  public ProcesosRealizar: ProcesoModel;
+
+  public ProcesoSiguienteId: number
+  public ProcesoSiguiente: ProcesoModel;
+
+  public ProcesoAnteriorId: number
+  public ProcesoAnterior: ProcesoModel;
+
+  public OrdenTrabajoId: number
+  public OrdenTrabajo: OrdenTrabajoModel;
+
+  public DetalleSoldaduraId: number
+  public DetalleSoldadura: DetalleSoldaduraModel;
+
+  public ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel[];
+  
+  public InspeccionEntrada: ProcesoInspeccionEntradaModel[];
+
+
 
   constructor() {
     super();
-
-    this.ProcesoAnterior = new ProcesoModel();
+    this.OrdenTrabajo = new OrdenTrabajoModel();
     this.TipoProceso = new CatalogoModel();
 
   }

@@ -15,7 +15,11 @@ namespace Pemarsa.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            modelBuilder.Entity<Inspeccion>().HasAlternateKey(k => new { k.Pieza, k.TipoInspeccionId ,k.Id});
             modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
+            modelBuilder.Entity<InspeccionFotos>().HasKey(k => new { k.InspeccionId, k.DocumentoAdjuntoId });
+            modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
+
             modelBuilder.Entity<ProcesoInspeccionSalida>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
             modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
 
@@ -42,11 +46,15 @@ namespace Pemarsa.Data
         public DbSet<HerramientaMaterial> HerramientaMaterial { get; set; }
         public DbSet<SolicitudOrdenTrabajo> SolicitudOrdenTrabajo { get; set; }
         public DbSet<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
+        public DbSet<OrdenTrabajoAnexos> OrdenTrabajoAnexos { get; set; }
         public DbSet<FormatoParametro> FormatoParametro { get; set; }
         public DbSet<FormatoAdendum> FormatoAdendum { get; set; }
         public DbSet<Formato> Formato { get; set; }
         public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }
         public DbSet<Proceso> Proceso { get; set; }
+        public DbSet<ProcesoInspeccionEntrada> ProcesoInspeccionEntrada { get; set; }
+        public DbSet<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
+        public DbSet<Inspeccion> Inspeccion { get; set; }
         public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
 
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges, Output ,EventEmitter} from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel, SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
@@ -91,25 +91,38 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   initForm() {
 
+    this.attachments = new Array<AttachmentModel>();
+    this.ArchivoRemison = new AttachmentModel();
+
     if (this.solicitudOrdenTrabajoModelInput) {
       this.model.Valor = this.solicitudOrdenTrabajoModelInput.Cliente.NickName
       this.model.Id = this.solicitudOrdenTrabajoModelInput.Cliente.Id
       this.model1.Valor = this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre
       this.model1.Id = this.solicitudOrdenTrabajoModelInput.ClienteLinea.Id
       this.model1.CatalogoId = this.solicitudOrdenTrabajoModelInput.Cliente.Id
-      this.attachments = new Array<AttachmentModel>();
-      this.ArchivoRemison = new AttachmentModel();
+
       if (this.solicitudOrdenTrabajoModelInput.RemisionId) {
         this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(this.solicitudOrdenTrabajoModelInput.RemisionId).subscribe(response => {
           this.ArchivoRemison = response;
         });
       }
 
-      this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
-        this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
-          this.attachments.push(response);
+      
+        this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
+          this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
+            if (!this.attachments.find(c => c.Id == Anexo.DocumentoAdjuntoId)) {
+              this.attachments.push(response);
+              Anexo.DocumentoAdjunto = response
+
+            }
+
+
+          }, error => { this.toastr.error(error.message) }
+
+          );
         });
-      });
+      
+
 
     } else {
       this.solicitudOrdenTrabajoModelInput = new SolicitudOrdenTrabajoModel();
@@ -246,6 +259,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   eliminarAdjunto(adjunto: AttachmentModel) {
     let index: any = this.attachments.findIndex(c => c.Id == adjunto.Id);
+
     this.attachments.splice(index, 1);
   }
 
@@ -284,11 +298,10 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   enviarFormulario(datosFormulario) {
 
-   
+
     if (this.accion[0] == 'Crear') {
 
       this.crearSolicitudOit(datosFormulario);
-      this.attachments = new Array<AttachmentModel>();
 
     }
 
@@ -319,8 +332,8 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.solicitudOrdenTrabajoSrv.crearSolicitudOit(this.solicitudOrdenTrabajoModel).subscribe(response => {
       if (response) {
         this.toastr.info('creacion', 'la creacion de la solicitud ha sido correcta');
+        this.accionEvento.emit(response);
       }
-      this.accionEvento.emit(response);
     });
   }
 
@@ -330,18 +343,15 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.solicitudOrdenTrabajoModel.LineaId = this.solicitudOrdenTrabajoModel.ClienteLinea.Id;
     delete this.solicitudOrdenTrabajoModel['Cliente']
     delete this.solicitudOrdenTrabajoModel['ClienteLinea']
-    if (!this.solicitudOrdenTrabajoModel.Id) {
-      delete this.solicitudOrdenTrabajoModel['Id']
-
-    }
+    //this.solicitudOrdenTrabajoModel.Anexos = this.solicitudOrdenTrabajoModelInput.Anexos
     this.solicitudOrdenTrabajoSrv.ActualizarSolcitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
       if (response) {
-        this.toastr.info('modificacion','la modificacion de los datos ha sido correcta');
-      }
-      this.accionEvento.emit(response);
-      
-    });
-    
+        this.accionEvento.emit(response);
+      } 
+    }, error => {
+      this.toastr.error('error ', error.message);
+    }, () => {  });
+
   }
 
 

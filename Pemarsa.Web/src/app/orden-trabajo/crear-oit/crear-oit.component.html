@@ -13,83 +13,88 @@
       </div>
     </div>
     <div class="col-md-11 contenido-interno">
-      <form [formGroup]="formularioOrdenTrabajo">
+      <form [formGroup]="formularioOrdenTrabajo" class="form-horizontal">
 
         <fieldset>
           <legend>
             <b> Número de OIT:​ {{ordenTrabajo.Id}}</b>
-            <i (click)="historial(ordenTrabajo.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
-            <b class="pull-right">{{ordenTrabajo.FechaRegistro | date:'medium'}}</b>
+            <i (click)="historial(ordenTrabajo.Guid,true)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
+
           </legend>
 
         </fieldset>
 
 
-        <div class="row">
+        <div class="form-group">
 
-          <div class="col-md-6">
-            <label class="control-label">Responsable:</label>
+          <label class="col-md-2 control-label" id="corre">
+            Responsable:
+          </label>
+          <div class="col-md-4">
             <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.Responsable.Valor}}</p>
           </div>
 
-          <div class="col-md-6">
-            <div formGroupName="TipoServicio" class="form-group">
-              <label class="control-label">tipoServicio:</label>
-              <div class="controls">
-                <select formControlName="Id" class=" form-control-lg form-control select">
-                  <option *ngFor="let tipoServicio of parametrosTipoServicio.Catalogos" value="{{tipoServicio.Id}}">{{tipoServicio.Valor}}</option>
-                </select>
+          <label class="col-md-2  control-label" id="corre">
+            Fecha:
+          </label>
+          <div class="col-md-4">
+            <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.FechaRegistro | date:'medium'}}</p>
+          </div>
+
+        </div>
+        <br />
+
+
+        <div class="form-group">
+
+          <label class="col-md-2 form-label" id="corre"> Anexos:</label>
+
+          <div class="col-md-1 image-upload">
+            <label for="file-input">
+              <i class="glyphicon glyphicon-paperclip pointer"></i>
+            </label>
+            <input (change)="addFile($event)" id="file-input" type="file" multiple />
+          </div>
+
+          <div class="col-md-3 panel panel-default">
+            <div class="panel-heading">
+              <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
+              <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+              </span>
+            </div>
+            <div>
+            </div>
+            <div id="archivos" class="panel-collapse panel-collapse collapse">
+              <div class="panel-body">
+                <ul>
+                  <li *ngFor="let anexo of ordenTrabajo.Anexos">
+                    <p>{{anexo.DocumentoAdjunto.NombreArchivo}}<a href="{{anexo.DocumentoAdjunto.Ruta}}" class="pull-right"><i class="glyphicon glyphicon-download"></i></a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus"></i></p>
+
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
 
+
+          <div class="col-md-6">
+            <label class="col-md-2 control-label" id="corre"> Tipo Servicio:</label>
+            <div formGroupName="TipoServicio" class="form-group col-md-9 ">
+              <select formControlName="Id" class=" form-control-lg form-control select">
+                <option *ngFor="let tipoServicio of parametrosTipoServicio.Catalogos" value="{{tipoServicio.Id}}">{{tipoServicio.Valor}}</option>
+              </select>
+            </div>
+          </div>
         </div>
 
 
 
-
-
-
-
-
-        <!--<div class="form-group row">
-          <label class="col-md-2 col-form-label" id="corre">
-            <span>*</span>
-            Adjuntar plano:
-          </label>
-          <div class="col-md-2">
-            <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
-          </div>
-          <div class="col-md-5 col-md-offset-2">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-                <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-                  <i class="glyphicon glyphicon-chevron-down"></i>
-                </span>
-              </div>
-              <div>
-              </div>
-              <div id="archivos" class="panel-collapse panel-collapse collapse">
-                <div class="panel-body">
-                  <ul>
-                     <li *ngFor="let plano of planos">
-                      <a>{{plano.NombreArchivo}}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>-->
-
-
-
-        <div class="row">
-
-          <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-md-2 control-label">Cliente : </label>
+          <div class="col-md-9 ">
             <div class="form-group">
-              <label class="control-label"> cliente::</label>
+
               <div class="controls">
                 <input type="text" class="form-control" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
                        [resultFormatter]="formatoValorMostrar" [inputFormatter]="formatoValorMostrar" (selectItem)="cambioItemEvent($event)"
@@ -97,169 +102,24 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-md-2 control-label">Linea : </label>
+          <div class="col-md-4 ">
             <div class="form-group">
-              <label class="control-label">Linea cliente::</label>
+
               <div class="controls">
                 <input type="text" class="form-control" (ngModelChange)="consultarLineasCliente()" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
                        [resultFormatter]="formatoValorMostrarLinea" [inputFormatter]="formatoValorMostrarLinea" formControlName="Linea" />
               </div>
             </div>
           </div>
-
-        </div>
-
-        <div class="row">
-
-          <div class="col-md-6">
+          <label class="col-md-2 control-label">Serial herramienta: </label>
+          <div class="col-md-3 ">
             <div class="form-group">
-              <label class="control-label">herramienta:</label>
               <div class="controls">
-                <p-autoComplete [(ngModel)]="herramienta" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
-                                placeholder="herramienta" [suggestions]="herraminetasview" formControlName="Herramienta" field="Nombre"
-                                (completeMethod)="buscarConcidenciaHerramienta($event)">
-                </p-autoComplete>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-md-6">
-            <div formGroupName="TamanoHerramienta" class="form-group">
-              <label *ngIf="herramienta">
-                Herramienta tamaño
-                <select formControlName="Id" class=" form-control-lg form-control select">
-                  <option *ngFor="let tamano of herramienta.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-
-        </div>
-
-
-
-
-        <div class="row">
-
-
-
-          <div class="col-md-12">
-            <div *ngIf="herramienta.Materiales" formGroupName="Material" class="form-group">
-
-
-              <label *ngIf="herramienta.Materiales">
-                Material
-                <select formControlName="Id" class=" form-control-lg select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
-                  <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
-                </select>
-              </label>
-
-            </div>
-          </div>
-        </div>
-
-
-
-        <div class="row">
-
-          <div class="col-md-6">
-
-            <div class="form-group">
-              <label class="control-label">SerialHerramienta:</label>
-              <div class="controls">
-                <input formControlName="SerialHerramienta" type="text" class="form-control col-md-4">
-                <!--<p class="help-block">Responsable de la OIT</p>-->
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">SerialMaterial:</label>
-              <div class="controls">
-                <input formControlName="SerialMaterial" type="text" class="form-control col-md-4">
-                <!--<p class="help-block">Responsable de la OIT</p>-->
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-
-
-
-
-
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Cantidad:</label>
-              <div class="controls">
-                <input formControlName="Cantidad" type="text" class="form-control">
-                <!--<p class="help-block">Responsable de la OIT</p>-->
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">CantidadInspeccionar:</label>
-              <div class="controls">
-                <input formControlName="CantidadInspeccionar" type="text" class="form-control ">
-                <!--<p class="help-block">Responsable de la OIT</p>-->
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">W.O:</label>
-              <div class="controls">
-                <input formControlName="OrdenCompra" type="text" class="form-control ">
-                <p class="help-block">Orden Compra</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">RemisionCliente:</label>
-              <div class="controls">
-                <input formControlName="RemisionCliente" type="text" class="form-control col-md-4">
-                <!--<p class="help-block">Responsable de la OIT</p>-->
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        <div class="row">
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">DetallesSolicitud:</label>
-
-              <div class="controls">
-                <textarea formControlName="DetallesSolicitud" class="form-control"></textarea>
-
+                <input formControlName="SerialHerramienta" type="text" class="form-control ">
                 <!--<p class="help-block">Responsable de la OIT</p>-->
               </div>
             </div>
@@ -268,9 +128,97 @@
         </div>
 
 
+        <div class="form-group">
+          <label class="col-md-2 control-label">Herramienta : </label>
+          <div class="col-md-9 ">
+
+            <p-autoComplete [(ngModel)]="herramienta" size="93px" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
+                            placeholder="herramienta" [suggestions]="herraminetasview" formControlName="Herramienta" field="Nombre"
+                            (completeMethod)="buscarConcidenciaHerramienta($event)">
+            </p-autoComplete>
+
+          </div>
+        </div>
+
+
+        <div class="form-group">
+
+          <div formGroupName="TamanoHerramienta" *ngIf="herramienta">
+            <label class="col-md-2 control-label">Tamaño herramienta : </label>
+            <div class="col-md-4 ">
+              <select formControlName="Id" class=" form-control-lg form-control select">
+                <option *ngFor="let tamano of herramienta.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
+              </select>
+            </div>
+          </div>
 
 
 
+          <div class="col-md-6">
+            <label class="col-md-3 control-label">Prioridad : </label>
+            <div class="form-group col-md-8  ">
+              <select formControlName="PrioridadId" class=" form-control-lg form-control select">
+                <option *ngFor="let Prioridad of parametrosPrioridadOrdenTrabajo.Catalogos" value="{{Prioridad.Id}}">{{Prioridad.Valor}}</option>
+              </select>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Cantidad : </label>
+          <div class="col-md-4 ">
+            <input formControlName="Cantidad" type="number" class="form-control">
+          </div>
+
+          <label class="col-md-2 control-label">Cantidad inspeccionar : </label>
+          <div class="col-md-3 ">
+            <input formControlName="CantidadInspeccionar" type="number" class="form-control ">
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Serial material : </label>
+          <div class="col-md-9 ">
+            <input formControlName="SerialMaterial" type="text" class="form-control col-md-4">
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="herramienta.Materiales" formGroupName="Material">
+          <label class="col-md-2 control-label">Materiales herramienta : </label>
+          <div *ngIf="herramienta.Materiales" class="col-md-9 ">
+            <select formControlName="Id" class=" col-md-4 form-control-lg form-control select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
+              <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
+            </select>
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Remision cliente:</label>
+          <div class="col-md-4 ">
+            <input formControlName="RemisionCliente" type="number" class="form-control">
+
+          </div>
+
+          <label class="col-md-2 control-label">W.O : </label>
+          <div class="col-md-3 ">
+            <input formControlName="OrdenCompra" type="number" class="form-control ">
+            <p class="help-block">Orden Compra</p>
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Detalle de la solicitud: </label>
+          <div class="col-md-9 ">
+            <textarea formControlName="DetallesSolicitud" class="form-control"></textarea>
+          </div>
+        </div>
 
         <div class="form-group row">
           <div class="col-md-12">
@@ -288,12 +236,15 @@
             </div>
           </div>
         </div>
+
+
+
       </form>
     </div>
   </div>
 </div>
 
-<div *ngIf="esVer" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
+<div *ngIf="verHistorial" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
      aria-hidden="true">
   <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
 </div>

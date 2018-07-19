@@ -23,7 +23,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.ActualizarDocumentoAdjunto(documentoAdjunto, "s"));
+                return Ok(await _service.ActualizarDocumentoAdjunto(documentoAdjunto));
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.CrearDocumentoAdjunto(documentoAdjunto, "s"));
+                return Ok(await _service.CrearDocumentoAdjunto(documentoAdjunto));
             }
             catch (Exception ex)
             {

@@ -19,6 +19,7 @@
     <Compile Remove="Migrations\20180628161230_changes.cs" />
     <Compile Remove="Migrations\20180629163600_procesos.cs" />
     <Compile Remove="Migrations\20180709205935_propiedad-remision-solicitud-orden-trabajo.cs" />
+    <Compile Remove="Migrations\20180716145305_pieza-inspeccionada-cuando-es-por-cantidad.cs" />
   </ItemGroup>
 
   <ItemGroup>

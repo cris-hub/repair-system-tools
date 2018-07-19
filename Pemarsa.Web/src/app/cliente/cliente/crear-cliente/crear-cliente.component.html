@@ -53,8 +53,11 @@
               Adjuntar RUT:
             </label>
             <div *ngIf="esVer == false" class="col-md-8">
-              <a  *ngIf="cliente.Rut" [href]="cliente.Rut.Ruta" >{{cliente.Rut.NombreArchivo}}</a>
-              <input type="file" (change)="addFile($event)" class="form-control" formControlName="Rut" name="Rut">
+              <div>
+                <a *ngIf="cliente.Rut.NombreArchivo || cliente.Rut.Ruta " class="form-control" [href]="cliente.Rut.Ruta">{{cliente.Rut.NombreArchivo}}</a>
+              </div>
+              
+              <input type="file" (change)="addFile($event)" class="form-control-file" formControlName="Rut" name="Rut">
             </div>
             <div *ngIf="esVer" class="col-md-8">
               <a (click)="descargarAdjunto()" class="btn btn-sm col-sm-2" name="DocumentoAdjunto">Descargar Adjunto</a>
@@ -107,8 +110,10 @@
               *Responsable:
             </label>
             <div class="col-md-8">
-              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
+              <select formControlName="GuidResponsable" [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
                 <option>Seleccione</option>
+                <option *ngFor="let responsable of responsables" [value]="responsable.Guid">{{responsable.Valor}}</option>
+
               </select>
             </div>
           </div>

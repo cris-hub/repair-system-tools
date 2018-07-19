@@ -16,6 +16,7 @@ import { ListarOitComponent } from './orden-trabajo/listar-oit/listar-oit.compon
 import { CrearOitComponent } from './orden-trabajo/crear-oit/crear-oit.component';
 import { ListarInspeccionesComponent } from './proceso/inspeccion/listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './proceso/inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
+import { VrComponent } from './proceso/inspeccion/vr/vr.component';
 
 const routes: Routes = [
 
@@ -48,6 +49,10 @@ const routes: Routes = [
   //Procesos
   { path: 'inspeccion/entrada', component: ListarInspeccionesComponent },
   { path: 'inspeccion/entrada/:id', component: InspeccionHerramientaComponent },
+  { path: 'inspeccion/entrada/:id/:index', component: InspeccionHerramientaComponent },
+  { path: 'inspeccion/entrada/vr/:id/:index', component: VrComponent },
+  { path: 'inspeccion/entrada/vr/:id', component: VrComponent },
+
 
 
 

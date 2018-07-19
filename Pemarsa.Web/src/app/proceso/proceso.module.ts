@@ -8,6 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ListarInspeccionesComponent } from './inspeccion/listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
+import { VrComponent } from './inspeccion/vr/vr.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { InspeccionHerramientaComponent } from './inspeccion/inspeccion-herramie
     UtilModule,
     NgxPaginationModule
   ],
-  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent]
+  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VrComponent]
+  
 })
 export class ProcesoModule { }

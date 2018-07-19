@@ -6,6 +6,7 @@ import { ValidacionDirective } from '../directivas/validacion/validacion.directi
 import { AutocompletarComponent } from '../directivas/autocompletar/autocompletar.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
 
 @NgModule({
   imports: [
@@ -19,14 +20,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PaginationComponent,
     ConfirmacionComponent,
     ValidacionDirective,
-    AutocompletarComponent
+    AutocompletarComponent,
+    PemarsaStringFormat
+   
   ],
 
   exports: [
     PaginationComponent,
     ConfirmacionComponent,
     ValidacionDirective,
-    AutocompletarComponent
+    AutocompletarComponent,
+    PemarsaStringFormat
+
   ],
 
   providers: [

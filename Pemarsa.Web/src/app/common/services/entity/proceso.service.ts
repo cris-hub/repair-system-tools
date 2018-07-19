@@ -45,4 +45,16 @@ export class ProcesoService {
     });
   }
 
+  public crearInspeccion(guidProceso: string, tipoInspeccion:number,pieza): Observable<string> {
+    return this.http.post<string>(this.urlServer + 'CrearInspeccion?guidProceso=' + guidProceso + '&tipoInspeccion=' + tipoInspeccion + '&pieza=' + pieza,{
+      headers: this.header
+    });
+  }
+  public actualizarEstadoInspeccion(guidInspeccion: string, estado: number): Observable<string> {
+    return this.http.put<string>(this.urlServer + 'ActualizarEstadoInspeccion?guidInspeccion=' + guidInspeccion + '&estado=' + estado,{
+      headers: this.header
+    });
+  }
+
+
 }

@@ -18,8 +18,8 @@ namespace Pemarsa.CanonicalModels
 
         public struct Especificacion
         {
-            public const string Prueba = "Prueba";
-            public const string Prueba1 = "Prueba1";
+            public const string Incosistencias = "Incosistencias";
+            public const string Reparacion = "Reparacion";
         }
 
         public struct Estados
@@ -46,6 +46,14 @@ namespace Pemarsa.CanonicalModels
 
             public struct Proceso
             {
+
+                public struct Inspeccion
+                {
+                    public const string EnProceso = "En Proceso";
+                    public const string Anulada = "Anulada​";
+
+                }
+
                 public const string Pendiente = "Pendiente";
                 public const string Asignado = "Asignado​";
                 public const string Completado = "Completado​";
@@ -67,9 +75,15 @@ namespace Pemarsa.CanonicalModels
 
             public struct Materiales
             {
-                public const string Prueba = "Prueba";
-                public const string Prueba1 = "Prueba1";
-                public const string Prueba2 = "Prueba2";
+                public const string Aluminio = "Aluminio";
+                public const string Oro = "Oro";
+                public const string Azufre = "Azufre";
+                public const string Valvula = "Válvula";
+                public const string Motor = "Motor";
+                public const string VigaOscilante = "Viga Oscilante";
+                public const string Cable = "Cable";
+                public const string Oleoducto = "Oleoducto";
+                public const string Tubos = "Tubos";
             }
 
             public struct Formato
@@ -214,6 +228,7 @@ namespace Pemarsa.CanonicalModels
             public const string PrioridadOrdenTrabajo = "PRIORIDAD_ORDENTRABAJO";
             public const string TipoServicioOrdenTrabajo = "TIPO_SERVICIO_ORDEN_TRABAJO";
             public const string EstadosProceso = "ESTADOS_PROCESO";
+            public const string EstadosInspeccion = "ESTADOS_INSPECCION";
             public const string EquipoMedicionUtilizado = "EQUIPO_MEDICION_UTILIZADO_PROCESO";
             public const string Estado = "ESTADO_PROCESO";
             public const string Instructivo = "INSTRUCTIVO_PROCESO";

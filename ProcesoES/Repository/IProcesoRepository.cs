@@ -15,5 +15,8 @@ namespace ProcesoES.Repository
         Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipo(int tipoProceso, Paginacion paginacion, UsuarioDTO usuarioDTO);
         Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipoPorFiltro(ParametrosProcesosoDTO parametrosDTO, UsuarioDTO usuarioDTO);
         Task<Proceso> ConsultarProcesoPorId(int idProceso, UsuarioDTO usuarioDTO);
+        Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza, UsuarioDTO usuarioDTO);
+        Task<bool> ActualizarEstadoInspeccion(Guid guid, int estado);
+        Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO);
     }
 }

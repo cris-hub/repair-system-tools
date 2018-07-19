@@ -12,6 +12,7 @@ namespace ProcesoES.Service
     public class ProcesoService : IProcesoService
     {
         private readonly IProcesoRepository _procesoRepository;
+
         private PemarsaContext _context;
 
         public ProcesoService(PemarsaContext context)
@@ -99,6 +100,29 @@ namespace ProcesoES.Service
 
                 throw e;
             }
+        }
+
+        public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza,UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                return await _procesoRepository.CrearInspeccion(guidProceso, tipoInspeccion, pieza, usuarioDTO);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarEstadoInspeccion(Guid guid, int estado, UsuarioDTO usuarioDTO)
+        {
+            return await _procesoRepository.ActualizarEstadoInspeccion(guid, estado);
+        }
+
+        public async Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO)
+        {
+            return await _procesoRepository.ActualizarInspección(inspeccion, usuarioDTO);
         }
     }
 

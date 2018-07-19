@@ -86,6 +86,18 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Proceso.Rechazado,
                         Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
+                        Id = 77,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Inspeccion.EnProceso,
+                        Grupo = CanonicalConstants.Grupos.EstadosInspeccion,
+                    },
+                      new Catalogo{
+                        Id = 78,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Inspeccion.Anulada,
+                        Grupo = CanonicalConstants.Grupos.EstadosInspeccion,
                     }
                 };
 
@@ -103,21 +115,58 @@ namespace Pemarsa.Data.DBInitialize
                     new Catalogo{
                         Id = 3,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Materiales.Prueba,
+                        Valor = CanonicalConstants.Tipos.Materiales.Aluminio,
                         Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
                     },
                     new Catalogo{
                         Id = 4,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Materiales.Prueba1,
+                        Valor = CanonicalConstants.Tipos.Materiales.Oro,
                         Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
                     },
                     new Catalogo{
                         Id = 5,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Materiales.Prueba2,
+                        Valor = CanonicalConstants.Tipos.Materiales.Azufre,
                           Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
                     },
+                    new Catalogo{
+                        Id = 71,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Valvula,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 72,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Motor,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 73,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.VigaOscilante,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 74,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Cable,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 75,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Oleoducto,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    },
+                    new Catalogo{
+                        Id = 76,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Materiales.Tubos,
+                          Grupo = CanonicalConstants.Grupos.HerramientasMateriales,
+                    }
+                    ,
                     new Catalogo{
                         Id = 18,
                         Guid = Guid.NewGuid(),
@@ -282,13 +331,13 @@ namespace Pemarsa.Data.DBInitialize
                     new Catalogo{
                         Id = 20,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Especificacion.Prueba,
+                        Valor = CanonicalConstants.Especificacion.Incosistencias,
                         Grupo = CanonicalConstants.Grupos.Especificacion
                     },
                     new Catalogo{
                         Id = 21,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Especificacion.Prueba1,
+                        Valor = CanonicalConstants.Especificacion.Reparacion,
                         Grupo = CanonicalConstants.Grupos.Especificacion
                      }
                 };
@@ -592,6 +641,19 @@ namespace Pemarsa.Data.DBInitialize
                            );
                             }
                             break;
+                        case CanonicalConstants.Grupos.EstadosInspeccion:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == estado.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.AddRange
+                           (
+                               new ParametroCatalogo
+                               {
+                                   CatalogoId = estado.Id,
+                                   Entidad = CanonicalConstants.Entidades.Proceso
+                               }
+                           );
+                            }
+                            break;
                     }
                 }
                 // Tipos //
@@ -750,6 +812,17 @@ namespace Pemarsa.Data.DBInitialize
                                 {
                                     CatalogoId = responsable.Id,
                                     Entidad = CanonicalConstants.Entidades.OrdenTrabajo
+                                }
+                                );
+                            }
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == responsable.Id) && (pc.Entidad == CanonicalConstants.Entidades.Cliente)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = responsable.Id,
+                                    Entidad = CanonicalConstants.Entidades.Cliente
                                 }
                                 );
                             }

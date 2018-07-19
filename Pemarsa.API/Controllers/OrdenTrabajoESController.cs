@@ -31,16 +31,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                //se obtiene la informacion del appsettings
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json");
-
-                //se obtiene la configuracion establecida en el appsettings
-                Configuration = builder.Build();
-
-                var pathServer = Configuration["FileServer:VirtualPath"];
-                return Ok(await _ordenTrabajoServicio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo, pathServer, new UsuarioDTO()));
+                return Ok(await _ordenTrabajoServicio.CrearSolicitudDeTrabajo(solicitudOrdenTrabajo,  new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -117,17 +108,8 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                //se obtiene la informacion del appsettings 
-                var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
 
-                // se obtiene la configuracion establecida en el appsettings 
-                Configuration = builder.Build();
-
-                var pathServer = Configuration["FileServer:VirtualPath"];
-
-                return Ok(await _ordenTrabajoServicio.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo, pathServer, new UsuarioDTO()));
+                return Ok(await _ordenTrabajoServicio.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo, new UsuarioDTO()));
             }
             catch (Exception e)
             {
@@ -141,17 +123,7 @@ namespace Pemarsa.API.Controllers
             try
             {
 
-
-                //se obtiene la informacion del appsettings
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json");
-
-                //se obtiene la configuracion establecida en el appsettings
-                Configuration = builder.Build();
-
-                var pathServer = Configuration["FileServer:VirtualPath"];
-                Guid OrdenDeTrabajoGuid = await _ordenTrabajoServicio.CrearOrdenDeTrabajo(ordenTrabajo, pathServer, new UsuarioDTO());
+                Guid OrdenDeTrabajoGuid = await _ordenTrabajoServicio.CrearOrdenDeTrabajo(ordenTrabajo,  new UsuarioDTO());
 
                 return Ok(OrdenDeTrabajoGuid);
             }
@@ -177,6 +149,7 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpGet("ConsultarHistorialModificacionesOrdenDeTrabajo")]
         public async Task<IActionResult> ConsultarHistorialModificacionesOrdenDeTrabajo([FromQuery]string guidProceso, Paginacion paginacion)
         {

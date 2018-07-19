@@ -9,7 +9,7 @@ namespace OrdenTrabajoES.Service
 {
     public interface IOrdenTrabajoService
     {
-        Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer, UsuarioDTO usuario);
+        Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario);
 
         Task<SolicitudOrdenTrabajo> ConsultarSolicitudDeTrabajoPorGuid(Guid guidSolicitudOrdenTrabajo, UsuarioDTO usuario);
 
@@ -19,9 +19,9 @@ namespace OrdenTrabajoES.Service
 
         Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado, UsuarioDTO usuario);
 
-        Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer, UsuarioDTO usuario);
+        Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario);
 
-        Task<Guid> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, string RutaServer, UsuarioDTO usuario);
+        Task<Guid> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, UsuarioDTO usuario);
 
         Task<OrdenTrabajo> ConsultarOrdenDeTrabajoPorGuid(string guidOrdenDeTrabajoPor, UsuarioDTO usuario);
 

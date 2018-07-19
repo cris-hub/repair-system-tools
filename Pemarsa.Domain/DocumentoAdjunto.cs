@@ -28,6 +28,8 @@ namespace Pemarsa.Domain
         public int? FormatoId { get; set; }
         public virtual Formato Formato { get; set; }
         public virtual ICollection<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
+        public virtual IEnumerable<InspeccionFotos> InspeccionFotos { get; set; }
+
 
 
     }

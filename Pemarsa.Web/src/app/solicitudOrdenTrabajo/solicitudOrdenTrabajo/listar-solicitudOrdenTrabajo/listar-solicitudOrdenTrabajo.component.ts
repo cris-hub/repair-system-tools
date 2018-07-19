@@ -116,6 +116,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
 
   persistenciaDatosResponse(evento) {
     if (evento) {
+      this.toastr.info(this.accion[0]+'Ok');
       this.consultarSolicitudesDeTrabajo();
     }
     

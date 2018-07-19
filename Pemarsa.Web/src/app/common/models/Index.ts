@@ -19,10 +19,12 @@ export * from './FormatoModel';
 export * from './FormatoAdendumModel';
 export * from './FormatoParametroModel';
 export * from './OrdenTrabajoModel';
+export * from './OrdenTrabajoAnexosModel';
 export * from './OrdenTrabajoHistorialModificacionModel';
 export * from './ProcesoModel';
 export * from './DetalleSoldaduraModel';
 export * from './InspeccionModel';
+export * from './InspeccionFotosModel';
 
 
 

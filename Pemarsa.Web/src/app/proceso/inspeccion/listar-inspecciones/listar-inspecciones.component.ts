@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ListarInspeccionesComponent implements OnInit {
 
   private paginacion: PaginacionModel = new PaginacionModel(1, 10);
-  private tipoProcesoActual: CatalogoModel = new CatalogoModel();;
+  private tipoProcesoActual: CatalogoModel = new CatalogoModel();
   private Paramtros: ParametrosModel;
   private tipoProcesos: CatalogoModel[];
   private Procesos: Array<ProcesoModel>;
@@ -34,7 +34,6 @@ export class ListarInspeccionesComponent implements OnInit {
 
 
   ngOnInit() {
-    this.obtenerTipoInspeccionDesdeUrl();
     this.consultarParemtros();
   }
 
@@ -73,11 +72,6 @@ export class ListarInspeccionesComponent implements OnInit {
       });
     }
   }
-
-
-
-
-
 
 
   primeraLetraMayuscula(string) {

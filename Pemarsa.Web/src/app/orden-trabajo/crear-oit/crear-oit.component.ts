@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ParametroService } from '../../common/services/entity/parametro.service';
-import { ParametrosModel, OrdenTrabajoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaModel, HerramientaMaterialModel, HerramientaTamanoModel, SolicitudOrdenTrabajoModel } from '../../common/models/Index';
+import { ParametrosModel, OrdenTrabajoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaModel, HerramientaMaterialModel, HerramientaTamanoModel, SolicitudOrdenTrabajoModel, AttachmentModel, OrdenTrabajoAnexosModel, CatalogoModel } from '../../common/models/Index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
@@ -19,6 +19,9 @@ import { ConfirmacionComponent } from '../../common/directivas/confirmacion/conf
   styleUrls: ['./crear-oit.component.css']
 })
 export class CrearOitComponent implements OnInit {
+
+  
+  verHistorial: false;
   private oit: any;
   //directiva en html
   @ViewChild(ConfirmacionComponent) confimar: ConfirmacionComponent;
@@ -26,17 +29,18 @@ export class CrearOitComponent implements OnInit {
 
   //formulario
   private formularioOrdenTrabajo: FormGroup;
+  private anexos: any = [];
 
   //parametros catalogo
   private parametrosTipoServicio: ParametrosModel = new ParametrosModel();
-
+  private parametrosPrioridadOrdenTrabajo: ParametrosModel = new ParametrosModel();
   //objeto formulario
   private ordenTrabajo: OrdenTrabajoModel;
   private solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
 
 
   //id que viene de la uri
-  private idOrdenDeTrabajo;
+  private idOrdenDeTrabajoDesdeUrl;
 
   // acciones
   private esVer: boolean = false;
@@ -94,6 +98,7 @@ export class CrearOitComponent implements OnInit {
     this.parametroSrv.consultarParametrosPorEntidad('ORDEN_TRABAJO')
       .subscribe(response => {
         this.parametrosTipoServicio.Catalogos = response.Catalogos.filter(tipoServicio => { return tipoServicio.Grupo == 'TIPO_SERVICIO_ORDEN_TRABAJO' });
+        this.parametrosPrioridadOrdenTrabajo.Catalogos = response.Catalogos.filter(tipoServicio => { return tipoServicio.Grupo == 'PRIORIDAD_ORDENTRABAJO' });
 
       });
   }
@@ -216,10 +221,17 @@ export class CrearOitComponent implements OnInit {
   }
 
   obtenerOrdenTrabajoURI() {
-    this.idOrdenDeTrabajo = this.activeRoute.snapshot.paramMap.get('id');
+    this.idOrdenDeTrabajoDesdeUrl = this.activeRoute.snapshot.paramMap.get('id');
   }
 
   asignarValoresSolitudOrdenTrabajo(solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel, ordenTrabajo: OrdenTrabajoModel) {
+    
+    solicitudOrdenTrabajo.Anexos.forEach(anexo => {
+      let anexoOrdenTrabajo: OrdenTrabajoAnexosModel = new OrdenTrabajoAnexosModel();
+      delete anexo.DocumentoAdjunto['SolicitudOrdenTrabajoAnexos'];
+      anexoOrdenTrabajo.DocumentoAdjunto = anexo.DocumentoAdjunto
+      ordenTrabajo.Anexos.push(anexoOrdenTrabajo);
+    })
     ordenTrabajo.Cantidad = solicitudOrdenTrabajo.Cantidad,
       ordenTrabajo.CantidadInspeccionar = solicitudOrdenTrabajo.CantidadInspeccionar,
       ordenTrabajo.Cotizacion = solicitudOrdenTrabajo.Cotizacion,
@@ -238,7 +250,7 @@ export class CrearOitComponent implements OnInit {
   consultarOrdenTrabajo() {
     this.inicializarFormulario(new OrdenTrabajoModel());
     if (this.accionRealizarTituloPagina == 'Procesar') {
-      this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajo).subscribe(response => {
+      this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
         this.solicitudOrdenTrabajo = response;
         this.asignarValoresSolitudOrdenTrabajo(this.solicitudOrdenTrabajo, this.ordenTrabajo)
         this.inicializarFormulario(this.ordenTrabajo)
@@ -246,8 +258,8 @@ export class CrearOitComponent implements OnInit {
       });
     }
     else {
-      if (!this.esNueva || this.idOrdenDeTrabajo) {
-        this.ordenTrabajoServicio.consultarOrdenDeTrabajoPorGuid(this.idOrdenDeTrabajo).subscribe(response => {
+      if (!this.esNueva || this.idOrdenDeTrabajoDesdeUrl) {
+        this.ordenTrabajoServicio.consultarOrdenDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
           this.ordenTrabajo = response;
           response.Herramienta != null ? this.herramienta = response.Herramienta : this.herramienta = new HerramientaModel();
           response.Material != null ? this.ordenTrabajo.Material = response.Material : this.ordenTrabajo.Material = new HerramientaMaterialModel();
@@ -261,7 +273,7 @@ export class CrearOitComponent implements OnInit {
     }
 
 
-    
+
 
 
   }
@@ -294,7 +306,7 @@ export class CrearOitComponent implements OnInit {
       RemisionCliente: [ordenTrabajo.RemisionCliente],
       SerialHerramienta: [ordenTrabajo.SerialHerramienta],
       SerialMaterial: [ordenTrabajo.SerialMaterial],
-
+      PrioridadId : [ordenTrabajo.PrioridadId],
       ProvieneDeSolicitud: [ordenTrabajo.SolicitudOrdenTrabajo ? true : false],
 
 
@@ -365,26 +377,36 @@ export class CrearOitComponent implements OnInit {
   }
 
   persistirOrdenTrabajo(objeto) {
+  
     switch (this.accionRealizar()) {
       case 'Editar':
         this.ordenTrabajoServicio.actualizarOrdenDeTrabajo(objeto).subscribe(response => {
-
+          if (response) {
+            this.toastrService.success('correcto', 'accion' + this.accionRealizar())
+            this.router.navigate(['/oit']);
+          }
         });
         break;
       case 'Crear Nueva OIT':
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
-
+          if (response) {
+            this.toastrService.success('correcto', 'accion' + this.accionRealizar())
+            this.router.navigate(['/oit']);
+          }
         });;
         break;
       case 'Procesar':
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
-
+          if (response) {
+            this.toastrService.success('correcto', 'accion' + this.accionRealizar())
+            this.router.navigate(['/oit']);
+          }
         });;
         break;
 
     }
-    this.toastrService.success('correcto', 'accion' + this.accionRealizar())
-    this.router.navigate(['/oit']);
+    
+    
   }
 
 
@@ -397,12 +419,79 @@ export class CrearOitComponent implements OnInit {
 
   }
 
-  historial(ordenTrabajo) {
+  historial(ordenTrabajo, verHistorial) {
     this.oit = ordenTrabajo;
-    this.esVer = true;
+    this.verHistorial = verHistorial
+
   }
 
   herramientaValor(evento) {
     console.log(evento)
+  }
+
+
+
+  addFile(event: any) {
+    try {
+      let reader = new FileReader();
+      if (event.target.files && event.target.files.length > 0) {
+        let file = event.target.files[0];
+        reader.readAsDataURL(file);
+        reader.onload = (e: any) => {
+          let attachment: AttachmentModel = this.leerArchivo(reader, file);
+
+          //estos campo debe ser actualizado con la api de seguridad
+          this.llenarDatosDeSeguidad(attachment);
+
+          this.anexos.push(attachment);
+
+
+          let ordenTrabajoAnexosModel: OrdenTrabajoAnexosModel = this.crearNuevoAnexo(attachment);
+
+
+
+          this.InstaciarAnexos();
+
+
+          this.ordenTrabajo.Anexos.push(ordenTrabajoAnexosModel);
+
+        }
+      }
+
+
+    } catch (ex) {
+    }
+  }
+
+  private InstaciarAnexos() {
+    if (this.ordenTrabajo.Anexos == null || this.ordenTrabajo.Anexos == undefined) {
+      this.ordenTrabajo.Anexos = new Array<OrdenTrabajoAnexosModel>();
+    }
+  }
+
+  private crearNuevoAnexo(attachment: AttachmentModel) {
+    let ordenTrabajoAnexosModel: OrdenTrabajoAnexosModel = new OrdenTrabajoAnexosModel();
+    ordenTrabajoAnexosModel.DocumentoAdjunto = attachment;
+    ordenTrabajoAnexosModel.Estado = true;
+    return ordenTrabajoAnexosModel;
+  }
+
+  private leerArchivo(reader: FileReader, file: any) {
+    let attachment: AttachmentModel = new AttachmentModel();
+    attachment.Extension = reader.result.split(',')[0];
+    attachment.NombreArchivo = file.name;
+    attachment.Nombre = file.name;
+    attachment.Stream = reader.result.split(',')[1];
+    return attachment;
+  }
+
+  private llenarDatosDeSeguidad(attachment: AttachmentModel) {
+    attachment.NombreUsuarioCrea = 'Admin';
+    attachment.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
+    attachment.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
+  }
+
+  eliminarAdjunto(anexo) {
+
   }
 }

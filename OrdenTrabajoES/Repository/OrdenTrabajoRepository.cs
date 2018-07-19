@@ -8,6 +8,7 @@ using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
 
+
 namespace OrdenTrabajoES.Repository
 {
     public class OrdenTrabajoRepository : IOrdenTrabajoRepository
@@ -65,7 +66,9 @@ namespace OrdenTrabajoES.Repository
                 List<OrdenTrabajoHistorialModificacion> ModificacionOrdenTrabajo = new List<OrdenTrabajoHistorialModificacion>();
 
                 OrdenTrabajo ordenTrabajoBD = await _context.OrdenTrabajo
+
                     .Include(c => c.Cliente)
+                    .Include(c => c.Anexos)
                     .Include(c => c.Linea)
                     .Include(c => c.Herramienta)
                     .Include(c => c.TamanoHerramienta)
@@ -80,7 +83,7 @@ namespace OrdenTrabajoES.Repository
 
 
                 ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
-
+                ordenTrabajoBD.Anexos = ordenTrabajo.Anexos;
 
                 ordenTrabajoBD.HerramientaId = ordenTrabajo.Herramienta.Id;
                 ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
@@ -94,16 +97,16 @@ namespace OrdenTrabajoES.Repository
                     if (entry.IsModified)
                     {
 
-                    ModificacionOrdenTrabajo.Add(new OrdenTrabajoHistorialModificacion()
-                    {
-                        UsuarioModifica = "admin",
-                        OrdenTrabajoId = ordenTrabajoBD.Id,
-                        Campo = entry.Metadata.Name,
-                        ValorAnterior = entry.OriginalValue == null ? "desconocidos" : entry.OriginalValue.ToString(),
-                        FechaModificacion = DateTime.Now,
-                        Guid = Guid.NewGuid(),
-                        GuidUsuarioModifica = Guid.NewGuid()
-                    });
+                        ModificacionOrdenTrabajo.Add(new OrdenTrabajoHistorialModificacion()
+                        {
+                            UsuarioModifica = "admin",
+                            OrdenTrabajoId = ordenTrabajoBD.Id,
+                            Campo = entry.Metadata.Name,
+                            ValorAnterior = entry.OriginalValue == null ? "desconocidos" : entry.OriginalValue.ToString(),
+                            FechaModificacion = DateTime.Now,
+                            Guid = Guid.NewGuid(),
+                            GuidUsuarioModifica = Guid.NewGuid()
+                        });
                     }
 
                     Console.WriteLine(
@@ -117,12 +120,11 @@ namespace OrdenTrabajoES.Repository
 
 
 
-                await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
+               var changes =  await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
 
 
-
-                return await _context.SaveChangesAsync() > 0;
-            }
+                
+                return changes;            }
             catch (Exception e) { throw e; }
         }
 
@@ -130,6 +132,9 @@ namespace OrdenTrabajoES.Repository
         {
             try
             {
+                
+
+
                 _context.SolicitudOrdenTrabajo.Update(solicitudOrdenTrabajo);
 
                 return await _context.SaveChangesAsync() > 0;
@@ -157,7 +162,8 @@ namespace OrdenTrabajoES.Repository
 
             try
             {
-                return await _context.OrdenTrabajo
+           OrdenTrabajo ordenTrabajo = await _context.OrdenTrabajo
+                    .Include(c => c.Anexos)
                     .Include(c => c.Cliente)
                     .Include(c => c.Linea)
                     .Include(c => c.Herramienta)
@@ -171,6 +177,12 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Responsable)
                     .FirstOrDefaultAsync(c => c.Guid.ToString() == guidOrdenDeTrabajo);
 
+                ordenTrabajo.Anexos = await _context.OrdenTrabajoAnexos
+                  .Include(c => c.DocumentoAdjunto)
+                  .Include(c => c.OrdenTrabajo)
+                  .Where(c => c.OrdenTrabajo.Guid.ToString() == guidOrdenDeTrabajo).ToListAsync();
+
+                return ordenTrabajo;
             }
             catch (Exception)
             {
@@ -231,15 +243,22 @@ namespace OrdenTrabajoES.Repository
         {
             try
             {
-                return await _context.SolicitudOrdenTrabajo
-                    .Include(c => c.Anexos)
-                    .Include(c => c.Cliente)
-                    .Include(c => c.ClienteLinea)
-                    .Include(c => c.Estado)
-                    .Include(c => c.OrigenSolicitud)
-                    .Include(c => c.Prioridad)
-                    .Include(c => c.Responsable)
-                    .FirstOrDefaultAsync(c => c.Guid == guidSolicitudOrdenTrabajo);
+                SolicitudOrdenTrabajo Solicitud = await _context.SolicitudOrdenTrabajo
+                   .Include(c => c.Anexos)
+                   .Include(c => c.Cliente)
+                   .Include(c => c.ClienteLinea)
+                   .Include(c => c.Estado)
+                   .Include(c => c.OrigenSolicitud)
+                   .Include(c => c.Prioridad)
+                   .Include(c => c.Responsable)
+                   .FirstOrDefaultAsync(c => c.Guid == guidSolicitudOrdenTrabajo);
+
+                Solicitud.Anexos = await _context.SolicitudOrdenTrabajoAnexos
+                    .Include(c => c.DocumentoAdjunto)
+                    .Include(c => c.SolicitudOrdenTrabajo)
+                    .Where(c => c.SolicitudOrdenTrabajo.Guid == guidSolicitudOrdenTrabajo).ToListAsync();
+
+                return Solicitud;
             }
             catch (Exception) { throw; }
         }

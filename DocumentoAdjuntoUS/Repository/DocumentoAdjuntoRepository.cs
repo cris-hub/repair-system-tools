@@ -76,7 +76,12 @@ namespace DocumentoAdjuntoUS.Repository
         {
             try
             {
-                documentoAdjunto.Guid = Guid.NewGuid();
+                if (documentoAdjunto.Guid != null)
+                {
+                    documentoAdjunto.Guid = Guid.NewGuid();
+
+                }
+               
                 documentoAdjunto.FechaRegistro = DateTime.Now;
                 documentoAdjunto.Descripcion = "DocumentoAdjunto";
 

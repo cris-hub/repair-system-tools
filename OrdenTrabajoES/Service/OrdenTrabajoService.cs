@@ -39,25 +39,36 @@ namespace OrdenTrabajoES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer, UsuarioDTO usuario)
+        public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario)
         {
             try
             {
-
+                
                 if (solicitudOrdenTrabajo.Remision != null )
                 {
-                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision, RutaServer);
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision);
                 }
                 foreach (var anexo in solicitudOrdenTrabajo.Anexos)
                 {
-                    if (anexo.DocumentoAdjunto != null)
+
+                    anexo.SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id;
+                    if (anexo.DocumentoAdjunto.Id != 0)
                     {
-                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto, RutaServer);
+                        await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(anexo.DocumentoAdjunto);
+
+                    }
+
+                    if (anexo.DocumentoAdjunto != null && anexo.DocumentoAdjunto.Id == 0)
+                    {
+                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto);
 
                     }
 
                 }
+
                 solicitudOrdenTrabajo.EstadoId = 8;
+
+
 
                 return await _ordenTrabajoRepositorio.ActualizarSolcitudDeTrabajo(solicitudOrdenTrabajo, usuario);
             }
@@ -91,7 +102,7 @@ namespace OrdenTrabajoES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, string RutaServer, UsuarioDTO usuario)
+        public async Task<Guid> CrearOrdenDeTrabajo(OrdenTrabajo ordenTrabajo, UsuarioDTO usuario)
         {
             try
             {
@@ -106,7 +117,27 @@ namespace OrdenTrabajoES.Service
                 else
                 {
 
+                
+
                     OrdenTrabajo OrdenTrabajo = await _ordenTrabajoRepositorio.CrearOrdenDeTrabajo(ordenTrabajo, usuario);
+
+
+                    foreach (var anexo in ordenTrabajo.Anexos)
+                    {
+
+                        anexo.OrdenTrabajoId = OrdenTrabajo.Id;
+
+                        if (anexo.DocumentoAdjunto.Id != 0)
+                        {
+                            await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(anexo.DocumentoAdjunto);
+
+                        }
+                        else
+                        {
+                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto);
+                        }
+                    }
+                     OrdenTrabajo.Anexos = ordenTrabajo.Anexos;
 
                     if (OrdenTrabajo != null)
                     {
@@ -128,19 +159,19 @@ namespace OrdenTrabajoES.Service
             }
         }
 
-        public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, string RutaServer, UsuarioDTO usuario)
+        public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario)
         {
             try
             {
 
                 if (solicitudOrdenTrabajo.Remision != null)
                 {
-                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision, RutaServer);
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision);
                 }
 
                 foreach (var anexo in solicitudOrdenTrabajo.Anexos)
                 {
-                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto, RutaServer);
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto);
                     anexo.SolicitudOrdenTrabajoId = solicitudOrdenTrabajo.Id;
                 }
 
@@ -203,6 +234,26 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
+
+
+                foreach (var anexo in ordenTrabajo.Anexos)
+                {
+
+                    anexo.OrdenTrabajoId = ordenTrabajo.Id;
+
+                    if (anexo.DocumentoAdjunto.Id != 0)
+                    {
+                        await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(anexo.DocumentoAdjunto);
+
+                    }
+                    else
+                    {
+                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto);
+                    }
+                }
+
+              
+
 
                 return await _ordenTrabajoRepositorio.ActualizarOrdenDeTrabajo(ordenTrabajo, usuario);
             }

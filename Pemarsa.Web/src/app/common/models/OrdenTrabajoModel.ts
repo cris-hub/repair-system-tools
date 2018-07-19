@@ -1,5 +1,5 @@
 /// <reference path="../../orden-trabajo/listar-oit/listar-oit.component.ts" />
-import { EntityModel, CatalogoModel, HerramientaMaterialModel, HerramientaTamanoModel, HerramientaModel, ClienteLineaModel, ClienteModel, AttachmentModel, SolicitudOrdenTrabajoModel } from "./Index";
+import { EntityModel, CatalogoModel, HerramientaMaterialModel, HerramientaTamanoModel, HerramientaModel, ClienteLineaModel, ClienteModel, AttachmentModel, SolicitudOrdenTrabajoModel, SolicitudOrdenTrabajoAnexosModel, OrdenTrabajoAnexosModel } from "./Index";
 
 export class OrdenTrabajoModel extends EntityModel {
   public Cantidad: number;
@@ -34,6 +34,7 @@ export class OrdenTrabajoModel extends EntityModel {
   public RemisionInicial: AttachmentModel;
   public SolicitudOrdenTrabajoId: number;
   public SolicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
+  public Anexos: OrdenTrabajoAnexosModel[];
 
   //Añadir propiedades de coleciones
 
@@ -45,6 +46,7 @@ export class OrdenTrabajoModel extends EntityModel {
     this.TipoServicio = new CatalogoModel();
     this.TamanoHerramienta = new HerramientaTamanoModel();
     this.Material = new HerramientaMaterialModel();
+    this.Anexos = new Array<OrdenTrabajoAnexosModel>();
 
 
 

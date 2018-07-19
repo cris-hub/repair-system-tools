@@ -29,8 +29,10 @@
               *Verificado:
             </label>
             <div class="col-md-3">
-              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
+              <select formControlName="GuidUsuarioVerifica" [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
                 <option>Seleccione</option>
+                <option *ngFor="let verificador of verificadores" [value]="verificador.Guid">{{verificador.Valor}}</option>
+
               </select>
             </div>
           </div>
@@ -107,7 +109,7 @@
             <div class="col-md-10  col-md-offset-1">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  *Herramienta por cantidad:&nbsp;&nbsp;
+                  *Herramienta Petrolera:&nbsp;&nbsp;
                   <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPetrolera == true" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioSi" value="true">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="form-check-label" for="EsHerramientaPetroleraRadioSi">SI</label>
@@ -197,7 +199,7 @@
               *MOC:
             </label>
             <div class="col-md-8">
-              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Moc" name="Moc" class="form-control" placeholder="MOC">
+              <input [attr.disabled]="esVer == true ? '' : null" type="number" formControlName="Moc" name="Moc" class="form-control" placeholder="MOC">
             </div>
           </div>
 

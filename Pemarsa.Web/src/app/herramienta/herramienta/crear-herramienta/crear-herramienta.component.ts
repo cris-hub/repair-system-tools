@@ -20,7 +20,7 @@ export class CrearHerramientaComponent implements OnInit {
   @ViewChild(FactibilidadHerramientaComponent) FactibilidadHerramientaComponentEvent: FactibilidadHerramientaComponent;
   @ViewChild('inputTamanoMotor') inputTamanoMotor: ElementRef;
   @ViewChild('inputTamanoHerramienta') inputTamanoHerramienta: ElementRef;
-  
+
 
   private esActualizar: boolean;
   private isSubmitted: boolean;
@@ -30,7 +30,7 @@ export class CrearHerramientaComponent implements OnInit {
 
   private esEstudioFactibilidad: string = "vacio";
 
-  
+
   private paramsMateriales: ParametrosModel;
   private estados: EntidadModel[];
   private materialHerramienta: EntidadModel[];
@@ -51,6 +51,8 @@ export class CrearHerramientaComponent implements OnInit {
   private clientes: CatalogoModel[] = new Array<CatalogoModel>();
   private clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
 
+  private verificadores: CatalogoModel[]
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -60,7 +62,7 @@ export class CrearHerramientaComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.loading = true;
-    this.consultarParametrosEstados("cliente");
+    this.consultarParametrosUsuarios("cliente");
     this.consultarParametros("Materiales");
     this.consultarClientes();
   }
@@ -70,8 +72,8 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   /**
-* obtiene los parametros de la url
-*/
+  * obtiene los parametros de la url
+  */
   getValues() {
     if (this.route.snapshot.routeConfig.path == 'herramienta/ver/:id') {
       this.esVer = true;
@@ -87,11 +89,11 @@ export class CrearHerramientaComponent implements OnInit {
     }
   }
 
- /* onSubmit(formulario)
- *  esta funcion se ejecuta con el boton guardar,
- *  y se encargar de Validar y encapsular los datos para enviarlos
- *  a la capacidad crear cliente o actualizar cliente 
- */
+  /* onSubmit(formulario)
+  *  esta funcion se ejecuta con el boton guardar,
+  *  y se encargar de Validar y encapsular los datos para enviarlos
+  *  a la capacidad crear cliente o actualizar cliente 
+  */
   submitForm(Herramienta: FormGroup) {
     this.isSubmitted = false;
     this.frmHerramienta;
@@ -104,9 +106,9 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   /**
-* metodo que se utiliza para actualizar los herramientas
-* @param formValues objeto que contiene la informacion para actualizar
-*/
+  * metodo que se utiliza para actualizar los herramientas
+  * @param formValues objeto que contiene la informacion para actualizar
+  */
   actualizarHerramienta(formValues) {
 
     let herramienta = <HerramientaModel>Object.assign(this.herramienta, formValues);
@@ -119,8 +121,8 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   /* ConsultarHerramienta()
- * funcion que llama al servicio
- */
+  * funcion que llama al servicio
+  */
   ConsultarHerramienta(guid: string) {
     this.herramientaSrv.ConsultarHerramientaPorGuid(guid)
       .subscribe(response => {
@@ -168,8 +170,8 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   /* crearHerramienta()
-* funcion que se encargar de llamar los servicios y persistir los clientes
-*/
+  * funcion que se encargar de llamar los servicios y persistir los clientes
+  */
   crearHerramienta(formValues) {
     this.herramienta = <HerramientaModel>formValues;
     this.herramienta.EstadoId = this.estados.filter(t => t.Valor == "Activo")[0].Id
@@ -210,10 +212,11 @@ export class CrearHerramientaComponent implements OnInit {
     this.frmHerramienta = this.frmBuilder.group({
       ClienteId: [herramienta.ClienteId],
       EsHerramientaMotor: [herramienta.EsHerramientaMotor],
+      GuidUsuarioVerifica : [herramienta.GuidUsuarioVerifica],
       EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera],
       EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad],
       EstadoId: [herramienta.EstadoId],
-      GuidUsuarioVerifica: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
+      
       NombreUsuarioVerifica: ['Admin'],//este campo debe ser actualizado con la api de seguridad
       LineaId: [herramienta.LineaId],
       Moc: [herramienta.Moc],
@@ -230,26 +233,27 @@ export class CrearHerramientaComponent implements OnInit {
 
 
   /**
-* se consulta los Parametros del cliente y se los signa a una variables locales
-* @param entidad
-*/
-  consultarParametrosEstados(entidad: string) {
+  * se consulta los Parametros del cliente y se los signa a una variables locales
+  * @param entidad
+  */
+  consultarParametrosUsuarios(entidad: string) {
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
 
         this.paramsCliente = response;
+        this.verificadores = response.Catalogos.filter(c => c.Grupo == 'RESPONSABLES');
         this.estados = response.Catalogos.filter(c => c.Grupo == 'ESTADOS_CLIENTES');
       });
   }
 
   /**
-* se consulta los Parametros del cliente y se los signa a una variables locales
-* @param entidad
-*/
+  * se consulta los Parametros del cliente y se los signa a una variables locales
+  * @param entidad
+  */
   consultarParametros(entidad: string) {
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
-        
+
         this.paramsMateriales = response;
         this.materialHerramienta = response.Catalogos.filter(c => c.Grupo == 'HERRAMIENTAS_MATERIALES');
         this.getValues();
@@ -354,9 +358,9 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   /* salir()
-*esta funcion redirecciona al listar de cliente
-*
-*/
+  *esta funcion redirecciona al listar de cliente
+  *
+  */
   salir(preguntar?: boolean) {
     //realizar la confirmacion
     this.router.navigate(['/herramienta']);

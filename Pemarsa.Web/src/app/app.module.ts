@@ -30,11 +30,14 @@ import { FormatoModule } from './formato/formato.module';
 import { OrdenTrabajoModule } from './orden-trabajo/orden-trabajo.module';
 import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.service';
 import { ProcesoModule } from './proceso/proceso.module';
+import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent 
+    
+
   ],
   imports: [
     BrowserModule,
