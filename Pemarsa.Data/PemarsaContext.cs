@@ -9,6 +9,8 @@ namespace Pemarsa.Data
     {
         public PemarsaContext(DbContextOptions<PemarsaContext> options) : base(options)
         {
+            this.Database.SetCommandTimeout(180); //
+
         }
 
 
@@ -75,6 +77,7 @@ namespace Pemarsa.Data
         public PemarsaContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<PemarsaContext>();
+            builder.EnableSensitiveDataLogging();
             IConfigurationRoot configuration = new ConfigurationBuilder()
 
               .Build();

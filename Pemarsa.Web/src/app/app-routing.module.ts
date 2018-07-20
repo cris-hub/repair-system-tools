@@ -16,7 +16,13 @@ import { ListarOitComponent } from './orden-trabajo/listar-oit/listar-oit.compon
 import { CrearOitComponent } from './orden-trabajo/crear-oit/crear-oit.component';
 import { ListarInspeccionesComponent } from './proceso/inspeccion/listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './proceso/inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
-import { VrComponent } from './proceso/inspeccion/vr/vr.component';
+import { VRComponent } from './proceso/inspeccion/vr/vr.component';
+import { UTComponent } from './proceso/inspeccion/ut/ut.component';
+import { EMIComponent } from './proceso/inspeccion/emi/emi.component';
+import { LPIComponent } from './proceso/inspeccion/lpi/lpi.component';
+import { VisualDimensionalComponent } from './proceso/inspeccion/visualdimencional/visualdimencional.component';
+import { MPIComponent } from './proceso/inspeccion/mpi/mpi.component';
+import { UTAComponent } from './proceso/inspeccion/uta/uta.component';
 
 const routes: Routes = [
 
@@ -50,11 +56,34 @@ const routes: Routes = [
   { path: 'inspeccion/entrada', component: ListarInspeccionesComponent },
   { path: 'inspeccion/entrada/:id', component: InspeccionHerramientaComponent },
   { path: 'inspeccion/entrada/:id/:index', component: InspeccionHerramientaComponent },
-  { path: 'inspeccion/entrada/vr/:id/:index', component: VrComponent },
-  { path: 'inspeccion/entrada/vr/:id', component: VrComponent },
+  //vr
+  { path: 'inspeccion/entrada/vr/:id/:index', component: VRComponent },
+  { path: 'inspeccion/entrada/vr/:id', component: VRComponent },
+
+  //ut
+  { path: 'inspeccion/entrada/ut/:id/:index', component: UTComponent },
+  { path: 'inspeccion/entrada/ut/:id', component: UTComponent },
+
+  //emi
+  { path: 'inspeccion/entrada/emi/:id/:index', component: EMIComponent },
+  { path: 'inspeccion/entrada/emi/:id', component: EMIComponent },
+
+  //lpi
+  { path: 'inspeccion/entrada/lpi/:id/:index', component: LPIComponent },
+  { path: 'inspeccion/entrada/lpi/:id', component: LPIComponent },
+
+  //visualdimencional
+  { path: 'inspeccion/entrada/visualdimensional/:id/:index', component: VisualDimensionalComponent },
+  { path: 'inspeccion/entrada/visualdimensional/:id', component: VisualDimensionalComponent },
 
 
+  //mpi
+  { path: 'inspeccion/entrada/mpi/:id/:index', component: MPIComponent },
+  { path: 'inspeccion/entrada/mpi/:id', component: MPIComponent },
 
+  //mpi
+  { path: 'inspeccion/entrada/uta/:id/:index', component: UTAComponent },
+  { path: 'inspeccion/entrada/uta/:id', component: UTAComponent },
 
   //OITs
   { path: 'oit', component: ListarOitComponent },

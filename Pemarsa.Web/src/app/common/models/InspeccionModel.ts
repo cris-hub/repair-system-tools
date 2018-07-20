@@ -51,5 +51,6 @@ export class InspeccionModel extends EntityModel {
   public InspeccionFotos: InspeccionFotosModel[];
   constructor() {
     super();
+    this.InspeccionFotos = new Array<InspeccionFotosModel>();
   }
 }

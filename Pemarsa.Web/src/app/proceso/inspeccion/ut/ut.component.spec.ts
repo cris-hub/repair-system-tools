@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VRComponent } from './vr.component';
+import { UTComponent } from './ut.component';
 
-describe('VrComponent', () => {
-  let component: VRComponent;
-  let fixture: ComponentFixture<VRComponent>;
+describe('UtComponent', () => {
+  let component: UTComponent;
+  let fixture: ComponentFixture<UTComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VRComponent ]
+      declarations: [ UTComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VRComponent);
+    fixture = TestBed.createComponent(UTComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -54,6 +54,7 @@ import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgbModule.forRoot()
+
   ],
   entryComponents: [AutoComplete]
   ,

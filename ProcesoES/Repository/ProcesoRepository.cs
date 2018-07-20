@@ -72,7 +72,7 @@ namespace ProcesoES.Repository
             try
             {
                 var proceso = _context.Proceso
-                            .Include(c => c.InspeccionEntrada).ThenInclude(d => d.Inspeccion)
+                            .Include(c => c.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(c=>c.InspeccionFotos).ThenInclude(d=>d.DocumentoAdjunto)
                             .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
 
                             .Include(c => c.OrdenTrabajo.Herramienta)

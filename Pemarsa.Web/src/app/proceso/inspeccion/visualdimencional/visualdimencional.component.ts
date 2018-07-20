@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { AttachmentModel, InspeccionModel, ProcesoModel, InspeccionFotosModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
-import { AttachmentModel, ProcesoModel, InspeccionModel, InspeccionFotosModel } from '../../../common/models/Index';
-import { ToastrService, Toast } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isNullOrUndefined, isUndefined } from 'util';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO } from '../../inspeccion-enum/inspeccion.enum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TIPO_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
 
 @Component({
-  selector: 'app-vr',
-  templateUrl: './vr.component.html',
-  styleUrls: ['./vr.component.css']
+  selector: 'app-visualdimencional',
+  templateUrl: './visualdimencional.component.html',
+  styleUrls: ['./visualdimencional.component.css']
 })
-export class VRComponent implements OnInit {
-
+export class VisualDimensionalComponent implements OnInit {
   //carga archivos
   private lectorArchivos: FileReader;
   private adjuntos: AttachmentModel[] = [];
@@ -25,16 +22,11 @@ export class VRComponent implements OnInit {
   private proceso: ProcesoModel;
   private inspeccion: InspeccionModel = new InspeccionModel();
 
-  //form
-  private formInpeccionVR: FormGroup;
-  private esFormularioValido: Boolean = false;
-
   constructor(
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private activedRoute: ActivatedRoute,
-    private router: Router,
-    private formBuider: FormBuilder
+    private router: Router
   ) {
 
   }
@@ -53,61 +45,21 @@ export class VRComponent implements OnInit {
   }
 
   consultarProceso() {
-    this.iniciarFormulario(new InspeccionModel());
-
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
+
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
           return c.Inspeccion.TipoInspeccionId == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
         });
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
-      }, error => {
-
-      }, () => {
-        this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
       });
   }
-
   procesar() {
-    this.asignarDataDesdeElFormulario();
-    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVR);
-    this.esFormularioValido ? this.actualizarDatos() : this.asignarDataDesdeElFormulario();
-  }
-
-  actualizarDatos() {
     this.procesoService.actualizarInspección(this.inspeccion).subscribe(response => {
       this.toastrService.info(response ? 'ok' : 'error');
     })
-  }
-  sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
-    let valido: boolean;
-    formulario.controls['InspeccionFotos'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      :  valido = false;
-
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = false;
-    if (isUndefined(valido)) {
-      return valido = true
-    }
-    return valido
-
-  }
-  private asignarDataDesdeElFormulario() {
-    Object.assign(this.inspeccion, this.formInpeccionVR.value);
-  }
-
-  //cargar o inicializar datos del formulario
-  iniciarFormulario(inspeccion: InspeccionModel) {
-    this.formInpeccionVR = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
-      Observaciones: [this.inspeccion.Observaciones, Validators.required]
-    });
   }
 
   //carga archivos
@@ -178,5 +130,4 @@ export class VRComponent implements OnInit {
       console.log(ex)
     }
   }
-
 }

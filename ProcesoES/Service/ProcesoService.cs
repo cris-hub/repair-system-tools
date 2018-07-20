@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentoAdjuntoUS.Service;
 using Pemarsa.CanonicalModels;
 using Pemarsa.Data;
 using Pemarsa.Domain;
@@ -12,12 +13,13 @@ namespace ProcesoES.Service
     public class ProcesoService : IProcesoService
     {
         private readonly IProcesoRepository _procesoRepository;
-
+        private readonly IDocumentoAdjuntoService _documentoAdjuntoService;
         private PemarsaContext _context;
 
-        public ProcesoService(PemarsaContext context)
+        public ProcesoService(PemarsaContext context, IDocumentoAdjuntoService documentoAdjuntoService)
         {
             _procesoRepository = new ProcesoRepository(context);
+            _documentoAdjuntoService = documentoAdjuntoService;
             _context = context;
         }
 
@@ -122,7 +124,34 @@ namespace ProcesoES.Service
 
         public async Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO)
         {
-            return await _procesoRepository.ActualizarInspección(inspeccion, usuarioDTO);
+
+            try
+            {
+                if (inspeccion.InspeccionFotos != null)
+                {
+                    foreach (var inspeccionFotos in inspeccion.InspeccionFotos)
+                    {
+
+                        inspeccionFotos.InspeccionId = inspeccion.Id;
+
+                        if (inspeccionFotos.DocumentoAdjunto.Id != 0)
+                        {
+                            await _documentoAdjuntoService.ActualizarDocumentoAdjunto(inspeccionFotos.DocumentoAdjunto);
+
+                        }
+                        else
+                        {
+                            await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccionFotos.DocumentoAdjunto);
+                        }
+                    }
+                }
+                return await _procesoRepository.ActualizarInspección(inspeccion, usuarioDTO);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 

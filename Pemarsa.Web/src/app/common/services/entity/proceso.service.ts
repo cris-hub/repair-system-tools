@@ -5,7 +5,7 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
-import { CatalogoModel, ProcesoModel } from "../../models/Index";
+import { CatalogoModel, ProcesoModel, InspeccionModel } from "../../models/Index";
 
 @Injectable()
 export class ProcesoService {
@@ -45,16 +45,21 @@ export class ProcesoService {
     });
   }
 
-  public crearInspeccion(guidProceso: string, tipoInspeccion:number,pieza): Observable<string> {
-    return this.http.post<string>(this.urlServer + 'CrearInspeccion?guidProceso=' + guidProceso + '&tipoInspeccion=' + tipoInspeccion + '&pieza=' + pieza,{
+  public crearInspeccion(guidProceso: string, tipoInspeccion: number, pieza): Observable<string> {
+    return this.http.post<string>(this.urlServer + 'CrearInspeccion?guidProceso=' + guidProceso + '&tipoInspeccion=' + tipoInspeccion + '&pieza=' + pieza, {
       headers: this.header
     });
   }
+
   public actualizarEstadoInspeccion(guidInspeccion: string, estado: number): Observable<string> {
-    return this.http.put<string>(this.urlServer + 'ActualizarEstadoInspeccion?guidInspeccion=' + guidInspeccion + '&estado=' + estado,{
+    return this.http.put<string>(this.urlServer + 'ActualizarEstadoInspeccion?guidInspeccion=' + guidInspeccion + '&estado=' + estado, {
       headers: this.header
     });
   }
 
-
+  public actualizarInspección(inspeccion: InspeccionModel): Observable<boolean> {
+    return this.http.put<boolean>(
+      this.urlServer + 'ActualizarInspección', inspeccion, { headers: this.header }
+    )
+  }
 }

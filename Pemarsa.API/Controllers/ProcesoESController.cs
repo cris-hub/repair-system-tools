@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentoAdjuntoUS.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,7 @@ namespace Pemarsa.API.Controllers
         {
             _procesoService = procesoService;
             _ordenTrabajoService = ordenTrabajoService;
+            
         }
 
         [HttpGet("ConsultarProcesoPorGuid")]
@@ -138,6 +140,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
+              
                 bool operacionCorrecta = await _procesoService.ActualizarInspección(inspeccion, new UsuarioDTO());
 
                 return Ok(operacionCorrecta);

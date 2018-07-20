@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VRComponent } from './vr.component';
+import { EMIComponent } from './emi.component';
 
-describe('VrComponent', () => {
-  let component: VRComponent;
-  let fixture: ComponentFixture<VRComponent>;
+describe('EMIComponent', () => {
+  let component: EMIComponent;
+  let fixture: ComponentFixture<EMIComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VRComponent ]
+      declarations: [ EMIComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VRComponent);
+    fixture = TestBed.createComponent(EMIComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

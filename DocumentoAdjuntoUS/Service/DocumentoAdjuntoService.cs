@@ -107,7 +107,7 @@ namespace DocumentoAdjuntoUS.Service
                 documentoAdjunto.Nombre = nameSystem;
 
                 await File.WriteAllBytesAsync(documentoAdjunto.Ruta, bytes);
-
+                documentoAdjunto.NombreUsuarioCrea = "admin";
 
                 return await _repository.CrearDocumentoAdjunto(documentoAdjunto);
             }

@@ -1,0 +1,156 @@
+<div class="container">
+
+  <fieldset>
+    <legend>
+
+      <b>EMI</b>
+
+    </legend>
+  </fieldset>
+
+  <div class="col-md-11 contenido-interno">
+
+
+
+    <div class="form-group row">
+      <div class="col-md-4 col-md-offset-2">
+        <label class=" control-label" id="corre">Se identifica algún tipo de defecto​</label>
+      </div>
+      <div class="col-md-4">
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="Si" value="19">
+          <label class="form-check-label" for="Si">Si​</label>
+        </div>
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="No" value="18">
+          <label class="form-check-label" for="No">No​</label>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="form-group row">
+      <label class="col-md-2 control-label" id="corre">Observacion: </label>
+      <div class="col-md-9 ">
+        <textarea class="form-control"></textarea>
+      </div>
+    </div>
+
+    <div class="form-group row">
+
+      <div class="col-md-5 col-md-offset-2">
+        <div class="form-group row">
+          <label class="col-md-12 col-form-label">Adjunte imagen MFL​:</label>
+
+          <div class="col-md-12">
+            <a href="" class="form-control sin-margen"><p>doc 1<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-2 image-upload">
+        <label for="file-input">
+          <i class="glyphicon glyphicon-paperclip pointer"></i>
+        </label>
+       
+        <input id="file-input" (change)="addFile($event)" type="file" multiple />
+      </div>
+
+    </div>
+    <div class="form-group row">
+
+
+      <div class="col-md-5 col-md-offset-2">
+        <div class="form-group row">
+          <label class="col-md-12 col-form-label">
+            Adjunte imagen de medición de espesores:
+          </label>
+          <div class="col-md-12">
+            <a href="" class="form-control sin-margen"><p>doc 1<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 image-upload">
+        <label for="file-input">
+          <i class="glyphicon glyphicon-paperclip pointer"></i>
+        </label>
+       
+        <input id="file-input" (change)="addFile($event)" type="file" multiple />
+      </div>
+
+    </div>
+
+
+
+
+    <div class="form-group row">
+      <div class="col-md-3 col-md-offset-2 ">
+        <label class=" control-label">Amperaje </label>
+        <input class="form-control" />
+      </div>
+
+      <div class="col-md-3 ">
+        <label class=" control-label">Velocidad buggy drive </label>
+        <input class="form-control" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-3 col-md-offset-2 ">
+        <label class=" control-label">Tubo valor usado para la calibración </label>
+        <input class="form-control" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-3 col-md-offset-2 ">
+        <label class=" control-label">Equipo EMI usado </label>
+        <input class="form-control" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-3 col-md-offset-2 ">
+        <label class=" control-label">Bobina magnetica usada</label>
+        <input class="form-control" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-3 col-md-offset-2 ">
+        <label class=" control-label" id="corre">Operativo</label>
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="Si" value="19">
+          <label class="form-check-label" for="Si">Si​</label>
+        </div>
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="No" value="18">
+          <label class="form-check-label" for="No">No​</label>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="form-group row">
+
+      <div class="col-md-3 col-md-offset-3 ">
+        <button class="btn" (click)="procesar()">procesar</button>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+

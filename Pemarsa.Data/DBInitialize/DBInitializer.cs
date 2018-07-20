@@ -287,7 +287,7 @@ namespace Pemarsa.Data.DBInitialize
                     },new Catalogo{
                         Id = 65,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimencional,
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensional,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
                     }    ,new Catalogo{
                         Id = 66,
@@ -314,7 +314,12 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VR,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
-                    }
+                    },new Catalogo{
+                        Id = 79,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.UTA,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }   
 
 
                 };

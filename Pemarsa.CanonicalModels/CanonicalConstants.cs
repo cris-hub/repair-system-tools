@@ -127,12 +127,13 @@ namespace Pemarsa.CanonicalModels
 
                 public struct TipoInspeccion
                 {
-                    public const string VisualDimencional = "visual dimencional";
+                    public const string VisualDimensional = "Visual dimensional";
                     public const string MPI = "MPI";
                     public const string LPI = "LPI";
                     public const string UT = "UT";
                     public const string EMI = "EMI";
                     public const string VR = "VR";
+                    public const string UTA = "UTA";
                     
                 }
 

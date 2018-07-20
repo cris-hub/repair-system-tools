@@ -8,7 +8,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ListarInspeccionesComponent } from './inspeccion/listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
-import { VrComponent } from './inspeccion/vr/vr.component';
+
+import { VRComponent } from './inspeccion/vr/vr.component';
+import { UTComponent } from './inspeccion/ut/ut.component';
+import { VisualDimensionalComponent } from './inspeccion/visualdimencional/visualdimencional.component';
+import { LPIComponent } from './inspeccion/lpi/lpi.component';
+import { UTAComponent } from './inspeccion/uta/uta.component';
+import { MPIComponent } from './inspeccion/mpi/mpi.component';
+import { EMIComponent } from './inspeccion/emi/emi.component';
 
 @NgModule({
   imports: [
@@ -18,7 +25,7 @@ import { VrComponent } from './inspeccion/vr/vr.component';
     UtilModule,
     NgxPaginationModule
   ],
-  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VrComponent]
+  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent]
   
 })
 export class ProcesoModule { }

@@ -1,0 +1,178 @@
+<div class="container">
+
+  <fieldset>
+    <legend>
+      <h2>
+        <b>MPI</b>
+      </h2>
+    </legend>
+  </fieldset>
+
+  <div class="col-md-11 contenido-interno">
+
+    <div class="form-group row ">
+      <label class="col-md-2 form-label" id="corre"> Visual:</label>
+
+
+      <div class="col-md-8 panel panel-default">
+        <div class="panel-heading ">
+          <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
+          <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+          </span>
+        </div>
+        <div>
+
+        </div>
+
+        <div id="archivos" class="panel-collapse panel-collapse collapse">
+          <div class="panel-body">
+            <ul>
+              <li *ngFor="let adjunto of inspeccion.InspeccionFotos">
+                <p>
+                  {{adjunto.DocumentoAdjunto.NombreArchivo}}<a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                    <i class="glyphicon glyphicon-download"></i>
+                  </a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pull-right"></i>
+                </p>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 image-upload">
+        <label for="file-input">
+          <i class="glyphicon glyphicon-paperclip pointer"></i>
+        </label>
+        <label>
+          <i class="">
+            {{DocumetosRestantes}}
+          </i>
+        </label>
+        <input id="file-input" (change)="addFile($event)" type="file" multiple />
+      </div>
+
+
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-md-2 control-label" id="corre">Observacion: </label>
+      <div class="col-md-9 ">
+        <textarea class="form-control"></textarea>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-md-4 col-md-offset-2">
+        <label class="control-label" id="corre">Intensidad de luz blanca: </label>
+        <input type="number" class="form-control" /> <p class="control-label">Lemes</p>
+      </div>
+    </div>
+
+
+
+    <p class="col-md-offset-1">
+      <b>
+        Inspección con partículos magnéticas fluorescentes húmedas
+      </b>
+    </p>
+    <div class="form-group row">
+      <div class="col-md-9 col-md-offset-1 ">
+        <p>La concentración de las partículas magnéticas en el medio de suspensión está dentro del rango 0,1 – 0,4 ml. Por volumen basado en una muestra de 100 ml. ​</p>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-md-2 col-md-offset-1 control-label" id="corre">Concentración utilizada </label>
+      <div class="col-md-4">
+        <input type="number" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-2 col-md-offset-1 control-label" id="corre">Fecha de preparación </label>
+      <div class="col-md-4">
+        <input type="date" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-2 col-md-offset-1 control-label" id="corre">Lote </label>
+      <div class="col-md-4 ">
+        <input type="number" class="form-control" />
+      </div>
+    </div>
+
+    <p class="col-md-offset-1">
+      <b>
+        Inspección de luz negra
+      </b>
+    </p>
+    <div class="form-group row">
+      <div class="col-md-7 col-md-offset-1 ">
+        <p>La concentración de las partículas magnéticas en el medio de suspensión está dentro del rango 0,1 – 0,4 ml. Por volumen basado en una muestra de 100 ml. ​</p>
+      </div>
+      <div class="col-md-3 ">
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="Si" value="19">
+          <label class="form-check-label" for="Si">Si​</label>
+        </div>
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="No" value="18">
+          <label class="form-check-label" for="No">No​</label>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="form-group row">
+      <div class="col-md-offset-2 col-md-3">
+        <label>Intensidad de luz negra​: </label>
+        <input class="form-control">
+      </div>
+
+      <div class="col-md-7">
+        <p>
+          La lámpara ultravioleta produce una intensidad de mínimo 1000 microvatios/cm2 con una longitud de onda de 365 nanómetros a una distancia de 15 pulgadas o a la distancia de trabajo de la fuente de luz. Número interno de inventario
+        </p>
+      </div>
+
+    </div>
+
+
+    <p class="col-md-offset-1">
+      <b>
+        Inspección con yoke
+      </b>
+    </p>
+    <div class="form-group row">
+      <div class="col-md-7 col-md-offset-1 ">
+        <p>Se realiza prueba con el bloque de 10 libras.​ ​</p>
+      </div>
+      <div class="col-md-3 ">
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="Si" value="19">
+          <label class="form-check-label" for="Si">Si​</label>
+        </div>
+        <div class="form-check form-check-inline col-md-5">
+          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="No" value="18">
+          <label class="form-check-label" for="No">No​</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-md-4 col-md-offset-1 ">
+      <label class=" control-label" id="corre">Equipo medición usuado </label>
+        <input class="form-control" />
+      </div>
+    </div>
+
+    <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+  </div>
+
+</div>

@@ -2,76 +2,79 @@
 
   <fieldset>
     <legend>
-      <h2>
+      
         <b>VR</b>
-      </h2>
+      
     </legend>
   </fieldset>
 
   <div class="col-md-11 contenido-interno">
 
-    <div class="form-group row ">
-      <label class="col-md-2 form-label" id="corre"> Visual:</label>
+    <form [formGroup]="formInpeccionVR">
 
 
-      <div class="col-md-8 panel panel-default">
-        <div class="panel-heading ">
-          <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-          <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-            <i class="glyphicon glyphicon-chevron-down"></i>
-          </span>
-        </div>
-        <div>
+      <div class="form-group row ">
+        <label class="col-md-2 form-label" id="corre"> Visual:</label>
 
-        </div>
 
-        <div id="archivos" class="panel-collapse panel-collapse collapse">
-          <div class="panel-body">
-            <ul>
-              <li *ngFor="let adjunto of adjuntos">
-                <p>{{adjunto.NombreArchivo}}<a href="{{adjunto.Ruta}}" class="pull-right">
-                  <i class="glyphicon glyphicon-download"></i>
-                  </a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pull-right"></i>
-                </p>
+        <div class="col-md-8 panel panel-default">
+          <div class="panel-heading ">
+            <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
+            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+          </div>
+          <div>
 
-              </li>
-            </ul>
+          </div>
+
+          <div id="archivos" class="panel-collapse panel-collapse collapse">
+            <div class="panel-body">
+              <ul>
+                <li *ngFor="let adjunto of inspeccion.InspeccionFotos">
+                  <p>
+                    {{adjunto.DocumentoAdjunto.NombreArchivo}}<a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                      <i class="glyphicon glyphicon-download"></i>
+                    </a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pull-right"></i>
+                  </p>
+
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+
+        <div class="col-md-2 image-upload">
+          <label for="file-input">
+            <i class="glyphicon glyphicon-paperclip pointer"></i>
+          </label>
+          <label>
+            <i class="">
+              {{DocumetosRestantes}}
+            </i>
+          </label>
+          <input id="file-input" required (change)="addFile($event)" type="file" multiple />
+        </div>
+
+
       </div>
 
-      <div class="col-md-2 image-upload">
-        <label for="file-input">
-          <i class="glyphicon glyphicon-paperclip pointer"></i>
-        </label>
-        <label >
-          <i class="">
-            {{DocumetosRestantes}}
-          </i>
-        </label>
-        <input id="file-input" (change)="addFile($event)" type="file" multiple />
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <div class="col-md-9 ">
+          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+
+        <div class="col-md-3 col-md-offset-3 ">
+          <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+        </div>
       </div>
 
 
-    </div>
-
-
-    <div class="form-group row">
-      <label class="col-md-2 control-label" id="corre">Observacion: </label>
-      <div class="col-md-9 ">
-        <textarea class="form-control"></textarea>
-      </div>
-    </div>
-
-
-
-    <div class="form-group row">
-
-      <div class="col-md-3 col-md-offset-3 ">
-        <button class="btn">Proceosar y continuar</button>
-      </div>
-    </div>
-
+    </form>
   </div>
 
 </div>
