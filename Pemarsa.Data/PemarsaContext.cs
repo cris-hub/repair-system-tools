@@ -18,12 +18,16 @@ namespace Pemarsa.Data
         {
 
             modelBuilder.Entity<Inspeccion>().HasAlternateKey(k => new { k.Pieza, k.TipoInspeccionId ,k.Id});
-            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
-            modelBuilder.Entity<InspeccionFotos>().HasKey(k => new { k.InspeccionId, k.DocumentoAdjuntoId });
-            modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
+            modelBuilder.Entity<InspeccionFotos>().HasKey(k => new { k.InspeccionId, k.DocumentoAdjuntoId,k.Pieza });
+            modelBuilder.Entity<InspeccionEquipoUtilizado>().HasKey(k => new { k.InspeccionId, k.EquipoUtilizadoId });
 
             modelBuilder.Entity<ProcesoInspeccionSalida>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
             modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
+
+
+            modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
+            modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
+
 
 
 

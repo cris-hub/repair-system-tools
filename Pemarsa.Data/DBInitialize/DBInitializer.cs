@@ -98,6 +98,30 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Proceso.Inspeccion.Anulada,
                         Grupo = CanonicalConstants.Grupos.EstadosInspeccion,
+                    },
+                      new Catalogo{
+                        Id = 80,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Conexion_BOX.estado1,
+                          Grupo = CanonicalConstants.Grupos.EstadosConexionBOX,
+                    },
+                      new Catalogo{
+                        Id = 81,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Conexion_BOX.estado2,
+                          Grupo = CanonicalConstants.Grupos.EstadosConexionBOX,
+                    },
+                      new Catalogo{
+                        Id = 82,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Conexion_BOX.estado1,
+                          Grupo = CanonicalConstants.Grupos.EstadosConexionPIN,
+                    },
+                      new Catalogo{
+                        Id = 83,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Conexion_BOX.estado2,
+                          Grupo = CanonicalConstants.Grupos.EstadosConexionPIN,
                     }
                 };
 
@@ -319,7 +343,7 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.UTA,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
-                    }   
+                    }
 
 
                 };
@@ -574,7 +598,8 @@ namespace Pemarsa.Data.DBInitialize
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Solicitud},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.OrdenTrabajo},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Proceso},
-                        new Parametro{ Entidad = CanonicalConstants.Entidades.Formato}
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Formato},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Inspeccion}
 
                     };
 
@@ -996,6 +1021,20 @@ namespace Pemarsa.Data.DBInitialize
                         Campos = "Id, Guid, Valor, Id",
                         Tabla = "catalogo",
                         Condicion = "Grupo = 'TIPOS_INSPECCION'",
+                    },
+                    new Consulta
+                    {
+                        Id = 4,
+                        Guid = Guid.NewGuid(),
+                        Campos = "Id, Guid, Valor, Id, Grupo",
+                        Tabla = "catalogo",
+                        Condicion = @"Grupo = 'TIPO_CONEXION ' 
+                                    OR Grupo = 'ESTADOS_CONEXION_BOX'  
+                                    OR Grupo = 'ESTADOS_CONEXION_PIN'  
+                                    OR Grupo = 'CONEXION'
+                                    OR Grupo = 'EQUIPO_MEDICION_UTILIZADO_PROCESO'
+
+",
                     }
 
 
@@ -1048,6 +1087,19 @@ namespace Pemarsa.Data.DBInitialize
                                 {
                                     ConsultaId = consulta.Id,
                                     Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case 4:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 4) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
                                 }
                                 );
                             }

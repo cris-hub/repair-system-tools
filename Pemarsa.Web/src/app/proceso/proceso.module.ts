@@ -16,6 +16,7 @@ import { LPIComponent } from './inspeccion/lpi/lpi.component';
 import { UTAComponent } from './inspeccion/uta/uta.component';
 import { MPIComponent } from './inspeccion/mpi/mpi.component';
 import { EMIComponent } from './inspeccion/emi/emi.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -23,7 +24,9 @@ import { EMIComponent } from './inspeccion/emi/emi.component';
     RouterModule,
     ReactiveFormsModule,
     UtilModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgbModule,
+
   ],
   declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent]
   

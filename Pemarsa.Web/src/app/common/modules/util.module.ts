@@ -7,6 +7,7 @@ import { AutocompletarComponent } from '../directivas/autocompletar/autocompleta
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
+import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
     ConfirmacionComponent,
     ValidacionDirective,
     AutocompletarComponent,
-    PemarsaStringFormat
+    PemarsaStringFormat,
+    filterEstadoConexionPorConexion
    
   ],
 
@@ -30,7 +32,8 @@ import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
     ConfirmacionComponent,
     ValidacionDirective,
     AutocompletarComponent,
-    PemarsaStringFormat
+    PemarsaStringFormat,
+    filterEstadoConexionPorConexion
 
   ],
 

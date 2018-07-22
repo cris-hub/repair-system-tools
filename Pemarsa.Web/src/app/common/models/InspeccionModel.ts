@@ -1,4 +1,4 @@
-import { EntityModel, AttachmentModel, CatalogoModel, InspeccionFotosModel } from "./Index";
+import { EntityModel, AttachmentModel, CatalogoModel, InspeccionFotosModel, InspeccionConexionModel, InspeccionDimensionalOtroModel, InspeccionEquipoUtilizadoModel } from "./Index";
 
 export class InspeccionModel extends EntityModel {
   public Amperaje: number;
@@ -23,7 +23,6 @@ export class InspeccionModel extends EntityModel {
   public BobinaMagneticaId: number;
   public EquipoEmiId: number;
   public EstadoId: number;
-  public EquipoUtilizadoId: number;
   public TipoDeLiquidosId: number;
   public TipoInspeccionId: number;
   public TurboPatronId: number;
@@ -38,7 +37,7 @@ export class InspeccionModel extends EntityModel {
   public BobinaMagnetica: CatalogoModel;
   public EquipoEmi: CatalogoModel;
   public Estado: CatalogoModel;
-  public EquipoUtilizado: CatalogoModel;
+  
   public TipoDeLiquidos: CatalogoModel;
   public TipoInspeccion: CatalogoModel;
   public TurboPatron: CatalogoModel;
@@ -49,8 +48,16 @@ export class InspeccionModel extends EntityModel {
   public ImagenUltrasonidoDurante: AttachmentModel;
   public ImagenUltrasonidoPrevia: AttachmentModel;
   public InspeccionFotos: InspeccionFotosModel[];
+  public Conexiones: InspeccionConexionModel[];
+  public Dimensionales: InspeccionDimensionalOtroModel[]
+
+  
+  public InspeccionEquipoUtilizado: InspeccionEquipoUtilizadoModel[];
+
   constructor() {
     super();
     this.InspeccionFotos = new Array<InspeccionFotosModel>();
+    this.Conexiones = new Array<InspeccionConexionModel>();
+    this.InspeccionEquipoUtilizado = new Array<InspeccionEquipoUtilizadoModel>();
   }
 }

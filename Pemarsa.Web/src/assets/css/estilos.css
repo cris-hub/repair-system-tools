@@ -81,9 +81,9 @@ img.imagenUser {
 }
 
 .right {
-  font-family: OpenSans-Light;
-  font-size: 15px;
-  color: gray;
+  /* font-family: OpenSans-Light; */
+  /* font-size: 15px; */
+  /* color: gray; */
   position: absolute;
   left: 7%;
   width: 90%;

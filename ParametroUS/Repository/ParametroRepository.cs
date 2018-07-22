@@ -36,11 +36,11 @@ namespace ParametroUS.Repository
                     .ToListAsync();
 
 
-                if (pCatalogo != null)                
+                if (pCatalogo != null)
                     parametros.Catalogos = pCatalogo;
                 if (pConsulta != null)
                     parametros.Consultas = await ConsultarEntidades(pConsulta);
-                
+
                 return parametros;
             }
             catch (Exception)
@@ -65,7 +65,7 @@ namespace ParametroUS.Repository
                 {
                     foreach (var consulta in consultas)
                     {
-                        command.CommandText = 
+                        command.CommandText =
                             $@"Select { consulta.Campos }    
                                From   { consulta.Tabla }
                                Where  ({ consulta.Condicion ?? "1 = 1" });";
@@ -76,15 +76,34 @@ namespace ParametroUS.Repository
                         {
                             while (await reader.ReadAsync())
                             {
-                                var row = new Catalogo
+                                Catalogo row = new Catalogo();
+
+                                if (reader.FieldCount == 4)
                                 {
-                                    Id = reader.GetInt32(0),
-                                    Guid = reader.GetGuid(1),
-                                    Valor = reader.GetString(2),
-                                    Grupo = consulta.Tabla,
-                                    Estado = false,
-                                    CatalogoId = reader.GetInt32(3)
-                                };
+                                    row = new Catalogo
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Guid = reader.GetGuid(1),
+                                        Valor = reader.GetString(2),
+                                        Grupo = consulta.Tabla,
+                                        Estado = false,
+                                        CatalogoId = reader.GetInt32(3)
+                                    };
+
+                                }
+
+                                if (reader.FieldCount == 5)
+                                {
+                                    row = new Catalogo
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Guid = reader.GetGuid(1),
+                                        Valor = reader.GetString(2),
+                                        Grupo = reader.GetValue(4).ToString(),
+                                        Estado = false,
+                                        CatalogoId = reader.GetInt32(3)
+                                    };
+                                }
                                 catalogos.Add(row);
                             }
                         }

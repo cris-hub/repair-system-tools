@@ -31,6 +31,17 @@ namespace Pemarsa.CanonicalModels
                 public const string EnProceso = "En proceso";
                 public const string Inactiva = "Inactiva";
             }
+            public struct Conexion_BOX
+            {
+                public const string estado1 = "CounterBore Fuera de medida";
+                public const string estado2 = "Diámetro de CounterBore fuera de rango";
+            }
+
+            public struct Conexion_PIG
+            {
+                public const string estado1 = "Diametro de Relieve Groove fuera de medida";
+                public const string estado2 = " Longitud de conexión fueda de medida";
+            }
 
             public struct SolictudOdenTrabjo
             {
@@ -134,7 +145,7 @@ namespace Pemarsa.CanonicalModels
                     public const string EMI = "EMI";
                     public const string VR = "VR";
                     public const string UTA = "UTA";
-                    
+
                 }
 
                 public struct TipoSoldadura
@@ -220,6 +231,8 @@ namespace Pemarsa.CanonicalModels
             public const string Especificacion = "ESPECIFICACION";
             public const string TipoConexion = "TIPO_CONEXION";
             public const string Conexion = "CONEXION";
+            public const string EstadosConexionBOX = "ESTADOS_CONEXION_BOX";
+            public const string EstadosConexionPIN = "ESTADOS_CONEXION_PIN";
             public const string FormatoAdendum = "FORMATO_ADENDUM";
 
 
@@ -251,6 +264,7 @@ namespace Pemarsa.CanonicalModels
             public const string Solicitud = "SOLICITUD";
             public const string OrdenTrabajo = "ORDEN_TRABAJO";
             public const string Proceso = "PROCESO";
+            public const string Inspeccion = "INSPECCION";
 
         }
 

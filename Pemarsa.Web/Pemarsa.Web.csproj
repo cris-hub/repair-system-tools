@@ -18,6 +18,7 @@
     <None Remove="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <None Remove="src\app\common\directivas\paginacion\paginacion.component.ts" />
     <None Remove="src\app\common\directivas\validacion\validacion.directive.ts" />
+    <None Remove="src\app\common\enums\parametrosEnum.ts" />
     <None Remove="src\app\common\models\AttachmentModel.ts" />
     <None Remove="src\app\common\models\CatalogoModel.ts" />
     <None Remove="src\app\common\models\ClienteLineaModel.ts" />
@@ -31,12 +32,16 @@
     <None Remove="src\app\common\models\HerramientaTamanoModel.ts" />
     <None Remove="src\app\common\models\HerramientaTamanoMotorModel.ts" />
     <None Remove="src\app\common\models\Index.ts" />
+    <None Remove="src\app\common\models\InspeccionConexionFormatoAdendumModel.ts" />
+    <None Remove="src\app\common\models\InspeccionDimensionalOtroModel.ts" />
+    <None Remove="src\app\common\models\InspeccionEquipoUtilizadoModel.ts" />
     <None Remove="src\app\common\models\ListadoResponseModel.ts" />
     <None Remove="src\app\common\models\PaginacionModel.ts" />
     <None Remove="src\app\common\models\ParametrosModel.ts" />
     <None Remove="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
     <None Remove="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <None Remove="src\app\common\modules\util.module.ts" />
+    <None Remove="src\app\common\pipes\filterEstadosConexion.ts" />
     <None Remove="src\app\common\services\entity\cliente.service.ts" />
     <None Remove="src\app\common\services\entity\herramienta.service.ts" />
     <None Remove="src\app\common\services\entity\index.ts" />
@@ -58,6 +63,7 @@
   <ItemGroup>
     <Folder Include="src\app\common\components\login\" />
     <Folder Include="src\app\common\components\logout\" />
+    <Folder Include="src\app\common\services\Interceptors\" />
     <Folder Include="src\app\shared\" />
     <Folder Include="src\assets\img\" />
     <Folder Include="wwwroot\" />
@@ -80,6 +86,7 @@
     <TypeScriptCompile Include="src\app\common\directivas\confirmacion\confirmacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\paginacion\paginacion.component.ts" />
     <TypeScriptCompile Include="src\app\common\directivas\validacion\validacion.directive.ts" />
+    <TypeScriptCompile Include="src\app\common\enums\parametrosEnum.ts" />
     <TypeScriptCompile Include="src\app\common\models\AttachmentModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\CatalogoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ClienteLineaModel.ts" />
@@ -93,12 +100,16 @@
     <TypeScriptCompile Include="src\app\common\models\HerramientaTamanoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\HerramientaTamanoMotorModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\Index.ts" />
+    <TypeScriptCompile Include="src\app\common\models\InspeccionConexionFormatoAdendumModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\InspeccionDimensionalOtroModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\InspeccionEquipoUtilizadoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ListadoResponseModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\PaginacionModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ParametrosModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <TypeScriptCompile Include="src\app\common\modules\util.module.ts" />
+    <TypeScriptCompile Include="src\app\common\pipes\filterEstadosConexion.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\cliente.service.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\herramienta.service.ts" />
     <TypeScriptCompile Include="src\app\common\services\entity\index.ts" />

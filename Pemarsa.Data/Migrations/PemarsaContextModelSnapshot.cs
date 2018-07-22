@@ -646,8 +646,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("EquipoEmiId");
 
-                    b.Property<int?>("EquipoUtilizadoId");
-
                     b.Property<bool?>("EstaConforme");
 
                     b.Property<int?>("EstadoId");
@@ -731,8 +729,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasIndex("EquipoEmiId");
 
-                    b.HasIndex("EquipoUtilizadoId");
-
                     b.HasIndex("EstadoId");
 
                     b.HasIndex("ImagenMedicionEspesoresId");
@@ -779,7 +775,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid?>("GuidUsuarioModifica");
 
-                    b.Property<int?>("InspeccionId");
+                    b.Property<int>("InspeccionId");
 
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()
@@ -934,6 +930,19 @@ namespace Pemarsa.Data.Migrations
                     b.ToTable("InspeccionDimensionalOtro");
                 });
 
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionEquipoUtilizado", b =>
+                {
+                    b.Property<int>("InspeccionId");
+
+                    b.Property<int>("EquipoUtilizadoId");
+
+                    b.HasKey("InspeccionId", "EquipoUtilizadoId");
+
+                    b.HasIndex("EquipoUtilizadoId");
+
+                    b.ToTable("InspeccionEquipoUtilizado");
+                });
+
             modelBuilder.Entity("Pemarsa.Domain.InspeccionEspesor", b =>
                 {
                     b.Property<int>("Id")
@@ -979,7 +988,9 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("DocumentoAdjuntoId");
 
-                    b.HasKey("InspeccionId", "DocumentoAdjuntoId");
+                    b.Property<int>("Pieza");
+
+                    b.HasKey("InspeccionId", "DocumentoAdjuntoId", "Pieza");
 
                     b.HasIndex("DocumentoAdjuntoId");
 
@@ -1614,10 +1625,6 @@ namespace Pemarsa.Data.Migrations
                         .WithMany()
                         .HasForeignKey("EquipoEmiId");
 
-                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoUtilizado")
-                        .WithMany()
-                        .HasForeignKey("EquipoUtilizadoId");
-
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId");
@@ -1677,9 +1684,10 @@ namespace Pemarsa.Data.Migrations
                         .HasForeignKey("FormatoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Pemarsa.Domain.Inspeccion")
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
                         .WithMany("Conexiones")
-                        .HasForeignKey("InspeccionId");
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoConexion")
                         .WithMany()
@@ -1729,6 +1737,19 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
                         .WithMany("Dimensionales")
+                        .HasForeignKey("InspeccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.InspeccionEquipoUtilizado", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoUtilizado")
+                        .WithMany()
+                        .HasForeignKey("EquipoUtilizadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Inspeccion", "Inspeccion")
+                        .WithMany("InspeccionEquipoUtilizado")
                         .HasForeignKey("InspeccionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -13,5 +13,8 @@ namespace Pemarsa.Domain
         [Required, ForeignKey("Inspeccion")]
         public int InspeccionId { get; set; }
         public virtual Inspeccion Inspeccion { get; set; }
+        [Required]
+        public int Pieza { get; set; }
+
     }
 }

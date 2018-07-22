@@ -62,9 +62,17 @@ namespace ProcesoES.Repository
 
         public async Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO)
         {
+            try
+            {
 
-            _context.Inspeccion.Update(inspeccion);
-            return await _context.SaveChangesAsync() > 0;
+                _context.Inspeccion.Update(inspeccion);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<Proceso> ConsultarProcesoPorGuid(Guid guidProceso, UsuarioDTO usuarioDTO)
@@ -72,8 +80,17 @@ namespace ProcesoES.Repository
             try
             {
                 var proceso = _context.Proceso
-                            .Include(c => c.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(c=>c.InspeccionFotos).ThenInclude(d=>d.DocumentoAdjunto)
+                            .Include(c => c.InspeccionEntrada)
+                            .ThenInclude(d => d.Inspeccion)
+                            .ThenInclude(e => e.InspeccionEquipoUtilizado)
+                            .ThenInclude(e => e.EquipoUtilizado)
+                            .Include(c => c.InspeccionEntrada)
+                            .ThenInclude(d => d.Inspeccion)
+                            .ThenInclude(c => c.InspeccionFotos)
+                            .ThenInclude(d => d.DocumentoAdjunto)
+                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Conexiones)
                             .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
+
 
                             .Include(c => c.OrdenTrabajo.Herramienta)
                             .Include(c => c.OrdenTrabajo.Cliente)
@@ -162,7 +179,7 @@ namespace ProcesoES.Repository
             return new Tuple<int, IEnumerable<Proceso>>(cantidad, result);
         }
 
-        public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion,int pieza, UsuarioDTO usuarioDTO)
+        public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza, UsuarioDTO usuarioDTO)
         {
 
             try

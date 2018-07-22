@@ -64,9 +64,7 @@ namespace Pemarsa.Domain
         public int? EstadoId { get; set; }
         public virtual Catalogo Estado { get; set; }
 
-        [ForeignKey("EquipoUtilizado")]
-        public int? EquipoUtilizadoId { get; set; }
-        public virtual Catalogo EquipoUtilizado { get; set; }
+       
 
         [ForeignKey("TipoDeLiquidos")]
         public int? TipoDeLiquidosId { get; set; }
@@ -110,6 +108,8 @@ namespace Pemarsa.Domain
         public virtual DocumentoAdjunto ImagenUltrasonidoPrevia { get; set; }
         #endregion
 
+
+        public virtual IEnumerable<InspeccionEquipoUtilizado> InspeccionEquipoUtilizado { get; set; }
 
         public virtual IEnumerable<InspeccionFotos> InspeccionFotos { get; set; }
 

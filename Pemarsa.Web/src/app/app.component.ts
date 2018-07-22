@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
+import { LoaderService } from './common/services/entity/loaderService';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Pemarsa Platform';
+  showLoader: boolean;
+  
   public ListaSubMenuActual = false;
   ListaMenu: any =
     [
@@ -138,9 +141,15 @@ export class AppComponent {
         complementarios: false
       }
     ];
-  constructor() {
+  constructor(private loaderService: LoaderService) {
+    this.showLoader  = false;
   }
 
+  ngOnInit() {
+    this.loaderService.status.subscribe((val: boolean) => {
+      this.showLoader = val;
+    });
+  }
   subMenu(menu: any) {
     this.ListaSubMenuActual = menu.submenu;
 

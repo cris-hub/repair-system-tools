@@ -42,7 +42,11 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.consultarParametros()
+    
+      this.consultarParametros() 
+    
+    this.consultarProceso();
+
   }
 
   consultarParametros() {
@@ -60,7 +64,6 @@ export class InspeccionHerramientaComponent implements OnInit {
       }, error => {
         this.toastrService.error(error.message)
       }, () => {
-        this.consultarProceso();
       })
   }
 

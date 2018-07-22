@@ -1,4 +1,4 @@
-import { APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -6,8 +6,8 @@ import { AutoCompleteModule, AutoComplete } from 'primeng/autocomplete';
 import { RouterModule } from '@angular/router';
 import { RouterConfigLoader } from '@angular/router/src/router_config_loader';
 import { ConfigLoader } from './common/config/config.loader';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule, BrowserXhr } from '@angular/http';
 
 
 import { NgModule } from '@angular/core';
@@ -31,6 +31,9 @@ import { OrdenTrabajoModule } from './orden-trabajo/orden-trabajo.module';
 import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.service';
 import { ProcesoModule } from './proceso/proceso.module';
 import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
+import { LoaderService } from './common/services/entity/loaderService';
+
+
 
 @NgModule({
   declarations: [
@@ -54,6 +57,10 @@ import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgbModule.forRoot()
+    
+    
+    
+    
 
   ],
   entryComponents: [AutoComplete]
@@ -72,12 +79,18 @@ import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
     SolicitudOrdenTrabajoService,
     FormatoService,
     OrdenTrabajoService,
-    ProcesoService
+    ProcesoService,
+    LoaderService,
 
+    
+    
   ],
   bootstrap: [AppComponent],
   exports: [
     UtilModule
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule { }

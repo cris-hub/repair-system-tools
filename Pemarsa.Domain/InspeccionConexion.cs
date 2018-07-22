@@ -23,8 +23,13 @@ namespace Pemarsa.Domain
 
         [Required, ForeignKey("TipoConexion")]
         public int TipoConexionId { get; set; }
-        public virtual Catalogo TipoConexion { get; set; } 
+        public virtual Catalogo TipoConexion { get; set; }
         #endregion
+
+
+        [Required, ForeignKey("Inspeccion")]
+        public int InspeccionId { get; set; }
+        public virtual Inspeccion Inspeccion { get; set; }
 
         [Required, ForeignKey("InspeccionConexionFormato")]
         public int FormatoId { get; set; }

@@ -42,6 +42,9 @@
 </div>
 
 <div class="right" style="margin-left: 220px; margin-top:7px;">
-  <router-outlet></router-outlet>
+  <router-outlet>
+    <ng-progress #progressBar></ng-progress>
+    <div *ngIf="showLoader" class="loading"></div>
+  </router-outlet>
 </div>
 

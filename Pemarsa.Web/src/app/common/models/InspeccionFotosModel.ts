@@ -9,6 +9,8 @@ export class InspeccionFotosModel {
   public InspeccionId: number
   public Inspeccion: InspeccionModel
 
+  public Pieza : number
+
   constructor() {
   };
 }

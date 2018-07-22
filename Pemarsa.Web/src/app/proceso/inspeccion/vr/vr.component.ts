@@ -7,6 +7,7 @@ import { isNullOrUndefined, isUndefined } from 'util';
 import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO } from '../../inspeccion-enum/inspeccion.enum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoaderService } from '../../../common/services/entity/loaderService';
 
 @Component({
   selector: 'app-vr',
@@ -34,13 +35,16 @@ export class VRComponent implements OnInit {
     private toastrService: ToastrService,
     private activedRoute: ActivatedRoute,
     private router: Router,
-    private formBuider: FormBuilder
+    private formBuider: FormBuilder,
+    private loaderService: LoaderService
   ) {
 
   }
 
   ngOnInit() {
+    
     this.consultarProceso();
+   
   }
 
   obtenerParametrosRuta() {
@@ -54,7 +58,7 @@ export class VRComponent implements OnInit {
 
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
-
+    this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
@@ -66,6 +70,8 @@ export class VRComponent implements OnInit {
       }, error => {
 
       }, () => {
+        this.loaderService.display(false)
+
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
       });
   }
@@ -83,15 +89,19 @@ export class VRComponent implements OnInit {
   }
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
-    formulario.controls['InspeccionFotos'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      :  valido = false;
+
+
 
     formulario.controls['Observaciones'].status
       != 'VALID'
       ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
       : valido = false;
+
+    formulario.status
+      == 'VALID'
+      ? valido = true
+      : valido = false;
+
     if (isUndefined(valido)) {
       return valido = true
     }
@@ -105,7 +115,7 @@ export class VRComponent implements OnInit {
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formInpeccionVR = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos],
       Observaciones: [this.inspeccion.Observaciones, Validators.required]
     });
   }
