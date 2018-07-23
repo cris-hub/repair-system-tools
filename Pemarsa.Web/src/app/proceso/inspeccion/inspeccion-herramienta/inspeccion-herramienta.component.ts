@@ -27,7 +27,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private tipoInspeccion: number;
   private tiposInspeccionesSeleccionadas: CatalogoModel[] = new Array<CatalogoModel>();
   private esPieza: boolean = false;
-  private PiezaId:any ;
+  private PiezaId: any;
   private esPorCantidad: boolean = true;
   private loading: boolean = false;
 
@@ -42,9 +42,9 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-      this.consultarParametros() 
-    
+
+    this.consultarParametros()
+
     this.consultarProceso();
 
   }
@@ -79,12 +79,20 @@ export class InspeccionHerramientaComponent implements OnInit {
     let parametrosUlr: string[] = new Array<string>();
     parametrosUlr.push(this.activedRoute.snapshot.paramMap.get('id'));
     this.PiezaId = 1;
-    if (!isNullOrUndefined(this.activedRoute.snapshot.paramMap.get('index'))) {
-      this.PiezaId = this.activedRoute.snapshot.paramMap.get('index')
-      parametrosUlr.push(this.activedRoute.snapshot.paramMap.get('index'));
-    }
+
+
+    parametrosUlr.push(this.obtenerPiezadesdeUrl());
     this.esPieza = !isNullOrUndefined(this.activedRoute.snapshot.paramMap.get('index'));
     return parametrosUlr;
+  }
+  obtenerPiezadesdeUrl(): string {
+    let index = this.activedRoute.snapshot.paramMap.get('index')
+    if (!isNullOrUndefined(index)) {
+      if (!index.includes('procesar') || index != 'editar') {
+        this.PiezaId = this.activedRoute.snapshot.paramMap.get('index')
+      }
+      return this.PiezaId
+    }
   }
 
   obtenerTipoProceso(tiposProcesos: CatalogoModel[], procesoDesdeUrl: string) {
@@ -123,8 +131,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   quitarDeLaListaDeSeleccionDeInspecciones(inspecion) {
     this.loading = true;
 
-    let inspeccionEntrada: ProcesoInspeccionEntradaModel = this.Proceso.InspeccionEntrada.find(c =>
-    { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO})
+    let inspeccionEntrada: ProcesoInspeccionEntradaModel = this.Proceso.InspeccionEntrada.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO })
 
     this.procesoService.actualizarEstadoInspeccion(inspeccionEntrada.Inspeccion.Guid, ESTADOS_INSPECCION.ANULADA).subscribe(response => {
       if (response) {
@@ -153,8 +160,8 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   persistirNuevaInspeccionSelecionada(guidProceso, tipoInspeccion) {
     this.loading = true;
-    
-    this.procesoService.crearInspeccion(guidProceso, tipoInspeccion,this.PiezaId).subscribe(
+
+    this.procesoService.crearInspeccion(guidProceso, tipoInspeccion, this.PiezaId).subscribe(
       response => { },
       error => { },
       () => {
@@ -170,7 +177,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
     this.Proceso.InspeccionEntrada.forEach(inspecion => {
       this.tiposInspecciones.forEach(c => {
-        if (c.Id == inspecion.Inspeccion.TipoInspeccionId && inspecion.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO && inspecion.Inspeccion.Pieza == this.PiezaId ) {
+        if (c.Id == inspecion.Inspeccion.TipoInspeccionId && inspecion.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO && inspecion.Inspeccion.Pieza == this.PiezaId) {
           let indixe = this.tiposInspecciones.findIndex(c => c.Id == inspecion.Inspeccion.TipoInspeccionId)
           this.tiposInspecciones.splice(indixe, 1)
           this.tiposInspeccionesSeleccionadas.push(c)

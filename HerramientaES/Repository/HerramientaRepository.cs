@@ -23,8 +23,8 @@ namespace HerramientaES.Repository
         {
             try
             {
-                var herramientaBD = await _context.Herramienta
-                                    .Include(c => c.Materiales)
+                var herramientaBD = await _context.Herramienta.AsNoTracking()
+                                    .Include(c => c.Materiales).ThenInclude(d => d.Material)
                                     .Include(c => c.TamanosHerramienta)
                                     .Include(c => c.TamanosMotor)
                                     .Include(c => c.HerramientaEstudioFactibilidad)
@@ -33,59 +33,61 @@ namespace HerramientaES.Repository
                 _context.Entry(herramientaBD).CurrentValues.SetValues(herramienta);
 
                 #region Actualizar Materiales
-                herramienta.Materiales = herramienta.Materiales ?? new List<HerramientaMaterial>();
-                herramientaBD.Materiales = herramientaBD.Materiales ?? new List<HerramientaMaterial>();
+
+
                 //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
-                var materialesEliminar = (from hbd in herramientaBD.Materiales
-                                       where !herramienta.Materiales.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                       select hbd).ToList();
+                var materiales = herramienta.Materiales.Select(d => new HerramientaMaterial()
+                {
+                    MaterialId = d.MaterialId,
+                    HerramientaId = herramientaBD.Id,
+                    Guid = Guid.NewGuid(),
+                    GuidOrganizacion = Guid.NewGuid(),
+                    Estado = true,
+                    GuidUsuarioCrea = Guid.NewGuid(),
+                    NombreUsuarioCrea = "admin"
+                }).Where(d => !herramientaBD.Materiales.Any(e=>e.Guid ==d.Guid) ).ToList();
 
-                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
-                var materialesInsertar = (from hbd in herramienta.Materiales
-                                       where !herramientaBD.Materiales.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                       select hbd).ToList();
 
-                herramientaBD.Materiales.ToList().ForEach(e => {
 
-                    materialesEliminar.ForEach(ef => {
-                        if (e.Id == ef.Id) { e.Estado = false; }
-                    });
-                });
+                _context.HerramientaMaterial.AddRange(materiales);
 
-                materialesInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
-
-                _context.HerramientaMaterial.UpdateRange(herramientaBD.Materiales);
-                _context.HerramientaMaterial.AddRange(materialesInsertar);
                 #endregion
 
                 #region Actualizar TamanosHerramienta
+                herramientaBD.TamanosHerramienta = herramienta.TamanosHerramienta;
+                var tamanosHerramienta = herramientaBD.TamanosHerramienta;
+
+
                 herramienta.TamanosHerramienta = herramienta.TamanosHerramienta ?? new List<HerramientaTamano>();
                 herramientaBD.TamanosHerramienta = herramientaBD.TamanosHerramienta ?? new List<HerramientaTamano>();
                 //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
-                var tamanosEliminar = (from hbd in herramientaBD.TamanosHerramienta
-                                     where !herramienta.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                     select hbd).ToList();
+                var TamanosHerramientaEliminar = (from hbd in herramientaBD.TamanosHerramienta
+                                                  where !herramienta.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                                  select hbd).ToList();
 
                 //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
-                var tamanosInsertar = (from hbd in herramienta.TamanosHerramienta
-                                       where !herramientaBD.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                       select hbd).ToList();
+                var TamanosHerramientaInsertar = (from hbd in herramienta.TamanosHerramienta
+                                                  where !herramientaBD.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
+                                                  select hbd).ToList();
 
-                herramientaBD.TamanosHerramienta.ToList().ForEach(e => {
-                    
-                    tamanosEliminar.ForEach(ef => {
+                herramientaBD.TamanosHerramienta.ToList().ForEach(e =>
+                {
+
+                    TamanosHerramientaEliminar.ForEach(ef =>
+                    {
                         if (e.Id == ef.Id) { e.Estado = false; }
                     });
-                    HerramientaTamano hbd = (herramientaBD.TamanosHerramienta.FirstOrDefault(a => a.Id == e.Id));
-                    HerramientaTamano h = (herramienta.TamanosHerramienta.FirstOrDefault(a => a.Id == e.Id));
+                    HerramientaTamanoMotor hbd = (herramientaBD.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
+                    HerramientaTamanoMotor h = (herramienta.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
                     //campos a actulizar
                     e.Tamano = (h != null) ? h.Tamano : hbd.Tamano;
                 });
 
-                tamanosInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
-             
-                _context.HerramientaTamano.UpdateRange(herramientaBD.TamanosHerramienta);
-                _context.HerramientaTamano.AddRange(tamanosInsertar);
+                TamanosHerramientaInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
+
+
+                _context.HerramientaTamano.AddRange(TamanosHerramientaInsertar);
+
                 #endregion
 
                 #region Actualizar TamanosMotor
@@ -94,16 +96,18 @@ namespace HerramientaES.Repository
                 //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
                 var tamanosMotoEliminar = (from hbd in herramientaBD.TamanosMotor
                                            where !herramienta.TamanosMotor.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                       select hbd).ToList();
+                                           select hbd).ToList();
 
                 //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
                 var tamanosMotorInsertar = (from hbd in herramienta.TamanosMotor
                                             where !herramientaBD.TamanosMotor.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                       select hbd).ToList();
+                                            select hbd).ToList();
 
-                herramientaBD.TamanosMotor.ToList().ForEach(e => {
+                herramientaBD.TamanosMotor.ToList().ForEach(e =>
+                {
 
-                    tamanosMotoEliminar.ForEach(ef => {
+                    tamanosMotoEliminar.ForEach(ef =>
+                    {
                         if (e.Id == ef.Id) { e.Estado = false; }
                     });
                     HerramientaTamanoMotor hbd = (herramientaBD.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
@@ -145,7 +149,7 @@ namespace HerramientaES.Repository
             try
             {
                 return await _context.Herramienta
-                            .Include(c => c.Materiales)
+                            .Include(c => c.Materiales).ThenInclude(d => d.Material)
                             .Include(c => c.TamanosHerramienta)
                             .Include(c => c.TamanosMotor)
                             .Include(c => c.HerramientaEstudioFactibilidad)
@@ -154,7 +158,7 @@ namespace HerramientaES.Repository
                             .Include(c => c.Linea)
                             .FirstOrDefaultAsync(c => c.Guid == guidHerramienta);
             }
-            catch (Exception) { throw; } 
+            catch (Exception) { throw; }
         }
 
         public async Task<Herramienta> ConsultarHerramientaPorId(int id, UsuarioDTO usuario)
@@ -224,21 +228,22 @@ namespace HerramientaES.Repository
 
         public async Task<IEnumerable<Herramienta>> ConsultarHerramientasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario)
         {
-            try {
-                    return await (from h in _context.Herramienta
+            try
+            {
+                return await (from h in _context.Herramienta
                               join c in _context.Cliente on h.ClienteId equals c.Id
                               where c.Guid == guidCliente
                               select h)
-                              .Include(c => c.Materiales)
-                              .Include(c => c.TamanosHerramienta)
-                              .Include(c => c.TamanosMotor)
-                              .Include(c => c.HerramientaEstudioFactibilidad)
-                              .Include(c => c.Estado)
-                              .Include(c => c.Cliente)
-                              .Include(c => c.Linea)
-                              .ToListAsync();
+                          .Include(c => c.Materiales)
+                          .Include(c => c.TamanosHerramienta)
+                          .Include(c => c.TamanosMotor)
+                          .Include(c => c.HerramientaEstudioFactibilidad)
+                          .Include(c => c.Estado)
+                          .Include(c => c.Cliente)
+                          .Include(c => c.Linea)
+                          .ToListAsync();
             }
-            catch (Exception) { throw; }  
+            catch (Exception) { throw; }
         }
 
         public async Task<Guid> CrearHerramienta(Herramienta herramienta, UsuarioDTO usuario)
@@ -254,14 +259,15 @@ namespace HerramientaES.Repository
                 {
                     foreach (HerramientaMaterial HMaterial in herramienta.Materiales)
                     {
-                         Catalogo Material = await _context.Catalogo.FirstOrDefaultAsync(c => c.Id == HMaterial.Id);
+                        Catalogo Material = await _context.Catalogo.FirstOrDefaultAsync(c => c.Id == HMaterial.Id);
 
                         HMaterial.Material = Material;
                         HMaterial.Guid = Guid.NewGuid();
                         HMaterial.FechaRegistro = DateTime.Now;
                     }
                 }
-                if (herramienta.TamanosHerramienta != null) {
+                if (herramienta.TamanosHerramienta != null)
+                {
                     foreach (HerramientaTamano HTamano in herramienta.TamanosHerramienta)
                     {
                         HTamano.Guid = Guid.NewGuid();

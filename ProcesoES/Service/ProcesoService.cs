@@ -145,6 +145,13 @@ namespace ProcesoES.Service
                         }
                     }
                 }
+                foreach (var conexion in inspeccion.Conexiones)
+                {
+                    conexion.NombreUsuarioCrea = "admin";
+                    conexion.FechaRegistro = DateTime.Now;
+                }
+
+
                 return await _procesoRepository.ActualizarInspección(inspeccion, usuarioDTO);
             }
             catch (Exception)

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Renderer2 } from "@angular/core";
+import { Component, Input, Output, EventEmitter, Renderer2, OnChanges, SimpleChanges, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
 import { HerramientaEstudioFactibilidadModel } from "../../../common/models/Index";
@@ -7,7 +7,13 @@ import { HerramientaEstudioFactibilidadModel } from "../../../common/models/Inde
   selector: 'app-factibilidad-herramienta',
   templateUrl: './factibilidad-herramienta.component.html'
 })
-export class FactibilidadHerramientaComponent {
+export class FactibilidadHerramientaComponent implements OnInit, OnChanges {
+  ngOnInit(): void {
+    this.llenarObjectoEstudioFactibilidad(this.HerramientaEstudioFactibilidad, 'crear')
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
   public data: any = {};
   public frmHerramientaEstudioFactibilidad: FormGroup;
   private HerramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel;
@@ -84,11 +90,11 @@ export class FactibilidadHerramientaComponent {
       this.data.esEstudioFactibilidad = "falta";
     }
     this.paramsHerramientaEstudioFactibilidad.emit(this.data);
-    this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
+
   }
 
   limpiarHerramientaEstudioFactibilidad() {
-    this.HerramientaEstudioFactibilidad = new HerramientaEstudioFactibilidadModel();
+
     this.initForm();
   }
 

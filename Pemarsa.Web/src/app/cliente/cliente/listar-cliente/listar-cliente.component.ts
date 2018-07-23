@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 
 import { ClienteService } from '../../../common/services/entity/index';
 import {
-  ClienteModel
+  ClienteModel, EntidadModel, CatalogoModel
 } from '../../../common/models/Index';
 
 import { FiltroClienteComponent } from '../filtro-cliente/filtro-cliente.component'
@@ -30,6 +30,8 @@ export class ListarClienteComponent implements OnInit {
   // paginacion
   private paginacion: PaginacionModel;
   private parametros: ParametrosModel;
+  private responsables: CatalogoModel[];
+  private estados: EntidadModel[];
   private esFiltrar: boolean = false;
 
   constructor(
@@ -77,6 +79,9 @@ export class ListarClienteComponent implements OnInit {
   consultarParametros() {
     this.parametroSrv.consultarParametrosPorEntidad("Cliente")
       .subscribe(response => {
+        this.estados = response.Catalogos.filter(c => c.Grupo == 'ESTADOS_CLIENTES');
+        this.responsables = response.Catalogos.filter(c => c.Grupo == 'RESPONSABLES');
+
         this.parametros = response;
       });
   }

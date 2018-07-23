@@ -44,7 +44,7 @@
               *Teléfono:
             </label>
             <div class="col-md-3">
-              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Telefono" name="Telefono" class="form-control" placeholder="Teléfono">
+              <input [attr.disabled]="esVer == true ? '' : null" type="tel" formControlName="Telefono" name="Telefono" class="form-control" placeholder="Teléfono">
             </div>
           </div>
 
@@ -118,7 +118,7 @@
             </div>
           </div>
 
-          <div class="form-group row">
+          <div *ngIf="esVer == true ? '' : null" class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
               <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus" style="font-size: 20px;cursor: pointer;"> </i>
             </label>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { FactibilidadHerramientaComponent } from "../factibilidad-herramienta/factibilidad-herramienta.component";
@@ -9,6 +9,7 @@ import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/c
 import { ToastrService } from "ngx-toastr";
 import { HerramientaModel, HerramientaEstudioFactibilidadModel, CatalogoModel, EntityModel, HerramientaTamanoMotorModel, HerramientaTamanoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaMaterialModel } from "../../../common/models/Index";
 import { HerramientaService, ClienteService } from "../../../common/services/entity";
+import { retry } from "rxjs/operators";
 
 @Component({
   selector: 'app-crear-herramienta',
@@ -95,6 +96,8 @@ export class CrearHerramientaComponent implements OnInit {
   *  a la capacidad crear cliente o actualizar cliente 
   */
   submitForm(Herramienta: FormGroup) {
+
+   
     this.isSubmitted = false;
     this.frmHerramienta;
 
@@ -128,15 +131,35 @@ export class CrearHerramientaComponent implements OnInit {
       .subscribe(response => {
         this.herramienta = response;
         this.cargarMateriales(this.herramienta.Materiales);
+        this.initForm(this.herramienta);
+        if (this.herramienta.LineaId != null) {
+          this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.Id == this.herramienta.LineaId && e.Grupo == "clientelinea");
+        }
+        this.esEstudioFactibilidad = this.estudioDefactibilidadEstado(this.herramienta.HerramientaEstudioFactibilidad)
+
         this.cargarLineas(this.herramienta);
         this.herramientaTamanoMotor = this.herramienta.TamanosMotor.filter(e => e.Estado == true);
         this.herramientaTamano = this.herramienta.TamanosHerramienta.filter(e => e.Estado == true);
         this.cargarHerramientaFactibilidad(this.herramienta.HerramientaEstudioFactibilidad);
-        this.initForm(this.herramienta);
-        if (this.herramienta.LineaId != null) {
-          this.clienteLinea = this.paramsClientes.Consultas.filter(e => e.CatalogoId == this.herramienta.LineaId && e.Grupo == "clientelinea");
-        }
+        console.log(this.herramienta)
+       
       });
+  }
+
+
+  estudioDefactibilidadEstado(estudio: HerramientaEstudioFactibilidadModel) {
+    if (!estudio) {
+      return 'vacio'
+    }
+    for (var valor in estudio) {
+      if (typeof (estudio[valor]) == 'boolean') {
+        if (!(estudio[valor])) {
+          return 'falta'
+        }
+       
+      }
+    }
+    return 'ok'
   }
 
   cargarHerramientaFactibilidad(objHerramientaFactibilidad: HerramientaEstudioFactibilidadModel) {
@@ -210,13 +233,16 @@ export class CrearHerramientaComponent implements OnInit {
 
   initForm(herramienta: HerramientaModel) {//faltan las lineas
     this.frmHerramienta = this.frmBuilder.group({
-      ClienteId: [herramienta.ClienteId],
+      ClienteId: [herramienta.ClienteId,Validators.required],
       EsHerramientaMotor: [herramienta.EsHerramientaMotor],
-      GuidUsuarioVerifica : [herramienta.GuidUsuarioVerifica],
-      EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera],
-      EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad],
-      EstadoId: [herramienta.EstadoId],
+      GuidUsuarioVerifica: [herramienta.GuidUsuarioVerifica, Validators.required],
+      EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera, Validators.required],
+      Materiales: [herramienta.Materiales, Validators.required],
+      HerramientaEstudioFactibilidad: [herramienta.HerramientaEstudioFactibilidad, Validators.required],
       
+      
+      EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad, Validators.required],
+      EstadoId: [herramienta.EstadoId],
       NombreUsuarioVerifica: ['Admin'],//este campo debe ser actualizado con la api de seguridad
       LineaId: [herramienta.LineaId],
       Moc: [herramienta.Moc],
@@ -227,10 +253,26 @@ export class CrearHerramientaComponent implements OnInit {
     });
     this.loading = false;
     this.frmHerramienta.valueChanges.subscribe(val => {
+      console.log(val)
+      this.herramienta.EsHerramientaMotor = val.EsHerramientaMotor
       this.isSubmitted = true;
+      
     });
   }
-
+  validacionLineaCliente() {
+    let valor = this.frmHerramienta.controls['ClienteId'].value
+    if (valor && this.clienteLinea) {
+      this.frmHerramienta.controls['LineaId'].setValidators(Validators.required)
+    }
+  }
+  validacionHerramientaMotor() {
+    let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
+    if (valor) {
+      this.frmHerramienta.setControl('TamanosMotor', new FormControl(this.herramientaTamanoMotor, Validators.required))
+      this.frmHerramienta.setControl('TamanosHerramienta', new FormControl(this.herramientaTamano, Validators.required))
+    }
+    
+  }
 
   /**
   * se consulta los Parametros del cliente y se los signa a una variables locales
@@ -263,6 +305,7 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   nuevoDataEstudioFactibilidad(objEstudioFactibilidad: HerramientaEstudioFactibilidadModel, accion: any) {
+    this.isSubmitted = true;
     this.FactibilidadHerramientaComponentEvent.llenarObjectoEstudioFactibilidad(objEstudioFactibilidad, accion);
   }
 
@@ -303,6 +346,7 @@ export class CrearHerramientaComponent implements OnInit {
       nuevaHerramientaTamanoMotor.NombreUsuarioCrea = "Admin";//este campo debe ser llenado desde la api de seguridad
       this.herramientaTamanoMotor.push(nuevaHerramientaTamanoMotor);
       this.inputTamanoMotor.nativeElement.value = "";
+      this.isSubmitted = true;
     }
   }
 
@@ -321,10 +365,13 @@ export class CrearHerramientaComponent implements OnInit {
       nuevaHerramientaTamano.NombreUsuarioCrea = "Admin";//este campo debe ser llenado desde la api de seguridad
       this.herramientaTamano.push(nuevaHerramientaTamano);
       this.inputTamanoHerramienta.nativeElement.value = "";
+      this.isSubmitted = true;
     }
   }
 
   eliminarHerramientaTamano(index: any) {
+    this.isSubmitted = true;
+
     this.herramientaTamano.splice(index, 1);
   }
 
@@ -352,6 +399,12 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   ConfirmacionEvento(event: any) {
+    this.validacionLineaCliente()
+    this.validacionHerramientaMotor()
+    if (this.frmHerramienta.status!= 'VALID') {
+      this.toastr.error('faltan datos por diligenciar')
+      return
+    }
     if (event.response == true) {
       this.submitForm(event.frmHerramienta);
     }

@@ -47,6 +47,7 @@ export class VisualDimensionalComponent implements OnInit {
   //form
   private formInpeccionVisualDimensional: FormGroup;
   private esFormularioValido: Boolean = false;
+  private esVer: Boolean = false;
   private formConexiones: FormArray;
 
   //autoCompletar
@@ -144,6 +145,7 @@ export class VisualDimensionalComponent implements OnInit {
     this.crearFormConexiones()
   }
   private asignarDataDesdeElFormulario() {
+    delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
   }
   crearFormConexiones(): any {
