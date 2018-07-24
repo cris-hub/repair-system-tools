@@ -34,14 +34,19 @@ namespace Pemarsa.Domain
         [ForeignKey("TiposConexiones")]
         public int? TiposConexionesId { get; set; }
         public virtual Catalogo TiposConexiones { get; set; }
-        
-        [ ForeignKey("Conexion")]
+
+        [ForeignKey("Conexion")]
         public int? ConexionId { get; set; }
         public virtual Catalogo Conexion { get; set; }
 
-        public ICollection<FormatoAdendum> Adendum { get; set; }
+        [NotMapped]
+        public virtual ICollection<FormatoAdendum> Adendum { get; set; }
 
-        public ICollection<FormatoParametro> Parametros { get; set; }
+        [NotMapped]
+        public virtual ICollection<FormatoParametro> Parametros { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<FormatoParametro> Aletas { get; set; }
 
 
 

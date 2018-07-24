@@ -65,6 +65,9 @@ namespace ProcesoES.Repository
             try
             {
 
+                _context.InspeccionConexion.AddRange(inspeccion.Conexiones);
+
+
                 _context.Inspeccion.Update(inspeccion);
                 return await _context.SaveChangesAsync() > 0;
             }

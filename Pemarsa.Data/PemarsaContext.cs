@@ -60,6 +60,7 @@ namespace Pemarsa.Data
         public DbSet<Proceso> Proceso { get; set; }
         public DbSet<ProcesoInspeccionEntrada> ProcesoInspeccionEntrada { get; set; }
         public DbSet<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
+        public DbSet<InspeccionConexion> InspeccionConexion { get; set; }
         public DbSet<Inspeccion> Inspeccion { get; set; }
         public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
 

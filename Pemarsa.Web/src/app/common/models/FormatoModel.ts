@@ -3,7 +3,7 @@ import { EntityModel, HerramientaModel, AttachmentModel, FormatoAdendumModel, Fo
 export class FormatoModel extends EntityModel {
 
   constructor(
-    public Planos: Array<AttachmentModel>,
+    public Planos?: Array<AttachmentModel>,
     public Adendum?: Array<FormatoAdendumModel>,
     public TipoFormatoId?: number,
     public TipoFormato?: CatalogoModel,
@@ -23,6 +23,8 @@ export class FormatoModel extends EntityModel {
     public Aletas?: boolean,
   ) {
     super();
+    this.Adendum = new Array<FormatoAdendumModel>()
+    this.Planos = new Array<AttachmentModel>()
   }
 
 

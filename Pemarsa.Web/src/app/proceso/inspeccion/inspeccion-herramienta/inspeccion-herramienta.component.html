@@ -1,4 +1,4 @@
-<div *ngIf="esPorCantidad && !esPieza">
+<div *ngIf="!validacionVerFormularioPorCantidad()">
   <h1 class="col-sm-offset-3">Herramientas inspeccionar</h1>
   <div *ngIf="Proceso" class="form-group">
     <div *ngFor="let indexHerramienta of rangoHerramientasInspeccionar(Proceso.OrdenTrabajo.CantidadInspeccionar);index">
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div *ngIf="!esPorCantidad || esPieza">
+<div *ngIf="validacionVerFormularioPorCantidad()">
 
 
   <h2 class="col-md-offset-3 row">{{tipoProcesoActual.Valor}}</h2>

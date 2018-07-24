@@ -8,6 +8,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
 import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion';
+import { pemarsaAdendumPipe } from '../pipes/pemarsaAdendumPipe';
+import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdendumPorTipoPipe';
 
 @NgModule({
   imports: [
@@ -23,8 +25,9 @@ import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion'
     ValidacionDirective,
     AutocompletarComponent,
     PemarsaStringFormat,
-    filterEstadoConexionPorConexion
-   
+    filterEstadoConexionPorConexion,
+    pemarsaAdendumPipe,
+    filtrarColumnasAdendumPorTipoPipe,
   ],
 
   exports: [
@@ -33,8 +36,9 @@ import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion'
     ValidacionDirective,
     AutocompletarComponent,
     PemarsaStringFormat,
-    filterEstadoConexionPorConexion
-
+    filterEstadoConexionPorConexion,
+    pemarsaAdendumPipe,
+    filtrarColumnasAdendumPorTipoPipe,
   ],
 
   providers: [

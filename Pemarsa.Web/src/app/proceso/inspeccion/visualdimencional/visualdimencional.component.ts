@@ -140,6 +140,7 @@ export class VisualDimensionalComponent implements OnInit {
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
+      
       Conexiones: this.formBuider.array([])
     });
     this.crearFormConexiones()
@@ -158,9 +159,13 @@ export class VisualDimensionalComponent implements OnInit {
 
     let posicion = this.formConexiones.controls.length
 
-    do {
+
+    while (this.inspeccion.Conexiones.length < 3) {
       this.inspeccion.Conexiones.push(new InspeccionConexionModel())
-    } while (this.inspeccion.Conexiones.length < 3);
+
+    }
+    
+    
 
     this.inspeccion.Conexiones.forEach(p => {
       let form = this.formBuider.group({});

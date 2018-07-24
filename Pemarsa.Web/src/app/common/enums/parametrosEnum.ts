@@ -11,6 +11,11 @@ export enum CONEXIONID {
   'ESTADOS_CONEXION_PIN' = 24 ,
   'ESTADOS_CONEXION_BOX' = 25 
 }
+
+export enum TIPOSFORMATOADENDUM {
+  'Tipo1' = 26,
+  'Tipo2' = 27
+}
 export enum CONEXION {
 
 }

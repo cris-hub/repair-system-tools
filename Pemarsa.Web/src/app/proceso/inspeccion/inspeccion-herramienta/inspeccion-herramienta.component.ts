@@ -10,6 +10,7 @@ import { TIPO_PROCESO, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspecci
 import { ProcesoInspeccionSalidaModel } from '../../../common/models/ProcesoInspeccionSalidaModel';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
 import { create } from 'domain';
+import { parse } from 'url';
 
 @Component({
   selector: 'app-inspeccion-herramienta',
@@ -30,7 +31,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private PiezaId: any;
   private esPorCantidad: boolean = true;
   private loading: boolean = false;
-
+  private accion: string;
 
   constructor(
     private procesoService: ProcesoService,
@@ -79,19 +80,49 @@ export class InspeccionHerramientaComponent implements OnInit {
     let parametrosUlr: string[] = new Array<string>();
     parametrosUlr.push(this.activedRoute.snapshot.paramMap.get('id'));
     this.PiezaId = 1;
+    this.activedRoute.snapshot.url.forEach(url =>
+      url.path == 'procesar' || url.path == 'editar' ? this.accion = url.path : this.accion = undefined
+    )
+
+  
+      
 
 
-    parametrosUlr.push(this.obtenerPiezadesdeUrl());
-    this.esPieza = !isNullOrUndefined(this.activedRoute.snapshot.paramMap.get('index'));
+    this.esPieza = this.obtenerPiezadesdeUrl() ? true : false;
+
+    if (this.obtenerPiezadesdeUrl() != '1') {
+      parametrosUlr.push(this.obtenerPiezadesdeUrl());
+    } else {
+      this.esPieza = true
+    }
+
+
+    console.log(this.esPorCantidad, this.esPieza, this.accion, this.PiezaId, parametrosUlr.length > 1)
+
     return parametrosUlr;
   }
+
   obtenerPiezadesdeUrl(): string {
     let index = this.activedRoute.snapshot.paramMap.get('index')
     if (!isNullOrUndefined(index)) {
-      if (!index.includes('procesar') || index != 'editar') {
+      if ((!index.indexOf('procesar') && !index.indexOf('editar'))) {
+        this.PiezaId = this.activedRoute.snapshot.paramMap.get('index')
+      } else {
         this.PiezaId = this.activedRoute.snapshot.paramMap.get('index')
       }
-      return this.PiezaId
+    }
+
+    
+    return this.PiezaId
+
+  }
+
+
+  validacionVerFormularioPorCantidad() {
+    if (this.esPorCantidad && this.PiezaId >= 1 && this.esPieza && (this.obtenerProcesoDesdeUrl().length > 1 || !this.esPieza)) {
+      return true
+    } else if (!this.esPorCantidad  ) { 
+      return false
     }
   }
 
