@@ -4,7 +4,7 @@ import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
 import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl, FormControl } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { isUndefined } from 'util';
@@ -16,10 +16,10 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-visualdimencional',
-  templateUrl: './visualdimencional.component.html',
-  styleUrls: ['./visualdimencional.component.css']
+  templateUrl: './visual-dimensional-motor.component.html',
+  styleUrls: ['./visual-dimensional-motor.component.css']
 })
-export class VisualDimensionalComponent implements OnInit {
+export class VisualDimensionalMotorComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
 
 
@@ -88,8 +88,12 @@ export class VisualDimensionalComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
-          return c.Inspeccion.TipoInspeccionId == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
-        });
+          return (
+            c.Inspeccion.TipoInspeccionId
+            == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
+            && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
+
+            });
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
@@ -114,21 +118,20 @@ export class VisualDimensionalComponent implements OnInit {
 
 
   //actualizaciones
+  procesar() {
+
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
+    this.asignarDataDesdeElFormulario();
+    if (this.esFormularioValido) {
+      this.actualizarDatos()
+    }
+  }
   actualizarDatos() {
     this.procesoService
       .actualizarInspección(this.inspeccion)
       .subscribe(response => {
         this.toastrService.info(response ? 'ok' : 'error');
       })
-  }
-
-  procesar() {
-    
-    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
-    this.asignarDataDesdeElFormulario();
-    if (this.esFormularioValido) {
-      this.actualizarDatos()
-    }
   }
 
 
@@ -140,7 +143,7 @@ export class VisualDimensionalComponent implements OnInit {
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
-      
+
       Conexiones: this.formBuider.array([])
     });
     this.crearFormConexiones()
@@ -164,8 +167,8 @@ export class VisualDimensionalComponent implements OnInit {
       this.inspeccion.Conexiones.push(new InspeccionConexionModel())
 
     }
-    
-    
+
+
 
     this.inspeccion.Conexiones.forEach(p => {
       let form = this.formBuider.group({});
@@ -204,6 +207,7 @@ export class VisualDimensionalComponent implements OnInit {
   }
 
   //autocomplete
+
   //filtrar
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -226,6 +230,7 @@ export class VisualDimensionalComponent implements OnInit {
     (x: { Valor: string, x: number }) => x.Valor;
   ValorMostrar =
     (x: { Valor: string, x: number }) => x.Valor;
+
   selectItem(event) {
     if (!event.item) {
       return
@@ -239,11 +244,13 @@ export class VisualDimensionalComponent implements OnInit {
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
 
   }
+
+
+
   removerDeListaAMostrar(EquiposMedicionUsado: EntidadModel[], objetoEliminar: EntidadModel) {
     let index = EquiposMedicionUsado.findIndex(c => c.Id == objetoEliminar.Id);
     EquiposMedicionUsado.splice(index, 1);
   }
-
   removerDeElementosSeleccionado(equipo) {
     let index = this.inspeccion.InspeccionEquipoUtilizado.findIndex(c => c.EquipoUtilizado.Id == equipo.Id);
     this.inspeccion.InspeccionEquipoUtilizado.splice(index, 1)

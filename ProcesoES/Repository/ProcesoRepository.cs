@@ -64,8 +64,52 @@ namespace ProcesoES.Repository
         {
             try
             {
+                DatosCreaccionObjecto(inspeccion);
 
-                _context.InspeccionConexion.AddRange(inspeccion.Conexiones);
+                foreach (var t in inspeccion.InspeccionEquipoUtilizado)
+                {
+                    var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EquipoUtilizadoId);
+                    _context.Entry(catalogo).State = EntityState.Unchanged;
+                }
+
+                foreach (var t in inspeccion.Insumos)
+                {
+                    _context.Entry(t).State = t.Id == 0 ?
+                            EntityState.Added :
+                            EntityState.Modified;
+                    var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.TipoInsumoId);
+                    _context.Entry(catalogo).State = EntityState.Unchanged;
+                }
+                //_context.InspeccionInsumo.UpdateRange(inspeccion.Insumos);
+
+
+                foreach (var t in inspeccion.Dimensionales)
+                {
+                    _context.Entry(t).State = t.Id == 0 ?
+                            EntityState.Added :
+                            EntityState.Modified;
+                }
+                //_context.InspeccionDimensionalOtro.UpdateRange(inspeccion.Dimensionales);
+
+
+                foreach (var t in inspeccion.Conexiones)
+                {
+                    if (t.EstadoId != 0)
+                    {
+
+                        var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EstadoId);
+                        _context.Entry(catalogo).State = EntityState.Unchanged;
+                    }
+                    _context.Entry(t).State = t.Id == 0 ?
+                                        EntityState.Added :
+                                        EntityState.Modified;
+
+                }
+                //_context.InspeccionConexion.UpdateRange(inspeccion.Conexiones);
+
+
+
+                //_context.InspeccionEquipoUtilizado.UpdateRange(inspeccion.InspeccionEquipoUtilizado);
 
 
                 _context.Inspeccion.Update(inspeccion);
@@ -75,6 +119,59 @@ namespace ProcesoES.Repository
             {
 
                 throw;
+            }
+        }
+
+        private static void DatosCreaccionObjecto(Inspeccion inspeccion)
+        {
+            if (inspeccion.Conexiones != null)
+            {
+                foreach (var t in inspeccion.Conexiones)
+                {
+                    if (t.Id == 0)
+                    {
+                        t.NombreUsuarioCrea = "admin";
+                        t.FechaRegistro = DateTime.Now;
+                        t.InspeccionId = inspeccion.Id;
+                    }
+                }
+
+            }
+            if (inspeccion.Espesores != null)
+            {
+                foreach (var t in inspeccion.Espesores)
+                {
+                    if (t.Id == 0)
+                    {
+                        t.NombreUsuarioCrea = "admin";
+                        t.FechaRegistro = DateTime.Now;
+                        t.InspeccionId = inspeccion.Id;
+                    }
+                }
+            }
+            if (inspeccion.Insumos != null)
+            {
+                foreach (var t in inspeccion.Insumos)
+                {
+                    if (t.Id == 0)
+                    {
+                        t.NombreUsuarioCrea = "admin";
+                        t.FechaRegistro = DateTime.Now;
+                        t.InspeccionId = inspeccion.Id;
+                    }
+                }
+            }
+            if (inspeccion.Dimensionales != null)
+            {
+                foreach (var t in inspeccion.Dimensionales)
+                {
+                    if (t.Id == 0)
+                    {
+                        t.NombreUsuarioCrea = "admin";
+                        t.FechaRegistro = DateTime.Now;
+                        t.InspeccionId = inspeccion.Id;
+                    }
+                }
             }
         }
 
@@ -91,10 +188,12 @@ namespace ProcesoES.Repository
                             .ThenInclude(d => d.Inspeccion)
                             .ThenInclude(c => c.InspeccionFotos)
                             .ThenInclude(d => d.DocumentoAdjunto)
+                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.ImagenMedicionEspesores)
+                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Dimensionales)
+                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.ImagenMfl)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Conexiones)
+                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
-
-
                             .Include(c => c.OrdenTrabajo.Herramienta)
                             .Include(c => c.OrdenTrabajo.Cliente)
                             .Include(c => c.OrdenTrabajo.Anexos);

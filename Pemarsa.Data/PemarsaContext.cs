@@ -17,21 +17,17 @@ namespace Pemarsa.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Inspeccion>().HasAlternateKey(k => new { k.Pieza, k.TipoInspeccionId ,k.Id});
-            modelBuilder.Entity<InspeccionFotos>().HasKey(k => new { k.InspeccionId, k.DocumentoAdjuntoId,k.Pieza });
+            modelBuilder.Entity<Inspeccion>().HasAlternateKey(k => new { k.Pieza, k.TipoInspeccionId, k.Id });
+            modelBuilder.Entity<InspeccionFotos>().HasKey(k => new { k.InspeccionId, k.DocumentoAdjuntoId, k.Pieza });
             modelBuilder.Entity<InspeccionEquipoUtilizado>().HasKey(k => new { k.InspeccionId, k.EquipoUtilizadoId });
 
             modelBuilder.Entity<ProcesoInspeccionSalida>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
             modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
 
+            modelBuilder.Entity<FormatoFormatoParametro>().HasKey(k => new { k.FormatoId, k.FormatoParametroId });
 
             modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
             modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
-
-
-
-
-
 
         }
 
@@ -61,7 +57,10 @@ namespace Pemarsa.Data
         public DbSet<ProcesoInspeccionEntrada> ProcesoInspeccionEntrada { get; set; }
         public DbSet<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
         public DbSet<InspeccionConexion> InspeccionConexion { get; set; }
+        public DbSet<InspeccionEquipoUtilizado> InspeccionEquipoUtilizado { get; set; }
+        public DbSet<InspeccionDimensionalOtro> InspeccionDimensionalOtro { get; set; }
         public DbSet<Inspeccion> Inspeccion { get; set; }
+        public DbSet<InspeccionInsumo> InspeccionInsumo { get; set; }
         public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
 
 

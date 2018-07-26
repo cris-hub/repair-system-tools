@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { AttachmentModel, InspeccionModel, ProcesoModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel, InspeccionFotosModel, InspeccionInsumoModel } from '../../../common/models/Index';
-import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AttachmentModel, ProcesoModel, InspeccionModel, EntidadModel, CatalogoModel, InspeccionConexionModel, InspeccionEquipoUtilizadoModel, InspeccionFotosModel, InspeccionDimensionalOtroModel } from '../../../common/models/Index';
+import { FormArray, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ProcesoService } from '../../../common/services/entity';
-import { ToastrService } from 'ngx-toastr';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
+import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
+import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
-import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
-import { isUndefined } from 'util';
 
 @Component({
-  selector: 'app-emi',
-  templateUrl: './emi.component.html',
-  styleUrls: ['./emi.component.css']
+  selector: 'app-visual-dimensional',
+  templateUrl: './visual-dimensional.component.html',
+  styleUrls: ['./visual-dimensional.component.css']
 })
-export class EMIComponent implements OnInit {
+export class VisualDimensionalComponent implements OnInit {
 
   @ViewChild('instance') instance: NgbTypeahead;
+
 
   //carga archivos
   private lectorArchivos: FileReader;
@@ -33,25 +33,29 @@ export class EMIComponent implements OnInit {
   private proceso: ProcesoModel;
   private inspeccion: InspeccionModel = new InspeccionModel();
 
-  //catalogos
-  private TubosPatrones: EntidadModel[];
-  private EquiposEmi: EntidadModel[];
-  private BobinasMagneticas: EntidadModel[];
 
-  //autocompletarEquipoMedicion
+
+  //catalogos
+
   private EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
-  private equipo: CatalogoModel;
+
+
 
 
   //form
-
-  private formulario: FormGroup;
+  private formInpeccionVisualDimensional: FormGroup;
   private esFormularioValido: Boolean = false;
+  private esVer: Boolean = false;
+  private formDimensionales: FormArray;
+
+  //autoCompletar
+  private equipo: CatalogoModel;
+
 
   constructor(
     private procesoService: ProcesoService,
-    private toastrService: ToastrService,
     private parametroService: ParametroService,
+    private toastrService: ToastrService,
     private activedRoute: ActivatedRoute,
     private router: Router,
     private formBuider: FormBuilder,
@@ -61,9 +65,9 @@ export class EMIComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.consultarParatros()
-    this.consultarProceso();
 
+    this.consultarParatros();
+    this.consultarProceso();
   }
 
   obtenerParametrosRuta() {
@@ -75,17 +79,10 @@ export class EMIComponent implements OnInit {
     return parametrosUlrMap;
   }
 
-  consultarParatros() {
-    this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      this.TubosPatrones = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TUBOSPATRONES);
-      this.EquiposEmi = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOSEMI);
-      this.BobinasMagneticas = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.BOBINASMAGNETICAS);
-    })
-  }
-
+  //consultas
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
-    this.loaderService.display(true)
+
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
@@ -94,18 +91,142 @@ export class EMIComponent implements OnInit {
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
         });
-
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
       }, error => {
 
       }, () => {
-        this.loaderService.display(false)
+
 
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
+        
       });
   }
+  consultarParatros() {
+    this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
+      
+      this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
+
+    })
+  }
+
+
+
+  //actualizaciones
+  procesar() {
+
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
+    this.asignarDataDesdeElFormulario();
+  
+      this.actualizarDatos()
+    
+  }
+  actualizarDatos() {
+    this.procesoService
+      .actualizarInspección(this.inspeccion)
+      .subscribe(response => {
+        this.toastrService.info(response ? 'ok' : 'error');
+      })
+  }
+
+
+
+  //cargar o inicializar datos del formulario
+  iniciarFormulario(inspeccion: InspeccionModel) {
+    this.formInpeccionVisualDimensional = this.formBuider.group({
+      InspeccionFotos: [this.inspeccion.InspeccionFotos],
+      Observaciones: [this.inspeccion.Observaciones, Validators.required],
+      IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
+      ObservacionesInspeccion: [this.inspeccion.ObservacionesInspeccion, Validators.required],
+      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
+      Dimensionales: this.formBuider.array([])
+    });
+    this.crearFormDimensiones()
+  }
+  private asignarDataDesdeElFormulario() {
+    delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
+    Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
+  }
+
+
+  crearFormDimensiones(): any {
+
+    if (!this.formInpeccionVisualDimensional) {
+      return
+    }
+
+    this.formDimensionales = this.formInpeccionVisualDimensional.get('Dimensionales') as FormArray;
+
+    
+
+
+    while (this.inspeccion.Dimensionales.length < 3) {
+      this.inspeccion.Dimensionales.push(new InspeccionDimensionalOtroModel())
+
+    }
+    
+    this.inspeccion.Dimensionales.forEach(p => {
+      let form = this.formBuider.group({});
+      
+      form.addControl('Tolerancia', new FormControl(p.Tolerancia));
+      form.addControl('MedidaActual', new FormControl(p.MedidaActual));
+      form.addControl('MedidaNominal', new FormControl(p.MedidaNominal));
+      form.addControl('Conformidad', new FormControl(p.MedidaNominal));
+      
+      this.formDimensionales.push(form);
+    })
+
+
+
+
+  }
+
+
+  addItemFormDimensional(): void {
+    this.formDimensionales = this.formInpeccionVisualDimensional.get('Dimensionales') as FormArray;
+    this.formDimensionales.push(this.crearFormFormaDimensional());
+    console.log(this.formDimensionales);
+  }
+  removeItemFormDimensional(i) {
+    this.formDimensionales.removeAt(i);
+  }
+  crearFormFormaDimensional(): any {
+    let formatoParametrosModel = this.formBuider.group({
+      MedidaNominal: '',
+      MedidaActual: '',
+      Tolerancia: '',
+      Conformidad: '',
+    });
+
+
+    return formatoParametrosModel;
+  }
+  sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
+    let valido: boolean;
+
+    formulario.controls['InspeccionFotos'].status
+      != 'VALID'
+      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos, ALERTAS_ERROR_TITULO.DatosObligatorios)
+      : valido = true;
+
+    formulario.controls['Observaciones'].status
+      != 'VALID'
+      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
+      : valido = true;
+
+    formulario.status
+      == 'VALID'
+      ? valido = true
+      : valido = false;
+
+    return valido
+
+  }
+
+
+
+
 
 
   //autocomplete
@@ -162,77 +283,14 @@ export class EMIComponent implements OnInit {
     EquiposMedicionUsado.push(objetoAñadir);
   }
 
-
-
-  //persistir
-  procesar() {
-    this.asignarDataDesdeElFormulario();
-    this.actualizarDatos()
-  }
-  private asignarDataDesdeElFormulario() {
-    //deja el arreglo
-    delete this.formulario.value['InspeccionEquipoUtilizado']
-
-    Object.assign(this.inspeccion, this.formulario.value);
-  }
-  sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
-    let valido: boolean;
-
-
-
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = false;
-
-    formulario.status
-      == 'VALID'
-      ? valido = true
-      : valido = false;
-
-    if (isUndefined(valido)) {
-      return valido = true
-    }
-    return valido
-
-  }
-  actualizarDatos() {
-    console.log(this.inspeccion)
-    console.log(JSON.stringify(this.inspeccion))
-    this.procesoService.actualizarInspección(this.inspeccion).subscribe(response => {
-      this.toastrService.info(response ? 'ok' : 'error');
-    })
-  }
-
-  //cargar o inicializar datos del formulario
-  iniciarFormulario(inspeccion: InspeccionModel) {
-    console.log(inspeccion)
-    this.formulario = this.formBuider.group({
-      SeIdentificaDefecto : [inspeccion.SeIdentificaDefecto],
-      Observaciones: [inspeccion.Observaciones],
-      Amperaje: [inspeccion.Amperaje],
-      VelocidadBuggyDrive: [inspeccion.VelocidadBuggyDrive],
-      TuboPatronId: [inspeccion.TuboPatronId],
-      EquipoEmiId: [inspeccion.EquipoEmiId],
-      BobinaMagneticaId: [inspeccion.BobinaMagneticaId],
-      EstaConforme: [inspeccion.EstaConforme],
-      
-    });
-
-    
-  }
-
-  
-
-
   //carga archivos
-  addFileEspesorese(event: any) {
+  addFile(event: any) {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
       !this.toastrService.info('ya se cargo este archivo')
     }
-    if (files.length > this.DocumetosRestantes) {
+    if (files.length > 2) {
       this.toastrService.info('Datos Incorrecto')
       return;
     }
@@ -243,37 +301,15 @@ export class EMIComponent implements OnInit {
     }
 
     for (var i = 0; i < files.length; i++) {
-      let docEspesores = new AttachmentModel();
-      docEspesores = this.obtenerDatosArchivoAdjunto(files[i]);
-      this.inspeccion.ImagenMedicionEspesores = docEspesores
+      let inspeccionFotos = new InspeccionFotosModel();
+      inspeccionFotos.DocumentoAdjunto = this.obtenerDatosArchivoAdjunto(files[i]);
+      inspeccionFotos.InspeccionId = this.inspeccion.Id;
+      inspeccionFotos.Pieza = this.obtenerParametrosRuta().get('pieza') ? parseInt(this.obtenerParametrosRuta().get('pieza'), 10) : 1;
+      this.inspeccion.InspeccionFotos.push(inspeccionFotos);
+
       this.DocumetosRestantes -= 1;
 
-    }
 
-
-
-  }
-  addFileMFL(event: any) {
-    console.log(event)
-    let files = this.leerArchivo(event);
-    if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
-    }
-    if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
-      return;
-    }
-
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
-
-    for (var i = 0; i < files.length; i++) {
-      let docMFL = new AttachmentModel();
-      docMFL = this.obtenerDatosArchivoAdjunto(files[i]);
-      this.inspeccion.ImagenMfl = docMFL
-      this.DocumetosRestantes -= 1;
     }
 
 
@@ -315,6 +351,5 @@ export class EMIComponent implements OnInit {
       console.log(ex)
     }
   }
-
 
 }

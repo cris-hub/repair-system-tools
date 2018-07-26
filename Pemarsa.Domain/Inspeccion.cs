@@ -19,7 +19,9 @@ namespace Pemarsa.Domain
         public bool? InspeccionLuzNegra { get; set; }
 
         public bool? InspeccionParticulasMagneticas { get; set; }
-        
+
+        public bool InspeccionYoke { get; set; }
+
         public int? IntensidadLuzBlanca { get; set; }
 
         public int? IntensidadLuzNegra { get; set; }
@@ -76,8 +78,8 @@ namespace Pemarsa.Domain
 
 
         [ForeignKey("TurboPatron")]
-        public int? TurboPatronId { get; set; }
-        public virtual Catalogo TurboPatron { get; set; } 
+        public int? TuboPatronId { get; set; }
+        public virtual Catalogo TuboPatron { get; set; } 
         #endregion
         
         #region DocumentosAdjuntos

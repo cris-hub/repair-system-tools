@@ -237,7 +237,7 @@ export class CrearHerramientaComponent implements OnInit {
       EsHerramientaMotor: [herramienta.EsHerramientaMotor],
       GuidUsuarioVerifica: [herramienta.GuidUsuarioVerifica, Validators.required],
       EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera, Validators.required],
-      Materiales: [herramienta.Materiales, Validators.required],
+      Materiales: [herramienta.Materiales],
       HerramientaEstudioFactibilidad: [herramienta.HerramientaEstudioFactibilidad, Validators.required],
       
       
@@ -327,6 +327,8 @@ export class CrearHerramientaComponent implements OnInit {
       let index: any = this.CatalogoMaterialesVer.findIndex(c => c.Id == idSeleccionado);
       this.CatalogoMaterialesAdd.push(nuevoItem);
       this.CatalogoMaterialesVer.splice(index, 1);
+
+       
     }
   }
   eliminarMaterial(material: EntidadModel) {

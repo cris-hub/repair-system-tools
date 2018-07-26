@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DocumentoAdjuntoUS.Service;
@@ -65,7 +66,8 @@ namespace ProcesoES.Service
 
         public async Task<Proceso> ConsultarProcesoPorGuid(Guid guidProceso, UsuarioDTO usuarioDTO)
         {
-            return await _procesoRepository.ConsultarProcesoPorGuid(guidProceso, usuarioDTO);
+            Proceso proceso = await _procesoRepository.ConsultarProcesoPorGuid(guidProceso, usuarioDTO);
+            return proceso;
         }
 
         public async Task<bool> ActualizarEstadoProceso(Guid guid, string estado, UsuarioDTO usuarioDTO)
@@ -77,7 +79,7 @@ namespace ProcesoES.Service
         {
             try
             {
-                return await _procesoRepository.ConsultarProcesosPorTipo(tipoProceso, paginacion, usuarioDTO); 
+                return await _procesoRepository.ConsultarProcesosPorTipo(tipoProceso, paginacion, usuarioDTO);
             }
             catch (Exception e)
             {
@@ -104,7 +106,7 @@ namespace ProcesoES.Service
             }
         }
 
-        public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza,UsuarioDTO usuarioDTO)
+        public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza, UsuarioDTO usuarioDTO)
         {
             try
             {
@@ -127,30 +129,7 @@ namespace ProcesoES.Service
 
             try
             {
-                if (inspeccion.InspeccionFotos != null)
-                {
-                    foreach (var inspeccionFotos in inspeccion.InspeccionFotos)
-                    {
-
-                        inspeccionFotos.InspeccionId = inspeccion.Id;
-
-                        if (inspeccionFotos.DocumentoAdjunto.Id != 0)
-                        {
-                            await _documentoAdjuntoService.ActualizarDocumentoAdjunto(inspeccionFotos.DocumentoAdjunto);
-
-                        }
-                        else
-                        {
-                            await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccionFotos.DocumentoAdjunto);
-                        }
-                    }
-                }
-                foreach (var conexion in inspeccion.Conexiones)
-                {
-                    conexion.NombreUsuarioCrea = "admin";
-                    conexion.FechaRegistro = DateTime.Now;
-                }
-
+                await PersistirDocumentosAdjuntos(inspeccion);
 
                 return await _procesoRepository.ActualizarInspección(inspeccion, usuarioDTO);
             }
@@ -158,6 +137,93 @@ namespace ProcesoES.Service
             {
 
                 throw;
+            }
+        }
+
+        private async Task PersistirDocumentosAdjuntos(Inspeccion inspeccion)
+        {
+            if (inspeccion.ImagenMfl != null
+                || inspeccion.ImagenPantallaUltrasonido != null
+                || inspeccion.ImagenUltrasonidoPrevia != null
+                || inspeccion.ImagenUltrasonidoDurante != null
+                || inspeccion.ImagenUltrasonidoDespues != null
+                || inspeccion.ImagenMedicionEspesores != null
+                || inspeccion.InspeccionFotos != null
+                )
+            {
+
+            }
+            if (inspeccion.ImagenMfl != null)
+            {
+                if (inspeccion.ImagenMfl.Id == 0)
+                {
+                    await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccion.ImagenMfl);
+
+                }
+
+            }
+            if (inspeccion.ImagenPantallaUltrasonido != null)
+            {
+                if (inspeccion.ImagenPantallaUltrasonido.Id == 0)
+                {
+                    await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccion.ImagenPantallaUltrasonido);
+
+                }
+
+            }
+            if (inspeccion.ImagenUltrasonidoPrevia != null)
+            {
+                if (inspeccion.ImagenUltrasonidoPrevia.Id == 0)
+                {
+                    await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccion.ImagenUltrasonidoPrevia);
+
+                }
+
+            }
+            if (inspeccion.ImagenUltrasonidoDurante != null)
+            {
+                if (inspeccion.ImagenUltrasonidoDurante.Id == 0)
+                {
+                    await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccion.ImagenUltrasonidoDurante);
+
+                }
+
+            }
+            if (inspeccion.ImagenUltrasonidoDespues != null)
+            {
+                if (inspeccion.ImagenUltrasonidoDespues.Id == 0)
+                {
+                    await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccion.ImagenUltrasonidoDespues);
+
+                }
+
+            }
+            if (inspeccion.ImagenMedicionEspesores != null)
+            {
+                if (inspeccion.ImagenMedicionEspesores.Id == 0)
+                {
+                    await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccion.ImagenMedicionEspesores);
+
+                }
+
+            }
+            if (inspeccion.InspeccionFotos != null)
+            {
+                foreach (var inspeccionFotos in inspeccion.InspeccionFotos)
+                {
+
+                    inspeccionFotos.InspeccionId = inspeccion.Id;
+
+                    if (inspeccionFotos.DocumentoAdjunto.Id != 0)
+                    {
+                        await _documentoAdjuntoService.ActualizarDocumentoAdjunto(inspeccionFotos.DocumentoAdjunto);
+
+                    }
+                    else
+                    {
+                        await _documentoAdjuntoService.CrearDocumentoAdjunto(inspeccionFotos.DocumentoAdjunto);
+                    }
+                }
             }
         }
     }

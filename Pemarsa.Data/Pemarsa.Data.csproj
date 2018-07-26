@@ -23,6 +23,8 @@
     <Compile Remove="Migrations\20180721160901_inspecciones-catatalogo-equipo_utilizado.cs" />
     <Compile Remove="Migrations\20180721213814_inspeccion-fotos-key-pieza.cs" />
     <Compile Remove="Migrations\20180721223057_change.cs" />
+    <Compile Remove="Migrations\20180724230437_aletas.cs" />
+    <Compile Remove="Migrations\20180725155528_InspeccionConexionFormatoParametros.cs" />
   </ItemGroup>
 
   <ItemGroup>

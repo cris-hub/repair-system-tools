@@ -1,4 +1,4 @@
-import { EntityModel, HerramientaModel, AttachmentModel, FormatoAdendumModel, FormatoParametroModel, CatalogoModel } from "./Index";
+import { EntityModel, HerramientaModel, AttachmentModel, FormatoAdendumModel, FormatoParametroModel, CatalogoModel, FormatoFormatoParametroModel } from "./Index";
 
 export class FormatoModel extends EntityModel {
 
@@ -7,7 +7,7 @@ export class FormatoModel extends EntityModel {
     public Adendum?: Array<FormatoAdendumModel>,
     public TipoFormatoId?: number,
     public TipoFormato?: CatalogoModel,
-    public Parametros?: Array<FormatoParametroModel>,
+    public FormatoFormatoParametro?: Array<FormatoFormatoParametroModel>,
     public Codigo?: string,
     public Herramienta?: HerramientaModel,
     public HerramientaId?: number,
@@ -20,9 +20,10 @@ export class FormatoModel extends EntityModel {
     public ConexionId?: number,
     public Conexion?: CatalogoModel,
     public EsFormatoAdjunto?:boolean,
-    public Aletas?: boolean,
+    public esAletas?: boolean,
   ) {
     super();
+    
     this.Adendum = new Array<FormatoAdendumModel>()
     this.Planos = new Array<AttachmentModel>()
   }

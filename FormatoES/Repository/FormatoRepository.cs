@@ -28,7 +28,7 @@ namespace FormatoES.Repository
                 formato.NombreUsuarioCrea = "USUARIO CREA";
                 formato.FechaRegistro = new DateTime();
 
-                
+
                 _context.Formato.Add(formato);
 
 
@@ -61,7 +61,10 @@ namespace FormatoES.Repository
                 return await _context.Formato
                     .Include(f => f.Adendum)
                     .Include(f => f.Herramienta)
-                    .Include(f => f.Parametros)
+                    .Include(f => f.Planos)
+                    .Include(f => f.TipoFormato)
+
+                    .Include(f => f.FormatoFormatoParametro).ThenInclude(t => t.FormatoParametro)
                     .FirstOrDefaultAsync(f => f.Guid == guidformato);
             }
             catch (Exception) { throw; }
@@ -71,13 +74,19 @@ namespace FormatoES.Repository
         {
             try
             {
-                var result = await _context.Formato
+                var query = _context.Formato.AsNoTracking()
                                     .Include(c => c.Adendum)
-                                    .Include(c => c.Parametros)
+                                    .Include(c => c.FormatoFormatoParametro).ThenInclude(d=>d.FormatoParametro)
                                     .Include(c => c.Planos)
-                                    .Include(c => c.Herramienta)
+                                    
+                                    
+                                    
+                                    .Include(c => c.Herramienta);
+
+                var result = await query
                                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros).ToListAsync();
+
                 var cantidad = await _context.Cliente.CountAsync();
                 return new Tuple<int, ICollection<Formato>>(cantidad, result);
             }
@@ -86,17 +95,17 @@ namespace FormatoES.Repository
 
         public async Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario)
         {
-            var query =  _context.Formato
+            var query = _context.Formato
                 .Include(f => f.Herramienta)
                 .Include(f => f.Planos)
                 .Include(f => f.TipoFormato)
                 .Include(f => f.Conexion)
                 .Include(f => f.TipoFormato)
                 .Include(f => f.Adendum)
-                .Include(f => f.Parametros)
-                .Where(f => (string.IsNullOrEmpty(parametrosDTO.HerramientaId) ||f.Herramienta.Id == Int32.Parse(parametrosDTO.HerramientaId)))
+                .Include(f => f.FormatoFormatoParametro)
+                .Where(f => (string.IsNullOrEmpty(parametrosDTO.HerramientaId) || f.Herramienta.Id == Int32.Parse(parametrosDTO.HerramientaId)))
                 .Where(f => (string.IsNullOrEmpty(parametrosDTO.HerramientaId) || f.Herramienta.Nombre.ToLower().Contains(parametrosDTO.HerramientaId.ToLower())))
-                .Where(f => (string.IsNullOrEmpty(parametrosDTO.Conexion) ||f.Conexion.Valor.ToLower().Contains(parametrosDTO.Conexion.ToLower())))
+                .Where(f => (string.IsNullOrEmpty(parametrosDTO.Conexion) || f.Conexion.Valor.ToLower().Contains(parametrosDTO.Conexion.ToLower())))
                 .Where(f => (string.IsNullOrEmpty(parametrosDTO.HerramientaGuid) || f.Conexion.Guid.ToString().Contains(parametrosDTO.HerramientaGuid)))
                 .Where(f => (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormatoId.ToString().Contains(parametrosDTO.TipoConexion)))
                 .Where(f => (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormato.Valor.ToLower().Contains(parametrosDTO.TipoConexion.ToLower())));
@@ -129,7 +138,7 @@ namespace FormatoES.Repository
                     .Include(f => f.Herramienta)
                     .Where(f => f.TiposConexionesId == tipoConexion)
                     .ToListAsync();
-                    
+
             }
             catch (Exception) { throw; }
         }

@@ -31,6 +31,9 @@ export * from './InspeccionConexionFormatoModel';
 export * from './InspeccionConexionFormatoAdendumModel';
 export * from './InspeccionDimensionalOtroModel';
 export * from './InspeccionEquipoUtilizadoModel';
+export * from './FormatoFormatoParametroModel';
+export * from './InspeccionEspesorModel';
+export * from './InspeccionInsumoModel';
 
 
 

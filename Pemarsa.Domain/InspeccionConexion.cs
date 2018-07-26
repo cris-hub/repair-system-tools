@@ -31,7 +31,10 @@ namespace Pemarsa.Domain
         public int InspeccionId { get; set; }
         public virtual Inspeccion Inspeccion { get; set; }
 
-   
+        [ForeignKey("InspeccionConexionFormato")]
+        public int? InspeccionConexionFormatoId { get; set; }
+        public virtual InspeccionConexionFormato InspeccionConexionFormato { get; set; }
+
 
     }
 }

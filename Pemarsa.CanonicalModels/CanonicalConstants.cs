@@ -76,6 +76,59 @@ namespace Pemarsa.CanonicalModels
 
         public struct Tipos
         {
+
+            public struct TubosPatrones
+            {
+                public const string Pilot = "Pilot";
+                public const string Venturi = "Venturi";
+            }
+            public struct EquiposEmi
+            {
+                public const string EquiposEmi1 = "157-432k";
+                public const string EquiposEmi2 = "132-23dY";
+            }
+            public struct BobinasMagneticas
+            {
+                public const string XM5 = "XM5";
+                public const string MXX = "MXX";
+                public const string M12 = "M12";
+                public const string CM22 = "CM22";
+                public const string C22A = "C22A";
+            }
+
+
+
+            public struct TipoFormatoParametro
+            {
+                public const string Parametro = "Parametro";
+                public const string Aletas = "Aletas";
+            }
+            public struct BloqueEscalonado
+            {
+                public const string Nivel1 = "1 nivel";
+                public const string Nivel2 = "2 niveles";
+                public const string Nivel3 = "3 niveles";
+                public const string Nivel4 = "4 niveles ";
+
+            }
+            public struct TipoInsumo
+            {
+
+                public const string SKC_S = "SKC – S";
+                public const string SKL_SP2 = "SKL – SP2";
+                public const string SKD_S2 = "SKD – S2";
+
+            }
+            public struct TiposLiquidos
+            {
+
+                public const string Fluorescentes = "Fluorescentes ";
+                public const string coloreados = "coloreados";
+
+
+            }
+
+
             public struct FormatoAdendem
             {
                 public const string Tipo1 = "Tipo1";
@@ -139,6 +192,7 @@ namespace Pemarsa.CanonicalModels
                 public struct TipoInspeccion
                 {
                     public const string VisualDimensional = "Visual dimensional";
+                    public const string VisualDimensionalMotor = "Visual dimensional motor";
                     public const string MPI = "MPI";
                     public const string LPI = "LPI";
                     public const string UT = "UT";
@@ -234,8 +288,10 @@ namespace Pemarsa.CanonicalModels
             public const string EstadosConexionBOX = "ESTADOS_CONEXION_BOX";
             public const string EstadosConexionPIN = "ESTADOS_CONEXION_PIN";
             public const string FormatoAdendum = "FORMATO_ADENDUM";
-
-
+            public const string TipoFormatoParametro = "TIPO_FORMATO_PARAMETRO";
+            public const string TiposBloqueEscalonadoo = "TIPO_BLOQUEESCALONADO";
+            public const string TipoInsumo = "TIPO_INSUMO";
+            public const string TiposLiquidos = "TIPOS_LIQUIDOS";
             public const string Responsables = "RESPONSABLES";
             public const string EstadosOrdenTrabajo = "ESTADOS_ORDENTRABAJO";
             public const string EstatosSolicitudOrdenTrabajo = "ESTATOS_SOLICITUD_ORDENTRABAJO";
@@ -251,6 +307,10 @@ namespace Pemarsa.CanonicalModels
             public const string TipoProceso = "TIPO_PROCESO";
             public const string TipoSoldadura = "TIPO_SOLDADURA_PROCESO";
             public const string TiposInspeccion = "TIPOS_INSPECCION";
+
+            public const string TubosPatrones = "TUBOS_PATRONES";
+            public const string EquiposEmi = "EQUIPOS_EMI";
+            public const string BobinasMagneticas = "BOBINAS_MAGNETICAS";
 
 
 

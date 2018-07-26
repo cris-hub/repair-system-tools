@@ -3,12 +3,12 @@ import { ProcesoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
-import { InspeccionModel, EntidadModel, ProcesoModel } from '../../../common/models/Index';
+import { InspeccionModel, EntidadModel, ProcesoModel, InspeccionEspesorModel } from '../../../common/models/Index';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
 
 @Component({
   selector: 'app-ut',
@@ -19,21 +19,22 @@ export class UTComponent implements OnInit {
 
 
   //catalogos
-  private Conexiones: EntidadModel[] = new Array<EntidadModel>();
-  private EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
-  private TiposConexion: EntidadModel[] = new Array<EntidadModel>();
-  private EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  private BloquesEscalonados: EntidadModel[] = new Array<EntidadModel>();
 
   //procesoInpeccion
   private proceso: ProcesoModel;
   private inspeccion: InspeccionModel = new InspeccionModel();
-
+  private InspeccionEspesores: Array<InspeccionEspesorModel> = new Array<InspeccionEspesorModel>();
 
   //form
-  private formInpeccionVisualDimensional: FormGroup;
+  private formulario: FormGroup;
+  private FormularioEspesores: FormArray;
   private esFormularioValido: Boolean = false;
   private esVer: Boolean = false;
-  
+
+  //validaciones
+  private tieneCalibracion: boolean ;
+
 
   constructor(
     private procesoService: ProcesoService,
@@ -46,17 +47,13 @@ export class UTComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.consultarParatros();
+    
     this.consultarProceso();
   }
 
-  consultarParatros() {
+  listarBloquesEvent() {
     this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      this.Conexiones = response.Consultas.filter(conexion => conexion.Grupo == GRUPOS.CONEXION);
-      this.EstadosConexion = response.Consultas.filter(estados => estados.Grupo == GRUPOS.ESTADOSCONEXIONBOX || estados.Grupo == GRUPOS.ESTADOSCONEXIONPIN);
-      this.TiposConexion = response.Consultas.filter(tipos => tipos.Grupo == GRUPOS.TIPOCONEXION);
-      this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
-
+      this.BloquesEscalonados = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOSBLOQUEESCALONADOO);
     })
   }
 
@@ -75,8 +72,13 @@ export class UTComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
-          return c.Inspeccion.TipoInspeccionId == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
+          return (
+            c.Inspeccion.TipoInspeccionId
+            == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
+            && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
+
         });
+        
         this.inspeccion = inspeccionEntrada.Inspeccion;
 
         console.log(this.inspeccion)
@@ -86,16 +88,86 @@ export class UTComponent implements OnInit {
 
 
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
+        this.initFormularioEspesores();
       });
   }
 
 
+
+  //actualizaciones
+  procesar() {
+
+    
+    this.asignarDataDesdeElFormulario();
+   
+      this.actualizarDatos()
+  
+  }
+  actualizarDatos() {
+    this.procesoService
+      .actualizarInspección(this.inspeccion)
+      .subscribe(response => {
+        this.toastrService.info(response ? 'ok' : 'error');
+      })
+  }
+
+
+  private asignarDataDesdeElFormulario() {
+    
+    Object.assign(this.inspeccion, this.formulario.value);
+  }
+
+  //forms
+  //form esperos
   iniciarFormulario(inspeccion: InspeccionModel) {
-    this.formInpeccionVisualDimensional = this.formBuider.group({
-
-
+    this.formulario = this.formBuider.group({
+      tieneCalibracion: [this.tieneCalibracion],
+      BloqueEscalonadoUsadoId: [inspeccion.BloqueEscalonadoUsadoId],
+      Espesores: this.formBuider.array([])
     });
+  }
+
+  initFormularioEspesores() {
+    this.FormularioEspesores = this.formulario.get('Espesores') as FormArray;
+    console.log(this.FormularioEspesores);
+    console.log(this.InspeccionEspesores);
+
+    this.FormularioEspesores.push(this.crearNuevoFormGroupFormuarilEspesoor());
+
+    if ((this.InspeccionEspesores.length>0)) {
+      this.InspeccionEspesores.forEach(f => {
+        let form = this.formBuider.group({
+          Desviacion: [f.Desviacion],
+          EspesorActual: [f.EspesorActual],
+          EspesorNominal: [f.EspesorNominal]
+        });
+        this.FormularioEspesores.push(form)
+      });
+    }
    
   }
+
+  agregarItem(): void {
+    this.FormularioEspesores = this.formulario.get('Espesores') as FormArray;
+    this.FormularioEspesores.push(this.crearNuevoFormGroupFormuarilEspesoor());
+    console.log(this.FormularioEspesores);
+  }
+
+  crearNuevoFormGroupFormuarilEspesoor(): any {
+    let formatoParametrosModel = this.formBuider.group({
+      Desviacion: '',
+      EspesorActual: '',
+      EspesorNominal: ''
+    });
+
+
+    return formatoParametrosModel;
+  }
+
+  removerItem(i) {
+    this.FormularioEspesores.removeAt(i);
+  }
+
+
 
 }

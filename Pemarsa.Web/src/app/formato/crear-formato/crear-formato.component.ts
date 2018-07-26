@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel } from "../../common/models/index";
+import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel, FormatoFormatoParametroModel } from "../../common/models/index";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { attachEmbeddedView } from '@angular/core/src/view';
 import { HerramientaService } from '../../common/services/entity';
@@ -40,6 +40,7 @@ export class CrearFormatoComponent implements OnInit {
   private formAdendum: FormArray;
   private formFormato: FormGroup;
   private formFormatoPatamtros: FormArray;
+  private formFormatoPatamtrosAletas: FormArray;
 
 
   //Acciones
@@ -50,7 +51,11 @@ export class CrearFormatoComponent implements OnInit {
 
   //Formatos
   private formatoModel: FormatoModel;
-  private formatosParametroModel: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  private parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  private aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+
+  private formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
+
   private formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
 
   //Carga Archivos
@@ -85,6 +90,14 @@ export class CrearFormatoComponent implements OnInit {
 
     this.esValido = false;
   }
+
+
+  listarHerramienta() {
+    this.herramientaServicio.ConsultarHerramientas(this.paginacion).subscribe(r => {
+      this.Herramientas = r.Listado
+    });
+  }
+
   consultarParametros(entidad: string) {
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
@@ -99,21 +112,15 @@ export class CrearFormatoComponent implements OnInit {
 
       }, error => { },
         () => {
-          this.initFormFormatoAdendum();
+          this.initFormFormatoAdendum()
+          this.initFormFormatoParamtros()
+          this.initFormFormatoParamtrosAletas()
 
         }
       );
 
 
 
-  }
-
-  listarHerramienta() {
-    this.herramientaServicio.ConsultarHerramientas(this.paginacion).subscribe(r => {
-      this.Herramientas = r.Listado
-
-
-    });
   }
 
   cargarValores() {
@@ -129,20 +136,39 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   consultarFormato(guid: any): any {
-
+    this.initForm(new FormatoModel(new Array<AttachmentModel>()), new Array<FormatoAdendumModel>(), new HerramientaModel());
     this.formatoServicio.consultarFormatoPorGuid(guid)
       .subscribe(response => {
 
         this.formatoModel = response;
-        this.formatosParametroModel = response.Parametros;
+
+        this.formatoFormatoParametroModel = response.FormatoFormatoParametro;
+        this.formatoFormatoParametroModel.filter(p => {
+          if (p.TipoFormatoParametroId == 85) {
+            this.parametros.push(p.FormatoParametro)
+          }
+        })
+        this.formatoFormatoParametroModel.filter(p => {
+          if (p.TipoFormatoParametroId == 84) {
+            this.aletas.push(p.FormatoParametro)
+
+          }
+        })
         this.formatosAdendumModel = response.Adendum;
         this.herramientaModel.Id = response.HerramientaId;
+        this.Planos = response.Planos
         this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
 
         console.log(response)
         console.log(this.parametrosFormatoAdendumTiposFormatos)
         console.log(this.parametrosFormatoAdendumTiposFormatos)
-      });
+      }, error => { },
+        () => {
+          this.initFormFormatoAdendum()
+          this.initFormFormatoParamtros()
+          this.initFormFormatoParamtrosAletas()
+        }
+      );
   }
 
   private esNuevoFormato(id: string) {
@@ -179,15 +205,48 @@ export class CrearFormatoComponent implements OnInit {
 
     }
 
-    this.cambioDatosFormulario(this.formFormato);
+
 
 
   }
 
+
+  initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
+    if (formato.FormatoFormatoParametro) {
+      formato.FormatoFormatoParametro.filter(c => {
+        if (c.TipoFormatoParametroId == 84) {
+          formato.esAletas = true;
+        }
+      })
+    }
+
+    this.formFormato = this.formBuilder.group({
+      Planos: [this.Planos],
+      Codigo: [formato.Codigo],
+      TipoFormatoId: [formato.TipoFormatoId, Validators.required],
+      TiposConexionesId: [formato.TiposConexionesId],
+      ConexionId: [formato.ConexionId],
+      TPI: [formato.TPI],
+      TPF: [formato.TPF],
+      EspecificacionId: [formato.EspecificacionId],
+      Herramienta: this.formBuilder.group({
+        Id: [herramienta.Id]
+      }),
+      EsFormatoAdjunto: [formato.EsFormatoAdjunto],
+      esAletas: [formato.esAletas],
+      Adendum: this.formBuilder.array([]),
+      FormatoFormatoParametro: this.formBuilder.array([]),
+      Parametros: this.formBuilder.array([this.crearFormFormatoParametroModel()]),
+      Aletas: this.formBuilder.array([this.crearFormFormatoParametroModel()])
+    });
+
+  }
+
   initFormFormatoParamtros() {
-    this.formFormatoPatamtros = this.formFormato.get('Paramtros') as FormArray;
-    console.log(this.formatosParametroModel);
-    this.formatosParametroModel.forEach(f => {
+    this.formFormatoPatamtros = this.formFormato.get('Parametros') as FormArray;
+    console.log(this.parametros);
+
+    this.parametros.forEach(f => {
       let form = this.formBuilder.group({
         DimensionEspecifica: [f.DimensionEspecifica],
         Id: [f.Id],
@@ -196,11 +255,27 @@ export class CrearFormatoComponent implements OnInit {
         ToleranciaMin: [f.ToleranciaMin],
         ToleranciaMax: [f.ToleranciaMax],
       });
+      this.formFormatoPatamtros.push(form)
+    });
+  }
+
+  initFormFormatoParamtrosAletas() {
+    this.formFormatoPatamtros = this.formFormato.get('Aletas') as FormArray;
+    console.log(this.aletas);
+    this.aletas.forEach(f => {
+      let form = this.formBuilder.group({
+        DimensionEspecifica: [f.DimensionEspecifica],
+        Id: [f.Id],
+        Item: [f.Item],
+        Parametro: [f.Parametro],
+        ToleranciaMin: [f.ToleranciaMin],
+        ToleranciaMax: [f.ToleranciaMax],
+      });
+      this.formFormatoPatamtros.push(form)
     });
   }
 
   initFormFormatoAdendum() {
-    debugger
 
     if (!this.formFormato || !(this.parametrosFormatoAdendumTiposFormatos.length > 0)) {
       return
@@ -210,7 +285,7 @@ export class CrearFormatoComponent implements OnInit {
     this.parametrosFormatoAdendumTiposFormatos
       .forEach(tipo => {
         let Position = 1
-        while (Position < 9) {
+        while (Position < 9 && this.formatosAdendumModel.length < 16) {
           let formato: FormatoAdendumModel = new FormatoAdendumModel();
           if (tipo.Id == 26) {
             formato.Posicion = Position;
@@ -224,6 +299,7 @@ export class CrearFormatoComponent implements OnInit {
           this.formatosAdendumModel.push(formato)
         }
       })
+    console.log(this.formatosAdendumModel)
 
     this.formatosAdendumModel.forEach(p => {
       let form = this.formBuilder.group({});
@@ -244,9 +320,17 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormatoPatamtros.push(this.crearFormFormatoParametroModel());
     console.log(this.formFormatoPatamtros);
   }
+  addItemFormParametroAletas(): void {
+    this.formFormatoPatamtrosAletas = this.formFormato.get('Aletas') as FormArray;
+    this.formFormatoPatamtrosAletas.push(this.crearFormFormatoParametroModel());
+    console.log(this.formFormatoPatamtrosAletas);
+  }
 
   removeItemFormFormatoPatamtros(i) {
     this.formFormatoPatamtros.removeAt(i);
+  }
+  removeItemFormFormatoPatamtrosAletas(i) {
+    this.formFormatoPatamtrosAletas.removeAt(i);
   }
 
   esTipoFormatoOtros(formato: FormatoModel): boolean {
@@ -260,7 +344,6 @@ export class CrearFormatoComponent implements OnInit {
   crearFormFormatoParametroModel(): any {
     let formatoParametrosModel = this.formBuilder.group({
       DimensionEspecifica: '',
-      Id: '',
       Item: '',
       Parametro: '',
       ToleranciaMin: '',
@@ -273,55 +356,14 @@ export class CrearFormatoComponent implements OnInit {
     return formatoParametrosModel;
   }
 
-  crearFormFormFormatoHerramienta(): any {
-    return this.formBuilder.group({
-
-    });
-  }
-
-  initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
-    this.formFormato = this.formBuilder.group({
-      Planos: [],
-      Codigo: [formato.Codigo],
-      TipoFormatoId: [formato.TipoFormatoId, Validators.required],
-      TiposConexionesId: [formato.TiposConexionesId],
-      ConexionId: [formato.ConexionId],
-      TPI: [formato.TPI],
-      TPF: [formato.TPF],
-      EspecificacionId: [formato.EspecificacionId],
-      Herramienta: this.formBuilder.group({
-        Id: [herramienta.Id]
-      }),
-      EsFormatoAdjunto: [formato.EsFormatoAdjunto],
-      Aletas: [formato.Aletas],
-      Adendum: this.formBuilder.array([]),
-      Parametros: this.formBuilder.array([this.crearFormFormatoParametroModel()])
-    });
-
-  }
-
   limpiarFormulario() {
 
     let id = this.formFormato.value['TipoFormatoId']
     this.formFormato.value['TipoFormatoId'] = id
     this.formatoModel.TipoFormatoId = id;
-      this.formFormato.reset();
-  }
-
-
-
-
-
-  cambioDatosFormulario(formulario: FormGroup) {
-
-
-    
 
 
   }
-
-
-
 
 
   //Persistir Datos
@@ -339,10 +381,12 @@ export class CrearFormatoComponent implements OnInit {
     if (!this.esValido) {
       this.toastr.info('formato no valido!', 'validacion');
     }
-    if (this.formatoModel.TipoFormatoId = 18) {
+    if (this.formatoModel.TipoFormatoId == 18) {
       delete this.formatoModel['Herramienta'];
 
+
     } else {
+
       delete this.formatoModel['Adendum'];
 
     }
@@ -362,9 +406,31 @@ export class CrearFormatoComponent implements OnInit {
     return this.esValido;
   }
 
-  asignarValoresFormularioFormato(val) {
+  asignarValoresFormularioFormato(val: any) {
+
+    this.asignarFormatoParametros(val);
+    delete val['Parametros'];
+    delete val['Aletas'];
+
+    console.log(val)
+    debugger;
 
     this.formatoModel = Object.assign(this.formatoModel, val)
+  }
+
+  private asignarFormatoParametros(val: any) {
+    val.Aletas.forEach(d => {
+      val.FormatoFormatoParametro.push({
+        TipoFormatoParametroId: 84,
+        FormatoParametro: d
+      });
+    });
+    val.Parametros.forEach(d => {
+      val.FormatoFormatoParametro.push({
+        TipoFormatoParametroId: 85,
+        FormatoParametro: d
+      });
+    });
   }
 
   crearFormato(formato: FormatoModel) {
@@ -376,11 +442,6 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   actualizarFormato() {
-    if (this.formatoModel.Parametros.length > 0) {
-      this.formatoModel.Parametros.splice(0, 1);
-
-    }
-
 
     console.log(this.formatoModel);
     this.formatoServicio.actualizarFormato(this.formatoModel)

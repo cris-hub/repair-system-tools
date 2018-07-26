@@ -2,9 +2,9 @@
 
   <fieldset>
     <legend>
-      
-        <b>VR</b>
-      
+
+      <b>VR</b>
+
     </legend>
   </fieldset>
 
@@ -13,54 +13,48 @@
     <form [formGroup]="formInpeccionVR">
 
 
-      <div class="form-group row ">
-        <label class="col-md-2 form-label" id="corre"> Visual:</label>
 
 
-        <div class="col-md-8 panel panel-default">
-          <div class="panel-heading ">
-            <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-              <i class="glyphicon glyphicon-chevron-down"></i>
-            </span>
-          </div>
-          <div>
 
-          </div>
 
-          <div id="archivos" class="panel-collapse panel-collapse collapse">
-            <div class="panel-body">
-              <ul>
-                <li *ngFor="let adjunto of inspeccion.InspeccionFotos">
-                  <p>
-                    {{adjunto.DocumentoAdjunto.NombreArchivo}}<a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
-                      <i class="glyphicon glyphicon-download"></i>
-                    </a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pull-right"></i>
-                  </p>
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label " id="corre">
+         * Visual:
+        </label>
 
-                </li>
-              </ul>
+        <div class="col-md-5">
+          <div *ngFor="let adjunto of inspeccion.InspeccionFotos">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <p class="form-control">
+                  {{adjunto.DocumentoAdjunto.NombreArchivo}}
+                  <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                  <a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                    <i class="glyphicon glyphicon-download"></i>
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-md-2 image-upload">
           <label for="file-input">
-            <i class="glyphicon glyphicon-paperclip pointer"></i>
+            <span class="badge badge-danger  pointer"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
           </label>
-          <label>
-            <i class="">
-              {{DocumetosRestantes}}
-            </i>
-          </label>
-          <input id="file-input"  (change)="addFile($event)" type="file" multiple />
+  
+          <input id="file-input" (change)="addFile($event)" type="file" multiple />
         </div>
-
-
       </div>
 
+
+    
+
+
+
+
       <div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <label class="col-md-2 control-label" id="corre">* Observacion: </label>
         <div class="col-md-9 ">
           <textarea formControlName="Observaciones" required class="form-control"></textarea>
         </div>
