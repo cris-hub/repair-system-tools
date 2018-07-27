@@ -10,7 +10,7 @@
 
   <div class="col-md-11 contenido-interno">
 
-    <form [formGroup]="formInpeccionVR">
+    <form [formGroup]="formInpeccionVR" (ngSubmit)="procesar()">
 
 
 
@@ -38,12 +38,12 @@
           </div>
         </div>
 
-        <div class="col-md-2 image-upload">
+        <div class="col-md-auto image-upload">
           <label for="file-input">
             <span class="badge badge-danger  pointer"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
           </label>
   
-          <input id="file-input" (change)="addFile($event)" type="file" multiple />
+          <input id="file-input" (change)="addFile($event)" formControlName="InspeccionFotos"   validacion [validaciones]="['requerido']" required type="file" multiple />
         </div>
       </div>
 
@@ -56,14 +56,14 @@
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">* Observacion: </label>
         <div class="col-md-9 ">
-          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
         </div>
       </div>
 
       <div class="form-group row">
 
         <div class="col-md-3 col-md-offset-3 ">
-          <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+          <button class="btn" type="submit" >Proceosar y continuar</button>
         </div>
       </div>
 

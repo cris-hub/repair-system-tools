@@ -7,14 +7,14 @@
 
     </legend>
   </fieldset>
-  <form [formGroup]="formulario">
+  <form [formGroup]="formulario" (ngSubmit)="procesar">
     <div class="col-md-11 contenido-interno">
 
       <!-- observacion -->
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">Observacion: </label>
         <div class="col-md-9 ">
-          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
         </div>
       </div>
 
@@ -29,11 +29,11 @@
           </div>
         </div>
 
-        <div class="col-md-2 image-upload">
+        <div class="col-md-auto image-upload">
           <label for="file-input-ultrasonido">
             <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
           </label>
-          <input id="file-input-ultrasonido" (change)="addFileUltrasonido($event)" type="file" />
+          <input id="file-input-ultrasonido" formControlName="ImagenPantallaUltrasonido" validacion [validaciones]="['requerido']" (change)="addFileUltrasonido($event)" type="file" />
         </div>
       </div>
 
@@ -50,11 +50,11 @@
             </div>
           </div>
 
-          <div class="col-md-2 image-upload">
+          <div class="col-md-auto image-upload">
             <label for="file-input-previa-ultrasonido">
-                     <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
             </label>
-            <input id="file-input-previa-ultrasonido" (change)="addFilePreviaUltrasonido($event)" type="file" />
+            <input id="file-input-previa-ultrasonido" formControlName="ImagenUltrasonidoPrevia" validacion [validaciones]="['requerido']" (change)="addFilePreviaUltrasonido($event)" type="file" />
           </div>
         </div>
 
@@ -69,11 +69,11 @@
             </div>
           </div>
 
-          <div class="col-md-2 image-upload">
+          <div class="col-md-auto image-upload">
             <label for="file-input-ultrasonido-durante">
-                     <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
             </label>
-            <input id="file-input-ultrasonido-durante" (change)="addFileDuranteInspeccionUltrasonido($event)" type="file" />
+            <input id="file-input-ultrasonido-durante" formControlName="ImagenUltrasonidoDurante" validacion [validaciones]="['requerido']" (change)="addFileDuranteInspeccionUltrasonido($event)" type="file" />
           </div>
         </div>
 
@@ -88,11 +88,11 @@
             </div>
           </div>
 
-          <div class="col-md-2 image-upload">
+          <div class="col-md-auto image-upload">
             <label for="file-input-addfiledespuesinspeccionultrasonido">
-                     <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
             </label>
-            <input id="file-input-addfiledespuesinspeccionultrasonido" (change)="addFileDespuesInspeccionUltrasonido($event)" type="file" />
+            <input id="file-input-addfiledespuesinspeccionultrasonido" formControlName="ImagenUltrasonidoDespues" validacion [validaciones]="['requerido']"  (change)="addFileDespuesInspeccionUltrasonido($event)" type="file" />
           </div>
         </div>
 
@@ -100,7 +100,8 @@
         <div class="form-group row">
           <div class="col-md-3 col-md-offset-2 ">
             <label class=" control-label">Tubo valor usado para la calibración </label>
-            <select formControlName="TuboPatronId" class="form-control form-control-lg" value="seleccione">
+            <select formControlName="TuboPatronId" validacion [validaciones]="['requerido']"  class="form-control form-control-lg" value="0">
+              <option value="0">Seleccione</option>
               <option *ngFor="let Tupo of TubosPatrones" value="{{Tupo.Id}}">{{Tupo.Valor}}</option>
             </select>
           </div>
@@ -115,12 +116,12 @@
 
         <div class="col-md-4">
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="Si" [value]="true">
             <label class="form-check-label" for="Si">Si​</label>
+            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="Si" [value]="true">
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="No" [value]="false">
             <label class="form-check-label" for="No">No​</label>
+            <input formControlName="EstaConforme" validacion [validaciones]="['*']" class="form-check-input" type="radio" id="No" [value]="false">
           </div>
         </div>
       </div>
@@ -128,7 +129,7 @@
       <!-- submit accion -->
       <div class="form-group row">
         <div class="col-md-3 col-md-offset-3 ">
-          <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+          <button class="btn">Proceosar y continuar</button>
         </div>
       </div>
 

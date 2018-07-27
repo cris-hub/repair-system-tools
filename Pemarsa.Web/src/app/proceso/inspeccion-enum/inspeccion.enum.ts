@@ -35,5 +35,14 @@ export enum ALERTAS_ERROR_MENSAJE {
   DocumentosAdjuntos = 'Debe subir los documentos  adjunto obligatorios',
   DocumentosAdjuntosFaltantes = 'Faltan documentos Adjuntos por subir',
   Observaciones = 'Debe llenar las obervaciones',
-  LimiteDeDocumentosAdjuntosSuperdo = 'El limite de archivos adjuntos se a sobrepasodo, debe elimar un documento para realisar la operacion'
+  LuzBlanca = 'Debe llenar el campo de Luz Blanca',
+  Conexiones = 'Debe llenar el campo de Conexiones',
+  EquipoMedicion = 'Debe llenar el campo de equipo medicion',
+  LimiteDeDocumentosAdjuntosSuperdo = 'El limite de archivos adjuntos se a sobrepasodo, debe elimar un documento para realisar la operacion',
+  ConcentracionUtilizada = 'Debe llenar  el campo de concentracion utilizada',
+  FechaDePreparacion = 'Debe llenar  el campo de concentracion Fecha de preparación',
+  Lote = 'Debe llenar  el campo de concentracion Fecha de lote',
+  InspeccionLuzNegra = 'Debe llenar  el campo de concentracion inspeccion luz negra',
+  IntensidadLuzNegra = 'Debe llenar  el campo de concentracion intensidad luz negra',
+  InspeccionYoke = 'Debe llenar  el campo de concentracion intensidad inspeccion Yoke',
 }

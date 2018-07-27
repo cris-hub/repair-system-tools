@@ -9,10 +9,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 import { debounceTime, map } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-lpi',
@@ -27,7 +28,9 @@ export class LPIComponent implements OnInit {
   private lectorArchivos: FileReader;
   private adjuntos: AttachmentModel[] = [];
   private adjunto: AttachmentModel;
-  private DocumetosRestantes: number = 2;
+  private DocumetosRestantes: number = 5;
+  private DocumetoMinimos: number = 1;
+
 
   //procesoInpeccion
   private proceso: ProcesoModel;
@@ -47,6 +50,7 @@ export class LPIComponent implements OnInit {
   private esFormularioValido: Boolean = false;
 
   constructor(
+    private location:Location,
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private parametroService: ParametroService,
@@ -75,8 +79,8 @@ export class LPIComponent implements OnInit {
 
   consultarParatros() {
     this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      this.TiposInsumos = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.TIPOINSUMO);
-      this.TiposLiquidos = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.TIPOSLIQUIDOS);
+      this.TiposInsumos = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOINSUMO);
+      this.TiposLiquidos = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOSLIQUIDOS);
       this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
 
     })
@@ -96,6 +100,7 @@ export class LPIComponent implements OnInit {
 
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
+        this.DocumetoMinimos = this.inspeccion.InspeccionFotos.length>0 ? 0 : 1;
         console.log(this.inspeccion)
       }, error => {
 
@@ -166,49 +171,76 @@ export class LPIComponent implements OnInit {
   //persistir
   procesar() {
     this.asignarDataDesdeElFormulario();
-    this.actualizarDatos()
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
+    if (this.esFormularioValido) {
+      this.actualizarDatos()
+    }
   }
   private asignarDataDesdeElFormulario() {
     //deja el arreglo
     delete this.formulario.value['InspeccionEquipoUtilizado']
+    delete this.formulario.value['InspeccionFotos']
 
     Object.assign(this.inspeccion, this.formulario.value);
   }
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
 
+    valido = this.formularioValido(formulario, valido);
 
+    valido = this.documentosSubidosValido(valido);
 
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = false;
+    valido = this.InspeccionEquipoUtilizadoValido(valido);
 
+    return valido
+  }
+  private formularioValido(formulario: FormGroup, valido: boolean) {
     formulario.status
       == 'VALID'
       ? valido = true
       : valido = false;
-
-    if (isUndefined(valido)) {
-      return valido = true
-    }
-    return valido
-
+    return valido;
   }
+  private InspeccionEquipoUtilizadoValido(valido: boolean) {
+    if (this.inspeccion.InspeccionEquipoUtilizado.length < 1) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.EquipoMedicion);
+      valido = false;
+    }
+    return valido;
+  }
+  private documentosSubidosValido(valido: boolean) {
+    if (this.inspeccion.InspeccionFotos.length < this.DocumetoMinimos) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes);
+      valido = false;
+    } else {
+      this.DocumetoMinimos = 0
+    }
+    return valido;
+  }
+
   actualizarDatos() {
-    console.log(this.inspeccion)
-    console.log(JSON.stringify(this.inspeccion))
-    this.procesoService.actualizarInspección(this.inspeccion).subscribe(response => {
-      this.toastrService.info(response ? 'ok' : 'error');
-    })
+    this.loaderService.display(true)
+    this.procesoService.actualizarInspección(this.inspeccion).subscribe(
+      response => {
+        response ?
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+          this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+        this.loaderService.display(false)
+        this.location.back();
+      }, error => {
+        this.toastrService.error(error.messge);
+        this.loaderService.display(false)
+      }, () => {
+        this.loaderService.display(false)
+      })
   }
 
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos],
-      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
+      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       TemperaturaDePieza: [this.inspeccion.TemperaturaDePieza, Validators.required],
@@ -227,7 +259,7 @@ export class LPIComponent implements OnInit {
 
     this.formularioInsumos = this.formulario.get('Insumos') as FormArray;
 
-    
+
 
 
     while (this.inspeccion.Insumos.length < 3) {
@@ -239,10 +271,10 @@ export class LPIComponent implements OnInit {
 
     this.inspeccion.Insumos.forEach(p => {
       let form = this.formBuider.group({});
-      
-      form.addControl('TipoInsumoId', new FormControl(p.TipoInsumoId));
-      form.addControl('NumeroLote', new FormControl(p.NumeroLote));
-      
+
+      form.addControl('TipoInsumoId', new FormControl(p.TipoInsumoId, Validators.required));
+      form.addControl('NumeroLote', new FormControl(p.NumeroLote, Validators.required));
+
 
 
       this.formularioInsumos.push(form);
@@ -253,23 +285,19 @@ export class LPIComponent implements OnInit {
 
   }
 
-
   //carga archivos
   addFile(event: any) {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (files.length > 2) {
-      this.toastrService.info('Datos Incorrecto')
-      return;
-    }
-
     if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
+    
+
 
     for (var i = 0; i < files.length; i++) {
       let inspeccionFotos = new InspeccionFotosModel();

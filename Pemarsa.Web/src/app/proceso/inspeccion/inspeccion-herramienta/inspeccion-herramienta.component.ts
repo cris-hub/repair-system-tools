@@ -62,7 +62,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
       this.esPorCantidad = this.Proceso.OrdenTrabajo.CantidadInspeccionar > 1;
       this.loaderService.display(false)
-
+      console.log(this.accion)
 
     }, error => {
       this.toastrService.error(error.message)
@@ -134,7 +134,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   }
   validacionVerFormularioPorCantidad() {
-    if (this.Proceso.CantidadInspeccion > 1 && this.obtenerPiezadesdeUrl()) {
+    if (this.Proceso.CantidadInspeccion >=1 && this.obtenerPiezadesdeUrl()) {
       return true
     }
   }

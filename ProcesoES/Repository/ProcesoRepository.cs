@@ -68,13 +68,19 @@ namespace ProcesoES.Repository
 
                 foreach (var t in inspeccion.InspeccionEquipoUtilizado)
                 {
+
+                    _context.Entry(t).State = t.EquipoUtilizadoId <= 0 && t.InspeccionId == 0 ?
+                           EntityState.Added :
+                           EntityState.Modified;
                     var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EquipoUtilizadoId);
                     _context.Entry(catalogo).State = EntityState.Unchanged;
+
+                    _context.InspeccionEquipoUtilizado.Add(t);
                 }
 
                 foreach (var t in inspeccion.Insumos)
                 {
-                    _context.Entry(t).State = t.Id == 0 ?
+                    _context.Entry(t).State = t.Id <= 0 ?
                             EntityState.Added :
                             EntityState.Modified;
                     var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.TipoInsumoId);
@@ -85,7 +91,7 @@ namespace ProcesoES.Repository
 
                 foreach (var t in inspeccion.Dimensionales)
                 {
-                    _context.Entry(t).State = t.Id == 0 ?
+                    _context.Entry(t).State = t.Id <= 0 ?
                             EntityState.Added :
                             EntityState.Modified;
                 }
@@ -100,9 +106,12 @@ namespace ProcesoES.Repository
                         var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EstadoId);
                         _context.Entry(catalogo).State = EntityState.Unchanged;
                     }
-                    _context.Entry(t).State = t.Id == 0 ?
+                    _context.Entry(t).State = t.Id <= 0 ?
                                         EntityState.Added :
                                         EntityState.Modified;
+                    _context.Entry(t).Property("FechaRegistro").IsModified = false;
+                    _context.Entry(t).Property("NombreUsuarioCrea").IsModified = false;
+                    _context.Entry(t).Property("GuidUsuarioCrea").IsModified = false;
 
                 }
                 //_context.InspeccionConexion.UpdateRange(inspeccion.Conexiones);
@@ -128,7 +137,7 @@ namespace ProcesoES.Repository
             {
                 foreach (var t in inspeccion.Conexiones)
                 {
-                    if (t.Id == 0)
+                    if (t.Id <= 0)
                     {
                         t.NombreUsuarioCrea = "admin";
                         t.FechaRegistro = DateTime.Now;
@@ -141,7 +150,7 @@ namespace ProcesoES.Repository
             {
                 foreach (var t in inspeccion.Espesores)
                 {
-                    if (t.Id == 0)
+                    if (t.Id <= 0)
                     {
                         t.NombreUsuarioCrea = "admin";
                         t.FechaRegistro = DateTime.Now;
@@ -153,7 +162,7 @@ namespace ProcesoES.Repository
             {
                 foreach (var t in inspeccion.Insumos)
                 {
-                    if (t.Id == 0)
+                    if (t.Id <= 0)
                     {
                         t.NombreUsuarioCrea = "admin";
                         t.FechaRegistro = DateTime.Now;
@@ -165,7 +174,7 @@ namespace ProcesoES.Repository
             {
                 foreach (var t in inspeccion.Dimensionales)
                 {
-                    if (t.Id == 0)
+                    if (t.Id <= 0)
                     {
                         t.NombreUsuarioCrea = "admin";
                         t.FechaRegistro = DateTime.Now;
@@ -179,19 +188,13 @@ namespace ProcesoES.Repository
         {
             try
             {
-                var proceso = _context.Proceso
-                            .Include(c => c.InspeccionEntrada)
-                            .ThenInclude(d => d.Inspeccion)
-                            .ThenInclude(e => e.InspeccionEquipoUtilizado)
-                            .ThenInclude(e => e.EquipoUtilizado)
-                            .Include(c => c.InspeccionEntrada)
-                            .ThenInclude(d => d.Inspeccion)
-                            .ThenInclude(c => c.InspeccionFotos)
-                            .ThenInclude(d => d.DocumentoAdjunto)
+                var proceso = _context.Proceso.AsNoTracking()
+                            .Include(c => c.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(e => e.InspeccionEquipoUtilizado).ThenInclude(e => e.EquipoUtilizado)
+                            .Include(c => c.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(c => c.InspeccionFotos).ThenInclude(d => d.DocumentoAdjunto)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.ImagenMedicionEspesores)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Dimensionales)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.ImagenMfl)
-                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Conexiones)
+                            .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Conexiones).ThenInclude(d => d.Conexion)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
                             .Include(c => c.OrdenTrabajo.Herramienta)
@@ -199,8 +202,35 @@ namespace ProcesoES.Repository
                             .Include(c => c.OrdenTrabajo.Anexos);
 
 
+                //var result = proceso.Select(d => new Proceso
+                //{
+                //    Id = d.Id,
+                //    Guid = d.Guid,
+                //    InspeccionEntrada = d.InspeccionEntrada.SelectMany(e =>
+                //    new List<ProcesoInspeccionEntrada>()
+                //    {
+                //        new ProcesoInspeccionEntrada
+                //        {
+                //            Inspeccion = new Inspeccion
+                //            {
+                //                InspeccionFotos = e.Inspeccion.InspeccionFotos.SelectMany( fotos => new List<InspeccionFotos>
+                //                {
+                //                    new InspeccionFotos
+                //                    {
+                //                        DocumentoAdjunto = fotos.DocumentoAdjunto
+                //                    }
+                //                }
+                //                )
+                //            }
+                //        }
+                //    }),
+                //    OrdenTrabajo = d.OrdenTrabajo,
+                //    TipoProceso = d.TipoProceso,
+                //    CantidadInspeccion = d.CantidadInspeccion,
+                //    EquipoMedicionUtilizado = d.EquipoMedicionUtilizado,
+                //    NombreUsuarioCrea = d.NombreUsuarioCrea,
 
-
+                //});
                 return await proceso.FirstOrDefaultAsync(c => c.Guid == guidProceso);
 
             }

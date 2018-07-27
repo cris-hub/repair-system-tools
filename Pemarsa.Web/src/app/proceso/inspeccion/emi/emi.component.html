@@ -8,7 +8,7 @@
     </legend>
   </fieldset>
 
-  <form [formGroup]="formulario">
+  <form [formGroup]="formulario"  (ngSubmit)="procesar()">
 
 
     <div class="col-md-11 contenido-interno">
@@ -20,12 +20,12 @@
         </div>
         <div class="col-md-4">
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="SeIdentificaDefecto" class="form-check-input" type="radio" id="Si" [value]="true">
             <label class="form-check-label" for="Si">Si​</label>
+            <input formControlName="SeIdentificaDefecto"  class="form-check-input" type="radio" id="Si" [value]="true">
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="SeIdentificaDefecto" class="form-check-input" type="radio" id="No" [value]="false">
             <label class="form-check-label" for="No">No​</label>
+            <input formControlName="SeIdentificaDefecto" validacion [validaciones]="['*']" class="form-check-input" type="radio" id="No" [value]="false">
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">Observacion: </label>
         <div class="col-md-9 ">
-          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
         </div>
       </div>
 
@@ -49,11 +49,13 @@
           </div>
         </div>
 
-        <div class="col-md-2 image-upload">
+        <div class="col-md-auto image-upload">
           <label for="file-input-mfl">
             <i class="glyphicon glyphicon-paperclip pointer"></i>
           </label>
-          <input id="file-input-mfl" (change)="addFileMFL($event)" type="file"  />
+          
+          <input id="file-input-mfl" formControlName="ImagenMfl" validacion [validaciones]="['requerido']" (change)="addFileMFL($event)" type="file" col-md-auto image-upload />
+
         </div>
       </div>
 
@@ -70,11 +72,13 @@
           </div>
         </div>
 
-        <div class="col-md-2 image-upload">
+        <div class="col-md-auto image-upload">
           <label for="file-input-espesores">
             <i class="glyphicon glyphicon-paperclip pointer"></i>
           </label>
-          <input id="file-input-espesores" (change)="addFileEspesorese($event)" type="file"  />
+          <input id="file-input-espesores" formControlName="ImagenMedicionEspesores" validacion [validaciones]="['requerido']" (change)="addFileEspesorese($event)" type="file" col-md-auto image-upload />
+
+          
         </div>
       </div>
 
@@ -83,13 +87,13 @@
         <!-- amperaje -->
         <div class="col-md-3 col-md-offset-2 ">
           <label class=" control-label">Amperaje </label>
-          <input formControlName="Amperaje" type="number" step="any" class="form-control" />
+          <input formControlName="Amperaje" validacion [validaciones]="['requerido']" type="number" step="any" class="form-control" />
         </div>
         <!-- Velocidad buggy -->
 
         <div class="col-md-3 ">
           <label class=" control-label">Velocidad buggy drive </label>
-          <input formControlName="VelocidadBuggyDrive" type="number" step="any" class="form-control" />
+          <input formControlName="VelocidadBuggyDrive" validacion [validaciones]="['requerido']" type="number" step="any" class="form-control" />
         </div>
       </div>
 
@@ -97,7 +101,8 @@
       <div class="form-group row">
         <div class="col-md-3 col-md-offset-2 ">
           <label class=" control-label">Tubo valor usado para la calibración </label>
-          <select formControlName="TuboPatronId" class="form-control form-control-lg" value="seleccione">
+          <select formControlName="TuboPatronId" validacion [validaciones]="['requerido']" class="form-control form-control-lg" >
+            <option value="0">Seleccione</option>
             <option *ngFor="let Tupo of TubosPatrones" value="{{Tupo.Id}}">{{Tupo.Valor}}</option>
           </select>
         </div>
@@ -107,7 +112,8 @@
       <div class="form-group row">
         <div class="col-md-3 col-md-offset-2 ">
           <label class=" control-label">Equipo EMI usado </label>
-          <select formControlName="EquipoEmiId" class="form-control form-control-lg" value="seleccione">
+          <select formControlName="EquipoEmiId" validacion [validaciones]="['requerido']" class="form-control form-control-lg" value="seleccione">
+            <option value="0">Seleccione</option>
             <option *ngFor="let EquipoEmi of EquiposEmi" value="{{EquipoEmi.Id}}">{{EquipoEmi.Valor}}</option>
           </select>
         </div>
@@ -117,7 +123,8 @@
       <div class="form-group row">
         <div class="col-md-3 col-md-offset-2 ">
           <label class=" control-label">Bobina magnetica usada</label>
-          <select formControlName="BobinaMagneticaId" class="form-control form-control-lg" value="seleccione">
+          <select formControlName="BobinaMagneticaId"  validacion [validaciones]="['requerido']" class="form-control form-control-lg" value="seleccione">
+            <option value="0">Seleccione</option>
             <option *ngFor="let BobinaMagnetica of BobinasMagneticas" value="{{BobinaMagnetica.Id}}">{{BobinaMagnetica.Valor}}</option>
           </select>
         </div>
@@ -132,12 +139,12 @@
 
         <div class="col-md-4">
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="Si" [value]="true">
             <label class="form-check-label" for="Si">Si​</label>
+            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="Si" [value]="true">
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="No" [value]="false">
             <label class="form-check-label" for="No">No​</label>
+            <input formControlName="EstaConforme" class="form-check-input" validacion [validaciones]="['*']" type="radio" id="No" [value]="false">
           </div>
         </div>
 
@@ -148,7 +155,7 @@
       <div class="form-group row">
 
         <div class="col-md-3 col-md-offset-3 ">
-          <button class="btn" (click)="procesar()">procesar</button>
+          <button type="submit" class="btn">procesar</button>
         </div>
       </div>
 
