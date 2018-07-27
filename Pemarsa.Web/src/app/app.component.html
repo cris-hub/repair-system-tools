@@ -6,26 +6,28 @@
         <a>
           <br>
           <br>
-          <span class="{{menu.image}}" id="iconoMenu"></span>
+          <span class="{{menu.image}}" data-toggle="tooltip" title="{{menu.title}}" id="iconoMenu"></span>
         </a>
-        <br><br><p class="tituloSubmenu">{{menu.title}}</p>
+        <br><br><p class="contenidoMenu">{{menu.title}}</p>
       </li>
     </ul>
   </div>
+  <br />
+  <br />
   <div class="username">
-    <span class="icon-usuario" id="iconoUser"></span>&nbsp; John Freddy
+    <span class="icon-usuario" id="iconoUser"></span>
   </div>
 </div>
 
 <div *ngIf="ListaSubMenuActual" class="nav-side-menu2">
   <div id="submenu">
-    <div class="brand2">Procesos</div>
+    <div class="brand2"><p class="TituloSubMenu">Procesos</p></div>
     <div style="color:#fff">
       <ul *ngFor="let subMenu of ListaSubMenuActual">
         <li id="{{subMenu.color}}" [routerLink]="[subMenu.url]" id="{{subMenu.complementarios.color}}">
           <a>
             <br>
-            <span class="{{subMenu.complementarios.icono}}" id="icono"></span>
+            <span data-toggle="tooltip" title="{{subMenu.name}}" class="{{subMenu.complementarios.icono}}" id="icono"></span>
             <br>
             <br>
             <p class="submenuMensaje">{{subMenu.name}}</p>
@@ -43,4 +45,3 @@
     <div *ngIf="showLoader" class="loading"></div>
   </router-outlet>
 </div>
-

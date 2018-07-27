@@ -3,12 +3,72 @@
   src: url(../fonts/OpenSans-Light.ttf);
 }
 
+/*Contenido despues del panel*/
+.contenido-interno {
+  background-color: #f9f9f9;
+  padding: 65px;
+  height: 100%;
+  /*margin-top: -10px;*/
+  -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+
+}
+
+.alinear-derecha{
+  text-align:right;
+}
+
+.iconox20{
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.inputBusqueda{
+  margin-top: 11px;
+}
+
+/*Estilos para los titulos*/
+.titulo {
+  background-color: #2057AA;
+  color: #FFF;
+  border-radius: 10px 9px 0px 0px;
+  -moz-border-radius: 10px 9px 0px 0px;
+  -webkit-border-radius: 10px 9px 0px 0px;
+  border: 0px solid #000000;
+  -webkit-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
+  -moz-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
+  box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
+}
+
+.titleTable {
+  background-color: #2463c2;
+  opacity: 0.9;
+  color: #FFF;
+}
+
+.modal-dialog {
+  margin-top: 200px !important;
+}
+
+
+.panelModal {
+  background-color: #5484b1;
+  color: #FFF;
+}
+/**/
+.colorPanel {
+  background-color: #4488c1;
+  border-color: #337ab7;
+  color: #FFF;
+}
+
+/* Estilos de fondo de imagen responsive por si se implementa*/
 .imagenFondo {
   background-image: url('../img/Fondo3.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-color: #66999;
 }
 
 .fondo {
@@ -25,6 +85,7 @@
   color: #FFF;
 }
 
+/*Estilos para los tamaños de los iconos del menu*/
 #iconoMenu {
   font-size: 50px;
   color: #FFF;
@@ -45,15 +106,7 @@
   color: #FFF;
 }
 
-img.imagen {
-  width: 25%;
-  height: 15%;
-}
-
-img.imagenUser {
-  width: 14%;
-  height: 10%;
-}
+/*Fin estilos de iconos*/
 
 .form-login {
   position: absolute;
@@ -80,30 +133,23 @@ img.imagenUser {
   text-align: center;
 }
 
+/*Div general despues de los menus laterales*/
+
 .right {
   font-family: OpenSans-Light;
   font-size: 15px;
   color: gray;
   position: absolute;
   left: 18%;
-  width: 80%;
-  height: auto;
+  width: 81%;
+  height: 100%;
 }
 
-.right2 {
-  position: absolute;
-  left: 250px;
-  width: 0%;
-  height: auto;
-}
-
+/*Aliniear hacia la derecha*/
 #corre {
   text-align: right;
 }
 
-.contenido-interno{
-
-}
 
 h4 {
   padding-bottom: 10px;
@@ -111,7 +157,7 @@ h4 {
   font-family: Some;
 }
 
-.tituloSubmenu{
+.contenidoMenu {
   font-size: 14px;
 }
 
@@ -119,6 +165,19 @@ h4 {
   bottom: 0%;
 }
 
+/*Estilo para que el cursor se muestre la mano*/
+.pointer {
+  cursor: pointer;
+}
+
+/*Estilo para acomodar el icono de la paginacion*/
+.margin-13 {
+  margin-top: 14px;
+  margin-left: -13px;
+}
+
+
+/*Estilos Responsive*/
 
 @media screen and (max-width: 767px) {
   .form-login {
@@ -126,15 +185,20 @@ h4 {
     width: 40%
   }
 
-  #iconoMenu {
+  .contenido-interno {
+    padding: 20px;
+  }
+    /*Ajustar iconos en responsive*/
+    #iconoMenu {
     font-size: 30px !important;
   }
 
   #icono {
-    font-size: 30px;
+    font-size: 22px;
+    margin-left: -5px;
   }
 
-  .tituloSubmenu {
+  .contenidoMenu {
     display: none;
   }
 
@@ -143,71 +207,203 @@ h4 {
   }
 
   .TituloMenu {
-    font-size: 13px;
+    font-size: 10px;
   }
 
-  .nav-side-menu{
-    width: 9%;
+  .TituloSubMenu {
+    font-size: 9px;
   }
-    .nav-side-menu ul, .nav-side-menu li {
-      min-height: 100px;
-    }
 
-}
-
-@media screen and (max-width: 992px) {
+  #corre {
+    text-align: left;
+  }
+  /*Estilos del Menu y SubMenu */
   .nav-side-menu {
     width: 9%;
   }
 
+    .nav-side-menu ul, .nav-side-menu li {
+      min-height: 100px;
+    }
+
+  .nav-side-menu2 ul, .nav-side-menu2 li {
+    line-height: 80%;
+    width: 90%;
+    padding-left: 7px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 60%;
+    border-radius: 10%;
+  }
+}
+
+/*Estilos para una tablet*/
+@media (max-width: 1024px) and (min-width: 767px) {
+  /*Estilos del Menu y SubMenu */
+  .nav-side-menu {
+    width: 8%;
+  }
+
+    .nav-side-menu ul, .nav-side-menu li {
+      min-height: 100px;
+    }
+
+
   .nav-side-menu2 {
-    width: 9%;
+    left: 8%;
+  }
+
+    .nav-side-menu2 ul, .nav-side-menu2 li {
+      line-height: 80%;
+      width: 85%;
+      padding-left: 16px;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 60%;
+      border-radius: 10%;
+    }
+
+  /*Fin estilos Meny y Submenu*/
+
+  .contenido-interno {
+    padding: 30px;
+  }
+
+  .TituloMenu{
+    font-size: 14px;  
+  }
+  .TituloSubMenu{
+    font-size: 13px;
+  }
+  #icono {
+    font-size: 25px;
+    margin-left: -15px;
+  }
+
+  .submenuMensaje {
+    display: none;
+  }
+
+  .contenidoMenu {
+    font-size: 10px;
+  }
+  #corre {
+    text-align: left;
   }
 }
 
 
-/*@media (max-width: 1700px) {
-  .right {
-    width: 60px;
+@media (max-width: 1550px) and (min-width: 1024px) {
+  /*Estilos del Menu y SubMenu */
+  .nav-side-menu {
+    width: 7.8%;
   }
-}*/
 
-/*@media screen and (max-width: 1000px) {
-  .right {
-    left: 36%;
-    width: 64%;
+    .nav-side-menu ul, .nav-side-menu li {
+      min-height: 100px;
+    }
+
+
+
+  .nav-side-menu2 {
+    left: 7.8%;
+  }
+
+    .nav-side-menu2 ul, .nav-side-menu2 li {
+      line-height: 92%;
+      width: 92%;
+      padding-left: 19px;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 60%;
+      border-radius: 10%;
+    }
+
+  /*Fin Estilos Menu y submenu*/
+
+  #icono {
+    font-size: 25px;
+    margin-left: -25px;
   }
 
   #iconoMenu {
-    font-size: 50px;
+    font-size: 50px !important;
   }
 
-  .tituloSubmenu {
-    font-size: 12px;
-  }
-}*/
-/*}
-
-@media (max-width: 760px) {
-  .right {
-    width: 93%;
+  .submenuMensaje {
+    font-size: 10px;
+    margin-left: -25px;
   }
 
-
-}*/
-
-.pointer{
-  cursor: pointer;
+  .contenidoMenu {
+    font-size: 10px;
+  }
 }
 
+/*Estilos responsive para un celular*/
 
-.salto {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 2px;
-  line-height: 2px;
-}
 
-.margin-13{
-  margin-top: 14px;
+@media screen and (max-width: 500px) {
+  .form-login {
+    left: 30%;
+    width: 40%
+  }
+
+  /*Ajustar iconos en responsive*/
+  #iconoMenu {
+    font-size: 30px !important;
+  }
+
+  #icono {
+    font-size: 18px;
+    margin-left: -5px;
+  }
+
+  .contenidoMenu {
+    display: none;
+  }
+
+  .submenuMensaje {
+    display: none;
+  }
+
+  .TituloMenu {
+    font-size: 11px;
+  }
+
+  .TituloSubMenu {
+    font-size: 11px;
+  }
+
+  #corre {
+    text-align: left;
+  }
+
+  .TituloMenu {
+    display:none;
+  }
+
+  .TituloSubMenu {
+    display:none;
+  }
+  /*Estilos del Menu y SubMenu */
+  .nav-side-menu {
+    width: 11%;
+  }
+
+  .nav-side-menu2 {
+    left:11%;
+    width: 10%;
+  }
+
+    .nav-side-menu ul, .nav-side-menu li {
+      min-height: 100px;
+    }
+
+  .nav-side-menu2 ul, .nav-side-menu2 li {
+    margin-top:20px;
+    line-height: 80%;
+    width: 90%;
+    padding-left: 7px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 60%;
+    border-radius: 10%;
+  }
 }

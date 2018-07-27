@@ -10,6 +10,7 @@
 }
 
 /*Colores submenu*/
+
 #color{
   background-color: #ac784e;  
 }
@@ -44,8 +45,6 @@
   background-color: #cb874f;
 }
 
-
-
 /*Menu*/
 
 .nav-side-menu {
@@ -55,12 +54,10 @@
   font-size: 15px;
   font-weight: 200;
   background-color: #2463c2;
-  /*position: absolute;*/
   top: 0px;
   width: 8.6%;
   height: 100%;
   color: #FFF;
-  opacity: 0.9;
 }
 
   .nav-side-menu .brand {
@@ -153,11 +150,6 @@
       transition: all 1s ease;
     }
 
-/*@media screen and (max-width: 767px) {
-  .nav-side-menu {
-    width: 25%;
-  }
-}*/
 
 @media screen and (min-width: 767px) {
   .nav-side-menu .menu-list .menu-content {
@@ -165,20 +157,19 @@
   }
 }
 
+/*Estilos del submenu lateral*/
 .nav-side-menu2 {
   overflow: auto;
   font-family: OpenSans-Semibold;
   font-size: 12px;
   font-weight: 200;
   background-color: #f4f4f4;
-  /*position: absolute;*/
   position:fixed;
   top: 0px;
   left: 8.7%;
   width: 8.1%;
   height: 100%;
   color: gray;
-  opacity: 0.9;
 }
 
   .nav-side-menu2 .brand2 {
@@ -279,43 +270,6 @@
       -ms-transition: all 1s ease;
       transition: all 1s ease;
     }
-
-/*@media screen and (max-width: 767px) {
-  .nav-side-menu2 {
-    position: absolute;
-    left: 15%;
-    width: 30%;
-  }
-
-    .nav-side-menu2 .toggle-btn {
-      display: block;
-      cursor: pointer;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      z-index: 10 !important;
-      padding: 3px;
-      background-color: #ffffff;
-      color: #000;
-      width: 40px;
-      text-align: center;
-    }
-
-
-  .nav-side-menu ul, .nav-side-menu li {
-    min-height: 100px;
-  }
-
-  .brand2 {
-    text-align: left !important;
-    font-size: 22px;
-    padding-left: 20px;
-    line-height: 50px !important;
-  }
-}*/
-
-
-
 
 
 @media screen and (min-width: 767px) {

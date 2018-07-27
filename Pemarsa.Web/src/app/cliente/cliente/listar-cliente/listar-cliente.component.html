@@ -1,27 +1,25 @@
 
 <div class="container-fluid">
-  <br>
-  <div class="panel" style="background-color: rgba(36, 99, 194, .9);color: #FFF;">
-    <div class="panel-heading">
+  <div class="panel">
+    <div class="panel-heading colorPanel">
       <div class="row">
-
         <div class="col-lg-3 col-md-6 col-sm-12">
           <h4>Listado de clientes</h4>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <input type="text" placeholder="Busqueda básica" class="form-control" name="">
+          <input type="text" placeholder="Busqueda básica" class="form-control inputBusqueda" name="">
         </div>
-        <div class="col-lg-2 col-md-6">
+        <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
 
         </div>
-        <div class="col-lg-1 col-md-2 col-sm-3">
+        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
           <br />
-          <filtro-cliente [estadosCatalogo]="parametros.Catalogos" class="pointer" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>
+          <filtro-cliente [estadosCatalogo]="parametros.Catalogos" class="pointer" data-toggle="tooltip" title="Filtros avanzados" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>
         </div>
-        <div class="col-lg-1 col-md-2 col-sm-3">
+        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
           <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
             <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-list"></span>
+              <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
             </a>
             <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
               <li class="records-page-contactos" data-page="10">
@@ -48,58 +46,54 @@
             </ul>
           </div>
         </div>
-        <div class="col-lg-1 col-md-2 col-sm-3">
+        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
           <br />
-          <i [routerLink]="['/cliente/crear']" class="glyphicon glyphicon-plus pointer"></i>
+          <i [routerLink]="['/cliente/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Agregar cliente"></i>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!--</div>
-</div>-->
-<br />
-<div class="container-fluid">
+
   <div class="row">
     <div class="col-12">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover table-condensed">
-          <thead>
-            <tr>
-              <th class="col-md-2">Razón social</th>
-              <th class="col-md-2">NIT</th>
-              <th class="col-md-2">Teléfono</th>
-              <th class="col-md-2">Dirección entrega</th>
-              <th class="col-md-2">Estado</th>
-              <th class="col-md-1">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
-              <td>{{cliente.RazonSocial}}</td>
-              <td>{{cliente.Nit}}</td>
-              <td>{{cliente.Telefono}}</td>
-              <td>{{cliente.Direccion}}</td>
-              <td>{{cliente.Estado.Valor}}</td>
-              <td class="col-md-12">
-                <i class="glyphicon glyphicon-eye-open pointer" routerLink="/cliente/ver/{{cliente.Guid}}"></i>
-                &nbsp;
-                <i class="glyphicon glyphicon-pencil pointer" routerLink="/cliente/editar/{{cliente.Guid}}"></i>
-                &nbsp;
-                <div *ngIf="parametros.Catalogos" class="btn-group" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">
-                    <span class="glyphicon glyphicon-star"></span>
-                  </a>
-                  <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li *ngFor="let estado of estados" class="records-page-contactos">
-                      <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="table-responsive-sm table-responsive-md">
+      <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+          <tr class="titleTable">
+            <th>Razón social</th>
+            <th>NIT</th>
+            <th>Teléfono</th>
+            <th>Dirección entrega</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+            <td>{{cliente.RazonSocial}}</td>
+            <td>{{cliente.Nit}}</td>
+            <td>{{cliente.Telefono}}</td>
+            <td>{{cliente.Direccion}}</td>
+            <td>{{cliente.Estado.Valor}}</td>
+            <td>
+              <i class="glyphicon glyphicon-eye-open pointer" routerLink="/cliente/ver/{{cliente.Guid}}"></i>
+              &nbsp;
+              <i class="glyphicon glyphicon-pencil pointer" routerLink="/cliente/editar/{{cliente.Guid}}"></i>
+              &nbsp;
+              <div *ngIf="parametros.Catalogos" class="btn-group" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
+                <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon-star pointer"></span>
+                </a>
+                <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+                  <li *ngFor="let estado of estados" class="records-page-contactos">
+                    <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       </div>
     </div>
   </div>
