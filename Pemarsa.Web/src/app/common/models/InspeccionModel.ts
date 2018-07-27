@@ -1,4 +1,4 @@
-import { EntityModel, AttachmentModel, CatalogoModel, InspeccionFotosModel, InspeccionConexionModel, InspeccionDimensionalOtroModel, InspeccionEquipoUtilizadoModel } from "./Index";
+import { EntityModel, AttachmentModel, CatalogoModel, InspeccionFotosModel, InspeccionConexionModel, InspeccionDimensionalOtroModel, InspeccionEquipoUtilizadoModel, InspeccionInsumoModel } from "./Index";
 
 export class InspeccionModel extends EntityModel {
   public Amperaje: number;
@@ -6,6 +6,7 @@ export class InspeccionModel extends EntityModel {
   public EstaConforme: boolean;
   public FechaDePreparacion: Date;
   public InspeccionLuzNegra: boolean;
+  public InspeccionYoke: boolean;
   public InspeccionParticulasMagneticas: boolean;
   public IntensidadLuzBlanca: number;
   public IntensidadLuzNegra: number;
@@ -25,7 +26,7 @@ export class InspeccionModel extends EntityModel {
   public EstadoId: number;
   public TipoDeLiquidosId: number;
   public TipoInspeccionId: number;
-  public TurboPatronId: number;
+  public TuboPatronId: number;
   public Pieza: number;
   public ImagenMedicionEspesoresId: number;
   public ImagenMflId: number;
@@ -40,7 +41,7 @@ export class InspeccionModel extends EntityModel {
   
   public TipoDeLiquidos: CatalogoModel;
   public TipoInspeccion: CatalogoModel;
-  public TurboPatron: CatalogoModel;
+  public TuboPatron: CatalogoModel;
   public ImagenMedicionEspesores: AttachmentModel;
   public ImagenMfl: AttachmentModel;
   public ImagenPantallaUltrasonido: AttachmentModel;
@@ -50,6 +51,7 @@ export class InspeccionModel extends EntityModel {
   public InspeccionFotos: InspeccionFotosModel[];
   public Conexiones: InspeccionConexionModel[];
   public Dimensionales: InspeccionDimensionalOtroModel[]
+  public Insumos: InspeccionInsumoModel[]
 
   
   public InspeccionEquipoUtilizado: InspeccionEquipoUtilizadoModel[];
@@ -58,6 +60,10 @@ export class InspeccionModel extends EntityModel {
     super();
     this.InspeccionFotos = new Array<InspeccionFotosModel>();
     this.Conexiones = new Array<InspeccionConexionModel>();
+    this.Insumos = new Array<InspeccionInsumoModel>();
+    this.ImagenMfl = new AttachmentModel()
+    this.ImagenMedicionEspesores = new AttachmentModel()
+    this.Dimensionales = new Array<InspeccionDimensionalOtroModel>();
     this.InspeccionEquipoUtilizado = new Array<InspeccionEquipoUtilizadoModel>();
   }
 }

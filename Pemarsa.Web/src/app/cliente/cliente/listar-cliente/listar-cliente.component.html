@@ -90,8 +90,8 @@
                   <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">
                     <span class="glyphicon glyphicon-star"></span>
                   </a>
-                  <ul class="dropdown-menu" style="left:inherit">
-                    <li *ngFor="let estado of parametros.Catalogos" class="records-page-contactos">
+                  <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+                    <li *ngFor="let estado of estados" class="records-page-contactos">
                       <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
                     </li>
                   </ul>

@@ -313,7 +313,13 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensional,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
-                    }    ,new Catalogo{
+                    },new Catalogo{
+                        Id = 105,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensionalMotor,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    }
+                    ,new Catalogo{
                         Id = 66,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.MPI,
@@ -343,6 +349,117 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.UTA,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    },new Catalogo{
+                        Id = 84,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TipoFormatoParametro.Aletas,
+                        Grupo = CanonicalConstants.Grupos.TipoFormatoParametro
+                    },new Catalogo{
+                        Id = 85,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TipoFormatoParametro.Parametro,
+                        Grupo = CanonicalConstants.Grupos.TipoFormatoParametro
+                    },new Catalogo{
+                        Id = 87,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BloqueEscalonado.Nivel1,
+                        Grupo = CanonicalConstants.Grupos.TiposBloqueEscalonadoo
+                    },new Catalogo{
+                        Id = 88,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BloqueEscalonado.Nivel2,
+                        Grupo = CanonicalConstants.Grupos.TiposBloqueEscalonadoo
+                    },new Catalogo{
+                        Id = 89,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BloqueEscalonado.Nivel3,
+                        Grupo = CanonicalConstants.Grupos.TiposBloqueEscalonadoo
+                    },new Catalogo{
+                        Id = 90,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BloqueEscalonado.Nivel4,
+                        Grupo = CanonicalConstants.Grupos.TiposBloqueEscalonadoo
+                    },new Catalogo{
+                        Id = 91,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TipoInsumo.SKC_S,
+                        Grupo = CanonicalConstants.Grupos.TipoInsumo
+                    },new Catalogo{
+                        Id = 92,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TipoInsumo.SKD_S2,
+                        Grupo = CanonicalConstants.Grupos.TipoInsumo
+                    },new Catalogo{
+                        Id = 93,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TipoInsumo.SKL_SP2,
+                        Grupo = CanonicalConstants.Grupos.TipoInsumo
+                    },new Catalogo{
+                        Id = 94,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TiposLiquidos.coloreados,
+                        Grupo = CanonicalConstants.Grupos.TiposLiquidos
+                    },new Catalogo{
+                        Id = 95,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TiposLiquidos.Fluorescentes,
+                        Grupo = CanonicalConstants.Grupos.TiposLiquidos
+                    }
+
+
+
+
+
+                    ,new Catalogo{
+                        Id = 96,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TubosPatrones.Pilot,
+                        Grupo = CanonicalConstants.Grupos.TubosPatrones
+                    } ,new Catalogo{
+                        Id = 97,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TubosPatrones.Venturi,
+                        Grupo = CanonicalConstants.Grupos.TubosPatrones
+                    }
+
+                    ,new Catalogo{
+                        Id = 98,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.EquiposEmi.EquiposEmi1,
+                        Grupo = CanonicalConstants.Grupos.EquiposEmi
+                    } ,new Catalogo{
+                        Id = 99,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.EquiposEmi.EquiposEmi2,
+                        Grupo = CanonicalConstants.Grupos.EquiposEmi
+                    }
+
+                    ,new Catalogo{
+                        Id = 100,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BobinasMagneticas.XM5,
+                        Grupo = CanonicalConstants.Grupos.BobinasMagneticas
+                    } ,new Catalogo{
+                        Id = 101,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BobinasMagneticas.MXX,
+                        Grupo = CanonicalConstants.Grupos.BobinasMagneticas
+                    }
+                    ,new Catalogo{
+                        Id = 102,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BobinasMagneticas.M12,
+                        Grupo = CanonicalConstants.Grupos.BobinasMagneticas
+                    } ,new Catalogo{
+                        Id = 103,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BobinasMagneticas.CM22,
+                        Grupo = CanonicalConstants.Grupos.BobinasMagneticas
+                    },new Catalogo{
+                        Id = 104,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.BobinasMagneticas.C22A,
+                        Grupo = CanonicalConstants.Grupos.BobinasMagneticas
                     }
 
 
@@ -795,6 +912,86 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
+                        case CanonicalConstants.Grupos.TipoFormatoParametro:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Formato)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Formato
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.TiposBloqueEscalonadoo:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.TipoInsumo:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+
+
+                        case CanonicalConstants.Grupos.TubosPatrones:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.EquiposEmi:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.BobinasMagneticas:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
                     }
                 }
                 // Especificaciones //
@@ -1033,8 +1230,20 @@ namespace Pemarsa.Data.DBInitialize
                                     OR Grupo = 'ESTADOS_CONEXION_PIN'  
                                     OR Grupo = 'CONEXION'
                                     OR Grupo = 'EQUIPO_MEDICION_UTILIZADO_PROCESO'
+                                    OR Grupo = 'TIPO_BLOQUEESCALONADO'
 
 ",
+                    }
+                    ,
+                    new Consulta
+                    {
+                        Id = 5,
+                        Guid = Guid.NewGuid(),
+                        Campos = "Id, Guid, Valor, Id, Grupo",
+                        Tabla = "catalogo",
+                        Condicion = @"Grupo = 'TUBOS_PATRONES' 
+                                    OR Grupo = 'EQUIPOS_EMI'  
+                                    OR Grupo = 'BOBINAS_MAGNETICAS'  ",
                     }
 
 
@@ -1093,6 +1302,19 @@ namespace Pemarsa.Data.DBInitialize
                             break;
                         case 4:
                             if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 4) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+                        case 5:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 5) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
                             {
                                 context.ParametroConsulta.Add
                                 (

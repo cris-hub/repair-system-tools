@@ -21,6 +21,8 @@ namespace Pemarsa.Domain
 
         public string TPF { get; set; }
 
+        public int Version { get; set; }
+
         [ForeignKey("Herramienta")]
         public int? HerramientaId { get; set; }
         public virtual Herramienta Herramienta { get; set; }
@@ -34,14 +36,19 @@ namespace Pemarsa.Domain
         [ForeignKey("TiposConexiones")]
         public int? TiposConexionesId { get; set; }
         public virtual Catalogo TiposConexiones { get; set; }
-        
-        [ ForeignKey("Conexion")]
+
+        [ForeignKey("Conexion")]
         public int? ConexionId { get; set; }
         public virtual Catalogo Conexion { get; set; }
 
-        public ICollection<FormatoAdendum> Adendum { get; set; }
+        
+        public virtual IEnumerable<FormatoAdendum> Adendum { get; set; }
 
-        public ICollection<FormatoParametro> Parametros { get; set; }
+        
+        public virtual IEnumerable<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
+
+        
+        
 
 
 

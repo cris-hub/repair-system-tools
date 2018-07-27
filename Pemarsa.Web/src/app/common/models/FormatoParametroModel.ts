@@ -1,3 +1,5 @@
+import { FormatoFormatoParametroModel } from "./Index";
+
 export class FormatoParametroModel {
 
     constructor(
@@ -7,7 +9,8 @@ export class FormatoParametroModel {
         public Parametro?: string,
         public ToleranciaMin?: string,
         public ToleranciaMax?: string,
-        public FormatoId?: number
+        public FormatoId?: number,
+        public FormatoFormatoParametro?: FormatoFormatoParametroModel
     ) {
     }
 

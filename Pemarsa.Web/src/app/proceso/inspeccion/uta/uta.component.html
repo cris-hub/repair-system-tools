@@ -7,145 +7,133 @@
 
     </legend>
   </fieldset>
+  <form [formGroup]="formulario">
+    <div class="col-md-11 contenido-interno">
 
-  <div class="col-md-11 contenido-interno">
-
-    <div class="form-group row">
-      <label class="col-md-2 control-label" id="corre">Observacion: </label>
-      <div class="col-md-9 ">
-        <textarea class="form-control"></textarea>
+      <!-- observacion -->
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <div class="col-md-9 ">
+          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group row">
-      <div class="col-md-5 col-md-offset-2">
+      <!-- doc ultrasonido -->
+      <div class="form-group row">
+        <div class="col-md-7 col-md-offset-2">
+          <div class="form-group row">
+            <label class="col-md-12 col-form-label">Adjunte imagen pantalla ultrasonido​</label>
+            <div *ngIf="inspeccion.ImagenPantallaUltrasonido" class="col-md-12">
+              <a href="{{inspeccion.ImagenPantallaUltrasonido.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenPantallaUltrasonido.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 image-upload">
+          <label for="file-input-ultrasonido">
+            <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+          </label>
+          <input id="file-input-ultrasonido" (change)="addFileUltrasonido($event)" type="file" />
+        </div>
+      </div>
+
+      <section>
+        <h4>trazabilidad</h4>
+        <!--  ultrasonido calibración previa -->
         <div class="form-group row">
-          <label class="col-md-12 col-form-label">Adjunte imagen pantalla ultrasonido​</label>
-
-          <div class="col-md-12">
-            <a href="" class="form-control sin-margen"><p>doc 1<i class="pull-right glyphicon glyphicon-download"></i></p></a>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="col-md-2 image-upload">
-        <label for="file-input">
-          <i class="glyphicon glyphicon-paperclip pointer"></i>
-        </label>
-
-        <input id="file-input" (change)="addFile($event)" type="file" multiple />
-      </div>
-
-    </div>
-
-
-    <section>
-      <h4>trazabilidad</h4>
-
-      <div class="form-group row">
-        <div class="col-md-7 col-md-offset-2">
-          <div class="form-group row">
-            <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración previa a la inspección​</label>
-
-            <div class="col-md-12">
-              <a href="" class="form-control sin-margen"><p>doc 1<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+          <div class="col-md-7 col-md-offset-2">
+            <div class="form-group row">
+              <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración previa a la inspección​</label>
+              <div *ngIf="inspeccion.ImagenUltrasonidoPrevia" class="col-md-12">
+                <a href="{{inspeccion.ImagenUltrasonidoPrevia.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenUltrasonidoPrevia.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+              </div>
             </div>
           </div>
 
+          <div class="col-md-2 image-upload">
+            <label for="file-input-previa-ultrasonido">
+                     <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+            </label>
+            <input id="file-input-previa-ultrasonido" (change)="addFilePreviaUltrasonido($event)" type="file" />
+          </div>
         </div>
 
-        <div class="col-md-2 image-upload">
-          <label for="file-input">
-            <i class="glyphicon glyphicon-paperclip pointer"></i>
-          </label>
-
-          <input id="file-input" (change)="addFile($event)" type="file" multiple />
-        </div>
-
-      </div>
-      <div class="form-group row">
-        <div class="col-md-7 col-md-offset-2">
-          <div class="form-group row">
-            <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración durante la inspección​</label>
-
-            <div class="col-md-12">
-              <a href="" class="form-control sin-margen"><p>doc 1<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+        <!-- addFileDuranteInspeccionUltrasonido -->
+        <div class="form-group row">
+          <div class="col-md-7 col-md-offset-2">
+            <div class="form-group row">
+              <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración durante la inspección​</label>
+              <div *ngIf="inspeccion.ImagenUltrasonidoDurante" class="col-md-12">
+                <a href="{{inspeccion.ImagenUltrasonidoDurante.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenUltrasonidoDurante.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+              </div>
             </div>
           </div>
 
+          <div class="col-md-2 image-upload">
+            <label for="file-input-ultrasonido-durante">
+                     <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+            </label>
+            <input id="file-input-ultrasonido-durante" (change)="addFileDuranteInspeccionUltrasonido($event)" type="file" />
+          </div>
         </div>
 
-        <div class="col-md-2 image-upload">
-          <label for="file-input">
-            <i class="glyphicon glyphicon-paperclip pointer"></i>
-          </label>
-
-          <input id="file-input" (change)="addFile($event)" type="file" multiple />
-        </div>
-
-      </div>
-      <div class="form-group row">
-        <div class="col-md-7 col-md-offset-2">
-          <div class="form-group row">
-            <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración después de la inspección​</label>
-
-            <div class="col-md-12">
-              <a href="" class="form-control sin-margen"><p>doc 1<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+        <!-- addFileDespuesInspeccionUltrasonido -->
+        <div class="form-group row">
+          <div class="col-md-7 col-md-offset-2">
+            <div class="form-group row">
+              <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración después de la inspección​</label>
+              <div *ngIf="inspeccion.ImagenUltrasonidoDespues" class="col-md-12">
+                <a href="{{inspeccion.ImagenUltrasonidoDespues.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenUltrasonidoDespues.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+              </div>
             </div>
           </div>
 
+          <div class="col-md-2 image-upload">
+            <label for="file-input-addfiledespuesinspeccionultrasonido">
+                     <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+            </label>
+            <input id="file-input-addfiledespuesinspeccionultrasonido" (change)="addFileDespuesInspeccionUltrasonido($event)" type="file" />
+          </div>
         </div>
 
-        <div class="col-md-2 image-upload">
-          <label for="file-input">
-            <i class="glyphicon glyphicon-paperclip pointer"></i>
-          </label>
-
-          <input id="file-input" (change)="addFile($event)" type="file" multiple />
+        <!-- Tubo Calibracion  -->
+        <div class="form-group row">
+          <div class="col-md-3 col-md-offset-2 ">
+            <label class=" control-label">Tubo valor usado para la calibración </label>
+            <select formControlName="TuboPatronId" class="form-control form-control-lg" value="seleccione">
+              <option *ngFor="let Tupo of TubosPatrones" value="{{Tupo.Id}}">{{Tupo.Valor}}</option>
+            </select>
+          </div>
         </div>
+      </section>
 
-      </div>
-
-
+      <!-- Check operativo -->
       <div class="form-group row">
         <div class="col-md-3 col-md-offset-2 ">
-          <label class=" control-label">Tubo patron usado para calibración​</label>
-          <input class="form-control" />
+          <label class=" control-label" id="corre">Operativo</label>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-check form-check-inline col-md-5">
+            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="Si" [value]="true">
+            <label class="form-check-label" for="Si">Si​</label>
+          </div>
+          <div class="form-check form-check-inline col-md-5">
+            <input formControlName="EstaConforme" class="form-check-input" type="radio" id="No" [value]="false">
+            <label class="form-check-label" for="No">No​</label>
+          </div>
         </div>
       </div>
 
-    </section>
-
-
-
-    <div class="form-group row">
-      <div class="col-md-3 col-md-offset-2 ">
-        <label class=" control-label" id="corre">Operativo</label>
-      </div>
-
-
-      <div class="col-md-4">
-        <div class="form-check form-check-inline col-md-5">
-          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)" id="Si" value="19">
-          <label class="form-check-label" for="Si">Si​</label>
-        </div>
-        <div class="form-check form-check-inline col-md-5">
-          <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" id="No" value="18">
-          <label class="form-check-label" for="No">No​</label>
+      <!-- submit accion -->
+      <div class="form-group row">
+        <div class="col-md-3 col-md-offset-3 ">
+          <button class="btn" (click)="procesar()">Proceosar y continuar</button>
         </div>
       </div>
-
 
     </div>
+  </form>
 
-    <div class="form-group row">
-
-      <div class="col-md-3 col-md-offset-3 ">
-        <button class="btn" (click)="procesar()">Proceosar y continuar</button>
-      </div>
-    </div>
-
-  </div>
 
 </div>

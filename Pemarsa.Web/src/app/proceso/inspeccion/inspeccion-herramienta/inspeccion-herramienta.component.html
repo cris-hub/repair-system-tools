@@ -1,4 +1,4 @@
-<div *ngIf="esPorCantidad && !esPieza">
+<div *ngIf="!validacionVerFormularioPorCantidad()">
   <h1 class="col-sm-offset-3">Herramientas inspeccionar</h1>
   <div *ngIf="Proceso" class="form-group">
     <div *ngFor="let indexHerramienta of rangoHerramientasInspeccionar(Proceso.OrdenTrabajo.CantidadInspeccionar);index">
@@ -7,7 +7,9 @@
         <div class="col-md-3 col-md-offset-3">
           <p class="form-control ">
             {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
-            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}"  class="glyphicon glyphicon-wrench pointer pull-right"></i>
+            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver"  class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar"  class="glyphicon glyphicon-wrench pointer pull-right"></i>
+            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar"  class="glyphicon glyphicon-pencil pointer pull-right"></i>
           </p>
         </div>
       </div>
@@ -16,7 +18,7 @@
   </div>
 </div>
 
-<div *ngIf="!esPorCantidad || esPieza">
+<div *ngIf="validacionVerFormularioPorCantidad()">
 
 
   <h2 class="col-md-offset-3 row">{{tipoProcesoActual.Valor}}</h2>
@@ -93,7 +95,9 @@
         <p class="form-control sin-margen">
           {{inspeccion.Valor}}
           <i *ngIf="!loading" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)" class="glyphicon glyphicon-minus pointer pull-right"></i>
-          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}" class="glyphicon glyphicon-wrench pointer pull-right"></i>
+          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
+          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
+          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
         </p>
       </div>
     </div>

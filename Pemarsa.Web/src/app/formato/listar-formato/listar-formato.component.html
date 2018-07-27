@@ -84,8 +84,8 @@
 
               <td>{{formato.Codigo}}</td>
               <td>{{formato.Conexion.Valor}}</td>
-              <td *ngFor=" let plano of formato.Planos">
-                <a>{{plano.NombreArchivo}}</a>
+              <td >
+                <a *ngFor=" let plano of formato.Planos">{{plano.NombreArchivo}}</a>
               </td>
 
               <td>{{formato.FechaRegistro | date: 'dd/MM/yyyy'}}</td>

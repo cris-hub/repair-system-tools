@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VisualDimensionalComponent } from './visualdimencional.component';
+import { VisualDimensionalMotorComponent } from './visual-dimensional-motor.component';
 
 describe('VisualdimencionalComponent', () => {
-  let component: VisualDimensionalComponent;
-  let fixture: ComponentFixture<VisualDimensionalComponent>;
+  let component: VisualDimensionalMotorComponent;
+  let fixture: ComponentFixture<VisualDimensionalMotorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VisualDimensionalComponent ]
+      declarations: [ VisualDimensionalMotorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VisualDimensionalComponent);
+    fixture = TestBed.createComponent(VisualDimensionalMotorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

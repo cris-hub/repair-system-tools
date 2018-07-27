@@ -20,8 +20,8 @@ namespace FormatoES.Service
 
         private PemarsaContext _context;
 
-        public FormatoService(PemarsaContext context, 
-            IDocumentoAdjuntoService serviceDocumentoAdjunto, 
+        public FormatoService(PemarsaContext context,
+            IDocumentoAdjuntoService serviceDocumentoAdjunto,
             IHerramientaService serviceHerramientaService)
         {
             _repository = new FormatoRepository(context);
@@ -34,7 +34,7 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ActualizarFormato(formato,usuario);
+                return await _repository.ActualizarFormato(formato, usuario);
             }
             catch (Exception) { throw; }
         }
@@ -43,32 +43,35 @@ namespace FormatoES.Service
         {
             try
             {
-
-                foreach (var plano in formato.Planos)
+                if (formato.Planos != null)
                 {
-                    //Se combierte el stream del documento adjutno en butes
-                    Byte[] bytes = Convert.FromBase64String(plano.Stream);
 
-                    //Se valida si existe la carpeta en el servidor
-                    if (!Directory.Exists($"{RutaServer}"))
-                        Directory.CreateDirectory($"{RutaServer}");
+                    foreach (var plano in formato.Planos)
+                    {
+                        //Se combierte el stream del documento adjutno en butes
+                        Byte[] bytes = Convert.FromBase64String(plano.Stream);
 
-                    //se guarda la ruta en el documentoAfjunto para registrarla en la base de datos
-                    string nameSystem = $"{Guid.NewGuid().ToString()}.{plano.NombreArchivo.Split('.')[1]}";
-                    plano.Ruta = $"{RutaServer}{nameSystem}";
-                    plano.Nombre = nameSystem;
+                        //Se valida si existe la carpeta en el servidor
+                        if (!Directory.Exists($"{RutaServer}"))
+                            Directory.CreateDirectory($"{RutaServer}");
 
-                    await File.WriteAllBytesAsync(plano.Ruta, bytes);
+                        //se guarda la ruta en el documentoAfjunto para registrarla en la base de datos
+                        string nameSystem = $"{Guid.NewGuid().ToString()}.{plano.NombreArchivo.Split('.')[1]}";
+                        plano.Ruta = $"{RutaServer}{nameSystem}";
+                        plano.Nombre = nameSystem;
 
+                        await File.WriteAllBytesAsync(plano.Ruta, bytes);
+
+                    }
                 }
                 if (formato.Herramienta != null)
                 {
-                    formato.Herramienta = await _serviceHerramientaService.ConsultarHerramientaPorId(formato.Herramienta.Id,usuario);
+                    formato.Herramienta = await _serviceHerramientaService.ConsultarHerramientaPorId(formato.Herramienta.Id, usuario);
 
                 }
 
 
-                return await _repository.CrearFormato(formato,usuario);
+                return await _repository.CrearFormato(formato, usuario);
             }
             catch (Exception e)
             {
@@ -82,7 +85,7 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ConsultarFormatoPorGuid(guidFormato,usuario);
+                return await _repository.ConsultarFormatoPorGuid(guidFormato, usuario);
             }
             catch (Exception) { throw; }
         }
@@ -91,7 +94,7 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ConsultarFormatos(paginacion,usuario);
+                return await _repository.ConsultarFormatos(paginacion, usuario);
             }
             catch (Exception)
             {
@@ -105,7 +108,7 @@ namespace FormatoES.Service
 
             try
             {
-                return await _repository.ConsultarFormatosPorFiltro(parametrosDTO,usuario);
+                return await _repository.ConsultarFormatosPorFiltro(parametrosDTO, usuario);
             }
             catch (Exception) { throw; }
 
@@ -115,7 +118,7 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ConsultarFormatoPorGuidHerramienta(GuidHerramienta,usuario);
+                return await _repository.ConsultarFormatoPorGuidHerramienta(GuidHerramienta, usuario);
             }
             catch (Exception) { throw; }
         }
@@ -124,7 +127,7 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ConsultarFormatoPorTipoConexion(tipoConexion,usuario);
+                return await _repository.ConsultarFormatoPorTipoConexion(tipoConexion, usuario);
             }
             catch (Exception) { throw; }
         }

@@ -11,12 +11,13 @@ import { InspeccionHerramientaComponent } from './inspeccion/inspeccion-herramie
 
 import { VRComponent } from './inspeccion/vr/vr.component';
 import { UTComponent } from './inspeccion/ut/ut.component';
-import { VisualDimensionalComponent } from './inspeccion/visualdimencional/visualdimencional.component';
+import { VisualDimensionalMotorComponent } from './inspeccion//visual-dimensional-motor//visual-dimensional-motor.component';
 import { LPIComponent } from './inspeccion/lpi/lpi.component';
 import { UTAComponent } from './inspeccion/uta/uta.component';
 import { MPIComponent } from './inspeccion/mpi/mpi.component';
 import { EMIComponent } from './inspeccion/emi/emi.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { VisualDimensionalComponent } from './inspeccion/visual-dimensional/visual-dimensional.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
 
   ],
-  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent]
+  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalMotorComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent, VisualDimensionalComponent]
   
 })
 export class ProcesoModule { }

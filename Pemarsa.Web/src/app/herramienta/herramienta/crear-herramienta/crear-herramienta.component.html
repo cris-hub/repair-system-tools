@@ -98,7 +98,7 @@
               *Linea:
             </label>
             <div class="col-md-8">
-              <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg" >
+              <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
                 <option>Seleccione</option>
                 <option *ngFor="let clienteLn of clienteLinea" value="{{clienteLn.Id}}">{{clienteLn.Valor}}</option>
               </select>
@@ -136,47 +136,57 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group row">
-                      <label class="col-md-5 col-form-label" id="corre">
-                        *Tamaños motor:
-                      </label>
-                      <div class="col-md-6">
-                        <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños motor" #inputTamanoMotor>
+
+                    <div *ngIf="herramienta.EsHerramientaMotor == 'true' || herramienta.EsHerramientaMotor == true" class="">
+
+
+                      <div class="form-group row">
+                        <label class="col-md-5 col-form-label" id="corre">
+                          *Tamaños motor:
+                        </label>
+                        <div class="col-md-6">
+                          <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños motor" #inputTamanoMotor>
+                        </div>
+                        <div class="col-md-1" style="padding-top:7px;float: right;">
+                          <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoMotor()"></i>
+                        </div>
                       </div>
-                      <div class="col-md-1" style="padding-top:7px;float: right;">
-                        <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoMotor()"></i>
+
+                      <div *ngFor="let herramientaTM of herramientaTamanoMotor;let i = index" class="form-group row">
+                        <div class="col-md-6 col-md-offset-5" *ngIf="herramientaTM.Estado">
+                          <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaTM.Tamano}}">
+                        </div>
+                        <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaTM.Estado">
+                          <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamanoMotor(i)"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="herramienta.EsHerramientaMotor == 'true' || herramienta.EsHerramientaMotor == true" class="">
+
+                      <div class="form-group row">
+                        <label class="col-md-5 col-form-label" id="corre">
+                          *Tamaños de Herramienta:
+                        </label>
+                        <div class="col-md-6">
+                          <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños de Herramienta" #inputTamanoHerramienta>
+                        </div>
+                        <div class="col-md-1" style="padding-top:7px;float: right;">
+                          <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoHerramienta()"></i>
+                        </div>
+                      </div>
+
+                      <div *ngFor="let herramientaT of herramientaTamano;let i = index" class="form-group row">
+                        <div class="col-md-6 col-md-offset-5" *ngIf="herramientaT.Estado">
+                          <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaT.Tamano}}">
+                        </div>
+                        <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaT.Estado">
+                          <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamano(i)"></i>
+                        </div>
                       </div>
                     </div>
 
-                    <div *ngFor="let herramientaTM of herramientaTamanoMotor;let i = index" class="form-group row">
-                      <div class="col-md-6 col-md-offset-5" *ngIf="herramientaTM.Estado">
-                        <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaTM.Tamano}}">
-                      </div>
-                      <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaTM.Estado">
-                        <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamanoMotor(i)"></i>
-                      </div>
-                    </div>
 
-                    <div class="form-group row">
-                      <label class="col-md-5 col-form-label" id="corre">
-                        *Tamaños de Herramienta:
-                      </label>
-                      <div class="col-md-6">
-                        <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños de Herramienta" #inputTamanoHerramienta>
-                      </div>
-                      <div class="col-md-1" style="padding-top:7px;float: right;">
-                        <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoHerramienta()"></i>
-                      </div>
-                    </div>
 
-                    <div *ngFor="let herramientaT of herramientaTamano;let i = index" class="form-group row">
-                      <div class="col-md-6 col-md-offset-5" *ngIf="herramientaT.Estado">
-                        <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaT.Tamano}}">
-                      </div>
-                      <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaT.Estado">
-                        <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamano(i)"></i>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -199,7 +209,7 @@
               *MOC:
             </label>
             <div class="col-md-8">
-              <input [attr.disabled]="esVer == true ? '' : null" type="number" formControlName="Moc" name="Moc" class="form-control" placeholder="MOC">
+              <input [attr.disabled]="esVer == true ? '' : null" type="number" max="11" formControlName="Moc" name="Moc" class="form-control" placeholder="MOC">
             </div>
           </div>
 
