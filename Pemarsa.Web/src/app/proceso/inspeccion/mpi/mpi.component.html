@@ -9,75 +9,59 @@
   </fieldset>
 
 
-  <form [formGroup]="formulario">
+  <form [formGroup]="formulario" (ngSubmit)="procesar()">
     <div class="col-md-11 contenido-interno">
 
 
       <!-- documentos -->
-      <div class="form-group row ">
-        <label class="col-md-2 form-label" id="corre"> Visual:</label>
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label " id="corre">
+          * Visual:
+        </label>
 
-
-        <div class="col-md-8 panel panel-default">
-          <div class="panel-heading ">
-            <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-              <i class="glyphicon glyphicon-chevron-down"></i>
-            </span>
-          </div>
-          <div>
-
-          </div>
-
-          <div id="archivos" class="panel-collapse panel-collapse collapse">
-            <div class="panel-body">
-              <ul>
-                <li *ngFor="let adjunto of inspeccion.InspeccionFotos">
-                  <p>
-                    {{adjunto.DocumentoAdjunto.NombreArchivo}}<a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
-                      <i class="glyphicon glyphicon-download"></i>
-                    </a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pull-right"></i>
-                  </p>
-
-                </li>
-              </ul>
+        <div class="col-md-5">
+          <div *ngFor="let adjunto of inspeccion.InspeccionFotos">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <p class="form-control">
+                  {{adjunto.DocumentoAdjunto.NombreArchivo}}
+                  <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                  <a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                    <i class="glyphicon glyphicon-download"></i>
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-2 image-upload">
+        <div class="col-md-auto image-upload">
           <label for="file-input">
-            <i class="glyphicon glyphicon-paperclip pointer"></i>
+            <span class="badge badge-danger  pointer"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
           </label>
-          <label>
-            <i class="">
-              {{DocumetosRestantes}}
-            </i>
-          </label>
-          <input id="file-input" (change)="addFile($event)" type="file" multiple />
+
+          <input id="file-input" formControlName="InspeccionFotos" validacion [validaciones]="['requerido']" (change)="addFile($event)" type="file" multiple />
         </div>
-
-
       </div>
 
+      <!-- documentos -->
       <!-- observacion -->
       <div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <label class="col-md-2 control-label" id="corre">* Observacion: </label>
         <div class="col-md-9 ">
-          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
         </div>
       </div>
-
+      <!-- observacion -->
       <!-- luz blanca -->
       <div class="form-group row">
         <div class="col-md-4 col-md-offset-2">
-          <label class="control-label" id="corre">Intensidad de luz blanca: </label>
-          <input formControlName="IntensidadLuzBlanca" type="number" class="form-control" /> <p class="control-label">Lumes</p>
+          <label class="control-label" id="corre">* Intensidad de luz blanca: </label>
+          <input formControlName="IntensidadLuzBlanca" validacion [validaciones]="['requerido']" type="number" class="form-control" /> <p class="control-label">Lumes</p>
         </div>
       </div>
-
-
-
+      <!-- luz blanca -->
+      <!-- check particulas magneticas -->
       <div class="form-group row">
         <p class="col-md-offset-2">
           <b>
@@ -89,64 +73,67 @@
         </div>
         <div class="col-md-3 ">
           <div class="form-check form-check-inline col-md-5">
+            <label class="form-check-label" for="Si">Si  ​</label>
             <input formControlName="InspeccionParticulasMagneticas" class="form-check-input" type="radio" id="Si" value="true">
-            <label class="form-check-label" for="Si">Si​</label>
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="InspeccionParticulasMagneticas" class="form-check-input" type="radio" id="No" value="false">
-            <label class="form-check-label" for="No">No​</label>
+            <label class="form-check-label" for="No">No​  </label>
+            <input formControlName="InspeccionParticulasMagneticas" validacion [validaciones]="['*']" class="form-check-input" type="radio" id="No" value="false">
           </div>
         </div>
       </div>
-
-
+      <!-- check particulas magneticas -->
+      <!-- concentracion -->
       <div class="form-group row">
         <label class="col-md-2  control-label" id="corre">Concentración utilizada </label>
         <div class="col-md-4">
-          <input formControlName="ConcentracionUtilizada" type="number" class="form-control" />
+          <input formControlName="ConcentracionUtilizada" validacion [validaciones]="['requerido']" type="number" class="form-control" />
         </div>
       </div>
-
+      <!-- concentracion -->
+      <!-- fecha preparacion -->
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">Fecha de preparación </label>
         <div class="col-md-4">
-          <input formControlName="FechaDePreparacion" type="date" class="form-control" />
+          <input formControlName="FechaDePreparacion" validacion [validaciones]="['requerido']" type="date" class="form-control" />
         </div>
       </div>
-
+      <!-- fecha preparacion -->
+      <!-- lote -->
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">Lote </label>
         <div class="col-md-4 ">
-          <input formControlName="Lote" type="number" class="form-control" />
+          <input formControlName="Lote" validacion [validaciones]="['requerido']" type="number" class="form-control" />
         </div>
       </div>
-
+      <!-- lote -->
+      <!-- luz negra -->
       <p class="col-md-offset-2">
         <b>
           Inspección de luz negra
         </b>
       </p>
-
       <div class="form-group row">
         <div class="col-md-7 col-md-offset-2">
           <p>La concentración de las partículas magnéticas en el medio de suspensión está dentro del rango 0,1 – 0,4 ml. Por volumen basado en una muestra de 100 ml. ​</p>
         </div>
         <div class="col-md-3 ">
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="InspeccionLuzNegra" class="form-check-input" type="radio" id="Si" value="true">
             <label class="form-check-label" for="Si">Si​</label>
+            <input formControlName="InspeccionLuzNegra" class="form-check-input" type="radio" id="Si" value="true">
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="InspeccionLuzNegra" class="form-check-input" type="radio" id="No" value="false">
             <label class="form-check-label" for="No">No​</label>
+            <input formControlName="InspeccionLuzNegra" validacion [validaciones]="['*']" class="form-check-input" type="radio" id="No" value="false">
           </div>
         </div>
       </div>
-
+      <!-- luz negra -->
+      <!-- intensidad luz negra -->
       <div class="form-group row">
         <div class="col-md-offset-2 col-md-3">
           <label>Intensidad de luz negra​: </label>
-          <input formControlName="IntensidadLuzNegra" type="number" class="form-control">
+          <input formControlName="IntensidadLuzNegra" validacion [validaciones]="['requerido']" type="number" class="form-control">
         </div>
 
         <div class="col-md-7">
@@ -156,7 +143,8 @@
         </div>
 
       </div>
-
+      <!-- intensidad luz negra -->
+      <!-- yoke -->
       <div class="form-group row">
         <p class="col-md-offset-2">
           <b>
@@ -169,20 +157,16 @@
         </div>
         <div class="col-md-3 ">
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="InspeccionYoke" class="form-check-input" type="radio" id="Si" value="true">
             <label class="form-check-label" for="Si">Si​</label>
+            <input formControlName="InspeccionYoke" class="form-check-input" type="radio" id="Si" value="true">
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="InspeccionYoke" class="form-check-input" type="radio" id="No" value="false">
             <label class="form-check-label" for="No">No​</label>
+            <input formControlName="InspeccionYoke" validacion [validaciones]="['*']" class="form-check-input" type="radio" id="No" value="false">
           </div>
         </div>
       </div>
-
-
-
-
-
+      <!-- yoke -->
       <!-- Equpo Medicion -->
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">Equipo medición usuado </label>
@@ -195,6 +179,7 @@
                  [resultFormatter]="ValorMostrar"
                  [inputFormatter]="ValorFiltrar"
                  (selectItem)="selectItem($event)"
+                 validacion [validaciones]="['requerido']"
                  formControlName="InspeccionEquipoUtilizado" />
 
         </div>
@@ -216,7 +201,7 @@
         <div class="form-group row">
 
           <div class="col-md-3 col-md-offset-3 ">
-            <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+            <button class="btn">Proceosar y continuar</button>
           </div>
         </div>
 

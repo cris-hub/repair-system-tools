@@ -11,8 +11,9 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 import { isUndefined } from 'util';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-emi',
@@ -49,6 +50,7 @@ export class EMIComponent implements OnInit {
   private esFormularioValido: Boolean = false;
 
   constructor(
+    private location: Location,
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private parametroService: ParametroService,
@@ -96,9 +98,22 @@ export class EMIComponent implements OnInit {
         });
 
         this.inspeccion = inspeccionEntrada.Inspeccion;
+        
+
+        this.inspeccion.ImagenMfl
+          ? this.inspeccion.ImagenMfl
+          : this.inspeccion.ImagenMfl = new AttachmentModel() ;
+
+        this.inspeccion.ImagenMedicionEspesores
+          ? this.inspeccion.ImagenMedicionEspesores
+          : this.inspeccion.ImagenMedicionEspesores = new AttachmentModel();
+
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
+        this.loaderService.display(false)
+
       }, error => {
+        this.loaderService.display(false)
 
       }, () => {
         this.loaderService.display(false)
@@ -166,58 +181,75 @@ export class EMIComponent implements OnInit {
 
   //persistir
   procesar() {
-    this.asignarDataDesdeElFormulario();
-    this.actualizarDatos()
-  }
-  private asignarDataDesdeElFormulario() {
-    //deja el arreglo
-    delete this.formulario.value['InspeccionEquipoUtilizado']
 
-    Object.assign(this.inspeccion, this.formulario.value);
+    this.asignarDataDesdeElFormulario();
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
+    if (this.esFormularioValido) {
+      this.actualizarDatos()
+    }
+
   }
+  actualizarDatos() {
+    this.loaderService.display(true)
+    this.procesoService.actualizarInspección(this.inspeccion).subscribe(
+      response => {
+        response ?
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+          this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+        this.loaderService.display(false)
+        this.location.back();
+      }, error => {
+        this.toastrService.error(error.messge);
+        this.loaderService.display(false)
+      }, () => {
+        this.loaderService.display(false)
+      })
+  }
+
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
 
+    valido = this.formularioValido(formulario, valido);
 
+    
 
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = false;
+    
 
+    return valido
+  }
+  private formularioValido(formulario: FormGroup, valido: boolean) {
     formulario.status
       == 'VALID'
       ? valido = true
       : valido = false;
-
-    if (isUndefined(valido)) {
-      return valido = true
-    }
-    return valido
-
+    return valido;
   }
-  actualizarDatos() {
-    console.log(this.inspeccion)
-    console.log(JSON.stringify(this.inspeccion))
-    this.procesoService.actualizarInspección(this.inspeccion).subscribe(response => {
-      this.toastrService.info(response ? 'ok' : 'error');
-    })
+  
+
+  private asignarDataDesdeElFormulario() {
+    //deja el arreglo
+    delete this.formulario.value['ImagenMfl']
+    delete this.formulario.value['ImagenMedicionEspesores']
+
+    Object.assign(this.inspeccion, this.formulario.value);
   }
 
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      SeIdentificaDefecto : [inspeccion.SeIdentificaDefecto],
-      Observaciones: [inspeccion.Observaciones],
-      Amperaje: [inspeccion.Amperaje],
-      VelocidadBuggyDrive: [inspeccion.VelocidadBuggyDrive],
-      TuboPatronId: [inspeccion.TuboPatronId],
-      EquipoEmiId: [inspeccion.EquipoEmiId],
-      BobinaMagneticaId: [inspeccion.BobinaMagneticaId],
-      EstaConforme: [inspeccion.EstaConforme],
+      SeIdentificaDefecto : [inspeccion.SeIdentificaDefecto,Validators.required],
+      ImagenMfl: [inspeccion.ImagenMfl.NombreArchivo?'':''],
+      ImagenMedicionEspesores: [inspeccion.ImagenMedicionEspesores.NombreArchivo ? '' : ''],
+      Observaciones: [inspeccion.Observaciones, Validators.required],
+      Amperaje: [inspeccion.Amperaje, Validators.required],
+      VelocidadBuggyDrive: [inspeccion.VelocidadBuggyDrive, Validators.required],
+      TuboPatronId: [inspeccion.TuboPatronId, Validators.required],
+      EquipoEmiId: [inspeccion.EquipoEmiId, Validators.required],
+      BobinaMagneticaId: [inspeccion.BobinaMagneticaId, Validators.required],
+      EstaConforme: [inspeccion.EstaConforme, Validators.required],
       
-    });
+    }); 
 
     
   }
@@ -230,15 +262,14 @@ export class EMIComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
+    if (files.length > this.DocumetosRestantes) {
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
@@ -257,18 +288,16 @@ export class EMIComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
+    }
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
     }
     if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
-
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
-
     for (var i = 0; i < files.length; i++) {
       let docMFL = new AttachmentModel();
       docMFL = this.obtenerDatosArchivoAdjunto(files[i]);

@@ -1,6 +1,6 @@
-import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel } from "./Index";
+import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel, EntityModel } from "./Index";
 
-export class InspeccionConexionModel {
+export class InspeccionConexionModel extends EntityModel{
 
 
   public NumeroConexion: number
@@ -28,11 +28,13 @@ export class InspeccionConexionModel {
 
 
   constructor() {
+    super();
     this.NumeroConexion = 0
     this.ConexionId = 0
     this.EstadoId = 0
     this.TipoConexionId = 0
     this.Observaciones = ''
+    this.Id = 0
 
     
   };

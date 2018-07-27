@@ -11,57 +11,41 @@
   <div class="col-md-11 contenido-interno">
     <form [formGroup]="formInpeccionVisualDimensional">
 
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label " id="corre">
+          * Visual:
+        </label>
 
-      <div class="form-group row ">
-        <label class="col-md-2 form-label" id="corre"> Visual:</label>
-
-
-        <div class="col-md-8 panel panel-default">
-          <div class="panel-heading ">
-            <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-            <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-              <i class="glyphicon glyphicon-chevron-down"></i>
-            </span>
-          </div>
-          <div>
-
-          </div>
-
-          <div id="archivos" class="panel-collapse panel-collapse collapse">
-            <div class="panel-body">
-              <ul>
-                <li *ngFor="let adjunto of inspeccion.InspeccionFotos">
-                  <p>
-                    {{adjunto.DocumentoAdjunto.NombreArchivo}}<a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
-                      <i class="glyphicon glyphicon-download"></i>
-                    </a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pull-right"></i>
-                  </p>
-
-                </li>
-              </ul>
+        <div class="col-md-5">
+          <div *ngFor="let adjunto of inspeccion.InspeccionFotos">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <p class="form-control">
+                  {{adjunto.DocumentoAdjunto.NombreArchivo}}
+                  <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                  <a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                    <i class="glyphicon glyphicon-download"></i>
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-2 image-upload">
+        <div class="col-md-auto image-upload">
           <label for="file-input">
-            <i class="glyphicon glyphicon-paperclip pointer"></i>
+            <span class="badge badge-danger  pointer" validacion [validaciones]="['requerido']"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
           </label>
-          <label>
-            <i class="">
-              {{DocumetosRestantes}}
-            </i>
-          </label>
-          <input id="file-input" (change)="addFile($event)" type="file" multiple />
+
+          <input id="file-input" formControlName="InspeccionFotos"  validacion [validaciones]="['requerido']" (change)="addFile($event)" required type="file" multiple />
         </div>
-
-
       </div>
 
+
       <div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <label class="col-md-2 control-label" id="corre">* Observacion: </label>
         <div class="col-md-9 ">
-          <textarea formControlName="Observaciones" required class="form-control"></textarea>
+          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
         </div>
       </div>
 
@@ -69,9 +53,9 @@
 
       <p class="col-md-2 " id="corre">Trazabilidad: </p>
       <div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">Intensidad de luz blanca: </label>
+        <label class="col-md-2 control-label" id="corre">* Intensidad de luz blanca: </label>
         <div class="col-md-7 ">
-          <input formControlName="IntensidadLuzBlanca" required type="number" class="form-control" />
+          <input formControlName="IntensidadLuzBlanca" validacion [validaciones]="['requerido']" required type="number" class="form-control" />
         </div>
       </div>
 
@@ -79,119 +63,6 @@
       <br />
       <hr style="    border-top: 1px solid #7c7373;" />
 
-      <!-- cuando no es de tipo herramienta petrolera -->
-      <!--<div *ngIf=" ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  ) " class="panel panel-default">
-        <div class="panel-heading">
-
-          <a data-toggle="collapse" data-parent="#accordion" href="#filterPanel1">Parametros Formato</a>
-          <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#filterPanel1">
-            <i class="glyphicon glyphicon-chevron-down"></i>
-          </span>
-          <i (click)="addItemFormParametro()" class="glyphicon glyphicon-plus float-right"
-             style="font-size: 20px;cursor: pointer;margin-right:5px;"></i>
-
-        </div>
-        <div id="filterPanel1" class="panel-collapse panel-collapse collapse">
-          <div class="panel-body">
-            <div>
-              <div class="row">
-                <table *ngIf="formFormato.get('Parametros') && formatosAdendumModel" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Id</th>
-                      <th scope="col">Item</th>
-                      <th scope="col">Parametro</th>
-                      <th scope="col">ToleranciaMin</th>
-                      <th scope="col">ToleranciaMax</th>
-
-                    </tr>
-                  </thead>
-                  <tbody formArrayName="Parametros"
-                         *ngFor="let Parametros of formFormato.get('Parametros').controls; let i = index;">
-                    <tr [formGroupName]="i">
-
-                      <td *ngIf="esActualizar || esVer ">
-                        <p> {{formFormato.get('Parametros').controls[i].controls.Id.value}} </p>
-                      </td>
-
-                      <td>
-                        <input formControlName="Item" class="form-control" type="text" />
-                      </td>
-
-                      <td>
-                        <input formControlName="Parametro" class="form-control" type="text" />
-                      </td>
-
-                      <td>
-                        <input formControlName="ToleranciaMin" class="form-control" type="text" />
-                      </td>
-
-                      <td>
-                        <input formControlName="ToleranciaMax" class="form-control" type="text" />
-                      </td>
-
-                      <td>
-                        <button *ngIf="i" class="form-control ">
-                          <i (click)="removeItemFormFormatoPatamtros(i)" class="glyphicon glyphicon glyphicon-minus float-right"
-                             style="font-size: 20px;cursor: pointer;margin-right:5px;"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
-      <!--<div class="form-group row">
-        <table class="table table-bordered table-striped col-md-8 col-md-offset-2">
-          <thead>
-            <tr>
-              <th scope="col">Medida nominal</th>
-              <th scope="col">Tolerancia</th>
-              <th scope="col">Medida actual</th>
-              <th scope="col">Conformidad</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-
-              <td>
-                <input class="form-control" type="text" />
-              </td>
-
-              <td>
-                <input class="form-control" />
-              </td>
-              <td>
-                <input class="form-control" type="text" />
-              </td>
-
-              <td>
-                <div class="form-check form-check-inline col-md-5">
-                  <input type="radio" id="Si" value="19">
-                  <label class="form-check-label" for="Si">Si​</label>
-                </div>
-                <div class="form-check form-check-inline col-md-5">
-                  <input type="radio" id="No" value="18">
-                  <label class="form-check-label" for="No">No​</label>
-                </div>
-              </td>
-
-            </tr>
-          </tbody>
-        </table>
-
-      </div>-->
-      <!--<div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">Observacion: </label>
-        <div class="col-md-9 ">
-          <textarea class="form-control"></textarea>
-        </div>
-      </div>-->
-      <!-- cuando no es de tipo herramienta petrolera -->
 
 
 
@@ -204,33 +75,33 @@
           <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class=" col-md-3 ">
             <div [formGroupName]="i" class="row">
               <div *ngIf="false" class="col-md-auto">
-                <input formControlName="NumeroConexion" [(ngModel)]="test" class="form-control " />
+                <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']" [(ngModel)]="test" class="form-control " />
               </div>
               <div class="col-md-auto">
-                <label class="control-label" id="corre">Conexión {{i+1}} </label>
-                <select formControlName="ConexionId" class="form-control form-control-lg">
-                  <option>Seleccione</option>
+                <label class="control-label" id="corre">* Conexión {{i+1}} </label>
+                <select formControlName="ConexionId" validacion [validaciones]="['requerido']" class="form-control form-control-lg">
+                  <option value="0">Seleccione</option>
                   <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
                 </select>
               </div>
               <div class="col-md-auto">
-                <label class="control-label" id="corre">Tipo {{i+1}} </label>
-                <select formControlName="TipoConexionId" class="form-control form-control-lg">
-                  <option>Seleccione</option>
+                <label class="control-label" id="corre">* Tipo {{i+1}} </label>
+                <select formControlName="TipoConexionId" validacion [validaciones]="['requerido']" class="form-control form-control-lg">
+                  <option value="0">Seleccione</option>
                   <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
                 </select>
               </div>
-              <div class="col-md-auto">
-                <label class="control-label" id="corre">Estado {{i+1}} </label>
-                <select formControlName="EstadoId" class="form-control form-control-lg">
-                  <option>Seleccione</option>
+              <div class="col-md-9">
+                <label class="control-label" id="corre">*Estado {{i+1}} </label>
+                <select formControlName="EstadoId" validacion [validaciones]="['requerido']" class="form-control form-control-lg">
+                  <option value="0">Seleccione</option>
                   <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
                 </select>
 
               </div>
               <div class="col-md-auto">
-                <label class="control-label" id="corre">Observacion {{i+1}} </label>
-                <textarea formControlName="Observaciones" required class="form-control"></textarea>
+                <label class="control-label" id="corre">*Observacion {{i+1}} </label>
+                <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
               </div>
             </div>
           </div>
@@ -248,7 +119,7 @@
 
       <p class="col-md-2 " id="corre">Trazabilidad: </p>
       <div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">Equipo medición usuado </label>
+        <label class="col-md-2 control-label" id="corre">* Equipo medición usuado </label>
         <div class="col-md-7 ">
 
           <input type="text"
@@ -258,6 +129,7 @@
                  [resultFormatter]="ValorMostrar"
                  [inputFormatter]="ValorFiltrar"
                  (selectItem)="selectItem($event)"
+                 validacion [validaciones]="['requerido']"
                  formControlName="InspeccionEquipoUtilizado" />
 
         </div>
@@ -265,27 +137,27 @@
 
 
 
-      <div class="form-group row" >
+      <div class="form-group row">
 
-      <div class="col-md-offset-2 col-md-8">
-        <div *ngIf="inspeccion.InspeccionEquipoUtilizado.length >0">
-          <span *ngFor="let equipo of inspeccion.InspeccionEquipoUtilizado" class="col-md-2 badge badge-secondary aliniar-text">
-            {{equipo.EquipoUtilizado.Valor}}
-            <i (click)="removerDeElementosSeleccionado(equipo.EquipoUtilizado)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
-          </span>
-        </div>
-      </div>
-
-      </div>
-
-      <div class="form-group  row">
-
-        <div class="col-md-offset-3 ">
-          <label class=" control-label" id="corre">Inspección dimecional de cuerpo  </label>
-          <input class="form-control" />
+        <div class="col-md-offset-2 col-md-8">
+          <div *ngIf="inspeccion.InspeccionEquipoUtilizado.length >0">
+            <span *ngFor="let equipo of inspeccion.InspeccionEquipoUtilizado" class="col-md-2 badge badge-secondary aliniar-text">
+              {{equipo.EquipoUtilizado.Valor}}
+              <i (click)="removerDeElementosSeleccionado(equipo.EquipoUtilizado)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+            </span>
+          </div>
         </div>
 
       </div>
+
+      <!--<div class="form-group  row">
+
+    <div class="col-md-offset-3 ">
+      <label class=" control-label" id="corre">Inspección dimecional de cuerpo  </label>
+      <input class="form-control" />
+    </div>
+
+  </div>-->
 
 
       <div class="form-group row">

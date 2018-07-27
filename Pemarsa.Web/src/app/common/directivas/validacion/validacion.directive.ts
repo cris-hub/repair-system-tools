@@ -66,13 +66,13 @@ export class ValidacionDirective implements Validator {
   }
 
   registerOnValidatorChange?(fn: () => void): void {
-
+    console.log('accion')
   }
 
 
   ListaValidaciones(): string {
     for (let validaciones of this.validaciones) {
-
+      console.log(this.validaciones)
       // tipos de validaciones se la validacion requiere de un parametro se le asigna ejem: "typovalidacion:parametro"
       let tipoValidacion = validaciones.split(':')[0];
       let valor = validaciones.split(':').length > 0 ? validaciones.split(':')[1] : '';
@@ -80,6 +80,11 @@ export class ValidacionDirective implements Validator {
       switch (tipoValidacion) {
         case "requerido": {
           this.mensaje = this.requerido();
+          if (this.mensaje == '') { break; }
+          else { return this.mensaje };
+        }
+        case "*": {
+          this.mensaje = this.singo();
           if (this.mensaje == '') { break; }
           else { return this.mensaje };
         }
@@ -134,6 +139,12 @@ export class ValidacionDirective implements Validator {
   requerido(): string {
     if (this.textoInput == '') {
       return 'Este campo es obligatorio';
+    }
+    return '';
+  }
+  singo(): string {
+    if (this.textoInput == '') {
+      return '*';
     }
     return '';
   }

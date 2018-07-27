@@ -8,10 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-visual-dimensional',
@@ -53,6 +54,7 @@ export class VisualDimensionalComponent implements OnInit {
 
 
   constructor(
+    private location :Location,
     private procesoService: ProcesoService,
     private parametroService: ParametroService,
     private toastrService: ToastrService,
@@ -116,17 +118,27 @@ export class VisualDimensionalComponent implements OnInit {
   //actualizaciones
   procesar() {
 
-    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
     this.asignarDataDesdeElFormulario();
-  
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
+    if (this.esFormularioValido) {
       this.actualizarDatos()
+    }
     
   }
   actualizarDatos() {
-    this.procesoService
-      .actualizarInspección(this.inspeccion)
-      .subscribe(response => {
-        this.toastrService.info(response ? 'ok' : 'error');
+    this.loaderService.display(true)
+    this.procesoService.actualizarInspección(this.inspeccion).subscribe(
+      response => {
+        response ?
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+          this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+        this.loaderService.display(false)
+        this.location.back();
+      }, error => {
+        this.toastrService.error(error.messge);
+        this.loaderService.display(false)
+      }, () => {
+        this.loaderService.display(false)
       })
   }
 
@@ -135,7 +147,7 @@ export class VisualDimensionalComponent implements OnInit {
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formInpeccionVisualDimensional = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos,Validators.required],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       ObservacionesInspeccion: [this.inspeccion.ObservacionesInspeccion, Validators.required],
@@ -145,6 +157,7 @@ export class VisualDimensionalComponent implements OnInit {
     this.crearFormDimensiones()
   }
   private asignarDataDesdeElFormulario() {
+    delete this.formInpeccionVisualDimensional.value['InspeccionFotos']
     delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
   }
@@ -169,10 +182,10 @@ export class VisualDimensionalComponent implements OnInit {
     this.inspeccion.Dimensionales.forEach(p => {
       let form = this.formBuider.group({});
       
-      form.addControl('Tolerancia', new FormControl(p.Tolerancia));
-      form.addControl('MedidaActual', new FormControl(p.MedidaActual));
-      form.addControl('MedidaNominal', new FormControl(p.MedidaNominal));
-      form.addControl('Conformidad', new FormControl(p.MedidaNominal));
+      form.addControl('Tolerancia', new FormControl(p.Tolerancia,Validators.required));
+      form.addControl('MedidaActual', new FormControl(p.MedidaActual,Validators.required));
+      form.addControl('MedidaNominal', new FormControl(p.MedidaNominal,Validators.required ));
+      form.addControl('Conformidad', new FormControl(p.MedidaNominal,Validators.required));
       
       this.formDimensionales.push(form);
     })
@@ -205,23 +218,35 @@ export class VisualDimensionalComponent implements OnInit {
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
 
-    formulario.controls['InspeccionFotos'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = true;
+    valido = this.formularioValido(formulario, valido);
 
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = true;
+    valido = this.documentosSubidosValido(valido);
 
+    valido = this.InspeccionEquipoUtilizadoValido(valido);
+
+    return valido
+  }
+
+  private formularioValido(formulario: FormGroup, valido: boolean) {
     formulario.status
       == 'VALID'
       ? valido = true
       : valido = false;
-
-    return valido
-
+    return valido;
+  }
+  private InspeccionEquipoUtilizadoValido(valido: boolean) {
+    if (this.inspeccion.InspeccionEquipoUtilizado.length < 1) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.EquipoMedicion);
+      valido = false;
+    }
+    return valido;
+  } 
+  private documentosSubidosValido(valido: boolean) {
+    if (this.inspeccion.InspeccionFotos.length < this.DocumetosRestantes) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes);
+      valido = false;
+    }
+    return valido;
   }
 
 
@@ -288,23 +313,23 @@ export class VisualDimensionalComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (files.length > 2) {
-      this.toastrService.info('Datos Incorrecto')
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
+    }
+    if (files.length > this.DocumetosRestantes) {
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
 
     for (var i = 0; i < files.length; i++) {
       let inspeccionFotos = new InspeccionFotosModel();
       inspeccionFotos.DocumentoAdjunto = this.obtenerDatosArchivoAdjunto(files[i]);
       inspeccionFotos.InspeccionId = this.inspeccion.Id;
-      inspeccionFotos.Pieza = this.obtenerParametrosRuta().get('pieza') ? parseInt(this.obtenerParametrosRuta().get('pieza'), 10) : 1;
+
       this.inspeccion.InspeccionFotos.push(inspeccionFotos);
 
       this.DocumetosRestantes -= 1;
@@ -315,6 +340,7 @@ export class VisualDimensionalComponent implements OnInit {
 
 
   }
+
   obtenerDatosArchivoAdjunto(file: File): AttachmentModel {
     let archivo = new AttachmentModel();
     this.lectorArchivos = new FileReader();

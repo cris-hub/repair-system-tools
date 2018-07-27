@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: 'inspeccion/entrada', component: ListarInspeccionesComponent },
 
   { path: 'inspeccion/entrada/:id/ver', component: InspeccionHerramientaComponent },
-  { path: 'inspeccion/entrada/:id/:index//ver', component: InspeccionHerramientaComponent },
+  { path: 'inspeccion/entrada/:id/:index/ver', component: InspeccionHerramientaComponent },
   //vr
   { path: 'inspeccion/entrada/vr/:id/:index/ver', component: VRComponent },
   { path: 'inspeccion/entrada/vr/:id/ver', component: VRComponent },

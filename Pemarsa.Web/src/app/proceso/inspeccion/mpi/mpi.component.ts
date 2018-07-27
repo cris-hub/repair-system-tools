@@ -6,13 +6,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 import { isUndefined } from 'util';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-mpi',
@@ -43,6 +44,7 @@ export class MPIComponent implements OnInit {
   private esFormularioValido: Boolean = false;
 
   constructor(
+    private location: Location,
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private parametroService: ParametroService,
@@ -60,6 +62,7 @@ export class MPIComponent implements OnInit {
 
   }
 
+  //parametros ruta
   obtenerParametrosRuta() {
     let parametrosUlrMap: Map<string, string> = new Map<string, string>();
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
@@ -69,13 +72,13 @@ export class MPIComponent implements OnInit {
     return parametrosUlrMap;
   }
 
+  //consultas
   consultarParatros() {
     this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
       this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
 
     })
   }
-
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
     this.loaderService.display(true)
@@ -101,7 +104,6 @@ export class MPIComponent implements OnInit {
 
 
   //autocomplete
-
   //filtrar
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -125,6 +127,7 @@ export class MPIComponent implements OnInit {
   ValorMostrar =
     (x: { Valor: string, x: number }) => x.Valor;
 
+  //elementos seleccionados
   selectItem(event) {
     if (!event.item) {
       return
@@ -138,9 +141,6 @@ export class MPIComponent implements OnInit {
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
 
   }
-
-
-
   removerDeListaAMostrar(EquiposMedicionUsado: EntidadModel[], objetoEliminar: EntidadModel) {
     let index = EquiposMedicionUsado.findIndex(c => c.Id == objetoEliminar.Id);
     EquiposMedicionUsado.splice(index, 1);
@@ -157,12 +157,32 @@ export class MPIComponent implements OnInit {
 
 
   //persistir
+  actualizarDatos() {
+    this.loaderService.display(true)
+    this.procesoService.actualizarInspección(this.inspeccion).subscribe(
+      response => {
+        response ?
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+          this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+        this.loaderService.display(false)
+        this.location.back();
+      }, error => {
+        this.toastrService.error(error.messge);
+        this.loaderService.display(false)
+      }, () => {
+        this.loaderService.display(false)
+      })
+  }
   procesar() {
     this.asignarDataDesdeElFormulario();
-    this.actualizarDatos()
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
+    if (this.esFormularioValido) {
+      this.actualizarDatos()
+    }
   }
   private asignarDataDesdeElFormulario() {
     //deja el arreglo
+    delete this.formulario.value['InspeccionFotos']
     delete this.formulario.value['InspeccionEquipoUtilizado']
 
     Object.assign(this.inspeccion, this.formulario.value);
@@ -170,38 +190,44 @@ export class MPIComponent implements OnInit {
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
 
+    valido = this.formularioValido(formulario, valido);
 
+    valido = this.documentosSubidosValido(valido);
 
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = false;
+    valido = this.InspeccionEquipoUtilizadoValido(valido);
 
+    return valido
+
+  }
+  private formularioValido(formulario: FormGroup, valido: boolean) {
     formulario.status
       == 'VALID'
       ? valido = true
       : valido = false;
-
-    if (isUndefined(valido)) {
-      return valido = true
+    return valido;
+  }
+  private documentosSubidosValido(valido: boolean) {
+    if (this.inspeccion.InspeccionFotos.length < this.DocumetosRestantes) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes);
+      valido = false;
     }
-    return valido
+    return valido;
+  }
+  private InspeccionEquipoUtilizadoValido(valido: boolean) {
+    if (this.inspeccion.InspeccionEquipoUtilizado.length < 1) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.EquipoMedicion);
+      valido = false;
+    }
+    return valido;
+  }
 
-  }
-  actualizarDatos() {
-    console.log(this.inspeccion)
-    console.log(JSON.stringify(this.inspeccion))
-    this.procesoService.actualizarInspección(this.inspeccion).subscribe(response => {
-      this.toastrService.info(response ? 'ok' : 'error');
-    })
-  }
 
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos],
-      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos?'':'', Validators.required],
+      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       InspeccionParticulasMagneticas: [this.inspeccion.InspeccionParticulasMagneticas, Validators.required],
@@ -224,17 +250,17 @@ export class MPIComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (files.length > 2) {
-      this.toastrService.info('Datos Incorrecto')
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
+    }
+    if (files.length > this.DocumetosRestantes) {
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
 
     for (var i = 0; i < files.length; i++) {
       let inspeccionFotos = new InspeccionFotosModel();

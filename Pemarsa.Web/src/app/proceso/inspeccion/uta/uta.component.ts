@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { AttachmentModel, ProcesoModel, InspeccionModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel } from '../../../common/models/Index';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
@@ -9,10 +9,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { isUndefined } from 'util';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-uta',
@@ -43,6 +44,7 @@ export class UTAComponent implements OnInit {
   private esFormularioValido: Boolean = false;
 
   constructor(
+    private location : Location,
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private parametroService: ParametroService,
@@ -104,52 +106,92 @@ export class UTAComponent implements OnInit {
 
 
   //persistir
+
   procesar() {
+
     this.asignarDataDesdeElFormulario();
-    this.actualizarDatos()
+    this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
+    if (this.esFormularioValido) {
+      this.actualizarDatos()
+    }
+
   }
+  actualizarDatos() {
+    this.loaderService.display(true)
+    this.procesoService.actualizarInspección(this.inspeccion).subscribe(
+      response => {
+        response ?
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+          this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+        this.loaderService.display(false)
+        this.location.back();
+      }, error => {
+        this.toastrService.error(error.messge);
+        this.loaderService.display(false)
+      }, () => {
+        this.loaderService.display(false)
+      })
+  }
+
   private asignarDataDesdeElFormulario() {
     //deja el arreglo
     delete this.formulario.value['InspeccionEquipoUtilizado']
+    delete this.formulario.value['ImagenUltrasonidoDespues']
+    delete this.formulario.value['ImagenUltrasonidoDurante']
+    delete this.formulario.value['ImagenUltrasonidoPrevia']
+    delete this.formulario.value['ImagenUltrasonidoPrevia']
 
     Object.assign(this.inspeccion, this.formulario.value);
   }
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
 
+    valido = this.formularioValido(formulario, valido);
 
+    valido = this.documentosSubidosValido(valido);
 
-    formulario.controls['Observaciones'].status
-      != 'VALID'
-      ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Observaciones, ALERTAS_ERROR_TITULO.DatosObligatorios)
-      : valido = false;
+    valido = this.InspeccionEquipoUtilizadoValido(valido);
 
+    return valido
+  }
+
+  private formularioValido(formulario: FormGroup, valido: boolean) {
     formulario.status
       == 'VALID'
       ? valido = true
       : valido = false;
-
-    if (isUndefined(valido)) {
-      return valido = true
-    }
-    return valido
-
+    return valido;
   }
-  actualizarDatos() {
-    console.log(this.inspeccion)
-    console.log(JSON.stringify(this.inspeccion))
-    this.procesoService.actualizarInspección(this.inspeccion).subscribe(response => {
-      this.toastrService.info(response ? 'ok' : 'error');
-    })
+  private InspeccionEquipoUtilizadoValido(valido: boolean) {
+    if (this.inspeccion.InspeccionEquipoUtilizado.length < 1) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.EquipoMedicion);
+      valido = false;
+    }
+    return valido;
+  }
+  private documentosSubidosValido(valido: boolean) {
+    if (!this.inspeccion.ImagenPantallaUltrasonido
+      || !this.inspeccion.ImagenUltrasonidoPrevia
+      || !this.inspeccion.ImagenUltrasonidoDurante
+      || !this.inspeccion.ImagenUltrasonidoDespues
+    ) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes);
+      valido = false;
+    }
+    return valido;
   }
 
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      Observaciones: [inspeccion.Observaciones],
-      TuboPatronId: [inspeccion.TuboPatronId],
-      EstaConforme: [inspeccion.EstaConforme],
+      ImagenUltrasonidoDespues: [inspeccion.ImagenUltrasonidoDespues,Validators.required],
+      ImagenUltrasonidoDurante: [inspeccion.ImagenUltrasonidoDurante,Validators.required],
+      ImagenUltrasonidoPrevia: [inspeccion.ImagenUltrasonidoPrevia,Validators.required],
+      ImagenPantallaUltrasonido: [inspeccion.ImagenPantallaUltrasonido,Validators.required],
+      Observaciones: [inspeccion.Observaciones,Validators.required],
+      TuboPatronId: [inspeccion.TuboPatronId, Validators.required],
+      EstaConforme: [inspeccion.EstaConforme, Validators.required],
     });
 
 
@@ -163,17 +205,17 @@ export class UTAComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
+    }
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
     }
     if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
 
     for (var i = 0; i < files.length; i++) {
       let docEspesores = new AttachmentModel();
@@ -191,17 +233,17 @@ export class UTAComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
+    }
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
     }
     if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
 
     for (var i = 0; i < files.length; i++) {
       let docEspesores = new AttachmentModel();
@@ -219,17 +261,17 @@ export class UTAComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
+    }
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
     }
     if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
 
     for (var i = 0; i < files.length; i++) {
       let docEspesores = new AttachmentModel();
@@ -247,17 +289,18 @@ export class UTAComponent implements OnInit {
     console.log(event)
     let files = this.leerArchivo(event);
     if (!files) {
-      !this.toastrService.info('ya se cargo este archivo')
+      !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
+    }
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
     }
     if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info('Datos Incorrecto')
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.info('No se pueden subir más documentos')
-      return;
-    }
+
 
     for (var i = 0; i < files.length; i++) {
       let docMFL = new AttachmentModel();

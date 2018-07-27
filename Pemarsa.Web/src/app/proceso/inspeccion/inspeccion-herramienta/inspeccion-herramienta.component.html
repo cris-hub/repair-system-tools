@@ -7,9 +7,9 @@
         <div class="col-md-3 col-md-offset-3">
           <p class="form-control ">
             {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
-            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver"  class="glyphicon glyphicon-eye-open pointer pull-right"></i>
-            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar"  class="glyphicon glyphicon-wrench pointer pull-right"></i>
-            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar"  class="glyphicon glyphicon-pencil pointer pull-right"></i>
+            <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+            <i *ngIf="!(accion== 'ver')" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
+            <i *ngIf="!(accion== 'ver' || accion== 'editar')" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
           </p>
         </div>
       </div>
@@ -82,7 +82,7 @@
       Tipos de inspecciones:
     </label>
     <div class="col-md-3">
-      <select [attr.disabled]="loading == true ? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
+      <select [attr.disabled]="accion == 'ver' ? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
         <option>Seleccione</option>
         <option *ngFor="let tipoInspeccion of tiposInspecciones" value="{{tipoInspeccion.Id}}">{{tipoInspeccion.Valor}}</option>
       </select>
@@ -90,21 +90,21 @@
   </div>
 
   <div class="col-md-3 col-md-offset-3">
-    <div  *ngFor="let inspeccion of tiposInspeccionesSeleccionadas">
+    <div *ngFor="let inspeccion of tiposInspeccionesSeleccionadas">
       <div class="form-group row">
         <p class="form-control sin-margen">
           {{inspeccion.Valor}}
-          <i *ngIf="!loading" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)" class="glyphicon glyphicon-minus pointer pull-right"></i>
-          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
-          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
-          <i *ngIf="!loading" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+          <i *ngIf="!(accion== 'ver' || accion== 'editar')" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+          <i *ngIf="!(accion== 'editar' || accion== 'procesar' )" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+          <i *ngIf="!(accion== 'ver' || accion== 'procesar')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
+          <i *ngIf="!(accion== 'ver' || accion== 'editar')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat}}/{{Proceso.Guid}}/{{PiezaId}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
         </p>
       </div>
     </div>
   </div>
 
 
- 
+
 
   <div class="form-group row">
     <div class="form-group row col-md-3 col-md-offset-4">

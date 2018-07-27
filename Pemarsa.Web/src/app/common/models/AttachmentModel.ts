@@ -9,4 +9,8 @@ export class AttachmentModel extends EntityModel{
   public Stream: string;
   public Id: number;
   public Guid: string;
+  constructor() {
+    super();
+    this.NombreArchivo = '';
+  }
 }

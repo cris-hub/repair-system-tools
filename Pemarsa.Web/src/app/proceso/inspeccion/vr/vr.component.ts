@@ -86,6 +86,8 @@ export class VRComponent implements OnInit {
 
   //persistir
   private asignarDataDesdeElFormulario() {
+    delete this.formInpeccionVR.value['InspeccionFotos']
+
     Object.assign(this.inspeccion, this.formInpeccionVR.value);
   }
   procesar() {
@@ -114,9 +116,7 @@ export class VRComponent implements OnInit {
 
     valido = this.documentosSubidosValido(valido);
 
-    if (isUndefined(valido)) {
-      return valido = true
-    }
+
     return valido
 
   }
@@ -142,7 +142,7 @@ export class VRComponent implements OnInit {
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formInpeccionVR = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
       Observaciones: [this.inspeccion.Observaciones, Validators.required]
     });
   }
@@ -154,15 +154,15 @@ export class VRComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
+    if (this.DocumetosRestantes <= 0) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+      return;
+    }
     if (files.length > this.DocumetosRestantes) {
       this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
-      return;
-    }
 
     for (var i = 0; i < files.length; i++) {
       let inspeccionFotos = new InspeccionFotosModel();

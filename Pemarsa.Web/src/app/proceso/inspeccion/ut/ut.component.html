@@ -10,7 +10,7 @@
   </fieldset>
 
 
-  <form [formGroup]="formulario">
+  <form [formGroup]="formulario" (ngSubmit)="procesar()">
     <div class="col-md-11 contenido-interno">
 
       <!-- Table Espessores -->
@@ -35,15 +35,15 @@
                 </td>
 
                 <td>
-                  <input formControlName="EspesorNominal" class="form-control" type="number" />
+                  <input formControlName="EspesorNominal" validacion [validaciones]="['requerido']" class="form-control" type="number" />
                 </td>
                 <td>
-                  <input formControlName="EspesorActual" class="form-control" type="number" />
+                  <input formControlName="EspesorActual" validacion [validaciones]="['requerido']" class="form-control" type="number" />
                 </td>
 
 
                 <td>
-                  <input formControlName="Desviacion" class="form-control" type="number" />
+                  <input formControlName="Desviacion" validacion [validaciones]="['requerido']" class="form-control" type="number" />
                 </td>
 
 
@@ -76,12 +76,12 @@
         </div>
         <div class="col-md-4">
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="tieneCalibracion" [checked]="formulario.get('tieneCalibracion').value == 'true'" (click)="listarBloquesEvent()"  class="form-check-input" type="radio" id="Si" value="true">
             <label class="form-check-label" for="Si">Si​</label>
+            <input formControlName="tieneCalibracion" [checked]="formulario.get('tieneCalibracion').value == 'true'"  (click)="listarBloquesEvent()"  class="form-check-input" type="radio" id="Si" value="true">
           </div>
           <div class="form-check form-check-inline col-md-5">
-            <input formControlName="tieneCalibracion" [checked]="!formulario.get('tieneCalibracion').value == 'true'" class="form-check-input" type="radio" id="No" value="false">
             <label class="form-check-label" for="No">No​</label>
+            <input formControlName="tieneCalibracion" [checked]="!formulario.get('tieneCalibracion').value == 'true'" validacion [validaciones]="['*']" class="form-check-input" type="radio" id="No" value="false">
           </div>
         </div>
       </div>
@@ -90,11 +90,12 @@
 
       <!-- Select Bloque Escalonado -->
 
-      <div *ngIf="formulario.get('tieneCalibracion').value == 'true'" class="form-group row">
+      <div *ngIf="formulario.get('tieneCalibracion').value == 'true' && BloquesEscalonados.length>0" class="form-group row">
         <label class="col-md-2  col-form-label" id="corre">
           <span>*</span>Bloque Escalonado
         </label>
-        <select formControlName="BloqueEscalonadoUsadoId" class="form-control form-control-lg pull-rigth" value="seleccione">
+        <select formControlName="BloqueEscalonadoUsadoId" validacion [validaciones]="['requerido']" class="form-control form-control-lg pull-rigth" value="seleccione">
+          <option value="0">Seleccione</option>
           <option *ngFor="let Bloque of BloquesEscalonados" value="{{Bloque.Id}}">{{ Bloque.Valor }}</option>
         </select>
 
@@ -109,7 +110,7 @@
 
       <div class="form-group row">
         <div class="col-md-3 col-md-offset-3 ">
-          <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+          <button class="btn" >Proceosar y continuar</button>
         </div>
       </div>
 
