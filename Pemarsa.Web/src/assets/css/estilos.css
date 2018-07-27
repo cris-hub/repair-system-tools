@@ -81,12 +81,12 @@ img.imagenUser {
 }
 
 .right {
-  /* font-family: OpenSans-Light; */
-  /* font-size: 15px; */
-  /* color: gray; */
+  font-family: OpenSans-Light;
+  font-size: 15px;
+  color: gray;
   position: absolute;
-  left: 7%;
-  width: 90%;
+  left: 18%;
+  width: 80%;
   height: auto;
 }
 
@@ -112,18 +112,103 @@ h4 {
   font-family: Some;
 }
 
-@media (max-width: 767px) {
+.tituloSubmenu{
+  font-size: 14px;
+}
+
+.username {
+  bottom: 0%;
+}
+
+
+@media screen and (max-width: 767px) {
   .form-login {
     left: 30%;
     width: 40%
   }
-  .right {
-    color: gray;
-    position: absolute;
-    left: 15%;
-    width: 83%;
-    height: auto;
+
+  #iconoMenu {
+    font-size: 30px !important;
+  }
+
+  #icono {
+    font-size: 30px;
+  }
+
+  .tituloSubmenu {
+    display: none;
+  }
+
+  .submenuMensaje {
+    display: none;
+  }
+
+  .TituloMenu {
+    font-size: 13px;
+  }
+
+  .nav-side-menu{
+    width: 9%;
+  }
+    .nav-side-menu ul, .nav-side-menu li {
+      min-height: 100px;
+    }
+
+}
+
+@media screen and (max-width: 992px) {
+  .nav-side-menu {
+    width: 9%;
+  }
+
+  .nav-side-menu2 {
+    width: 9%;
   }
 }
 
 
+/*@media (max-width: 1700px) {
+  .right {
+    width: 60px;
+  }
+}*/
+
+/*@media screen and (max-width: 1000px) {
+  .right {
+    left: 36%;
+    width: 64%;
+  }
+
+  #iconoMenu {
+    font-size: 50px;
+  }
+
+  .tituloSubmenu {
+    font-size: 12px;
+  }
+}*/
+/*}
+
+@media (max-width: 760px) {
+  .right {
+    width: 93%;
+  }
+
+
+}*/
+
+.pointer{
+  cursor: pointer;
+}
+
+
+.salto {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 2px;
+  line-height: 2px;
+}
+
+.margin-13{
+  margin-top: 14px;
+}

@@ -1,5 +1,5 @@
 <div class="nav-side-menu">
-  <div class="brand">Pemarsa  </div>
+  <div class="brand"><p class="TituloMenu">Pemarsa</p></div>
   <div *ngFor="let menu of ListaMenu">
     <ul>
       <li class="" id="desactivar" data-toggle="collapse" data-target="#demo" (click)="subMenu(menu)">
@@ -7,21 +7,17 @@
           <br>
           <br>
           <span class="{{menu.image}}" id="iconoMenu"></span>
-          <i class="glyphicon glyphicon-plus" id="estilo" style="display: none;"></i>
         </a>
-        <br><br><p style="font-size: 14px;">{{menu.title}}</p>
+        <br><br><p class="tituloSubmenu">{{menu.title}}</p>
       </li>
     </ul>
   </div>
-  <span style="position: absolute; bottom: 5px;left: 5px;"
-        href="#">
-    &nbsp;
+  <div class="username">
     <span class="icon-usuario" id="iconoUser"></span>&nbsp; John Freddy
-  </span>
+  </div>
 </div>
 
 <div *ngIf="ListaSubMenuActual" class="nav-side-menu2">
-
   <div id="submenu">
     <div class="brand2">Procesos</div>
     <div style="color:#fff">
@@ -32,7 +28,7 @@
             <span class="{{subMenu.complementarios.icono}}" id="icono"></span>
             <br>
             <br>
-            {{subMenu.name}}
+            <p class="submenuMensaje">{{subMenu.name}}</p>
           </a>
         </li>
         <br />
@@ -41,7 +37,7 @@
   </div>
 </div>
 
-<div class="right" style="margin-left: 220px; margin-top:7px;">
+<div class="right">
   <router-outlet>
     <ng-progress #progressBar></ng-progress>
     <div *ngIf="showLoader" class="loading"></div>

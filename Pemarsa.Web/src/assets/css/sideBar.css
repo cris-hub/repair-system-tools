@@ -49,14 +49,15 @@
 /*Menu*/
 
 .nav-side-menu {
+  position:fixed;
   overflow: auto;
   font-family: OpenSans-Bold;
   font-size: 15px;
   font-weight: 200;
   background-color: #2463c2;
-  position: absolute;
+  /*position: absolute;*/
   top: 0px;
-  width: 160px;
+  width: 8.6%;
   height: 100%;
   color: #FFF;
   opacity: 0.9;
@@ -152,34 +153,13 @@
       transition: all 1s ease;
     }
 
-@media (max-width: 767px) {
+/*@media screen and (max-width: 767px) {
   .nav-side-menu {
-    width: 30%
+    width: 25%;
   }
+}*/
 
-    .nav-side-menu .toggle-btn {
-      display: block;   
-      cursor: pointer;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      z-index: 10 !important;
-      padding: 3px;
-      background-color: #ffffff;
-      color: #000;
-      width: 40px;
-      text-align: center;
-    }
-
-  .brand {
-    text-align: left !important;
-    font-size: 22px;
-    padding-left: 20px;
-    line-height: 50px !important;
-  }
-}
-
-@media (min-width: 767px) {
+@media screen and (min-width: 767px) {
   .nav-side-menu .menu-list .menu-content {
     display: block;
   }
@@ -191,10 +171,11 @@
   font-size: 12px;
   font-weight: 200;
   background-color: #f4f4f4;
-  position: absolute;
+  /*position: absolute;*/
+  position:fixed;
   top: 0px;
-  left: 160px;
-  width: 152px;
+  left: 8.7%;
+  width: 8.1%;
   height: 100%;
   color: gray;
   opacity: 0.9;
@@ -219,11 +200,11 @@
     line-height: 200px;
     border-top: 10px;
     cursor: pointer;
-    left: 80x;
-    min-height: 110px;
+    left: 80px;
+    min-height: 80%;
     top: 10px;
     left: 80px;
-    width: 110px;
+    width: 90%;
     text-align: center;
     line-height: 17px;
     padding-left: 25px;
@@ -299,10 +280,10 @@
       transition: all 1s ease;
     }
 
-@media (max-width: 767px) {
+/*@media screen and (max-width: 767px) {
   .nav-side-menu2 {
     position: absolute;
-    left: 30%;
+    left: 15%;
     width: 30%;
   }
 
@@ -320,21 +301,28 @@
       text-align: center;
     }
 
+
+  .nav-side-menu ul, .nav-side-menu li {
+    min-height: 100px;
+  }
+
   .brand2 {
     text-align: left !important;
     font-size: 22px;
     padding-left: 20px;
     line-height: 50px !important;
   }
-}
+}*/
 
-@media (min-width: 767px) {
+
+
+
+
+@media screen and (min-width: 767px) {
   .nav-side-menu2 .menu-list .menu-content {
     display: block;
   }
 }
 
-@media (max-width: 767px) {
-  .rigth {
-    width: 30%;
-  }
+
+
