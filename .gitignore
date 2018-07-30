@@ -262,4 +262,4 @@ __pycache__/
 *.dll
 /Pemarsa.Web/wwwroot
 
-*/Pemarsa.Web/src/assets/config/config.json
+/Pemarsa.Web/src/assets/config/config.json
