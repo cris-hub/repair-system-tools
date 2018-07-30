@@ -3,57 +3,135 @@
   src: url(../fonts/OpenSans-Light.ttf);
 }
 
+
+
 /*Contenido despues del panel*/
 .contenido-interno {
   background-color: #f9f9f9;
   padding: 65px;
   height: 100%;
-  /*margin-top: -10px;*/
+  opacity: 0.9;
   -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
-
 }
 
-.alinear-derecha{
-  text-align:right;
+/*Contenido para los listados*/
+.contenido-interno-listar {
+  background-color: #f9f9f9;
+  padding: 20px;
+  height: 100%;
+  opacity:0.9;
+  -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
 }
 
-.iconox20{
+/*input buscar de los listados*/
+.inputBuscar {
+  background: rgba(255,255,255,.15) !important;
+  border: none !important;
+  color: #FFF !important;
+  height: 30px !important;
+  box-shadow: none !important;
+  margin-top: 14px !important;
+}
+/*Cambiar placeholder del input de busqueda*/
+  .inputBuscar::-webkit-input-placeholder {
+    color: #89b0e2 !important;
+  }
+  /* WebKit, Blink, Edge */
+  .inputBuscar:-moz-placeholder {
+    color: #89b0e2 !important;
+  }
+  /* Mozilla Firefox 4 to 18 */
+  .inputBuscar::-moz-placeholder {
+    color: #89b0e2 !important;
+  }
+  /* Mozilla Firefox 19+ */
+  .inputBuscar:-ms-input-placeholder {
+    color: #89b0e2 !important;
+  }
+  /* Internet Explorer 10-11 */
+  .inputBuscar::-ms-input-placeholder {
+    color: #5a83bf !important;
+  }
+/* Microsoft Edge */
+/*Fin cambiar placeholder*/
+
+.form-group > .form-control {
+  color: black !important;
+}
+
+/*Fuente en blanco*/
+
+.font-white {
+  color: #FFF;
+}
+
+.font-black {
+  color: black;
+}
+/*Estilos para el panel persona contacto*/
+.panel-default > .panel-heading {
+  color: #fff !important;
+  background-color: #3a72c8 !important;
+  border-color: #ddd;
+}
+
+.alinear-derecha {
+  text-align: right;
+}
+
+.iconox20 {
   font-size: 20px;
   cursor: pointer;
 }
 
-.inputBusqueda{
-  margin-top: 11px;
-}
-
-/*Estilos para los titulos*/
+/*Estilos para los paneles de los titulos*/
 .titulo {
-  background-color: #2057AA;
-  color: #FFF;
+  background-color: rgba(32, 87, 170, 0.9);
+  color: #d2d2d2;
   border-radius: 10px 9px 0px 0px;
   -moz-border-radius: 10px 9px 0px 0px;
   -webkit-border-radius: 10px 9px 0px 0px;
   border: 0px solid #000000;
-  -webkit-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
+  -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
+  /*-webkit-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
   -moz-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
-  box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
+  box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);*/
 }
 
+/*Titulo para las tablas fondo azul, letra blanca*/
 .titleTable {
-  background-color: #2463c2;
-  opacity: 0.9;
+  background-color: #3F77CA;
   color: #FFF;
+  font-size: 15px;
+}
+.center-table {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 0 8px 0 !important;
 }
 
+.padding-none {
+  padding: 10px 0 8px 0 !important;
+}
+
+/*Opacidad para poner el fondo oscuro cuando se abre un modal*/
+.modal-backdrop{
+  opacity:0.4 !important;
+}
+/*Posicion del modal en la pantalla*/
 .modal-dialog {
   margin-top: 200px !important;
 }
 
-
+/*Colores del panel del modal*/
 .panelModal {
-  background-color: #5484b1;
+  background-color: #3F77CA;
   color: #FFF;
 }
 /**/
@@ -138,7 +216,7 @@
 .right {
   font-family: OpenSans-Light;
   font-size: 15px;
-  color: gray;
+  color: black;
   position: absolute;
   left: 18%;
   width: 81%;
@@ -176,9 +254,20 @@ h4 {
   margin-left: -13px;
 }
 
+/**/
+.margin-20 {
+  margin-top: 20px;
+}
+
+/**/
+.estrella {
+  margin-top: -6px;
+  margin-left: -8px;
+  height:29px;
+}
+
 
 /*Estilos Responsive*/
-
 @media screen and (max-width: 767px) {
   .form-login {
     left: 30%;
@@ -188,8 +277,8 @@ h4 {
   .contenido-interno {
     padding: 20px;
   }
-    /*Ajustar iconos en responsive*/
-    #iconoMenu {
+  /*Ajustar iconos en responsive*/
+  #iconoMenu {
     font-size: 30px !important;
   }
 
@@ -235,7 +324,6 @@ h4 {
     border-radius: 10%;
   }
 }
-
 /*Estilos para una tablet*/
 @media (max-width: 1024px) and (min-width: 767px) {
   /*Estilos del Menu y SubMenu */
@@ -262,17 +350,23 @@ h4 {
     }
 
   /*Fin estilos Meny y Submenu*/
+  .estrella {
+    margin-top: -6px;
+    margin-left: -17px;
+  }
 
   .contenido-interno {
     padding: 30px;
   }
 
-  .TituloMenu{
-    font-size: 14px;  
+  .TituloMenu {
+    font-size: 14px;
   }
-  .TituloSubMenu{
+
+  .TituloSubMenu {
     font-size: 13px;
   }
+
   #icono {
     font-size: 25px;
     margin-left: -15px;
@@ -285,6 +379,7 @@ h4 {
   .contenidoMenu {
     font-size: 10px;
   }
+
   #corre {
     text-align: left;
   }
@@ -336,14 +431,16 @@ h4 {
     font-size: 10px;
   }
 }
-
 /*Estilos responsive para un celular*/
-
-
 @media screen and (max-width: 500px) {
   .form-login {
     left: 30%;
     width: 40%
+  }
+
+  .right {
+    left: 21%;
+    width: 80%;
   }
 
   /*Ajustar iconos en responsive*/
@@ -377,11 +474,11 @@ h4 {
   }
 
   .TituloMenu {
-    display:none;
+    display: none;
   }
 
   .TituloSubMenu {
-    display:none;
+    display: none;
   }
   /*Estilos del Menu y SubMenu */
   .nav-side-menu {
@@ -389,16 +486,16 @@ h4 {
   }
 
   .nav-side-menu2 {
-    left:11%;
+    left: 11%;
     width: 10%;
   }
 
-    .nav-side-menu ul, .nav-side-menu li {
-      min-height: 100px;
-    }
+  .nav-side-menu ul, .nav-side-menu li {
+    min-height: 100px;
+  }
 
   .nav-side-menu2 ul, .nav-side-menu2 li {
-    margin-top:20px;
+    margin-top: 20px;
     line-height: 80%;
     width: 90%;
     padding-left: 7px;

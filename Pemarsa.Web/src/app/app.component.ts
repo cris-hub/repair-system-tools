@@ -70,8 +70,98 @@ export class AppComponent implements OnInit {
             complementarios:
               {
                 icono: "icon-entrada",
-                color: "color"
+                color: "color2"
               }
+
+          },
+          {
+            id: "11",
+            name: "Torneado",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Torneado",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-torneado",
+              color: "color3"
+            }
+
+          },
+          {
+            id: "12",
+            name: "Fresado",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Fresado",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-fresado",
+              color: "color4"
+            }
+
+          },
+          {
+            id: "13",
+            name: "Soldadura",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Soldadura",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-soldadura",
+              color: "color5"
+            }
+
+          },
+          {
+            id: "14",
+            name: "Alistamiento",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Alistamiento",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-alistamiento",
+              color: "color6"
+            }
+
+          },
+          {
+            id: "15",
+            name: "Rectificado",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Rectificado",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-rectificado",
+              color: "color7"
+            }
+
+          },
+          {
+            id: "16",
+            name: "Insp. Salida",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Insp. Salida",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-listacopia",
+              color: "color8"
+            }
 
           }
 

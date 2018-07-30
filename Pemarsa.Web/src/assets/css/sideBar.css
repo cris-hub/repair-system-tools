@@ -11,54 +11,79 @@
 
 /*Colores submenu*/
 
-#color{
-  background-color: #ac784e;  
+#color {
+  background-color: #ac784e;
 }
-#color2{
+
+#color2 {
   background-color: #96adec;
 }
-#color3{
+
+#color3 {
   background-color: #bd9b27;
 }
-#color4{
+
+#color4 {
   background-color: #955c87;
 }
-#color5{
+
+#color5 {
   background-color: #525a6f;
 }
-#color6{
+
+#color6 {
   background-color: #4b624e;
 }
-#color7{
+
+#color7 {
   background-color: #787a7d;
 }
-#color8{
+
+#color8 {
   background-color: #668b59;
 }
-#color9{
+
+#color9 {
   background-color: #c6a05c;
 }
-#color10{
+
+#color10 {
   background-color: #467257;
 }
-#color11{
+
+#color11 {
   background-color: #cb874f;
 }
 
 /*Menu*/
 
 .nav-side-menu {
-  position:fixed;
+  position: fixed;
   overflow: auto;
   font-family: OpenSans-Bold;
   font-size: 15px;
   font-weight: 200;
   background-color: #2463c2;
   top: 0px;
-  width: 8.6%;
+  width: 8.4%;
   height: 100%;
   color: #FFF;
+  opacity: 0.9;
 }
+  /*Estilos del scroll del submenu*/
+  .nav-side-menu::-webkit-scrollbar {
+    width: 5px;
+    background-color: gray;
+  }
+
+  .nav-side-menu::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
+
+  .nav-side-menu::-webkit-scrollbar-thumb {
+    background-color: gray;
+  }
 
   .nav-side-menu .brand {
     background-color: #2463c2;
@@ -67,6 +92,7 @@
     text-align: center;
     font-size: 20px;
     opacity: 0.9;
+    border-bottom: 1px solid #cac8c8;
   }
 
   .nav-side-menu .toggle-btn {
@@ -164,13 +190,30 @@
   font-size: 12px;
   font-weight: 200;
   background-color: #f4f4f4;
-  position:fixed;
+  position: fixed;
   top: 0px;
-  left: 8.7%;
-  width: 8.1%;
+  left: 8.3%;
+  width: 8.3%;
   height: 100%;
   color: gray;
+  opacity: 0.9;
+  overflow:;
 }
+
+  /*Estilos del scroll del submenu*/
+  .nav-side-menu2::-webkit-scrollbar {
+    width: 5px;
+    background-color: gray;
+  }
+
+  .nav-side-menu2::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
+
+  .nav-side-menu2::-webkit-scrollbar-thumb {
+    background-color: gray;
+  }
 
   .nav-side-menu2 .brand2 {
     background-color: #f4f4f4;
@@ -192,13 +235,13 @@
     border-top: 10px;
     cursor: pointer;
     left: 80px;
-    min-height: 80%;
-    top: 10px;
-    left: 80px;
-    width: 90%;
+    min-height: 131% !important;
+    top: 13px;
+    left: 84px;
+    width: 88%;
     text-align: center;
-    line-height: 17px;
-    padding-left: 25px;
+    line-height: 15px;
+    padding-left: 23px;
     -moz-border-radius: 50%;
     -webkit-border-radius: 60%;
     border-radius: 10%;
@@ -259,10 +302,9 @@
         padding-right: 20px;
       }
 
-    .nav-side-menu2 
-    li#color:hover,li#color2:hover,li#color3:hover,li#color4:hover,
-    li#color5:hover,li#color6:hover,li#color7:hover,li#color8:hover,
-    li#color9:hover,li#color10:hover,li#color11:hover {
+    .nav-side-menu2 li#color:hover, li#color2:hover, li#color3:hover, li#color4:hover,
+    li#color5:hover, li#color6:hover, li#color7:hover, li#color8:hover,
+    li#color9:hover, li#color10:hover, li#color11:hover {
       background-color: #145398;
       -webkit-transition: all 1s ease;
       -moz-transition: all 1s ease;
@@ -277,6 +319,3 @@
     display: block;
   }
 }
-
-
-

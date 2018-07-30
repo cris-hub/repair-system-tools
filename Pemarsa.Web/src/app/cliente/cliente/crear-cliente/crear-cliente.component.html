@@ -20,11 +20,12 @@
           <br />
           <span class="glyphicon glyphicon-user float-right" aria-hidden="true" style="font-size:20px;"></span>
           &nbsp;
-          <span class="glyphicon glyphicon-plus float-right" aria-hidden="true" style="font-size:5px;"></span>
+          <span *ngIf="esActualizar != true && esVer == false" class="glyphicon glyphicon-plus float-right" aria-hidden="true" style="font-size:5px;"></span>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
           <h3 *ngIf="esActualizar != true && esVer == false">Crear cliente</h3>
           <h3 *ngIf="esActualizar == true && esVer == false">Editar cliente</h3>
+          <h3 *ngIf="esVer">Detalle cliente</h3>
         </div>
       </div>
       <hr />
@@ -136,7 +137,7 @@
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="!esVer">
           <label class="col-md-3 col-form-label" id="corre">
             <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus iconox20"> </i>
           </label>
@@ -154,11 +155,11 @@
               <table class="table table-striped table-bordered table-hover table-condensed">
                 <thead>
                   <tr class="titleTable">
-                    <th>Nombre de linea</th>
-                    <th>Nombre de contacto</th>
-                    <th>Telefono</th>
-                    <th>Correo</th>
-                    <th>Acciones</th>
+                    <th class="text-center">Nombre de linea</th>
+                    <th class="text-center">Nombre de contacto</th>
+                    <th class="text-center">Telefono</th>
+                    <th class="text-center">Correo</th>
+                    <th class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -169,7 +170,8 @@
                     <td>{{linea.ContactoCorreo}}</td>
                     <td>
                       <i *ngIf="!esVer" data-toggle="modal" data-target="#LineaClienteModal" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="glyphicon glyphicon-pencil pointer"></i>
-                      <i *ngIf="!esVer" class="glyphicon glyphicon-minus pointer" (click)="eliminarCliente(i)"></i>
+                      &nbsp;
+                      <i *ngIf="!esVer" class="glyphicon glyphicon-minus pointer" (click)="eliminarCliente(i)" data-container="body" data-toggle="popover" data-placement="right" data-content="Optional"></i>
                     </td>
                   </tr>
                 </tbody>
