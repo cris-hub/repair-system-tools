@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+@import 'assets/css/sideBar.css';
+@import 'assets/css/estilos.css';
+@import 'assets/iconos/style.css';
+@import 'assets/css/style.css';
+@import 'node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import 'https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
