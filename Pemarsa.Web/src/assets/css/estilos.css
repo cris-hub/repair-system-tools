@@ -27,6 +27,15 @@
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
 }
 
+
+/*Filtros*/
+
+.dropdown-menu.show {
+  display: block;
+  font-size: 12px !important;
+  width: 170px !important;
+}
+
 /*input buscar de los listados*/
 .inputBuscar {
   background: rgba(255,255,255,.15) !important;
@@ -203,12 +212,8 @@
   opacity: 0.8;
 }
 
-.form-control {
-  border-radius: 10px;
-}
-
-.wrapper {
-  text-align: center;
+.form-control, .btn {
+  font-size: 14px !important;
 }
 
 /*Div general despues de los menus laterales*/
@@ -250,7 +255,7 @@ h4 {
 
 /*Estilo para acomodar el icono de la paginacion*/
 .margin-13 {
-  margin-top: 14px;
+  margin-top: 16px;
   margin-left: -13px;
 }
 

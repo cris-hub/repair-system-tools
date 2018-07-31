@@ -23,6 +23,7 @@
           <span *ngIf="esActualizar != true && esVer == false" class="glyphicon glyphicon-plus float-right" aria-hidden="true" style="font-size:5px;"></span>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+          <br />
           <h3 *ngIf="esActualizar != true && esVer == false">Crear cliente</h3>
           <h3 *ngIf="esActualizar == true && esVer == false">Editar cliente</h3>
           <h3 *ngIf="esVer">Detalle cliente</h3>
@@ -195,10 +196,10 @@
     </div>
   </div>
   </div>
-  <div class="modal fade" id="LineaClienteModal" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
+  <div class="modal" id="LineaClienteModal" tabindex="-1" role="dialog" aria-labelledby="LineaClienteModalLabel" aria-hidden="true">
     <app-liena-cliente accion="Crear" (paramsLineaCliente)="nuevaLineaCliente($event)"></app-liena-cliente>
   </div>
-  <div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
   </div>
 
