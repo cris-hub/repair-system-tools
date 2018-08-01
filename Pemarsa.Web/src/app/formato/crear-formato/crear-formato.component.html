@@ -1,366 +1,369 @@
 <div *ngIf="!loading">
-  <div class="container">
+  <br />
+  <div class="container-fluid">
     <div class="row">
-      <div class="panel col-md-11" style="background-color: rgba(36, 99, 194, .9);color: #ffffff;">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-md-12" style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200; text-align: center;">
-              <h3>Crear formato</h3>
-            </div>
-          </div>
+      <div class="col-md-12 titulo">
+        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+          <br />
+          <span class="icon-formatos float-right iconox20" aria-hidden="true"></span>
+          &nbsp;
+          <span class="glyphicon glyphicon-plus float-right" aria-hidden="true" style="font-size:5px;"></span>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+          <br />
+          <h3>Crear formato</h3>
         </div>
       </div>
     </div>
-    <div class="col-md-11 contenido-interno">
-      <form [formGroup]="formFormato">
-
-        <div class="form-group row">
-          <label class="col-md-2 col-form-label" id="corre">
-            Codigo:
-          </label>
-          <div class="col-md-3">
-            <input formControlName="Codigo" class="form-control " type="text" />
-          </div>
-
-
-          <label class="col-md-2 col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.TipoFormatoId.status=='INVALID'}">*</span>
-            Tipo de formato:
-          </label>
-          <div class="col-md-4">
-            <div class="form-check form-check-inline col-md-5">
-              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="!esTipoFormatoConexion(formatoModel)" (change)="limpiarFormulario()" id="formatoOtros" value="19">
-              <label class="form-check-label" for="formatoOtros">formato de otros​</label>
+    <div class="row contenido-interno">
+      <div class="col-md-12">
+        <form [formGroup]="formFormato">
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" id="corre">
+              Codigo:
+            </label>
+            <div class="col-md-3">
+              <input formControlName="Codigo" class="form-control " type="text" />
             </div>
-            <div class="form-check form-check-inline col-md-5">
-              <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" (change)="limpiarFormulario()" id="formatoConexion" value="18">
-              <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
+
+
+            <label class="col-md-2 col-form-label" id="corre">
+              <span [ngClass]="{'red' : formFormato.controls.TipoFormatoId.status=='INVALID'}">*</span>
+              Tipo de formato:
+            </label>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="!esTipoFormatoConexion(formatoModel)" (change)="limpiarFormulario()" id="formatoOtros" value="19">
+                <label class="form-check-label" for="formatoOtros">formato de otros​</label>
+              </div>
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" (change)="limpiarFormulario()" id="formatoConexion" value="18">
+                <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
+          <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
 
-          <label class="col-md-2  col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.TiposConexionesId.status=='INVALID'}">*</span>
-            Tipo de conexión
-          </label>
-          <div class="col-md-3">
-            <select formControlName="TiposConexionesId" class=" form-control-lg select">
-              <option *ngFor="let TiposConexiones of parametrosTipoConexion" value="{{TiposConexiones.Id}}">{{ TiposConexiones.Valor}}</option>
-            </select>
-            <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
-               style="font-size: 20px;cursor: pointer;"></i>
-          </div>
-
-          <label class="col-md-2  col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.ConexionId.status=='INVALID'}">*</span>
-            Conexión
-          </label>
-          <div class="col-md-3">
-            <div>
-              <select formControlName="ConexionId" class="form-control-lg select">
-                <option *ngFor="let Conexion of parametrosConexion" value="{{Conexion.Id}}">{{Conexion.Valor}}</option>
-
+            <label class="col-md-2  col-form-label" id="corre">
+              <span [ngClass]="{'red' : formFormato.controls.TiposConexionesId.status=='INVALID'}">*</span>
+              Tipo de conexión
+            </label>
+            <div class="col-md-3">
+              <select formControlName="TiposConexionesId" class=" form-control-lg select">
+                <option *ngFor="let TiposConexiones of parametrosTipoConexion" value="{{TiposConexiones.Id}}">{{ TiposConexiones.Valor}}</option>
               </select>
               <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
                  style="font-size: 20px;cursor: pointer;"></i>
             </div>
-          </div>
-        </div>
 
-        <!-- Slect Herramienta -->
-        <div *ngIf="formatoModel.TipoFormatoId == '19' && formFormato.get('Herramienta')" class="form-group row">
-          <label class="col-md-2  col-form-label" id="corre">
-            <span>*</span>
-            Herramienta
-          </label>
-          <div formGroupName="Herramienta" class="col-md-8">
-            <select formControlName="Id" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
-              <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta.Id}}">{{ Herramienta.Nombre }}</option>
-            </select>
-          </div>
-        </div>
-
-        <!--check aletas -->
-        <div *ngIf="formatoModel.TipoFormatoId == '19' " class="form-group row">
-          <label [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID'}" class="col-md-2 col-form-label" id="corre">
-            <span *ngIf="formFormato.controls.Aletas.status=='INVALID'" [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID' }">*</span>
-            Aletas:
-          </label>
-          <div class="col-md-4">
-            <div class="form-check form-check-inline col-md-5">
-              <input formControlName="esAletas"  [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" value="true">
-              <label class="form-check-label" for="AletasSi">Si​</label>
-            </div>
-            <div class="form-check form-check-inline col-md-5">
-              <input formControlName="esAletas"  [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" value="false">
-              <label class="form-check-label" for="AletasNo">No</label>
-            </div>
-          </div>
-
-        </div>
-
-
-        <!-- Documentos -->
-        <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
-
-          <label class="col-md-2 col-form-label" id="corre">
-            <span *ngIf="formFormato.controls.EsFormatoAdjunto" [ngClass]="{'red' : formFormato.controls.EsFormatoAdjunto.status=='INVALID'}">*</span>
-            Documento adjunto:
-          </label>
-          <div class="col-md-4">
-            <div class="form-check form-check-inline col-md-5">
-              <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoSi" [value]="true">
-              <label class="form-check-label" for="EsFormatoAdjuntoSi">Si​</label>
-            </div>
-            <div class="form-check form-check-inline col-md-5">
-              <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoNo" [value]="false">
-              <label class="form-check-label" for="EsFormatoAdjuntoNo">No</label>
-            </div>
-          </div>
-
-        </div>
-
-        <div *ngIf="formatoModel.TipoFormatoId == '19' || ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
-          <label class="col-md-2 col-form-label" id="corre">
-            <span>*</span>
-            Adjuntar plano:
-          </label>
-          <div class="col-md-2">
-            <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
-          </div>
-          <div class="col-md-5 col-md-offset-2">
-            <div *ngIf="Planos.length > 0" class="panel panel-default">
-              <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos {{Planos.length}}</a>
-                <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-                  <i class="glyphicon glyphicon-chevron-down"></i>
-                </span>
-              </div>
+            <label class="col-md-2  col-form-label" id="corre">
+              <span [ngClass]="{'red' : formFormato.controls.ConexionId.status=='INVALID'}">*</span>
+              Conexión
+            </label>
+            <div class="col-md-3">
               <div>
+                <select formControlName="ConexionId" class="form-control-lg select">
+                  <option *ngFor="let Conexion of parametrosConexion" value="{{Conexion.Id}}">{{Conexion.Valor}}</option>
 
-              </div>
-              <div id="archivos" class="panel-collapse panel-collapse collapse">
-                <div class="panel-body">
-                  <ul>
-                    <li *ngFor="let plano of planos">
-                      <a>{{plano.NombreArchivo}}</a>
-                    </li>
-                  </ul>
-                </div>
+                </select>
+                <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
+                   style="font-size: 20px;cursor: pointer;"></i>
               </div>
             </div>
-
           </div>
-        </div>
 
-
-        <!-- Especificacion -->
-        <div *ngIf=" ( formatoModel.TipoFormatoId == '18' ) || formatoModel.TipoFormatoId == '19' " class="form-group row">
-          <label class="col-md-2  col-form-label" id="corre">
-            <span [ngClass]="{'red' : formFormato.controls.EspecificacionId.status=='INVALID'}">*</span>
-            Especificación:
-          </label>
-          <select formControlName="EspecificacionId" class="form-control form-control-lg col-md-4" value="seleccione">
-            <option value="">Seleccione</option>
-            <option *ngFor="let Especificacion of parametrosEspecificacion" value="{{Especificacion.Id}}">{{ Especificacion.Valor }}</option>
-          </select>
-        </div>
-
-        <!-- TPI && TPF -->
-
-        <div *ngIf=" ( formatoModel.TipoFormatoId == '18')" class="form-group row">
-          <div class="row">
-            <label class="col-md-4 col-form-label" id="corre">
-              <span [ngClass]="{'red' : formFormato.controls.TPI.status=='INVALID'}">*</span>
-              TPI:
+          <!-- Slect Herramienta -->
+          <div *ngIf="formatoModel.TipoFormatoId == '19' && formFormato.get('Herramienta')" class="form-group row">
+            <label class="col-md-2  col-form-label" id="corre">
+              <span>*</span>
+              Herramienta
             </label>
-            <div class="col-md-8">
-              <input formControlName="TPI" class="form-control " type="text" name="name" value="" />
+            <div formGroupName="Herramienta" class="col-md-8">
+              <select formControlName="Id" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
+                <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta.Id}}">{{ Herramienta.Nombre }}</option>
+              </select>
             </div>
-            <label class="col-md-4 col-form-label" id="corre">
-              <span [ngClass]="{'red' : formFormato.controls.TPF.status=='INVALID'}">*</span>
-              TPF:
+          </div>
+
+          <!--check aletas -->
+          <div *ngIf="formatoModel.TipoFormatoId == '19' " class="form-group row">
+            <label [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID'}" class="col-md-2 col-form-label" id="corre">
+              <span *ngIf="formFormato.controls.Aletas.status=='INVALID'" [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID' }">*</span>
+              Aletas:
             </label>
-            <div class="col-md-8">
-              <input formControlName="TPF" class="form-control " type="text" name="name" value="" />
+            <div class="col-md-4">
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" value="true">
+                <label class="form-check-label" for="AletasSi">Si​</label>
+              </div>
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" value="false">
+                <label class="form-check-label" for="AletasNo">No</label>
+              </div>
             </div>
-          </div>
-        </div>
 
-
-
-        <!-- Tabla Aletas -->
-        <div *ngIf=" (formatoModel.TipoFormatoId == '19' && formFormato.value['esAletas'] == true) ">
-          <div class="row">
-            <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
-              <thead>
-                <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col">Parametro</th>
-                  <th scope="col">Item</th>
-                  <th scope="col">ToleranciaMin</th>
-                  <th scope="col">ToleranciaMax</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody formArrayName="Aletas"
-                     *ngFor="let Aletas of formFormato.get('Aletas').controls; let i = index;">
-                <tr [formGroupName]="i">
-
-                  <td>
-                    <p *ngIf="i>0">{{i}} </p>
-                  </td>
-
-                  <td>
-                    <input formControlName="Parametro" class="form-control" type="text" />
-                  </td>
-                  <td>
-                    <input formControlName="Item" class="form-control" type="text" />
-                  </td>
-
-
-                  <td>
-                    <input formControlName="ToleranciaMin" class="form-control" type="text" />
-                  </td>
-
-                  <td>
-                    <input formControlName="ToleranciaMax" class="form-control" type="text" />
-                  </td>
-
-                  <td>
-                    <div class="btn-group" role="group" style="display:flex;" aria-label="...">
-                      <button (click)="removeItemFormFormatoPatamtrosAletas(i)" *ngIf="i" class="btn btn-danger ">
-                        <i class="glyphicon glyphicon glyphicon-minus"></i>
-                      </button>
-                      <button (click)="addItemFormParametroAletas()" class=" btn btn-success  ">
-                        <i class="glyphicon glyphicon-plus"></i>
-                      </button>
-                    </div>
-                  </td>
-
-                </tr>
-              </tbody>
-            </table>
           </div>
 
 
-        </div>
+          <!-- Documentos -->
+          <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
 
+            <label class="col-md-2 col-form-label" id="corre">
+              <span *ngIf="formFormato.controls.EsFormatoAdjunto" [ngClass]="{'red' : formFormato.controls.EsFormatoAdjunto.status=='INVALID'}">*</span>
+              Documento adjunto:
+            </label>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoSi" [value]="true">
+                <label class="form-check-label" for="EsFormatoAdjuntoSi">Si​</label>
+              </div>
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoNo" [value]="false">
+                <label class="form-check-label" for="EsFormatoAdjuntoNo">No</label>
+              </div>
+            </div>
 
-
-
-
-
-        <!-- Tabla Parametros -->
-        <div *ngIf=" ( formatoModel.TipoFormatoId == '18'  || formatoModel.TipoFormatoId == '19' ) ">
-          <div class="row">
-            <table *ngIf="formFormato.get('Parametros')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
-              <thead>
-                <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col">Item</th>
-                  <th scope="col">Dimension Especifica</th>
-                  
-                  <th scope="col">ToleranciaMin</th>
-                  <th scope="col">ToleranciaMax</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody formArrayName="Parametros"
-                     *ngFor="let Parametros of formFormato.get('Parametros').controls; let i = index;">
-                <tr [formGroupName]="i">
-
-                  <td>
-                    <p *ngIf="i>0">{{i}} </p>
-                  </td>
-
-                  <td>
-                    <input formControlName="Item" class="form-control" type="text" />
-                  </td>
-                  <td>
-                    <input formControlName="DimensionEspecifica" class="form-control" type="text" />
-                  </td>
-
-               
-                  <td>
-                    <input formControlName="ToleranciaMin" class="form-control" type="text" />
-                  </td>
-
-                  <td>
-                    <input formControlName="ToleranciaMax" class="form-control" type="text" />
-                  </td>
-
-                  <td>
-                    <div class="btn-group" role="group" style="display:flex;" aria-label="...">
-                      <button (click)="removeItemFormFormatoPatamtros(i)" *ngIf="i" class="btn btn-danger ">
-                        <i class="glyphicon glyphicon glyphicon-minus"></i>
-                      </button>
-                      <button (click)="addItemFormParametro()" class=" btn btn-success  ">
-                        <i class="glyphicon glyphicon-plus"></i>
-                      </button>
-                    </div>
-                  </td>
-
-                </tr>
-              </tbody>
-            </table>
           </div>
 
-
-        </div>
-
-
-
-
-        <!-- Tabla ADENDUM -->
-
-
-        <div *ngIf="formatoModel.TipoFormatoId == '18' ">
-
-        <div *ngIf="formFormato.get('Adendum') | pemarsaAdendumPipe" class="form-group row">
-          <table formArrayName="Adendum" class="table table-bordered table-striped col-md-offset-1 col-md-10 ">
-
-            <tbody>
-              <tr *ngFor="let tipos of formFormato.get('Adendum').tipos ">
-                <th> <p>{{tipos.Valor}} </p></th>
-                <div *ngIf="tipos.Id ==26">
-                  <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8">
-
-                    <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
-                    <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
-                    <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
-                  </td>
+          <div *ngIf="formatoModel.TipoFormatoId == '19' || ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
+            <label class="col-md-2 col-form-label" id="corre">
+              <span>*</span>
+              Adjuntar plano:
+            </label>
+            <div class="col-md-2">
+              <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+              <div *ngIf="Planos.length > 0" class="panel panel-default">
+                <div class="panel-heading">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos {{Planos.length}}</a>
+                  <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
+                    <i class="glyphicon glyphicon-chevron-down"></i>
+                  </span>
                 </div>
-                <div *ngIf="tipos.Id ==27">
-                  <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i">
+                <div>
 
-                    <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
-                    <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
-                    <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
-                  </td>
                 </div>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                <div id="archivos" class="panel-collapse panel-collapse collapse">
+                  <div class="panel-body">
+                    <ul>
+                      <li *ngFor="let plano of planos">
+                        <a>{{plano.NombreArchivo}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-        </div>
-
-        <div class="form-group row">
-          <div class="col-md-12">
-            <div class="col-md-2 col-md-offset-4 text-right">
-              <button [routerLink]="['/formato']" type="button" class="btn btn-md">Regresar</button>
-            </div>
-            <div class="col-md-5">
-              <button type="submit" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>
             </div>
           </div>
-        </div>
 
 
-      </form>
+          <!-- Especificacion -->
+          <div *ngIf=" ( formatoModel.TipoFormatoId == '18' ) || formatoModel.TipoFormatoId == '19' " class="form-group row">
+            <label class="col-md-2  col-form-label" id="corre">
+              <span [ngClass]="{'red' : formFormato.controls.EspecificacionId.status=='INVALID'}">*</span>
+              Especificación:
+            </label>
+            <div class="col-md-4">
+
+              <select formControlName="EspecificacionId" class="form-control form-control-lg" value="seleccione">
+                <option value="">Seleccione</option>
+                <option *ngFor="let Especificacion of parametrosEspecificacion" value="{{Especificacion.Id}}">{{ Especificacion.Valor }}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TPI && TPF -->
+
+          <div *ngIf=" ( formatoModel.TipoFormatoId == '18')">
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" id="corre">
+                <span [ngClass]="{'red' : formFormato.controls.TPI.status=='INVALID'}">*</span>
+                TPI:
+              </label>
+              <div class="col-md-4">
+                <input formControlName="TPI" class="form-control " type="text" name="name" value="" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" id="corre">
+                <span [ngClass]="{'red' : formFormato.controls.TPF.status=='INVALID'}">*</span>
+                TPF:
+              </label>
+              <div class="col-md-4">
+                <input formControlName="TPF" class="form-control " type="text" name="name" value="" />
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Tabla Aletas -->
+          <div *ngIf=" (formatoModel.TipoFormatoId == '19' && formFormato.value['esAletas'] == true) ">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="table-responsive-sm table-responsive-md">
+                  <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
+                    <thead class="titleTable">
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Parametro</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">ToleranciaMin</th>
+                        <th scope="col">ToleranciaMax</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="Aletas"
+                           *ngFor="let Aletas of formFormato.get('Aletas').controls; let i = index;">
+                      <tr [formGroupName]="i">
+
+                        <td>
+                          <p *ngIf="i>0">{{i}} </p>
+                        </td>
+
+                        <td>
+                          <input formControlName="Parametro" class="form-control" type="text" />
+                        </td>
+                        <td>
+                          <input formControlName="Item" class="form-control" type="text" />
+                        </td>
+
+
+                        <td>
+                          <input formControlName="ToleranciaMin" class="form-control" type="text" />
+                        </td>
+
+                        <td>
+                          <input formControlName="ToleranciaMax" class="form-control" type="text" />
+                        </td>
+
+                        <td>
+                          <div class="btn-group" role="group" style="display:flex;" aria-label="...">
+                            <button (click)="removeItemFormFormatoPatamtrosAletas(i)" *ngIf="i" class="btn btn-danger ">
+                              <i class="glyphicon glyphicon glyphicon-minus"></i>
+                            </button>
+                            <button (click)="addItemFormParametroAletas()" class=" btn btn-success  ">
+                              <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Tabla Parametros -->
+          <div *ngIf=" ( formatoModel.TipoFormatoId == '18'  || formatoModel.TipoFormatoId == '19' ) ">
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive-sm table-responsive-md">
+                  <table *ngIf="formFormato.get('Parametros')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
+                    <thead class="titleTable">
+                      <tr class="text-center">
+                        <th scope="col">Id</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Dimension Especifica</th>
+
+                        <th scope="col">ToleranciaMin</th>
+                        <th scope="col">ToleranciaMax</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="font-black center-table" formArrayName="Parametros"
+                           *ngFor="let Parametros of formFormato.get('Parametros').controls; let i = index;">
+                      <tr [formGroupName]="i">
+
+                        <td>
+                          <p *ngIf="i>0">{{i}} </p>
+                        </td>
+
+                        <td>
+                          <input formControlName="Item" class="form-control" type="text" />
+                        </td>
+                        <td>
+                          <input formControlName="DimensionEspecifica" class="form-control" type="text" />
+                        </td>
+
+
+                        <td>
+                          <input formControlName="ToleranciaMin" class="form-control" type="text" />
+                        </td>
+
+                        <td>
+                          <input formControlName="ToleranciaMax" class="form-control" type="text" />
+                        </td>
+
+                        <td>
+                          <div class="btn-group" role="group" style="display:flex;" aria-label="...">
+                            <button (click)="removeItemFormFormatoPatamtros(i)" *ngIf="i" class="btn btn-danger ">
+                              <i class="glyphicon glyphicon glyphicon-minus"></i>
+                            </button>
+                            <button (click)="addItemFormParametro()" class=" btn btn-success  ">
+                              <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla ADENDUM -->
+          <div *ngIf="formatoModel.TipoFormatoId == '18' ">
+            <div *ngIf="formFormato.get('Adendum') | pemarsaAdendumPipe" class="row">
+              <div class="col-12">
+                <div class="table-responsive-sm table-responsive-md">
+                  <table formArrayName="Adendum" class="table table-bordered table-striped col-md-offset-1 col-md-10 ">
+                    <tbody>
+                      <tr *ngFor="let tipos of formFormato.get('Adendum').tipos ">
+                        <th> <p>{{tipos.Valor}} </p></th>
+                        <div *ngIf="tipos.Id ==26">
+                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8">
+
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
+                          </td>
+                        </div>
+                        <div *ngIf="tipos.Id ==27">
+                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i">
+
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
+                          </td>
+                        </div>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <div class="col-md-2 col-md-offset-4 text-right">
+                <button [routerLink]="['/formato']" type="button" class="btn btn-md">Regresar</button>
+              </div>
+              <div class="col-md-5">
+                <button type="submit" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
     </div>
   </div>
 </div>
