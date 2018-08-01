@@ -433,7 +433,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("ClienteId");
 
-                    b.Property<bool>("EsHerramientaMotor");
+                    b.Property<bool?>("EsHerramientaMotor");
 
                     b.Property<bool>("EsHerramientaPetrolera");
 

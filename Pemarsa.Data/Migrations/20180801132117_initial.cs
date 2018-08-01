@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pemarsa.Data.Migrations
 {
-    public partial class initalCreate : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -240,16 +240,16 @@ namespace Pemarsa.Data.Migrations
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
                     NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
-                    ClienteId = table.Column<int>(nullable: false),
-                    EsHerramientaMotor = table.Column<bool>(nullable: false),
+                    ClienteId = table.Column<int>(nullable: true),
+                    EsHerramientaMotor = table.Column<bool>(nullable: true),
                     EsHerramientaPetrolera = table.Column<bool>(nullable: false),
-                    EsHerramientaPorCantidad = table.Column<bool>(nullable: false),
-                    EstadoId = table.Column<int>(nullable: false),
-                    EstudioFactibilidadId = table.Column<int>(nullable: false),
+                    EsHerramientaPorCantidad = table.Column<bool>(nullable: true),
+                    EstadoId = table.Column<int>(nullable: true),
+                    EstudioFactibilidadId = table.Column<int>(nullable: true),
                     GuidUsuarioVerifica = table.Column<Guid>(nullable: false),
                     NombreUsuarioVerifica = table.Column<string>(nullable: false),
-                    LineaId = table.Column<int>(nullable: false),
-                    Moc = table.Column<int>(nullable: false),
+                    LineaId = table.Column<int>(nullable: true),
+                    Moc = table.Column<int>(nullable: true),
                     Nombre = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -260,19 +260,19 @@ namespace Pemarsa.Data.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Cliente",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Herramienta_Catalogo_EstadoId",
                         column: x => x.EstadoId,
                         principalTable: "Catalogo",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Herramienta_ClienteLinea_LineaId",
                         column: x => x.LineaId,
                         principalTable: "ClienteLinea",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1421,6 +1421,7 @@ namespace Pemarsa.Data.Migrations
                 columns: table => new
                 {
                     InspeccionId = table.Column<int>(nullable: false),
+                    Activa = table.Column<bool>(nullable: false),
                     ProcesoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

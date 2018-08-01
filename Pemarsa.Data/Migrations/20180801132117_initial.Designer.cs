@@ -9,8 +9,8 @@ using Pemarsa.Data;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180731225332_herramienta-se-quita-requerido-de-cantidad")]
-    partial class herramientasequitarequeridodecantidad
+    [Migration("20180801132117_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -433,9 +433,9 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClienteId");
+                    b.Property<int?>("ClienteId");
 
-                    b.Property<bool>("EsHerramientaMotor");
+                    b.Property<bool?>("EsHerramientaMotor");
 
                     b.Property<bool>("EsHerramientaPetrolera");
 
@@ -1592,8 +1592,7 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ClienteId");
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()

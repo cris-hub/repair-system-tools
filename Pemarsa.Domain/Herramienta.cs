@@ -11,7 +11,7 @@ namespace Pemarsa.Domain
         [ForeignKey("Cliente")]
         public int? ClienteId { get; set; }
 
-        public bool EsHerramientaMotor { get; set; }
+        public bool? EsHerramientaMotor { get; set; }
 
         [Required]
         public bool EsHerramientaPetrolera { get; set; }
