@@ -91,8 +91,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
       .subscribe(response => {
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
           return (
-            c.Inspeccion.TipoInspeccionId
-            == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
+            c.Inspeccion.TipoInspeccionId == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
 
         });

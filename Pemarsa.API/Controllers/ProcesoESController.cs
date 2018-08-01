@@ -28,7 +28,7 @@ namespace Pemarsa.API.Controllers
         {
             _procesoService = procesoService;
             _ordenTrabajoService = ordenTrabajoService;
-            
+
         }
 
         [HttpGet("ConsultarProcesoPorGuid")]
@@ -47,12 +47,27 @@ namespace Pemarsa.API.Controllers
             }
         }
 
-        [HttpGet("ActualizarEstadoProceso")]
+        [HttpPut("ActualizarEstadoProceso")]
         public async Task<IActionResult> ActualizarEstadoProceso([FromQuery]string guidProceso, [FromQuery]string estado)
         {
             try
             {
                 bool actualizo = await _procesoService.ActualizarEstadoProceso(Guid.Parse(guidProceso), estado, new UsuarioDTO());
+                return Ok(actualizo);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPut("ActualizarEstadoInspeccionPieza")]
+        public async Task<IActionResult> ActualizarEstadoInspeccionPieza([FromQuery]string guidProceso, [FromQuery]int pieza , [FromQuery]int estado)
+        {
+            try
+            {
+                bool actualizo = await _procesoService.ActualizarEstadoInspeccionPieza(Guid.Parse(guidProceso), pieza, estado, new UsuarioDTO());
                 return Ok(actualizo);
             }
             catch (Exception e)
@@ -108,7 +123,7 @@ namespace Pemarsa.API.Controllers
             try
             {
 
-                Guid GuidInspeccionCreada = await _procesoService.CrearInspeccion(Guid.Parse(guidProceso),tipoInspeccion, pieza, new UsuarioDTO());
+                Guid GuidInspeccionCreada = await _procesoService.CrearInspeccion(Guid.Parse(guidProceso), tipoInspeccion, pieza, new UsuarioDTO());
 
                 return Ok(GuidInspeccionCreada);
             }
@@ -140,7 +155,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-              
+
                 bool operacionCorrecta = await _procesoService.ActualizarInspección(inspeccion, new UsuarioDTO());
 
                 return Ok(operacionCorrecta);
@@ -150,6 +165,41 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpPut("ActualizarProcesoSugerir")]
+        public async Task<IActionResult> ActualizarProcesoSugerir([FromQuery]string guiidProceso, [FromQuery]string guidProcesoSugerir)
+        {
+            try
+            {
+
+                bool operacionCorrecta = await _procesoService.ActualizarProcesoSugerir(Guid.Parse(guiidProceso), Guid.Parse(guidProcesoSugerir), new UsuarioDTO());
+
+                return Ok(operacionCorrecta);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("ConsultarSiguienteInspeccion")]
+        public async Task<IActionResult> ConsultarSiguienteInspeccion([FromQuery]string guidProceso, [FromQuery]int pieza)
+        {
+            try
+            {
+                Inspeccion inspeccion = await _procesoService.ConsultarSiguienteInspeccion(Guid.Parse(guidProceso), pieza, new UsuarioDTO());
+
+
+                return Ok(inspeccion);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
     }
 }

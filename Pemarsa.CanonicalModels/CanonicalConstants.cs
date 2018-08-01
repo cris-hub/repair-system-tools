@@ -60,11 +60,13 @@ namespace Pemarsa.CanonicalModels
 
                 public struct Inspeccion
                 {
+                    public const string Completada = "Completada";
+                    public const string Pendiente = "Pendiente";
                     public const string EnProceso = "En Proceso";
                     public const string Anulada = "Anulada​";
 
                 }
-
+                public const string EnProceso = "En Proceso";
                 public const string Pendiente = "Pendiente";
                 public const string Asignado = "Asignado​";
                 public const string Completado = "Completado​";

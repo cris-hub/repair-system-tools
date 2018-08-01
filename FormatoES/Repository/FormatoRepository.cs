@@ -26,7 +26,7 @@ namespace FormatoES.Repository
                 formato.Guid = Guid.NewGuid();
                 formato.GuidUsuarioCrea = Guid.NewGuid();
                 formato.NombreUsuarioCrea = "USUARIO CREA";
-                formato.FechaRegistro = new DateTime();
+                formato.FechaRegistro = DateTime.Now;
 
 
                 _context.Formato.Add(formato);

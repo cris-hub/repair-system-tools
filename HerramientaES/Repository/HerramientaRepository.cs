@@ -255,6 +255,7 @@ namespace HerramientaES.Repository
 
                 herramienta.HerramientaEstudioFactibilidad.Guid = Guid.NewGuid();
                 herramienta.HerramientaEstudioFactibilidad.FechaRegistro = DateTime.Now;
+                herramienta.HerramientaEstudioFactibilidad.NombreUsuarioCrea = "admin";
                 if (herramienta.Materiales != null)
                 {
                     foreach (HerramientaMaterial HMaterial in herramienta.Materiales)

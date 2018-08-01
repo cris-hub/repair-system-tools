@@ -88,9 +88,27 @@ namespace Pemarsa.Data.DBInitialize
                         Grupo = CanonicalConstants.Grupos.EstadosProceso,
                     },
                       new Catalogo{
+                        Id = 106,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.EnProceso,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
+                        Id = 107,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Inspeccion.Completada,
+                        Grupo = CanonicalConstants.Grupos.EstadosInspeccion,
+                    },
+                      new Catalogo{
                         Id = 77,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Proceso.Inspeccion.EnProceso,
+                        Grupo = CanonicalConstants.Grupos.EstadosInspeccion,
+                    },
+                      new Catalogo{
+                        Id = 108,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Inspeccion.Pendiente,
                         Grupo = CanonicalConstants.Grupos.EstadosInspeccion,
                     },
                       new Catalogo{
@@ -313,11 +331,7 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensional,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
-                    },new Catalogo{
-                        Id = 105,
-                        Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensionalMotor,
-                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+                    
                     }
                     ,new Catalogo{
                         Id = 66,

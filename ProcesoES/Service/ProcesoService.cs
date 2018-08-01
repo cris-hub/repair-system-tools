@@ -226,6 +226,48 @@ namespace ProcesoES.Service
                 }
             }
         }
+
+        public async Task<bool> ActualizarProcesoSugerir(Guid guidProceso, Guid guidProcesoSegurido, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                bool accionCorrecta = await _procesoRepository.ActualizarProcesoSugerir(guidProceso, guidProcesoSegurido, usuarioDTO);
+                return accionCorrecta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid,int pieza, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                Inspeccion inspeccion = await _procesoRepository.ConsultarSiguienteInspeccion(guid, pieza, usuarioDTO);
+                return inspeccion;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarEstadoInspeccionPieza(Guid guid, int pieza, int estado, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                bool accionRealizada = await _procesoRepository.ActualizarEstadoInspeccionPieza(guid, pieza, estado, usuarioDTO);
+                return accionRealizada;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            };
+        }
     }
 
 

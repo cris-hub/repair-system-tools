@@ -54,7 +54,7 @@ export class VisualDimensionalComponent implements OnInit {
 
 
   constructor(
-    private location :Location,
+    private location: Location,
     private procesoService: ProcesoService,
     private parametroService: ParametroService,
     private toastrService: ToastrService,
@@ -102,12 +102,12 @@ export class VisualDimensionalComponent implements OnInit {
 
 
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
-        
+
       });
   }
   consultarParatros() {
     this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      
+
       this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
 
     })
@@ -123,7 +123,7 @@ export class VisualDimensionalComponent implements OnInit {
     if (this.esFormularioValido) {
       this.actualizarDatos()
     }
-    
+
   }
   actualizarDatos() {
     this.loaderService.display(true)
@@ -147,7 +147,7 @@ export class VisualDimensionalComponent implements OnInit {
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formInpeccionVisualDimensional = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos,Validators.required],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos ? '' : ''],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       ObservacionesInspeccion: [this.inspeccion.ObservacionesInspeccion, Validators.required],
@@ -159,7 +159,10 @@ export class VisualDimensionalComponent implements OnInit {
   private asignarDataDesdeElFormulario() {
     delete this.formInpeccionVisualDimensional.value['InspeccionFotos']
     delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
+
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
+    delete this.formInpeccionVisualDimensional.controls['InspeccionFotos']
+
   }
 
 
@@ -171,22 +174,22 @@ export class VisualDimensionalComponent implements OnInit {
 
     this.formDimensionales = this.formInpeccionVisualDimensional.get('Dimensionales') as FormArray;
 
-    
+
 
 
     while (this.inspeccion.Dimensionales.length < 3) {
       this.inspeccion.Dimensionales.push(new InspeccionDimensionalOtroModel())
 
     }
-    
+
     this.inspeccion.Dimensionales.forEach(p => {
       let form = this.formBuider.group({});
-      
-      form.addControl('Tolerancia', new FormControl(p.Tolerancia,Validators.required));
-      form.addControl('MedidaActual', new FormControl(p.MedidaActual,Validators.required));
-      form.addControl('MedidaNominal', new FormControl(p.MedidaNominal,Validators.required ));
-      form.addControl('Conformidad', new FormControl(p.MedidaNominal,Validators.required));
-      
+
+      form.addControl('Tolerancia', new FormControl(p.Tolerancia, Validators.required));
+      form.addControl('MedidaActual', new FormControl(p.MedidaActual, Validators.required));
+      form.addControl('MedidaNominal', new FormControl(p.MedidaNominal, Validators.required));
+      form.addControl('Conformidad', new FormControl(p.MedidaNominal, Validators.required));
+
       this.formDimensionales.push(form);
     })
 
@@ -240,7 +243,7 @@ export class VisualDimensionalComponent implements OnInit {
       valido = false;
     }
     return valido;
-  } 
+  }
   private documentosSubidosValido(valido: boolean) {
     if (this.inspeccion.InspeccionFotos.length < this.DocumetosRestantes) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes);
@@ -351,6 +354,7 @@ export class VisualDimensionalComponent implements OnInit {
         archivo.Extension = this.obtenerExtensionArchivo(e)
         archivo.NombreArchivo = this.obtenerNombreArchivo(file)
         archivo.Stream = this.obtenerStreamArchivo(e);
+        //this.
       }
 
       return archivo;

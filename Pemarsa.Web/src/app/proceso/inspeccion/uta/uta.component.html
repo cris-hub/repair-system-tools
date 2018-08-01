@@ -7,7 +7,7 @@
 
     </legend>
   </fieldset>
-  <form [formGroup]="formulario" (ngSubmit)="procesar">
+  <form [formGroup]="formulario" (ngSubmit)="procesar()">
     <div class="col-md-11 contenido-interno">
 
       <!-- observacion -->
@@ -31,7 +31,7 @@
 
         <div class="col-md-auto image-upload">
           <label for="file-input-ultrasonido">
-            <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+            <span class="badge"> {{DocumetosRestantesImagenPantallaUltrasonido}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
           </label>
           <input id="file-input-ultrasonido" formControlName="ImagenPantallaUltrasonido" validacion [validaciones]="['requerido']" (change)="addFileUltrasonido($event)" type="file" />
         </div>
@@ -52,7 +52,7 @@
 
           <div class="col-md-auto image-upload">
             <label for="file-input-previa-ultrasonido">
-              <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span class="badge"> {{DocumetosRestantesImagenUltrasonidoPrevia}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
             </label>
             <input id="file-input-previa-ultrasonido" formControlName="ImagenUltrasonidoPrevia" validacion [validaciones]="['requerido']" (change)="addFilePreviaUltrasonido($event)" type="file" />
           </div>
@@ -71,7 +71,7 @@
 
           <div class="col-md-auto image-upload">
             <label for="file-input-ultrasonido-durante">
-              <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span class="badge"> {{DocumetosRestantesImagenUltrasonidoDurante}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
             </label>
             <input id="file-input-ultrasonido-durante" formControlName="ImagenUltrasonidoDurante" validacion [validaciones]="['requerido']" (change)="addFileDuranteInspeccionUltrasonido($event)" type="file" />
           </div>
@@ -90,7 +90,7 @@
 
           <div class="col-md-auto image-upload">
             <label for="file-input-addfiledespuesinspeccionultrasonido">
-              <span class="badge"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span class="badge"> {{DocumetosRestantesImagenUltrasonidoDespues}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
             </label>
             <input id="file-input-addfiledespuesinspeccionultrasonido" formControlName="ImagenUltrasonidoDespues" validacion [validaciones]="['requerido']"  (change)="addFileDespuesInspeccionUltrasonido($event)" type="file" />
           </div>

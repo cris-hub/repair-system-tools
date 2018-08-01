@@ -10,6 +10,7 @@ import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
 import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion';
 import { pemarsaAdendumPipe } from '../pipes/pemarsaAdendumPipe';
 import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdendumPorTipoPipe';
+import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdend
     ValidacionDirective,
     AutocompletarComponent,
     PemarsaStringFormat,
+    SugerirProcesoComponent,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     filtrarColumnasAdendumPorTipoPipe,
@@ -34,6 +36,7 @@ import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdend
     PaginationComponent,
     ConfirmacionComponent,
     ValidacionDirective,
+    SugerirProcesoComponent,
     AutocompletarComponent,
     PemarsaStringFormat,
     filterEstadoConexionPorConexion,

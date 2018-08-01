@@ -431,17 +431,17 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClienteId");
+                    b.Property<int?>("ClienteId");
 
                     b.Property<bool>("EsHerramientaMotor");
 
                     b.Property<bool>("EsHerramientaPetrolera");
 
-                    b.Property<bool>("EsHerramientaPorCantidad");
+                    b.Property<bool?>("EsHerramientaPorCantidad");
 
-                    b.Property<int>("EstadoId");
+                    b.Property<int?>("EstadoId");
 
-                    b.Property<int>("EstudioFactibilidadId");
+                    b.Property<int?>("EstudioFactibilidadId");
 
                     b.Property<DateTime?>("FechaModifica");
 
@@ -457,9 +457,9 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid>("GuidUsuarioVerifica");
 
-                    b.Property<int>("LineaId");
+                    b.Property<int?>("LineaId");
 
-                    b.Property<int>("Moc");
+                    b.Property<int?>("Moc");
 
                     b.Property<string>("Nombre")
                         .IsRequired();
@@ -1365,6 +1365,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("ProcesoId");
 
+                    b.Property<bool>("Activa");
+
                     b.HasKey("InspeccionId", "ProcesoId");
 
                     b.HasIndex("ProcesoId");
@@ -1588,18 +1590,15 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ClienteId");
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
-                        .HasForeignKey("EstadoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EstadoId");
 
                     b.HasOne("Pemarsa.Domain.ClienteLinea", "Linea")
                         .WithMany()
-                        .HasForeignKey("LineaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LineaId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.HerramientaEstudioFactibilidad", b =>
