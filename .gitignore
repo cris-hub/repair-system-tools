@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 *.dll
+/Pemarsa.Web/wwwroot
+
+# config
+/Pemarsa.Web/src/assets/config

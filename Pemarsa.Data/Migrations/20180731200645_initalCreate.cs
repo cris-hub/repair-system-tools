@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pemarsa.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class initalCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,6 +49,23 @@ namespace Pemarsa.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Consulta", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FormatoParametro",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DimensionEspecifica = table.Column<string>(nullable: true),
+                    Item = table.Column<string>(nullable: true),
+                    Parametro = table.Column<string>(nullable: true),
+                    ToleranciaMax = table.Column<string>(nullable: true),
+                    ToleranciaMin = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FormatoParametro", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,6 +293,7 @@ namespace Pemarsa.Data.Migrations
                     Codigo = table.Column<string>(nullable: true),
                     TPI = table.Column<string>(nullable: true),
                     TPF = table.Column<string>(nullable: true),
+                    Version = table.Column<int>(nullable: false),
                     HerramientaId = table.Column<int>(nullable: true),
                     EsFormatoAdjunto = table.Column<bool>(nullable: true),
                     EspecificacionId = table.Column<int>(nullable: true),
@@ -482,8 +500,8 @@ namespace Pemarsa.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Posicion = table.Column<int>(nullable: false),
-                    TipoId = table.Column<int>(nullable: true),
                     Valor = table.Column<string>(nullable: true),
+                    TipoId = table.Column<int>(nullable: true),
                     FormatoId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -504,27 +522,34 @@ namespace Pemarsa.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FormatoParametro",
+                name: "FormatoFormatoParametro",
                 columns: table => new
                 {
-                    DimensionEspecifica = table.Column<string>(nullable: true),
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Item = table.Column<string>(nullable: true),
-                    Parametro = table.Column<string>(nullable: true),
-                    ToleranciaMax = table.Column<string>(nullable: true),
-                    ToleranciaMin = table.Column<string>(nullable: true),
-                    FormatoId = table.Column<int>(nullable: true)
+                    FormatoId = table.Column<int>(nullable: false),
+                    TipoFormatoParametroId = table.Column<int>(nullable: false),
+                    FormatoParametroId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FormatoParametro", x => x.Id);
+                    table.PrimaryKey("PK_FormatoFormatoParametro", x => new { x.FormatoId, x.FormatoParametroId });
                     table.ForeignKey(
-                        name: "FK_FormatoParametro_Formato_FormatoId",
+                        name: "FK_FormatoFormatoParametro_Formato_FormatoId",
                         column: x => x.FormatoId,
                         principalTable: "Formato",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FormatoFormatoParametro_FormatoParametro_FormatoParametroId",
+                        column: x => x.FormatoParametroId,
+                        principalTable: "FormatoParametro",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FormatoFormatoParametro_Catalogo_TipoFormatoParametroId",
+                        column: x => x.TipoFormatoParametroId,
+                        principalTable: "Catalogo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -547,6 +572,7 @@ namespace Pemarsa.Data.Migrations
                     FechaDePreparacion = table.Column<DateTime>(nullable: true),
                     InspeccionLuzNegra = table.Column<bool>(nullable: true),
                     InspeccionParticulasMagneticas = table.Column<bool>(nullable: true),
+                    InspeccionYoke = table.Column<bool>(nullable: false),
                     IntensidadLuzBlanca = table.Column<int>(nullable: true),
                     IntensidadLuzNegra = table.Column<int>(nullable: true),
                     Lote = table.Column<int>(nullable: true),
@@ -566,7 +592,7 @@ namespace Pemarsa.Data.Migrations
                     EstadoId = table.Column<int>(nullable: true),
                     TipoDeLiquidosId = table.Column<int>(nullable: true),
                     TipoInspeccionId = table.Column<int>(nullable: false),
-                    TurboPatronId = table.Column<int>(nullable: true),
+                    TuboPatronId = table.Column<int>(nullable: true),
                     ImagenMedicionEspesoresId = table.Column<int>(nullable: true),
                     ImagenMflId = table.Column<int>(nullable: true),
                     ImagenPantallaUltrasonidoId = table.Column<int>(nullable: true),
@@ -651,8 +677,8 @@ namespace Pemarsa.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Inspeccion_Catalogo_TurboPatronId",
-                        column: x => x.TurboPatronId,
+                        name: "FK_Inspeccion_Catalogo_TuboPatronId",
+                        column: x => x.TuboPatronId,
                         principalTable: "Catalogo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -970,7 +996,7 @@ namespace Pemarsa.Data.Migrations
                     EstadoId = table.Column<int>(nullable: false),
                     TipoConexionId = table.Column<int>(nullable: false),
                     InspeccionId = table.Column<int>(nullable: false),
-                    FormatoId = table.Column<int>(nullable: false)
+                    InspeccionConexionFormatoId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -988,11 +1014,11 @@ namespace Pemarsa.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InspeccionConexion_InspeccionConexionFormato_FormatoId",
-                        column: x => x.FormatoId,
+                        name: "FK_InspeccionConexion_InspeccionConexionFormato_InspeccionConex~",
+                        column: x => x.InspeccionConexionFormatoId,
                         principalTable: "InspeccionConexionFormato",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_InspeccionConexion_Inspeccion_InspeccionId",
                         column: x => x.InspeccionId,
@@ -1524,9 +1550,14 @@ namespace Pemarsa.Data.Migrations
                 column: "TipoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FormatoParametro_FormatoId",
-                table: "FormatoParametro",
-                column: "FormatoId");
+                name: "IX_FormatoFormatoParametro_FormatoParametroId",
+                table: "FormatoFormatoParametro",
+                column: "FormatoParametroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FormatoFormatoParametro_TipoFormatoParametroId",
+                table: "FormatoFormatoParametro",
+                column: "TipoFormatoParametroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Herramienta_ClienteId",
@@ -1630,9 +1661,9 @@ namespace Pemarsa.Data.Migrations
                 column: "TipoInspeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inspeccion_TurboPatronId",
+                name: "IX_Inspeccion_TuboPatronId",
                 table: "Inspeccion",
-                column: "TurboPatronId");
+                column: "TuboPatronId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InspeccionConexion_ConexionId",
@@ -1645,9 +1676,9 @@ namespace Pemarsa.Data.Migrations
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InspeccionConexion_FormatoId",
+                name: "IX_InspeccionConexion_InspeccionConexionFormatoId",
                 table: "InspeccionConexion",
-                column: "FormatoId");
+                column: "InspeccionConexionFormatoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InspeccionConexion_InspeccionId",
@@ -2079,7 +2110,7 @@ namespace Pemarsa.Data.Migrations
                 name: "FormatoAdendum");
 
             migrationBuilder.DropTable(
-                name: "FormatoParametro");
+                name: "FormatoFormatoParametro");
 
             migrationBuilder.DropTable(
                 name: "HerramientaEstudioFactibilidad");
@@ -2128,6 +2159,9 @@ namespace Pemarsa.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SolicitudOrdenTrabajoAnexos");
+
+            migrationBuilder.DropTable(
+                name: "FormatoParametro");
 
             migrationBuilder.DropTable(
                 name: "InspeccionConexionFormato");

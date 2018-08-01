@@ -1,33 +1,33 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
-<div class="modal-dialog" role="document" style="margin-top: 150px !important;">
+<div class="modal-dialog" role="document">
   <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>{{accion}} Linea</b></h5>
+    <div class="modal-header panelModal text-center">
+      <h3 class="modal-title">{{accion}} línea</h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+        <span class="font-white" aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <form [formGroup]="frmLineaCliente">
         <div class="form-group">
-          <label for="Nombre" style="color: #6c757d;"><b>*Nombre de linea</b></label>
+          <label for="Nombre"><b>*Nombre de linea</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="Nombre" placeholder="Nombre de linea">
         </div>
         <div class="form-group">
-          <label for="ContactoNombre" style="color: #6c757d;"><b>*Nombre Contacto</b></label>
+          <label for="ContactoNombre"><b>*Nombre Contacto</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="ContactoNombre" placeholder="Nombre Contacto">
         </div>
         <div class="form-group">
-          <label for="ContactoTelefono" style="color: #6c757d;"><b>*Teléfono de Contacto</b></label>
+          <label for="ContactoTelefono"><b>*Teléfono de Contacto</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="ContactoTelefono" placeholder="Teléfono de contacto">
         </div>
         <div class="form-group">
-          <label for="ContactoCorreo" style="color: #6c757d;"><b>*Correo de Contacto</b></label>
+          <label for="ContactoCorreo"><b>*Correo de Contacto</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="ContactoCorreo" placeholder="Correo de Contacto">
         </div>
         <div class="form-group">
-          <label for="Direccion" style="color: #6c757d;"><b>*Direccion</b></label>
+          <label for="Direccion"><b>*Direccion</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="Direccion" placeholder="Direccion">
         </div>
       </form>
