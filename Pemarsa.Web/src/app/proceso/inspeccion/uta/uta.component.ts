@@ -200,7 +200,7 @@ export class UTAComponent implements OnInit {
       ImagenPantallaUltrasonido: [inspeccion.ImagenPantallaUltrasonido, Validators.required],
       Observaciones: [inspeccion.Observaciones, Validators.required],
       TuboPatronId: [inspeccion.TuboPatronId, Validators.required],
-      EstaConforme: [inspeccion.EstaConforme, Validators.required],
+      EstaConforme: [inspeccion.EstaConforme],
     });
 
 

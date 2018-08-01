@@ -50,7 +50,7 @@ export class LPIComponent implements OnInit {
   private esFormularioValido: Boolean = false;
 
   constructor(
-    private location:Location,
+    private location: Location,
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private parametroService: ParametroService,
@@ -100,7 +100,7 @@ export class LPIComponent implements OnInit {
 
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
-        this.DocumetoMinimos = this.inspeccion.InspeccionFotos.length>0 ? 0 : 1;
+        this.DocumetoMinimos = this.inspeccion.InspeccionFotos.length > 0 ? 0 : 1;
         console.log(this.inspeccion)
       }, error => {
 
@@ -137,7 +137,7 @@ export class LPIComponent implements OnInit {
   ValorMostrar =
     (x: { Valor: string, x: number }) => x.Valor;
 
-  selectItem(event) {
+  selectItem(event,input) {
     if (!event.item) {
       return
     }
@@ -148,6 +148,8 @@ export class LPIComponent implements OnInit {
       EquipoUtilizado: event.item
     });
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
+    event.preventDefault();
+    input.value = '';
 
   }
 
@@ -242,7 +244,7 @@ export class LPIComponent implements OnInit {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
       InspeccionFotos: [this.inspeccion.InspeccionFotos],
-      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
+      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       TemperaturaDePieza: [this.inspeccion.TemperaturaDePieza, Validators.required],
@@ -294,11 +296,15 @@ export class LPIComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantes <= 0 || files.length > this.DocumetosRestantes) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-    
+    if (files.length > this.DocumetosRestantes) {
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
+      return;
+    }
+
 
 
     for (var i = 0; i < files.length; i++) {
@@ -308,8 +314,10 @@ export class LPIComponent implements OnInit {
 
       this.inspeccion.InspeccionFotos.push(inspeccionFotos);
 
+      if (this.DocumetosRestantes == 5) {
+        this.DocumetoMinimos -= 1
+      }
       this.DocumetosRestantes -= 1;
-
 
     }
 

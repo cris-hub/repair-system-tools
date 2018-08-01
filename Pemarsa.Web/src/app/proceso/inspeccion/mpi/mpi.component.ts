@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AttachmentModel, ProcesoModel, InspeccionModel, InspeccionFotosModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcesoService } from '../../../common/services/entity';
@@ -23,6 +23,7 @@ import { Location } from '@angular/common';
 export class MPIComponent implements OnInit {
 
   @ViewChild('instance') instance: NgbTypeahead;
+  @ViewChild('InspeccionEquipoUtilizado') InspeccionEquipoUtilizado: ElementRef;
 
   //carga archivos
   private lectorArchivos: FileReader;
@@ -128,18 +129,24 @@ export class MPIComponent implements OnInit {
     (x: { Valor: string, x: number }) => x.Valor;
 
   //elementos seleccionados
-  selectItem(event) {
+  selectItem(event,input) {
     if (!event.item) {
-      return
+      return 
     }
+    
 
     this.inspeccion.InspeccionEquipoUtilizado.push(<InspeccionEquipoUtilizadoModel>{
       EquipoUtilizadoId: event.item.Id,
       InspeccionId: this.inspeccion.Id,
       EquipoUtilizado: event.item
     });
+    
+    
+
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
 
+    event.preventDefault();
+    input.value = '';
   }
   removerDeListaAMostrar(EquiposMedicionUsado: EntidadModel[], objetoEliminar: EntidadModel) {
     let index = EquiposMedicionUsado.findIndex(c => c.Id == objetoEliminar.Id);
@@ -153,7 +160,10 @@ export class MPIComponent implements OnInit {
   añadirAlistaMostrar(EquiposMedicionUsado: EntidadModel[], objetoAñadir: EntidadModel) {
     EquiposMedicionUsado.push(objetoAñadir);
   }
-
+  limpiar() {
+    this.InspeccionEquipoUtilizado.nativeElement.value = '';
+    
+  }
 
 
   //persistir
@@ -227,7 +237,7 @@ export class MPIComponent implements OnInit {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
       InspeccionFotos: [this.inspeccion.InspeccionFotos?'':'', Validators.required],
-      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
+      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       InspeccionParticulasMagneticas: [this.inspeccion.InspeccionParticulasMagneticas, Validators.required],
@@ -252,7 +262,7 @@ export class MPIComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantes <= 0 || files.length > this.DocumetosRestantes) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
@@ -260,7 +270,6 @@ export class MPIComponent implements OnInit {
       this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
-
 
     for (var i = 0; i < files.length; i++) {
       let inspeccionFotos = new InspeccionFotosModel();

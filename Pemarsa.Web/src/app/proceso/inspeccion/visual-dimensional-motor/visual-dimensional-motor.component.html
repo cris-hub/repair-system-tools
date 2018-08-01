@@ -128,8 +128,8 @@
                  [ngbTypeahead]="search"
                  [resultFormatter]="ValorMostrar"
                  [inputFormatter]="ValorFiltrar"
-                 (selectItem)="selectItem($event)"
-                 validacion [validaciones]="['requerido']"
+                 (selectItem)="selectItem($event,input)"
+                 #input
                  formControlName="InspeccionEquipoUtilizado" />
 
         </div>

@@ -152,7 +152,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
       InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
-      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
+      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
 
       Conexiones: this.formBuider.array([])
     });
@@ -268,7 +268,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
     (x: { Valor: string, x: number }) => x.Valor;
 
   //elementos seleccionados
-  selectItem(event) {
+  selectItem(event,input) {
     if (!event.item) {
       return
     }
@@ -279,7 +279,8 @@ export class VisualDimensionalMotorComponent implements OnInit {
       EquipoUtilizado: event.item
     });
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
-
+    event.preventDefault();
+    input.value = '';
   }
   removerDeListaAMostrar(EquiposMedicionUsado: EntidadModel[], objetoEliminar: EntidadModel) {
     let index = EquiposMedicionUsado.findIndex(c => c.Id == objetoEliminar.Id);
@@ -301,13 +302,12 @@ export class VisualDimensionalMotorComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (files.length > this.DocumetosRestantes) {
-      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
+    if (this.DocumetosRestantes <= 0 || files.length > this.DocumetosRestantes) {
+      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-
-    if (this.DocumetosRestantes <= 0) {
-      this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
+    if (files.length > this.DocumetosRestantes) {
+      this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
 

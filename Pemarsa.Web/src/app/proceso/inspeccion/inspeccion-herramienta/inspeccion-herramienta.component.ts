@@ -22,10 +22,12 @@ import { SugerirProcesoComponent } from '../../../coordinador/sugerir-proceso/su
 export class InspeccionHerramientaComponent implements OnInit {
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
 
-
+  //Proceso
   private Proceso: ProcesoModel = new ProcesoModel();
   private Inspeccion: InspeccionModel = new InspeccionModel();
   public estadoProceso: string;
+
+  //catalogo
   private Parametros: ParametrosModel;
   private tipoProcesoActual: CatalogoModel = new CatalogoModel();
   private anexos: AttachmentModel[] = new Array<AttachmentModel>();
@@ -33,6 +35,9 @@ export class InspeccionHerramientaComponent implements OnInit {
   private tiposInspecciones: CatalogoModel[] = new Array<CatalogoModel>();
   private tipoInspeccion: number;
   private tiposInspeccionesSeleccionadas: CatalogoModel[] = new Array<CatalogoModel>();
+
+  //validaciones
+  public tieneProcesoSugerido: boolean = false;
   private esPieza: boolean = false;
   private inspeccionesEnProceso: boolean = true;
   private iniciarProcesar = false;
@@ -59,7 +64,6 @@ export class InspeccionHerramientaComponent implements OnInit {
     this.consultarProceso();
 
   }
-
 
   //Consultar
   consultarProceso() {
@@ -88,6 +92,9 @@ export class InspeccionHerramientaComponent implements OnInit {
       }
     );
   }
+
+
+
   obtenerTipoProceso(tiposProcesos: CatalogoModel[], procesoDesdeUrl: string) {
     this.tipoProcesoActual = tiposProcesos.find(proceso => { return proceso.Valor.toLowerCase().includes(procesoDesdeUrl) });
 
@@ -95,11 +102,12 @@ export class InspeccionHerramientaComponent implements OnInit {
   obtenerEstadosDeLaInspeccion() {
     if (this.tiposInspeccionesSeleccionadas.length > 0) {
 
-
-
-
       if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[107])) {
         this.inspeccionesTerminada = true
+        if (this.Proceso.TipoProcesoSiguienteSugeridoId) {
+          this.tieneProcesoSugerido = true
+        }
+
       } else {
         this.inspeccionesTerminada = false
 
@@ -112,13 +120,28 @@ export class InspeccionHerramientaComponent implements OnInit {
     }
   }
 
+  completarProcesoInspeccion(guidProceso: string) {
+    debugger
+    if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA ).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+      this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response) {
+          this.router.navigate(['inspeccion/entrada'])
+        };
+      });
+    }
+  }
+
   consultarSiguienteInspeccion(guidProceso: string) {
+
     console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
     if (this.Proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerProcesoDesdeUrl().get('pieza') && this.procesoService.iniciarProcesar) {
 
       this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
         this.Inspeccion = response;
+
         if (response == null) {
+          this.completarProcesoInspeccion(guidProceso);
+          this.procesoService.iniciarProcesar = false;
           return
         }
         this.router.navigate([
@@ -162,7 +185,6 @@ export class InspeccionHerramientaComponent implements OnInit {
   private accionRealizar() {
     this.activedRoute.snapshot.url.forEach(url => url.path == 'procesar' || url.path == 'editar' || url.path == 'ver' ? this.accion = url.path : this.accion = undefined);
   }
-
   obtenerTipoInspeccionDesdeUrl(): string {
     return this.activedRoute.snapshot.url[1].path;
   }
@@ -183,17 +205,15 @@ export class InspeccionHerramientaComponent implements OnInit {
 
 
   //Validaciones
-
   esListaPieza() {
     if (this.Proceso.CantidadInspeccion > 1 && !this.obtenerPiezadesdeUrl()) {
       return true
     } else {
-      
+
 
       return false
     }
   }
-
   esPiezaUnica() {
     if (this.obtenerPiezadesdeUrl() || this.Proceso.CantidadInspeccion == 1) {
       return true
@@ -202,8 +222,6 @@ export class InspeccionHerramientaComponent implements OnInit {
       return false
     }
   }
-
-
 
   //Herramientas Inspeccionar Rango Por cantidad inpeccionar De la orden de trabajo
   rangoHerramientasInspeccionar(cantidadInspeccionar) {
@@ -215,22 +233,23 @@ export class InspeccionHerramientaComponent implements OnInit {
     return items;
   }
 
-
   //persistir
   procesar() {
     this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, 'En Proceso').subscribe(response => {
       response;
+      if (this.tiposInspeccionesSeleccionadas.length > 0) {
 
-      this.procesoService.actualizarEstadoInspeccionPieza(this.Proceso.Guid, this.obtenerProcesoDesdeUrl().get('pieza'), ESTADOS_INSPECCION.ENPROCESO).subscribe(response => {
-        if (response) {
-          this.procesoService.iniciarProcesar = response
+        this.procesoService.actualizarEstadoInspeccionPieza(this.Proceso.Guid, this.obtenerProcesoDesdeUrl().get('pieza'), ESTADOS_INSPECCION.ENPROCESO).subscribe(response => {
+          if (response) {
+            this.procesoService.iniciarProcesar = response
 
-        }
-      }, errorResponse => errorResponse, () => {
-        this.consultarProceso()
+          }
+        }, errorResponse => errorResponse, () => {
+          this.consultarProceso()
 
 
-      });
+        });
+      }
 
     }, errorResponse => { },
       () => {
@@ -371,4 +390,13 @@ export class InspeccionHerramientaComponent implements OnInit {
 
     }
   }
+
+  regresar() {
+    this.router.navigate([
+      'inspeccion/entrada/' +
+      this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+      this.obtenerProcesoDesdeUrl().get('accion')]);
+
+  }
+
 }

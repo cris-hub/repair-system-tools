@@ -13,7 +13,8 @@
       </div>
     </div>
     <div class="col-md-11 contenido-interno">
-      <form [formGroup]="formularioOrdenTrabajo" class="form-horizontal">
+      <form [formGroup]="formularioOrdenTrabajo" (ngSubmit)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar de ' + accionRealizarTituloPagina + ' de la orden ?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
+            class="form-horizontal">
 
         <fieldset>
           <legend>
@@ -47,41 +48,39 @@
 
         <div class="form-group">
 
-          <label class="col-md-2 form-label" id="corre"> Anexos:</label>
+          <label class="col-md-2 form-label" id="corre"> Anexos</label>
+
+
+
+          <div class="col-md-3">
+            <div *ngFor="let anexo of ordenTrabajo.Anexos">
+              <div class="form-group row">
+                <div class="col-md-12">
+
+
+                  <div class="contenedor well well-sm">
+                    {{anexo.DocumentoAdjunto.NombreArchivo}}
+                    <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                    <a href="{{anexo.DocumentoAdjunto.Ruta}}" class="pull-right">
+                      <i class="glyphicon glyphicon-download"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div class="col-md-1 image-upload">
             <label for="file-input">
               <i class="glyphicon glyphicon-paperclip pointer"></i>
             </label>
-            <input (change)="addFile($event)" id="file-input" type="file" multiple />
+            <input (change)="addFile($event)" id="file-input" type="file" />
           </div>
-
-          <div class="col-md-3 panel panel-default">
-            <div class="panel-heading">
-              <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-              <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-                <i class="glyphicon glyphicon-chevron-down"></i>
-              </span>
-            </div>
-            <div>
-            </div>
-            <div id="archivos" class="panel-collapse panel-collapse collapse">
-              <div class="panel-body">
-                <ul>
-                  <li *ngFor="let anexo of ordenTrabajo.Anexos">
-                    <p>{{anexo.DocumentoAdjunto.NombreArchivo}}<a href="{{anexo.DocumentoAdjunto.Ruta}}" class="pull-right"><i class="glyphicon glyphicon-download"></i></a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus"></i></p>
-
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
 
           <div class="col-md-6">
-            <label class="col-md-2 control-label" id="corre"> Tipo Servicio:</label>
+            <label class="col-md-2 control-label" id="corre"> Tipo Servicio</label>
             <div formGroupName="TipoServicio" class="form-group col-md-9 ">
-              <select formControlName="Id" class=" form-control-lg form-control select">
+              <select formControlName="Id" validacion [validaciones]="['requerido']" class=" form-control-lg form-control select">
                 <option *ngFor="let tipoServicio of parametrosTipoServicio.Catalogos" value="{{tipoServicio.Id}}">{{tipoServicio.Valor}}</option>
               </select>
             </div>
@@ -91,21 +90,21 @@
 
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Cliente : </label>
+          <label class="col-md-2 control-label">Cliente </label>
           <div class="col-md-9 ">
             <div class="form-group">
 
               <div class="controls">
                 <input type="text" class="form-control" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
                        [resultFormatter]="formatoValorMostrar" [inputFormatter]="formatoValorMostrar" (selectItem)="cambioItemEvent($event)"
-                       formControlName="Cliente" />
+                       formControlName="Cliente" validacion [validaciones]="['requerido']" />
               </div>
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Linea : </label>
+          <label class="col-md-2 control-label">Linea </label>
           <div class="col-md-4 ">
             <div class="form-group">
 
@@ -115,7 +114,7 @@
               </div>
             </div>
           </div>
-          <label class="col-md-2 control-label">Serial herramienta: </label>
+          <label class="col-md-2 control-label">Serial herramienta</label>
           <div class="col-md-3 ">
             <div class="form-group">
               <div class="controls">
@@ -129,13 +128,20 @@
 
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Herramienta : </label>
+          <label class="col-md-2 control-label">Herramienta  </label>
           <div class="col-md-9 ">
 
-            <p-autoComplete [(ngModel)]="herramienta" size="93px" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
-                            placeholder="herramienta" [suggestions]="herraminetasview" formControlName="Herramienta" field="Nombre"
+
+
+            <input type="text" class="form-control" [(ngModel)]="herramienta" [ngbTypeahead]="buscarConcidenciaHerramienta"
+                   [resultFormatter]="formatoValorMostrarHerramienta" [inputFormatter]="formatoValorMostrarHerramienta" (selectItem)="cambioItemEvent($event)"
+                   formControlName="Herramienta" validacion [validaciones]="['requerido']" />
+
+
+            <!--<p-autoComplete [(ngModel)]="herramienta" size="93px" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
+                            placeholder="herramienta" [suggestions]="herraminetasview" validacion [validaciones]="['requerido']" formControlName="Herramienta" field="Nombre"
                             (completeMethod)="buscarConcidenciaHerramienta($event)">
-            </p-autoComplete>
+            </p-autoComplete>-->
 
           </div>
         </div>
@@ -143,21 +149,19 @@
 
         <div class="form-group">
 
-          <div formGroupName="TamanoHerramienta" *ngIf="herramienta">
-            <label class="col-md-2 control-label">Tamaño herramienta : </label>
-            <div class="col-md-4 ">
-              <select formControlName="Id" class=" form-control-lg form-control select">
+          <div formGroupName="TamanoHerramienta" class="col-md-5 col-md-offset-1">
+            <label class="control-label col-md-2">Tamaño herramienta</label>
+            <div *ngIf="herramienta"  class="col-md-8">
+              <select formControlName="Id" validacion [validaciones]="['requerido']" class=" form-control-lg form-control select">
                 <option *ngFor="let tamano of herramienta.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
               </select>
             </div>
           </div>
 
-
-
           <div class="col-md-6">
-            <label class="col-md-3 control-label">Prioridad : </label>
-            <div class="form-group col-md-8  ">
-              <select formControlName="PrioridadId" class=" form-control-lg form-control select">
+            <label class="control-label col-md-3">Prioridad</label>
+            <div class=" col-md-8">
+              <select formControlName="PrioridadId" validacion [validaciones]="['requerido']" class=" form-control-lg form-control select">
                 <option *ngFor="let Prioridad of parametrosPrioridadOrdenTrabajo.Catalogos" value="{{Prioridad.Id}}">{{Prioridad.Valor}}</option>
               </select>
             </div>
@@ -167,27 +171,27 @@
         </div>
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Cantidad : </label>
+          <label class="col-md-2 control-label">Cantidad  </label>
           <div class="col-md-4 ">
-            <input formControlName="Cantidad" type="number" class="form-control">
+            <input formControlName="Cantidad" validacion [validaciones]="['requerido']" type="number" class="form-control">
           </div>
 
-          <label class="col-md-2 control-label">Cantidad inspeccionar : </label>
+          <label class="col-md-2 control-label">Cantidad inspeccionar  </label>
           <div class="col-md-3 ">
-            <input formControlName="CantidadInspeccionar" type="number" class="form-control ">
+            <input formControlName="CantidadInspeccionar" validacion [validaciones]="['requerido']" type="number" class="form-control ">
           </div>
 
         </div>
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Serial material : </label>
+          <label class="col-md-2 control-label">Serial material  </label>
           <div class="col-md-9 ">
             <input formControlName="SerialMaterial" type="text" class="form-control col-md-4">
           </div>
         </div>
 
         <div class="form-group" *ngIf="herramienta.Materiales" formGroupName="Material">
-          <label class="col-md-2 control-label">Materiales herramienta : </label>
+          <label class="col-md-2 control-label">Materiales herramienta  </label>
           <div *ngIf="herramienta.Materiales" class="col-md-9 ">
             <select formControlName="Id" class=" col-md-4 form-control-lg form-control select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
               <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
@@ -198,13 +202,13 @@
 
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Remision cliente:</label>
+          <label class="col-md-2 control-label">Remision cliente</label>
           <div class="col-md-4 ">
-            <input formControlName="RemisionCliente" type="number" class="form-control">
+            <input formControlName="RemisionCliente" validacion [validaciones]="['requerido']" type="number" class="form-control">
 
           </div>
 
-          <label class="col-md-2 control-label">W.O : </label>
+          <label class="col-md-2 control-label">W.O  </label>
           <div class="col-md-3 ">
             <input formControlName="OrdenCompra" type="number" class="form-control ">
             <p class="help-block">Orden Compra</p>
@@ -216,7 +220,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Detalle de la solicitud: </label>
           <div class="col-md-9 ">
-            <textarea formControlName="DetallesSolicitud" class="form-control"></textarea>
+            <textarea formControlName="DetallesSolicitud" validacion [validaciones]="['requerido']" class="form-control"></textarea>
           </div>
         </div>
 
@@ -227,10 +231,9 @@
             </div>
             <div *ngIf="!esVer" class="col-md-5">
               <button type="submit"
-                      (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar de ' + accionRealizarTituloPagina + ' de la orden ?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
                       data-target="#confirmarModal"
                       data-toggle="modal"
-                      class="btn btn-primary btn-md">
+                      class="btn btn-success btn-md">
                 {{accionRealizarTituloPagina}}
               </button>
             </div>

@@ -12,6 +12,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
+import { VALID } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-crear-oit',
@@ -87,6 +88,8 @@ export class CrearOitComponent implements OnInit {
     this.accionRealizar()
     this.obtenerOrdenTrabajoURI();
     this.paginacion = new PaginacionModel(1, 10);
+    this.consultarHerraminetas();
+
     this.consultarParametros();
 
     this.consultarOrdenTrabajo();
@@ -143,6 +146,7 @@ export class CrearOitComponent implements OnInit {
   }
 
   formatoValorMostrar = (x: { NickName: string }) => x.NickName;
+  formatoValorMostrarHerramienta = (x: { Nombre: string }) => x.Nombre;
 
   formatoValorMostrarLinea = (x: { Nombre: string }) => x.Nombre;
 
@@ -173,7 +177,22 @@ export class CrearOitComponent implements OnInit {
 
     }));
 
-  buscarConcidenciaHerramienta(event) {
+
+  buscarConcidenciaHerramienta = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    map(term => {
+      if (term === '_') {
+        return this.herraminetas
+      } else if (term === '')
+        return [];
+      else {
+        return this.herraminetas.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+      }
+
+    }));
+
+
+  buscarConcidenciaHerrmienta(event) {
     if (!this.herraminetas || !(this.herraminetas.length > 0)) {
       this.herraminetasview = new Array<HerramientaModel>();
       this.consultarHerraminetas();
@@ -367,6 +386,10 @@ export class CrearOitComponent implements OnInit {
   }
 
   enviar(data) {
+
+    if (this.formularioOrdenTrabajo.status != 'VALID') {
+      return
+    }
     var objeto = this.asignarValoresFormulario(data);
     this.inicializarFormulario(objeto);
     var objeto = this.asignarValoresFormulario(this.formularioOrdenTrabajo.value);

@@ -88,6 +88,12 @@ namespace Pemarsa.Data.DBInitialize
                         Grupo = CanonicalConstants.Grupos.EstadosProceso,
                     },
                       new Catalogo{
+                        Id = 110,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Proceso.Procesado,
+                        Grupo = CanonicalConstants.Grupos.EstadosProceso,
+                    },
+                      new Catalogo{
                         Id = 106,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Proceso.EnProceso,
@@ -312,6 +318,11 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Rectificado,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
                     },new Catalogo{
+                        Id = 109,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Reasignacion,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
                         Id = 59,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Soldadura,
@@ -331,7 +342,7 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensional,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
-                    
+
                     }
                     ,new Catalogo{
                         Id = 66,
@@ -994,6 +1005,19 @@ namespace Pemarsa.Data.DBInitialize
                             }
                             break;
                         case CanonicalConstants.Grupos.BobinasMagneticas:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = tipo.Id,
+                                    Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.TiposLiquidos:
                             if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == tipo.Id) && (pc.Entidad == CanonicalConstants.Entidades.Inspeccion)).ToList().Count == 0)
                             {
                                 context.ParametroCatalogo.Add

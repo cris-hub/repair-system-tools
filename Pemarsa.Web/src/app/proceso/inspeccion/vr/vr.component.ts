@@ -96,6 +96,8 @@ export class VRComponent implements OnInit {
     this.esFormularioValido ? this.actualizarDatos() : this.asignarDataDesdeElFormulario();
   }
   actualizarDatos() {
+    this.loaderService.display(true)
+
     this.procesoService.actualizarInspección(this.inspeccion).subscribe(
       response => {
         response ?
@@ -104,6 +106,9 @@ export class VRComponent implements OnInit {
         this.location.back();
       }, error => {
         this.toastrService.info(error);
+      }, () => {
+        this.loaderService.display(true)
+
       })
   }
 
@@ -154,7 +159,7 @@ export class VRComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantes <= 0 || files.length > this.DocumetosRestantes) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
