@@ -67,6 +67,7 @@ namespace Pemarsa.CanonicalModels
 
                 }
                 public const string EnProceso = "En Proceso";
+                public const string Procesado = "Procesado";
                 public const string Pendiente = "Pendiente";
                 public const string Asignado = "Asignado​";
                 public const string Completado = "Completado​";
@@ -189,6 +190,7 @@ namespace Pemarsa.CanonicalModels
                     public const string MecanizadoTorno = "Mecanizado Torno";
                     public const string Rectificado = "Rectificado";
                     public const string Soldadura = "Soldadura";
+                    public const string Reasignacion = "Reasignacion";
                 }
 
                 public struct TipoInspeccion

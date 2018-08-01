@@ -48,10 +48,14 @@ namespace ProcesoES.Repository
             {
                 var proceso = await _context.Proceso.FirstOrDefaultAsync(a => a.Guid == guid);
 
-                var estadoId = (await _context.Catalogo.FirstOrDefaultAsync(a => a.Valor == estado && a.Grupo == "ESTADOS_PROCESO"))?.Id;
+                var estadoProceso = (await _context.Catalogo.FirstOrDefaultAsync(a => a.Valor == estado || a.Id == Int32.Parse(estado) &&   a.Grupo == "ESTADOS_PROCESO")) ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
 
-                proceso.EstadoId = estadoId
-                    ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
+                if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
+                {
+                    proceso.TipoProcesoAnteriorId = proceso.TipoProcesoId;
+                    proceso.TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION;
+                }
+                proceso.EstadoId = estadoProceso.Id;
                 proceso.FechaModifica = DateTime.Now;
                 _context.Proceso.Add(proceso);
                 _context.Entry(proceso).State = EntityState.Modified;
@@ -281,6 +285,7 @@ namespace ProcesoES.Repository
                     .Include(proceso => proceso.OrdenTrabajo.Herramienta)
                     .Include(proceso => proceso.OrdenTrabajo.Cliente)
                     .Include(proceso => proceso.Estado)
+                    .Include(proceso => proceso.TipoProcesoAnterior)
                     .Include(proceso => proceso.OrdenTrabajo.Prioridad);
 
 
@@ -290,8 +295,8 @@ namespace ProcesoES.Repository
                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros);
 
-
                 await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
+
 
 
                 var cantidad = await _context.Proceso.CountAsync();
@@ -447,12 +452,16 @@ namespace ProcesoES.Repository
 
                 var query = _context.Inspeccion.Include(d => d.ProcesoInspeccionEntrada).ThenInclude(t => t.Proceso);
                 var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
-                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza);
-                
-                foreach (var item in inpeccion)
+                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA );
+                if (inpeccion.Count()>0)
                 {
-                    item.EstadoId = estado;
+                    foreach (var item in inpeccion)
+                    {
+                        item.EstadoId = estado;
+                    }
+
                 }
+              
                 
                               
                 _context.Inspeccion.UpdateRange(inpeccion);

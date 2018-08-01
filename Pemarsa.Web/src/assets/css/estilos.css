@@ -29,6 +29,14 @@ body{
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
 }
 
+/*Carga archivos filename */
+.contenedor > .form-control {
+  font-size: 12px !important;
+}
+
+contenedor {
+  font-size: 12px !important;
+}
 
 /*Cambiar placeholder de los input*/
 ::-webkit-input-placeholder {

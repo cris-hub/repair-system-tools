@@ -39,7 +39,7 @@
             <span class="badge badge-danger  pointer"> {{DocumetoMinimos}} <i class="glyphicon glyphicon-paperclip"></i></span>
           </label>
 
-          <input id="file-input"   (change)="addFile($event)" type="file" multiple />
+          <input id="file-input" (change)="addFile($event)" type="file" multiple />
         </div>
       </div>
 
@@ -132,10 +132,11 @@
                  [ngbTypeahead]="search"
                  [resultFormatter]="ValorMostrar"
                  [inputFormatter]="ValorFiltrar"
-                 (selectItem)="selectItem($event)"
-                 validacion [validaciones]="['requerido']"
-                 formControlName="InspeccionEquipoUtilizado" />
-
+                 (selectItem)="selectItem($event,input)"
+                 formControlName="InspeccionEquipoUtilizado"
+                 #input
+                 />
+          
         </div>
       </div>
       <div class="form-group row">

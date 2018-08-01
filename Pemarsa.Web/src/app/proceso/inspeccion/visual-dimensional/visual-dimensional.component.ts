@@ -282,7 +282,7 @@ export class VisualDimensionalComponent implements OnInit {
   ValorMostrar =
     (x: { Valor: string, x: number }) => x.Valor;
 
-  selectItem(event) {
+  selectItem(event,input) {
     if (!event.item) {
       return
     }
@@ -293,7 +293,9 @@ export class VisualDimensionalComponent implements OnInit {
       EquipoUtilizado: event.item
     });
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
-
+    event.preventDefault();
+    
+    input.value = '';
   }
 
 
@@ -318,7 +320,7 @@ export class VisualDimensionalComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantes <= 0 || files.length > this.DocumetosRestantes) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }

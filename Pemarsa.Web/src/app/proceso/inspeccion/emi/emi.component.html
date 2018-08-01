@@ -43,7 +43,7 @@
         <div class="col-md-5 col-md-offset-2">
           <div class="form-group row">
             <label class="col-md-12 col-form-label">Adjunte imagen MFL​:</label>
-            <div *ngIf="inspeccion.ImagenMfl" class="col-md-12">
+            <div *ngIf="inspeccion.ImagenMfl.NombreArchivo" class="col-md-12">
               <a href="{{inspeccion.ImagenMfl.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenMfl.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
             </div>
           </div>
@@ -66,7 +66,7 @@
             <label class="col-md-12 col-form-label">
               Adjunte imagen de medición de espesores:
             </label>
-            <div *ngIf="inspeccion.ImagenMedicionEspesores" class="col-md-12">
+            <div *ngIf="inspeccion.ImagenMedicionEspesores.NombreArchivo" class="col-md-12">
               <a href="{{inspeccion.ImagenMedicionEspesores.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenMedicionEspesores.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
             </div>
           </div>

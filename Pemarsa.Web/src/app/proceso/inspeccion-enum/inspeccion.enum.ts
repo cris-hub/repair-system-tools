@@ -1,6 +1,7 @@
 export enum TIPO_PROCESO {
   INSPECCIONENTRADA = 40,
-  INSPECCIONSALIDA = 41
+  INSPECCIONSALIDA = 41,
+  REASIGNACION = 109,
 }
 
 export enum TIPO_INSPECCION {
@@ -21,6 +22,7 @@ export enum ESTADOS_INSPECCION {
 }
 export enum ESTADOS_PROCESOS {
   'Pendiente' = 38,
+  'Procesado' = 110,
   'Asignado' = 39,
   'Completado' = 62,
   'Liberado' = 63,

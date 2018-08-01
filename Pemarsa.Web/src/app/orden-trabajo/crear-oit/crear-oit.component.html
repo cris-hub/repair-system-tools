@@ -1,275 +1,248 @@
 <div *ngIf="!loading">
-  <br />
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
-      <div class="col-md-12 titulo">
-        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
-          <br />
-        </div>
-        <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
-          <br />
-          <h3>{{accionRealizarTituloPagina}}</h3>
+      <div class="col-md-11" style="background-color: rgba(36, 99, 194, .9);color: #ffffff;">
+        <div class="">
+          <div class="row">
+            <div class="col-md-12" style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200; text-align: center;">
+              <h3>{{accionRealizarTituloPagina}}</h3>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
-    <div class="row contenido-interno">
-      <div class="col-md-12">
-        <form [formGroup]="formularioOrdenTrabajo" class="form-horizontal">
+    <div class="col-md-11 contenido-interno">
+      <form [formGroup]="formularioOrdenTrabajo" (ngSubmit)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar de ' + accionRealizarTituloPagina + ' de la orden ?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
+            class="form-horizontal">
 
-          <fieldset>
-            <legend>
-              <b> Número de OIT:​ {{ordenTrabajo.Id}}</b>
-              <i (click)="historial(ordenTrabajo.Guid,true)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
+        <fieldset>
+          <legend>
+            <b> Número de OIT:​ {{ordenTrabajo.Id}}</b>
+            <i (click)="historial(ordenTrabajo.Guid,true)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
 
-            </legend>
+          </legend>
 
-          </fieldset>
+        </fieldset>
 
 
-          <div class="form-group">
+        <div class="form-group">
 
-            <label class="col-md-2 control-label" id="corre">
-              Responsable:
-            </label>
-            <div class="col-md-4">
-              <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.Responsable.Valor}}</p>
-            </div>
-
-            <label class="col-md-2  control-label" id="corre">
-              Fecha:
-            </label>
-            <div class="col-md-4">
-              <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.FechaRegistro | date:'medium'}}</p>
-            </div>
-
+          <label class="col-md-2 control-label" id="corre">
+            Responsable:
+          </label>
+          <div class="col-md-4">
+            <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.Responsable.Valor}}</p>
           </div>
-          <br />
+
+          <label class="col-md-2  control-label" id="corre">
+            Fecha:
+          </label>
+          <div class="col-md-4">
+            <p *ngIf="ordenTrabajo.Responsable">{{ordenTrabajo.FechaRegistro | date:'medium'}}</p>
+          </div>
+
+        </div>
+        <br />
 
 
-          <div class="form-group row">
-            <div class="col-lg-6 col-sm-6 col-md-6 col-12">
-              <div class="col-lg-4 col-md-3 col-sm-6 col-10">
-                <label class="float-lg-right" id="corre"> Anexos: &nbsp;</label>
-              </div>
+        <div class="form-group">
 
-              <div class="col-lg-1 col-md-1 col-sm-1 col-2 image-upload">
-                <label for="file-input">
-                  <i class="glyphicon glyphicon-paperclip pointer"></i>
-                </label>
-                <input (change)="addFile($event)" id="file-input" type="file" multiple />
-              </div>
+          <label class="col-md-2 form-label" id="corre"> Anexos</label>
 
-              <div class="col-lg-7 col-md-12 col-sm-12 col-12 panel panel-default">
-                <div class="list-group" *ngFor="let anexo of ordenTrabajo.Anexos">
-                  <p class="list-group-item">{{anexo.DocumentoAdjunto.NombreArchivo}}<a href="{{anexo.DocumentoAdjunto.Ruta}}" class="pull-right"><i class="glyphicon glyphicon-download"></i></a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus"></i></p>
-                </div>
 
-                <!--<div class="panel-heading">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos</a>
-                  <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                  </span>
-                </div>
-                <div>
-                </div>
-                <div id="archivos" class="panel-collapse panel-collapse collapse">
-                  <div class="panel-body">
-                    <ul>
-                      <li *ngFor="let anexo of ordenTrabajo.Anexos">
-                        <p>{{anexo.DocumentoAdjunto.NombreArchivo}}<a href="{{anexo.DocumentoAdjunto.Ruta}}" class="pull-right"><i class="glyphicon glyphicon-download"></i></a> <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus"></i></p>
 
-                      </li>
-                    </ul>
+          <div class="col-md-3">
+            <div *ngFor="let anexo of ordenTrabajo.Anexos">
+              <div class="form-group row">
+                <div class="col-md-12">
+
+
+                  <div class="contenedor well well-sm">
+                    {{anexo.DocumentoAdjunto.NombreArchivo}}
+                    <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                    <a href="{{anexo.DocumentoAdjunto.Ruta}}" class="pull-right">
+                      <i class="glyphicon glyphicon-download"></i>
+                    </a>
                   </div>
-                </div>-->
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-6 col-md-6 col-12">
-              <div class="col-lg-3 col-md-5 col-sm-12 col-12">
-                <label class="float-lg-right"> Tipo Servicio:</label>
-              </div>
-              <div formGroupName="TipoServicio" class="col-lg-7 col-md-7 col-sm-12 col-12">
-                <select formControlName="Id" class=" form-control-lg form-control select">
-                  <option *ngFor="let tipoServicio of parametrosTipoServicio.Catalogos" value="{{tipoServicio.Id}}">{{tipoServicio.Valor}}</option>
-                </select>
+                </div>
               </div>
             </div>
           </div>
 
+          <div class="col-md-1 image-upload">
+            <label for="file-input">
+              <i class="glyphicon glyphicon-paperclip pointer"></i>
+            </label>
+            <input (change)="addFile($event)" id="file-input" type="file" />
+          </div>
 
-          <!--Cliente-->
-          <div class="form-group row">
-            <div class="col-lg-2 col-sm-3 col-md-2 col-12">
-              <label class="float-lg-right">Cliente : </label>
+          <div class="col-md-6">
+            <label class="col-md-2 control-label" id="corre"> Tipo Servicio</label>
+            <div formGroupName="TipoServicio" class="form-group col-md-9 ">
+              <select formControlName="Id" validacion [validaciones]="['requerido']" class=" form-control-lg form-control select">
+                <option *ngFor="let tipoServicio of parametrosTipoServicio.Catalogos" value="{{tipoServicio.Id}}">{{tipoServicio.Valor}}</option>
+              </select>
             </div>
-            <div class="col-lg-6 col-sm-9 col-md-9 col-12">
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Cliente </label>
+          <div class="col-md-9 ">
+            <div class="form-group">
+
               <div class="controls">
                 <input type="text" class="form-control" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
                        [resultFormatter]="formatoValorMostrar" [inputFormatter]="formatoValorMostrar" (selectItem)="cambioItemEvent($event)"
-                       formControlName="Cliente" />
+                       formControlName="Cliente" validacion [validaciones]="['requerido']" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Linea </label>
+          <div class="col-md-4 ">
+            <div class="form-group">
+
+              <div class="controls">
+                <input type="text" class="form-control" (ngModelChange)="consultarLineasCliente()" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
+                       [resultFormatter]="formatoValorMostrarLinea" [inputFormatter]="formatoValorMostrarLinea" formControlName="Linea" />
+              </div>
+            </div>
+          </div>
+          <label class="col-md-2 control-label">Serial herramienta</label>
+          <div class="col-md-3 ">
+            <div class="form-group">
+              <div class="controls">
+                <input formControlName="SerialHerramienta" type="text" class="form-control ">
+                <!--<p class="help-block">Responsable de la OIT</p>-->
               </div>
             </div>
           </div>
 
-          <!--Grupo -->
-          <div class="form-group row">
+        </div>
 
-            <!--Linea-->
-            <div class="col-lg-6 col-sm-12 col-md-6 col-12 row">
-              <div class="col-lg-4 col-md-4 col-sm-3 col-12">
-                <label class="float-lg-right" id="corre"> Linea :&nbsp; </label>
-              </div>
-              <div class="col-lg-8 col-md-8 col-sm-9 col-12">
-                <div class="controls">
-                  <input type="text" class="form-control" (ngModelChange)="consultarLineasCliente()" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
-                         [resultFormatter]="formatoValorMostrarLinea" [inputFormatter]="formatoValorMostrarLinea" formControlName="Linea" />
-                </div>
-              </div>
-            </div>
 
-            <!--Serial herramienta-->
-            <div class="col-lg-6 col-sm-12 col-md-6 col-12 row">
-              <div class="col-lg-4 col-md-4 col-sm-3 col-12">
-                <label class="float-lg-right"> Serial herramienta: </label>
-              </div>
-              <div class="col-lg-8 col-md-8 col-sm-9 col-12">
-                <div class="controls">
-                  <input formControlName="SerialHerramienta" type="text" class="form-control ">
-                  <!--<p class="help-block">Responsable de la OIT</p>-->
-                </div>
-              </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">Herramienta  </label>
+          <div class="col-md-9 ">
+
+
+
+            <input type="text" class="form-control" [(ngModel)]="herramienta" [ngbTypeahead]="buscarConcidenciaHerramienta"
+                   [resultFormatter]="formatoValorMostrarHerramienta" [inputFormatter]="formatoValorMostrarHerramienta" (selectItem)="cambioItemEvent($event)"
+                   formControlName="Herramienta" validacion [validaciones]="['requerido']" />
+
+
+            <!--<p-autoComplete [(ngModel)]="herramienta" size="93px" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
+                            placeholder="herramienta" [suggestions]="herraminetasview" validacion [validaciones]="['requerido']" formControlName="Herramienta" field="Nombre"
+                            (completeMethod)="buscarConcidenciaHerramienta($event)">
+            </p-autoComplete>-->
+
+          </div>
+        </div>
+
+
+        <div class="form-group">
+
+          <div formGroupName="TamanoHerramienta" class="col-md-5 col-md-offset-1">
+            <label class="control-label col-md-2">Tamaño herramienta</label>
+            <div *ngIf="herramienta"  class="col-md-8">
+              <select formControlName="Id" validacion [validaciones]="['requerido']" class=" form-control-lg form-control select">
+                <option *ngFor="let tamano of herramienta.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
+              </select>
             </div>
           </div>
 
-
-
-          <!--Herramienta-->
-          <div class="form-group row">
-            <div class="col-lg-2 col-sm-3 col-md-2 col-12">
-              <label class="float-lg-right">Herramienta:</label>
-            </div>
-            <div class="col-lg-6 col-sm-9 col-md-9 col-12">
-              <p-autoComplete [(ngModel)]="herramienta" size="93px" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
-                              placeholder="herramienta" [suggestions]="herraminetasview" formControlName="Herramienta" field="Nombre"
-                              (completeMethod)="buscarConcidenciaHerramienta($event)">
-              </p-autoComplete>
-            </div>
-          </div>
-
-          <!--<div class="form-group">
-            <label class="col-md-2 control-label">Herramienta : </label>
-            <div class="col-md-9 ">
-
-              <p-autoComplete [(ngModel)]="herramienta" size="93px" onDropdownClick="buscarConcidenciaHerramienta($event)" [dropdown]="true"
-                              placeholder="herramienta" [suggestions]="herraminetasview" formControlName="Herramienta" field="Nombre"
-                              (completeMethod)="buscarConcidenciaHerramienta($event)">
-              </p-autoComplete>
-
-            </div>
-          </div>-->
-
-
-          <div class="form-group">
-
-            <div formGroupName="TamanoHerramienta" *ngIf="herramienta">
-              <label class="col-md-2 control-label">Tamaño herramienta : </label>
-              <div class="col-md-4 ">
-                <select formControlName="Id" class=" form-control-lg form-control select">
-                  <option *ngFor="let tamano of herramienta.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
-                </select>
-              </div>
-            </div>
-
-
-
-            <div class="col-md-6">
-              <label class="col-md-3 control-label">Prioridad : </label>
-              <div class="form-group col-md-8  ">
-                <select formControlName="PrioridadId" class=" form-control-lg form-control select">
-                  <option *ngFor="let Prioridad of parametrosPrioridadOrdenTrabajo.Catalogos" value="{{Prioridad.Id}}">{{Prioridad.Valor}}</option>
-                </select>
-              </div>
-            </div>
-
-
-          </div>
-
-          <div class="form-group">
-            <label class="col-md-2 control-label">Cantidad : </label>
-            <div class="col-md-4 ">
-              <input formControlName="Cantidad" type="number" class="form-control">
-            </div>
-
-            <label class="col-md-2 control-label">Cantidad inspeccionar : </label>
-            <div class="col-md-3 ">
-              <input formControlName="CantidadInspeccionar" type="number" class="form-control ">
-            </div>
-
-          </div>
-
-          <div class="form-group">
-            <label class="col-md-2 control-label">Serial material : </label>
-            <div class="col-md-9 ">
-              <input formControlName="SerialMaterial" type="text" class="form-control col-md-4">
-            </div>
-          </div>
-
-          <div class="form-group" *ngIf="herramienta.Materiales" formGroupName="Material">
-            <label class="col-md-2 control-label">Materiales herramienta : </label>
-            <div *ngIf="herramienta.Materiales" class="col-md-9 ">
-              <select formControlName="Id" class=" col-md-4 form-control-lg form-control select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
-                <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
+          <div class="col-md-6">
+            <label class="control-label col-md-3">Prioridad</label>
+            <div class=" col-md-8">
+              <select formControlName="PrioridadId" validacion [validaciones]="['requerido']" class=" form-control-lg form-control select">
+                <option *ngFor="let Prioridad of parametrosPrioridadOrdenTrabajo.Catalogos" value="{{Prioridad.Id}}">{{Prioridad.Valor}}</option>
               </select>
             </div>
           </div>
 
 
+        </div>
 
-          <div class="form-group">
-            <label class="col-md-2 control-label">Remision cliente:</label>
-            <div class="col-md-4 ">
-              <input formControlName="RemisionCliente" type="number" class="form-control">
-
-            </div>
-
-            <label class="col-md-2 control-label">W.O : </label>
-            <div class="col-md-3 ">
-              <input formControlName="OrdenCompra" type="number" class="form-control ">
-              <p class="help-block">Orden Compra</p>
-            </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">Cantidad  </label>
+          <div class="col-md-4 ">
+            <input formControlName="Cantidad" validacion [validaciones]="['requerido']" type="number" class="form-control">
           </div>
 
-
-
-          <div class="form-group">
-            <label class="col-md-2 control-label">Detalle de la solicitud: </label>
-            <div class="col-md-9 ">
-              <textarea formControlName="DetallesSolicitud" class="form-control"></textarea>
-            </div>
+          <label class="col-md-2 control-label">Cantidad inspeccionar  </label>
+          <div class="col-md-3 ">
+            <input formControlName="CantidadInspeccionar" validacion [validaciones]="['requerido']" type="number" class="form-control ">
           </div>
 
-          <div class="form-group row">
-            <div class="col-md-12">
-              <div class="col-md-2 col-md-offset-4 text-right">
-                <button (click)="backClicked()" type="button" class="btn btn-md">Regresar</button>
-              </div>
-              <div *ngIf="!esVer" class="col-md-5">
-                <button type="submit"
-                        (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar de ' + accionRealizarTituloPagina + ' de la orden ?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
-                        data-target="#confirmarModal"
-                        data-toggle="modal"
-                        class="btn btn-primary btn-md">
-                  {{accionRealizarTituloPagina}}
-                </button>
-              </div>
-            </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Serial material  </label>
+          <div class="col-md-9 ">
+            <input formControlName="SerialMaterial" type="text" class="form-control col-md-4">
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="herramienta.Materiales" formGroupName="Material">
+          <label class="col-md-2 control-label">Materiales herramienta  </label>
+          <div *ngIf="herramienta.Materiales" class="col-md-9 ">
+            <select formControlName="Id" class=" col-md-4 form-control-lg form-control select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
+              <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
+            </select>
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Remision cliente</label>
+          <div class="col-md-4 ">
+            <input formControlName="RemisionCliente" validacion [validaciones]="['requerido']" type="number" class="form-control">
+
           </div>
 
+          <label class="col-md-2 control-label">W.O  </label>
+          <div class="col-md-3 ">
+            <input formControlName="OrdenCompra" type="number" class="form-control ">
+            <p class="help-block">Orden Compra</p>
+          </div>
+        </div>
 
 
-        </form>
-      </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Detalle de la solicitud: </label>
+          <div class="col-md-9 ">
+            <textarea formControlName="DetallesSolicitud" validacion [validaciones]="['requerido']" class="form-control"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div class="col-md-2 col-md-offset-4 text-right">
+              <button (click)="backClicked()" type="button" class="btn btn-md">Regresar</button>
+            </div>
+            <div *ngIf="!esVer" class="col-md-5">
+              <button type="submit"
+                      data-target="#confirmarModal"
+                      data-toggle="modal"
+                      class="btn btn-success btn-md">
+                {{accionRealizarTituloPagina}}
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+
+      </form>
     </div>
   </div>
 </div>
