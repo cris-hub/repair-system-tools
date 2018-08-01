@@ -69,7 +69,7 @@
               <th class="text-center" style="width:15%;">Acciones</th>
             </tr>
           </thead>
-          <tbody class="font-black center-table" style="height:10px;">
+          <tbody class="font-black center-table">
             <tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
               <td>{{cliente.RazonSocial}}</td>
               <td>{{cliente.Nit}}</td>
@@ -119,9 +119,12 @@
       </nav>
       <br />
     </div>
-    <div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
-    </div>
   </div>
-
 </div>
+<div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
+</div>
+
+
+
+

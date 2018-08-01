@@ -1,19 +1,24 @@
 <div *ngIf="!loading">
-
-  <div class="container">
+  <br />
+  <div class="container-fluid">
     <div class="row">
-      <div class="panel col-md-11" style="background-color: rgba(36, 99, 194, .9);color: #FFF;">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-md-12" style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200; text-align: center;">
-              <h3 *ngIf="esActualizar != true && esVer == false">Crear herramienta</h3>
-              <h3 *ngIf="esActualizar == true && esVer == false">Editar herramienta</h3>
-              <h3 *ngIf="esVer">Detalle herramienta</h3>
-            </div>
-          </div>
+      <div class="col-md-12 titulo">
+        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+          <br />
+          <span class="icon-herramientas2 float-right iconox20" aria-hidden="true"></span>
+          &nbsp;
+          <span *ngIf="esActualizar != true && esVer == false" class="glyphicon glyphicon-plus float-right" aria-hidden="true" style="font-size:5px;"></span>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+          <br />
+          <h3 *ngIf="esActualizar != true && esVer == false">Crear herramienta</h3>
+          <h3 *ngIf="esActualizar == true && esVer == false">Editar herramienta</h3>
+          <h3 *ngIf="esVer">Detalle herramienta</h3>
         </div>
       </div>
-      <div class="col-md-11 contenido-interno">
+    </div>
+    <div class="row contenido-interno">
+      <div class="col-md-12">
         <form [formGroup]="frmHerramienta" (ngSubmit)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del la Herramienta?',true,{frmHerramienta: frmHerramienta.value})">
 
           <div class="form-group row">
@@ -62,7 +67,7 @@
             </label>
             <div class="col-md-2">
               <div class="form-check form-check-inline col-md-5">
-                <input [attr.disabled]="esVer == true ? '' : null"  [checked]="herramienta.EsHerramientaPorCantidad == true" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" [value]="true">
+                <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPorCantidad == true" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" [value]="true">
                 <label class="form-check-label" for="herramientaXCantidadRadioSi">SI</label>
               </div>&nbsp;
               <div class="form-check form-check-inline col-md-5">
@@ -76,7 +81,7 @@
             <div class="col-md-3 col-md-offset-3">
               <input [attr.disabled]="true" class="form-control" type="text" value="{{materialNew.Valor}}">
             </div>
-            <div class="col-md-5" style="padding-top:7px;float: right;">
+            <div class="col-md-5">
               <i class="glyphicon glyphicon-minus" (click)="eliminarMaterial(materialNew)"></i>
             </div>
           </div>
@@ -115,25 +120,24 @@
                   <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="true">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <label class="form-check-label" >NO</label>
-                  <input [attr.disabled]="esVer == true ? '' : null"   validacion [validaciones]="['*']"  formControlName="EsHerramientaPetrolera"  class="form-check-input" type="radio" [value]="false">
+                  <label class="form-check-label">NO</label>
+                  <input [attr.disabled]="esVer == true ? '' : null" validacion [validaciones]="['*']" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="false">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
                 <div class="panel-body">
-
                   <div class="card-body col-md-8">
                     <div class="form-group row">
                       <label class="col-md-5 col-form-label" id="corre">
                         Herramienta Motor:
                       </label>
-                      <div class="col-md-7" style="padding-top: 7px;">
-                        <div class="form-check form-check-inline col-md-4">
+                      <div class="col-md-7">
+                        <div class="form-check form-check-inline col-md-3">
                           <label>SI</label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
 
                           <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="true">
                         </div>
-                        <div class="form-check form-check-inline col-md-3">
+                        <div class="form-check form-check-inline col-md-4">
                           <label>NO </label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -143,55 +147,50 @@
                     </div>
 
                     <div *ngIf="herramienta.EsHerramientaMotor == 'true' || herramienta.EsHerramientaMotor == true" class="">
-
-
                       <div class="form-group row">
-                        <label class="col-md-5 col-form-label" id="corre">
+                        <label class="col-lg-5 col-md-3 col-sm-3" id="corre">
                           Tamaños motor:
                         </label>
-                        <div class="col-md-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                           <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños motor" #inputTamanoMotor>
                         </div>
-                        <div class="col-md-1" style="padding-top:7px;float: right;">
+                        <div class="col-lg-1 col-md-2 col-sm-2 col">
                           <button class="glyphicon glyphicon-plus" type="button" (click)="nuevoTamanoMotor()"></button>
                         </div>
                       </div>
 
                       <div *ngFor="let herramientaTM of herramientaTamanoMotor;let i = index" class="form-group row">
-                        <div class="col-md-6 col-md-offset-5" *ngIf="herramientaTM.Estado">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-md-offset-5" *ngIf="herramientaTM.Estado">
                           <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaTM.Tamano}}">
                         </div>
-                        <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaTM.Estado">
-                          <button class="btn glyphicon glyphicon-minus" type="button"  (click)="eliminarHerramientaTamanoMotor(i)"></button>
+                        <div class="col-lg-1 col-md-2 col-sm-2 col" *ngIf="herramientaTM.Estado">
+                          <button class="btn glyphicon glyphicon-minus" type="button" (click)="eliminarHerramientaTamanoMotor(i)"></button>
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="herramienta.EsHerramientaMotor == 'true' || herramienta.EsHerramientaMotor == true" class="">
 
+                    <div *ngIf="herramienta.EsHerramientaMotor == 'true' || herramienta.EsHerramientaMotor == true" class="">
                       <div class="form-group row">
-                        <label class="col-md-5 col-form-label" id="corre">
+                        <label class="col-lg-5 col-md-3 col-sm-3" id="corre">
                           Tamaños de Herramienta:
                         </label>
-                        <div class="col-md-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                           <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños de Herramienta" #inputTamanoHerramienta>
                         </div>
-                        <div class="col-md-1" style="padding-top:7px;float: right;">
+                        <div class="col-lg-1 col-md-2 col-sm-2 col">
                           <button class="glyphicon glyphicon-plus" type="button" (click)="nuevoTamanoHerramienta()"></button>
                         </div>
                       </div>
-
                       <div *ngFor="let herramientaT of herramientaTamano;let i = index" class="form-group row">
-                        <div class="col-md-6 col-md-offset-5" *ngIf="herramientaT.Estado">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-md-offset-5" *ngIf="herramientaT.Estado">
                           <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaT.Tamano}}">
                         </div>
-                        <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaT.Estado">
+                        <div class="col-lg-1 col-md-2 col-sm-2 col" *ngIf="herramientaT.Estado">
                           <button class="btn glyphicon glyphicon-minus" type="button" (click)="eliminarHerramientaTamano(i)"></button>
                         </div>
                       </div>
+
                     </div>
-
-
-
                   </div>
                 </div>
               </div>
@@ -199,10 +198,10 @@
           </div>
 
           <div class="form-group row">
-            <div class="col-md-2 col-md-offset-2">
-              <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" type="button" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm">Estudio de factibilidad</button>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" type="button" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm float-right">Estudio de factibilidad</button>
             </div>
-            <div class="col-md-1">
+            <div class="col-6 col-md-6 col-sm-6 col">
               <span *ngIf="esEstudioFactibilidad == 'vacio'" class="glyphicon glyphicon-hourglass"></span>
               <span *ngIf="esEstudioFactibilidad == 'ok'" class="glyphicon glyphicon-ok"></span>
               <span *ngIf="esEstudioFactibilidad == 'falta'" class="glyphicon glyphicon-remove"></span>
@@ -218,13 +217,13 @@
             </div>
           </div>
 
-          <div class="form-group row">
-            <div class="col-md-11">
-              <div class="col-md-2 col-md-offset-4 text-right">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
                 <button type="button" class="btn btn-md" (click)="salir()">Regresar</button>
               </div>
-              <div class="col-md-5">
-                <button *ngIf="isSubmitted == true && esVer == false" type="submit"  data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+              <div class="col-lg-6 col-md-6 col-sm-6 col">
+                <button *ngIf="isSubmitted == true && esVer == false" type="submit" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
                 <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
               </div>
             </div>
@@ -239,4 +238,4 @@
   <div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <app-confirmacion-modal (confir)="ConfirmacionEvento($event)"></app-confirmacion-modal>
   </div>
-
+</div>

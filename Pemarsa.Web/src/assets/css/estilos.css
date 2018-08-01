@@ -3,6 +3,10 @@
   src: url(../fonts/OpenSans-Light.ttf);
 }
 
+body{
+  font-size:14px !important;
+}
+
 /*Contenido despues del panel*/
 .contenido-interno {
   background-color: #f9f9f9;
@@ -147,7 +151,7 @@
 }
 
 /*Opacidad para poner el fondo oscuro cuando se abre un modal*/
-.modal-backdrop{
+/*.modal-backdrop{
   opacity:0.4 !important;
 }
 /*Posicion del modal en la pantalla*/
@@ -510,6 +514,10 @@ h4 {
   .nav-side-menu2 {
     left: 11%;
     width: 10%;
+  }
+
+  .alinear-derecha{
+    text-align:left;
   }
 
   .nav-side-menu ul, .nav-side-menu li {

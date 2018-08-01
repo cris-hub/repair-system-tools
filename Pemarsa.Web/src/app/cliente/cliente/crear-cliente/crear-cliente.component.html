@@ -1,24 +1,11 @@
 <div *ngIf="!loading">
   <br />
   <div class="container-fluid">
-
-    <!--<div class="panel">
-      <div class="panel-heading colorPanel">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <h3 *ngIf="esActualizar != true && esVer == false">Crear cliente</h3>
-            <h3 *ngIf="esActualizar == true && esVer == false">Editar cliente</h3>
-            <h3 *ngIf="esVer">Detalle cliente</h3>
-          </div>
-        </div>
-      </div>
-    </div>-->
     <div class="row">
       <div class="col-md-12 titulo">
-
         <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
           <br />
-          <span class="glyphicon glyphicon-user float-right" aria-hidden="true" style="font-size:20px;"></span>
+          <span class="icon-clientes float-right iconox20" aria-hidden="true"></span>
           &nbsp;
           <span *ngIf="esActualizar != true && esVer == false" class="glyphicon glyphicon-plus float-right" aria-hidden="true" style="font-size:5px;"></span>
         </div>
@@ -183,10 +170,10 @@
 
         <div class="form-group">
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 alinear-derecha">
+            <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
               <button type="button" class="btn btn-md" (click)="salir()">Regresar</button>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-6 col-md-6 col-sm-6 col">
               <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
               <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
             </div>
