@@ -3,12 +3,16 @@
   src: url(../fonts/OpenSans-Light.ttf);
 }
 
+body{
+  font-size:14px !important;
+}
+
 /*Contenido despues del panel*/
 .contenido-interno {
   background-color: #f9f9f9;
   padding: 65px;
   height: 100%;
-  opacity: 0.9;
+  opacity: 0.95;
   -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
@@ -19,7 +23,7 @@
   background-color: #f9f9f9;
   padding: 20px;
   height: 100%;
-  opacity:0.9;
+  opacity:0.95;
   -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
@@ -155,7 +159,7 @@ contenedor {
 }
 
 /*Opacidad para poner el fondo oscuro cuando se abre un modal*/
-.modal-backdrop{
+/*.modal-backdrop{
   opacity:0.4 !important;
 }
 /*Posicion del modal en la pantalla*/
@@ -518,6 +522,10 @@ h4 {
   .nav-side-menu2 {
     left: 11%;
     width: 10%;
+  }
+
+  .alinear-derecha{
+    text-align:left;
   }
 
   .nav-side-menu ul, .nav-side-menu li {

@@ -1,91 +1,94 @@
-<div class="col-md-10">
-  <div class="row">
-    <br>
-    <div class="col-md-12">
-      <div class="panel" style="background-color: rgba(36, 99, 194, .9);color: #FFF;" id="panel-listar">
-        <div class="panel-heading">
-          <div class="row">
-
-            <div class="col-md-3" style="padding-top:20px;">
-              <label class="col-sm-12 col-form-label">
-                <h4 style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200;">Listado de herramientas </h4>
-              </label>
-            </div>
-            <div class="col-md-9" style="text-align: right;">
-              <div class="col-md-6 col-sm-12" style="text-align: right;">
-                <br>
-                <input type="text" placeholder="Busqueda básica" class="form-control" name="">
-              </div>
-              <div class="col-md-4" style="padding-top:30px;">
-                <app-filtro-herramienta (paramsFiltro)="ConsultarHerramientasPorFiltro($event)"></app-filtro-herramienta>
-              </div>
-              <div class="col-md-1" style="padding-top:22px;">
-                <div class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-list"></span>
-                  </a>
-                  <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li class="records-page-contactos" data-page="10">
-                      <a (click)="limiteConsulta(10)">10 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="20">
-                      <a (click)="limiteConsulta(20)">20 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="30">
-                      <a (click)="limiteConsulta(30)">30 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="50">
-                      <a (click)="limiteConsulta(50)">50 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="100">
-                      <a (click)="limiteConsulta(100)">100 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="200">
-                      <a (click)="limiteConsulta(200)">200 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="300">
-                      <a (click)="limiteConsulta(300)">300 Registros</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-1" style="padding-top:30px;float: right;">
-                <i [routerLink]="['/herramienta/crear']" class="glyphicon glyphicon-plus"></i>
-              </div>
-            </div>
+<br />
+<div class="container-fluid">
+  <div class="row titulo">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <h3 class="margin-20 text-center">Listado de herramientas </h3>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <input type="text" placeholder="Busqueda básica" class="form-control inputBuscar form-control-sm" name="">
+      <br />
+    </div>
+    <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
+    </div>
+    <div class="col-lg-3 col-md-9 col-sm-9 col-xs-12">
+      <div class="row">
+        <div class="col col-sm-5 col-md-5">
+          <br />
+          <app-filtro-herramienta (paramsFiltro)="ConsultarHerramientasPorFiltro($event)" class="pointer float-right" data-toggle="tooltip" title="Filtros avanzados"></app-filtro-herramienta>
+        </div>
+        <div class="col col-sm-2 col-md-1">
+          <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
+            </a>
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+              <li class="records-page-contactos" data-page="10">
+                <a (click)="limiteConsulta(10)">10 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="20">
+                <a (click)="limiteConsulta(20)">20 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="30">
+                <a (click)="limiteConsulta(30)">30 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="50">
+                <a (click)="limiteConsulta(50)">50 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="100">
+                <a (click)="limiteConsulta(100)">100 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="200">
+                <a (click)="limiteConsulta(200)">200 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="300">
+                <a (click)="limiteConsulta(300)">300 Registros</a>
+              </li>
+            </ul>
           </div>
+        </div>
+        <div class="col col-sm-3 col-md-4">
+          <br />
+          &nbsp;
+          <i [routerLink]="['/herramienta/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Agregar herramienta"></i>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="table-responsive">
+  <div class="row contenido-interno-listar">
+    <div class="col-lg-2 col-sm col-md"></div>
+    <div class="col-lg-8 col-sm-12 col-md-12 col-12">
+      <div class="table-responsive-sm table-responsive-md">
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
-            <tr>
-              <th>Nombre</th>
+            <tr class="titleTable">
+              <th class="text-center">Nombre</th>
+              <th class="text-center" style="width:15%;">Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="font-black center-table">
             <tr *ngFor="let herramienta of herramientas | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
               <td>{{herramienta.Nombre}}</td>
               <td>
-                <div style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i class="glyphicon glyphicon-eye-open" routerLink="/herramienta/ver/{{herramienta.Guid}}"></i>
-                </div>
-                <div style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i class="glyphicon glyphicon-pencil" routerLink="/herramienta/editar/{{herramienta.Guid}}"></i>
-                </div>
-                <div *ngIf="parametros.Catalogos" class="btn-group col-md-2" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">
-                    <span class="glyphicon glyphicon-star"></span>
-                  </a>
-                  <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li *ngFor="let estado of parametros.Catalogos" class="records-page-contactos">
-                      <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
-                    </li>
-                  </ul>
+                <div class="row">
+
+                  <div class="col-sm-1">
+                    <i class="glyphicon glyphicon-eye-open pointer" routerLink="/herramienta/ver/{{herramienta.Guid}}"  data-toggle="tooltip" title="Ver detalle herramienta"></i>
+                  </div>
+                  <div class="col-sm-1">
+                    <i class="glyphicon glyphicon-pencil pointer" routerLink="/herramienta/editar/{{herramienta.Guid}}"  data-toggle="tooltip" title="Editar herramienta"></i>
+                  </div>
+                  <div class="col-sm-1">
+                    <div class="btn-group estrella" *ngIf="parametros.Catalogos" role="group" data-toggle="dropdown" uib-popover="Estados" popover-placement="right">
+                      <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:left; display:block;">
+                        <span class="glyphicon glyphicon-star"></span>
+                      </a>
+                      <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+                        <li *ngFor="let estado of parametros.Catalogos" class="records-page-contactos">
+                          <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -93,20 +96,21 @@
         </table>
       </div>
     </div>
-  </div>
-  <!--Paginacion -->
-  <div class="row">
-    <nav aria-label="pagination example">
-      <ul class="pagination pagination-circle pg-blue mb-0">
-        <pagination-controls maxSize="10"
-                             previousLabel="Anterior"
-                             nextLabel="Siguiente"
-                             id="cliente"
-                             (pageChange)="cambioPagina($event)">
-        </pagination-controls>
-      </ul>
-    </nav>
-    <br />
+    <div class="col-lg-2 col-sm col-md"></div>
+    <!--Paginacion -->
+    <div class="row">
+      <nav aria-label="pagination example" class="float-right">
+        <ul class="pagination pagination-circle pg-blue mb-0">
+          <pagination-controls maxSize="10"
+                               previousLabel="Anterior"
+                               nextLabel="Siguiente"
+                               id="cliente"
+                               (pageChange)="cambioPagina($event)">
+          </pagination-controls>
+        </ul>
+      </nav>
+      <br />
+    </div>
   </div>
 </div>
 <div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
