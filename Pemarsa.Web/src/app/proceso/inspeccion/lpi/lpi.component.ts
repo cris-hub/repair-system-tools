@@ -178,10 +178,12 @@ export class LPIComponent implements OnInit {
   }
   private asignarDataDesdeElFormulario() {
     //deja el arreglo
-    delete this.formulario.value['InspeccionEquipoUtilizado']
-    delete this.formulario.value['InspeccionFotos']
+    delete this.formulario.value['InspeccionEquipoUtilizado'];
+    delete this.formulario.value['InspeccionFotos'];
 
     Object.assign(this.inspeccion, this.formulario.value);
+    delete this.formulario.controls['InspeccionFotos']
+
   }
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
@@ -239,7 +241,7 @@ export class LPIComponent implements OnInit {
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos],
       InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado, Validators.required],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],

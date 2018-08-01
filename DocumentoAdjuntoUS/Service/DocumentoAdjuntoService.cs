@@ -13,7 +13,7 @@ namespace DocumentoAdjuntoUS.Service
     public class DocumentoAdjuntoService : IDocumentoAdjuntoService
     {
         private readonly IDocumentoAdjuntoRepository _repository;
-        private IConfiguration _configuratio;
+        public IConfiguration _configuratio;
 
         public DocumentoAdjuntoService(PemarsaContext _context, IConfiguration config)
         {

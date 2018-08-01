@@ -18,5 +18,8 @@ namespace ProcesoES.Repository
         Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza, UsuarioDTO usuarioDTO);
         Task<bool> ActualizarEstadoInspeccion(Guid guid, int estado);
         Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO);
+        Task<bool> ActualizarProcesoSugerir(Guid guidProceso, Guid guidProcesoSegurido, UsuarioDTO usuarioDTO);
+        Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid,int pieza, UsuarioDTO usuarioDTO);
+        Task<bool> ActualizarEstadoInspeccionPieza(Guid guid, int pieza, int estado, UsuarioDTO usuarioDTO);
     }
 }

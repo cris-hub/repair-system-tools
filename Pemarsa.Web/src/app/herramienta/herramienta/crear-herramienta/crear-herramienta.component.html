@@ -14,11 +14,11 @@
         </div>
       </div>
       <div class="col-md-11 contenido-interno">
-        <form [formGroup]="frmHerramienta">
+        <form [formGroup]="frmHerramienta" (ngSubmit)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del la Herramienta?',true,{frmHerramienta: frmHerramienta.value})">
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Creado:
+              Creado:
             </label>
             <div class="col-md-3">
               <label class="col-form-label">
@@ -26,10 +26,10 @@
               </label>
             </div>
             <label class="col-md-2 col-form-label" id="corre">
-              *Verificado:
+              Verificado:
             </label>
             <div class="col-md-3">
-              <select formControlName="GuidUsuarioVerifica" [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
+              <select formControlName="GuidUsuarioVerifica" validacion [validaciones]="['requerido']" [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
                 <option>Seleccione</option>
                 <option *ngFor="let verificador of verificadores" [value]="verificador.Guid">{{verificador.Valor}}</option>
 
@@ -39,16 +39,16 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Nombre:
+              Nombre:
             </label>
             <div class="col-md-8">
-              <input [attr.disabled]="esVer == true ? '' : null" type="text" formControlName="Nombre" name="Nombre" class="form-control" placeholder="Nombre">
+              <input [attr.disabled]="esVer == true ? '' : null" type="text" validacion [validaciones]="['requerido']" formControlName="Nombre" name="Nombre" class="form-control" placeholder="Nombre">
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Materiales:
+              Materiales:
             </label>
             <div class="col-md-3">
               <select [attr.disabled]="esVer == true ? '' : null" class="custom-select mr-sm-2 form-control-lg" (change)="nuevoMaterial($event)">
@@ -58,15 +58,15 @@
             </div>
 
             <label class="col-md-3 col-form-label" id="corre">
-              *Herramienta por cantidad:
+              Herramienta por cantidad:
             </label>
             <div class="col-md-2">
               <div class="form-check form-check-inline col-md-5">
-                <input [attr.disabled]="esVer == true ? '' : null" [checked]="EsHerramientaPorCantidad" [checked]="herramienta.EsHerramientaPorCantidad == true" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" value="true">
+                <input [attr.disabled]="esVer == true ? '' : null"  [checked]="herramienta.EsHerramientaPorCantidad == true" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioSi" [value]="true">
                 <label class="form-check-label" for="herramientaXCantidadRadioSi">SI</label>
               </div>&nbsp;
               <div class="form-check form-check-inline col-md-5">
-                <input [attr.disabled]="esVer == true ? '' : null" [checked]="EsHerramientaPorCantidad" [checked]="herramienta.EsHerramientaPorCantidad == false" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioNo" value="false">
+                <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPorCantidad == false" name="EsHerramientaPorCantidad" formControlName="EsHerramientaPorCantidad" class="form-check-input" type="radio" id="herramientaXCantidadRadioNo" [value]="false">
                 <label class="form-check-label" for="herramientaXCantidadRadioSi">NO</label>
               </div>
             </div>
@@ -83,7 +83,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Cliente:
+              Cliente:
             </label>
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="ClienteId" class="form-control form-control-lg" (change)="clienteLineaEvent($event)">
@@ -95,7 +95,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Linea:
+              Linea:
             </label>
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
@@ -109,30 +109,35 @@
             <div class="col-md-10  col-md-offset-1">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  *Herramienta Petrolera:&nbsp;&nbsp;
-                  <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPetrolera == true" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioSi" value="true">
+                  Herramienta Petrolera:&nbsp;&nbsp;
+
+                  <label class="form-check-label">SI</label>
+                  <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="true">
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <label class="form-check-label" for="EsHerramientaPetroleraRadioSi">SI</label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaPetrolera == false" name="EsHerramientaPetrolera" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" id="EsHerramientaPetroleraRadioNo" value="false">
+                  <label class="form-check-label" >NO</label>
+                  <input [attr.disabled]="esVer == true ? '' : null"   validacion [validaciones]="['*']"  formControlName="EsHerramientaPetrolera"  class="form-check-input" type="radio" [value]="false">
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <label class="form-check-label" for="EsHerramientaPetroleraRadio">NO</label>
                 </div>
                 <div class="panel-body">
 
                   <div class="card-body col-md-8">
                     <div class="form-group row">
                       <label class="col-md-5 col-form-label" id="corre">
-                        *Herramienta Motor:
+                        Herramienta Motor:
                       </label>
                       <div class="col-md-7" style="padding-top: 7px;">
                         <div class="form-check form-check-inline col-md-4">
-                          <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaMotor == true" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioSi" value="true">
-                          <label class="form-check-label" for="EsHerramientaMotorRadioSi">SI</label>
-                        </div>&nbsp;
+                          <label>SI</label>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+
+                          <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="true">
+                        </div>
                         <div class="form-check form-check-inline col-md-3">
-                          <input [attr.disabled]="esVer == true ? '' : null" [checked]="herramienta.EsHerramientaMotor == false" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" id="EsHerramientaMotorRadioNo" value="false">
-                          <label class="form-check-label" for="EsHerramientaMotorRadioNo">NO</label>
+                          <label>NO </label>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+
+                          <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="false">
                         </div>
                       </div>
                     </div>
@@ -142,13 +147,13 @@
 
                       <div class="form-group row">
                         <label class="col-md-5 col-form-label" id="corre">
-                          *Tamaños motor:
+                          Tamaños motor:
                         </label>
                         <div class="col-md-6">
                           <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños motor" #inputTamanoMotor>
                         </div>
                         <div class="col-md-1" style="padding-top:7px;float: right;">
-                          <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoMotor()"></i>
+                          <button class="glyphicon glyphicon-plus" type="button" (click)="nuevoTamanoMotor()"></button>
                         </div>
                       </div>
 
@@ -157,7 +162,7 @@
                           <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaTM.Tamano}}">
                         </div>
                         <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaTM.Estado">
-                          <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamanoMotor(i)"></i>
+                          <button class="btn glyphicon glyphicon-minus" type="button"  (click)="eliminarHerramientaTamanoMotor(i)"></button>
                         </div>
                       </div>
                     </div>
@@ -165,13 +170,13 @@
 
                       <div class="form-group row">
                         <label class="col-md-5 col-form-label" id="corre">
-                          *Tamaños de Herramienta:
+                          Tamaños de Herramienta:
                         </label>
                         <div class="col-md-6">
                           <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños de Herramienta" #inputTamanoHerramienta>
                         </div>
                         <div class="col-md-1" style="padding-top:7px;float: right;">
-                          <i class="glyphicon glyphicon-plus" (click)="nuevoTamanoHerramienta()"></i>
+                          <button class="glyphicon glyphicon-plus" type="button" (click)="nuevoTamanoHerramienta()"></button>
                         </div>
                       </div>
 
@@ -180,7 +185,7 @@
                           <input [attr.disabled]="true" class="form-control" type="text" value="{{herramientaT.Tamano}}">
                         </div>
                         <div class="col-md-1" style="padding-top:7px;float: right;" *ngIf="herramientaT.Estado">
-                          <i class="glyphicon glyphicon-minus" (click)="eliminarHerramientaTamano(i)"></i>
+                          <button class="btn glyphicon glyphicon-minus" type="button" (click)="eliminarHerramientaTamano(i)"></button>
                         </div>
                       </div>
                     </div>
@@ -195,7 +200,7 @@
 
           <div class="form-group row">
             <div class="col-md-2 col-md-offset-2">
-              <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm">Estudio de factibilidad</button>
+              <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" type="button" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm">Estudio de factibilidad</button>
             </div>
             <div class="col-md-1">
               <span *ngIf="esEstudioFactibilidad == 'vacio'" class="glyphicon glyphicon-hourglass"></span>
@@ -206,7 +211,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *MOC:
+              MOC:
             </label>
             <div class="col-md-8">
               <input [attr.disabled]="esVer == true ? '' : null" type="number" max="11" formControlName="Moc" name="Moc" class="form-control" placeholder="MOC">
@@ -219,7 +224,7 @@
                 <button type="button" class="btn btn-md" (click)="salir()">Regresar</button>
               </div>
               <div class="col-md-5">
-                <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del la Herramienta?',true,{frmHerramienta: frmHerramienta.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+                <button *ngIf="isSubmitted == true && esVer == false" type="submit"  data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
                 <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
               </div>
             </div>

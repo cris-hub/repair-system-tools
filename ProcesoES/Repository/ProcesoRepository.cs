@@ -69,13 +69,23 @@ namespace ProcesoES.Repository
                 foreach (var t in inspeccion.InspeccionEquipoUtilizado)
                 {
 
-                    _context.Entry(t).State = t.EquipoUtilizadoId <= 0 && t.InspeccionId == 0 ?
-                           EntityState.Added :
-                           EntityState.Modified;
+                    if (t.EquipoUtilizadoId <= 0 && t.InspeccionId == 0)
+                    {
+                        _context.Entry(t).State = EntityState.Added;
+
+                        _context.InspeccionEquipoUtilizado.Add(t);
+                    }
+                    else
+                    {
+                        _context.Entry(t).State = EntityState.Modified;
+                        _context.InspeccionEquipoUtilizado.Add(t);
+                        
+                    }
+
+
                     var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EquipoUtilizadoId);
                     _context.Entry(catalogo).State = EntityState.Unchanged;
 
-                    _context.InspeccionEquipoUtilizado.Add(t);
                 }
 
                 foreach (var t in inspeccion.Insumos)
@@ -120,7 +130,7 @@ namespace ProcesoES.Repository
 
                 //_context.InspeccionEquipoUtilizado.UpdateRange(inspeccion.InspeccionEquipoUtilizado);
 
-
+                inspeccion.EstadoId = (int)ESTADOS_INSPECCION.COMPLETADA;
                 _context.Inspeccion.Update(inspeccion);
                 return await _context.SaveChangesAsync() > 0;
             }
@@ -327,8 +337,8 @@ namespace ProcesoES.Repository
                     TipoInspeccionId = tipoInspeccion,
                     Guid = Guid.NewGuid(),
                     NombreUsuarioCrea = "admin",
-                    FechaRegistro = new DateTime(),
-                    EstadoId = (int)ESTADOS_INSPECCION.ENPROCESO,
+                    FechaRegistro = DateTime.Now,
+                    EstadoId = (int)ESTADOS_INSPECCION.PENDIENTE,
                     Pieza = pieza
                 };
 
@@ -383,7 +393,7 @@ namespace ProcesoES.Repository
             {
                 proceso.Guid = Guid.NewGuid();
                 proceso.NombreUsuarioCrea = "admin";
-                proceso.FechaRegistro = new DateTime();
+                proceso.FechaRegistro = DateTime.Now;
                 await _context.Proceso.AddAsync(proceso);
                 await _context.SaveChangesAsync();
 
@@ -395,6 +405,68 @@ namespace ProcesoES.Repository
                 throw e;
             }
 
+        }
+
+        public async Task<bool> ActualizarProcesoSugerir(Guid guidProceso, Guid guidProcesoSegurido, UsuarioDTO usuarioDTO)
+        {
+            Catalogo procesoSugerido = await _context.Catalogo.AsNoTracking().FirstOrDefaultAsync(d => d.Guid == guidProcesoSegurido);
+            Proceso procesoBD = await _context.Proceso.FirstOrDefaultAsync(d => d.Guid == guidProceso);
+            procesoBD.TipoProcesoSiguienteSugeridoId = procesoSugerido.Id;
+
+            _context.Entry(procesoBD).Property(e => e.TipoProcesoSiguienteSugeridoId).IsModified = true;
+            bool accionCorrecta = await _context.SaveChangesAsync() > 0;
+            return accionCorrecta;
+        }
+
+        public async Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid, int pieza, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+
+                var query = _context.Proceso.Include(proceso => proceso.InspeccionEntrada).ThenInclude(inspecionEntrada => inspecionEntrada.Inspeccion);
+                query.Where(d => d.Guid == guid);
+                var queryInspeccionesEntradas = query.SelectMany(t => t.InspeccionEntrada);
+                var queryInspecciones = queryInspeccionesEntradas.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+
+                Inspeccion inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
+
+                return inspecion;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarEstadoInspeccionPieza(Guid guid, int pieza, int estado, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+
+                var query = _context.Inspeccion.Include(d => d.ProcesoInspeccionEntrada).ThenInclude(t => t.Proceso);
+                var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
+                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza);
+                
+                foreach (var item in inpeccion)
+                {
+                    item.EstadoId = estado;
+                }
+                
+                              
+                _context.Inspeccion.UpdateRange(inpeccion);
+
+                
+            
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

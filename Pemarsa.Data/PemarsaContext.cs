@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Pemarsa.Domain;
+using System.IO;
 
 namespace Pemarsa.Data
 {
@@ -72,21 +73,26 @@ namespace Pemarsa.Data
         {
             optionsBuilder.EnableSensitiveDataLogging();
             // ...
+
         }
     }
 
+
+
+
     public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<PemarsaContext>
     {
-        public IConfiguration Configuration { get; }
+        
         public PemarsaContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<PemarsaContext>();
             builder.EnableSensitiveDataLogging();
-            IConfigurationRoot configuration = new ConfigurationBuilder()
+            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var conexionString = configuration.GetConnectionString("PemarsaDatabase");
 
-              .Build();
-
-            builder.UseMySql("Server=192.168.15.174;Database=pemarsa_neg_trunk;Uid=mysqldev;Pwd=MySqld3v1720*.;");
+            builder.UseMySql(conexionString);
             return new PemarsaContext(builder.Options);
         }
     }

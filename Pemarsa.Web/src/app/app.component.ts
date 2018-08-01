@@ -73,7 +73,23 @@ export class AppComponent implements OnInit {
                 color: "color"
               }
 
+          },
+          {
+            id: "11",
+            name: "Gest. procesos",
+            image: "",
+            url: "/procesos",
+            color: "color111",
+            title: "Insp. entrada",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-pieza",
+                color: "color"
+              }
+
           }
+       
 
         ],
         complementarios: false

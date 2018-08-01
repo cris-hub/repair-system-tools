@@ -24,6 +24,8 @@ import { VisualDimensionalMotorComponent } from './proceso/inspeccion//visual-di
 import { MPIComponent } from './proceso/inspeccion/mpi/mpi.component';
 import { UTAComponent } from './proceso/inspeccion/uta/uta.component';
 import { VisualDimensionalComponent } from './proceso/inspeccion/visual-dimensional/visual-dimensional.component';
+import { ProcesarOitComponent } from './coordinador/procesar-oit/procesar-oit.component';
+import { OitCambioProcesoComponent } from './coordinador/oit-cambio-proceso/oit-cambio-proceso.component';
 
 const routes: Routes = [
 
@@ -175,7 +177,9 @@ const routes: Routes = [
 
 
 
-
+  // procesos
+  
+  { path: 'procesos', component: OitCambioProcesoComponent },
 
 
   //OITs

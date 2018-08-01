@@ -5,7 +5,7 @@ export enum TIPO_PROCESO {
 
 export enum TIPO_INSPECCION {
   'visualdimensional' = 65,
-  'visualdimensionalmotor' = 105,
+  'visualdimensionalmotor' = 65,
   'mpi' = 66,
   'lpi' = 67,
   'ut' = 68,
@@ -15,7 +15,17 @@ export enum TIPO_INSPECCION {
 }
 export enum ESTADOS_INSPECCION {
   ENPROCESO = 77,
-  ANULADA = 78
+  ANULADA = 78,
+  COMPLETADA = 107,
+  PENDIENTE = 108,
+}
+export enum ESTADOS_PROCESOS {
+  'Pendiente' = 38,
+  'Asignado' = 39,
+  'Completado' = 62,
+  'Liberado' = 63,
+  'Rechazado' = 64,
+  'En Proceso' = 106,
 }
 export enum ALERTAS_ERROR_TITULO {
   DatosObligatorios = 'Falta diligenciar datos'
@@ -26,7 +36,7 @@ export enum ALERTAS_OK_MENSAJE {
   InspeccionEliminar = 'Se ha eliminado la inspeccion exitosamente',
   InspeccionActualizada = 'Se ha realizado la inspeccion exitosamente',
   InspeccionCreada = 'Se ha creado una nueva inspeccion exitosamente',
-  
+
 }
 export enum ALERTAS_ERROR_MENSAJE {
   InspeccionERRORactualizar = 'La Inspeccion no se ha podido actualizar',

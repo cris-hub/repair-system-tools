@@ -233,7 +233,7 @@ export class CrearHerramientaComponent implements OnInit {
 
   initForm(herramienta: HerramientaModel) {//faltan las lineas
     this.frmHerramienta = this.frmBuilder.group({
-      ClienteId: [herramienta.ClienteId,Validators.required],
+      ClienteId: [herramienta.ClienteId],
       EsHerramientaMotor: [herramienta.EsHerramientaMotor],
       GuidUsuarioVerifica: [herramienta.GuidUsuarioVerifica, Validators.required],
       EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera, Validators.required],
@@ -263,13 +263,26 @@ export class CrearHerramientaComponent implements OnInit {
     let valor = this.frmHerramienta.controls['ClienteId'].value
     if (valor && this.clienteLinea) {
       this.frmHerramienta.controls['LineaId'].setValidators(Validators.required)
+    } else {
+      
+      this.frmHerramienta.setControl('LineaId', new FormControl(this.herramienta.LineaId))
+
+      this.frmHerramienta.updateValueAndValidity();
     }
   }
   validacionHerramientaMotor() {
     let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
     if (valor) {
+
+      this.frmHerramienta.setControl('EsHerramientaMotor', new FormControl(this.herramienta.EsHerramientaMotor))
       this.frmHerramienta.setControl('TamanosMotor', new FormControl(this.herramientaTamanoMotor, Validators.required))
       this.frmHerramienta.setControl('TamanosHerramienta', new FormControl(this.herramientaTamano, Validators.required))
+      this.frmHerramienta.updateValueAndValidity();
+
+    } else {
+      this.frmHerramienta.setControl('TamanosMotor', new FormControl(this.herramientaTamanoMotor))
+      this.frmHerramienta.setControl('TamanosHerramienta', new FormControl(this.herramientaTamano))
+      this.frmHerramienta.updateValueAndValidity();
     }
     
   }

@@ -11,6 +11,8 @@ import { CatalogoModel, ProcesoModel, InspeccionModel } from "../../models/Index
 export class ProcesoService {
 
 
+  public iniciarProcesar :Boolean= false;
+
   private header: HttpHeaders;
   private urlServer: string;
 
@@ -61,5 +63,30 @@ export class ProcesoService {
     return this.http.put<boolean>(
       this.urlServer + 'ActualizarInspección', inspeccion, { headers: this.header }
     )
+  }
+
+  public actualizarProcesoSugerir(guiidProceso: string, guidProcesoSugerir: string): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarProcesoSugerir?guiidProceso=' + guiidProceso + '&guidProcesoSugerir=' + guidProcesoSugerir, {
+      headers: this.header
+    });
+  }
+
+  public actualizarEstadoProceso(guidProceso: any, estado: any): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarEstadoProceso?guidProceso=' + guidProceso + '&estado=' + estado, {
+      headers: this.header
+    });
+  }
+
+
+  public actualizarEstadoInspeccionPieza(guidProceso: string, pieza : string ,estado: number): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarEstadoInspeccionPieza?guidProceso=' + guidProceso + '&pieza=' + pieza + '&estado=' + estado, {
+      headers: this.header
+    });
+  }
+
+  public consultarSiguienteInspeccion(guidProceso: string,pieza:string): Observable<InspeccionModel> {
+    return this.http.get<InspeccionModel>(this.urlServer + 'ConsultarSiguienteInspeccion?guidProceso=' + guidProceso + '&pieza=' + pieza , {
+      headers: this.header
+    });
   }
 }

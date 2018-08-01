@@ -13,6 +13,8 @@ namespace Pemarsa.Domain
         public int InspeccionId { get; set; }
         public virtual Inspeccion Inspeccion { get; set; }
 
+        public bool Activa  { get; set; }
+
         [Required, ForeignKey("Proceso")]
         public int ProcesoId { get; set; }
         public virtual Proceso Proceso { get; set; }

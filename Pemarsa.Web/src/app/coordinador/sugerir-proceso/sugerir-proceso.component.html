@@ -1,0 +1,28 @@
+<!-- Modal -->
+<button *ngIf="accion=='procesar'"
+        data-target="#confirmarModal"
+        data-toggle="modal"
+        class="btn btn-primary">
+  Sugerir
+</button>
+
+
+<div *ngIf="accion == 'procesar' " class="modal fade" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="z-index: 4000;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{titulo}}</h5>
+      </div>
+      <div class="modal-body">
+        <select (change)="seleccionarProcesoSugerir($event.target.value)" class="custom-select mr-sm-2 form-control-lg">
+          <option value="0">Seleccione</option>
+          <option *ngFor="let tipoProceso of tiposProcesos" [value]="tipoProceso.Guid">{{tipoProceso.Valor}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="Cancelar" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

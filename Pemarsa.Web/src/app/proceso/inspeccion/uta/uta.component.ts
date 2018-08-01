@@ -27,7 +27,17 @@ export class UTAComponent implements OnInit {
   private lectorArchivos: FileReader;
   private adjuntos: AttachmentModel[] = [];
   private adjunto: AttachmentModel;
-  private DocumetosRestantes: number = 4;
+  private DocumetosRestantesImagenUltrasonidoDespues: number = 1;
+  private DocumetosRestantesImagenPantallaUltrasonido: number = 1;
+  private DocumetosRestantesImagenUltrasonidoDurante: number = 1;
+  private DocumetosRestantesImagenUltrasonidoPrevia: number = 1;
+  private DocumetosRestantes =
+    this.DocumetosRestantesImagenUltrasonidoDespues
+    + this.DocumetosRestantesImagenPantallaUltrasonido
+    + this.DocumetosRestantesImagenUltrasonidoDurante
+    + this.DocumetosRestantesImagenUltrasonidoPrevia
+
+
 
   //procesoInpeccion
   private proceso: ProcesoModel;
@@ -44,7 +54,7 @@ export class UTAComponent implements OnInit {
   private esFormularioValido: Boolean = false;
 
   constructor(
-    private location : Location,
+    private location: Location,
     private procesoService: ProcesoService,
     private toastrService: ToastrService,
     private parametroService: ParametroService,
@@ -101,7 +111,7 @@ export class UTAComponent implements OnInit {
       });
   }
 
-  
+
 
 
 
@@ -137,6 +147,7 @@ export class UTAComponent implements OnInit {
     //deja el arreglo
     delete this.formulario.value['InspeccionEquipoUtilizado']
     delete this.formulario.value['ImagenUltrasonidoDespues']
+    delete this.formulario.value['ImagenPantallaUltrasonido']
     delete this.formulario.value['ImagenUltrasonidoDurante']
     delete this.formulario.value['ImagenUltrasonidoPrevia']
     delete this.formulario.value['ImagenUltrasonidoPrevia']
@@ -149,8 +160,6 @@ export class UTAComponent implements OnInit {
     valido = this.formularioValido(formulario, valido);
 
     valido = this.documentosSubidosValido(valido);
-
-    valido = this.InspeccionEquipoUtilizadoValido(valido);
 
     return valido
   }
@@ -185,11 +194,11 @@ export class UTAComponent implements OnInit {
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      ImagenUltrasonidoDespues: [inspeccion.ImagenUltrasonidoDespues,Validators.required],
-      ImagenUltrasonidoDurante: [inspeccion.ImagenUltrasonidoDurante,Validators.required],
-      ImagenUltrasonidoPrevia: [inspeccion.ImagenUltrasonidoPrevia,Validators.required],
-      ImagenPantallaUltrasonido: [inspeccion.ImagenPantallaUltrasonido,Validators.required],
-      Observaciones: [inspeccion.Observaciones,Validators.required],
+      ImagenUltrasonidoDespues: [inspeccion.ImagenUltrasonidoDespues, Validators.required],
+      ImagenUltrasonidoDurante: [inspeccion.ImagenUltrasonidoDurante, Validators.required],
+      ImagenUltrasonidoPrevia: [inspeccion.ImagenUltrasonidoPrevia, Validators.required],
+      ImagenPantallaUltrasonido: [inspeccion.ImagenPantallaUltrasonido, Validators.required],
+      Observaciones: [inspeccion.Observaciones, Validators.required],
       TuboPatronId: [inspeccion.TuboPatronId, Validators.required],
       EstaConforme: [inspeccion.EstaConforme, Validators.required],
     });
@@ -207,11 +216,11 @@ export class UTAComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantesImagenPantallaUltrasonido <= 0) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-    if (files.length > this.DocumetosRestantes) {
+    if (files.length > this.DocumetosRestantesImagenPantallaUltrasonido) {
       this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
@@ -221,7 +230,7 @@ export class UTAComponent implements OnInit {
       let docEspesores = new AttachmentModel();
       docEspesores = this.obtenerDatosArchivoAdjunto(files[i]);
       this.inspeccion.ImagenPantallaUltrasonido = docEspesores
-      this.DocumetosRestantes -= 1;
+      this.DocumetosRestantesImagenPantallaUltrasonido -= 1;
 
     }
 
@@ -235,11 +244,11 @@ export class UTAComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantesImagenUltrasonidoPrevia <= 0) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-    if (files.length > this.DocumetosRestantes) {
+    if (files.length > this.DocumetosRestantesImagenUltrasonidoPrevia) {
       this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
@@ -249,7 +258,7 @@ export class UTAComponent implements OnInit {
       let docEspesores = new AttachmentModel();
       docEspesores = this.obtenerDatosArchivoAdjunto(files[i]);
       this.inspeccion.ImagenUltrasonidoPrevia = docEspesores
-      this.DocumetosRestantes -= 1;
+      this.DocumetosRestantesImagenUltrasonidoPrevia -= 1;
 
     }
 
@@ -263,11 +272,11 @@ export class UTAComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantesImagenUltrasonidoDurante <= 0) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-    if (files.length > this.DocumetosRestantes) {
+    if (files.length > this.DocumetosRestantesImagenUltrasonidoDurante) {
       this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
@@ -277,7 +286,7 @@ export class UTAComponent implements OnInit {
       let docEspesores = new AttachmentModel();
       docEspesores = this.obtenerDatosArchivoAdjunto(files[i]);
       this.inspeccion.ImagenUltrasonidoDurante = docEspesores
-      this.DocumetosRestantes -= 1;
+      this.DocumetosRestantesImagenUltrasonidoDurante -= 1;
 
     }
 
@@ -291,11 +300,11 @@ export class UTAComponent implements OnInit {
     if (!files) {
       !this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntos)
     }
-    if (this.DocumetosRestantes <= 0) {
+    if (this.DocumetosRestantesImagenUltrasonidoDespues <= 0) {
       this.toastrService.error(ALERTAS_ERROR_MENSAJE.LimiteDeDocumentosAdjuntosSuperdo)
       return;
     }
-    if (files.length > this.DocumetosRestantes) {
+    if (files.length > this.DocumetosRestantesImagenUltrasonidoDespues) {
       this.toastrService.info(ALERTAS_ERROR_MENSAJE.DocumentosAdjuntosFaltantes)
       return;
     }
@@ -306,7 +315,7 @@ export class UTAComponent implements OnInit {
       let docMFL = new AttachmentModel();
       docMFL = this.obtenerDatosArchivoAdjunto(files[i]);
       this.inspeccion.ImagenUltrasonidoDespues = docMFL
-      this.DocumetosRestantes -= 1;
+      this.DocumetosRestantesImagenUltrasonidoDespues -= 1;
     }
 
 

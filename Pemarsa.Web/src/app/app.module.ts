@@ -32,6 +32,7 @@ import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.serv
 import { ProcesoModule } from './proceso/proceso.module';
 import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
 import { LoaderService } from './common/services/entity/loaderService';
+import { CoordinadorModule } from './coordinador/coordinador.module';
 
 
 
@@ -45,6 +46,7 @@ import { LoaderService } from './common/services/entity/loaderService';
   imports: [
     BrowserModule,
     HttpClientModule,
+    CoordinadorModule,
     ClienteModule,
     AutoCompleteModule,
     FormatoModule,
