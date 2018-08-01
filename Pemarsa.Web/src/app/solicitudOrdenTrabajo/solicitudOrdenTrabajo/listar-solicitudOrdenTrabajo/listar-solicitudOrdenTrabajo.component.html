@@ -112,7 +112,7 @@
     <br />
   </div>
 </div>
-<div *ngIf="esNuevaAccion" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
+<div *ngIf="esNuevaAccion" class="modal" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
   aria-hidden="true">
   <app-crear-solicitudOrdenTrabajo [solicitudOrdenTrabajoModelInput]="solicitudOrdenTrabajoModelInput" [accion]="accion" (accionEvento)="persistenciaDatosResponse($event)" ></app-crear-solicitudOrdenTrabajo>
 </div>

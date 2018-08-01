@@ -244,11 +244,11 @@
   </div>
 </div>
 
-<div *ngIf="verHistorial" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
+<div *ngIf="verHistorial" class="modal" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
      aria-hidden="true">
   <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
 </div>
 
-<div *ngIf="accionRealizarTituloPagina" class="modal fade" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div *ngIf="accionRealizarTituloPagina" class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
 </div>

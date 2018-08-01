@@ -144,7 +144,7 @@
 
     </div>
 
-    <div *ngIf="accion[0] == 'Crear' ||  accion[0] == 'Procesar'  || accion[0] == 'Editar' " class="modal fade" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div *ngIf="accion[0] == 'Crear' ||  accion[0] == 'Procesar'  || accion[0] == 'Editar' " class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
     </div>
     <div class="modal-footer">

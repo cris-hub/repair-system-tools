@@ -139,17 +139,17 @@
     <br />
   </div>
 </div>
-<div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <app-confirmacion-modal (confir)="actualizarEstadoOITConfirmacion($event)"></app-confirmacion-modal>
 </div>
-<div *ngIf="esNuevaAccion" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
+<div *ngIf="esNuevaAccion" class="modal" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
      aria-hidden="true">
   <app-confirmacion-modal (confir)="actualizarEstadoOITConfirmacion($event)"></app-confirmacion-modal>
 
 </div>
 
 
-<div *ngIf="esNuevaAccion" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
+<div *ngIf="esNuevaAccion" class="modal" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
      aria-hidden="true">
   <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
 </div>
