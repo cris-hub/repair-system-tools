@@ -28,8 +28,30 @@
 }
 
 
-/*Filtros*/
+/*Cambiar placeholder de los input*/
+::-webkit-input-placeholder {
+  color: #d2d2d2 !important;
+}
+/* WebKit, Blink, Edge */
+:-moz-placeholder {
+  color: #d2d2d2 !important;
+}
+/* Mozilla Firefox 4 to 18 */
+::-moz-placeholder {
+  color: #d2d2d2 !important;
+}
+/* Mozilla Firefox 19+ */
+:-ms-input-placeholder {
+  color: #d2d2d2 !important;
+}
+/* Internet Explorer 10-11 */
+::-ms-input-placeholder {
+  color: #d2d2d2 !important;
+}
+/* Microsoft Edge */
 
+
+/*Filtros*/
 .dropdown-menu.show {
   display: block;
   font-size: 12px !important;
@@ -108,9 +130,6 @@
   -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
-  /*-webkit-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
-  -moz-box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);
-  box-shadow: -1px 3px 28px -5px rgba(27,74,146,0.57);*/
 }
 
 /*Titulo para las tablas fondo azul, letra blanca*/
