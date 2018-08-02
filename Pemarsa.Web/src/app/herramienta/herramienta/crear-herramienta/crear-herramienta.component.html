@@ -199,7 +199,7 @@
 
           <div class="form-group row">
             <div class="col-lg-6 col-md-6 col-sm-6">
-              <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" type="button" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm float-right">Estudio de factibilidad</button>
+              <button data-toggle="modal" [attr.disabled]="esVer == true ? '' : null" data-target="#HerramientaEstudioFactibilidadModal" type="button" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm float-right">Estudio de factibilidad</button>
             </div>
             <div class="col-6 col-md-6 col-sm-6 col">
               <span *ngIf="esEstudioFactibilidad == 'vacio'" class="glyphicon glyphicon-hourglass gray"></span>
