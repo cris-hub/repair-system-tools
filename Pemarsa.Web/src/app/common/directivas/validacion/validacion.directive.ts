@@ -128,6 +128,7 @@ export class ValidacionDirective implements Validator {
       this.renderer.removeChild(this.strong, this.text);
       this.text = this.renderer.createText(this.mensaje);
       this.renderer.addClass(this.strong, 'text-danger');
+      this.renderer.addClass(this.strong, 'validaciones');
       this.renderer.appendChild(this.strong, this.text);
 
     }
