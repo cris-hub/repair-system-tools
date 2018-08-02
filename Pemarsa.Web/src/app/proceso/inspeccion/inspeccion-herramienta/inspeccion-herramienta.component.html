@@ -24,7 +24,7 @@
 
             <div class="form-group row">
               <div class="col-md-3 col-md-offset-3">
-                <p class="form-control ">
+                <p class="well well-sm ">
                   {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
 
                   <i *ngIf="estadoCompleta(indexHerramienta)" class="glyphicon glyphicon-ok pull-right"></i>
@@ -36,6 +36,8 @@
             </div>
 
           </div>
+          <button *ngIf="!inspeccionesEnProceso" class="btn btn-success" (click)="procesar();">procesar</button>
+
         </div>
       </div>
 
@@ -103,7 +105,7 @@
             Tipos de inspecciones:
           </label>
           <div class="col-md-3">
-            <select [attr.disabled]="accion == 'ver' || inspeccionesTerminada ? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
+            <select [disabled]="!estanInpeccionesEnProceso()"  (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
               <option>Seleccione</option>
               <option *ngFor="let tipoInspeccion of tiposInspecciones" value="{{tipoInspeccion.Id}}">{{tipoInspeccion.Valor}}</option>
             </select>
@@ -121,7 +123,7 @@
                   <span *ngIf="(inspeccion.estado=='ENPROCESO'  || inspeccion.estado=='COMPLETADA')"><i class="glyphicon pull-right glyphicon-lock danger-color"></i></span>
                   <span *ngIf="!(accion== 'ver' || accion== 'editar') && !(inspeccion.estado=='COMPLETADA' || inspeccion.estado=='ENPROCESO')" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)"><i class="glyphicon glyphicon-minus pointer pull-right"></i></span>
                   <span *ngIf="!(accion== 'editar' || accion== 'procesar') && !(inspeccion.estado=='COMPLETADA') " routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/ver"><i class="glyphicon glyphicon-eye-open pointer pull-right"></i></span>
-                  <span *ngIf="!(accion== 'ver' || accion== 'procesar') && !(inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/editar"><i class="glyphicon glyphicon-pencil pointer pull-right"> </i></span>
+                  <span *ngIf="!(accion== 'ver' || accion== 'procesar') && (inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/editar"><i class="glyphicon glyphicon-pencil pointer pull-right"> </i></span>
                   <span *ngIf="!(accion== 'ver' || accion== 'editar' || accion== 'procesar'  ) && !(inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/procesar"><i class="glyphicon glyphicon-wrench pointer pull-right"></i></span>
                 </p>
               </div>

@@ -124,6 +124,7 @@ export class VRComponent implements OnInit {
         this.loaderService.display(false)
       })
   }
+
   consultarSiguienteInspeccion(guidProceso: string) {
 
     console.log(this.obtenerParametrosRuta().get('pieza'), this.procesoService.iniciarProcesar)
@@ -135,6 +136,11 @@ export class VRComponent implements OnInit {
         if (response == null) {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
+          this.router.navigate([
+            'inspeccion/entrada/' +
+            this.obtenerParametrosRuta().get('procesoId') + '/' +
+            this.obtenerParametrosRuta().get('pieza') + '/' +
+            this.obtenerParametrosRuta().get('accion')]);
           return
         }
         this.router.navigate([

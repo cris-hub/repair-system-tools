@@ -160,6 +160,11 @@ export class UTAComponent implements OnInit {
         if (response == null) {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
+          this.router.navigate([
+            'inspeccion/entrada/' +
+            this.obtenerParametrosRuta().get('procesoId') + '/' +
+            this.obtenerParametrosRuta().get('pieza') + '/' +
+            this.obtenerParametrosRuta().get('accion')]);
           return
         }
         this.router.navigate([
@@ -169,7 +174,7 @@ export class UTAComponent implements OnInit {
           this.obtenerParametrosRuta().get('pieza') + '/' +
           this.obtenerParametrosRuta().get('accion')]);
       });
-    }
+    } 
   }
   completarProcesoInspeccion(guidProceso: string) {
     debugger
