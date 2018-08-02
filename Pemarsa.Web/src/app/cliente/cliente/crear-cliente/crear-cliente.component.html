@@ -171,7 +171,8 @@
         <div class="form-group">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
-              <button type="button" class="btn btn-md" (click)="salir()">Regresar</button>
+              <button type="button" *ngIf="esVer" class="btn btn-md" (click)="salir()">Volver</button>
+              <button type="button" *ngIf="!esVer" class="btn btn-md" (click)="salir()">Cancelar</button>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col">
               <button *ngIf="isSubmitted == true && esVer == false" type="button" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>

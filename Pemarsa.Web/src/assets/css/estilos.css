@@ -3,8 +3,8 @@
   src: url(../fonts/OpenSans-Light.ttf);
 }
 
-body{
-  font-size:14px !important;
+body {
+  font-size: 14px !important;
 }
 
 
@@ -13,15 +13,25 @@ body{
   font-size: 12px;
 }
 
+/*colores*/
+.gray {
+  color: gray;
+}
 
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
 /*Estilos width*/
-
 .width-12 {
   width: 12%;
 }
 
-.width-10{
-  width:10%;
+.width-10 {
+  width: 10%;
 }
 
 .width-9 {
@@ -37,15 +47,16 @@ body{
 }
 
 /*Ajustar formulario oit*/
-.left-10{
-  left:-10px;
-}
-.left-9{
-  left:-9px;
+.left-10 {
+  left: -10px;
 }
 
-.left-9-md{
-  left:-9px;
+.left-9 {
+  left: -9px;
+}
+
+.left-9-md {
+  left: -9px;
 }
 
 /*Contenido despues del panel*/
@@ -64,7 +75,7 @@ body{
   background-color: #f9f9f9;
   padding: 20px;
   height: 100%;
-  opacity:0.95;
+  opacity: 0.95;
   -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
@@ -118,7 +129,7 @@ contenedor {
   box-shadow: none !important;
   margin-top: 14px !important;
 }
-/*Cambiar placeholder del input de busqueda*/
+  /*Cambiar placeholder del input de busqueda*/
   .inputBuscar::-webkit-input-placeholder {
     color: #89b0e2 !important;
   }
@@ -189,6 +200,7 @@ contenedor {
   color: #FFF;
   font-size: 15px;
 }
+
 .center-table {
   text-align: center;
   font-size: 14px;
@@ -338,7 +350,7 @@ h4 {
 .estrella {
   margin-top: -6px;
   margin-left: -8px;
-  height:29px;
+  height: 29px;
 }
 
 
@@ -354,7 +366,7 @@ h4 {
   }
 
   .left-9-md {
-     left: 0px; 
+    left: 0px;
     top: 5px;
   }
   /*Ajustar iconos en responsive*/
@@ -574,8 +586,8 @@ h4 {
     width: 10%;
   }
 
-  .alinear-derecha{
-    text-align:left;
+  .alinear-derecha {
+    text-align: left;
   }
 
   .nav-side-menu ul, .nav-side-menu li {

@@ -33,8 +33,8 @@
       </form>
     </div>
     <div class="modal-footer">
+      <button (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-md">Cancelar</button>
       <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitlineaCliente(frmLineaCliente.value)" data-dismiss="modal" class="btn btn-primary">{{accion}}</button>
-      <button *ngIf="accion == 'ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
     </div>
   </div>
 </div>

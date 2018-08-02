@@ -225,16 +225,16 @@ export class CrearOitComponent implements OnInit {
   accionRealizar(): string {
     if (this.activeRoute.snapshot.routeConfig.path.includes('editar')) {
       this.esEditar = true;
-      this.accionRealizarTituloPagina = 'Editar';
+      this.accionRealizarTituloPagina = 'Editar OIT';
     } else if (this.activeRoute.snapshot.routeConfig.path.includes('procesar')) {
       this.esProcesar = true;
       this.accionRealizarTituloPagina = 'Procesar';
     } else if (this.activeRoute.snapshot.routeConfig.path.includes('nueva-oit')) {
       this.esNueva = true;
-      this.accionRealizarTituloPagina = 'Crear Nueva OIT';
+      this.accionRealizarTituloPagina = 'Crear OIT';
     } else {
       this.esVer = true;
-      this.accionRealizarTituloPagina = 'ver';
+      this.accionRealizarTituloPagina = 'Detalle de OIT';
     }
     return this.accionRealizarTituloPagina;
   }

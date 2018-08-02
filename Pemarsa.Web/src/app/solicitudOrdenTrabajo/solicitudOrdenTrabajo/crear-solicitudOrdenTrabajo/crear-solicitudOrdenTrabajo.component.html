@@ -142,6 +142,7 @@
       <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
     </div>
     <div class="modal-footer">
+      <button data-dismiss="modal" (click)="salir()" class="btn btn">Cancelar</button>
       <button *ngIf="accion[0] == 'Crear' || accion[0] == 'Editar' || accion[0] == 'Procesar'"
               (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar la ' + accion[0] + ' la solicitud?', true, { frmSolicitudOit : frmSolicitudOit.value})"
               data-target="#confirmarModal"
@@ -149,7 +150,6 @@
               class="btn btn-primary">
         {{accion[0]}}
       </button>
-      <button *ngIf="accion[0] == 'Ver'" data-dismiss="modal" (click)="salir()" class="btn btn-primary">Regresar</button>
     </div>
   </div>
 </div>

@@ -19,7 +19,7 @@
     </div>
     <div class="row contenido-interno">
       <div class="col-md-12">
-        <form [formGroup]="frmHerramienta" (ngSubmit)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del la Herramienta?',true,{frmHerramienta: frmHerramienta.value})">
+        <form [formGroup]="frmHerramienta" (ngSubmit)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación de la Herramienta?',true,{frmHerramienta: frmHerramienta.value})">
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
@@ -202,9 +202,9 @@
               <button data-toggle="modal" data-target="#HerramientaEstudioFactibilidadModal" type="button" (click)="nuevoDataEstudioFactibilidad(herramientaEstudioFactibilidad, 'crear')" class="btn btn-sm float-right">Estudio de factibilidad</button>
             </div>
             <div class="col-6 col-md-6 col-sm-6 col">
-              <span *ngIf="esEstudioFactibilidad == 'vacio'" class="glyphicon glyphicon-hourglass"></span>
-              <span *ngIf="esEstudioFactibilidad == 'ok'" class="glyphicon glyphicon-ok"></span>
-              <span *ngIf="esEstudioFactibilidad == 'falta'" class="glyphicon glyphicon-remove"></span>
+              <span *ngIf="esEstudioFactibilidad == 'vacio'" class="glyphicon glyphicon-hourglass gray"></span>
+              <span *ngIf="esEstudioFactibilidad == 'ok'" class="glyphicon glyphicon-ok green"></span>
+              <span *ngIf="esEstudioFactibilidad == 'falta'" class="glyphicon glyphicon-remove red"></span>
             </div>
           </div>
 
@@ -220,7 +220,7 @@
           <div class="form-group">
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
-                <button type="button" class="btn btn-md" (click)="salir()">Regresar</button>
+                <button type="button" class="btn btn-md" (click)="salir()">Cancelar</button>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col">
                 <button *ngIf="isSubmitted == true && esVer == false" type="submit" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
