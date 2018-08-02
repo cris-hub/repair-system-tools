@@ -1,80 +1,76 @@
-<div class="col-md-10">
-  <div class="row">
-    <br>
-    <div class="col-md-12">
-      <div class="panel" style="background-color: rgba(36, 99, 194, .9);color: #FFF;">
-        <div class="panel-heading">
-          <div class="row">
-
-            <div class="col-md-3" style="padding-top:20px;">
-              <label class="col-sm-12 col-form-label">
-                <h4 style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200;">Listado de solicitudes para nueva OIT </h4>
-              </label>
-            </div>
-            <div class="col-md-9" style="text-align: right;">
-              <div class="col-md-6 col-sm-12" style="text-align: right;">
-                <br>
-                <input type="text" placeholder="Busqueda básica" class="form-control" name="">
-              </div>
-              <div class="col-md-4" style="padding-top:30px;">
-                <app-filtro-solicitudOrdenTrabajo (paramsFiltro)="consultarOitPorFiltro($event)"></app-filtro-solicitudOrdenTrabajo>
-              </div>
-              <div class="col-md-1" style="padding-top:22px;">
-                <div class="btn-group" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-list"></span>
-                  </a>
-                  <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li class="records-page-contactos" data-page="10">
-                      <a (click)="limiteConsulta(10)">10 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="20">
-                      <a (click)="limiteConsulta(20)">20 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="30">
-                      <a (click)="limiteConsulta(30)">30 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="50">
-                      <a (click)="limiteConsulta(50)">50 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="100">
-                      <a (click)="limiteConsulta(100)">100 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="200">
-                      <a (click)="limiteConsulta(200)">200 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="300">
-                      <a (click)="limiteConsulta(300)">300 Registros</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-1" style="padding-top:30px;float: right;">
-                <i (click)="habilitarNuevaOit()" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus pointer"></i>
-              </div>
-            </div>
+<br />
+<div class="container-fluid">
+  <div class="row titulo">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <h3 class="margin-20 text-center">Listado de solicitudes para nueva OIT </h3>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <br />
+    </div>
+    <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
+    </div>
+    <div class="col-lg-3 col-md-9 col-sm-9 col-xs-12">
+      <div class="row">
+        <div class="col col-sm-5 col-md-5">
+          <br />
+          <app-filtro-solicitudOrdenTrabajo (paramsFiltro)="consultarOitPorFiltro($event)" class="pointer float-right" data-toggle="tooltip" title="Filtros avanzados"></app-filtro-solicitudOrdenTrabajo>
+        </div>
+        <div class="col col-sm-2 col-md-1">
+          <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
+            </a>
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+              <li class="records-page-contactos" data-page="10">
+                <a (click)="limiteConsulta(10)">10 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="20">
+                <a (click)="limiteConsulta(20)">20 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="30">
+                <a (click)="limiteConsulta(30)">30 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="50">
+                <a (click)="limiteConsulta(50)">50 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="100">
+                <a (click)="limiteConsulta(100)">100 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="200">
+                <a (click)="limiteConsulta(200)">200 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="300">
+                <a (click)="limiteConsulta(300)">300 Registros</a>
+              </li>
+            </ul>
           </div>
+        </div>
+        <div class="col col-sm-3 col-md-4">
+          <br />
+          &nbsp;
+          <i (click)="habilitarNuevaOit()" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-plus pointer" title="Agregar solicitud OIT"></i>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row contenido-interno-listar">
     <div class="col-md-12">
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
-            <tr>
-              <th class="col-md-2">Responsable</th>
-              <th class="col-md-2">Cliente</th>
-              <th class="col-md-1">Línea</th>
-              <th class="col-md-1">Prioridad</th>
-              <th class="col-md-2">Detalles de solicitud</th>
-              <th class="col-md-1">Fecha de creación</th>
-              <th class="col-md-1">Estado</th>
-              <th class="col-md-1">Acciones</th>
+            <tr class="titleTable text-center">
+              <th>Responsable</th>
+              <th>Cliente</th>
+              <th>Línea</th>
+              <th>Prioridad</th>
+              <th>Detalles de solicitud</th>
+              <th>Fecha de creación</th>
+              <th>Estado</th>
+              <th class="width-8">Acciones</th>
             </tr>
           </thead>
-          <tbody *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+          <tbody class="font-black center-table" *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
             <tr [ngClass]="obtenerEstilosPorPrioridad(oit.Prioridad.Valor)">
               <td>{{oit.Responsable.Valor}}</td>
               <td>{{oit.Cliente.NickName}}</td>
@@ -83,16 +79,12 @@
               <td>{{oit.DetallesSolicitud}}</td>
               <td>{{oit.FechaRegistro | date:'short'}}</td>
               <td>{{oit.Estado.Valor}}</td>
-              <td class="col-md-12">
-                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i (click)="actualizarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-pencil pointer"></i>
-                </div>
-                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i (click)="ProcesarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-wrench pointer"></i>
-                </div>
-                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i (click)="verSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-eye-open pointer"></i>
-                </div>
+              <td>
+                <i (click)="actualizarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-pencil pointer"  title="Editar solicitud OIT"></i>
+                &nbsp;&nbsp;
+                <i (click)="ProcesarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-wrench pointer" title="Procesar solicitud OIT"></i>
+                &nbsp;&nbsp;
+                <i (click)="verSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-eye-open pointer"  title="Ver detalle solicitud OIT"></i>
               </td>
             </tr>
 
@@ -100,21 +92,21 @@
         </table>
       </div>
     </div>
-  </div>
-  <!--Paginacion -->
-  <div class="row">
-    <nav aria-label="pagination example">
-      <ul class="pagination pagination-circle pg-blue mb-0">
-        <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
-        </pagination-controls>
-      </ul>
-    </nav>
-    <br />
+    <!--Paginacion -->
+    <div class="row">
+      <nav aria-label="pagination example">
+        <ul class="pagination pagination-circle pg-blue mb-0">
+          <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
+          </pagination-controls>
+        </ul>
+      </nav>
+      <br />
+    </div>
   </div>
 </div>
 <div *ngIf="esNuevaAccion" class="modal" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
-  aria-hidden="true">
-  <app-crear-solicitudOrdenTrabajo [solicitudOrdenTrabajoModelInput]="solicitudOrdenTrabajoModelInput" [accion]="accion" (accionEvento)="persistenciaDatosResponse($event)" ></app-crear-solicitudOrdenTrabajo>
+     aria-hidden="true">
+  <app-crear-solicitudOrdenTrabajo [solicitudOrdenTrabajoModelInput]="solicitudOrdenTrabajoModelInput" [accion]="accion" (accionEvento)="persistenciaDatosResponse($event)"></app-crear-solicitudOrdenTrabajo>
 </div>
 
 

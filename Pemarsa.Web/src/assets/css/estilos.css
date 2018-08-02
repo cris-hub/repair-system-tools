@@ -7,6 +7,47 @@ body{
   font-size:14px !important;
 }
 
+
+/*Validaciones*/
+.validaciones {
+  font-size: 12px;
+}
+
+
+/*Estilos width*/
+
+.width-12 {
+  width: 12%;
+}
+
+.width-10{
+  width:10%;
+}
+
+.width-9 {
+  width: 9%;
+}
+
+.width-8 {
+  width: 8%;
+}
+
+.width-6 {
+  width: 6%;
+}
+
+/*Ajustar formulario oit*/
+.left-10{
+  left:-10px;
+}
+.left-9{
+  left:-9px;
+}
+
+.left-9-md{
+  left:-9px;
+}
+
 /*Contenido despues del panel*/
 .contenido-interno {
   background-color: rgba(249, 249, 249, 0.95);
@@ -65,7 +106,7 @@ contenedor {
 .dropdown-menu.show {
   display: block;
   font-size: 12px !important;
-  width: 170px !important;
+  width: auto !important;
 }
 
 /*input buscar de los listados*/
@@ -311,6 +352,11 @@ h4 {
   .contenido-interno {
     padding: 20px;
   }
+
+  .left-9-md {
+     left: 0px; 
+    top: 5px;
+  }
   /*Ajustar iconos en responsive*/
   #iconoMenu {
     font-size: 30px !important;
@@ -446,6 +492,10 @@ h4 {
     }
 
   /*Fin Estilos Menu y submenu*/
+
+  .left-9-md {
+    left: 9px;
+  }
 
   #icono {
     font-size: 25px;

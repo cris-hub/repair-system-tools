@@ -1,13 +1,11 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
-
-
-<div class="modal-dialog modal-lg" role="document" style="margin-top: 200px !important; z-index: 1400;">
+<div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" style="color: #6c757d; font-size:30px;" id="exampleModalLabel"><b>{{accion[0]}} solicitud OIT</b></h5>
+    <div class="modal-header panelModal text-center">
+      <h3 class="modal-title">{{accion[0]}} solicitud OIT</h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+        <span class="font-white" aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
@@ -15,19 +13,18 @@
 
         <div class="form-group">
           <div class="col-sm-7">
-            <label for="Responsable" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Responsable:</b></label>
+            <label for="Responsable" class="col-sm-3  col-sm-offset-2 control-label"><b>Responsable:</b></label>
             <div class="col-md-6">
               <label class="control-label">Responsable:</label>
               <p *ngIf="solicitudOrdenTrabajoModelInput.Responsable">{{solicitudOrdenTrabajoModelInput.Responsable.Valor}}</p>
             </div>
-
           </div>
         </div>
 
 
         <div class="form-group">
           <div class="col-sm-7">
-            <label for="OrigenSolicitudId" style="color: #6c757d;" class="col-sm-3  col-sm-offset-2 control-label"><b>Origen: </b></label>
+            <label for="OrigenSolicitudId" class="col-sm-3 col-sm-offset-2 control-label"><b>Origen: </b></label>
             <div class="col-sm-7">
               <select [attr.disabled]="esVer == true ? '' : null" (ngModelChange)="cambioOrigen($event)" class="form-control form-control-lg" name="OrigenSolicitudId" formControlName="OrigenSolicitudId">
                 <option value="">Seleccione</option>
@@ -36,7 +33,7 @@
             </div>
           </div>
           <div class="col-sm-5">
-            <label for="PrioridadId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Prioridad:</b></label>
+            <label for="PrioridadId"  class="col-sm-3 control-label"><b>Prioridad:</b></label>
             <div class="col-sm-9">
               <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="PrioridadId" formControlName="PrioridadId">
                 <option value="">Seleccione</option>
@@ -49,7 +46,7 @@
         <div class="form-group">
           <div class="col-sm-9">
             <div  *ngIf="tieneRemison || origen == 13 || solicitudOrdenTrabajoModelInput == 13" class="form-group">
-              <label for="Remision" style="color: #6c757d;" class="col-sm-2 col-sm-offset-2  control-label"><b>Remision:</b></label>
+              <label for="Remision"  class="col-sm-2 col-sm-offset-2  control-label"><b>Remision:</b></label>
               <div class="col-sm-8">
                 <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFileRemision($event)" class="form-control-file" name="Remision" #inputFile>
               </div>
@@ -65,7 +62,7 @@
 
 
         <div class="form-group">
-          <label for="ClienteId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Cliente:</b></label>
+          <label for="ClienteId"  class="col-sm-3 control-label"><b>Cliente:</b></label>
           <div class="col-sm-9">
             <input [attr.disabled]="esVer == true ? '' : null"
                    id="ClienteId"
@@ -81,7 +78,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="LineaId" style="color: #6c757d;" class="col-sm-3 control-label"><b>Linea:</b></label>
+          <label for="LineaId"  class="col-sm-3 control-label"><b>Linea:</b></label>
           <div class="col-sm-9">
 
             <input [attr.disabled]="esVer == true ? '' : null"
@@ -98,7 +95,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="Contacto" style="color: #6c757d;" class="col-sm-3 control-label"><b>Contacto:</b></label>
+          <label for="Contacto"  class="col-sm-3 control-label"><b>Contacto:</b></label>
           <div class="col-sm-9">
             <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Contacto" placeholder="Contacto">
           </div>
@@ -106,26 +103,26 @@
 
         <div class="form-group">
           <div class="col-sm-7">
-            <label for="Cotizacion" style="color: #6c757d;" class="col-sm-3 col-sm-offset-2 control-label"><b>Cotizacion:</b></label>
+            <label for="Cotizacion" class="col-sm-3 col-sm-offset-2 control-label"><b>Cotizacion:</b></label>
             <div class="col-sm-7">
               <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cotizacion" placeholder="Cotizacion">
             </div>
           </div>
           <div class="col-sm-5">
-            <label for="Cantidad" style="color: #6c757d;" class="col-sm-3 control-label"><b>Cantidad:</b></label>
+            <label for="Cantidad" class="col-sm-3 control-label"><b>Cantidad:</b></label>
             <div class="col-sm-9">
               <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cantidad" placeholder="Cantidad">
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="DetallesSolicitud" style="color: #6c757d;" class="col-sm-3 control-label"><b>Detalle de solicitud:</b></label>
+          <label for="DetallesSolicitud" class="col-sm-3 control-label"><b>Detalle de solicitud:</b></label>
           <div class="col-sm-9">
             <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="DetallesSolicitud" placeholder="DetallesSolicitud">
           </div>
         </div>
         <div class="form-group">
-          <label for="DocumentoAdjunto" style="color: #6c757d;" class="col-sm-3 control-label"><b>Anexos:</b></label>
+          <label for="DocumentoAdjunto" class="col-sm-3 control-label"><b>Anexos:</b></label>
           <div class="col-sm-9">
             <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFile($event)" class="form-control-file" formControlName="DocumentoAdjunto" name="DocumentoAdjunto" #inputFile>
           </div>
@@ -134,14 +131,11 @@
           <div class="col-sm-3 col-sm-offset-3">
             <input [attr.disabled]="esVer == true ? '' : null" class="form-control" type="text" value="{{attachment.NombreArchivo}}">
           </div>
-          <div class="col-sm-5" style="padding-top:7px;float: right;">
+          <div class="col-sm-5 float-right">
             <i *ngIf="!esVer == true ? '' : null" class="glyphicon glyphicon-minus" (click)="eliminarAdjunto(attachment)"></i>
           </div>
         </div>
       </form>
-
-
-
     </div>
 
     <div *ngIf="accion[0] == 'Crear' ||  accion[0] == 'Procesar'  || accion[0] == 'Editar' " class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
