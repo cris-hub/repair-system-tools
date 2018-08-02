@@ -13,8 +13,30 @@ body{
   font-size: 12px;
 }
 
-/*Ajustar formulario oit*/
 
+/*Estilos width*/
+
+.width-12 {
+  width: 12%;
+}
+
+.width-10{
+  width:10%;
+}
+
+.width-9 {
+  width: 9%;
+}
+
+.width-8 {
+  width: 8%;
+}
+
+.width-6 {
+  width: 6%;
+}
+
+/*Ajustar formulario oit*/
 .left-10{
   left:-10px;
 }

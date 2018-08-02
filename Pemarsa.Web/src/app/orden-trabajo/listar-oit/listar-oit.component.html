@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="row contenido-interno-listar">
-    <div class="col-md-12">
+    <div class="col-12">
       <div class="table-responsive-sm table-responsive-md">
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
@@ -69,11 +69,11 @@
               <th>Responsable</th>
               <th>Fecha de creación</th>
               <th>Estado</th>
-              <th style="width:15%;">Acciones</th>
+              <th class="width-12">Acciones</th>
             </tr>
           </thead>
-          <tbody class="font-black center-table" *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
-            <tr>
+          <tbody class="font-black center-table">
+            <tr *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
               <td>{{oit.Id}}</td>
               <td>{{oit.Cliente.NickName}}</td>
               <td>{{oit.Herramienta.Nombre}}</td>
