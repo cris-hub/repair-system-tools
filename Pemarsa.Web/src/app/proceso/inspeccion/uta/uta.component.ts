@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { isUndefined } from 'util';
@@ -77,6 +77,7 @@ export class UTAComponent implements OnInit {
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
     parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
 
     return parametrosUlrMap;
   }
@@ -92,6 +93,7 @@ export class UTAComponent implements OnInit {
     this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
+        this.proceso = response
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
@@ -116,9 +118,8 @@ export class UTAComponent implements OnInit {
 
 
   //persistir
-
   procesar() {
-
+    this.procesoService.iniciarProcesar = true
     this.asignarDataDesdeElFormulario();
     this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
     if (this.esFormularioValido) {
@@ -126,21 +127,59 @@ export class UTAComponent implements OnInit {
     }
 
   }
+
   actualizarDatos() {
     this.loaderService.display(true)
     this.procesoService.actualizarInspección(this.inspeccion).subscribe(
       response => {
-        response ?
-          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+        if (response) {
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada)
+        } else
           this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+
         this.loaderService.display(false)
-        this.location.back();
+
       }, error => {
         this.toastrService.error(error.messge);
         this.loaderService.display(false)
       }, () => {
+        this.consultarSiguienteInspeccion(this.proceso.Guid);
+
         this.loaderService.display(false)
       })
+  }
+
+  consultarSiguienteInspeccion(guidProceso: string) {
+    debugger
+    console.log(this.obtenerParametrosRuta().get('pieza'), this.procesoService.iniciarProcesar)
+    if (this.proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerParametrosRuta().get('pieza') && this.procesoService.iniciarProcesar) {
+
+      this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerParametrosRuta().get('pieza')).subscribe(response => {
+        this.inspeccion = response;
+
+        if (response == null) {
+          this.completarProcesoInspeccion(guidProceso);
+          this.procesoService.iniciarProcesar = false;
+          return
+        }
+        this.router.navigate([
+          'inspeccion/entrada/' +
+          TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
+          this.obtenerParametrosRuta().get('procesoId') + '/' +
+          this.obtenerParametrosRuta().get('pieza') + '/' +
+          this.obtenerParametrosRuta().get('accion')]);
+      });
+    }
+  }
+  completarProcesoInspeccion(guidProceso: string) {
+    debugger
+    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response) {
+          this.router.navigate(['inspeccion/entrada'])
+        };
+      });
+    }
   }
 
   private asignarDataDesdeElFormulario() {

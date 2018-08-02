@@ -11,6 +11,7 @@ export class ProcesoModel extends EntityModel {
   public TrabajoRealizadoId: number
   public TrabajoRealizar: string;
   public Pieza: number;
+  public Reasignado : boolean
 
   public EstadoId: number;
   public Estado: CatalogoModel;
@@ -67,6 +68,7 @@ export class ProcesoModel extends EntityModel {
     super();
     this.OrdenTrabajo = new OrdenTrabajoModel();
     this.TipoProceso = new CatalogoModel();
+    this.TipoProcesoAnterior = new CatalogoModel();
 
   }
 }

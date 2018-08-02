@@ -28,8 +28,16 @@ namespace ProcesoES.Service
         {
             try
             {
+
+                if (proceso.EstadoId == (int)ESTADOSPROCESOS.RECHAZADO)
+                {
+
+                }
+
                 proceso.TipoProcesoId = (int)TIPOPROCESOS.INSPECCIONENTRADA;
                 proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
+
+                
                 Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
 
                 return procesoGuid;
@@ -72,7 +80,15 @@ namespace ProcesoES.Service
 
         public async Task<bool> ActualizarEstadoProceso(Guid guid, string estado, UsuarioDTO usuarioDTO)
         {
-            return await _procesoRepository.ActualizarEstadoProceso(guid, estado, usuarioDTO);
+            try
+            {
+                return await _procesoRepository.ActualizarEstadoProceso(guid, estado, usuarioDTO);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipo(int tipoProceso, Paginacion paginacion, UsuarioDTO usuarioDTO)

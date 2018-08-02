@@ -47,8 +47,8 @@ namespace ProcesoES.Repository
             try
             {
                 var proceso = await _context.Proceso.FirstOrDefaultAsync(a => a.Guid == guid);
-
-                var estadoProceso = (await _context.Catalogo.FirstOrDefaultAsync(a => a.Valor == estado || a.Id == Int32.Parse(estado) &&   a.Grupo == "ESTADOS_PROCESO")) ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
+                Int32.TryParse(estado, out int estadoid);
+                var estadoProceso = (await _context.Catalogo.FirstOrDefaultAsync(a => (a.Valor == estado || a.Id == estadoid) &&   a.Grupo == "ESTADOS_PROCESO")) ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
 
                 if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
                 {
@@ -212,8 +212,15 @@ namespace ProcesoES.Repository
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
                             .Include(c => c.OrdenTrabajo.Herramienta)
+                            .Include(c => c.OrdenTrabajo.TamanoHerramienta)
+                            .Include(c => c.OrdenTrabajo.Material).ThenInclude(m => m.Material)
                             .Include(c => c.OrdenTrabajo.Cliente)
-                            .Include(c => c.OrdenTrabajo.Anexos);
+                            .Include(c => c.OrdenTrabajo.Linea)
+                            .Include(c => c.OrdenTrabajo.Responsable)
+                            .Include(c => c.OrdenTrabajo.Anexos)
+                            .Include(c => c.TipoProcesoSiguienteSugerido)
+                            .Include(c => c.TipoProcesoAnterior);
+                            
 
 
                 //var result = proceso.Select(d => new Proceso

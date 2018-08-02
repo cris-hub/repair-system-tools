@@ -41,6 +41,7 @@ export class OrdenTrabajoModel extends EntityModel {
   constructor() {
     super();
     this.Cliente = new ClienteModel();
+    this.Responsable = new CatalogoModel();
     this.Linea = new ClienteLineaModel();
     this.Herramienta = new HerramientaModel();
     this.TipoServicio = new CatalogoModel();
