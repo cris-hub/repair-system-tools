@@ -39,7 +39,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   //validaciones
   public tieneProcesoSugerido: boolean = false;
   private esPieza: boolean = false;
-  private inspeccionesEnProceso: boolean = true;
+  private inspeccionesEnProceso: boolean = false;
   private iniciarProcesar = false;
   private inspeccionesTerminada: boolean = false;
   private PiezaId: any;
@@ -75,8 +75,7 @@ export class InspeccionHerramientaComponent implements OnInit {
       this.esPorCantidad = this.Proceso.OrdenTrabajo.CantidadInspeccionar > 1;
       this.loaderService.display(false)
       console.log(this.accion)
-      this.consultarSiguienteInspeccion(this.Proceso.Guid);
-      this.AgregarElemntosUI(this.tipoInspeccion);
+
       this.obtenerEstadosDeLaInspeccion();
 
     }, error => {
@@ -85,35 +84,36 @@ export class InspeccionHerramientaComponent implements OnInit {
 
     },
       () => {
+        this.AgregarElemntosUI(this.tipoInspeccion);
 
         this.loaderService.display(false)
-
+        this.consultarSiguienteInspeccion(this.Proceso.Guid);
 
       }
     );
   }
 
-
-
   obtenerTipoProceso(tiposProcesos: CatalogoModel[], procesoDesdeUrl: string) {
     this.tipoProcesoActual = tiposProcesos.find(proceso => { return proceso.Valor.toLowerCase().includes(procesoDesdeUrl) });
 
   }
+
   obtenerEstadosDeLaInspeccion() {
     if (this.tiposInspeccionesSeleccionadas.length > 0) {
+      if (this.Proceso.TipoProcesoSiguienteSugeridoId) {
+        this.tieneProcesoSugerido = true
+      }
+      console.log(this.tieneProcesoSugerido)
 
       if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[107])) {
         this.inspeccionesTerminada = true
-        if (this.Proceso.TipoProcesoSiguienteSugeridoId) {
-          this.tieneProcesoSugerido = true
-        }
-
-      } else {
+      }
+      else {
         this.inspeccionesTerminada = false
 
-      } if (this.tiposInspeccionesSeleccionadas.every(t =>
-        t['estado'] == ESTADOS_INSPECCION[77]
-        || t['estado'] == ESTADOS_INSPECCION[108])) {
+      }
+      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true)
+      ) {
         this.inspeccionesEnProceso = true
       } else { this.inspeccionesEnProceso = false }
 
@@ -122,9 +122,11 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA ).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
+          this.completarProcesoInspeccion(this.Proceso.Guid);
+
           this.router.navigate(['inspeccion/entrada'])
         };
       });
@@ -235,28 +237,35 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   //persistir
   procesar() {
-    this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, 'En Proceso').subscribe(response => {
-      response;
-      if (this.tiposInspeccionesSeleccionadas.length > 0) {
-
+    this.actualizarEstadoProceso();
+    this.actualizarEstadoInpeccionPieza();
+    this.procesoService.iniciarProcesar = true
+    
+  }
+  actualizarEstadoProceso() {
+    if (this.Proceso.EstadoId == ESTADOS_PROCESOS.Pendiente) {
+      this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, 'En Proceso').subscribe(
+        response => response, errorResponse => errorResponse, () => { })
+    }
+  }
+  actualizarEstadoInpeccionPieza() {
+    if (this.tiposInspeccionesSeleccionadas.length > 0) {
+      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[108])) {
         this.procesoService.actualizarEstadoInspeccionPieza(this.Proceso.Guid, this.obtenerProcesoDesdeUrl().get('pieza'), ESTADOS_INSPECCION.ENPROCESO).subscribe(response => {
           if (response) {
             this.procesoService.iniciarProcesar = response
-
           }
         }, errorResponse => errorResponse, () => {
           this.consultarProceso()
-
-
         });
+      } else if ((this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[107]))) {
+        this.router.navigate([
+          'inspeccion/entrada/']);
       }
-
-    }, errorResponse => { },
-      () => {
-        this.consultarSiguienteInspeccion(this.Proceso.Guid);
-      }
-    )
+    }
   }
+
+
   persistirNuevaInspeccionSelecionada(guidProceso, tipoInspeccion) {
     this.loaderService.display(true)
 
@@ -324,7 +333,9 @@ export class InspeccionHerramientaComponent implements OnInit {
 
     this.Proceso.InspeccionEntrada.forEach(inspecion => {
       this.tiposInspecciones.forEach(c => {
-        if (c.Id == inspecion.Inspeccion.TipoInspeccionId && (inspecion.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA) && inspecion.Inspeccion.Pieza == this.PiezaId) {
+        if (c.Id == inspecion.Inspeccion.TipoInspeccionId
+          && (inspecion.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
+          && inspecion.Inspeccion.Pieza.toString() == this.obtenerProcesoDesdeUrl().get('pieza')) {
           let indixe = this.tiposInspecciones.findIndex(c => c.Id == inspecion.Inspeccion.TipoInspeccionId)
           this.tiposInspecciones.splice(indixe, 1)
           c['estado'] = ESTADOS_INSPECCION[inspecion.Inspeccion.EstadoId].toString();
@@ -383,6 +394,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   responseSugerenciaProceso(event) {
     if (event) {
+      this.completarProcesoInspeccion(this.Proceso.Guid)
       this.router.navigate([
         'inspeccion/entrada/' +
         this.obtenerProcesoDesdeUrl().get('proceso') + '/' +

@@ -89,27 +89,30 @@
                 </b>
               </td>
 
-              <td class="col-md-12">
-
-                <div class="col-md-3">
-                  <i class="glyphicon glyphicon-eye-open pointer"></i>
-                </div>
-
-                <div class="col-md-3">
-                  <i class="glyphicon glyphicon-wrench pointer"></i>
-                </div>
-
-                <div class="col-md-3" style=" transform: rotate(180deg);">
-                  <i class="glyphicon glyphicon-share-alt pointer"></i>
-                </div>
-
-                <div class="col-md-3" style=" transform: rotate(280deg);">
-                  <i class="glyphicon glyphicon-share-alt pointer"></i>
-                </div>
+              <td>
 
 
-                <div class="col-md-3">
-                  <i data-toggle="modal" class="glyphicon glyphicon-print pointer"></i>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <div>
+                    <button  routerLink="/aprobacion-supervisor/{{Proceso.Guid}}" class="btn btn-outline-info glyphicon glyphicon-eye-open pointer"></button>
+                  </div>
+
+                  <div>
+                    <button routerLink="/aprobacion-supervisor/procesar/{{Proceso.Guid}}" class="btn btn-outline-info glyphicon glyphicon-wrench pointer"></button>
+                  </div>
+
+                  <div>
+                    <button style=" transform: rotate(180deg);" class="btn btn-outline-info glyphicon glyphicon-share-alt pointer"></button>
+                  </div>
+
+                  <div>
+                    <button style=" transform: rotate(270deg);" class="btn btn-outline-info glyphicon glyphicon-share-alt pointer"></button>
+                  </div>
+
+
+                  <div>
+                    <button class="btn btn-outline-info glyphicon glyphicon-print pointer"></button>
+                  </div>
                 </div>
 
                 <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">

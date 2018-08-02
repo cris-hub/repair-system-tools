@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { isUndefined } from 'util';
 import { Location } from '@angular/common';
 
@@ -73,6 +73,7 @@ export class EMIComponent implements OnInit {
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
     parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
 
     return parametrosUlrMap;
   }
@@ -90,6 +91,8 @@ export class EMIComponent implements OnInit {
     this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
+        this.proceso = response
+
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
@@ -98,11 +101,11 @@ export class EMIComponent implements OnInit {
         });
 
         this.inspeccion = inspeccionEntrada.Inspeccion;
-        
+
 
         this.inspeccion.ImagenMfl
           ? this.inspeccion.ImagenMfl
-          : this.inspeccion.ImagenMfl = new AttachmentModel() ;
+          : this.inspeccion.ImagenMfl = new AttachmentModel();
 
         this.inspeccion.ImagenMedicionEspesores
           ? this.inspeccion.ImagenMedicionEspesores
@@ -181,7 +184,7 @@ export class EMIComponent implements OnInit {
 
   //persistir
   procesar() {
-
+    this.procesoService.iniciarProcesar = true
     this.asignarDataDesdeElFormulario();
     this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
     if (this.esFormularioValido) {
@@ -189,19 +192,56 @@ export class EMIComponent implements OnInit {
     }
 
   }
+
+  consultarSiguienteInspeccion(guidProceso: string) {
+
+    console.log(this.obtenerParametrosRuta().get('pieza'), this.procesoService.iniciarProcesar)
+    if (this.proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerParametrosRuta().get('pieza') && this.procesoService.iniciarProcesar) {
+
+      this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerParametrosRuta().get('pieza')).subscribe(response => {
+        this.inspeccion = response;
+
+        if (response == null) {
+          this.completarProcesoInspeccion(guidProceso);
+          this.procesoService.iniciarProcesar = false;
+          return
+        }
+        this.router.navigate([
+          'inspeccion/entrada/' +
+          TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
+          this.obtenerParametrosRuta().get('procesoId') + '/' +
+          this.obtenerParametrosRuta().get('pieza') + '/' +
+          this.obtenerParametrosRuta().get('accion')]);
+      });
+    }
+  }
+  completarProcesoInspeccion(guidProceso: string) {
+    debugger
+    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response) {
+          this.router.navigate(['inspeccion/entrada'])
+        };
+      });
+    }
+  }
   actualizarDatos() {
     this.loaderService.display(true)
     this.procesoService.actualizarInspección(this.inspeccion).subscribe(
       response => {
-        response ?
-          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+        if (response) {
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada)
+        } else
           this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+
         this.loaderService.display(false)
-        this.location.back();
+
       }, error => {
         this.toastrService.error(error.messge);
         this.loaderService.display(false)
       }, () => {
+        this.consultarSiguienteInspeccion(this.proceso.Guid);
+
         this.loaderService.display(false)
       })
   }
@@ -211,9 +251,9 @@ export class EMIComponent implements OnInit {
 
     valido = this.formularioValido(formulario, valido);
 
-    
 
-    
+
+
 
     return valido
   }
@@ -224,7 +264,7 @@ export class EMIComponent implements OnInit {
       : valido = false;
     return valido;
   }
-  
+
 
   private asignarDataDesdeElFormulario() {
     //deja el arreglo
@@ -238,8 +278,8 @@ export class EMIComponent implements OnInit {
   iniciarFormulario(inspeccion: InspeccionModel) {
     console.log(inspeccion)
     this.formulario = this.formBuider.group({
-      SeIdentificaDefecto : [inspeccion.SeIdentificaDefecto,Validators.required],
-      ImagenMfl: [inspeccion.ImagenMfl.NombreArchivo?'':''],
+      SeIdentificaDefecto: [inspeccion.SeIdentificaDefecto, Validators.required],
+      ImagenMfl: [inspeccion.ImagenMfl.NombreArchivo ? '' : ''],
       ImagenMedicionEspesores: [inspeccion.ImagenMedicionEspesores.NombreArchivo ? '' : ''],
       Observaciones: [inspeccion.Observaciones, Validators.required],
       Amperaje: [inspeccion.Amperaje, Validators.required],
@@ -248,13 +288,13 @@ export class EMIComponent implements OnInit {
       EquipoEmiId: [inspeccion.EquipoEmiId, Validators.required],
       BobinaMagneticaId: [inspeccion.BobinaMagneticaId, Validators.required],
       EstaConforme: [inspeccion.EstaConforme, Validators.required],
-      
-    }); 
 
-    
+    });
+
+
   }
 
-  
+
 
 
   //carga archivos

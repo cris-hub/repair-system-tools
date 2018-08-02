@@ -11,6 +11,7 @@ import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion'
 import { pemarsaAdendumPipe } from '../pipes/pemarsaAdendumPipe';
 import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdendumPorTipoPipe';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
+import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/suger
     ValidacionDirective,
     AutocompletarComponent,
     PemarsaStringFormat,
+    SiguienteProcesoComponent,
     SugerirProcesoComponent,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
@@ -37,6 +39,7 @@ import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/suger
     ConfirmacionComponent,
     ValidacionDirective,
     SugerirProcesoComponent,
+    SiguienteProcesoComponent,
     AutocompletarComponent,
     PemarsaStringFormat,
     filterEstadoConexionPorConexion,

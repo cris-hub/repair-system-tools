@@ -20,6 +20,7 @@ namespace Pemarsa.Domain
         public string TrabajoRealizadoId { get; set; }
 
         public string TrabajoRealizar { get; set; }
+        public bool Reasignado { get; set; }
 
 
         #region Catalogos canonnicas
