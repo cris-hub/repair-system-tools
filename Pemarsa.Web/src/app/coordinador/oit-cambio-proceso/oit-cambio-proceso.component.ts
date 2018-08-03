@@ -6,7 +6,7 @@ import { ParametroService } from '../../common/services/entity/parametro.service
 import { ToastrService } from 'ngx-toastr';
 import { ProcesoService } from '../../common/services/entity';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TIPO_PROCESO } from '../../proceso/inspeccion-enum/inspeccion.enum';
+import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/inspeccion.enum';
 
 @Component({
   selector: 'app-oit-cambio-proceso',
@@ -74,7 +74,11 @@ export class OitCambioProcesoComponent implements OnInit {
       });
     }
   }
-
+  obtenerEstilos(proceso: ProcesoModel) {
+    switch (proceso.EstadoId) {
+      case ESTADOS_PROCESOS.Rechazado: return "rechadado";
+    }
+  }
 
   primeraLetraMayuscula(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

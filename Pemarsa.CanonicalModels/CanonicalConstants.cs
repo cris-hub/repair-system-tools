@@ -80,6 +80,16 @@ namespace Pemarsa.CanonicalModels
         public struct Tipos
         {
 
+            public struct TipoConexion
+            {
+                public const string NoAplica = "No aplica";
+
+            }
+            public struct Conexion
+            {
+                public const string NoAplica = "No aplica";
+
+            }
             public struct TubosPatrones
             {
                 public const string Pilot = "Pilot";
@@ -196,7 +206,7 @@ namespace Pemarsa.CanonicalModels
                 public struct TipoInspeccion
                 {
                     public const string VisualDimensional = "Visual dimensional";
-                    public const string VisualDimensionalMotor = "Visual dimensional motor";
+
                     public const string MPI = "MPI";
                     public const string LPI = "LPI";
                     public const string UT = "UT";

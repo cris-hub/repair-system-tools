@@ -82,7 +82,7 @@ namespace ProcesoES.Repository
                     else
                     {
                         _context.Entry(t).State = EntityState.Modified;
-                        _context.InspeccionEquipoUtilizado.Add(t);
+                        _context.InspeccionEquipoUtilizado.Update(t);
                         
                     }
 
@@ -114,21 +114,29 @@ namespace ProcesoES.Repository
 
                 foreach (var t in inspeccion.Conexiones)
                 {
-                    if (t.EstadoId != 0)
+                    if (t.EstadoId != 0 )
                     {
 
                         var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EstadoId);
-                        _context.Entry(catalogo).State = EntityState.Unchanged;
+                        if (catalogo != null)
+                        {
+                            _context.Entry(catalogo).State = EntityState.Unchanged;
+
+                        }
+                    } else if (t.EstadoId == 0) {
+                        _context.Entry(t).Property("EstadoId").IsModified = false;
                     }
+               
                     _context.Entry(t).State = t.Id <= 0 ?
                                         EntityState.Added :
                                         EntityState.Modified;
+                    
                     _context.Entry(t).Property("FechaRegistro").IsModified = false;
                     _context.Entry(t).Property("NombreUsuarioCrea").IsModified = false;
                     _context.Entry(t).Property("GuidUsuarioCrea").IsModified = false;
 
+                //_context.InspeccionConexion.Add(t);
                 }
-                //_context.InspeccionConexion.UpdateRange(inspeccion.Conexiones);
 
 
 

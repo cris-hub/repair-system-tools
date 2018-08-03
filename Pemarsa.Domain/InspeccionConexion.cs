@@ -18,11 +18,11 @@ namespace Pemarsa.Domain
         public virtual Catalogo Conexion { get; set; }
 
         [Required, ForeignKey("Estado")]
-        public int EstadoId { get; set; }
+        public int? EstadoId { get; set; }
         public virtual Catalogo Estado { get; set; }
 
         [Required, ForeignKey("TipoConexion")]
-        public int TipoConexionId { get; set; }
+        public int? TipoConexionId { get; set; }
         public virtual Catalogo TipoConexion { get; set; }
         #endregion
 

@@ -72,11 +72,13 @@ export class VisualDimensionalComponent implements OnInit {
     this.consultarProceso();
   }
 
+
   obtenerParametrosRuta() {
     let parametrosUlrMap: Map<string, string> = new Map<string, string>();
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
     parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
 
     return parametrosUlrMap;
   }
@@ -295,8 +297,6 @@ export class VisualDimensionalComponent implements OnInit {
     }
     return valido;
   }
-
-
 
 
 

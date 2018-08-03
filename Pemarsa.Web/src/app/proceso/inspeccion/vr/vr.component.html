@@ -1,74 +1,66 @@
-<div class="container">
+<br />
+<div class="container-fluid">
 
-  <fieldset>
-    <legend>
+  <div class="row ">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+        <br />
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h3>VR</h3>
+      </div>
+    </div>
+    <hr />
+  </div>
 
-      <b>VR</b>
+  <div class="row contenido-interno">
+    <div class="col-md-12">
+      <form [formGroup]="formInpeccionVR" (ngSubmit)="procesar()">
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label " id="corre">
+            * Visual:
+          </label>
 
-    </legend>
-  </fieldset>
-
-  <div class="col-md-11 contenido-interno">
-
-    <form [formGroup]="formInpeccionVR" (ngSubmit)="procesar()">
-
-
-
-
-
-
-      <div class="form-group row">
-        <label class="col-md-2 col-form-label " id="corre">
-         * Visual:
-        </label>
-
-        <div class="col-md-5">
-          <div *ngFor="let adjunto of inspeccion.InspeccionFotos">
-            <div class="form-group row">
-              <div class="col-md-12">
-                <p class="form-control">
-                  {{adjunto.DocumentoAdjunto.NombreArchivo}}
-                  <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
-                  <a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
-                    <i class="glyphicon glyphicon-download"></i>
-                  </a>
-                </p>
+          <div class="col-md-5">
+            <div *ngFor="let adjunto of inspeccion.InspeccionFotos">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <p class="form-control">
+                    {{adjunto.DocumentoAdjunto.NombreArchivo}}
+                    <i (click)="eliminarAdjunto(anexo)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                    <a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                      <i class="glyphicon glyphicon-download"></i>
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+
+          <div class="col-md-auto image-upload">
+            <label for="file-input">
+              <span class="badge badge-danger  pointer"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
+            </label>
+
+            <input id="file-input" (change)="addFile($event)" formControlName="InspeccionFotos" validacion [validaciones]="['requerido']" required type="file" multiple />
+          </div>
         </div>
-
-        <div class="col-md-auto image-upload">
-          <label for="file-input">
-            <span class="badge badge-danger  pointer"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
-          </label>
-  
-          <input id="file-input" (change)="addFile($event)" formControlName="InspeccionFotos"   validacion [validaciones]="['requerido']" required type="file" multiple />
+        <div class="form-group row">
+          <label class="col-md-2 control-label" id="corre">* Observacion: </label>
+          <div class="col-md-9 ">
+            <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+          </div>
         </div>
-      </div>
+        <div class="form-group row">
 
-
-    
-
-
-
-
-      <div class="form-group row">
-        <label class="col-md-2 control-label" id="corre">* Observacion: </label>
-        <div class="col-md-9 ">
-          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+          <div class="col-md-3 col-md-offset-3 ">
+            <button class="btn" type="submit">Proceosar y continuar</button>
+          </div>
         </div>
-      </div>
+      </form>
 
-      <div class="form-group row">
-
-        <div class="col-md-3 col-md-offset-3 ">
-          <button class="btn" type="submit" >Proceosar y continuar</button>
-        </div>
-      </div>
-
-
-    </form>
+    </div>
   </div>
 
 </div>

@@ -402,7 +402,7 @@ export class CrearOitComponent implements OnInit {
   persistirOrdenTrabajo(objeto) {
   
     switch (this.accionRealizar()) {
-      case 'Editar':
+      case 'Editar OIT':
         this.ordenTrabajoServicio.actualizarOrdenDeTrabajo(objeto).subscribe(response => {
           if (response) {
             this.toastrService.success('correcto', 'accion' + this.accionRealizar())
@@ -410,7 +410,7 @@ export class CrearOitComponent implements OnInit {
           }
         });
         break;
-      case 'Crear Nueva OIT':
+      case 'Crear OIT':
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
           if (response) {
             this.toastrService.success('correcto', 'accion' + this.accionRealizar())

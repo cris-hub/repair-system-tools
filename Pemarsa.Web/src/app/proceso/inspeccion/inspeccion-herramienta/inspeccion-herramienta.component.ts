@@ -13,6 +13,7 @@ import { create } from 'domain';
 import { parse } from 'url';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { SugerirProcesoComponent } from '../../../coordinador/sugerir-proceso/sugerir-proceso.component';
+import { escape } from 'querystring';
 
 @Component({
   selector: 'app-inspeccion-herramienta',
@@ -67,27 +68,30 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   //Consultar
   consultarProceso() {
-    this.loaderService.display(true)
+    this.loaderService.display(this.loading = true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerProcesoDesdeUrl().get('proceso')).subscribe(response => {
       this.Proceso = response;
       this.estadoProceso = ESTADOS_PROCESOS[this.Proceso.EstadoId];
-
       this.esPorCantidad = this.Proceso.OrdenTrabajo.CantidadInspeccionar > 1;
-      this.loaderService.display(false)
       console.log(this.accion)
-
       this.obtenerEstadosDeLaInspeccion();
+
+
+      this.loaderService.display(this.loading = false)
 
     }, error => {
       this.toastrService.error(error.message)
-      this.loaderService.display(false)
+      this.loaderService.display(this.loading = false)
+
 
     },
       () => {
+        this.loaderService.display(this.loading = false)
+
         this.AgregarElemntosUI(this.tipoInspeccion);
 
-        this.loaderService.display(false)
         this.consultarSiguienteInspeccion(this.Proceso.Guid);
+
 
       }
     );
@@ -145,7 +149,7 @@ export class InspeccionHerramientaComponent implements OnInit {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
           this.router.navigate(['inspeccion/entrada/']);
-          
+
           return
         }
         this.router.navigate([
@@ -335,7 +339,6 @@ export class InspeccionHerramientaComponent implements OnInit {
   //inspecciones seleccionadas
   private AgregarElemntosUI(idInspeccionSeleccionada) {
 
-
     this.Proceso.InspeccionEntrada.forEach(inspecion => {
       this.tiposInspecciones.forEach(c => {
         if (c.Id == inspecion.Inspeccion.TipoInspeccionId
@@ -356,6 +359,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
     })
     this.obtenerEstadosDeLaInspeccion()
+
   }
   private procesarInspeccionesSeleccionadas() {
     if (this.tipoProcesoActual.Id == TIPO_PROCESO.INSPECCIONENTRADA) {
@@ -385,17 +389,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
 
 
-  estadoCompleta(pieza) {
-    let estado = false;
-    this.Proceso.InspeccionEntrada.forEach(d => {
-      if ((d.Inspeccion.Pieza == pieza && d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
-        estado = true
-      }
 
-    })
-
-    return estado
-  }
 
   responseSugerenciaProceso(event) {
     if (event) {
@@ -416,9 +410,36 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   }
 
-  estanInpeccionesEnProceso():boolean {
+  estanInpeccionesEnProceso(): boolean {
     let c = this.tiposInspeccionesSeleccionadas.every(d => d['estado'] == ESTADOS_INSPECCION[107] || d['estado'] == ESTADOS_INSPECCION[108]);
     return c
   }
 
+  esEditar() {
+    return !(this.accion == 'ver' || this.accion == 'procesar')
+  }
+  esVer() {
+    return !(this.accion == 'editar' || this.accion == 'procesar')
+  }
+
+  esProcesar() {
+    return !(this.accion == 'ver' || this.accion == 'editar')
+
+  }
+
+
+  estadoCompleta(pieza) {
+    let inspecciones = this.Proceso.InspeccionEntrada
+      .filter(i => i.Inspeccion.Pieza == pieza)
+      .filter(t => t.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
+    if (inspecciones.length <= 0) {
+      return false
+    }
+    let estado = inspecciones
+      .every(i => i.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA);
+
+    if (estado)
+      return estado
+    return estado
+  }
 }

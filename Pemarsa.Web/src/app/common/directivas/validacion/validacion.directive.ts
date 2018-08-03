@@ -45,6 +45,17 @@ export class ValidacionDirective implements Validator {
   focusOut() {
     this.asignar();
   }
+  @HostListener('blur')
+  blur() {
+    this.asignar();
+  }
+  @HostListener('keyup')
+  keyup() {
+    this.asignar();
+  } @HostListener('input')
+  input() {
+    this.asignar();
+  }
 
   @HostListener('document:submit')
   onsubmit() {
@@ -53,7 +64,9 @@ export class ValidacionDirective implements Validator {
 
 
   validate(c: AbstractControl): { [key: string]: any; } {
+    if (c.touched) {
 
+    }
     this.textoInput = c.value == null ? '' : c.value;
 
     this.mensaje = this.ListaValidaciones();
@@ -66,13 +79,13 @@ export class ValidacionDirective implements Validator {
   }
 
   registerOnValidatorChange?(fn: () => void): void {
-    console.log('accion')
+
   }
 
 
   ListaValidaciones(): string {
     for (let validaciones of this.validaciones) {
-      console.log(this.validaciones)
+
       // tipos de validaciones se la validacion requiere de un parametro se le asigna ejem: "typovalidacion:parametro"
       let tipoValidacion = validaciones.split(':')[0];
       let valor = validaciones.split(':').length > 0 ? validaciones.split(':')[1] : '';

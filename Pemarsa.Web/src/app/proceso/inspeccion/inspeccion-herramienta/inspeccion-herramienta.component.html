@@ -28,9 +28,9 @@
                   {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
 
                   <i *ngIf="estadoCompleta(indexHerramienta)" class="glyphicon glyphicon-ok pull-right"></i>
-                  <i *ngIf="!(accion== 'editar' || accion== 'procesar') && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
-                  <i *ngIf="!(accion== 'ver' || accion== 'procesar') && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
-                  <i *ngIf="!(accion== 'ver' || accion== 'editar') &&  !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
+                  <i *ngIf="esVer()" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+                  <i *ngIf="esEditar()" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
+                  <i *ngIf="esProcesar() && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
                 </p>
               </div>
             </div>
@@ -105,7 +105,7 @@
             Tipos de inspecciones:
           </label>
           <div class="col-md-3">
-            <select [disabled]="!estanInpeccionesEnProceso()"  (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
+            <select [attr.disabled]="accion == 'ver'  || loading? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
               <option>Seleccione</option>
               <option *ngFor="let tipoInspeccion of tiposInspecciones" value="{{tipoInspeccion.Id}}">{{tipoInspeccion.Valor}}</option>
             </select>
@@ -119,6 +119,7 @@
               <div class="form-group row">
                 <p class="form-control sin-margen">
                   {{inspeccion.Valor}}
+                  <span *ngIf="(inspeccion.estado=='ENPROCESO')"><i class="glyphicon glyphicon-hourglass pull-right"></i></span>
                   <span *ngIf="(inspeccion.estado=='COMPLETADA')"><i class="glyphicon pull-right glyphicon-ok  success-color"></i></span>
                   <span *ngIf="(inspeccion.estado=='ENPROCESO'  || inspeccion.estado=='COMPLETADA')"><i class="glyphicon pull-right glyphicon-lock danger-color"></i></span>
                   <span *ngIf="!(accion== 'ver' || accion== 'editar') && !(inspeccion.estado=='COMPLETADA' || inspeccion.estado=='ENPROCESO')" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)"><i class="glyphicon glyphicon-minus pointer pull-right"></i></span>

@@ -200,7 +200,7 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Herramienta)
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
-                    .Include(c => c.Responsable)
+                    .Include(c => c.Responsable).OrderByDescending(c=> c.FechaRegistro)
                     .Skip(paginacion.RegistrosOmitir())
                     .Take(paginacion.CantidadRegistros)
                     .ToListAsync();

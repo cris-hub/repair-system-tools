@@ -4,7 +4,7 @@ import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPOS_CONEXION, CONEXION, ALERTAS_INFO_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl, FormControl } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { isUndefined } from 'util';
@@ -38,6 +38,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
   //catalogos
   private Conexiones: EntidadModel[] = new Array<EntidadModel>();
+  private Conexion: EntidadModel = new EntidadModel();
   private EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
   private TiposConexion: EntidadModel[] = new Array<EntidadModel>();
   private EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
@@ -153,6 +154,9 @@ export class VisualDimensionalMotorComponent implements OnInit {
       })
   }
 
+
+
+
   consultarSiguienteInspeccion(guidProceso: string) {
 
     console.log(this.obtenerParametrosRuta().get('pieza'), this.procesoService.iniciarProcesar)
@@ -179,7 +183,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
           this.obtenerParametrosRuta().get('pieza') + '/' +
           this.obtenerParametrosRuta().get('accion')]);
       });
-    } 
+    }
   }
 
   completarProcesoInspeccion(guidProceso: string) {
@@ -197,7 +201,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formInpeccionVisualDimensional = this.formBuider.group({
-      InspeccionFotos: [this.inspeccion.InspeccionFotos, Validators.required],
+      InspeccionFotos: [this.inspeccion.InspeccionFotos ? '' : ''],
       Observaciones: [this.inspeccion.Observaciones, Validators.required],
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
@@ -211,6 +215,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
     delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
   }
+
   crearFormConexiones(): any {
 
     if (!this.formInpeccionVisualDimensional) {
@@ -233,7 +238,6 @@ export class VisualDimensionalMotorComponent implements OnInit {
       let form = this.formBuider.group({});
       form.addControl('NumeroConexion', new FormControl(posicion += 1));
       form.addControl('Id', new FormControl(p.Id));
-      form.addControl('ConexionId', new FormControl(p.ConexionId));
       form.addControl('ConexionId', new FormControl(p.ConexionId));
       form.addControl('TipoConexionId', new FormControl(p.TipoConexionId));
       form.addControl('EstadoId', new FormControl(p.EstadoId));
@@ -291,6 +295,38 @@ export class VisualDimensionalMotorComponent implements OnInit {
     return valido;
   }
 
+  cuandoEsNoAplica(event, i) {
+    let formArray = this.formInpeccionVisualDimensional.get('Conexiones') as FormArray;
+    let formGroup = formArray.get(i.toString());
+    if (event == CONEXION.NOAPLICA || formGroup.get('ConexionId').value == (CONEXION.NOAPLICA) ) {
+      let cantidadConexioneNoAplican = formArray.controls.filter(d => d.get('ConexionId').value == CONEXION.NOAPLICA).length;
+      if (cantidadConexioneNoAplican > 2) {
+        this.toastrService.info(ALERTAS_INFO_MENSAJE.maximoNoAplica);
+        return
+      }
+
+      formGroup.reset({
+        NumeroConexion: 0,
+        ConexionId: CONEXION.NOAPLICA,
+        EstadoId: 0,
+        TipoConexionId: 0,
+        Observaciones: '',
+        Id: 0
+
+
+      })
+      formGroup.disable()
+      formGroup.get('ConexionId').enable();
+      formGroup.get('ConexionId').setValue(CONEXION.NOAPLICA)
+
+      console.log(formGroup);
+
+    } else {
+      formGroup.enable();
+    }
+    console.log(event)
+  }
+
   //autocomplete
   //filtrar
   search = (text$: Observable<string>) =>
@@ -316,7 +352,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
     (x: { Valor: string, x: number }) => x.Valor;
 
   //elementos seleccionados
-  selectItem(event,input) {
+  selectItem(event, input) {
     if (!event.item) {
       return
     }

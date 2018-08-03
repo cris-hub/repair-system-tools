@@ -240,6 +240,18 @@ namespace Pemarsa.Data.DBInitialize
                         Grupo = CanonicalConstants.Grupos.TipoConexion
                     },
                     new Catalogo{
+                        Id = 111,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.TipoConexion.NoAplica,
+                        Grupo = CanonicalConstants.Grupos.TipoConexion
+                    },
+                    new Catalogo{
+                        Id = 23,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Formato.TipoConexionNK50,
+                        Grupo = CanonicalConstants.Grupos.TipoConexion
+                    },
+                    new Catalogo{
                         Id = 24,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Formato.FormatoConexionPIG,
@@ -249,6 +261,12 @@ namespace Pemarsa.Data.DBInitialize
                         Id = 25,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Formato.FormatoConexionBOX,
+                        Grupo = CanonicalConstants.Grupos.Conexion
+                    },
+                     new Catalogo{
+                        Id = 112,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Conexion.NoAplica,
                         Grupo = CanonicalConstants.Grupos.Conexion
                     },
                      new Catalogo{
