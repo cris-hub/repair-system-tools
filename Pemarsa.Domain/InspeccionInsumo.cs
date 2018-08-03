@@ -8,14 +8,14 @@ namespace Pemarsa.Domain
 {
     public class InspeccionInsumo : Entity
     {
-        public int NumeroLote { get; set; }
+        public int? NumeroLote { get; set; }
 
 
-        [Required, ForeignKey("TipoInsumo")]
-        public int TipoInsumoId { get; set; }
+        [ForeignKey("TipoInsumo")]
+        public int? TipoInsumoId { get; set; }
         public virtual Catalogo TipoInsumo { get; set; }
 
-        [Required, ForeignKey("Inspeccion")]
+        [ForeignKey("Inspeccion")]
         public int InspeccionId { get; set; }
         public virtual Inspeccion Inspeccion { get; set; }
     }

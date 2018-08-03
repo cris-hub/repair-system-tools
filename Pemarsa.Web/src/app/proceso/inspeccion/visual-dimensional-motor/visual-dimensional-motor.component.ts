@@ -234,7 +234,9 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
 
 
-    this.inspeccion.Conexiones.forEach(p => {
+    this.inspeccion.Conexiones.forEach((p,i) => {
+      
+
       let form = this.formBuider.group({});
       form.addControl('NumeroConexion', new FormControl(posicion += 1));
       form.addControl('Id', new FormControl(p.Id));
@@ -243,6 +245,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
       form.addControl('EstadoId', new FormControl(p.EstadoId));
       form.addControl('Observaciones', new FormControl(p.Observaciones));
       this.formConexiones.push(form);
+      this.cuandoEsNoAplica(p.ConexionId, i)
     })
 
 
@@ -301,15 +304,16 @@ export class VisualDimensionalMotorComponent implements OnInit {
     if (event == CONEXION.NOAPLICA || formGroup.get('ConexionId').value == (CONEXION.NOAPLICA) ) {
       let cantidadConexioneNoAplican = formArray.controls.filter(d => d.get('ConexionId').value == CONEXION.NOAPLICA).length;
       if (cantidadConexioneNoAplican > 2) {
+        formGroup.get('ConexionId').setValue(0);
         this.toastrService.info(ALERTAS_INFO_MENSAJE.maximoNoAplica);
         return
       }
 
       formGroup.reset({
-        NumeroConexion: 0,
+        NumeroConexion: formGroup.get('NumeroConexion').value,
         ConexionId: CONEXION.NOAPLICA,
-        EstadoId: 0,
-        TipoConexionId: 0,
+        EstadoId: null,
+        TipoConexionId: null,
         Observaciones: '',
         Id: 0
 

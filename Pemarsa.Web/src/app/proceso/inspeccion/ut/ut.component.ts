@@ -34,7 +34,7 @@ export class UTComponent implements OnInit {
   private esVer: Boolean = false;
 
   //validaciones
-  private tieneCalibracion: boolean ;
+  private tieneCalibracion: boolean;
 
 
   constructor(
@@ -49,14 +49,23 @@ export class UTComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.consultarProceso();
   }
 
-  listarBloquesEvent() {
-    this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      this.BloquesEscalonados = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOSBLOQUEESCALONADOO);
-    })
+  listarBloquesEvent(event) {
+    if (event == 'true') {
+      this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
+        this.BloquesEscalonados = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOSBLOQUEESCALONADOO);
+      })
+      this.formulario.controls['BloqueEscalonadoUsadoId'].setValidators(Validators.required)
+      this.formulario.controls['BloqueEscalonadoUsadoId'].updateValueAndValidity()
+    } else {
+      this.formulario.controls['BloqueEscalonadoUsadoId'].setValidators(null);
+      this.formulario.controls['BloqueEscalonadoUsadoId'].reset(null);
+      this.formulario.controls['BloqueEscalonadoUsadoId'].updateValueAndValidity()
+    }
+
   }
 
   obtenerParametrosRuta() {
@@ -81,7 +90,7 @@ export class UTComponent implements OnInit {
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
 
         });
-        
+
         this.inspeccion = inspeccionEntrada.Inspeccion;
 
         console.log(this.inspeccion)
@@ -91,7 +100,10 @@ export class UTComponent implements OnInit {
 
 
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
-        this.initFormularioEspesores();
+        if (this.proceso.OrdenTrabajo.Herramienta.EsHerramientaMotor) {
+
+          this.initFormularioEspesores();
+        }
       });
   }
 
@@ -169,7 +181,7 @@ export class UTComponent implements OnInit {
           this.obtenerParametrosRuta().get('pieza') + '/' +
           this.obtenerParametrosRuta().get('accion')]);
       });
-    } 
+    }
   }
   completarProcesoInspeccion(guidProceso: string) {
     debugger
@@ -183,7 +195,7 @@ export class UTComponent implements OnInit {
   }
 
   private asignarDataDesdeElFormulario() {
-    
+
     Object.assign(this.inspeccion, this.formulario.value);
   }
 
@@ -191,7 +203,7 @@ export class UTComponent implements OnInit {
   //form esperos
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formulario = this.formBuider.group({
-      tieneCalibracion: [this.tieneCalibracion,Validators.required],
+      tieneCalibracion: [this.tieneCalibracion, Validators.required],
       BloqueEscalonadoUsadoId: [inspeccion.BloqueEscalonadoUsadoId],
       Espesores: this.formBuider.array([])
     });
@@ -204,7 +216,7 @@ export class UTComponent implements OnInit {
 
     this.FormularioEspesores.push(this.crearNuevoFormGroupFormuarilEspesoor());
 
-    if ((this.InspeccionEspesores.length>0)) {
+    if ((this.InspeccionEspesores.length > 0)) {
       this.InspeccionEspesores.forEach(f => {
         let form = this.formBuider.group({
           Desviacion: [f.Desviacion, Validators.required],
@@ -214,7 +226,7 @@ export class UTComponent implements OnInit {
         this.FormularioEspesores.push(form)
       });
     }
-   
+
   }
 
   agregarItem(): void {

@@ -109,7 +109,7 @@ export class InspeccionHerramientaComponent implements OnInit {
       }
       console.log(this.tieneProcesoSugerido)
 
-      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[107])) {
+      if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
         this.inspeccionesTerminada = true
       }
       else {
@@ -128,12 +128,15 @@ export class InspeccionHerramientaComponent implements OnInit {
 
     if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
-        if (response) {
-          this.completarProcesoInspeccion(this.Proceso.Guid);
-
+        if (response == true) {
           this.router.navigate(['inspeccion/entrada'])
         };
       });
+    } else {
+      this.router.navigate([
+        'inspeccion/entrada/' +
+        this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+        this.obtenerProcesoDesdeUrl().get('accion')]);
     }
   }
 
@@ -259,7 +262,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
   actualizarEstadoInpeccionPieza() {
     if (this.tiposInspeccionesSeleccionadas.length > 0) {
-      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[108])) {
+      if (this.tiposInspeccionesSeleccionadas.some(t => t['estado'] == ESTADOS_INSPECCION[108])) {
         this.procesoService.actualizarEstadoInspeccionPieza(this.Proceso.Guid, this.obtenerProcesoDesdeUrl().get('pieza'), ESTADOS_INSPECCION.ENPROCESO).subscribe(response => {
           if (response) {
             this.procesoService.iniciarProcesar = response
@@ -394,10 +397,6 @@ export class InspeccionHerramientaComponent implements OnInit {
   responseSugerenciaProceso(event) {
     if (event) {
       this.completarProcesoInspeccion(this.Proceso.Guid)
-      this.router.navigate([
-        'inspeccion/entrada/' +
-        this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
-        this.obtenerProcesoDesdeUrl().get('accion')]);
 
     }
   }

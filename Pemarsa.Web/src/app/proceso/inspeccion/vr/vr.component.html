@@ -40,7 +40,7 @@
 
           <div class="col-md-auto image-upload">
             <label for="file-input">
-              <span class="badge badge-danger  pointer"> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
+              <span [ngClass]="{'badge badge-success pointer': DocumetosRestantes == 0 ,'badge badge-danger pointer': DocumetosRestantes != 0} "> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
             </label>
 
             <input id="file-input" (change)="addFile($event)" formControlName="InspeccionFotos" validacion [validaciones]="['requerido']" required type="file" multiple />

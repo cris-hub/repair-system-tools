@@ -20,7 +20,7 @@ export class ValidacionDirective implements Validator {
   private objectError;
   public strong;
   public text;
-  public mensaje: string;
+  public mensaje: string = '';
   public textoInput: string;
 
   /**
@@ -64,9 +64,7 @@ export class ValidacionDirective implements Validator {
 
 
   validate(c: AbstractControl): { [key: string]: any; } {
-    if (c.touched) {
 
-    }
     this.textoInput = c.value == null ? '' : c.value;
 
     this.mensaje = this.ListaValidaciones();
@@ -121,6 +119,11 @@ export class ValidacionDirective implements Validator {
         }
         case "numerico": {
           this.mensaje = this.numerico();
+
+          if (this.mensaje == '') { break; }
+          else { return this.mensaje };
+        } case "decimal": {
+          this.mensaje = this.decimal();
 
           if (this.mensaje == '') { break; }
           else { return this.mensaje };
@@ -192,6 +195,14 @@ export class ValidacionDirective implements Validator {
       return '';
     }
   }
+
+  decimal(): string {
+    if ((/^[0-9]+([,][0-9]+)?$/.test(this.textoInput)) && (this.textoInput.length > 0)) {
+      return "Este campo solo acepta decimales";
+    } else {
+      return '';
+    }
+  } 
 
 
 }

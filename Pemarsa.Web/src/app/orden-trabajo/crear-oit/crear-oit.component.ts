@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
 import { VALID } from '@angular/forms/src/model';
+import { LoaderService } from '../../common/services/entity/loaderService';
 
 @Component({
   selector: 'app-crear-oit',
@@ -80,7 +81,8 @@ export class CrearOitComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private formBulder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private loaderService : LoaderService
   ) { }
 
   ngOnInit() {
@@ -400,35 +402,48 @@ export class CrearOitComponent implements OnInit {
   }
 
   persistirOrdenTrabajo(objeto) {
-  
+    this.loaderService.display(true);
     switch (this.accionRealizar()) {
       case 'Editar OIT':
         this.ordenTrabajoServicio.actualizarOrdenDeTrabajo(objeto).subscribe(response => {
+            this.loaderService.display(true);
           if (response) {
+
             this.toastrService.success('correcto', 'accion' + this.accionRealizar())
             this.router.navigate(['/oit']);
           }
+          this.loaderService.display(false);
+
         });
         break;
       case 'Crear OIT':
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
+          this.loaderService.display(true);
+
           if (response) {
             this.toastrService.success('correcto', 'accion' + this.accionRealizar())
             this.router.navigate(['/oit']);
           }
+          this.loaderService.display(false);
+
         });;
         break;
       case 'Procesar':
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
+          this.loaderService.display(true);
+
           if (response) {
             this.toastrService.success('correcto', 'accion' + this.accionRealizar())
             this.router.navigate(['/oit']);
           }
+          this.loaderService.display(false);
+
         });;
         break;
 
     }
-    
+    this.loaderService.display(false);
+
     
   }
 

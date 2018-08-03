@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180803141308_inspeccioninsumo-numerolotenulleable-tipoinsumonulleable")]
+    partial class inspeccioninsumonumerolotenulleabletipoinsumonulleable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -776,7 +778,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("ConexionId");
 
-                    b.Property<int?>("EstadoId");
+                    b.Property<int?>("EstadoId")
+                        .IsRequired();
 
                     b.Property<DateTime?>("FechaModifica");
 
@@ -805,7 +808,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("Observaciones");
 
-                    b.Property<int?>("TipoConexionId");
+                    b.Property<int?>("TipoConexionId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -1705,7 +1709,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
-                        .HasForeignKey("EstadoId");
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.InspeccionConexionFormato", "InspeccionConexionFormato")
                         .WithMany()
@@ -1718,7 +1723,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoConexion")
                         .WithMany()
-                        .HasForeignKey("TipoConexionId");
+                        .HasForeignKey("TipoConexionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormato", b =>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { AttachmentModel, InspeccionModel, ProcesoModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel, InspeccionFotosModel, InspeccionInsumoModel } from '../../../common/models/Index';
 import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoIns
 import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { isUndefined } from 'util';
 import { Location } from '@angular/common';
+import { ValidacionDirective } from '../../../common/directivas/validacion/validacion.directive';
 
 @Component({
   selector: 'app-emi',
@@ -23,6 +24,7 @@ import { Location } from '@angular/common';
 export class EMIComponent implements OnInit {
 
   @ViewChild('instance') instance: NgbTypeahead;
+  @ViewChild('espesor') espesor: ElementRef;
 
   //carga archivos
   private lectorArchivos: FileReader;
@@ -281,26 +283,67 @@ export class EMIComponent implements OnInit {
 
   //cargar o inicializar datos del formulario
   iniciarFormulario(inspeccion: InspeccionModel) {
-    console.log(inspeccion)
+    
     this.formulario = this.formBuider.group({
       SeIdentificaDefecto: [inspeccion.SeIdentificaDefecto, Validators.required],
+      Observaciones: [inspeccion.Observaciones, Validators.required],
       ImagenMfl: [inspeccion.ImagenMfl.NombreArchivo ? '' : ''],
       ImagenMedicionEspesores: [inspeccion.ImagenMedicionEspesores.NombreArchivo ? '' : ''],
-      Observaciones: [inspeccion.Observaciones, Validators.required],
-      Amperaje: [inspeccion.Amperaje, Validators.required],
-      VelocidadBuggyDrive: [inspeccion.VelocidadBuggyDrive, Validators.required],
-      TuboPatronId: [inspeccion.TuboPatronId, Validators.required],
-      EquipoEmiId: [inspeccion.EquipoEmiId, Validators.required],
-      BobinaMagneticaId: [inspeccion.BobinaMagneticaId, Validators.required],
-      EstaConforme: [inspeccion.EstaConforme, Validators.required],
+      Amperaje: [inspeccion.Amperaje],
+      VelocidadBuggyDrive: [inspeccion.VelocidadBuggyDrive],
+      TuboPatronId: [inspeccion.TuboPatronId],
+      EquipoEmiId: [inspeccion.EquipoEmiId],
+      BobinaMagneticaId: [inspeccion.BobinaMagneticaId],
+      EstaConforme: [inspeccion.EstaConforme],
 
     });
 
 
   }
+  seRegistraTrazabilidad(event) {
+    console.log(this.espesor)
+
+    console.log(event)
+    if (event == 'true') {
+      
+      this.formulario.controls['Amperaje'].setValidators(Validators.required);
+      this.formulario.controls['VelocidadBuggyDrive'].setValidators(Validators.required);
+      this.formulario.controls['TuboPatronId'].setValidators(Validators.required);
+      this.formulario.controls['EquipoEmiId'].setValidators(Validators.required);
+      this.formulario.controls['BobinaMagneticaId'].setValidators(Validators.required);
+      
+    } else {
+      
+      this.formulario.controls['Amperaje'].setValidators(null);
+      this.formulario.controls['VelocidadBuggyDrive'].setValidators(null);
+      this.formulario.controls['TuboPatronId'].setValidators(null);
+      this.formulario.controls['EquipoEmiId'].setValidators(null);
+      this.formulario.controls['BobinaMagneticaId'].setValidators(null);
+      
+    }
+    this.formulario.clearAsyncValidators();
+    this.formulario.reset();
+    this.formulario.controls['SeIdentificaDefecto'].setValue(event);
+    
+    this.formulario.updateValueAndValidity()
+  }
 
 
+  validacion(value) {
+    
+    console.log(this.espesor.nativeElement)
+    console.log(value)
+    if (value!= null) {
+      if (value == 'true') {
+        return 'requerido'
 
+      } else {
+        return ''
+
+      }
+    }
+    return 'requerido'
+  }
 
   //carga archivos
   addFileEspesorese(event: any) {

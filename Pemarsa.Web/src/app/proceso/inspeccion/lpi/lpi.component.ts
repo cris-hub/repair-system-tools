@@ -312,28 +312,27 @@ export class LPIComponent implements OnInit {
     if (!this.formulario) {
       return
     }
-
     this.formularioInsumos = this.formulario.get('Insumos') as FormArray;
-
-
-
 
     while (this.inspeccion.Insumos.length < 3) {
       this.inspeccion.Insumos.push(new InspeccionInsumoModel())
 
     }
 
-
-
-    this.inspeccion.Insumos.forEach(p => {
+    this.inspeccion.Insumos.forEach((p,i) => {
       let form = this.formBuider.group({});
-
+      console.log(i)
+      if (i == 0) {
       form.addControl('TipoInsumoId', new FormControl(p.TipoInsumoId, Validators.required));
       form.addControl('NumeroLote', new FormControl(p.NumeroLote, Validators.required));
 
+      }
+      form.addControl('TipoInsumoId', new FormControl(p.TipoInsumoId,null));
+      form.addControl('NumeroLote', new FormControl(p.NumeroLote,null));
 
 
       this.formularioInsumos.push(form);
+      console.log(form)
     })
 
 
@@ -412,6 +411,8 @@ export class LPIComponent implements OnInit {
       console.log(ex)
     }
   }
+
+  
 
 
 }
