@@ -234,8 +234,8 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
 
 
-    this.inspeccion.Conexiones.forEach((p,i) => {
-      
+    this.inspeccion.Conexiones.forEach((p, i) => {
+
 
       let form = this.formBuider.group({});
       form.addControl('NumeroConexion', new FormControl(posicion += 1));
@@ -301,7 +301,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
   cuandoEsNoAplica(event, i) {
     let formArray = this.formInpeccionVisualDimensional.get('Conexiones') as FormArray;
     let formGroup = formArray.get(i.toString());
-    if (event == CONEXION.NOAPLICA || formGroup.get('ConexionId').value == (CONEXION.NOAPLICA) ) {
+    if (event == CONEXION.NOAPLICA || formGroup.get('ConexionId').value == (CONEXION.NOAPLICA)) {
       let cantidadConexioneNoAplican = formArray.controls.filter(d => d.get('ConexionId').value == CONEXION.NOAPLICA).length;
       if (cantidadConexioneNoAplican > 2) {
         formGroup.get('ConexionId').setValue(0);
@@ -404,6 +404,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
       let inspeccionFotos = new InspeccionFotosModel();
       inspeccionFotos.DocumentoAdjunto = this.obtenerDatosArchivoAdjunto(files[i]);
       inspeccionFotos.InspeccionId = this.inspeccion.Id;
+      inspeccionFotos.Estado = true;
       inspeccionFotos.Pieza = this.obtenerParametrosRuta().get('pieza')
         ? parseInt(this.obtenerParametrosRuta().get('pieza'), 10) : 1;
       this.inspeccion.InspeccionFotos.push(inspeccionFotos);
@@ -416,6 +417,13 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
 
   }
+  eliminarAdjunto(adjunto: AttachmentModel) {
+    let index: any = this.inspeccion.InspeccionFotos.findIndex(c => c.DocumentoAdjuntoId == adjunto.Id);
+    this.inspeccion.InspeccionFotos.find(e => e.DocumentoAdjuntoId == adjunto.Id).Estado = false;
+    this.DocumetosRestantes += 1;
+    this.inspeccion.InspeccionFotos.splice(index, 1);
+  }
+
   obtenerDatosArchivoAdjunto(file: File): AttachmentModel {
     let archivo = new AttachmentModel();
     this.lectorArchivos = new FileReader();

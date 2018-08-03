@@ -5,6 +5,8 @@ namespace Pemarsa.Domain
 {
     public class InspeccionFotos
     {
+        public bool Estado { get; set; }
+
 
         [Required, ForeignKey("DocumentoAdjunto")]
         public int DocumentoAdjuntoId { get; set; }
