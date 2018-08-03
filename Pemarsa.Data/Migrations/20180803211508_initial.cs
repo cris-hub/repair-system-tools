@@ -566,7 +566,7 @@ namespace Pemarsa.Data.Migrations
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
                     NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
-                    Amperaje = table.Column<int>(nullable: true),
+                    Amperaje = table.Column<decimal>(nullable: true),
                     ConcentracionUtilizada = table.Column<int>(nullable: true),
                     EstaConforme = table.Column<bool>(nullable: true),
                     FechaDePreparacion = table.Column<DateTime>(nullable: true),
@@ -585,7 +585,7 @@ namespace Pemarsa.Data.Migrations
                     SeRealizoCalibracionEquipo = table.Column<bool>(nullable: true),
                     TemperaturaAmbiente = table.Column<int>(nullable: true),
                     TemperaturaDePieza = table.Column<int>(nullable: true),
-                    VelocidadBuggyDrive = table.Column<int>(nullable: true),
+                    VelocidadBuggyDrive = table.Column<decimal>(nullable: true),
                     BloqueEscalonadoUsadoId = table.Column<int>(nullable: true),
                     BobinaMagneticaId = table.Column<int>(nullable: true),
                     EquipoEmiId = table.Column<int>(nullable: true),
@@ -920,6 +920,7 @@ namespace Pemarsa.Data.Migrations
                 name: "InspeccionFotos",
                 columns: table => new
                 {
+                    Estado = table.Column<bool>(nullable: false),
                     DocumentoAdjuntoId = table.Column<int>(nullable: false),
                     InspeccionId = table.Column<int>(nullable: false),
                     Pieza = table.Column<int>(nullable: false)
@@ -955,8 +956,8 @@ namespace Pemarsa.Data.Migrations
                     FechaModifica = table.Column<DateTime>(nullable: true),
                     NombreUsuarioCrea = table.Column<string>(maxLength: 60, nullable: false),
                     NombreUsuarioModifica = table.Column<string>(maxLength: 60, nullable: true),
-                    NumeroLote = table.Column<int>(nullable: false),
-                    TipoInsumoId = table.Column<int>(nullable: false),
+                    NumeroLote = table.Column<int>(nullable: true),
+                    TipoInsumoId = table.Column<int>(nullable: true),
                     InspeccionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -973,7 +974,7 @@ namespace Pemarsa.Data.Migrations
                         column: x => x.TipoInsumoId,
                         principalTable: "Catalogo",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -993,8 +994,8 @@ namespace Pemarsa.Data.Migrations
                     NumeroConexion = table.Column<int>(nullable: false),
                     Observaciones = table.Column<string>(nullable: true),
                     ConexionId = table.Column<int>(nullable: false),
-                    EstadoId = table.Column<int>(nullable: false),
-                    TipoConexionId = table.Column<int>(nullable: false),
+                    EstadoId = table.Column<int>(nullable: true),
+                    TipoConexionId = table.Column<int>(nullable: true),
                     InspeccionId = table.Column<int>(nullable: false),
                     InspeccionConexionFormatoId = table.Column<int>(nullable: true)
                 },
@@ -1012,7 +1013,7 @@ namespace Pemarsa.Data.Migrations
                         column: x => x.EstadoId,
                         principalTable: "Catalogo",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_InspeccionConexion_InspeccionConexionFormato_InspeccionConex~",
                         column: x => x.InspeccionConexionFormatoId,
@@ -1030,7 +1031,7 @@ namespace Pemarsa.Data.Migrations
                         column: x => x.TipoConexionId,
                         principalTable: "Catalogo",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1323,6 +1324,7 @@ namespace Pemarsa.Data.Migrations
                     NombreOperario = table.Column<string>(nullable: true),
                     TrabajoRealizadoId = table.Column<string>(nullable: true),
                     TrabajoRealizar = table.Column<string>(nullable: true),
+                    Reasignado = table.Column<bool>(nullable: false),
                     EstadoId = table.Column<int>(nullable: false),
                     TipoProcesoAnteriorId = table.Column<int>(nullable: true),
                     TipoProcesoId = table.Column<int>(nullable: true),

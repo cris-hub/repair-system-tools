@@ -9,8 +9,8 @@ using Pemarsa.Data;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180802234039_estado_y_tipo_conexion_nulleables")]
-    partial class estado_y_tipo_conexion_nulleables
+    [Migration("20180803211508_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -653,7 +653,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Amperaje");
+                    b.Property<decimal?>("Amperaje");
 
                     b.Property<int?>("BloqueEscalonadoUsadoId");
 
@@ -736,7 +736,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("TuboPatronId");
 
-                    b.Property<int?>("VelocidadBuggyDrive");
+                    b.Property<decimal?>("VelocidadBuggyDrive");
 
                     b.HasKey("Id");
 
@@ -778,8 +778,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("ConexionId");
 
-                    b.Property<int?>("EstadoId")
-                        .IsRequired();
+                    b.Property<int?>("EstadoId");
 
                     b.Property<DateTime?>("FechaModifica");
 
@@ -808,8 +807,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("Observaciones");
 
-                    b.Property<int?>("TipoConexionId")
-                        .IsRequired();
+                    b.Property<int?>("TipoConexionId");
 
                     b.HasKey("Id");
 
@@ -1011,6 +1009,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("Pieza");
 
+                    b.Property<bool>("Estado");
+
                     b.HasKey("InspeccionId", "DocumentoAdjuntoId", "Pieza");
 
                     b.HasIndex("DocumentoAdjuntoId");
@@ -1044,9 +1044,9 @@ namespace Pemarsa.Data.Migrations
                     b.Property<string>("NombreUsuarioModifica")
                         .HasMaxLength(60);
 
-                    b.Property<int>("NumeroLote");
+                    b.Property<int?>("NumeroLote");
 
-                    b.Property<int>("TipoInsumoId");
+                    b.Property<int?>("TipoInsumoId");
 
                     b.HasKey("Id");
 
@@ -1709,8 +1709,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
-                        .HasForeignKey("EstadoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EstadoId");
 
                     b.HasOne("Pemarsa.Domain.InspeccionConexionFormato", "InspeccionConexionFormato")
                         .WithMany()
@@ -1723,8 +1722,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoConexion")
                         .WithMany()
-                        .HasForeignKey("TipoConexionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TipoConexionId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormato", b =>
@@ -1816,8 +1814,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoInsumo")
                         .WithMany()
-                        .HasForeignKey("TipoInsumoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TipoInsumoId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajo", b =>
