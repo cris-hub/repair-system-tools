@@ -8,6 +8,15 @@ body {
 }
 
 
+.separador{
+  height:190px;
+}
+
+/*powered_by*/
+.powered_by {
+  font-size: .7em;
+}
+
 /*Validaciones*/
 .validaciones {
   font-size: 12px;
