@@ -32,7 +32,8 @@ export class AppComponent implements OnInit {
             complementarios:
               {
                 icono: "icon-alerta",
-                color: "color"
+                color: "color",
+                class: "display"
               }
           },
           {
@@ -46,7 +47,8 @@ export class AppComponent implements OnInit {
             complementarios:
               {
                 icono: "icon-lista2",
-                color: "color2"
+                color: "color2",
+                class: "display"
               }
           }
         ],
@@ -70,7 +72,8 @@ export class AppComponent implements OnInit {
             complementarios:
               {
                 icono: "icon-entrada",
-                color: "color2"
+                color: "color2",
+                class: "display"
               }
 
           },
@@ -85,7 +88,8 @@ export class AppComponent implements OnInit {
             complementarios:
             {
               icono: "icon-torneado",
-              color: "color3"
+              color: "color3",
+              class: "remove"
             }
 
           },
@@ -100,7 +104,8 @@ export class AppComponent implements OnInit {
             complementarios:
             {
               icono: "icon-fresado",
-              color: "color4"
+              color: "color4",
+              class: "remove"
             }
 
           },
@@ -115,7 +120,8 @@ export class AppComponent implements OnInit {
             complementarios:
             {
               icono: "icon-soldadura",
-              color: "color5"
+              color: "color5",
+              class: "remove"
             }
 
           },
@@ -130,7 +136,8 @@ export class AppComponent implements OnInit {
             complementarios:
             {
               icono: "icon-alistamiento",
-              color: "color6"
+              color: "color6",
+              class: "remove"
             }
 
           },
@@ -145,7 +152,8 @@ export class AppComponent implements OnInit {
             complementarios:
             {
               icono: "icon-rectificado",
-              color: "color7"
+              color: "color7",
+              class: "remove"
             }
 
           },
@@ -160,7 +168,8 @@ export class AppComponent implements OnInit {
             complementarios:
             {
               icono: "icon-listacopia",
-              color: "color8"
+              color: "color8",
+              class: "display"
             }
 
           },
@@ -175,7 +184,8 @@ export class AppComponent implements OnInit {
             complementarios:
               {
                 icono: "icon-pieza",
-                color: "color"
+                color: "color",
+                class: "display"
               }
 
           }
@@ -203,7 +213,8 @@ export class AppComponent implements OnInit {
               complementarios:
                 {
                   icono: "icon-clientes",
-                  color: "color9"
+                  color: "color9",
+                  class: "display"
                 }
             },
             {
@@ -217,7 +228,8 @@ export class AppComponent implements OnInit {
               complementarios:
                 {
                   icono: "icon-herramientas2",
-                  color: "color10"
+                  color: "color10",
+                  class: "display"
                 }
             },
             {
@@ -231,7 +243,8 @@ export class AppComponent implements OnInit {
               complementarios:
                 {
                   icono: "icon-formatos",
-                  color: "color11"
+                  color: "color11",
+                  class: "display"
                 }
             }
           ],

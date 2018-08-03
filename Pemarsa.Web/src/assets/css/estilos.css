@@ -8,6 +8,17 @@ body {
 }
 
 
+
+/*iconos incompletos*/
+
+.display {
+  display:none;
+}
+  .remove {
+  display: block;
+  color: white;
+}
+
 .separador{
   height:190px;
 }
