@@ -13,6 +13,8 @@ export class InspeccionInsumoModel extends EntityModel {
 
   constructor() {
     super();
+    
+    
   }
 }
 

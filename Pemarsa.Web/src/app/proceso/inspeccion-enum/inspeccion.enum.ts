@@ -20,6 +20,12 @@ export enum ESTADOS_INSPECCION {
   COMPLETADA = 107,
   PENDIENTE = 108,
 }
+export enum TIPOS_CONEXION {
+  NOAPLICA = 111,
+} 
+export enum CONEXION {
+  NOAPLICA = 112,
+}
 export enum ESTADOS_PROCESOS {
   'Pendiente' = 38,
   'Procesado' = 110,
@@ -38,6 +44,11 @@ export enum ALERTAS_OK_MENSAJE {
   InspeccionEliminar = 'Se ha eliminado la inspeccion exitosamente',
   InspeccionActualizada = 'Se ha realizado la inspeccion exitosamente',
   InspeccionCreada = 'Se ha creado una nueva inspeccion exitosamente',
+
+}
+export enum ALERTAS_INFO_MENSAJE {
+  maximoNoAplica = 'la cantidad maxima de conexiones (no aplica) se ha sobrepasado',
+
 
 }
 export enum ALERTAS_ERROR_MENSAJE {

@@ -1,133 +1,164 @@
-<div *ngIf="esListaPieza()">
-  <h1 class="col-sm-offset-3">Herramientas inspeccionar</h1>
-  <div *ngIf="Proceso" class="form-group">
-    <div *ngFor="let indexHerramienta of rangoHerramientasInspeccionar(Proceso.OrdenTrabajo.CantidadInspeccionar);index">
+<br />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+        <br />
 
-      <div class="form-group row">
-        <div class="col-md-3 col-md-offset-3">
-          <p class="form-control ">
-            {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h2 class="col-md-offset-3 row">{{tipoProcesoActual.Valor}}</h2>
+      </div>
+    </div>
+    <hr />
+  </div>
 
-            <i *ngIf="estadoCompleta(indexHerramienta)" class="glyphicon glyphicon-ok pull-right"></i>
-            <i *ngIf="!(accion== 'editar' || accion== 'procesar') && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
-            <i *ngIf="!(accion== 'ver' || accion== 'procesar') && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
-            <i *ngIf="!(accion== 'ver' || accion== 'editar') &&  !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
-          </p>
+  <div class="row contenido-interno">
+    <div class="col-md-12">
+
+      <div *ngIf="esListaPieza()">
+        <h1 class="col-sm-offset-3">Herramientas inspeccionar</h1>
+        <div *ngIf="Proceso" class="form-group">
+          <div *ngFor="let indexHerramienta of rangoHerramientasInspeccionar(Proceso.OrdenTrabajo.CantidadInspeccionar);index">
+
+            <div class="form-group row">
+              <div class="col-md-3 col-md-offset-3">
+                <p class="well well-sm ">
+                  {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
+
+                  <i *ngIf="estadoCompleta(indexHerramienta)" class="glyphicon glyphicon-ok pull-right"></i>
+                  <i *ngIf="esVer()" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+                  <i *ngIf="esEditar()" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
+                  <i *ngIf="esProcesar() && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
+                </p>
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group">
+           <div class="col-md-offset-5">
+              <button *ngIf="!inspeccionesEnProceso" class="btn btn-success" (click)="procesar();">procesar</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
-
-<div *ngIf="esPiezaUnica()">
+      <div *ngIf="esPiezaUnica()">
 
 
-  <h2 class="col-md-offset-3 row">{{tipoProcesoActual.Valor}}</h2>
 
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label" id="corre">
-      Herramienta:
-    </label>
-    <div class="col-md-3">
-      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.Herramienta.Nombre}} </p>
-    </div>
-  </div>
 
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label" id="corre">
-      Cliente:
-    </label>
-    <div class="col-md-3">
-      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.Cliente.NickName}} </p>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label" id="corre">
-      Serial:
-    </label>
-    <div class="col-md-1">
-      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.SerialHerramienta}} </p>
-    </div>
-
-    <label class="col-md-1 col-form-label" id="corre">
-      Tamaño:
-    </label>
-    <div class="col-md-1">
-      <p class="form-control sin-margen">{{Proceso.OrdenTrabajo.TamanoHerramienta.Tamano}} </p>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label" id="corre">
-      Anexos:
-    </label>
-
-    <div class="col-md-3">
-      <div *ngFor="let anexo of Proceso.OrdenTrabajo.Anexos">
         <div class="form-group row">
-          <div class="col-md-12">
-            <a href="{{anexo.DocumentoAdjunto.Ruta}}" class="form-control sin-margen"><p>{{anexo.DocumentoAdjunto.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+          <label class="col-md-3 col-form-label" id="corre">
+            Herramienta:
+          </label>
+          <div class="col-md-3">
+            <p class="well well-sm sin-margen">{{Proceso.OrdenTrabajo.Herramienta.Nombre}} </p>
           </div>
         </div>
-      </div>
 
-    </div>
-
-
-
-  </div>
-
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label" id="corre">
-      Tipos de inspecciones:
-    </label>
-    <div class="col-md-3">
-      <select [attr.disabled]="accion == 'ver' || inspeccionesTerminada ? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
-        <option>Seleccione</option>
-        <option *ngFor="let tipoInspeccion of tiposInspecciones" value="{{tipoInspeccion.Id}}">{{tipoInspeccion.Valor}}</option>
-      </select>
-    </div>
-  </div>
-
-
-  <div class="form-group row">
-    <div class="col-md-3 col-md-offset-3">
-      <div *ngFor="let inspeccion of tiposInspeccionesSeleccionadas">
         <div class="form-group row">
-          <p class="form-control sin-margen">
-            {{inspeccion.Valor}}
-            <span *ngIf="(inspeccion.estado=='ENPROCESO')"><i class="glyphicon pull-right glyphicon-lock"></i></span>
-            <span *ngIf="(inspeccion.estado=='COMPLETADA')"><i class="glyphicon pull-right glyphicon-ok"></i></span>
-            <span *ngIf="!(accion== 'ver' || accion== 'editar') && !(inspeccion.estado=='COMPLETADA')" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)"><i class="glyphicon glyphicon-minus pointer pull-right"></i></span>
-            <span *ngIf="!(accion== 'editar' || accion== 'procesar') && !(inspeccion.estado=='COMPLETADA') " routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/ver"><i class="glyphicon glyphicon-eye-open pointer pull-right"></i></span>
-            <span *ngIf="!(accion== 'ver' || accion== 'procesar') && !(inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/editar"><i class="glyphicon glyphicon-pencil pointer pull-right"> </i></span>
-            <span *ngIf="!(accion== 'ver' || accion== 'editar' || accion== 'procesar'  ) && !(inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/procesar"><i class="glyphicon glyphicon-wrench pointer pull-right"></i></span>
-          </p>
+          <label class="col-md-3 col-form-label" id="corre">
+            Cliente:
+          </label>
+          <div class="col-md-3">
+            <p class="well well-sm sin-margen">{{Proceso.OrdenTrabajo.Cliente.NickName}} </p>
+          </div>
         </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" id="corre">
+            Serial:
+          </label>
+          <div class="col-md-1">
+            <p class="well well-sm ">{{Proceso.OrdenTrabajo.SerialHerramienta}} </p>
+          </div>
+
+          <label class="col-md-1 col-form-label" id="corre">
+            Tamaño:
+          </label>
+          <div class="col-md-1">
+            <p class="well well-sm ">{{Proceso.OrdenTrabajo.TamanoHerramienta.Tamano}} </p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" id="corre">
+            Anexos:
+          </label>
+
+          <div class="col-md-3">
+            <div *ngFor="let anexo of Proceso.OrdenTrabajo.Anexos">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <a href="{{anexo.DocumentoAdjunto.Ruta}}" class="form-control sin-margen"><p>{{anexo.DocumentoAdjunto.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" id="corre">
+            Tipos de inspecciones:
+          </label>
+          <div class="col-md-3">
+            <select [attr.disabled]="accion == 'ver'  || loading? '' : null" (change)="agregarAInspecccionesSeleccionadas($event)" class="custom-select mr-sm-2 form-control-lg">
+              <option>Seleccione</option>
+              <option *ngFor="let tipoInspeccion of tiposInspecciones" value="{{tipoInspeccion.Id}}">{{tipoInspeccion.Valor}}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <div class="col-md-3 col-md-offset-3">
+            <div *ngFor="let inspeccion of tiposInspeccionesSeleccionadas">
+              <div class="form-group row">
+                <p class="form-control sin-margen">
+                  {{inspeccion.Valor}}
+                  <span *ngIf="(inspeccion.estado=='ENPROCESO')"><i class="glyphicon glyphicon-hourglass pull-right"></i></span>
+                  <span *ngIf="(inspeccion.estado=='COMPLETADA')"><i class="glyphicon pull-right glyphicon-ok  success-color"></i></span>
+                  <span *ngIf="(inspeccion.estado=='ENPROCESO'  || inspeccion.estado=='COMPLETADA')"><i class="glyphicon pull-right glyphicon-lock danger-color"></i></span>
+                  <span *ngIf="!(accion== 'ver' || accion== 'editar') && !(inspeccion.estado=='COMPLETADA' || inspeccion.estado=='ENPROCESO')" (click)="quitarDeLaListaDeSeleccionDeInspecciones(inspeccion)"><i class="glyphicon glyphicon-minus pointer pull-right"></i></span>
+                  <span *ngIf="!(accion== 'editar' || accion== 'procesar') && !(inspeccion.estado=='COMPLETADA') " routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/ver"><i class="glyphicon glyphicon-eye-open pointer pull-right"></i></span>
+                  <span *ngIf="!(accion== 'ver' || accion== 'procesar') && (inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/editar"><i class="glyphicon glyphicon-pencil pointer pull-right"> </i></span>
+                  <span *ngIf="!(accion== 'ver' || accion== 'editar' || accion== 'procesar'  ) && !(inspeccion.estado=='COMPLETADA')" routerLink="/inspeccion/entrada/{{inspeccion.Valor | pemarsaStringFormat:Proceso}}/{{Proceso.Guid}}/{{PiezaId}}/procesar"><i class="glyphicon glyphicon-wrench pointer pull-right"></i></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="form-group row">
+          <div class=" col-md-3 col-md-offset-3">
+
+            <div class="btn-group" role="group">
+
+
+
+              <button (click)="regresar();" class="btn">Regresar</button>
+              <app-sugerir-proceso *ngIf="inspeccionesTerminada && !tieneProcesoSugerido"
+                                   [accion]="accion"
+                                   (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso a ' + accion + '?', true, Proceso)"
+                                   (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
+              <button *ngIf="!inspeccionesEnProceso" class="btn btn-success" (click)="procesar();">procesar</button>
+            </div>
+          </div>
+        </div>
+
+
       </div>
+
     </div>
+
   </div>
-
-
-
-  <div class="form-group row">
-    <div class=" col-md-3 col-md-offset-3">
-
-      <div class="btn-group" role="group">
-
-
-
-        <button (click)="regresar();" class="btn">Regresar</button>
-        <app-sugerir-proceso *ngIf="inspeccionesTerminada && !tieneProcesoSugerido"
-                             [accion]="accion"
-                             (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso a ' + accion + '?', true, Proceso)"
-                             (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
-        <button *ngIf="inspeccionesEnProceso" class="btn btn-success" (click)="procesar();">procesar</button>
-      </div>
-    </div>
-  </div>
-
-
 </div>

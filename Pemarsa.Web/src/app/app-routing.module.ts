@@ -179,7 +179,9 @@ const routes: Routes = [
 
   // procesos
   
-  { path: 'procesos', component: OitCambioProcesoComponent },
+  { path: 'aprobacion-supervisor', component: OitCambioProcesoComponent },
+  { path: 'aprobacion-supervisor/procesar/:id', component: ProcesarOitComponent },
+  { path: 'aprobacion-supervisor/:id', component: ProcesarOitComponent },
 
 
   //OITs

@@ -47,8 +47,8 @@ namespace ProcesoES.Repository
             try
             {
                 var proceso = await _context.Proceso.FirstOrDefaultAsync(a => a.Guid == guid);
-
-                var estadoProceso = (await _context.Catalogo.FirstOrDefaultAsync(a => a.Valor == estado || a.Id == Int32.Parse(estado) &&   a.Grupo == "ESTADOS_PROCESO")) ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
+                Int32.TryParse(estado, out int estadoid);
+                var estadoProceso = (await _context.Catalogo.FirstOrDefaultAsync(a => (a.Valor == estado || a.Id == estadoid) && a.Grupo == "ESTADOS_PROCESO")) ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
 
                 if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
                 {
@@ -70,6 +70,9 @@ namespace ProcesoES.Repository
             {
                 DatosCreaccionObjecto(inspeccion);
 
+                //_context.Entry(inspeccionDB).CurrentValues.SetValues(inspeccion);
+
+
                 foreach (var t in inspeccion.InspeccionEquipoUtilizado)
                 {
 
@@ -82,8 +85,8 @@ namespace ProcesoES.Repository
                     else
                     {
                         _context.Entry(t).State = EntityState.Modified;
-                        _context.InspeccionEquipoUtilizado.Add(t);
-                        
+                        _context.InspeccionEquipoUtilizado.Update(t);
+
                     }
 
 
@@ -94,11 +97,18 @@ namespace ProcesoES.Repository
 
                 foreach (var t in inspeccion.Insumos)
                 {
+
                     _context.Entry(t).State = t.Id <= 0 ?
                             EntityState.Added :
                             EntityState.Modified;
-                    var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.TipoInsumoId);
-                    _context.Entry(catalogo).State = EntityState.Unchanged;
+                    if (t.TipoInsumoId <= 0)
+                    {
+
+                        var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.TipoInsumoId);
+                        _context.Entry(catalogo).State = EntityState.Unchanged;
+                    }
+
+
                 }
                 //_context.InspeccionInsumo.UpdateRange(inspeccion.Insumos);
 
@@ -114,21 +124,26 @@ namespace ProcesoES.Repository
 
                 foreach (var t in inspeccion.Conexiones)
                 {
-                    if (t.EstadoId != 0)
+                    
+                    if (t.EstadoId <= 0)
                     {
 
                         var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EstadoId);
                         _context.Entry(catalogo).State = EntityState.Unchanged;
                     }
+
+
+
                     _context.Entry(t).State = t.Id <= 0 ?
                                         EntityState.Added :
                                         EntityState.Modified;
+
                     _context.Entry(t).Property("FechaRegistro").IsModified = false;
                     _context.Entry(t).Property("NombreUsuarioCrea").IsModified = false;
                     _context.Entry(t).Property("GuidUsuarioCrea").IsModified = false;
 
+                    //_context.InspeccionConexion.Add(t);
                 }
-                //_context.InspeccionConexion.UpdateRange(inspeccion.Conexiones);
 
 
 
@@ -212,8 +227,15 @@ namespace ProcesoES.Repository
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
                             .Include(c => c.OrdenTrabajo.Herramienta)
+                            .Include(c => c.OrdenTrabajo.TamanoHerramienta)
+                            .Include(c => c.OrdenTrabajo.Material).ThenInclude(m => m.Material)
                             .Include(c => c.OrdenTrabajo.Cliente)
-                            .Include(c => c.OrdenTrabajo.Anexos);
+                            .Include(c => c.OrdenTrabajo.Linea)
+                            .Include(c => c.OrdenTrabajo.Responsable)
+                            .Include(c => c.OrdenTrabajo.Anexos)
+                            .Include(c => c.TipoProcesoSiguienteSugerido)
+                            .Include(c => c.TipoProcesoAnterior);
+
 
 
                 //var result = proceso.Select(d => new Proceso
@@ -414,13 +436,22 @@ namespace ProcesoES.Repository
 
         public async Task<bool> ActualizarProcesoSugerir(Guid guidProceso, Guid guidProcesoSegurido, UsuarioDTO usuarioDTO)
         {
-            Catalogo procesoSugerido = await _context.Catalogo.AsNoTracking().FirstOrDefaultAsync(d => d.Guid == guidProcesoSegurido);
-            Proceso procesoBD = await _context.Proceso.FirstOrDefaultAsync(d => d.Guid == guidProceso);
-            procesoBD.TipoProcesoSiguienteSugeridoId = procesoSugerido.Id;
+            try
+            {
 
-            _context.Entry(procesoBD).Property(e => e.TipoProcesoSiguienteSugeridoId).IsModified = true;
-            bool accionCorrecta = await _context.SaveChangesAsync() > 0;
-            return accionCorrecta;
+                Catalogo procesoSugerido = await _context.Catalogo.AsNoTracking().FirstOrDefaultAsync(d => d.Guid == guidProcesoSegurido);
+                Proceso procesoBD = await _context.Proceso.FirstOrDefaultAsync(d => d.Guid == guidProceso);
+                procesoBD.TipoProcesoSiguienteSugeridoId = procesoSugerido.Id;
+
+                _context.Entry(procesoBD).Property(e => e.TipoProcesoSiguienteSugeridoId).IsModified = true;
+                bool accionCorrecta = await _context.SaveChangesAsync() > 0;
+                return accionCorrecta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid, int pieza, UsuarioDTO usuarioDTO)
@@ -452,8 +483,8 @@ namespace ProcesoES.Repository
 
                 var query = _context.Inspeccion.Include(d => d.ProcesoInspeccionEntrada).ThenInclude(t => t.Proceso);
                 var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
-                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA );
-                if (inpeccion.Count()>0)
+                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && ( t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
+                if (inpeccion.Count() > 0)
                 {
                     foreach (var item in inpeccion)
                     {
@@ -461,13 +492,13 @@ namespace ProcesoES.Repository
                     }
 
                 }
-              
-                
-                              
+
+
+
                 _context.Inspeccion.UpdateRange(inpeccion);
 
-                
-            
+
+
 
                 return await _context.SaveChangesAsync() > 0;
             }

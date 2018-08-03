@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
             id: "11",
             name: "Gest. procesos",
             image: "",
-            url: "/procesos",
+            url: "/aprobacion-supervisor",
             color: "color111",
             title: "Insp. entrada",
             submenu: false,

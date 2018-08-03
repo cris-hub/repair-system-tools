@@ -11,7 +11,12 @@ import { CatalogoModel, ProcesoModel, InspeccionModel } from "../../models/Index
 export class ProcesoService {
 
 
-  public iniciarProcesar :Boolean= false;
+  public crearProceso(proceso: ProcesoModel): Observable<string> {
+    return this.http.post<string>(this.urlServer + 'CrearProceso', proceso, {
+      headers: this.header
+    });
+  }
+  public iniciarProcesar: Boolean = false;
 
   private header: HttpHeaders;
   private urlServer: string;
@@ -78,14 +83,14 @@ export class ProcesoService {
   }
 
 
-  public actualizarEstadoInspeccionPieza(guidProceso: string, pieza : string ,estado: number): Observable<boolean> {
+  public actualizarEstadoInspeccionPieza(guidProceso: string, pieza: string, estado: number): Observable<boolean> {
     return this.http.put<boolean>(this.urlServer + 'ActualizarEstadoInspeccionPieza?guidProceso=' + guidProceso + '&pieza=' + pieza + '&estado=' + estado, {
       headers: this.header
     });
   }
 
-  public consultarSiguienteInspeccion(guidProceso: string,pieza:string): Observable<InspeccionModel> {
-    return this.http.get<InspeccionModel>(this.urlServer + 'ConsultarSiguienteInspeccion?guidProceso=' + guidProceso + '&pieza=' + pieza , {
+  public consultarSiguienteInspeccion(guidProceso: string, pieza: string): Observable<InspeccionModel> {
+    return this.http.get<InspeccionModel>(this.urlServer + 'ConsultarSiguienteInspeccion?guidProceso=' + guidProceso + '&pieza=' + pieza, {
       headers: this.header
     });
   }

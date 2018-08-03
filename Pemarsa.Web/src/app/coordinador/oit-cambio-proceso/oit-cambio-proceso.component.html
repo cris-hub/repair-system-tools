@@ -1,151 +1,152 @@
-<div class="col-md-10">
-  <div class="row">
-    <br>
-    <div class="col-md-12">
-      <div class="panel" style="background-color: rgba(36, 99, 194, .9);color: #FFF;">
-        <div class="panel-heading">
-          <div class="row">
+<br />
 
-            <div class="col-md-3" style="padding-top:20px;">
-              <label class="col-sm-12 col-form-label">
-                <h4 style="font-family: OpenSans-Bold;font-size: 15px;font-weight: 200;">{{tipoProcesoActual.Valor}}</h4>
-              </label>
-            </div>
-            <div class="col-md-9" style="text-align: right;">
-              <div class="col-md-6 col-sm-12" style="text-align: right;">
-                <br>
-                <input type="text" placeholder="Busqueda básica" class="form-control" name="">
-              </div>
 
-              <!--<div class="col-md-1" style="padding-top:30px;">
-                <app-filtro-orden-trabajo (paramsFiltro)="consultarOitPorFiltro($event)"></app-filtro-orden-trabajo>
-              </div>-->
-              <!--<div class="col-md-1" style="padding-top:22px;">
-                <div class="btn-group" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
-                  <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-list"></span>
-                  </a>
-                  <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                    <li class="records-page-contactos" data-page="10">
-                      <a (click)="limiteConsulta(10)">10 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="20">
-                      <a (click)="limiteConsulta(20)">20 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="30">
-                      <a (click)="limiteConsulta(30)">30 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="50">
-                      <a (click)="limiteConsulta(50)">50 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="100">
-                      <a (click)="limiteConsulta(100)">100 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="200">
-                      <a (click)="limiteConsulta(200)">200 Registros</a>
-                    </li>
-                    <li class="records-page-contactos" data-page="300">
-                      <a (click)="limiteConsulta(300)">300 Registros</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>-->
-
-            </div>
+<div class="container-fluid">
+  <div class="row titulo">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <h3 class="margin-20 text-center">{{tipoProcesoActual.Valor}}</h3>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <br />
+    </div>
+    <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
+    </div>
+    <div class="col-lg-3 col-md-9 col-sm-9 col-xs-12">
+      <div class="row">
+        <div class="col col-sm-5 col-md-5">
+          <br />
+          
+        </div>
+        <div class="col col-sm-2 col-md-1">
+          <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
+            </a>
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+              <li class="records-page-contactos" data-page="10">
+                <a (click)="limiteConsulta(10)">10 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="20">
+                <a (click)="limiteConsulta(20)">20 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="30">
+                <a (click)="limiteConsulta(30)">30 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="50">
+                <a (click)="limiteConsulta(50)">50 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="100">
+                <a (click)="limiteConsulta(100)">100 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="200">
+                <a (click)="limiteConsulta(200)">200 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="300">
+                <a (click)="limiteConsulta(300)">300 Registros</a>
+              </li>
+            </ul>
           </div>
+        </div>
+        <div class="col col-sm-3 col-md-4">
+          <br />
+          &nbsp;
+          <i [routerLink]="['/cliente/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Agregar cliente"></i>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover table-condensed">
-          <thead>
-            <tr>
-              <th class="col-md-2">Número de OIT</th>
-              <th class="col-md-1">Herramienta</th>
-              <th class="col-md-2">Cliente</th>
-              <th class="col-md-1">Serial​</th>
-              <th class="col-md-2">Prioridad​</th>
-              <th class="col-md-1">Fecha</th>
-              <th class="col-md-1">Estado</th>
-              <th class="col-md-1">Proceso Anterior</th>
-              <th class="col-md-1">Acciones</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
-            <tr>
-              <td>{{Proceso.Id}}</td>
-              <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
-              <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>
-              <td>{{Proceso.OrdenTrabajo.SerialHerramienta}}</td>
-              <td>{{Proceso.OrdenTrabajo.Prioridad.Valor}}</td>
-              <td>{{Proceso.FechaRegistro | date:'short'}}</td>
-              <td>{{Proceso.Estado.Valor}}</td>
-              <td>
-                <b *ngIf="Proceso.TipoProcesoAnterior">
-                  {{Proceso.TipoProcesoAnterior.Valor}}
-                </b>
-              </td>
 
-              <td class="col-md-12">
+    <div class="row contenido-interno-listar">
+      <div class="col-md-12">
+        <div class="table-responsive-sm table-responsive-md">
 
-                <div class="col-md-3">
-                  <i class="glyphicon glyphicon-eye-open pointer"></i>
-                </div>
+          <table class="table table-striped table-bordered table-hover table-condensed">
 
-                <div class="col-md-3">
-                  <i class="glyphicon glyphicon-wrench pointer"></i>
-                </div>
+            <thead>
+              <tr class="titleTable text-center">
+                <th>Número de OIT</th>
+                <th>Herramienta</th>
+                <th >Cliente</th>
+                <th >Serial​</th>
+                <th >Prioridad​</th>
+                <th >Fecha</th>
+                <th >Estado</th>
+                <th >Proceso Anterior</th>
+                <th >Acciones</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index"
+                    class="font-black center-table"
+                   >
+              <tr [ngClass]="obtenerEstilos(Proceso)">
+                <td>{{Proceso.Id}}</td>
+                <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
+                <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>
+                <td>{{Proceso.OrdenTrabajo.SerialHerramienta}}</td>
+                <td>{{Proceso.OrdenTrabajo.Prioridad.Valor}}</td>
+                <td>{{Proceso.FechaRegistro | date:'short'}}</td>
+                <td>{{Proceso.Estado.Valor}}</td>
+                <td>
+                  <b *ngIf="Proceso.TipoProcesoAnterior">
+                    {{Proceso.TipoProcesoAnterior.Valor}}
+                  </b>
+                </td>
 
-                <div class="col-md-3" style=" transform: rotate(180deg);">
-                  <i class="glyphicon glyphicon-share-alt pointer"></i>
-                </div>
-
-                <div class="col-md-3" style=" transform: rotate(280deg);">
-                  <i class="glyphicon glyphicon-share-alt pointer"></i>
-                </div>
+                <td>
 
 
-                <div class="col-md-3">
-                  <i data-toggle="modal" class="glyphicon glyphicon-print pointer"></i>
-                </div>
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <div>
+                      <button routerLink="/aprobacion-supervisor/{{Proceso.Guid}}" class="btn btn-outline-secondary glyphicon glyphicon-eye-open pointer"></button>
+                    </div>
 
-                <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i (click)="historial(oit.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
-                </div>-->
+                    <div>
+                      <button routerLink="/aprobacion-supervisor/procesar/{{Proceso.Guid}}" class="btn btn-outline-secondary glyphicon glyphicon-wrench pointer"></button>
+                    </div>
 
-              </td>
-            </tr>
+                    <div>
+                      <button style=" transform: rotate(180deg);" class="btn btn-outline-secondary glyphicon glyphicon-share-alt pointer"></button>
+                    </div>
 
-          </tbody>
-        </table>
+                    <div>
+                      <button style=" transform: rotate(270deg);" class="btn btn-outline-secondary glyphicon glyphicon-share-alt pointer"></button>
+                    </div>
+
+
+                    <div>
+                      <button class="btn btn-outline-secondary glyphicon glyphicon-print pointer"></button>
+                    </div>
+                  </div>
+
+                  <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
+              <i (click)="historial(oit.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
+            </div>-->
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--Paginacion -->
+      <div class="row">
+        <nav aria-label="pagination example">
+          <ul class="pagination pagination-circle pg-blue mb-0">
+            <pagination-controls maxSize="10"
+                                 previousLabel="Anterior"
+                                 nextLabel="Siguiente"
+                                 id="cliente"
+                                 (pageChange)="cambioPagina($event)">
+            </pagination-controls>
+          </ul>
+        </nav>
+        <br />
       </div>
     </div>
-  </div>
-  <!--Paginacion -->
-  <!--<div class="row">
-    <nav aria-label="pagination example">
-      <ul class="pagination pagination-circle pg-blue mb-0">
-        <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
-        </pagination-controls>
-      </ul>
-    </nav>
-    <br />
-  </div>-->
-</div>
-<!--<div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <app-confirmacion-modal (confir)="actualizarEstadoOITConfirmacion($event)"></app-confirmacion-modal>
-</div>
-<div *ngIf="esNuevaAccion" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
-     aria-hidden="true">
-  <app-confirmacion-modal (confir)="actualizarEstadoOITConfirmacion($event)"></app-confirmacion-modal>
 
+  
 </div>
 
 
-<div *ngIf="esNuevaAccion" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
-     aria-hidden="true">
-  <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
-</div>-->

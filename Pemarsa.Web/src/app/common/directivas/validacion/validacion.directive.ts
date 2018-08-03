@@ -20,7 +20,7 @@ export class ValidacionDirective implements Validator {
   private objectError;
   public strong;
   public text;
-  public mensaje: string;
+  public mensaje: string = '';
   public textoInput: string;
 
   /**
@@ -45,6 +45,17 @@ export class ValidacionDirective implements Validator {
   focusOut() {
     this.asignar();
   }
+  @HostListener('blur')
+  blur() {
+    this.asignar();
+  }
+  @HostListener('keyup')
+  keyup() {
+    this.asignar();
+  } @HostListener('input')
+  input() {
+    this.asignar();
+  }
 
   @HostListener('document:submit')
   onsubmit() {
@@ -66,13 +77,13 @@ export class ValidacionDirective implements Validator {
   }
 
   registerOnValidatorChange?(fn: () => void): void {
-    console.log('accion')
+
   }
 
 
   ListaValidaciones(): string {
     for (let validaciones of this.validaciones) {
-      console.log(this.validaciones)
+
       // tipos de validaciones se la validacion requiere de un parametro se le asigna ejem: "typovalidacion:parametro"
       let tipoValidacion = validaciones.split(':')[0];
       let valor = validaciones.split(':').length > 0 ? validaciones.split(':')[1] : '';
@@ -111,6 +122,11 @@ export class ValidacionDirective implements Validator {
 
           if (this.mensaje == '') { break; }
           else { return this.mensaje };
+        } case "decimal": {
+          this.mensaje = this.decimal();
+
+          if (this.mensaje == '') { break; }
+          else { return this.mensaje };
         }
         default: {
           this.mensaje = "";
@@ -128,6 +144,7 @@ export class ValidacionDirective implements Validator {
       this.renderer.removeChild(this.strong, this.text);
       this.text = this.renderer.createText(this.mensaje);
       this.renderer.addClass(this.strong, 'text-danger');
+      this.renderer.addClass(this.strong, 'validaciones');
       this.renderer.appendChild(this.strong, this.text);
 
     }
@@ -178,6 +195,14 @@ export class ValidacionDirective implements Validator {
       return '';
     }
   }
+
+  decimal(): string {
+    if ((/^[0-9]+([,][0-9]+)?$/.test(this.textoInput)) && (this.textoInput.length > 0)) {
+      return "Este campo solo acepta decimales";
+    } else {
+      return '';
+    }
+  } 
 
 
 }

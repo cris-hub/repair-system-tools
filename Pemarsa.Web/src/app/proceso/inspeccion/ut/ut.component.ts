@@ -8,7 +8,7 @@ import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { InspeccionModel, EntidadModel, ProcesoModel, InspeccionEspesorModel } from '../../../common/models/Index';
 import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { Location } from '@angular/common';
 
 @Component({
@@ -34,7 +34,7 @@ export class UTComponent implements OnInit {
   private esVer: Boolean = false;
 
   //validaciones
-  private tieneCalibracion: boolean ;
+  private tieneCalibracion: boolean;
 
 
   constructor(
@@ -49,14 +49,23 @@ export class UTComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.consultarProceso();
   }
 
-  listarBloquesEvent() {
-    this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      this.BloquesEscalonados = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOSBLOQUEESCALONADOO);
-    })
+  listarBloquesEvent(event) {
+    if (event == 'true') {
+      this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
+        this.BloquesEscalonados = response.Catalogos.filter(equpo => equpo.Grupo == GRUPOS.TIPOSBLOQUEESCALONADOO);
+      })
+      this.formulario.controls['BloqueEscalonadoUsadoId'].setValidators(Validators.required)
+      this.formulario.controls['BloqueEscalonadoUsadoId'].updateValueAndValidity()
+    } else {
+      this.formulario.controls['BloqueEscalonadoUsadoId'].setValidators(null);
+      this.formulario.controls['BloqueEscalonadoUsadoId'].reset(null);
+      this.formulario.controls['BloqueEscalonadoUsadoId'].updateValueAndValidity()
+    }
+
   }
 
   obtenerParametrosRuta() {
@@ -64,15 +73,16 @@ export class UTComponent implements OnInit {
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
     parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
 
     return parametrosUlrMap;
   }
-
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
 
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
+        this.proceso = response
         let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
@@ -80,7 +90,7 @@ export class UTComponent implements OnInit {
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
 
         });
-        
+
         this.inspeccion = inspeccionEntrada.Inspeccion;
 
         console.log(this.inspeccion)
@@ -90,7 +100,10 @@ export class UTComponent implements OnInit {
 
 
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
-        this.initFormularioEspesores();
+        if (this.proceso.OrdenTrabajo.Herramienta.EsHerramientaMotor) {
+
+          this.initFormularioEspesores();
+        }
       });
   }
 
@@ -98,7 +111,7 @@ export class UTComponent implements OnInit {
 
   //actualizaciones
   procesar() {
-
+    this.procesoService.iniciarProcesar = true
     this.asignarDataDesdeElFormulario();
     this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formulario);
     if (this.esFormularioValido) {
@@ -106,6 +119,7 @@ export class UTComponent implements OnInit {
     }
 
   }
+
   sonValidosLosDatosIngresadosPorElUsuario(formulario: FormGroup) {
     let valido: boolean;
 
@@ -125,23 +139,63 @@ export class UTComponent implements OnInit {
     this.loaderService.display(true)
     this.procesoService.actualizarInspección(this.inspeccion).subscribe(
       response => {
-        response ?
-          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
+        if (response) {
+          this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada)
+        } else
           this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+
         this.loaderService.display(false)
-        this.location.back();
+
       }, error => {
         this.toastrService.error(error.messge);
         this.loaderService.display(false)
       }, () => {
+        this.consultarSiguienteInspeccion(this.proceso.Guid);
+
         this.loaderService.display(false)
       })
   }
 
+  consultarSiguienteInspeccion(guidProceso: string) {
 
+    console.log(this.obtenerParametrosRuta().get('pieza'), this.procesoService.iniciarProcesar)
+    if (this.proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerParametrosRuta().get('pieza') && this.procesoService.iniciarProcesar) {
+
+      this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerParametrosRuta().get('pieza')).subscribe(response => {
+        this.inspeccion = response;
+
+        if (response == null) {
+          this.completarProcesoInspeccion(guidProceso);
+          this.procesoService.iniciarProcesar = false;
+          this.router.navigate([
+            'inspeccion/entrada/' +
+            this.obtenerParametrosRuta().get('procesoId') + '/' +
+            this.obtenerParametrosRuta().get('pieza') + '/' +
+            this.obtenerParametrosRuta().get('accion')]);
+          return
+        }
+        this.router.navigate([
+          'inspeccion/entrada/' +
+          TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
+          this.obtenerParametrosRuta().get('procesoId') + '/' +
+          this.obtenerParametrosRuta().get('pieza') + '/' +
+          this.obtenerParametrosRuta().get('accion')]);
+      });
+    }
+  }
+  completarProcesoInspeccion(guidProceso: string) {
+    debugger
+    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response) {
+          this.router.navigate(['inspeccion/entrada'])
+        };
+      });
+    }
+  }
 
   private asignarDataDesdeElFormulario() {
-    
+
     Object.assign(this.inspeccion, this.formulario.value);
   }
 
@@ -149,7 +203,7 @@ export class UTComponent implements OnInit {
   //form esperos
   iniciarFormulario(inspeccion: InspeccionModel) {
     this.formulario = this.formBuider.group({
-      tieneCalibracion: [this.tieneCalibracion,Validators.required],
+      tieneCalibracion: [this.tieneCalibracion, Validators.required],
       BloqueEscalonadoUsadoId: [inspeccion.BloqueEscalonadoUsadoId],
       Espesores: this.formBuider.array([])
     });
@@ -162,7 +216,7 @@ export class UTComponent implements OnInit {
 
     this.FormularioEspesores.push(this.crearNuevoFormGroupFormuarilEspesoor());
 
-    if ((this.InspeccionEspesores.length>0)) {
+    if ((this.InspeccionEspesores.length > 0)) {
       this.InspeccionEspesores.forEach(f => {
         let form = this.formBuider.group({
           Desviacion: [f.Desviacion, Validators.required],
@@ -172,7 +226,7 @@ export class UTComponent implements OnInit {
         this.FormularioEspesores.push(form)
       });
     }
-   
+
   }
 
   agregarItem(): void {

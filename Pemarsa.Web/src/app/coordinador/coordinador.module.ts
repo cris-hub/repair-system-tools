@@ -23,6 +23,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     FormsModule
   ],
-  declarations: [ OitCambioProcesoComponent, CriterioLiberacionComponent, SiguienteProcesoComponent, ProcesarOitComponent]
+  declarations: [ OitCambioProcesoComponent, CriterioLiberacionComponent,  ProcesarOitComponent]
 })
 export class CoordinadorModule { }

@@ -8,7 +8,7 @@ namespace Pemarsa.Domain
 {
     public class Inspeccion : Entity
     {
-        public int? Amperaje { get; set; }
+        public decimal? Amperaje { get; set; }
         
         public int? ConcentracionUtilizada { get; set; }
         
@@ -47,7 +47,7 @@ namespace Pemarsa.Domain
         public int? TemperaturaDePieza { get; set; }
 
      
-        public int? VelocidadBuggyDrive { get; set; }
+        public decimal? VelocidadBuggyDrive { get; set; }
 
         #region catalogos
         [ForeignKey("BloqueEscalonadoUsado")]

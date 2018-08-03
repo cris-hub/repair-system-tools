@@ -67,7 +67,7 @@
               <th>Detalles de solicitud</th>
               <th>Fecha de creación</th>
               <th>Estado</th>
-              <th>Acciones</th>
+              <th class="width-8">Acciones</th>
             </tr>
           </thead>
           <tbody class="font-black center-table" *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
