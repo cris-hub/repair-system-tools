@@ -88,21 +88,21 @@
                   <div class="col-md-auto">
                     <label class="control-label" id="corre">* Conexión {{i+1}} </label>
                     <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
-                      <option value="">Seleccione</option>
+                      <option value="0">Seleccione</option>
                       <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
                     </select>
                   </div>
                   <div class="col-md-auto">
                     <label class="control-label" id="corre">* Tipo conexión{{i+1}} </label>
                     <select formControlName="TipoConexionId"  class="form-control form-control-lg">
-                      <option value="">Seleccione</option>
+                      <option value="0">Seleccione</option>
                       <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
                     </select>
                   </div>
                   <div class="col-md-9">
                     <label class="control-label" id="corre">*Estado {{i+1}} </label>
                     <select formControlName="EstadoId"   class="form-control form-control-lg">
-                      <option value="">Seleccione</option>
+                      <option value="0">Seleccione</option>
                       <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
                     </select>
 

@@ -124,7 +124,9 @@ namespace ProcesoES.Repository
 
                 foreach (var t in inspeccion.Conexiones)
                 {
-                    
+                    _context.Entry(t).State = t.Id <= 0 ?
+                            EntityState.Added :
+                            EntityState.Modified;
                     if (t.EstadoId <= 0)
                     {
 

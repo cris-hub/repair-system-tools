@@ -8,7 +8,7 @@ import { Configuration } from './config.model';
 @Injectable()
 export class ConfigService {
   private config: Configuration;
-
+  
   constructor(private http: HttpClient) {
     this.config = new Configuration("", "");
   }
