@@ -396,6 +396,19 @@ export class EMIComponent implements OnInit {
 
 
   }
+  eliminarAdjuntoImagenMedicionEspesores(adjunto: AttachmentModel) {
+    this.inspeccion.ImagenMfl.Estado = false
+    
+    
+  } eliminarAdjuntoImagenMfl(adjunto: AttachmentModel) {
+    this.inspeccion.ImagenMfl.Estado = false
+
+    
+    this.inspeccion.ImagenMfl = new AttachmentModel();
+  }
+
+
+
   obtenerDatosArchivoAdjunto(file: File): AttachmentModel {
     let archivo = new AttachmentModel();
     this.lectorArchivos = new FileReader();

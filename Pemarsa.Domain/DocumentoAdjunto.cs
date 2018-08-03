@@ -21,6 +21,8 @@ namespace Pemarsa.Domain
         [Required]
         public string Extension { get; set; }
         
+        public bool Estado { get; set; }
+
         [NotMapped]
         public string Stream { get; set; }
 

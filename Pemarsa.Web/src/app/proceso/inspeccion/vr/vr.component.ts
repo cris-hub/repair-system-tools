@@ -236,6 +236,13 @@ export class VRComponent implements OnInit {
 
 
   }
+  eliminarAdjunto(adjunto: AttachmentModel) {
+    let index: any = this.inspeccion.InspeccionFotos.findIndex(c => c.DocumentoAdjuntoId == adjunto.Id);
+    this.inspeccion.InspeccionFotos.find(e => e.DocumentoAdjuntoId == adjunto.Id).Estado = false;
+    this.DocumetosRestantes += 1;
+    this.inspeccion.InspeccionFotos.splice(index, 1);
+  }
+
   obtenerDatosArchivoAdjunto(file: File): AttachmentModel {
     let archivo = new AttachmentModel();
     this.lectorArchivos = new FileReader();
