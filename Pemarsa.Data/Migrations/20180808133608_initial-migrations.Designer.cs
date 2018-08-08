@@ -9,8 +9,8 @@ using Pemarsa.Data;
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    [Migration("20180803211508_initial")]
-    partial class initial
+    [Migration("20180808133608_initial-migrations")]
+    partial class initialmigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -267,6 +267,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("Descripcion")
                         .HasMaxLength(250);
+
+                    b.Property<bool>("Estado");
 
                     b.Property<string>("Extension")
                         .IsRequired();

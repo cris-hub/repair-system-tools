@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pemarsa.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialmigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -480,6 +480,7 @@ namespace Pemarsa.Data.Migrations
                     NombreArchivo = table.Column<string>(maxLength: 50, nullable: false),
                     Ruta = table.Column<string>(nullable: false),
                     Extension = table.Column<string>(nullable: false),
+                    Estado = table.Column<bool>(nullable: false),
                     FormatoId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
