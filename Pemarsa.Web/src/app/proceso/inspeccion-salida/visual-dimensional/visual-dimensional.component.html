@@ -1,0 +1,201 @@
+<div class="container">
+
+  <fieldset>
+    <legend>
+
+      <b>Visual dimensional</b>
+
+    </legend>
+  </fieldset>
+
+  <div class="col-md-11 contenido-interno">
+    <form [formGroup]="formInpeccionVisualDimensional" (ngSubmit)="procesar()">
+
+
+      <!-- documentos -->
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label " id="corre">
+          * Visual:
+        </label>
+
+        <div class="col-md-5">
+          <div *ngFor="let adjunto of inspeccion.InspeccionFotos">
+            <div *ngIf="adjunto.Estado" class="form-group row">
+              <div class="col-md-12">
+                <p class="form-control">
+                  {{adjunto.DocumentoAdjunto.NombreArchivo}}
+                  <i (click)="eliminarAdjunto(adjunto.DocumentoAdjunto)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                  <a href="{{adjunto.DocumentoAdjunto.Ruta}}" class="pull-right">
+                    <i class="glyphicon glyphicon-download"></i>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-auto image-upload">
+          <label for="file-input">
+            <span [ngClass]="{'badge badge-success pointer': DocumetosRestantes == 0 ,'badge badge-danger pointer': DocumetosRestantes != 0} "> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
+          </label>
+
+          <input id="file-input"  (change)="addFile($event)" type="file" multiple />
+        </div>
+      </div>
+
+      <!-- observacion -->
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <div class="col-md-9 ">
+          <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+        </div>
+      </div>
+
+
+
+      <p class="col-md-2 " id="corre">Trazabilidad: </p>
+      <!-- luz blanca -->
+      <div class="form-group row">
+        <div class="col-md-4 col-md-offset-2">
+          <label class="control-label" id="corre">Intensidad de luz blanca: </label>
+          <input formControlName="IntensidadLuzBlanca" validacion [validaciones]="['requerido']" type="number" class="form-control" /> <p class="control-label">Lumes</p>
+        </div>
+      </div>
+
+
+      <p class="col-md-2 " id="corre">Dimensional: </p>
+      <br />
+      <hr style="    border-top: 1px solid #7c7373;" />
+
+      <!-- cuando no es de tipo herramienta petrolera -->
+      <!-- Tabla Dimensional -->
+      <div>
+        <div class="row">
+          <table *ngIf="formInpeccionVisualDimensional.get('Dimensionales')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
+            <thead>
+              <tr>
+                <th scope="col">Medida nominal</th>
+                <th scope="col">Tolerancia</th>
+                <th scope="col">Medida actual</th>
+                <th scope="col">Conformidad</th>
+                <th scope="col">acciones</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="Dimensionales"
+                   *ngFor="let Dimensional of formInpeccionVisualDimensional.get('Dimensionales').controls; let i = index;">
+              <tr [formGroupName]="i">
+
+
+
+                <td>
+                  <input formControlName="MedidaNominal" validacion [validaciones]="['requerido']" class="form-control" type="text" />
+                </td>
+                <td>
+                  <input formControlName="Tolerancia" validacion [validaciones]="['requerido']" class="form-control" type="text" />
+                </td>
+
+
+                <td>
+                  <input formControlName="MedidaActual" validacion [validaciones]="['requerido']" class="form-control" type="text" />
+                </td>
+
+                <td>
+                  <div class="form-check form-check-inline col-md-5">
+                    <label class="form-check-label" for="Si">Si​</label>
+                    <input formControlName="Conformidad" type="radio" [value]="true">
+                  </div>
+                  <div class="form-check form-check-inline col-md-5">
+                    <label class="form-check-label" for="No">No​</label>
+                    <input formControlName="Conformidad" validacion [validaciones]="['*']" type="radio" [value]="false">
+                  </div>
+                </td>
+
+
+                <td>
+                  <div class="btn-group" role="group" style="display:flex;" aria-label="...">
+                    <button (click)="removeItemFormDimensional(i)" *ngIf="i" class="btn btn-danger ">
+                      <i class="glyphicon glyphicon glyphicon-minus"></i>
+                    </button>
+                    <button (click)="addItemFormDimensional()" class=" btn btn-success  ">
+                      <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+
+      <!-- observaciones visual -->
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Observacion: </label>
+        <div class="col-md-9 ">
+          <textarea formControlName="ObservacionesInspeccion" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+        </div>
+      </div>
+
+
+      <!-- cuando no es de tipo herramienta petrolera -->
+
+      <p class="col-md-2 " id="corre">Trazabilidad: </p>
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Equipo medición usuado </label>
+        <div class="col-md-7 ">
+
+          <input type="text"
+                 [disabled]="EquiposMedicionUsado.length>0 "
+                 class="form-control"
+                 [ngbTypeahead]="search"
+                 [resultFormatter]="ValorMostrar"
+                 [inputFormatter]="ValorFiltrar"
+                 (selectItem)="selectItem($event)"
+                 validacion [validaciones]="['requerido']"
+                 formControlName="InspeccionEquipoUtilizado" />
+
+        </div>
+      </div>
+
+
+
+      <div class="form-group row">
+
+        <div class="col-md-offset-2 col-md-8">
+          <div *ngIf="inspeccion.InspeccionEquipoUtilizado.length >0">
+            <span *ngFor="let equipo of inspeccion.InspeccionEquipoUtilizado" class="col-md-2 badge badge-secondary aliniar-text">
+              {{equipo.EquipoUtilizado.Valor}}
+              <i (click)="removerDeElementosSeleccionado(equipo.EquipoUtilizado)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!--<div class="form-group  row">
+
+        <div class="col-md-offset-3 ">
+          <label class=" control-label" id="corre">Inspección dimecional de cuerpo  </label>
+          <input class="form-control" />
+        </div>
+
+      </div>-->
+
+
+      <div class="form-group row">
+        <div class="col-md-3 col-md-offset-3 ">
+          <button class="btn">Proceosar y continuar</button>
+        </div>
+      </div>
+
+
+
+    </form>
+
+
+
+  </div>
+
+</div>

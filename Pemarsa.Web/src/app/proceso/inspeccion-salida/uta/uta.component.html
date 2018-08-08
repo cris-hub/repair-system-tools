@@ -1,0 +1,156 @@
+<br />
+<div class="container-fluid">
+
+  <div class="row ">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+        <br />
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h3>UTA</h3>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+
+  <div class="row contenido-interno">
+    <div class="col-md-12">
+
+      <form [formGroup]="formulario" (ngSubmit)="procesar()">
+
+
+        <!-- observacion -->
+        <div class="form-group row">
+          <label class="col-md-2 control-label" id="corre">Observacion: </label>
+          <div class="col-md-9 ">
+            <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+          </div>
+        </div>
+
+        <!-- doc ultrasonido -->
+        <div class="form-group row">
+          <div class="col-md-7 col-md-offset-2">
+            <div class="form-group row">
+              <label class="col-md-12 col-form-label">Adjunte imagen pantalla ultrasonido​</label>
+              <div *ngIf="inspeccion.ImagenPantallaUltrasonido" class="col-md-12">
+                <a href="{{inspeccion.ImagenPantallaUltrasonido.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenPantallaUltrasonido.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-auto image-upload">
+            <label for="file-input-ultrasonido">
+              <span class="badge"> {{DocumetosRestantesImagenPantallaUltrasonido}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+            </label>
+            <input id="file-input-ultrasonido" formControlName="ImagenPantallaUltrasonido" validacion [validaciones]="['requerido']" (change)="addFileUltrasonido($event)" type="file" />
+          </div>
+        </div>
+
+        <section>
+          <h4>trazabilidad</h4>
+          <!--  ultrasonido calibración previa -->
+          <div class="form-group row">
+            <div class="col-md-7 col-md-offset-2">
+              <div class="form-group row">
+                <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración previa a la inspección​</label>
+                <div *ngIf="inspeccion.ImagenUltrasonidoPrevia" class="col-md-12">
+                  <a href="{{inspeccion.ImagenUltrasonidoPrevia.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenUltrasonidoPrevia.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-auto image-upload">
+              <label for="file-input-previa-ultrasonido">
+                <span [ngClass]="{'badge badge-success pointer': DocumetosRestantesImagenUltrasonidoPrevia == 0 ,'badge badge-danger pointer': DocumetosRestantesImagenUltrasonidoPrevia != 0} "> {{DocumetosRestantesImagenUltrasonidoPrevia}} <i class="glyphicon glyphicon-paperclip"></i></span>
+                
+              </label>
+              <input id="file-input-previa-ultrasonido" formControlName="ImagenUltrasonidoPrevia" validacion [validaciones]="['requerido']" (change)="addFilePreviaUltrasonido($event)" type="file" />
+            </div>
+          </div>
+
+          <!-- addFileDuranteInspeccionUltrasonido -->
+          <div class="form-group row">
+            <div class="col-md-7 col-md-offset-2">
+              <div class="form-group row">
+                <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración durante la inspección​</label>
+                <div *ngIf="inspeccion.ImagenUltrasonidoDurante" class="col-md-12">
+
+                  <a href="{{inspeccion.ImagenUltrasonidoDurante.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenUltrasonidoDurante.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-auto image-upload">
+              <label for="file-input-ultrasonido-durante">
+                <span [ngClass]="{'badge badge-success pointer': DocumetosRestantesImagenUltrasonidoDurante == 0 ,'badge badge-danger pointer': DocumetosRestantesImagenUltrasonidoDurante != 0} "> {{DocumetosRestantesImagenUltrasonidoDurante}} <i class="glyphicon glyphicon-paperclip"></i></span>
+              </label>
+              <input id="file-input-ultrasonido-durante" formControlName="ImagenUltrasonidoDurante" validacion [validaciones]="['requerido']" (change)="addFileDuranteInspeccionUltrasonido($event)" type="file" />
+            </div>
+          </div>
+
+          <!-- addFileDespuesInspeccionUltrasonido -->
+          <div class="form-group row">
+            <div class="col-md-7 col-md-offset-2">
+              <div class="form-group row">
+                <label class="col-md-12 col-form-label">Adjunte pantalla ultrasonido calibración después de la inspección​</label>
+                <div *ngIf="inspeccion.ImagenUltrasonidoDespues" class="col-md-12">
+                  <a href="{{inspeccion.ImagenUltrasonidoDespues.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenUltrasonidoDespues.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-auto image-upload">
+              <label for="file-input-addfiledespuesinspeccionultrasonido">
+                <span [ngClass]="{'badge badge-success pointer': DocumetosRestantesImagenUltrasonidoDespues == 0 ,'badge badge-danger pointer': DocumetosRestantesImagenUltrasonidoDespues != 0} "> {{DocumetosRestantesImagenUltrasonidoDespues}} <i class="glyphicon glyphicon-paperclip"></i></span>
+              </label>
+              <input id="file-input-addfiledespuesinspeccionultrasonido" formControlName="ImagenUltrasonidoDespues" validacion [validaciones]="['requerido']" (change)="addFileDespuesInspeccionUltrasonido($event)" type="file" />
+            </div>
+          </div>
+
+          <!-- Tubo Calibracion  -->
+          <div class="form-group row">
+            <div class="col-md-3 col-md-offset-2 ">
+              <label class=" control-label">Tubo valor usado para la calibración </label>
+              <select formControlName="TuboPatronId" validacion [validaciones]="['requerido']" class="form-control form-control-lg" value="0">
+                <option value="0">Seleccione</option>
+                <option *ngFor="let Tupo of TubosPatrones" value="{{Tupo.Id}}">{{Tupo.Valor}}</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- Check operativo -->
+        <div class="form-group row">
+          <div class="col-md-3 col-md-offset-2 ">
+            <label class=" control-label" id="corre">Operativo</label>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-check form-check-inline col-md-5">
+              <label class="form-check-label" for="Si">Si​</label>
+              <input formControlName="EstaConforme" class="form-check-input" type="radio" value="true">
+            </div>
+            <div class="form-check form-check-inline col-md-5">
+              <label class="form-check-label" for="No">No​</label>
+              <input formControlName="EstaConforme"  class="form-check-input" type="radio" value="false">
+            </div>
+          </div>
+        </div>
+
+        <!-- submit accion -->
+        <div class="form-group row">
+          <div class="col-md-3 col-md-offset-3 ">
+            <button class="btn">Proceosar y continuar</button>
+          </div>
+        </div>
+
+
+      </form>
+
+
+    </div>
+  </div>
+
+</div>

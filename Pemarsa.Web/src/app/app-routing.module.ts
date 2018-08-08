@@ -14,16 +14,16 @@ import { CrearFormatoComponent } from './formato/crear-formato/crear-formato.com
 import { ListarFormatoComponent } from './formato/listar-formato/listar-formato.component';
 import { ListarOitComponent } from './orden-trabajo/listar-oit/listar-oit.component';
 import { CrearOitComponent } from './orden-trabajo/crear-oit/crear-oit.component';
-import { ListarInspeccionesComponent } from './proceso/inspeccion/listar-inspecciones/listar-inspecciones.component';
-import { InspeccionHerramientaComponent } from './proceso/inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
-import { VRComponent } from './proceso/inspeccion/vr/vr.component';
-import { UTComponent } from './proceso/inspeccion/ut/ut.component';
-import { EMIComponent } from './proceso/inspeccion/emi/emi.component';
-import { LPIComponent } from './proceso/inspeccion/lpi/lpi.component';
-import { VisualDimensionalMotorComponent } from './proceso/inspeccion//visual-dimensional-motor//visual-dimensional-motor.component';
-import { MPIComponent } from './proceso/inspeccion/mpi/mpi.component';
-import { UTAComponent } from './proceso/inspeccion/uta/uta.component';
-import { VisualDimensionalComponent } from './proceso/inspeccion/visual-dimensional/visual-dimensional.component';
+import { ListarInspeccionesComponent } from './proceso/inspeccion-entrada/listar-inspecciones/listar-inspecciones.component';
+import { InspeccionHerramientaComponent } from './proceso/inspeccion-entrada/inspeccion-herramienta/inspeccion-herramienta.component';
+import { VRComponent } from './proceso/inspeccion-entrada/vr/vr.component';
+import { UTComponent } from './proceso/inspeccion-entrada/ut/ut.component';
+import { EMIComponent } from './proceso/inspeccion-entrada/emi/emi.component';
+import { LPIComponent } from './proceso/inspeccion-entrada/lpi/lpi.component';
+import { VisualDimensionalMotorComponent } from './proceso/inspeccion-entrada//visual-dimensional-motor//visual-dimensional-motor.component';
+import { MPIComponent } from './proceso/inspeccion-entrada/mpi/mpi.component';
+import { UTAComponent } from './proceso/inspeccion-entrada/uta/uta.component';
+import { VisualDimensionalComponent } from './proceso/inspeccion-entrada/visual-dimensional/visual-dimensional.component';
 import { ProcesarOitComponent } from './coordinador/procesar-oit/procesar-oit.component';
 import { OitCambioProcesoComponent } from './coordinador/oit-cambio-proceso/oit-cambio-proceso.component';
 

@@ -1,0 +1,127 @@
+<br />
+<div class="container-fluid">
+  <div class="row titulo">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+
+      <h3 class="margin-20 text-center">Inspección Entrada</h3>
+
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <br />
+    </div>
+    <!--<div class="col-md-9" style="text-align: right;">
+
+      <!--<div class="col-md-1" style="padding-top:30px;">
+        <app-filtro-orden-trabajo (paramsFiltro)="consultarOitPorFiltro($event)"></app-filtro-orden-trabajo>
+      </div>-->
+      <!--<div class="col-md-1" style="padding-top:22px;">
+        <div class="btn-group" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
+          <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-list"></span>
+          </a>
+          <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+            <li class="records-page-contactos" data-page="10">
+              <a (click)="limiteConsulta(10)">10 Registros</a>
+            </li>
+            <li class="records-page-contactos" data-page="20">
+              <a (click)="limiteConsulta(20)">20 Registros</a>
+            </li>
+            <li class="records-page-contactos" data-page="30">
+              <a (click)="limiteConsulta(30)">30 Registros</a>
+            </li>
+            <li class="records-page-contactos" data-page="50">
+              <a (click)="limiteConsulta(50)">50 Registros</a>
+            </li>
+            <li class="records-page-contactos" data-page="100">
+              <a (click)="limiteConsulta(100)">100 Registros</a>
+            </li>
+            <li class="records-page-contactos" data-page="200">
+              <a (click)="limiteConsulta(200)">200 Registros</a>
+            </li>
+            <li class="records-page-contactos" data-page="300">
+              <a (click)="limiteConsulta(300)">300 Registros</a>
+            </li>
+          </ul>
+        </div>
+      </div>-->
+
+    <!--</div>-->
+  </div>
+  <div class="row contenido-interno-listar">
+    <div class="col-12">
+      <div class="table-responsive-sm table-responsive-md">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr class="titleTable text-center">
+              <th>Número de OIT</th>
+              <th>Herramienta</th>
+              <th>Cliente</th>
+              <th>Serial​</th>
+              <th>Prioridad​</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Proceso Anterior</th>
+              <th class="width-10">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="font-black center-table">
+            <tr *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+              <td>{{Proceso.Id}}</td>
+              <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
+              <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>
+              <td>{{Proceso.OrdenTrabajo.SerialHerramienta}}</td>
+              <td>{{Proceso.OrdenTrabajo.Prioridad.Valor}}</td>
+              <td>{{Proceso.FechaRegistro | date:'short'}}</td>
+              <td>{{Proceso.Estado.Valor}}</td>
+              <td>
+                <b *ngIf="Proceso.TipoProcesoAnterior">
+                  {{Proceso.TipoProcesoAnterior.Valor}}
+                </b>
+              </td>
+              <td>
+                <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/ver" class="glyphicon glyphicon-eye-open pointer"></i>
+                &nbsp;
+                <i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/procesar" class="glyphicon glyphicon-wrench pointer"></i>
+                &nbsp;
+                <!--<i routerLink="/inspeccion/entrada/{{Proceso.Guid}}/editar" class="glyphicon glyphicon-pencil pointer"></i>-->
+                &nbsp;
+                <i data-toggle="modal" class="glyphicon glyphicon-print pointer"></i>
+
+                <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
+    <i (click)="historial(oit.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
+  </div>-->
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--Paginacion -->
+  <!--<div class="row">
+    <nav aria-label="pagination example">
+      <ul class="pagination pagination-circle pg-blue mb-0">
+        <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
+        </pagination-controls>
+      </ul>
+    </nav>
+    <br />
+  </div>-->
+</div>
+<!--<div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <app-confirmacion-modal (confir)="actualizarEstadoOITConfirmacion($event)"></app-confirmacion-modal>
+</div>
+<div *ngIf="esNuevaAccion" class="modal fade" id="solicitudOitModal" tabindex="-1" role="dialog" aria-labelledby="solicitudOitModalLabel"
+     aria-hidden="true">
+  <app-confirmacion-modal (confir)="actualizarEstadoOITConfirmacion($event)"></app-confirmacion-modal>
+
+</div>
+
+
+<div *ngIf="esNuevaAccion" class="modal fade" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
+     aria-hidden="true">
+  <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
+</div>-->

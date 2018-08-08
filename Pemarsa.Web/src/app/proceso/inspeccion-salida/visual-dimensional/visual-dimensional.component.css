@@ -1,0 +1,14 @@
+.image-upload > input {
+  display: none;
+}
+
+ul {
+  list-style-type: none;
+  display: inline;
+}
+
+.aliniar-text {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 2;
+}

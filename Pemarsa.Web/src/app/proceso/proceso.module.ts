@@ -6,18 +6,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UtilModule } from '../common/modules/util.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { ListarInspeccionesComponent } from './inspeccion/listar-inspecciones/listar-inspecciones.component';
-import { InspeccionHerramientaComponent } from './inspeccion/inspeccion-herramienta/inspeccion-herramienta.component';
+import { ListarInspeccionesComponent } from './inspeccion-entrada/listar-inspecciones/listar-inspecciones.component';
+import { InspeccionHerramientaComponent } from './inspeccion-entrada/inspeccion-herramienta/inspeccion-herramienta.component';
 
-import { VRComponent } from './inspeccion/vr/vr.component';
-import { UTComponent } from './inspeccion/ut/ut.component';
-import { VisualDimensionalMotorComponent } from './inspeccion//visual-dimensional-motor//visual-dimensional-motor.component';
-import { LPIComponent } from './inspeccion/lpi/lpi.component';
-import { UTAComponent } from './inspeccion/uta/uta.component';
-import { MPIComponent } from './inspeccion/mpi/mpi.component';
-import { EMIComponent } from './inspeccion/emi/emi.component';
+import { VRComponent } from './inspeccion-entrada/vr/vr.component';
+import { UTComponent } from './inspeccion-entrada/ut/ut.component';
+import { VisualDimensionalMotorComponent } from './inspeccion-entrada//visual-dimensional-motor//visual-dimensional-motor.component';
+import { LPIComponent } from './inspeccion-entrada/lpi/lpi.component';
+import { UTAComponent } from './inspeccion-entrada/uta/uta.component';
+import { MPIComponent } from './inspeccion-entrada/mpi/mpi.component';
+import { EMIComponent } from './inspeccion-entrada/emi/emi.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { VisualDimensionalComponent } from './inspeccion/visual-dimensional/visual-dimensional.component';
+import { VisualDimensionalComponent } from './inspeccion-entrada/visual-dimensional/visual-dimensional.component';
 
 @NgModule({
   imports: [

@@ -1,0 +1,193 @@
+<br />
+<div class="container-fluid">
+
+  <div class="row ">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+        <br />
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h3>EMI</h3>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div class="row contenido-interno">
+    <div class="col-md-12">
+      <form [formGroup]="formulario" (ngSubmit)="procesar()">
+
+
+
+
+        <!-- Check defecto -->
+        <div class="form-group row">
+          <div class="col-md-4 col-md-offset-2">
+            <label class=" control-label" id="corre">Se identifica algún tipo de defecto​</label>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check form-check-inline col-md-5">
+              <label class="form-check-label" for="Si">Si​</label>
+              <input formControlName="SeIdentificaDefecto" class="form-check-input" (click)="seRegistraTrazabilidad($event.target.value)" type="radio" value="true">
+            </div>
+            <div class="form-check form-check-inline col-md-5">
+              <label class="form-check-label" for="No">No​</label>
+              <input formControlName="SeIdentificaDefecto" (click)="seRegistraTrazabilidad($event.target.value)" validacion [validaciones]="['*']" class="form-check-input" type="radio" value="false">
+            </div>
+          </div>
+        </div>
+
+        <!-- observacion -->
+        <div class="form-group row">
+          <label class="col-md-2 control-label" id="corre">Observacion: </label>
+          <div class="col-md-9 ">
+            <textarea formControlName="Observaciones" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+          </div>
+        </div>
+
+        <!-- documentos MFL -->
+        <div class="form-group row">
+          <div class="col-md-5 col-md-offset-2">
+            <div class="form-group row">
+              <label class="col-md-12 col-form-label">Adjunte imagen MFL​:</label>
+              <div *ngIf="inspeccion.ImagenMfl.NombreArchivo" class="col-md-12">
+                <a href="{{inspeccion.ImagenMfl.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenMfl.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+                <i (click)="eliminarAdjuntoImagenMfl(inspeccion.ImagenMfl)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-auto image-upload">
+            <label for="file-input-mfl">
+              <i class="glyphicon glyphicon-paperclip pointer"></i>
+            </label>
+
+            <input id="file-input-mfl" formControlName="ImagenMfl" validacion [validaciones]="['requerido']" (change)="addFileMFL($event)" type="file" col-md-auto image-upload />
+
+          </div>
+        </div>
+
+        <!-- documentos Espesores -->
+        <div class="form-group row">
+          <div class="col-md-5 col-md-offset-2">
+            <div class="form-group row">
+              <label class="col-md-12 col-form-label">
+                Adjunte imagen de medición de espesores:
+              </label>
+              <div *ngIf="inspeccion.ImagenMedicionEspesores.NombreArchivo" class="col-md-12">
+                <a href="{{inspeccion.ImagenMedicionEspesores.Ruta}}" class="form-control sin-margen"><p>{{inspeccion.ImagenMedicionEspesores.NombreArchivo}}<i class="pull-right glyphicon glyphicon-download"></i></p></a>
+                <i (click)="eliminarAdjuntoImagenMedicionEspesores(inspeccion.ImagenMedicionEspesores)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-auto image-upload">
+            <label for="file-input-espesores">
+              <i class="glyphicon glyphicon-paperclip pointer"></i>
+            </label>
+            <input #espesor id="file-input-espesores" formControlName="ImagenMedicionEspesores" validacion [validaciones]="['requerido']" (change)="addFileEspesorese($event)" type="file" col-md-auto image-upload />
+
+
+          </div>
+        </div>
+
+        <div *ngIf="formulario.controls['SeIdentificaDefecto'].value == 'true'" class="form-group row">
+          <div class="col-md-12 col-lg-10 col-sm-12 col-md-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading">Trazabilidad</div>
+              <div class="panel-body">
+
+                <!-- amperaje y velociada buggy -->
+                <div class="form-group row">
+                  <!-- amperaje -->
+                  <div class="col-md-3 col-md-offset-2 ">
+                    <label class=" control-label">Amperaje </label>
+                    <input formControlName="Amperaje" validacion [validaciones]="['requerido']" type="number" step="any" class="form-control" />
+                  </div>
+                  <!-- Velocidad buggy -->
+
+                  <div class="col-md-3 ">
+                    <label class=" control-label">Velocidad buggy drive </label>
+                    <input formControlName="VelocidadBuggyDrive" validacion [validaciones]="['requerido']" type="number" step="any" class="form-control" />
+                  </div>
+                </div>
+
+                <!-- Tubo Calibracion  -->
+                <div class="form-group row">
+                  <div class="col-md-3 col-md-offset-2 ">
+                    <label class=" control-label">Tubo valor usado para la calibración </label>
+                    <select formControlName="TuboPatronId" validacion [validaciones]="['requerido']" class="form-control form-control-lg">
+                      <option value="0">Seleccione</option>
+                      <option *ngFor="let Tupo of TubosPatrones" value="{{Tupo.Id}}">{{Tupo.Valor}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Equpo EMi usado -->
+                <div class="form-group row">
+                  <div class="col-md-3 col-md-offset-2 ">
+                    <label class=" control-label">Equipo EMI usado </label>
+                    <select formControlName="EquipoEmiId" validacion [validaciones]="['requerido']" class="form-control form-control-lg" value="seleccione">
+                      <option value="0">Seleccione</option>
+                      <option *ngFor="let EquipoEmi of EquiposEmi" value="{{EquipoEmi.Id}}">{{EquipoEmi.Valor}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Bobina Magnetica usada -->
+                <div class="form-group row">
+                  <div class="col-md-3 col-md-offset-2 ">
+                    <label class=" control-label">Bobina magnetica usada</label>
+                    <select formControlName="BobinaMagneticaId" validacion [validaciones]="['requerido']" class="form-control form-control-lg" value="seleccione">
+                      <option value="0">Seleccione</option>
+                      <option *ngFor="let BobinaMagnetica of BobinasMagneticas" value="{{BobinaMagnetica.Id}}">{{BobinaMagnetica.Valor}}</option>
+                    </select>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Check operativo -->
+        <div class="form-group row">
+          <div class="col-md-3 col-md-offset-2 ">
+            <label class=" control-label" id="corre">Operativo</label>
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="form-check form-check-inline col-md-5">
+              <label class="form-check-label" for="Si">Si​</label>
+              <input formControlName="EstaConforme" class="form-check-input" type="radio" id="Si" [value]="true">
+            </div>
+            <div class="form-check form-check-inline col-md-5">
+              <label class="form-check-label" for="No">No​</label>
+              <input formControlName="EstaConforme" class="form-check-input" type="radio" id="No" [value]="false">
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- submit accion -->
+        <div class="form-group row">
+
+          <div class="col-md-3 col-md-offset-3 ">
+            <button type="submit" class="btn">procesar y continuar</button>
+          </div>
+        </div>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
