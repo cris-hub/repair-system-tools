@@ -13,7 +13,7 @@ import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/in
 })
 export class SiguienteProcesoComponent implements OnInit {
   @Output() confir = new EventEmitter();
-  @Input() public data
+  @Input() public data: ProcesoModel
   // proceso
 
   public titulo: String;
@@ -54,8 +54,9 @@ export class SiguienteProcesoComponent implements OnInit {
   event(input) {
     if (input.innerHTML == 'rechazar') {
       this.data.EstadoId = ESTADOS_PROCESOS.Rechazado
+      this.data.Reasignado = false
     } else {
-      this.data.EstadoId = ESTADOS_PROCESOS.Pendiente
+      this.data.Reasignado = true
     }
     this.abrilModal = true
 
@@ -85,7 +86,7 @@ export class SiguienteProcesoComponent implements OnInit {
 
   seleccionarSiguienteProceso(event) {
     this.procesoSiguiente = event;
-    this.data.TipoProcesoId = this.procesoSiguiente;
+    this.data.TipoProcesoSiguienteId = this.procesoSiguiente;
     this.data.TipoProcesoAnteriorId = TIPO_PROCESO.REASIGNACION;
 
   }

@@ -161,7 +161,7 @@ export class AppComponent implements OnInit {
             id: "16",
             name: "Insp. Salida",
             image: "",
-            url: "",
+            url: "/inspeccion/salida",
             color: "color",
             title: "Insp. Salida",
             submenu: false,

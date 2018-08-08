@@ -342,14 +342,7 @@ export class CrearOitComponent implements OnInit {
 
       MaterialId: [this.material.Id],
 
-      Material: this.formBulder.group({
-        Id: [this.material.Id],
-        Material: this.formBulder.group({
-          Id: [this.material.Material.Id],
-          Valor: [this.material.Material.Valor]
-        })
-
-      }),
+      
       TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],
       TamanoHerramienta: this.formBulder.group({
         Id: [ordenTrabajo.TamanoHerramienta.Id],

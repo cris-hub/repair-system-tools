@@ -29,18 +29,26 @@ namespace ProcesoES.Service
             try
             {
 
-                if (proceso.EstadoId == (int)ESTADOSPROCESOS.RECHAZADO)
+                if (proceso.Id == 0)
                 {
 
+                    proceso.TipoProcesoId = (int)TIPOPROCESOS.INSPECCIONENTRADA;
+                    proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
+                    proceso.Guid = Guid.NewGuid();
+                    proceso.NombreUsuarioCrea = "admin";
+                    proceso.FechaRegistro = DateTime.Now;
+                    Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
+
+                    return procesoGuid;
+
                 }
+                else
+                {
 
-                proceso.TipoProcesoId = (int)TIPOPROCESOS.INSPECCIONENTRADA;
-                proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
+                    Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
 
-                
-                Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
-
-                return procesoGuid;
+                    return procesoGuid;
+                }
 
 
             }
@@ -51,26 +59,6 @@ namespace ProcesoES.Service
             }
         }
 
-        private static Proceso AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo ordenTrabajo)
-        {
-            Proceso proceso = new Proceso()
-            {
-                CantidadInspeccion = ordenTrabajo.CantidadInspeccionar,
-                EstadoId = ordenTrabajo.EstadoId, // cambiar por el canonica adecuado                ,
-                TipoProcesoAnteriorId = 1,
-                TipoProcesoId = 1,
-                TipoProcesoSiguienteId = 1,
-                TipoProcesoSiguienteSugeridoId = 1,
-                TipoSoldaduraId = 1,
-                MaquinaAsignadaId = 1,
-                InstructivoId = 1,
-                ProcesosRealizarId = 1,
-                ProcesoSiguienteId = 1,
-                ProcesoAnteriorId = 1,
-                OrdenTrabajoId = 1
-            };
-            return proceso;
-        }
 
         public async Task<Proceso> ConsultarProcesoPorGuid(Guid guidProceso, UsuarioDTO usuarioDTO)
         {
@@ -82,6 +70,8 @@ namespace ProcesoES.Service
         {
             try
             {
+
+
                 return await _procesoRepository.ActualizarEstadoProceso(guid, estado, usuarioDTO);
             }
             catch (Exception)
@@ -257,7 +247,7 @@ namespace ProcesoES.Service
             }
         }
 
-        public async Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid,int pieza, UsuarioDTO usuarioDTO)
+        public async Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid, int pieza, UsuarioDTO usuarioDTO)
         {
             try
             {

@@ -116,23 +116,29 @@ export class InspeccionHerramientaComponent implements OnInit {
         this.inspeccionesTerminada = false
 
       }
-      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true)
+      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true, this.obtenerProcesoDesdeUrl().get('pieza'))
       ) {
         this.inspeccionesEnProceso = true
-      } else { this.inspeccionesEnProceso = false }
+      } else {
+        this.inspeccionesEnProceso = false
+      }
 
     }
   }
 
   completarProcesoInspeccion(guidProceso: string) {
-
+    this.consultarProceso();
     if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
           this.router.navigate(['inspeccion/entrada'])
         };
       });
-    } else {
+    } else if ((this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
+      .every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) &&  (!this.Proceso.TipoProcesoSiguienteSugeridoId)) {
+      this.toastrService.info('Debe sugerir un proceso a seguir')
+      
+    }else {
       this.router.navigate([
         'inspeccion/entrada/' +
         this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
@@ -143,7 +149,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   consultarSiguienteInspeccion(guidProceso: string) {
 
     console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
-    if (this.Proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerProcesoDesdeUrl().get('pieza') && this.procesoService.iniciarProcesar) {
+    if (this.inspeccionesEnProceso) {
 
       this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
         this.Inspeccion = response;
@@ -271,8 +277,7 @@ export class InspeccionHerramientaComponent implements OnInit {
           this.consultarProceso()
         });
       } else if ((this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[107]))) {
-        this.router.navigate([
-          'inspeccion/entrada/']);
+
       }
     }
   }

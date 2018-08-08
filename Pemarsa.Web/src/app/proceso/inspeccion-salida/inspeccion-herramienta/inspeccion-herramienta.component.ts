@@ -129,12 +129,12 @@ export class InspeccionHerramientaComponent implements OnInit {
     if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
-          this.router.navigate(['inspeccion/entrada'])
+          this.router.navigate(['inspeccion/salida'])
         };
       });
     } else {
       this.router.navigate([
-        'inspeccion/entrada/' +
+        'inspeccion/salida/' +
         this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
         this.obtenerProcesoDesdeUrl().get('accion')]);
     }
@@ -151,12 +151,12 @@ export class InspeccionHerramientaComponent implements OnInit {
         if (response == null) {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
-          this.router.navigate(['inspeccion/entrada/']);
+          this.router.navigate(['inspeccion/salida/']);
 
           return
         }
         this.router.navigate([
-          'inspeccion/entrada/' +
+          'inspeccion/salida/' +
           TIPO_INSPECCION[this.Inspeccion.TipoInspeccionId] + '/' +
           this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
           this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
@@ -272,7 +272,7 @@ export class InspeccionHerramientaComponent implements OnInit {
         });
       } else if ((this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[107]))) {
         this.router.navigate([
-          'inspeccion/entrada/']);
+          'inspeccion/salida/']);
       }
     }
   }
@@ -403,7 +403,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   regresar() {
     this.router.navigate([
-      'inspeccion/entrada/' +
+      'inspeccion/salida/' +
       this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
       this.obtenerProcesoDesdeUrl().get('accion')]);
 

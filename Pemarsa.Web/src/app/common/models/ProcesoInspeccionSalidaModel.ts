@@ -3,12 +3,12 @@ import { EntityModel, ProcesoModel, InspeccionModel } from "./Index";
 export class ProcesoInspeccionSalidaModel extends EntityModel {
 
 
-  private InspeccionId: number;
-  private Inspeccion: InspeccionModel;
+  public InspeccionId: number;
+  public Inspeccion: InspeccionModel;
 
 
-  private ProcesoId: number;
-  private Proceso: ProcesoModel;
+  public ProcesoId: number;
+  public Proceso: ProcesoModel;
 
   constructor() {
     super();

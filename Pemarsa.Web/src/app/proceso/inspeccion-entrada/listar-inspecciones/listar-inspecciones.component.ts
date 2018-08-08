@@ -45,7 +45,7 @@ export class ListarInspeccionesComponent implements OnInit {
     this.parametroService.consultarParametrosPorEntidad('PROCESO').subscribe(response => {
       this.tipoProcesos = response.Catalogos.filter(catalogo => { return catalogo.Grupo == "TIPO_PROCESO" });
       this.Paramtros = response;
-      this.obtenerTipoProceso(this.tipoProcesos, this.obtenerTipoInspeccionDesdeUrl());
+      this.obtenerTipoProceso(this.tipoProcesos,'entrada');
     }, error => {
       console.log(error)
       this.toastrService.error(error.message)
@@ -54,9 +54,7 @@ export class ListarInspeccionesComponent implements OnInit {
     });
   }
 
-  obtenerTipoInspeccionDesdeUrl(): string {
-    return this.activeRoute.snapshot.url[1].path;
-  }
+
 
   obtenerTipoProceso(tiposProcesos: CatalogoModel[], procesoDesdeUrl: string) {
     this.tipoProcesoActual = tiposProcesos.find(proceso => { return proceso.Valor.toLowerCase().includes(procesoDesdeUrl) });

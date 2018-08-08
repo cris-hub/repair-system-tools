@@ -28,9 +28,9 @@
                   {{Proceso.OrdenTrabajo.Herramienta.Nombre}} {{indexHerramienta}}
 
                   <i *ngIf="estadoCompleta(indexHerramienta)" class="glyphicon glyphicon-ok pull-right"></i>
-                  <i *ngIf="esVer()" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
-                  <i *ngIf="esEditar()" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
-                  <i *ngIf="esProcesar() && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/entrada/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
+                  <i *ngIf="esVer()" routerLink="/inspeccion/salida/{{Proceso.Guid}}/{{indexHerramienta}}/ver" class="glyphicon glyphicon-eye-open pointer pull-right"></i>
+                  <i *ngIf="esEditar()" routerLink="/inspeccion/salida/{{Proceso.Guid}}/{{indexHerramienta}}/editar" class="glyphicon glyphicon-pencil pointer pull-right"></i>
+                  <i *ngIf="esProcesar() && !estadoCompleta(indexHerramienta)" routerLink="/inspeccion/salida/{{Proceso.Guid}}/{{indexHerramienta}}/procesar" class="glyphicon glyphicon-wrench pointer pull-right"></i>
                 </p>
               </div>
             </div>

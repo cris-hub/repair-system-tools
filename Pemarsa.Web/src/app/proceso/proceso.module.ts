@@ -18,6 +18,8 @@ import { MPIComponent } from './inspeccion-entrada/mpi/mpi.component';
 import { EMIComponent } from './inspeccion-entrada/emi/emi.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VisualDimensionalComponent } from './inspeccion-entrada/visual-dimensional/visual-dimensional.component';
+import { InspeccionEntradaModule } from './inspeccion-entrada/inspeccion-entrada.module';
+import { InspeccionSalidaModule } from './inspeccion-salida/inspeccion-salida.module';
 
 @NgModule({
   imports: [
@@ -27,9 +29,9 @@ import { VisualDimensionalComponent } from './inspeccion-entrada/visual-dimensio
     UtilModule,
     NgxPaginationModule,
     NgbModule,
+    InspeccionEntradaModule,
+    
 
-  ],
-  declarations: [ListarInspeccionesComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalMotorComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent, VisualDimensionalComponent]
-  
+  ]
 })
 export class ProcesoModule { }

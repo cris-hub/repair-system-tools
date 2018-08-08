@@ -52,8 +52,22 @@ namespace ProcesoES.Repository
 
                 if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
                 {
-                    proceso.TipoProcesoAnteriorId = proceso.TipoProcesoId;
-                    proceso.TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION;
+                    Proceso nuevo = new Proceso()
+                    {
+                        TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION,
+                        TipoProcesoAnteriorId = proceso.TipoProcesoId,
+                        OrdenTrabajoId = proceso.OrdenTrabajoId,
+                        TipoProcesoSiguienteSugeridoId = proceso.TipoProcesoSiguienteSugeridoId,
+                        ProcesoAnteriorId = proceso.Id,
+                        EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
+                        Guid = Guid.NewGuid(),
+                        NombreUsuarioCrea = "admin",
+                        FechaRegistro = DateTime.Now,
+
+                    };
+
+                    await CrearProceso(nuevo, usuarioDTO);
+
                 }
                 proceso.EstadoId = estadoProceso.Id;
                 proceso.FechaModifica = DateTime.Now;
@@ -420,11 +434,43 @@ namespace ProcesoES.Repository
         {
             try
             {
-                proceso.Guid = Guid.NewGuid();
-                proceso.NombreUsuarioCrea = "admin";
-                proceso.FechaRegistro = DateTime.Now;
+
+                if (proceso.Id != 0)
+                {
+
+                    Proceso procesoBD = _context.Proceso.FirstOrDefault(pro => pro.Id == proceso.Id);
+
+                    _context.Entry(procesoBD).CurrentValues.SetValues(proceso);
+                    _context.Entry(proceso).State = EntityState.Detached;
+                    _context.Entry(procesoBD).State = EntityState.Detached;
+                    Proceso nuevoProceso = AsignarValoresProcesoReasignacion(procesoBD);
+                    _context.Proceso.Add(nuevoProceso);
+
+
+                    proceso.EstadoId = (int)ESTADOSPROCESOS.ASIGNADO;
+                    _context.Entry(proceso).Property(d => d.Reasignado).IsModified = true;
+                    _context.Update(proceso);
+
+                    await _context.SaveChangesAsync();
+
+                    return nuevoProceso.Guid;
+                }
+
+
+
                 await _context.Proceso.AddAsync(proceso);
+
                 await _context.SaveChangesAsync();
+
+
+                if (proceso.InspeccionEntrada.Count() < 1)
+                {
+                    for (int i = 1; i < proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(proceso.Guid, 65, i, usuario);
+                    }
+
+                }
 
                 return proceso.Guid;
             }
@@ -434,6 +480,22 @@ namespace ProcesoES.Repository
                 throw e;
             }
 
+        }
+
+        private static Proceso AsignarValoresProcesoReasignacion(Proceso proceso)
+        {
+            Proceso procesoReasignacion = new Proceso()
+            {
+                TipoProcesoAnteriorId = proceso.TipoProcesoAnteriorId,
+                TipoProcesoId = proceso.Reasignado ? proceso.TipoProcesoSiguienteId : proceso.TipoProcesoId,
+                Reasignado = proceso.Reasignado,
+                Guid = Guid.NewGuid(),
+                EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
+                OrdenTrabajoId = proceso.OrdenTrabajoId,
+                FechaRegistro = DateTime.Now,
+                NombreUsuarioCrea = "admin"
+            };
+            return procesoReasignacion;
         }
 
         public async Task<bool> ActualizarProcesoSugerir(Guid guidProceso, Guid guidProcesoSegurido, UsuarioDTO usuarioDTO)
@@ -485,7 +547,7 @@ namespace ProcesoES.Repository
 
                 var query = _context.Inspeccion.Include(d => d.ProcesoInspeccionEntrada).ThenInclude(t => t.Proceso);
                 var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
-                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && ( t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
+                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
                 if (inpeccion.Count() > 0)
                 {
                     foreach (var item in inpeccion)
