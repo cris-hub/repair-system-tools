@@ -1,5 +1,5 @@
 {
-  "webApiBaseUrl": "http://localhost:58906/api/",
+  "webApiBaseUrl": "http://192.168.15.174:4100/api/",
 
 
   "authorityConfig": {
