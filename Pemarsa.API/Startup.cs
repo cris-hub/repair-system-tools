@@ -70,17 +70,17 @@ namespace Pemarsa.API
             app.UseCors("PemarsaPolicy");
             app.UseMvcWithDefaultRoute();
             app.UseSwagger();
-            
+            app.UseStaticFiles();
             app.UseSwaggerUI(c =>
             {   
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pemarsa");
             });
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
 
 
             //TODO: Esta linea debe estar comentada para ejecutar las migraciones
-            DBInitializer.Initialize(context);
+            //DBInitializer.Initialize(context);
         }
     }
 }
