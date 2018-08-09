@@ -19,7 +19,7 @@ export class ConfigService {
         this.config = t
 
       }))
-    return Promise.resolve(this.config);
+        return Promise.resolve(this.config);
 
   }
 

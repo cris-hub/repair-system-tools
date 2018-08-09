@@ -25,29 +25,29 @@ export class LPIComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
 
   //carga archivos
-  private lectorArchivos: FileReader;
-  private adjuntos: AttachmentModel[] = [];
-  private adjunto: AttachmentModel;
-  private DocumetosRestantes: number = 5;
-  private DocumetoMinimos: number = 1;
+  public  lectorArchivos: FileReader;
+  public  adjuntos: AttachmentModel[] = [];
+  public  adjunto: AttachmentModel;
+  public  DocumetosRestantes: number = 5;
+  public  DocumetoMinimos: number = 1;
 
 
   //procesoInpeccion
-  private proceso: ProcesoModel;
-  private inspeccion: InspeccionModel = new InspeccionModel();
+  public  proceso: ProcesoModel;
+  public  inspeccion: InspeccionModel = new InspeccionModel();
 
   //catalogos
-  private TiposLiquidos: EntidadModel[];
-  private TiposInsumos: EntidadModel[];
+  public  TiposLiquidos: EntidadModel[];
+  public  TiposInsumos: EntidadModel[];
   //autocompletarEquipoMedicion
-  private EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
-  private equipo: CatalogoModel;
+  public  EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  public  equipo: CatalogoModel;
 
 
   //form
-  private formularioInsumos: FormArray;
-  private formulario: FormGroup;
-  private esFormularioValido: Boolean = false;
+  public  formularioInsumos: FormArray;
+  public  formulario: FormGroup;
+  public  esFormularioValido: Boolean = false;
 
   constructor(
     private location: Location,

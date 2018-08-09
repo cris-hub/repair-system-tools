@@ -22,19 +22,19 @@ export class CrearClienteComponent implements OnInit {
   @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
   @ViewChild(LineaClienteComponent) lineaClienteEvent: LineaClienteComponent;
 
-  private esActualizar: boolean;
-  private isSubmitted: boolean;
-  private loading: boolean;
-  private esVer: boolean = false;
-  private frmCliente: FormGroup;
+  public  esActualizar: boolean;
+  public  isSubmitted: boolean;
+  public  loading: boolean;
+  public  esVer: boolean = false;
+  public  frmCliente: FormGroup;
 
-  private paramsCliente: ParametrosModel;
-  private responsables: CatalogoModel[];
-  private estados: EntidadModel[];
+  public  paramsCliente: ParametrosModel;
+  public  responsables: CatalogoModel[];
+  public  estados: EntidadModel[];
 
-  private cliente: ClienteModel = new ClienteModel();
-  private lineaCliente: ClienteLineaModel[] = new Array<ClienteLineaModel>();
-  private attachment: AttachmentModel = new AttachmentModel();
+  public  cliente: ClienteModel = new ClienteModel();
+  public  lineaCliente: ClienteLineaModel[] = new Array<ClienteLineaModel>();
+  public  attachment: AttachmentModel = new AttachmentModel();
 
   constructor(
     private route: ActivatedRoute,

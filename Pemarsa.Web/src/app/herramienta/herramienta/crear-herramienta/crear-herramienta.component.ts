@@ -23,36 +23,36 @@ export class CrearHerramientaComponent implements OnInit {
   @ViewChild('inputTamanoHerramienta') inputTamanoHerramienta: ElementRef;
 
 
-  private esActualizar: boolean;
-  private isSubmitted: boolean;
-  private loading: boolean;
-  private esVer: boolean = false;
-  private frmHerramienta: FormGroup;
+  public  esActualizar: boolean;
+  public  isSubmitted: boolean;
+  public  loading: boolean;
+  public  esVer: boolean = false;
+  public  frmHerramienta: FormGroup;
 
-  private esEstudioFactibilidad: string = "vacio";
+  public  esEstudioFactibilidad: string = "vacio";
 
 
-  private paramsMateriales: ParametrosModel;
-  private estados: EntidadModel[];
-  private materialHerramienta: EntidadModel[];
+  public  paramsMateriales: ParametrosModel;
+  public  estados: EntidadModel[];
+  public  materialHerramienta: EntidadModel[];
 
-  private herramienta: HerramientaModel = new HerramientaModel();
-  private herramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel = new HerramientaEstudioFactibilidadModel();
+  public  herramienta: HerramientaModel = new HerramientaModel();
+  public  herramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel = new HerramientaEstudioFactibilidadModel();
 
-  private CatalogoMaterialesVer: EntidadModel[] = new Array<EntidadModel>();
-  private CatalogoMaterialesAdd: EntidadModel[] = new Array<EntidadModel>();
-  private Materiales: HerramientaMaterialModel[] = new Array<HerramientaMaterialModel>();
+  public  CatalogoMaterialesVer: EntidadModel[] = new Array<EntidadModel>();
+  public  CatalogoMaterialesAdd: EntidadModel[] = new Array<EntidadModel>();
+  public  Materiales: HerramientaMaterialModel[] = new Array<HerramientaMaterialModel>();
 
-  private herramientaTamanoMotor: HerramientaTamanoMotorModel[] = new Array<HerramientaTamanoMotorModel>();
-  private herramientaTamano: HerramientaTamanoModel[] = new Array<HerramientaTamanoModel>();
+  public  herramientaTamanoMotor: HerramientaTamanoMotorModel[] = new Array<HerramientaTamanoMotorModel>();
+  public  herramientaTamano: HerramientaTamanoModel[] = new Array<HerramientaTamanoModel>();
 
-  private paramsCliente: ParametrosModel;
+  public  paramsCliente: ParametrosModel;
   //parametro visualizar ui
-  private paramsClientes: ParametrosModel;
-  private clientes: CatalogoModel[] = new Array<CatalogoModel>();
-  private clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
+  public  paramsClientes: ParametrosModel;
+  public  clientes: CatalogoModel[] = new Array<CatalogoModel>();
+  public  clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
 
-  private verificadores: CatalogoModel[]
+  public  verificadores: CatalogoModel[]
 
   constructor(
     private route: ActivatedRoute,

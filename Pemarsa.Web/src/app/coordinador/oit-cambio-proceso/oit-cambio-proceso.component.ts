@@ -14,11 +14,11 @@ import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/in
   styleUrls: ['./oit-cambio-proceso.component.css']
 })
 export class OitCambioProcesoComponent implements OnInit {
-  private paginacion: PaginacionModel = new PaginacionModel(1, 10);
-  private tipoProcesoActual: CatalogoModel = new CatalogoModel();
-  private Paramtros: ParametrosModel;
-  private tipoProcesos: CatalogoModel[];
-  private Procesos: Array<ProcesoModel>;
+  public paginacion: PaginacionModel = new PaginacionModel(1, 10);
+  public tipoProcesoActual: CatalogoModel = new CatalogoModel();
+  public Paramtros: ParametrosModel;
+  public tipoProcesos: CatalogoModel[];
+  public Procesos: Array<ProcesoModel>;
 
   constructor(
     private procesoService: ProcesoService,

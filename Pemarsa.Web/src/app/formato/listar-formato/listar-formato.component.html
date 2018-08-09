@@ -74,7 +74,7 @@
             <tr *ngFor="let formato of formatos | paginate:{ itemsPerPage: paginacion.CantidadRegistros,
                                                              currentPage: paginacion.PaginaActual,
                                                              totalItems: paginacion.TotalRegistros,
-                                                             id: 'formato'} trackBy: index">
+                                                             id: 'formato'}">
               <td>{{formato.Codigo}}</td>
               <td>{{formato.Conexion.Valor}}</td>
               <td>

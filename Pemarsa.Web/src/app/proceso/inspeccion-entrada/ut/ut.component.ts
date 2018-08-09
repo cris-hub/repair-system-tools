@@ -20,21 +20,21 @@ export class UTComponent implements OnInit {
 
 
   //catalogos
-  private BloquesEscalonados: EntidadModel[] = new Array<EntidadModel>();
+  public  BloquesEscalonados: EntidadModel[] = new Array<EntidadModel>();
 
   //procesoInpeccion
-  private proceso: ProcesoModel;
-  private inspeccion: InspeccionModel = new InspeccionModel();
-  private InspeccionEspesores: Array<InspeccionEspesorModel> = new Array<InspeccionEspesorModel>();
+  public  proceso: ProcesoModel;
+  public  inspeccion: InspeccionModel = new InspeccionModel();
+  public  InspeccionEspesores: Array<InspeccionEspesorModel> = new Array<InspeccionEspesorModel>();
 
   //form
-  private formulario: FormGroup;
-  private FormularioEspesores: FormArray;
-  private esFormularioValido: Boolean = false;
-  private esVer: Boolean = false;
+  public  formulario: FormGroup;
+  public  FormularioEspesores: FormArray;
+  public  esFormularioValido: Boolean = false;
+  public  esVer: Boolean = false;
 
   //validaciones
-  private tieneCalibracion: boolean;
+  public  tieneCalibracion: boolean;
 
 
   constructor(

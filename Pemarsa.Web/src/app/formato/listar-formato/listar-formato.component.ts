@@ -10,9 +10,9 @@ import { ParametroService } from '../../common/services/entity/parametro.service
 })
 export class ListarFormatoComponent implements OnInit {
 
-  private formatos: Array<FormatoModel>
-  private paginacion: PaginacionModel;
-  private parametrosConexionFormato: ParametrosModel = new ParametrosModel();
+  public formatos: Array<FormatoModel>
+  public paginacion: PaginacionModel;
+  public parametrosConexionFormato: ParametrosModel = new ParametrosModel();
 
   constructor(
     private formatoService: FormatoService,
@@ -38,27 +38,27 @@ export class ListarFormatoComponent implements OnInit {
       this.paginacion.TotalRegistros = response.CantidadRegistros;
 
       this.formatos.forEach((f) => {
-      
-      f.Conexion = new CatalogoModel()
+
+        f.Conexion = new CatalogoModel()
 
 
 
-      if (f.ConexionId) {
+        if (f.ConexionId) {
 
-        Object.assign(
-          f.Conexion
-          ,
-          this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
+          Object.assign(
+            f.Conexion
+            ,
+            this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
 
-        );
-      } 
+          );
+        }
 
-    })
+      })
 
     });
 
 
-    
+
 
 
     console.log(this.parametrosConexionFormato);
@@ -87,7 +87,7 @@ export class ListarFormatoComponent implements OnInit {
       .subscribe(response => {
         this.formatos = response.Listado;
         this.formatos.forEach((f) => {
-          
+
           f.Conexion = new CatalogoModel()
 
 

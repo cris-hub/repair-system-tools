@@ -16,43 +16,43 @@ import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/c
 })
 export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
-  @ViewChild(ConfirmacionComponent) private confirmar: ConfirmacionComponent;
+  @ViewChild(ConfirmacionComponent) public confirmar: ConfirmacionComponent;
   @ViewChild('inputFile') inputFile: ElementRef;
   @ViewChild('instance') instance: NgbTypeahead;
   @Input() public accion: string[];
   @Input() public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
-  @Output() private accionEvento = new EventEmitter();
+  @Output() public  accionEvento = new EventEmitter();
 
-  private origen;
+  public  origen;
 
-  private esActualizar: boolean = false;
-  private esVer: boolean = false;
-  private esValido: boolean = false;
-  private tieneRemison: boolean = false;
+  public  esActualizar: boolean = false;
+  public  esVer: boolean = false;
+  public  esValido: boolean = false;
+  public  tieneRemison: boolean = false;
 
 
-  private solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
+  public  solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
   public Origenes: CatalogoModel[] = new Array<CatalogoModel>();
   public Prioridades: CatalogoModel[] = new Array<CatalogoModel>();
   public Estados: CatalogoModel[] = new Array<CatalogoModel>();
   public Responsables: CatalogoModel[] = new Array<CatalogoModel>();
 
-  private parametros: ParametrosModel;
-  private attachments: AttachmentModel[] = new Array<AttachmentModel>();
-  private ArchivoRemison: AttachmentModel = new AttachmentModel();
+  public  parametros: ParametrosModel;
+  public  attachments: AttachmentModel[] = new Array<AttachmentModel>();
+  public  ArchivoRemison: AttachmentModel = new AttachmentModel();
 
 
 
-  private frmSolicitudOit: FormGroup;
+  public  frmSolicitudOit: FormGroup;
   public data: any = new Array();
-  private paginacion = new PaginacionModel(1, 200);
+  public  paginacion = new PaginacionModel(1, 200);
 
-  private paramsClientes: ParametrosModel;
-  private clientes: CatalogoModel[] = new Array<CatalogoModel>();
-  private clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
-  private tmpClienteLinea: any = new Array();
-  private idSelCliente: number = 0;
-  private idSelClienteLinea: number = 0;
+  public  paramsClientes: ParametrosModel;
+  public  clientes: CatalogoModel[] = new Array<CatalogoModel>();
+  public  clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
+  public  tmpClienteLinea: any = new Array();
+  public  idSelCliente: number = 0;
+  public  idSelClienteLinea: number = 0;
 
 
   public model: CatalogoModel;

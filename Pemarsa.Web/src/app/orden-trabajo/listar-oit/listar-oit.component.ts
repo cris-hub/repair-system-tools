@@ -12,15 +12,15 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./listar-oit.component.css']
 })
 export class ListarOitComponent implements OnInit {
-  private esNuevaAccion: boolean =false;
-  private oit: any;
+  public  esNuevaAccion: boolean =false;
+  public  oit: any;
   @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
 
-  private parametrosEstadoOrden: ParametrosModel;
-  private ordenesTrabajo: Array<OrdenTrabajoModel> = new Array<OrdenTrabajoModel>();
+  public  parametrosEstadoOrden: ParametrosModel;
+  public  ordenesTrabajo: Array<OrdenTrabajoModel> = new Array<OrdenTrabajoModel>();
   
 
-  private paginacion: PaginacionModel;
+  public  paginacion: PaginacionModel;
 
   constructor(
     private ordenTrabajoService: OrdenTrabajoService,

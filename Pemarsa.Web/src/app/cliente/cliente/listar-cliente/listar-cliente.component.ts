@@ -24,15 +24,15 @@ export class ListarClienteComponent implements OnInit {
   //ViewChild para funcionalidad del modal de confirmacion
   @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
 
-  private registroSeleccionado: string;
-  private clientes: ClienteModel[];
+  public  registroSeleccionado: string;
+  public  clientes: ClienteModel[];
 
   // paginacion
-  private paginacion: PaginacionModel;
-  private parametros: ParametrosModel;
-  private responsables: CatalogoModel[];
-  private estados: EntidadModel[];
-  private esFiltrar: boolean = false;
+  public  paginacion: PaginacionModel;
+  public  parametros: ParametrosModel;
+  public  responsables: CatalogoModel[];
+  public  estados: EntidadModel[];
+  public  esFiltrar: boolean = false;
 
   constructor(
     public clienteSrv: ClienteService,

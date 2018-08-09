@@ -25,35 +25,35 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
 
   //carga archivos
-  private lectorArchivos: FileReader;
-  private adjuntos: AttachmentModel[] = [];
-  private adjunto: AttachmentModel;
-  private DocumetosRestantes: number = 2;
+  public  lectorArchivos: FileReader;
+  public  adjuntos: AttachmentModel[] = [];
+  public  adjunto: AttachmentModel;
+  public  DocumetosRestantes: number = 2;
 
   //procesoInpeccion
-  private proceso: ProcesoModel;
-  private inspeccion: InspeccionModel = new InspeccionModel();
+  public  proceso: ProcesoModel;
+  public  inspeccion: InspeccionModel = new InspeccionModel();
 
 
 
   //catalogos
-  private Conexiones: EntidadModel[] = new Array<EntidadModel>();
-  private Conexion: EntidadModel = new EntidadModel();
-  private EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
-  private TiposConexion: EntidadModel[] = new Array<EntidadModel>();
-  private EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  public  Conexiones: EntidadModel[] = new Array<EntidadModel>();
+  public  Conexion: EntidadModel = new EntidadModel();
+  public  EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
+  public  TiposConexion: EntidadModel[] = new Array<EntidadModel>();
+  public  EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
 
 
 
 
   //form
-  private formInpeccionVisualDimensional: FormGroup;
-  private esFormularioValido: Boolean = false;
-  private esVer: Boolean = false;
-  private formConexiones: FormArray;
+  public  formInpeccionVisualDimensional: FormGroup;
+  public  esFormularioValido: Boolean = false;
+  public  esVer: Boolean = false;
+  public  formConexiones: FormArray;
 
   //autoCompletar
-  private equipo: CatalogoModel;
+  public  equipo: CatalogoModel;
 
 
   constructor(

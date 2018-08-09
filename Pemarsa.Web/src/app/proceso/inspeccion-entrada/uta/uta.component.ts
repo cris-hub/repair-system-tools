@@ -24,14 +24,14 @@ export class UTAComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
 
   //carga archivos
-  private lectorArchivos: FileReader;
-  private adjuntos: AttachmentModel[] = [];
-  private adjunto: AttachmentModel;
-  private DocumetosRestantesImagenUltrasonidoDespues: number = 1;
-  private DocumetosRestantesImagenPantallaUltrasonido: number = 1;
-  private DocumetosRestantesImagenUltrasonidoDurante: number = 1;
-  private DocumetosRestantesImagenUltrasonidoPrevia: number = 1;
-  private DocumetosRestantes =
+  public  lectorArchivos: FileReader;
+  public  adjuntos: AttachmentModel[] = [];
+  public  adjunto: AttachmentModel;
+  public  DocumetosRestantesImagenUltrasonidoDespues: number = 1;
+  public  DocumetosRestantesImagenPantallaUltrasonido: number = 1;
+  public  DocumetosRestantesImagenUltrasonidoDurante: number = 1;
+  public  DocumetosRestantesImagenUltrasonidoPrevia: number = 1;
+  public  DocumetosRestantes =
     this.DocumetosRestantesImagenUltrasonidoDespues
     + this.DocumetosRestantesImagenPantallaUltrasonido
     + this.DocumetosRestantesImagenUltrasonidoDurante
@@ -40,18 +40,18 @@ export class UTAComponent implements OnInit {
 
 
   //procesoInpeccion
-  private proceso: ProcesoModel;
-  private inspeccion: InspeccionModel = new InspeccionModel();
+  public  proceso: ProcesoModel;
+  public  inspeccion: InspeccionModel = new InspeccionModel();
 
   //catalogos
-  private TubosPatrones: EntidadModel[];
+  public  TubosPatrones: EntidadModel[];
 
 
 
   //form
 
-  private formulario: FormGroup;
-  private esFormularioValido: Boolean = false;
+  public  formulario: FormGroup;
+  public  esFormularioValido: Boolean = false;
 
   constructor(
     private location: Location,

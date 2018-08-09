@@ -14,13 +14,13 @@ import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
 })
 export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   
-  private solicitudesOrdenTrabajos: SolicitudOrdenTrabajoModel[];
-  private solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
+  public  solicitudesOrdenTrabajos: SolicitudOrdenTrabajoModel[];
+  public  solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
   // paginacion
-  private accion: string[] ;
-  private paginacion: PaginacionModel;
-  private parametros: ParametrosModel;
-  private esFiltrar: boolean = false;
+  public  accion: string[] ;
+  public  paginacion: PaginacionModel;
+  public  parametros: ParametrosModel;
+  public  esFiltrar: boolean = false;
 
   private esNuevaAccion: boolean = false;
   constructor(

@@ -14,12 +14,12 @@ import { FiltroHerramientaComponent } from '../filtro-herramienta/filtro-herrami
   templateUrl: './listar-herramienta.component.html'
 })
 export class ListarHerramientaComponent implements OnInit {
-  private registroSeleccionado: string;
-  private herramientas: HerramientaModel[];
+  public  registroSeleccionado: string;
+  public  herramientas: HerramientaModel[];
   // paginacion
-  private paginacion: PaginacionModel;
-  private parametros: ParametrosModel;
-  private esFiltrar: boolean = false;
+  public  paginacion: PaginacionModel;
+  public  parametros: ParametrosModel;
+  public  esFiltrar: boolean = false;
 
   constructor(
     public herramientaSrv: HerramientaService,

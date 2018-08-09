@@ -66,7 +66,7 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+            <tr *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} ">
               <td>{{Proceso.Id}}</td>
               <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
               <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>

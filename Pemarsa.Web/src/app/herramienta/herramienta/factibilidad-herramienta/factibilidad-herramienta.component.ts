@@ -16,8 +16,8 @@ export class FactibilidadHerramientaComponent implements OnInit, OnChanges {
   }
   public data: any = {};
   public frmHerramientaEstudioFactibilidad: FormGroup;
-  private HerramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel;
-  private estados: any = {};
+  public  HerramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel;
+  public  estados: any = {};
   //@Input() ClienteLinea: ClienteLineaModel;
   @Input() accion: any;
   @Output() paramsHerramientaEstudioFactibilidad = new EventEmitter();

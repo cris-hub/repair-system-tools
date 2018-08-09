@@ -24,51 +24,51 @@ export class CrearOitComponent implements OnInit {
 
   
   verHistorial: false;
-  private oit: any;
+  public  oit: any;
   //directiva en html
   @ViewChild(ConfirmacionComponent) confimar: ConfirmacionComponent;
   @ViewChild('instance') instance: NgbTypeahead;
 
   //formulario
-  private formularioOrdenTrabajo: FormGroup;
-  private anexos: any = [];
+  public  formularioOrdenTrabajo: FormGroup;
+  public  anexos: any = [];
 
   //parametros catalogo
-  private parametrosTipoServicio: ParametrosModel = new ParametrosModel();
-  private parametrosPrioridadOrdenTrabajo: ParametrosModel = new ParametrosModel();
+  public  parametrosTipoServicio: ParametrosModel = new ParametrosModel();
+  public  parametrosPrioridadOrdenTrabajo: ParametrosModel = new ParametrosModel();
   //objeto formulario
-  private ordenTrabajo: OrdenTrabajoModel;
-  private solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
+  public  ordenTrabajo: OrdenTrabajoModel;
+  public  solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
 
 
   //id que viene de la uri
-  private idOrdenDeTrabajoDesdeUrl;
+  public  idOrdenDeTrabajoDesdeUrl;
 
   // acciones
-  private esVer: boolean = false;
-  private esProcesar: boolean = false;
-  private esEditar: boolean = false;
-  private esNueva: boolean = false;
-  private estaCargando: boolean = false;
-  private accionRealizarTituloPagina: string = '';
+  public  esVer: boolean = false;
+  public  esProcesar: boolean = false;
+  public  esEditar: boolean = false;
+  public  esNueva: boolean = false;
+  public  estaCargando: boolean = false;
+  public  accionRealizarTituloPagina: string = '';
 
 
   //autoCOmpletar cliente
-  private Cliente: ClienteModel = new ClienteModel();
-  private clientes: Array<ClienteModel> = new Array<ClienteModel>();
-  private paginacion;
+  public  Cliente: ClienteModel = new ClienteModel();
+  public  clientes: Array<ClienteModel> = new Array<ClienteModel>();
+  public  paginacion;
 
   //auttoCompleta LineaCliente
-  private Linea: ClienteLineaModel = new ClienteLineaModel();
-  private lineas: Array<ClienteLineaModel> = new Array<ClienteLineaModel>();
+  public  Linea: ClienteLineaModel = new ClienteLineaModel();
+  public  lineas: Array<ClienteLineaModel> = new Array<ClienteLineaModel>();
 
 
   //autoComplet herramienta
-  private herramienta: HerramientaModel = new HerramientaModel();
-  private herraminetas: Array<HerramientaModel> = new Array<HerramientaModel>();
-  private herraminetasview: Array<HerramientaModel> = new Array<HerramientaModel>();
-  private materialId;
-  private material = new HerramientaMaterialModel();;
+  public  herramienta: HerramientaModel = new HerramientaModel();
+  public  herraminetas: Array<HerramientaModel> = new Array<HerramientaModel>();
+  public  herraminetasview: Array<HerramientaModel> = new Array<HerramientaModel>();
+  public  materialId;
+  public  material = new HerramientaMaterialModel();;
 
 
   constructor(

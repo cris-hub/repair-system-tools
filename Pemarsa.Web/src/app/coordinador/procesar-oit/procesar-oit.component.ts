@@ -22,12 +22,12 @@ export class ProcesarOitComponent implements OnInit {
 
 
   //procesoInpeccion
-  private proceso: ProcesoModel = new ProcesoModel();
+  public proceso: ProcesoModel = new ProcesoModel();
 
 
   //form
 
-  private esFormularioValido: Boolean = false;
+  public esFormularioValido: Boolean = false;
 
   constructor(
     private location: Location,

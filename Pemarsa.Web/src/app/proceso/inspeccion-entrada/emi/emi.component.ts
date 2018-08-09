@@ -27,29 +27,29 @@ export class EMIComponent implements OnInit {
   @ViewChild('espesor') espesor: ElementRef;
 
   //carga archivos
-  private lectorArchivos: FileReader;
-  private adjuntos: AttachmentModel[] = [];
-  private adjunto: AttachmentModel;
-  private DocumetosRestantes: number = 2;
+  public  lectorArchivos: FileReader;
+  public  adjuntos: AttachmentModel[] = [];
+  public  adjunto: AttachmentModel;
+  public  DocumetosRestantes: number = 2;
 
   //procesoInpeccion
-  private proceso: ProcesoModel;
-  private inspeccion: InspeccionModel = new InspeccionModel();
+  public  proceso: ProcesoModel;
+  public  inspeccion: InspeccionModel = new InspeccionModel();
 
   //catalogos
-  private TubosPatrones: EntidadModel[];
-  private EquiposEmi: EntidadModel[];
-  private BobinasMagneticas: EntidadModel[];
+  public  TubosPatrones: EntidadModel[];
+  public  EquiposEmi: EntidadModel[];
+  public  BobinasMagneticas: EntidadModel[];
 
   //autocompletarEquipoMedicion
-  private EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
-  private equipo: CatalogoModel;
+  public  EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  public  equipo: CatalogoModel;
 
 
   //form
 
-  private formulario: FormGroup;
-  private esFormularioValido: Boolean = false;
+  public  formulario: FormGroup;
+  public  esFormularioValido: Boolean = false;
 
   constructor(
     private location: Location,

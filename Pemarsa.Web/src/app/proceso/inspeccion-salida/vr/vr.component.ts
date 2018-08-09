@@ -18,18 +18,18 @@ import { Location } from '@angular/common';
 export class VRComponent implements OnInit {
 
   //carga archivos
-  private lectorArchivos: FileReader;
-  private adjuntos: AttachmentModel[] = [];
-  private adjunto: AttachmentModel;
-  private DocumetosRestantes: number = 2;
+  public  lectorArchivos: FileReader;
+  public  adjuntos: AttachmentModel[] = [];
+  public  adjunto: AttachmentModel;
+  public  DocumetosRestantes: number = 2;
 
   //procesoInpeccion
-  private proceso: ProcesoModel;
-  private inspeccion: InspeccionModel = new InspeccionModel();
+  public  proceso: ProcesoModel;
+  public  inspeccion: InspeccionModel = new InspeccionModel();
 
   //form
-  private formInpeccionVR: FormGroup;
-  private esFormularioValido: Boolean = false;
+  public  formInpeccionVR: FormGroup;
+  public  esFormularioValido: Boolean = false;
 
   constructor(
     private location: Location,

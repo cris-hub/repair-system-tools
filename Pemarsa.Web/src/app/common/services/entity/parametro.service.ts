@@ -17,6 +17,8 @@ export class ParametroService {
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
     configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'ParametroUS/');
+
+    
     
   }
 
