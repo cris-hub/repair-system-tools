@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UtilModule } from '../common/modules/util.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { ListarInspeccionesComponent } from './inspeccion-entrada/listar-inspecciones/listar-inspecciones.component';
+import { ListarInspeccionesEntradaComponent } from './inspeccion-entrada/listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './inspeccion-entrada/inspeccion-herramienta/inspeccion-herramienta.component';
 
 import { VRComponent } from './inspeccion-entrada/vr/vr.component';
@@ -28,8 +28,9 @@ import { InspeccionSalidaModule } from './inspeccion-salida/inspeccion-salida.mo
     ReactiveFormsModule,
     UtilModule,
     NgxPaginationModule,
+
     NgbModule,
-    InspeccionEntradaModule,
+ 
     
 
   ]

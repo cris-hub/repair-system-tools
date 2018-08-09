@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListarInspeccionesComponent } from './listar-inspecciones/listar-inspecciones.component';
+import { ListarInspeccionesSalidaComponent } from './listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './inspeccion-herramienta/inspeccion-herramienta.component';
 import { VRComponent } from './vr/vr.component';
 import { UTComponent } from './ut/ut.component';
@@ -19,41 +19,41 @@ const routes: Routes = [
   //INSPECCION 
 
   //Proceso-inspeccion
-  { path: '', component: ListarInspeccionesComponent },
+  { path: '', component: ListarInspeccionesSalidaComponent },
 
-  { path: 'inspeccion/salida/:id/ver', component: InspeccionHerramientaComponent },
-  { path: 'inspeccion/salida/:id/:index/ver', component: InspeccionHerramientaComponent },
+  { path: ':id/ver', component: InspeccionHerramientaComponent },
+  { path: ':id/:index/ver', component: InspeccionHerramientaComponent },
   //vr
-  { path: 'inspeccion/salida/vr/:id/:index/ver', component: VRComponent },
-  { path: 'inspeccion/salida/vr/:id/ver', component: VRComponent },
+  { path: 'vr/:id/:index/ver', component: VRComponent },
+  { path: 'vr/:id/ver', component: VRComponent },
 
   //ut
-  { path: 'inspeccion/salida/ut/:id/:index/ver', component: UTComponent },
-  { path: 'inspeccion/salida/ut/:id/ver', component: UTComponent },
+  { path: 'ut/:id/:index/ver', component: UTComponent },
+  { path: 'ut/:id/ver', component: UTComponent },
 
   //emi
-  { path: 'inspeccion/salida/emi/:id/:indexv', component: EMIComponent },
-  { path: 'inspeccion/salida/emi/:id/ver', component: EMIComponent },
+  { path: 'emi/:id/:indexv', component: EMIComponent },
+  { path: 'emi/:id/ver', component: EMIComponent },
 
   //lpi
-  { path: 'inspeccion/salida/lpi/:id/:index/ver', component: LPIComponent },
-  { path: 'inspeccion/salida/lpi/:id/ver', component: LPIComponent },
+  { path: 'lpi/:id/:index/ver', component: LPIComponent },
+  { path: 'lpi/:id/ver', component: LPIComponent },
 
   //visualdimencional
-  { path: 'inspeccion/salida/visualdimensional/:id/:index/ver', component: VisualDimensionalComponent },
-  { path: 'inspeccion/salida/visualdimensional/:id/ver', component: VisualDimensionalComponent },
+  { path: 'visualdimensional/:id/:index/ver', component: VisualDimensionalComponent },
+  { path: 'visualdimensional/:id/ver', component: VisualDimensionalComponent },
   //visualdimencional
-  { path: 'inspeccion/salida/visualdimensionalmotor/:id/:index/ver', component: VisualDimensionalMotorComponent },
-  { path: 'inspeccion/salida/visualdimensionalmotor/:id/ver', component: VisualDimensionalMotorComponent },
+  { path: 'visualdimensionalmotor/:id/:index/ver', component: VisualDimensionalMotorComponent },
+  { path: 'visualdimensionalmotor/:id/ver', component: VisualDimensionalMotorComponent },
 
 
   //mpi
-  { path: 'inspeccion/salida/mpi/:id/:index/ver', component: MPIComponent },
-  { path: 'inspeccion/salida/mpi/:id/ver', component: MPIComponent },
+  { path: 'mpi/:id/:index/ver', component: MPIComponent },
+  { path: 'mpi/:id/ver', component: MPIComponent },
 
   //mpi
-  { path: 'inspeccion/salida/uta/:id/:index/ver', component: UTAComponent },
-  { path: 'inspeccion/salida/uta/:id/ver', component: UTAComponent },
+  { path: 'uta/:id/:index/ver', component: UTAComponent },
+  { path: 'uta/:id/ver', component: UTAComponent },
 
 
 
@@ -62,75 +62,75 @@ const routes: Routes = [
 
   //PROCERAR 
 
-  { path: 'inspeccion/salida/:id/procesar', component: InspeccionHerramientaComponent },
-  { path: 'inspeccion/salida/:id/:index/procesar', component: InspeccionHerramientaComponent },
+  { path: ':id/procesar', component: InspeccionHerramientaComponent },
+  { path: ':id/:index/procesar', component: InspeccionHerramientaComponent },
   //vr
-  { path: 'inspeccion/salida/vr/:id/:index/procesar', component: VRComponent },
-  { path: 'inspeccion/salida/vr/:id/procesar', component: VRComponent },
+  { path: 'vr/:id/:index/procesar', component: VRComponent },
+  { path: 'vr/:id/procesar', component: VRComponent },
 
   //ut
-  { path: 'inspeccion/salida/ut/:id/:index/procesar', component: UTComponent },
-  { path: 'inspeccion/salida/ut/:id/procesar', component: UTComponent },
+  { path: 'ut/:id/:index/procesar', component: UTComponent },
+  { path: 'ut/:id/procesar', component: UTComponent },
 
   //emi
-  { path: 'inspeccion/salida/emi/:id/:index/procesar', component: EMIComponent },
-  { path: 'inspeccion/salida/emi/:id/procesar', component: EMIComponent },
+  { path: 'emi/:id/:index/procesar', component: EMIComponent },
+  { path: 'emi/:id/procesar', component: EMIComponent },
 
   //lpi
-  { path: 'inspeccion/salida/lpi/:id/:index/procesar', component: LPIComponent },
-  { path: 'inspeccion/salida/lpi/:id/procesar', component: LPIComponent },
+  { path: 'lpi/:id/:index/procesar', component: LPIComponent },
+  { path: 'lpi/:id/procesar', component: LPIComponent },
 
   //visualdimencional
-  { path: 'inspeccion/salida/visualdimensional/:id/:index/procesar', component: VisualDimensionalComponent },
-  { path: 'inspeccion/salida/visualdimensional/:id/procesar', component: VisualDimensionalComponent },
+  { path: 'visualdimensional/:id/:index/procesar', component: VisualDimensionalComponent },
+  { path: 'visualdimensional/:id/procesar', component: VisualDimensionalComponent },
   //visualdimencional-motor
-  { path: 'inspeccion/salida/visualdimensionalmotor/:id/:index/procesar', component: VisualDimensionalMotorComponent },
-  { path: 'inspeccion/salida/visualdimensionalmotor/:id/procesar', component: VisualDimensionalMotorComponent },
+  { path: 'visualdimensionalmotor/:id/:index/procesar', component: VisualDimensionalMotorComponent },
+  { path: 'visualdimensionalmotor/:id/procesar', component: VisualDimensionalMotorComponent },
 
   //mpi
-  { path: 'inspeccion/salida/mpi/:id/:index/procesar', component: MPIComponent },
-  { path: 'inspeccion/salida/mpi/:id/procesar', component: MPIComponent },
+  { path: 'mpi/:id/:index/procesar', component: MPIComponent },
+  { path: 'mpi/:id/procesar', component: MPIComponent },
 
   //mpi
-  { path: 'inspeccion/salida/uta/:id/:index/procesar', component: UTAComponent },
-  { path: 'inspeccion/salida/uta/:id/procesar', component: UTAComponent },
+  { path: 'uta/:id/:index/procesar', component: UTAComponent },
+  { path: 'uta/:id/procesar', component: UTAComponent },
   //PROCERAR 
 
 
   //Editar 
 
-  { path: 'inspeccion/salida/:id/editar', component: InspeccionHerramientaComponent },
-  { path: 'inspeccion/salida/:id/:index/editar', component: InspeccionHerramientaComponent },
+  { path: ':id/editar', component: InspeccionHerramientaComponent },
+  { path: ':id/:index/editar', component: InspeccionHerramientaComponent },
   //vr
-  { path: 'inspeccion/salida/vr/:id/:index/editar', component: VRComponent },
-  { path: 'inspeccion/salida/vr/:id/editar', component: VRComponent },
+  { path: 'vr/:id/:index/editar', component: VRComponent },
+  { path: 'vr/:id/editar', component: VRComponent },
 
   //ut
-  { path: 'inspeccion/salida/ut/:id/:index/editar', component: UTComponent },
-  { path: 'inspeccion/salida/ut/:id/editar', component: UTComponent },
+  { path: 'ut/:id/:index/editar', component: UTComponent },
+  { path: 'ut/:id/editar', component: UTComponent },
 
   //emi
-  { path: 'inspeccion/salida/emi/:id/:index/editar', component: EMIComponent },
-  { path: 'inspeccion/salida/emi/:id/editar', component: EMIComponent },
+  { path: 'emi/:id/:index/editar', component: EMIComponent },
+  { path: 'emi/:id/editar', component: EMIComponent },
 
   //lpi
-  { path: 'inspeccion/salida/lpi/:id/:index/editar', component: LPIComponent },
-  { path: 'inspeccion/salida/lpi/:id/editar', component: LPIComponent },
+  { path: 'lpi/:id/:index/editar', component: LPIComponent },
+  { path: 'lpi/:id/editar', component: LPIComponent },
 
   //visualdimencional
-  { path: 'inspeccion/salida/visualdimensional/:id/:index/editar', component: VisualDimensionalComponent },
-  { path: 'inspeccion/salida/visualdimensional/:id/editar', component: VisualDimensionalComponent },
+  { path: 'visualdimensional/:id/:index/editar', component: VisualDimensionalComponent },
+  { path: 'visualdimensional/:id/editar', component: VisualDimensionalComponent },
   //visualdimencional-motor
-  { path: 'inspeccion/salida/visualdimensionalmotor/:id/:index/editar', component: VisualDimensionalMotorComponent },
-  { path: 'inspeccion/salida/visualdimensionalmotor/:id/editar', component: VisualDimensionalMotorComponent },
+  { path: 'visualdimensionalmotor/:id/:index/editar', component: VisualDimensionalMotorComponent },
+  { path: 'visualdimensionalmotor/:id/editar', component: VisualDimensionalMotorComponent },
 
   //mpi
-  { path: 'inspeccion/salida/mpi/:id/:index/editar', component: MPIComponent },
-  { path: 'inspeccion/salida/mpi/:id/editar', component: MPIComponent },
+  { path: 'mpi/:id/:index/editar', component: MPIComponent },
+  { path: 'mpi/:id/editar', component: MPIComponent },
 
   //mpi
-  { path: 'inspeccion/salida/uta/:id/:index/editar', component: UTAComponent },
-  { path: 'inspeccion/salida/uta/:id/editar', component: UTAComponent },
+  { path: 'uta/:id/:index/editar', component: UTAComponent },
+  { path: 'uta/:id/editar', component: UTAComponent },
 
   //INSPECCION 
 

@@ -13,7 +13,7 @@ import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
   templateUrl: './listar-inspecciones.component.html',
   styleUrls: ['./listar-inspecciones.component.css']
 })
-export class ListarInspeccionesComponent implements OnInit {
+export class ListarInspeccionesSalidaComponent implements OnInit {
 
   private paginacion: PaginacionModel = new PaginacionModel(1, 10);
   private tipoProcesoActual: CatalogoModel = new CatalogoModel();

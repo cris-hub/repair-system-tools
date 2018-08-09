@@ -462,10 +462,10 @@ namespace ProcesoES.Repository
 
                 await _context.SaveChangesAsync();
 
-
-                if (proceso.InspeccionEntrada.Count() < 1)
+                if (proceso.InspeccionEntrada == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
                 {
-                    for (int i = 1; i < proceso.CantidadInspeccion; i++)
+                    proceso.InspeccionEntrada = new List<ProcesoInspeccionEntrada>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
                     {
                         await CrearInspeccion(proceso.Guid, 65, i, usuario);
                     }
@@ -484,10 +484,29 @@ namespace ProcesoES.Repository
 
         private static Proceso AsignarValoresProcesoReasignacion(Proceso proceso)
         {
+
+            if (!proceso.Reasignado)
+            {
+                Proceso procesoReasignacionRehazado = new Proceso()
+                {
+                    TipoProcesoAnteriorId = proceso.TipoProcesoId,
+                    TipoProcesoId = proceso.TipoProcesoAnteriorId,
+                    Reasignado = proceso.Reasignado,
+                    CantidadInspeccion = proceso.CantidadInspeccion,
+                    Guid = Guid.NewGuid(),
+                    EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
+                    OrdenTrabajoId = proceso.OrdenTrabajoId,
+                    FechaRegistro = DateTime.Now,
+                    NombreUsuarioCrea = "admin"
+                };
+                return procesoReasignacionRehazado;
+
+            }
+            
             Proceso procesoReasignacion = new Proceso()
             {
                 TipoProcesoAnteriorId = proceso.TipoProcesoAnteriorId,
-                TipoProcesoId = proceso.Reasignado ? proceso.TipoProcesoSiguienteId : proceso.TipoProcesoId,
+                TipoProcesoId =  proceso.TipoProcesoSiguienteId,
                 Reasignado = proceso.Reasignado,
                 Guid = Guid.NewGuid(),
                 EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,

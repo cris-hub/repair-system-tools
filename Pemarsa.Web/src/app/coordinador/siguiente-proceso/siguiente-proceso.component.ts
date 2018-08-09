@@ -87,7 +87,7 @@ export class SiguienteProcesoComponent implements OnInit {
   seleccionarSiguienteProceso(event) {
     this.procesoSiguiente = event;
     this.data.TipoProcesoSiguienteId = this.procesoSiguiente;
-    this.data.TipoProcesoAnteriorId = TIPO_PROCESO.REASIGNACION;
+    
 
   }
 

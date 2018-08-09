@@ -8,7 +8,7 @@ import { ConfigService } from "../../config/config.service";
 export class FormatoService {
 
 
-  
+
   private header: HttpHeaders;
   private urlServer: string;
 
@@ -17,8 +17,7 @@ export class FormatoService {
     private configSrv: ConfigService
   ) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'FormatoES/'
-
+    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'FormatoES/');
   }
 
   public crearFormato(model: FormatoModel): Observable<boolean> {
@@ -28,7 +27,7 @@ export class FormatoService {
       { headers: this.header }
     );
   }
-  public consultarFormatos(paginacion: PaginacionModel):Observable<ListadoResponseModel>{
+  public consultarFormatos(paginacion: PaginacionModel): Observable<ListadoResponseModel> {
     return this.http.get<ListadoResponseModel>(
       this.urlServer + 'ConsultarFormatos',
       {

@@ -14,7 +14,7 @@ import { CrearFormatoComponent } from './formato/crear-formato/crear-formato.com
 import { ListarFormatoComponent } from './formato/listar-formato/listar-formato.component';
 import { ListarOitComponent } from './orden-trabajo/listar-oit/listar-oit.component';
 import { CrearOitComponent } from './orden-trabajo/crear-oit/crear-oit.component';
-import { ListarInspeccionesComponent } from './proceso/inspeccion-entrada/listar-inspecciones/listar-inspecciones.component';
+import { ListarInspeccionesEntradaComponent } from './proceso/inspeccion-entrada/listar-inspecciones/listar-inspecciones.component';
 import { InspeccionHerramientaComponent } from './proceso/inspeccion-entrada/inspeccion-herramienta/inspeccion-herramienta.component';
 import { VRComponent } from './proceso/inspeccion-entrada/vr/vr.component';
 import { UTComponent } from './proceso/inspeccion-entrada/ut/ut.component';

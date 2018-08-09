@@ -136,7 +136,7 @@ export class InspeccionHerramientaComponent implements OnInit {
       });
     } else if ((this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
       .every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) &&  (!this.Proceso.TipoProcesoSiguienteSugeridoId)) {
-      this.toastrService.info('Debe sugerir un proceso a seguir')
+      
       
     }else {
       this.router.navigate([

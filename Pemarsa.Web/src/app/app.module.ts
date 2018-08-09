@@ -50,6 +50,7 @@ import { CoordinadorModule } from './coordinador/coordinador.module';
     ClienteModule,
     AutoCompleteModule,
     FormatoModule,
+
     OrdenTrabajoModule,
     HerramientaModule,
     ProcesoModule,

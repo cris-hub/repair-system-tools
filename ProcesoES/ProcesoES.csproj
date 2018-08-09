@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Pemarsa.Domain\Pemarsa.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Enum\" />
-  </ItemGroup>
-
 </Project>

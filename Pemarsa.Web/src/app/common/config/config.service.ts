@@ -8,20 +8,19 @@ import { Configuration } from './config.model';
 @Injectable()
 export class ConfigService {
   private config: Configuration;
-  
+
   constructor(private http: HttpClient) {
     this.config = new Configuration("", "");
   }
 
-  load(url: string) {
-    this.http.get<Configuration>(url)
-      .toPromise().
-      then(conf => {
-        this.config = conf;
-      });
+  async load(url: string): Promise<any> {
+    this.config = (await this.http.get<Configuration>(url)
+      .toPromise());
+
+    return Promise.resolve(this.config);
   }
 
-  getConfiguration() {
+  async getConfiguration(): Promise<Configuration> {
     //debugger
     //if (this.config == undefined) {
     //  this.http.get<Configuration>(url)
@@ -29,6 +28,13 @@ export class ConfigService {
     //  setTimeout(function () {
     //  }, 2000);
     //}
-    return this.config;
+    let conf = await this.config;
+    return conf;
   }
+
+
+
 }
+
+
+

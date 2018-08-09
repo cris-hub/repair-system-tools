@@ -14,7 +14,7 @@ export class ClienteService {
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'ClienteES/'
+    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'ClienteES/');
   }
 
   public crearCliente(model: ClienteModel): Observable<boolean> {
