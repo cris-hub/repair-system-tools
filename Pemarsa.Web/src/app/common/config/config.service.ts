@@ -14,10 +14,13 @@ export class ConfigService {
   }
 
   async load(url: string): Promise<any> {
-    this.config = (await this.http.get<Configuration>(url)
-      .toPromise());
+    (await this.http.get<Configuration>(url)
+      .subscribe(t => {
+        this.config = t
 
+      }))
     return Promise.resolve(this.config);
+
   }
 
   async getConfiguration(): Promise<Configuration> {
@@ -29,7 +32,7 @@ export class ConfigService {
     //  }, 2000);
     //}
     let conf = await this.config;
-    return conf;
+    return Promise.resolve(conf);
   }
 
 

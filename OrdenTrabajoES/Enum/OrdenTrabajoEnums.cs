@@ -1,4 +1,26 @@
-﻿enum EstadosOrdenTrabajo
+﻿enum ESTADOSORDENTRABAJO
 {
+    PENDIENTE = 38,
+
+}
+
+enum TIPOSERVICIOS
+{
+    REPARACIÓN = 36,
+
+}
+enum RESPONSABLES
+{
+    JUAN_MARQUEZ = 28,
+
+}
+enum USUARIO_CREA
+{
+    ADMIN,
+
+}
+enum PRIORIDAD
+{
+    INMEDIATO = 32,
 
 }

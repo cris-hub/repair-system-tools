@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="src\assets\config\config.dev.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="src\app\cliente\cliente\cliente.module.ts" />
     <None Remove="src\app\cliente\cliente\crear-cliente\crear-cliente.component.ts" />
     <None Remove="src\app\cliente\cliente\filtro-cliente\filtro-cliente.component.ts" />

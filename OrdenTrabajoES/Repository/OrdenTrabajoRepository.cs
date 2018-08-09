@@ -120,11 +120,12 @@ namespace OrdenTrabajoES.Repository
 
 
 
-               var changes =  await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
+                var changes = await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
 
 
-                
-                return changes;            }
+
+                return changes;
+            }
             catch (Exception e) { throw e; }
         }
 
@@ -132,7 +133,7 @@ namespace OrdenTrabajoES.Repository
         {
             try
             {
-                
+
 
 
                 _context.SolicitudOrdenTrabajo.Update(solicitudOrdenTrabajo);
@@ -162,20 +163,20 @@ namespace OrdenTrabajoES.Repository
 
             try
             {
-           OrdenTrabajo ordenTrabajo = await _context.OrdenTrabajo
-                    .Include(c => c.Anexos)
-                    .Include(c => c.Cliente)
-                    .Include(c => c.Linea)
-                    .Include(c => c.Herramienta)
-                    .Include(c => c.TamanoHerramienta)
-                    .Include(c => c.Material)
-                    .Include(c => c.Prioridad)
-                    .Include(c => c.Material.Material)
-                    .Include(c => c.Herramienta.TamanosHerramienta)
-                    .Include(c => c.TipoServicio)
-                    .Include(c => c.Estado)
-                    .Include(c => c.Responsable)
-                    .FirstOrDefaultAsync(c => c.Guid.ToString() == guidOrdenDeTrabajo);
+                OrdenTrabajo ordenTrabajo = await _context.OrdenTrabajo
+                         .Include(c => c.Anexos)
+                         .Include(c => c.Cliente)
+                         .Include(c => c.Linea)
+                         .Include(c => c.Herramienta)
+                         .Include(c => c.TamanoHerramienta)
+                         .Include(c => c.Material)
+                         .Include(c => c.Prioridad)
+                         .Include(c => c.Material.Material)
+                         .Include(c => c.Herramienta.TamanosHerramienta)
+                         .Include(c => c.TipoServicio)
+                         .Include(c => c.Estado)
+                         .Include(c => c.Responsable)
+                         .FirstOrDefaultAsync(c => c.Guid.ToString() == guidOrdenDeTrabajo);
 
                 ordenTrabajo.Anexos = await _context.OrdenTrabajoAnexos
                   .Include(c => c.DocumentoAdjunto)
@@ -200,7 +201,7 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Herramienta)
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
-                    .Include(c => c.Responsable).OrderByDescending(c=> c.FechaRegistro)
+                    .Include(c => c.Responsable).OrderByDescending(c => c.FechaRegistro)
                     .Skip(paginacion.RegistrosOmitir())
                     .Take(paginacion.CantidadRegistros)
                     .ToListAsync();
@@ -335,16 +336,13 @@ namespace OrdenTrabajoES.Repository
             try
             {
                 ordenTrabajo.Guid = Guid.NewGuid();
-                ordenTrabajo.EstadoId = 38;
+                ordenTrabajo.EstadoId = (int)ESTADOSORDENTRABAJO.PENDIENTE;
                 ordenTrabajo.FechaRegistro = DateTime.Now;
-                ordenTrabajo.TipoServicioId = 36;
-                ordenTrabajo.ResponsableId = 28;
+                ordenTrabajo.TipoServicioId = (int)TIPOSERVICIOS.REPARACIÓN;
+                ordenTrabajo.ResponsableId = (int)RESPONSABLES.JUAN_MARQUEZ;
                 OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
                 _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
-                ordenTrabajoBD.NombreUsuarioCrea = "admin";
-                ordenTrabajoBD.PrioridadId = 32;
-
-
+                ordenTrabajoBD.NombreUsuarioCrea = USUARIO_CREA.ADMIN.ToString();
 
                 _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();
