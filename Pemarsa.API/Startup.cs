@@ -70,12 +70,12 @@ namespace Pemarsa.API
             app.UseCors("PemarsaPolicy");
             app.UseMvcWithDefaultRoute();
             app.UseSwagger();
-            
+            app.UseStaticFiles();
             app.UseSwaggerUI(c =>
             {   
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pemarsa");
             });
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
 
 

@@ -80,20 +80,20 @@ namespace Pemarsa.Data
 
 
 
-    public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<PemarsaContext>
-    {
+    //public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<PemarsaContext>
+    //{
         
-        public PemarsaContext CreateDbContext(string[] args)
-        {
-            var builder = new DbContextOptionsBuilder<PemarsaContext>();
-            builder.EnableSensitiveDataLogging();
-            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var conexionString = configuration.GetConnectionString("PemarsaDatabase");
+    //    public PemarsaContext CreateDbContext(string[] args)
+    //    {
+    //        var builder = new DbContextOptionsBuilder<PemarsaContext>();
+    //        builder.EnableSensitiveDataLogging();
+    //        IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+    //            .AddJsonFile("appsettings.json")
+    //            .Build();
+    //        var conexionString = configuration.GetConnectionString("PemarsaDatabase");
 
-            builder.UseMySql(conexionString);
-            return new PemarsaContext(builder.Options);
-        }
-    }
+    //        builder.UseMySql(conexionString);
+    //        return new PemarsaContext(builder.Options);
+    //    }
+    //}
 }
