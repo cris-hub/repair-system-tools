@@ -65,7 +65,7 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr *ngFor="let herramienta of herramientas | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+            <tr *ngFor="let herramienta of herramientas | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'}">
               <td>{{herramienta.Nombre}}</td>
               <td>
                 <div class="row">
@@ -113,6 +113,6 @@
   </div>
 </div>
 <div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
+  
 </div>
 

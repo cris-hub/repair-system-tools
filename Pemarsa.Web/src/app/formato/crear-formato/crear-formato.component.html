@@ -1,4 +1,4 @@
-<div *ngIf="!loading">
+<div>
   <br />
   <div class="container-fluid">
     <div class="row">
@@ -43,7 +43,7 @@
             </div>
           </div>
 
-          <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
+          <div *ngIf="formatoModel.TipoFormatoId == 18" class="form-group row">
 
             <label class="col-md-2  col-form-label" id="corre">
               <span [ngClass]="{'red' : formFormato.controls.TiposConexionesId.status=='INVALID'}">*</span>
@@ -74,7 +74,7 @@
           </div>
 
           <!-- Slect Herramienta -->
-          <div *ngIf="formatoModel.TipoFormatoId == '19' && formFormato.get('Herramienta')" class="form-group row">
+          <div *ngIf="formatoModel.TipoFormatoId == 19 && formFormato.get('Herramienta')" class="form-group row">
             <label class="col-md-2  col-form-label" id="corre">
               <span>*</span>
               Herramienta
@@ -87,7 +87,7 @@
           </div>
 
           <!--check aletas -->
-          <div *ngIf="formatoModel.TipoFormatoId == '19' " class="form-group row">
+          <div *ngIf="formatoModel.TipoFormatoId == 19 " class="form-group row">
             <label [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID'}" class="col-md-2 col-form-label" id="corre">
               <span *ngIf="formFormato.controls.Aletas.status=='INVALID'" [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID' }">*</span>
               Aletas:
@@ -107,7 +107,7 @@
 
 
           <!-- Documentos -->
-          <div *ngIf="formatoModel.TipoFormatoId == '18'" class="form-group row">
+          <div *ngIf="formatoModel.TipoFormatoId == 18" class="form-group row">
 
             <label class="col-md-2 col-form-label" id="corre">
               <span *ngIf="formFormato.controls.EsFormatoAdjunto" [ngClass]="{'red' : formFormato.controls.EsFormatoAdjunto.status=='INVALID'}">*</span>
@@ -126,7 +126,7 @@
 
           </div>
 
-          <div *ngIf="formatoModel.TipoFormatoId == '19' || ( formatoModel.TipoFormatoId == '18' && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
+          <div *ngIf="formatoModel.TipoFormatoId == 19 || ( formatoModel.TipoFormatoId == 18 && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
             <label class="col-md-2 col-form-label" id="corre">
               <span>*</span>
               Adjuntar plano:
@@ -161,7 +161,7 @@
 
 
           <!-- Especificacion -->
-          <div *ngIf=" ( formatoModel.TipoFormatoId == '18' ) || formatoModel.TipoFormatoId == '19' " class="form-group row">
+          <div *ngIf=" ( formatoModel.TipoFormatoId == 18 ) || formatoModel.TipoFormatoId == 19 " class="form-group row">
             <label class="col-md-2  col-form-label" id="corre">
               <span [ngClass]="{'red' : formFormato.controls.EspecificacionId.status=='INVALID'}">*</span>
               Especificación:
@@ -177,7 +177,7 @@
 
           <!-- TPI && TPF -->
 
-          <div *ngIf=" ( formatoModel.TipoFormatoId == '18')">
+          <div *ngIf=" ( formatoModel.TipoFormatoId == 18)">
             <div class="form-group row">
               <label class="col-md-2 col-form-label" id="corre">
                 <span [ngClass]="{'red' : formFormato.controls.TPI.status=='INVALID'}">*</span>
@@ -200,7 +200,7 @@
 
 
           <!-- Tabla Aletas -->
-          <div *ngIf=" (formatoModel.TipoFormatoId == '19' && formFormato.value['esAletas'] == true) ">
+          <div *ngIf=" (formatoModel.TipoFormatoId == 19 && formFormato.value['esAletas'] == true) ">
             <div class="row">
               <div class="col-lg-12">
                 <div class="table-responsive-sm table-responsive-md">
@@ -259,7 +259,7 @@
 
 
           <!-- Tabla Parametros -->
-          <div *ngIf=" ( formatoModel.TipoFormatoId == '18'  || formatoModel.TipoFormatoId == '19' ) ">
+          <div *ngIf=" ( formatoModel.TipoFormatoId == 18  || formatoModel.TipoFormatoId == 19 ) ">
             <div class="row">
               <div class="col-12">
                 <div class="table-responsive-sm table-responsive-md">
@@ -318,7 +318,7 @@
           </div>
 
           <!-- Tabla ADENDUM -->
-          <div *ngIf="formatoModel.TipoFormatoId == '18' ">
+          <div *ngIf="formatoModel.TipoFormatoId == 18 ">
             <div *ngIf="formFormato.get('Adendum') | pemarsaAdendumPipe" class="row">
               <div class="col-12">
                 <div class="table-responsive-sm table-responsive-md">

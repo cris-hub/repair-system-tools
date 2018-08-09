@@ -22,7 +22,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   public  parametros: ParametrosModel;
   public  esFiltrar: boolean = false;
 
-  private esNuevaAccion: boolean = false;
+  public esNuevaAccion: boolean = false;
   constructor(
     public solicitudOrdenTrabajoSrv: SolicitudOrdenTrabajoService,
     public parametroSrv: ParametroService,

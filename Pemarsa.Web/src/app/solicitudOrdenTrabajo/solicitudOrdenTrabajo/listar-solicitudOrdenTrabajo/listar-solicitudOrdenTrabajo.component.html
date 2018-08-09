@@ -70,7 +70,7 @@
               <th class="width-8">Acciones</th>
             </tr>
           </thead>
-          <tbody class="font-black center-table" *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+          <tbody class="font-black center-table" *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} ">
             <tr [ngClass]="obtenerEstilosPorPrioridad(oit.Prioridad.Valor)">
               <td>{{oit.Responsable.Valor}}</td>
               <td>{{oit.Cliente.NickName}}</td>

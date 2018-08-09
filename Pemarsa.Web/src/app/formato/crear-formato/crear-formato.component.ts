@@ -24,44 +24,44 @@ import { ignoreElements } from 'rxjs/operators';
 export class CrearFormatoComponent implements OnInit {
 
   //Catalogos
-  private parametrosEspecificacion: EntidadModel[];
-  private parametrosTipoConexion: EntidadModel[];
-  private parametrosConexion: EntidadModel[];
-  private parametrosTiposFormatos: EntidadModel[];
-  private parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
+  public  parametrosEspecificacion: EntidadModel[];
+  public  parametrosTipoConexion: EntidadModel[];
+  public  parametrosConexion: EntidadModel[];
+  public  parametrosTiposFormatos: EntidadModel[];
+  public  parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
 
   //Herramienta
-  private herramientaModel: HerramientaModel = new HerramientaModel();
-  private Herramientas: Array<HerramientaModel>;
+  public  herramientaModel: HerramientaModel = new HerramientaModel();
+  public  Herramientas: Array<HerramientaModel>;
 
-  private paginacion: PaginacionModel = new PaginacionModel(1, 30);
+  public  paginacion: PaginacionModel = new PaginacionModel(1, 30);
 
   //Formularios
-  private formAdendum: FormArray;
-  private formFormato: FormGroup;
-  private formFormatoPatamtros: FormArray;
-  private formFormatoPatamtrosAletas: FormArray;
+  public  formAdendum: FormArray;
+  public  formFormato: FormGroup;
+  public  formFormatoPatamtros: FormArray;
+  public  formFormatoPatamtrosAletas: FormArray;
 
 
   //Acciones
-  private esActualizar: boolean;
-  private esVer: boolean;
-  private esValido: boolean;
+  public  esActualizar: boolean;
+  public  esVer: boolean;
+  public  esValido: boolean;
 
 
   //Formatos
-  private formatoModel: FormatoModel;
-  private parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
-  private aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  public  formatoModel: FormatoModel;
+  public  parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  public  aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
 
-  private formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
+  public  formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
 
-  private formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
+  public  formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
 
   //Carga Archivos
-  private lectorArchivos: FileReader;
-  private Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
-  private planoView: AttachmentModel;
+  public  lectorArchivos: FileReader;
+  public  Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
+  public  planoView: AttachmentModel;
 
 
 

@@ -45,7 +45,7 @@
 
         <div class="form-group">
           <div class="col-sm-9">
-            <div *ngIf="tieneRemison || origen == 13 || solicitudOrdenTrabajoModelInput == 13" class="form-group">
+            <div *ngIf="tieneRemison || origen == 13 || solicitudOrdenTrabajoModelInput.Id == 13" class="form-group">
               <label for="Remision" class="col-sm-2 col-sm-offset-2  control-label"><b>Remision:</b></label>
               <div class="col-sm-8">
                 <input [attr.disabled]="esVer == true ? '' : null" type="file" (change)="addFileRemision($event)" class="form-control-file" name="Remision" #inputFile>

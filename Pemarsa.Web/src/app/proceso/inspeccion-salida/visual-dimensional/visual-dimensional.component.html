@@ -152,7 +152,8 @@
                  [ngbTypeahead]="search"
                  [resultFormatter]="ValorMostrar"
                  [inputFormatter]="ValorFiltrar"
-                 (selectItem)="selectItem($event)"
+                 (selectItem)="selectItem($event,input)"
+                 #input
                  validacion [validaciones]="['requerido']"
                  formControlName="InspeccionEquipoUtilizado" />
 

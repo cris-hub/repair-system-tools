@@ -61,7 +61,7 @@
                 </tr>
               </thead>
               <tbody class="font-black text-center">
-                <tr *ngFor="let modificacion of HistorialModificaciones  | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'historial'} trackBy: index ">
+                <tr *ngFor="let modificacion of HistorialModificaciones  | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'historial'} ">
                   <td>{{modificacion.FechaModificacion}}</td>
                   <td>{{modificacion.Campo}}</td>
                   <td>{{modificacion.ValorAnterior}}</td>

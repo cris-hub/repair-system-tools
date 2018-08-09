@@ -80,6 +80,15 @@ export class OitCambioProcesoComponent implements OnInit {
     }
   }
 
+  limiteConsulta(event: any) {
+    this.paginacion = new PaginacionModel(1, event);
+
+  }
+  cambioPagina(page: any) {
+    this.paginacion.PaginaActual = page;
+
+  }
+
   primeraLetraMayuscula(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }//convertir en pipe este metrodo

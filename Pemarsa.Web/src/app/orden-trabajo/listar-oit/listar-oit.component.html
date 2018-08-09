@@ -73,7 +73,7 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} trackBy: index">
+            <tr *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'}">
               <td>{{oit.Id}}</td>
               <td>{{oit.Cliente.NickName}}</td>
               <td>{{oit.Herramienta.Nombre}}</td>

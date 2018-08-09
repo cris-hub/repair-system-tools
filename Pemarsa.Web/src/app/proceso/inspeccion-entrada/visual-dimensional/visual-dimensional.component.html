@@ -39,7 +39,7 @@
             <span [ngClass]="{'badge badge-success pointer': DocumetosRestantes == 0 ,'badge badge-danger pointer': DocumetosRestantes != 0} "> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
           </label>
 
-          <input id="file-input"  (change)="addFile($event)" type="file" multiple />
+          <input id="file-input" (change)="addFile($event)" type="file" multiple />
         </div>
       </div>
 
@@ -152,7 +152,8 @@
                  [ngbTypeahead]="search"
                  [resultFormatter]="ValorMostrar"
                  [inputFormatter]="ValorFiltrar"
-                 (selectItem)="selectItem($event)"
+                 (selectItem)="selectItem($event,input)"
+                 #input
                  validacion [validaciones]="['requerido']"
                  formControlName="InspeccionEquipoUtilizado" />
 
