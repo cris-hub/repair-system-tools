@@ -96,7 +96,7 @@
                    (selectItem)="cambioItemEvent($event)"
                    formControlName="Cliente" />
           </div>
-          <strong *ngIf="frmSolicitudOit.get('Cliente').invalid
+          <strong *ngIf="frmSolicitudOit.get('Cliente').value.Id == undefined
                       &&  (frmSolicitudOit.get('Cliente').dirty
                       || frmSolicitudOit.get('Cliente').touched)"
                   class="text-danger validaciones">Este campo es obligatorio</strong>
@@ -117,6 +117,10 @@
                    (selectItem)="cambioItemEvent($event)"
                    formControlName="ClienteLinea" />
           </div>
+          <strong *ngIf="frmSolicitudOit.get('ClienteLinea').invalid
+                      &&  (frmSolicitudOit.get('ClienteLinea').dirty
+                      || frmSolicitudOit.get('ClienteLinea').touched)"
+                  class="text-danger validaciones">Este campo es obligatorio</strong>
         </div>
         <div class="form-group">
           <label for="Contacto" class="col-sm-3 control-label"><b>Contacto:</b></label>

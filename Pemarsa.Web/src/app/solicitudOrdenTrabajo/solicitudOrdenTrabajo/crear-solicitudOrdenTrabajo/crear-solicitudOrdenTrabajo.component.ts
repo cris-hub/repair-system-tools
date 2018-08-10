@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, FormControl, Validators, ValidationErrors } from "@angular/forms";
 import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel, SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { ClienteService, SolicitudOrdenTrabajoService } from "../../../common/services/entity";
@@ -156,6 +156,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
 
   }
+
 
   consultarParametros() {
     this.parametroSrv.consultarParametrosPorEntidad("SOLICITUD")
@@ -364,9 +365,28 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
 
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+
+    let valor = this.frmSolicitudOit.controls['Cliente'].value
+    let lineas: CatalogoModel[] = this.clienteLinea.filter(v => { return v.CatalogoId == valor.Id });
+    if (valor && lineas.length > 0) {
+      if (this.model1) {
+        if (!this.model1.Id) {
+          this.frmSolicitudOit.controls['ClienteLinea'].setValue(null);
+          this.frmSolicitudOit.controls['ClienteLinea'].setErrors({ 'incorrect': true });
+
+        }
+      }
+      this.frmSolicitudOit.controls['ClienteLinea'].setValidators(Validators.required);
+    } else {
+      this.frmSolicitudOit.controls['ClienteLinea'].setErrors(null);
+
+      this.frmSolicitudOit.controls['ClienteLinea'].setValidators(null);
+
+    }
+    this.frmSolicitudOit.updateValueAndValidity();
     
 
-    
+
 
     if (!this.frmSolicitudOit.valid) {
       for (var control in this.frmSolicitudOit.controls) {
@@ -379,7 +399,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
     this.abrirModal = true
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
-    
+
 
   }
 
