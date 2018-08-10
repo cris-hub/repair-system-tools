@@ -295,6 +295,8 @@ export class CrearOitComponent implements OnInit {
     if (this.accionRealizarTituloPagina == 'Procesar') {
       this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
         this.solicitudOrdenTrabajo = response;
+        this.Cliente = this.solicitudOrdenTrabajo.Cliente
+        this.Linea = this.solicitudOrdenTrabajo.ClienteLinea
         this.asignarValoresSolitudOrdenTrabajo(this.solicitudOrdenTrabajo, this.ordenTrabajo)
         this.consultarLineasCliente();
         this.consultarHerraminetas();
@@ -344,7 +346,7 @@ export class CrearOitComponent implements OnInit {
 
     this.formularioOrdenTrabajo = this.formBulder.group({
 
-      Cantidad: [ordenTrabajo.Cantidad],
+      Cantidad: [ordenTrabajo.Herramienta.EsHerramientaPorCantidad ? ordenTrabajo.Cantidad : 1],
       CantidadInspeccionar: [ordenTrabajo.CantidadInspeccionar],
       DetallesSolicitud: [ordenTrabajo.DetallesSolicitud],
       ObservacionRemision: [ordenTrabajo.ObservacionRemision],
@@ -434,7 +436,7 @@ export class CrearOitComponent implements OnInit {
           this.loaderService.display(true);
           if (response) {
 
-            this.toastrService.success('correcto', 'accion' + this.accionRealizar())
+            this.toastrService.success('peticion realizada exitosamente')
             this.router.navigate(['/oit']);
           }
           this.loaderService.display(false);
@@ -446,7 +448,7 @@ export class CrearOitComponent implements OnInit {
           this.loaderService.display(true);
 
           if (response) {
-            this.toastrService.success('correcto', 'accion' + this.accionRealizar())
+            this.toastrService.success('peticion realizada exitosamente')
             this.router.navigate(['/oit']);
           }
           this.loaderService.display(false);
@@ -458,7 +460,7 @@ export class CrearOitComponent implements OnInit {
           this.loaderService.display(true);
 
           if (response) {
-            this.toastrService.success('correcto', 'accion' + this.accionRealizar())
+            this.toastrService.success('peticion realizada exitosamente')
             this.router.navigate(['/oit']);
           }
           this.loaderService.display(false);

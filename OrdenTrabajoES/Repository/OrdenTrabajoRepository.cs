@@ -340,10 +340,10 @@ namespace OrdenTrabajoES.Repository
                 ordenTrabajo.FechaRegistro = DateTime.Now;
                 ordenTrabajo.TipoServicioId = (int)TIPOSERVICIOS.REPARACIÓN;
                 ordenTrabajo.ResponsableId = (int)RESPONSABLES.JUAN_MARQUEZ;
+                ordenTrabajo.CantidadInspeccionar = CalcularCantidadInpseccionar(ordenTrabajo.Cantidad);
                 OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
                 _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
                 ordenTrabajoBD.NombreUsuarioCrea = USUARIO_CREA.ADMIN.ToString();
-                ordenTrabajo.CantidadInspeccionar = CalcularCantidadInpseccionar(ordenTrabajo.Cantidad);
                 _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();
                 OrdenTrabajo oit = await _context.OrdenTrabajo.FirstOrDefaultAsync(c => c.Guid == ordenTrabajo.Guid);

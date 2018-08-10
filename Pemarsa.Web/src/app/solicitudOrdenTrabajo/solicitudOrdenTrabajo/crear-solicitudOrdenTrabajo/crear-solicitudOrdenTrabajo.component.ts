@@ -335,7 +335,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
     this.solicitudOrdenTrabajoSrv.crearSolicitudOit(this.solicitudOrdenTrabajoModel).subscribe(response => {
       if (response) {
-        this.toastr.info('creacion', 'la creacion de la solicitud ha sido correcta');
+        
         this.accionEvento.emit(response);
       }
     });
