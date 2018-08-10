@@ -35,7 +35,7 @@
             </label>
             <div class="col-md-3">
               <select formControlName="GuidUsuarioVerifica" validacion [validaciones]="['requerido']" [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg">
-                <option>Seleccione</option>
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let verificador of verificadores" [value]="verificador.Guid">{{verificador.Valor}}</option>
 
               </select>
@@ -107,7 +107,7 @@
                 <option [value]="0">Seleccione</option>
                 <option *ngFor="let clienteLn of clienteLinea" [value]="clienteLn.Id">{{clienteLn.Valor}}</option>
               </select>
-              <strong *ngIf="frmHerramienta.get('LineaId').invalid && (frmHerramienta.get('LineaId').touched || frmHerramienta.get('LineaId').dirty)" class="text-danger validaciones">Este campo es obligatorio</strong>
+              <strong *ngIf="frmHerramienta.get('LineaId').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>
             </div>
           </div>
 
@@ -124,7 +124,7 @@
                   <label class="form-check-label">NO</label>
                   <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="false">
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <strong *ngIf="frmHerramienta.get('EsHerramientaPetrolera').invalid" style="color:white;" class="validaciones">*</strong>
+                  <strong *ngIf="frmHerramienta.get('EsHerramientaPetrolera').invalid"  class="text-danger validaciones">*</strong>
                 </div>
                 <div class="panel-body">
                   <div class="card-body col-md-8">
@@ -137,13 +137,13 @@
                           <label>SI</label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
 
-                          <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="true">
+                          <input [attr.disabled]="esVer == true ? '' : null"  formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="true">
                         </div>
                         <div class="form-check form-check-inline col-md-4">
                           <label>NO </label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
 
-                          <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="false">
+                          <input [attr.disabled]="esVer == true ? '' : null"  formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="false">
                         </div>
                         <strong *ngIf="frmHerramienta.get('EsHerramientaMotor').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>
 
@@ -157,10 +157,13 @@
                         </label>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                           <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños motor" #inputTamanoMotor>
+                          <strong *ngIf="frmHerramienta.get('TamanosMotor').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>
+
                         </div>
                         <div class="col-lg-1 col-md-2 col-sm-2 col">
                           <button class="glyphicon glyphicon-plus" type="button" (click)="nuevoTamanoMotor()"></button>
                         </div>
+
                       </div>
 
                       <div *ngFor="let herramientaTM of herramientaTamanoMotor;let i = index" class="form-group row">
@@ -180,6 +183,8 @@
                         </label>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                           <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" placeholder="Tamaños de Herramienta" #inputTamanoHerramienta>
+                          <strong *ngIf="frmHerramienta.get('TamanosHerramienta').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>
+
                         </div>
                         <div class="col-lg-1 col-md-2 col-sm-2 col">
                           <button class="glyphicon glyphicon-plus" type="button" (click)="nuevoTamanoHerramienta()"></button>
@@ -236,10 +241,10 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="HerramientaEstudioFactibilidadModal" tabindex="-1" role="dialog" aria-labelledby="HerramientaEstudioFactibilidadModalLabel" aria-hidden="true">
+  <div class="modal" id="HerramientaEstudioFactibilidadModal" role="dialog" aria-labelledby="HerramientaEstudioFactibilidadModalLabel" aria-hidden="true">
     <app-factibilidad-herramienta accion="crear" (paramsHerramientaEstudioFactibilidad)="nuevoEstudioFactibilidad($event)"></app-factibilidad-herramienta>
   </div>
-  <div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <app-confirmacion-modal (confir)="ConfirmacionEvento($event)"></app-confirmacion-modal>
   </div>
 </div>

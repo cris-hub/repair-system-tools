@@ -8,33 +8,37 @@
         <span class="font-white" aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-      <form [formGroup]="frmLineaCliente">
+    <form [formGroup]="frmLineaCliente">
+      <div class="modal-body">
+        
         <div class="form-group">
           <label for="Nombre"><b>*Nombre de linea</b></label>
-          <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="Nombre" placeholder="Nombre de linea">
+          <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" validacion [validaciones]="['requerido']" formControlName="Nombre" placeholder="Nombre de linea">
         </div>
         <div class="form-group">
           <label for="ContactoNombre"><b>*Nombre Contacto</b></label>
-          <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="ContactoNombre" placeholder="Nombre Contacto">
+          <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" validacion [validaciones]="['requerido']" formControlName="ContactoNombre" placeholder="Nombre Contacto">
         </div>
         <div class="form-group">
           <label for="ContactoTelefono"><b>*Teléfono de Contacto</b></label>
-          <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="ContactoTelefono" placeholder="Teléfono de contacto">
+          <input [attr.disabled]="accion == 'ver' ? '' : null" type="tel" class="form-control" validacion [validaciones]="['requerido']" formControlName="ContactoTelefono" placeholder="Teléfono de contacto">
         </div>
         <div class="form-group">
           <label for="ContactoCorreo"><b>*Correo de Contacto</b></label>
-          <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="ContactoCorreo" placeholder="Correo de Contacto">
+          <input [attr.disabled]="accion == 'ver' ? '' : null" type="email" class="form-control" validacion [validaciones]="['requerido','correo']" formControlName="ContactoCorreo" placeholder="Correo de Contacto">
         </div>
         <div class="form-group">
           <label for="Direccion"><b>*Direccion</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="Direccion" placeholder="Direccion">
         </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-md">Cancelar</button>
-      <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitlineaCliente(frmLineaCliente.value)" data-dismiss="modal" class="btn btn-primary">{{accion}}</button>
-    </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="limpiarlineaCliente()" data-dismiss="modal" #close class="btn btn-md">Cancelar</button>
+        <input *ngIf="accion == 'crear' || accion == 'editar'"
+               (click)="submitlineaCliente(frmLineaCliente.value)"
+               type="submit" #crear value="{{accion}}" class="btn btn-primary">
+      </div>
+    </form>
+
   </div>
 </div>

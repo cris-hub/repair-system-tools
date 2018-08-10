@@ -148,6 +148,7 @@ export class CrearHerramientaComponent implements OnInit {
 
 
   estudioDefactibilidadEstado(estudio: HerramientaEstudioFactibilidadModel) {
+    let checksoks = 0;
     if (!estudio) {
       return 'vacio'
     }
@@ -157,14 +158,23 @@ export class CrearHerramientaComponent implements OnInit {
         let bool: boolean = true;
         if (!(estudio[valor])) {
           return 'falta'
+        } else {
+          checksoks += 1;
         }
 
       }
 
     }
-    if (!bool) {
+    if (checksoks == 6) {
+      return 'ok'
+
+    } else if (checksoks == 0) {
       return 'vacio'
+    } else if (checksoks < 6) {
+      return 'falta'
+
     }
+
     return 'ok'
   }
 
@@ -245,8 +255,8 @@ export class CrearHerramientaComponent implements OnInit {
       EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera, Validators.required],
       Materiales: [herramienta.Materiales],
       HerramientaEstudioFactibilidad: [herramienta.HerramientaEstudioFactibilidad, Validators.required],
-
-
+      TamanosMotor: [this.herramientaTamanoMotor],
+      TamanosHerramienta: [this.herramientaTamano],
       EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad],
       EstadoId: [herramienta.EstadoId],
       NombreUsuarioVerifica: ['Admin'],//este campo debe ser actualizado con la api de seguridad
@@ -259,12 +269,12 @@ export class CrearHerramientaComponent implements OnInit {
     });
     this.loading = false;
     this.frmHerramienta.valueChanges.subscribe(val => {
-      console.log(val)
+      console.log(val.EsHerramientaMotor)
       this.herramienta.EsHerramientaMotor = val.EsHerramientaMotor
       this.isSubmitted = true;
-
     });
   }
+
   validacionLineaCliente() {
     let valor = this.frmHerramienta.controls['ClienteId'].value
     if (valor && this.clienteLinea.length > 0) {
@@ -279,17 +289,36 @@ export class CrearHerramientaComponent implements OnInit {
   validacionHerramientaMotor() {
     let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
     if (valor) {
+      if (this.frmHerramienta.get('TamanosHerramienta').value.length>0) {
 
-      this.frmHerramienta.setControl('EsHerramientaMotor', new FormControl(this.herramienta.EsHerramientaMotor))
-      this.frmHerramienta.setControl('TamanosMotor', new FormControl(this.herramientaTamanoMotor, Validators.required))
-      this.frmHerramienta.setControl('TamanosHerramienta', new FormControl(this.herramientaTamano, Validators.required))
-      this.frmHerramienta.updateValueAndValidity();
+      }
+      this.frmHerramienta.get('EsHerramientaMotor')
+      this.frmHerramienta.get('TamanosMotor').setValidators(Validators.required)
+      this.frmHerramienta.get('TamanosMotor').setErrors({ 'requerido': true })
+
+      this.frmHerramienta.get('TamanosHerramienta').setValidators(Validators.required)
+      this.frmHerramienta.get('TamanosHerramienta').setErrors({ 'requerido': true })
+
+      if (this.frmHerramienta.get('TamanosMotor').value.length > 0 &&
+        this.frmHerramienta.get('TamanosHerramienta').value.length > 0
+        ) {
+        this.frmHerramienta.get('TamanosMotor').setValidators(null)
+        this.frmHerramienta.get('TamanosMotor').setErrors(null)
+
+        this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
+        this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
+      }
 
     } else {
-      this.frmHerramienta.setControl('TamanosMotor', new FormControl(this.herramientaTamanoMotor))
-      this.frmHerramienta.setControl('TamanosHerramienta', new FormControl(this.herramientaTamano))
-      this.frmHerramienta.updateValueAndValidity();
+      this.frmHerramienta.get('TamanosMotor').setValidators(null)
+      this.frmHerramienta.get('TamanosMotor').setErrors(null)
+
+      this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
+      this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
+
+
     }
+    this.frmHerramienta.updateValueAndValidity();
 
   }
 
@@ -340,6 +369,7 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   nuevoMaterial(event: any) {
+    this.isSubmitted = true;
     let idSeleccionado: any = event.target.value;
     if (idSeleccionado != "null") {
       let nuevoItem: any = this.CatalogoMaterialesVer.find(c => c.Id == idSeleccionado);
@@ -412,6 +442,8 @@ export class CrearHerramientaComponent implements OnInit {
     else {
       this.clienteLinea = new Array<CatalogoModel>();
     }
+
+    this.validacionLineaCliente()
   }
 
   //Funcion para implementar el modal con la informacion respectiva
@@ -420,8 +452,9 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   ConfirmacionEvento(event: any) {
-    this.validacionLineaCliente()
     this.validacionHerramientaMotor()
+
+
     if (this.frmHerramienta.status != 'VALID') {
       this.toastr.error('faltan datos por diligenciar')
       return

@@ -122,6 +122,11 @@
           <label for="Contacto" class="col-sm-3 control-label"><b>Contacto:</b></label>
           <div class="col-sm-9">
             <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Contacto" placeholder="Contacto">
+            <strong *ngIf="frmSolicitudOit.get('Contacto').invalid
+                      &&  (frmSolicitudOit.get('Contacto').dirty
+                      || frmSolicitudOit.get('Contacto').touched)"
+                    class="text-danger validaciones">Este campo es obligatorio</strong>
+
           </div>
         </div>
 

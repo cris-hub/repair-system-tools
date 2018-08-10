@@ -42,7 +42,7 @@ namespace Pemarsa.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(e);
             }
         }
 
@@ -127,21 +127,12 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                //se obtiene la informacion del appsettings 
-                var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
 
-                // se obtiene la configuracion establecida en el appsettings 
-                Configuration = builder.Build();
-
-                var pathServer = Configuration["FileServer:VirtualPath"];
-
-                return Ok(await _service.ActualizarCliente(cliente, pathServer,  new UsuarioDTO()));
+                return Ok(await _service.ActualizarCliente(cliente,  new UsuarioDTO()));
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(e);
             }
         }
     }

@@ -17,8 +17,10 @@ namespace Pemarsa.Domain
         [Required]
         public string ContactoTelefono { get; set; }
 
-        [Required, MinLength(200)]
+        [MinLength(200)]
         public string Direccion { get; set; }
+
+        public bool Activa { get; set; }
 
         [Required]
         public string Nombre { get; set; }

@@ -15,6 +15,6 @@ namespace ClienteES.Service
         Task<IEnumerable<ClienteLinea>> ConsultarLineasPorGuidCliente(Guid guidCliente, UsuarioDTO usuario);
         Task<Tuple<int, IEnumerable<Cliente>>> ConsultarClientesPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario);
         Task<bool> ActualizarEstadoCliente(Guid guidCliente, string estado,UsuarioDTO usuario);
-        Task<bool> ActualizarCliente(Cliente cliente, string RutaServer, UsuarioDTO usuario);
+        Task<bool> ActualizarCliente(Cliente cliente,  UsuarioDTO usuario);
     }
 }

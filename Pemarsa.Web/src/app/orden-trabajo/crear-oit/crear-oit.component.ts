@@ -296,6 +296,9 @@ export class CrearOitComponent implements OnInit {
       this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
         this.solicitudOrdenTrabajo = response;
         this.asignarValoresSolitudOrdenTrabajo(this.solicitudOrdenTrabajo, this.ordenTrabajo)
+        this.consultarLineasCliente();
+        this.consultarHerraminetas();
+
         this.inicializarFormulario(this.ordenTrabajo)
 
       });

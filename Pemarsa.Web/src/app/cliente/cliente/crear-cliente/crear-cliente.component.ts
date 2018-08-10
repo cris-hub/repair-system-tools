@@ -92,24 +92,25 @@ export class CrearClienteComponent implements OnInit {
     this.clienteSrv.consultarClientePorGuid(guid)
       .subscribe(response => {
         this.cliente = response;
-        this.lineaCliente = this.cliente.Lineas;
+
+        this.lineaCliente = this.cliente.Lineas.filter(d => d.Activa == true);
         this.initForm(this.cliente);
       });
   }
 
   initForm(cliente: ClienteModel) {//faltan las lineas
     this.frmCliente = this.frmBuilder.group({
-      ContactoCorreo: [cliente.ContactoCorreo],
-      ContactoNombre: [cliente.ContactoNombre],
-      ContactoTelefono: [cliente.ContactoTelefono],
-      Direccion: [cliente.Direccion],
+      ContactoCorreo: [cliente.ContactoCorreo, Validators.required],
+      ContactoNombre: [cliente.ContactoNombre, Validators.required],
+      ContactoTelefono: [cliente.ContactoTelefono, Validators.required],
+      Direccion: [cliente.Direccion, Validators.required],
       EstadoId: [cliente.EstadoId],
-      NickName: [cliente.NickName],
-      GuidResponsable: [cliente.GuidResponsable],
-      Nit: [cliente.Nit],
+      NickName: [cliente.NickName, Validators.required],
+      GuidResponsable: [cliente.GuidResponsable,Validators.required],
+      Nit: [cliente.Nit, Validators.required],
       NombreResponsable: [''],//este campo debe ser actualizado con la api de seguridad
-      RazonSocial: [cliente.RazonSocial],
-      Telefono: [cliente.Telefono],
+      RazonSocial: [cliente.RazonSocial, Validators.required],
+      Telefono: [cliente.Telefono, Validators.required],
       Rut: [null],
       NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
       GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
@@ -151,8 +152,12 @@ export class CrearClienteComponent implements OnInit {
 
     this.clienteSrv.crearCliente(this.cliente)
       .subscribe(response => {
+        debugger;
         this.toastr.success('cliente registrado correctamente!', '');
         setTimeout(e => { this.router.navigate(['/cliente']); },200);
+      }, errorMessage => {
+        debugger
+        this.toastr.error(errorMessage.error.Message);
       });
   }
 
@@ -178,8 +183,12 @@ export class CrearClienteComponent implements OnInit {
     
     this.clienteSrv.actualizarCliente(cliente)
       .subscribe(response => {
-        this.toastr.success('cliente editado correctamente!', '');
+        debugger;
+        this.toastr.success('cliente editato correctamente!', '');
         setTimeout(e => { this.router.navigate(['/cliente']); }, 200);
+      }, errorMessage => {
+        debugger
+        this.toastr.error(errorMessage.error.Message);
       });
   }
 
@@ -190,6 +199,8 @@ export class CrearClienteComponent implements OnInit {
     this.lineaClienteEvent.nuevoDataLineaCliente(accion);
   }
   nuevaLineaCliente(data: any) {
+    this.isSubmitted = true
+    data.lineaCliente.Activa = true;
     if (data.accion == 'crear') {
       this.lineaCliente.push(data.lineaCliente);
     } else if (data.accion == 'editar') {
@@ -197,8 +208,9 @@ export class CrearClienteComponent implements OnInit {
     } 
   }
 
-  eliminarCliente(index: any) {
-    this.lineaCliente.splice(index, 1); 
+  eliminarCliente(linea: ClienteLineaModel) {
+    this.isSubmitted = true
+    this.lineaCliente.find(l => linea.Id == linea.Id).Activa = false;
   }
 
 /* salir()
@@ -255,9 +267,15 @@ export class CrearClienteComponent implements OnInit {
 
   //Funcion para implementar el modal con la informacion respectiva
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
   actualizarEstadoClienteConfirmacion(event: any) {
+    
+    if (!this.frmCliente.valid) {
+      this.toastr.error('faltan datos por diligenciar')
+      return
+    }
     if (event.response == true) {
       this.submitForm(event.frmCliente);
     }

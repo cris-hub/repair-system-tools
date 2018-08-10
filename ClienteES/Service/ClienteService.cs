@@ -57,7 +57,7 @@ namespace ClienteES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<bool> ActualizarCliente(Cliente cliente, string RutaServer, UsuarioDTO usuario)
+        public async Task<bool> ActualizarCliente(Cliente cliente, UsuarioDTO usuario)
         {
             try
             {
