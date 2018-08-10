@@ -18,7 +18,7 @@ namespace Pemarsa.Domain
 
         public string ObservacionRemision { get; set; }
 
-        public int OrdenCompra { get; set; }
+        public int? OrdenCompra { get; set; }
 
         public bool ProvieneDeSolicitud { get; set; }
 

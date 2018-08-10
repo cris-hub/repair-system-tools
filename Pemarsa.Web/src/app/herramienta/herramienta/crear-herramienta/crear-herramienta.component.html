@@ -57,7 +57,7 @@
             </label>
             <div class="col-md-3">
               <select [attr.disabled]="esVer == true ? '' : null" class="custom-select mr-sm-2 form-control-lg" (change)="nuevoMaterial($event)">
-                <option value="null">Seleccione</option>
+                <option value="0">Seleccione</option>
                 <option *ngFor="let material of CatalogoMaterialesVer" value="{{material.Id}}">{{material.Valor}}</option>
               </select>
             </div>
@@ -104,9 +104,10 @@
             </label>
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
-                <option>Seleccione</option>
-                <option *ngFor="let clienteLn of clienteLinea" value="{{clienteLn.Id}}">{{clienteLn.Valor}}</option>
+                <option [value]="0">Seleccione</option>
+                <option *ngFor="let clienteLn of clienteLinea" [value]="clienteLn.Id">{{clienteLn.Valor}}</option>
               </select>
+              <strong *ngIf="frmHerramienta.get('LineaId').invalid && (frmHerramienta.get('LineaId').touched || frmHerramienta.get('LineaId').dirty)" class="text-danger validaciones">Este campo es obligatorio</strong>
             </div>
           </div>
 
@@ -121,8 +122,9 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="form-check-label">NO</label>
-                  <input [attr.disabled]="esVer == true ? '' : null" validacion [validaciones]="['*']" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="false">
+                  <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="false">
                   &nbsp;&nbsp;&nbsp;&nbsp;
+                  <strong *ngIf="frmHerramienta.get('EsHerramientaPetrolera').invalid" style="color:white;" class="validaciones">*</strong>
                 </div>
                 <div class="panel-body">
                   <div class="card-body col-md-8">
@@ -143,6 +145,8 @@
 
                           <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaMotor" class="form-check-input" type="radio" [value]="false">
                         </div>
+                        <strong *ngIf="frmHerramienta.get('EsHerramientaMotor').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>
+
                       </div>
                     </div>
 
@@ -224,7 +228,7 @@
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col">
                 <button *ngIf="isSubmitted == true && esVer == false" type="submit" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
-                <button *ngIf="isSubmitted != true && esVer == false" type="button" class="btn btn-primary btn-md" disabled>Guardar</button>
+                <button *ngIf="isSubmitted != true && esVer == false" type="submit" class="btn btn-primary btn-md" disabled>Guardar</button>
               </div>
             </div>
           </div>

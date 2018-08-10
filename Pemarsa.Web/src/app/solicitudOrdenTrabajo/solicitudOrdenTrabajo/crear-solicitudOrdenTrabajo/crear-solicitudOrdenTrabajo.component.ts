@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel, SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { ClienteService, SolicitudOrdenTrabajoService } from "../../../common/services/entity";
@@ -9,6 +9,10 @@ import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/ope
 import { Router, ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
+
+
+declare var jquery: any;
+declare var $: any;
 
 @Component({
   selector: 'app-crear-solicitudOrdenTrabajo',
@@ -21,38 +25,38 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   @ViewChild('instance') instance: NgbTypeahead;
   @Input() public accion: string[];
   @Input() public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
-  @Output() public  accionEvento = new EventEmitter();
+  @Output() public accionEvento = new EventEmitter();
 
-  public  origen;
+  public origen;
 
-  public  esActualizar: boolean = false;
-  public  esVer: boolean = false;
-  public  esValido: boolean = false;
-  public  tieneRemison: boolean = false;
+  public esActualizar: boolean = false;
+  public esVer: boolean = false;
+  public esValido: boolean = false;
+  public tieneRemison: boolean = false;
+  public abrirModal: boolean = false;
 
-
-  public  solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
+  public solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
   public Origenes: CatalogoModel[] = new Array<CatalogoModel>();
   public Prioridades: CatalogoModel[] = new Array<CatalogoModel>();
   public Estados: CatalogoModel[] = new Array<CatalogoModel>();
   public Responsables: CatalogoModel[] = new Array<CatalogoModel>();
 
-  public  parametros: ParametrosModel;
-  public  attachments: AttachmentModel[] = new Array<AttachmentModel>();
-  public  ArchivoRemison: AttachmentModel = new AttachmentModel();
+  public parametros: ParametrosModel;
+  public attachments: AttachmentModel[] = new Array<AttachmentModel>();
+  public ArchivoRemison: AttachmentModel = new AttachmentModel();
 
 
 
-  public  frmSolicitudOit: FormGroup;
+  public frmSolicitudOit: FormGroup;
   public data: any = new Array();
-  public  paginacion = new PaginacionModel(1, 200);
+  public paginacion = new PaginacionModel(1, 200);
 
-  public  paramsClientes: ParametrosModel;
-  public  clientes: CatalogoModel[] = new Array<CatalogoModel>();
-  public  clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
-  public  tmpClienteLinea: any = new Array();
-  public  idSelCliente: number = 0;
-  public  idSelClienteLinea: number = 0;
+  public paramsClientes: ParametrosModel;
+  public clientes: CatalogoModel[] = new Array<CatalogoModel>();
+  public clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
+  public tmpClienteLinea: any = new Array();
+  public idSelCliente: number = 0;
+  public idSelClienteLinea: number = 0;
 
 
   public model: CatalogoModel;
@@ -93,7 +97,6 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
     this.attachments = new Array<AttachmentModel>();
     this.ArchivoRemison = new AttachmentModel();
-
     if (this.solicitudOrdenTrabajoModelInput) {
       this.model.Valor = this.solicitudOrdenTrabajoModelInput.Cliente.NickName
       this.model.Id = this.solicitudOrdenTrabajoModelInput.Cliente.Id
@@ -106,42 +109,37 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
           this.ArchivoRemison = response;
         });
       }
+      this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
+        this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
+          if (!this.attachments.find(c => c.Id == Anexo.DocumentoAdjuntoId)) {
+            this.attachments.push(response);
+            Anexo.DocumentoAdjunto = response
 
-      
-        this.solicitudOrdenTrabajoModelInput.Anexos.forEach(Anexo => {
-          this.solicitudOrdenTrabajoSrv.consultarDocumentoAdjuntoPorId(Anexo.DocumentoAdjuntoId).subscribe(response => {
-            if (!this.attachments.find(c => c.Id == Anexo.DocumentoAdjuntoId)) {
-              this.attachments.push(response);
-              Anexo.DocumentoAdjunto = response
-
-            }
+          }
 
 
-          }, error => { this.toastr.error(error.message) }
+        }, error => { this.toastr.error(error.message) }
 
-          );
-        });
-      
+        );
+      });
 
 
     } else {
       this.solicitudOrdenTrabajoModelInput = new SolicitudOrdenTrabajoModel();
     }
-
     this.frmSolicitudOit = this.frmBuilder.group({
       Responsable: [this.solicitudOrdenTrabajoModelInput.Responsable],
       Id: [this.solicitudOrdenTrabajoModelInput.Id],
       Guid: [this.solicitudOrdenTrabajoModelInput.Guid],
       DocumentoAdjunto: [],
-
-      OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId],
-      Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName],
+      OrigenSolicitudId: [this.solicitudOrdenTrabajoModelInput.OrigenSolicitudId, Validators.required],
+      Cliente: [this.solicitudOrdenTrabajoModelInput.Cliente.NickName, Validators.required],
       ClienteLinea: [this.solicitudOrdenTrabajoModelInput.ClienteLinea.Nombre],
-      Contacto: [this.solicitudOrdenTrabajoModelInput.Contacto],
-      PrioridadId: [this.solicitudOrdenTrabajoModelInput.PrioridadId],
-      Cotizacion: [this.solicitudOrdenTrabajoModelInput.Cotizacion],
-      Cantidad: [this.solicitudOrdenTrabajoModelInput.Cantidad],
-      DetallesSolicitud: [this.solicitudOrdenTrabajoModelInput.DetallesSolicitud],
+      Contacto: [this.solicitudOrdenTrabajoModelInput.Contacto, Validators.required],
+      PrioridadId: [this.solicitudOrdenTrabajoModelInput.PrioridadId, Validators.required],
+      Cotizacion: [this.solicitudOrdenTrabajoModelInput.Cotizacion, Validators.required],
+      Cantidad: [this.solicitudOrdenTrabajoModelInput.Cantidad, Validators.required],
+      DetallesSolicitud: [this.solicitudOrdenTrabajoModelInput.DetallesSolicitud, Validators.required],
       NombreUsuarioCrea: ['Admin'],//este campo debe ser actualizado con la api de seguridad
       GuidUsuarioCrea: ['00000000-0000-0000-0000-000000000000'],//este campo debe ser actualizado con la api de seguridad
       GuidOrganizacion: ['00000000-0000-0000-0000-000000000000']//este campo debe ser actualizado con la api de seguridad
@@ -347,10 +345,10 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     this.solicitudOrdenTrabajoSrv.ActualizarSolcitudDeTrabajo(this.solicitudOrdenTrabajoModel).subscribe(response => {
       if (response) {
         this.accionEvento.emit(response);
-      } 
+      }
     }, error => {
       this.toastr.error('error ', error.message);
-    }, () => {  });
+    }, () => { });
 
   }
 
@@ -366,7 +364,23 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
 
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    
+
+    
+
+    if (!this.frmSolicitudOit.valid) {
+      for (var control in this.frmSolicitudOit.controls) {
+        console.log(control);
+        this.frmSolicitudOit.get(control.toString()).markAsDirty()
+        this.frmSolicitudOit.get(control.toString()).markAsTouched()
+      }
+      this.toastr.error('faltan datos por diligenciar')
+      return;
+    }
+    this.abrirModal = true
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
+    
+
   }
 
   salir(preguntar?: boolean) {
@@ -375,7 +389,14 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   }
   enviarFormularioConfir(event) {
     if (event.response) {
-      this.enviarFormulario(event.frmSolicitudOit);
+      $(function () {
+        $('#confirmarModal').modal('toggle');
+      });
+      if (this.frmSolicitudOit.valid) {
+        this.enviarFormulario(event.frmSolicitudOit);
+
+      }
+
     }
   }
 

@@ -14,7 +14,8 @@ export class SolicitudOrdenTrabajoService {
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'OrdenTrabajoES/');
+
+    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'OrdenTrabajoES/';
 
   }
 
@@ -30,7 +31,9 @@ export class SolicitudOrdenTrabajoService {
 
   public consultarDocumentoAdjuntoPorId(documentoAdjuntoId: number) {
     let url: string
-    this.configSrv.getConfiguration().then(t => url = t.webApiBaseUrl);
+
+    url = this.configSrv.getConfiguration().webApiBaseUrl 
+
     return this.http.get<AttachmentModel>(url + 'DocumentoAdjunto/' + "ConsultarDocumentoAdjunto?documentoAdjuntoId=" + documentoAdjuntoId,
       {
         headers: this.header

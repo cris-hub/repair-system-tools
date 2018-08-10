@@ -13,7 +13,10 @@ export class HerramientaService {
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'HerramientaES/');
+
+    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'HerramientaES/';
+
+    
   }
 
   public CrearHerramienta(model: HerramientaModel): Observable<boolean> {

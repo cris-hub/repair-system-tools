@@ -10,7 +10,7 @@ import { LoaderService } from './common/services/entity/loaderService';
 export class AppComponent implements OnInit {
   title = 'Pemarsa Platform';
   showLoader: boolean;
-  
+
   public ListaSubMenuActual = false;
   ListaMenu: any =
     [
@@ -23,11 +23,11 @@ export class AppComponent implements OnInit {
         submenu: [
           {
             id: "8",
-            name: "Alertas",
+            name: "Solicitud OIT",
             image: "",
             url: "/solicitudOrdenTrabajo",
             color: "color9",
-            title: "Alertas",
+            title: "olicitud OIT",
             submenu: false,
             complementarios:
               {
@@ -76,88 +76,7 @@ export class AppComponent implements OnInit {
                 class: "display"
               }
 
-          },
-          {
-            id: "11",
-            name: "Torneado",
-            image: "",
-            url: "",
-            color: "color",
-            title: "Torneado",
-            submenu: false,
-            complementarios:
-            {
-              icono: "icon-torneado",
-              color: "color3",
-              class: "remove"
-            }
-
-          },
-          {
-            id: "12",
-            name: "Fresado",
-            image: "",
-            url: "",
-            color: "color",
-            title: "Fresado",
-            submenu: false,
-            complementarios:
-            {
-              icono: "icon-fresado",
-              color: "color4",
-              class: "remove"
-            }
-
-          },
-          {
-            id: "13",
-            name: "Soldadura",
-            image: "",
-            url: "",
-            color: "color",
-            title: "Soldadura",
-            submenu: false,
-            complementarios:
-            {
-              icono: "icon-soldadura",
-              color: "color5",
-              class: "remove"
-            }
-
-          },
-          {
-            id: "14",
-            name: "Alistamiento",
-            image: "",
-            url: "",
-            color: "color",
-            title: "Alistamiento",
-            submenu: false,
-            complementarios:
-            {
-              icono: "icon-alistamiento",
-              color: "color6",
-              class: "remove"
-            }
-
-          },
-          {
-            id: "15",
-            name: "Rectificado",
-            image: "",
-            url: "",
-            color: "color",
-            title: "Rectificado",
-            submenu: false,
-            complementarios:
-            {
-              icono: "icon-rectificado",
-              color: "color7",
-              class: "remove"
-            }
-
-          },
-          {
+          }, {
             id: "16",
             name: "Insp. Salida",
             image: "",
@@ -166,11 +85,11 @@ export class AppComponent implements OnInit {
             title: "Insp. Salida",
             submenu: false,
             complementarios:
-            {
-              icono: "icon-listacopia",
-              color: "color8",
-              class: "display"
-            }
+              {
+                icono: "icon-listacopia",
+                color: "color8",
+                class: "display"
+              }
 
           },
           {
@@ -188,8 +107,89 @@ export class AppComponent implements OnInit {
                 class: "display"
               }
 
-          }
-       
+          },
+          {
+            id: "11",
+            name: "Torneado",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Torneado",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-torneado",
+                color: "color3",
+                class: "remove"
+              }
+
+          },
+          {
+            id: "12",
+            name: "Fresado",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Fresado",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-fresado",
+                color: "color4",
+                class: "remove"
+              }
+
+          },
+          {
+            id: "13",
+            name: "Soldadura",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Soldadura",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-soldadura",
+                color: "color5",
+                class: "remove"
+              }
+
+          },
+          {
+            id: "14",
+            name: "Alistamiento",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Alistamiento",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-alistamiento",
+                color: "color6",
+                class: "remove"
+              }
+
+          },
+          {
+            id: "15",
+            name: "Rectificado",
+            image: "",
+            url: "",
+            color: "color",
+            title: "Rectificado",
+            submenu: false,
+            complementarios:
+              {
+                icono: "icon-rectificado",
+                color: "color7",
+                class: "remove"
+              }
+
+          },
+
+
 
         ],
         complementarios: false
@@ -261,7 +261,7 @@ export class AppComponent implements OnInit {
       }
     ];
   constructor(private loaderService: LoaderService) {
-    this.showLoader  = false;
+    this.showLoader = false;
   }
 
   ngOnInit() {

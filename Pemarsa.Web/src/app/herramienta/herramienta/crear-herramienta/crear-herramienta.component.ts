@@ -23,36 +23,36 @@ export class CrearHerramientaComponent implements OnInit {
   @ViewChild('inputTamanoHerramienta') inputTamanoHerramienta: ElementRef;
 
 
-  public  esActualizar: boolean;
-  public  isSubmitted: boolean;
-  public  loading: boolean;
-  public  esVer: boolean = false;
-  public  frmHerramienta: FormGroup;
+  public esActualizar: boolean;
+  public isSubmitted: boolean;
+  public loading: boolean;
+  public esVer: boolean = false;
+  public frmHerramienta: FormGroup;
 
-  public  esEstudioFactibilidad: string = "vacio";
+  public esEstudioFactibilidad: string = "vacio";
 
 
-  public  paramsMateriales: ParametrosModel;
-  public  estados: EntidadModel[];
-  public  materialHerramienta: EntidadModel[];
+  public paramsMateriales: ParametrosModel;
+  public estados: EntidadModel[];
+  public materialHerramienta: EntidadModel[];
 
-  public  herramienta: HerramientaModel = new HerramientaModel();
-  public  herramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel = new HerramientaEstudioFactibilidadModel();
+  public herramienta: HerramientaModel = new HerramientaModel();
+  public herramientaEstudioFactibilidad: HerramientaEstudioFactibilidadModel = new HerramientaEstudioFactibilidadModel();
 
-  public  CatalogoMaterialesVer: EntidadModel[] = new Array<EntidadModel>();
-  public  CatalogoMaterialesAdd: EntidadModel[] = new Array<EntidadModel>();
-  public  Materiales: HerramientaMaterialModel[] = new Array<HerramientaMaterialModel>();
+  public CatalogoMaterialesVer: EntidadModel[] = new Array<EntidadModel>();
+  public CatalogoMaterialesAdd: EntidadModel[] = new Array<EntidadModel>();
+  public Materiales: HerramientaMaterialModel[] = new Array<HerramientaMaterialModel>();
 
-  public  herramientaTamanoMotor: HerramientaTamanoMotorModel[] = new Array<HerramientaTamanoMotorModel>();
-  public  herramientaTamano: HerramientaTamanoModel[] = new Array<HerramientaTamanoModel>();
+  public herramientaTamanoMotor: HerramientaTamanoMotorModel[] = new Array<HerramientaTamanoMotorModel>();
+  public herramientaTamano: HerramientaTamanoModel[] = new Array<HerramientaTamanoModel>();
 
-  public  paramsCliente: ParametrosModel;
+  public paramsCliente: ParametrosModel;
   //parametro visualizar ui
-  public  paramsClientes: ParametrosModel;
-  public  clientes: CatalogoModel[] = new Array<CatalogoModel>();
-  public  clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
+  public paramsClientes: ParametrosModel;
+  public clientes: CatalogoModel[] = new Array<CatalogoModel>();
+  public clienteLinea: CatalogoModel[] = new Array<CatalogoModel>();
 
-  public  verificadores: CatalogoModel[]
+  public verificadores: CatalogoModel[]
 
   constructor(
     private route: ActivatedRoute,
@@ -97,7 +97,7 @@ export class CrearHerramientaComponent implements OnInit {
   */
   submitForm(Herramienta: FormGroup) {
 
-   
+
     this.isSubmitted = false;
     this.frmHerramienta;
 
@@ -142,7 +142,7 @@ export class CrearHerramientaComponent implements OnInit {
         this.herramientaTamano = this.herramienta.TamanosHerramienta.filter(e => e.Estado == true);
         this.cargarHerramientaFactibilidad(this.herramienta.HerramientaEstudioFactibilidad);
         console.log(this.herramienta)
-       
+
       });
   }
 
@@ -151,13 +151,19 @@ export class CrearHerramientaComponent implements OnInit {
     if (!estudio) {
       return 'vacio'
     }
+    let bool: boolean = false;
     for (var valor in estudio) {
       if (typeof (estudio[valor]) == 'boolean') {
+        let bool: boolean = true;
         if (!(estudio[valor])) {
           return 'falta'
         }
-       
+
       }
+
+    }
+    if (!bool) {
+      return 'vacio'
     }
     return 'ok'
   }
@@ -239,9 +245,9 @@ export class CrearHerramientaComponent implements OnInit {
       EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera, Validators.required],
       Materiales: [herramienta.Materiales],
       HerramientaEstudioFactibilidad: [herramienta.HerramientaEstudioFactibilidad, Validators.required],
-      
-      
-      EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad, Validators.required],
+
+
+      EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad],
       EstadoId: [herramienta.EstadoId],
       NombreUsuarioVerifica: ['Admin'],//este campo debe ser actualizado con la api de seguridad
       LineaId: [herramienta.LineaId],
@@ -256,19 +262,19 @@ export class CrearHerramientaComponent implements OnInit {
       console.log(val)
       this.herramienta.EsHerramientaMotor = val.EsHerramientaMotor
       this.isSubmitted = true;
-      
+
     });
   }
   validacionLineaCliente() {
     let valor = this.frmHerramienta.controls['ClienteId'].value
-    if (valor && this.clienteLinea) {
+    if (valor && this.clienteLinea.length > 0) {
       this.frmHerramienta.controls['LineaId'].setValidators(Validators.required)
     } else {
-      
-      this.frmHerramienta.setControl('LineaId', new FormControl(this.herramienta.LineaId))
 
-      this.frmHerramienta.updateValueAndValidity();
+      this.frmHerramienta.setControl('LineaId', new FormControl(null))
+
     }
+    this.frmHerramienta.updateValueAndValidity();
   }
   validacionHerramientaMotor() {
     let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
@@ -284,7 +290,7 @@ export class CrearHerramientaComponent implements OnInit {
       this.frmHerramienta.setControl('TamanosHerramienta', new FormControl(this.herramientaTamano))
       this.frmHerramienta.updateValueAndValidity();
     }
-    
+
   }
 
   /**
@@ -341,7 +347,7 @@ export class CrearHerramientaComponent implements OnInit {
       this.CatalogoMaterialesAdd.push(nuevoItem);
       this.CatalogoMaterialesVer.splice(index, 1);
 
-       
+
     }
   }
   eliminarMaterial(material: EntidadModel) {
@@ -416,12 +422,12 @@ export class CrearHerramientaComponent implements OnInit {
   ConfirmacionEvento(event: any) {
     this.validacionLineaCliente()
     this.validacionHerramientaMotor()
-    if (this.frmHerramienta.status!= 'VALID') {
+    if (this.frmHerramienta.status != 'VALID') {
       this.toastr.error('faltan datos por diligenciar')
       return
     }
     if (event.response == true) {
-      this.submitForm(event.frmHerramienta);
+      this.submitForm(this.frmHerramienta.value);
     }
   }
 

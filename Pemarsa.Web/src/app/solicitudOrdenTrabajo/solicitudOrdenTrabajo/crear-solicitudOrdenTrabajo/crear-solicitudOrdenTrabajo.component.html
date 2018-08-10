@@ -26,19 +26,39 @@
           <div class="col-sm-7">
             <label for="OrigenSolicitudId" class="col-sm-3 col-sm-offset-2 control-label"><b>Origen: </b></label>
             <div class="col-sm-7">
-              <select [attr.disabled]="esVer == true ? '' : null" (ngModelChange)="cambioOrigen($event)" class="form-control form-control-lg" name="OrigenSolicitudId" formControlName="OrigenSolicitudId">
+              <select [attr.disabled]="esVer == true ? '' : null"
+                      (ngModelChange)="cambioOrigen($event)"
+                      class="form-control form-control-lg"
+                      name="OrigenSolicitudId"
+                       
+                      formControlName="OrigenSolicitudId"
+
+                      >
                 <option value="">Seleccione</option>
                 <option *ngFor="let origen of Origenes" [value]="origen.Id">{{origen.Valor}}</option>
               </select>
+              <strong *ngIf="frmSolicitudOit.get('OrigenSolicitudId').invalid
+                      &&  (frmSolicitudOit.get('OrigenSolicitudId').dirty
+                      || frmSolicitudOit.get('OrigenSolicitudId').touched)"
+                      class="text-danger validaciones">Este campo es obligatorio</strong>
+
             </div>
           </div>
           <div class="col-sm-5">
             <label for="PrioridadId" class="col-sm-3 control-label"><b>Prioridad:</b></label>
             <div class="col-sm-9">
-              <select [attr.disabled]="esVer == true ? '' : null" class="form-control form-control-lg" name="PrioridadId" formControlName="PrioridadId">
+              <select [attr.disabled]="esVer == true ? '' : null"
+                      class="form-control form-control-lg"
+                      name="PrioridadId"
+                      formControlName="PrioridadId"
+                      >
                 <option value="">Seleccione</option>
                 <option *ngFor="let prioridad of Prioridades" [value]="prioridad.Id">{{prioridad.Valor}}</option>
               </select>
+              <strong *ngIf="frmSolicitudOit.get('PrioridadId').invalid
+                      &&  (frmSolicitudOit.get('PrioridadId').dirty
+                      || frmSolicitudOit.get('PrioridadId').touched)"
+                      class="text-danger validaciones">Este campo es obligatorio</strong>
             </div>
           </div>
         </div>
@@ -76,6 +96,10 @@
                    (selectItem)="cambioItemEvent($event)"
                    formControlName="Cliente" />
           </div>
+          <strong *ngIf="frmSolicitudOit.get('Cliente').invalid
+                      &&  (frmSolicitudOit.get('Cliente').dirty
+                      || frmSolicitudOit.get('Cliente').touched)"
+                  class="text-danger validaciones">Este campo es obligatorio</strong>
         </div>
         <div class="form-group">
           <label for="LineaId" class="col-sm-3 control-label"><b>Linea:</b></label>
@@ -105,21 +129,47 @@
           <div class="col-sm-7">
             <label for="Cotizacion" class="col-sm-3 col-sm-offset-2 control-label"><b>Cotizacion:</b></label>
             <div class="col-sm-7">
-              <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cotizacion" placeholder="Cotizacion">
+              <input [attr.disabled]="esVer == true ? '' : null"
+                     type="text"
+                     class="form-control"
+                     formControlName="Cotizacion"
+                     placeholder="Cotizacion"
+                     >
             </div>
+            <strong *ngIf="frmSolicitudOit.get('Cotizacion').invalid
+                      &&  (frmSolicitudOit.get('Cotizacion').dirty
+                      || frmSolicitudOit.get('Cotizacion').touched)"
+                    class="text-danger validaciones">Este campo es obligatorio</strong>
           </div>
           <div class="col-sm-5">
             <label for="Cantidad" class="col-sm-3 control-label"><b>Cantidad:</b></label>
             <div class="col-sm-9">
-              <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="Cantidad" placeholder="Cantidad">
+              <input [attr.disabled]="esVer == true ? '' : null"
+                     type="text"
+                     class="form-control"
+                     formControlName="Cantidad"
+                     placeholder="Cantidad"
+                     >
             </div>
+            <strong *ngIf="frmSolicitudOit.get('Cantidad').invalid
+                      &&  (frmSolicitudOit.get('Cantidad').dirty
+                      || frmSolicitudOit.get('Cantidad').touched)"
+                    class="text-danger validaciones">Este campo es obligatorio</strong>
           </div>
         </div>
         <div class="form-group">
           <label for="DetallesSolicitud" class="col-sm-3 control-label"><b>Detalle de solicitud:</b></label>
           <div class="col-sm-9">
-            <input [attr.disabled]="esVer == true ? '' : null" type="text" class="form-control" formControlName="DetallesSolicitud" placeholder="DetallesSolicitud">
+            <input [attr.disabled]="esVer == true ? '' : null"
+                   type="text" class="form-control"
+                   formControlName="DetallesSolicitud"
+                   
+                   placeholder="DetallesSolicitud">
           </div>
+          <strong *ngIf="frmSolicitudOit.get('DetallesSolicitud').invalid
+                      &&  (frmSolicitudOit.get('DetallesSolicitud').dirty
+                      || frmSolicitudOit.get('DetallesSolicitud').touched)"
+                  class="text-danger validaciones">Este campo es obligatorio</strong>
         </div>
         <div class="form-group">
           <label for="DocumentoAdjunto" class="col-sm-3 control-label"><b>Anexos:</b></label>
@@ -138,7 +188,7 @@
       </form>
     </div>
 
-    <div *ngIf="accion[0] == 'Crear' ||  accion[0] == 'Procesar'  || accion[0] == 'Editar' " class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div *ngIf="(accion[0] == 'Crear' ||  accion[0] == 'Procesar'  || accion[0] == 'Editar') && abrirModal " class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
     </div>
     <div class="modal-footer">
@@ -147,6 +197,7 @@
               (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar la ' + accion[0] + ' la solicitud?', true, { frmSolicitudOit : frmSolicitudOit.value})"
               data-target="#confirmarModal"
               data-toggle="modal"
+              type="submit"
               class="btn btn-primary">
         {{accion[0]}}
       </button>
@@ -154,6 +205,7 @@
               (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar la ' + accion[0] + ' la solicitud?', true, { frmSolicitudOit : frmSolicitudOit.value})"
               data-target="#confirmarModal"
               data-toggle="modal"
+              type="submit"
               class="btn btn-primary">
         Guardar
       </button>

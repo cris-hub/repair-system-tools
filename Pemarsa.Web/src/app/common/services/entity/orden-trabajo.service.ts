@@ -15,7 +15,7 @@ export class OrdenTrabajoService {
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'OrdenTrabajoES/');
+    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'OrdenTrabajoES/';
 
     
   }

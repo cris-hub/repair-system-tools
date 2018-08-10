@@ -96,7 +96,7 @@
               <label class="float-lg-right">Cliente: </label>
             </div>
             <div class="col-lg-9 col-sm-9 col-md-9 col-12 left-9">
-              <div class="controls">
+              <div>
                 <input type="text" 
                        class="form-control form-control-lg" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
                        [resultFormatter]="formatoValorMostrar" [inputFormatter]="formatoValorMostrar" (selectItem)="cambioItemEvent($event)"
@@ -114,9 +114,10 @@
                 <label class="float-lg-right" id="corre"> Linea:</label>
               </div>
               <div class="col-lg-8 col-md-8 col-sm-9 col-12">
-                <div class="controls">
-                  <input type="text" class="form-control form-control-lg" (ngModelChange)="consultarLineasCliente()" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
-                         [resultFormatter]="formatoValorMostrarLinea" [inputFormatter]="formatoValorMostrarLinea" formControlName="Linea" />
+                <div>
+                  <input type="text" class="form-control form-control-lg" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
+                         [resultFormatter]="formatoValorMostrarLinea" validacion [validaciones]="['requerido']" [inputFormatter]="formatoValorMostrarLinea" formControlName="Linea" />
+                  <strong *ngIf="formularioOrdenTrabajo.get('Linea').invalid &&  (formularioOrdenTrabajo.get('Linea').dirty || formularioOrdenTrabajo.get('Linea').touched)" class="text-danger validaciones">Este campo es obligatorio</strong>
                 </div>
               </div>
             </div>
@@ -184,15 +185,8 @@
                 <input formControlName="Cantidad" validacion [validaciones]="['requerido']" type="number" class="form-control form-control-lg">
               </div>
             </div>
-            <!--Cantidad inspeccionar-->
-            <div class="col-lg-6 col-sm-12 col-md-6 col-12 row">
-              <div class="col-lg-4 col-md-4 col-sm-3 col-12">
-                <label class="float-lg-right">Cantidad inspeccionar: </label>
-              </div>
-              <div class="col-lg-7 col-md-8 col-sm-9 col-12 left-9-md">
-                <input formControlName="CantidadInspeccionar" validacion [validaciones]="['requerido']" type="number" class="form-control form-control-lg">
-              </div>
-            </div>
+            
+        
           </div>
           <!--Fin Grupo-->
           <!--Serial material-->

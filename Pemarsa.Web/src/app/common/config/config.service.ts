@@ -10,33 +10,27 @@ export class ConfigService {
   private config: Configuration;
 
   constructor(private http: HttpClient) {
-    this.config = new Configuration("", "");
-  }
-
-  async load(url: string): Promise<any> {
-    (await this.http.get<Configuration>(url)
-      .subscribe(t => {
-        this.config = t
-
-      }))
-        return Promise.resolve(this.config);
 
   }
 
-  async getConfiguration(): Promise<Configuration> {
-    //debugger
-    //if (this.config == undefined) {
-    //  this.http.get<Configuration>(url)
-    //    .toPromise().;
-    //  setTimeout(function () {
-    //  }, 2000);
-    //}
-    let conf = await this.config;
-    return Promise.resolve(conf);
+  async load(url: string){
+     await this.http.get<Configuration>(url)
+       .toPromise().
+       then(conf => {
+         this.config = conf;
+       });
+
   }
 
+  getConfiguration() {
 
   
+
+    return this.config;
+  }
+
+
+
 }
 
 

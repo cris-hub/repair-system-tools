@@ -23,7 +23,9 @@ export class ProcesoService {
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'ProcesoES/');
+    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'ProcesoES/';
+
+    
   }
 
   private obj_to_query(obj) {

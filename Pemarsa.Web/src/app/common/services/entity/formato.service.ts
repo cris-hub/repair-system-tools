@@ -17,7 +17,9 @@ export class FormatoService {
     private configSrv: ConfigService
   ) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    configSrv.getConfiguration().then(t => this.urlServer = t.webApiBaseUrl + 'FormatoES/');
+    this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'FormatoES/';
+
+    
   }
 
   public crearFormato(model: FormatoModel): Observable<boolean> {

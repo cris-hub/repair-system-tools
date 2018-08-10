@@ -343,7 +343,7 @@ namespace OrdenTrabajoES.Repository
                 OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
                 _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
                 ordenTrabajoBD.NombreUsuarioCrea = USUARIO_CREA.ADMIN.ToString();
-
+                ordenTrabajo.CantidadInspeccionar = CalcularCantidadInpseccionar(ordenTrabajo.Cantidad);
                 _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();
                 OrdenTrabajo oit = await _context.OrdenTrabajo.FirstOrDefaultAsync(c => c.Guid == ordenTrabajo.Guid);
@@ -355,6 +355,63 @@ namespace OrdenTrabajoES.Repository
 
                 throw e;
             }
+        }
+
+        private int CalcularCantidadInpseccionar(int cantidad)
+        {
+
+            if (cantidad >= 2 && cantidad <= 8)
+            {
+                return 2;
+            }
+            else if (cantidad >= 9 && cantidad <= 15)
+            {
+                return 2;
+            }
+            else if (cantidad >= 16 && cantidad <= 25)
+            {
+                return 6;
+
+            }
+            else if (cantidad >= 26 && cantidad <= 50)
+            {
+                return 8;
+            }
+            else if (cantidad >= 51 && cantidad <= 90)
+            {
+                return 13;
+            }
+            else if (cantidad >= 91 && cantidad <= 150)
+            {
+                return 20;
+            }
+            else if (cantidad >= 151 && cantidad <= 280)
+            {
+                return 32;
+            }
+            else if (cantidad >= 281 && cantidad <= 500)
+            {
+                return 60;
+            }
+            else if (cantidad >= 501 && cantidad <= 1200)
+            {
+                return 80;
+            }
+            else if (cantidad >= 1201 && cantidad <= 3200)
+            {
+                return 125;
+            }
+            else if (cantidad >= 3201 && cantidad <= 10000)
+            {
+                return 200;
+
+            }
+            else if (cantidad >= 10001 && cantidad <= 35000)
+            {
+                return 315;
+
+            }
+            return 1;
         }
 
         public async Task<Guid> CrearSolicitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario)

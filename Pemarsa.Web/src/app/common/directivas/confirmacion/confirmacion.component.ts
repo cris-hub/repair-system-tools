@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
+
+
 @Component({
   selector: 'app-confirmacion-modal',
   templateUrl: './confirmacion.component.html'
@@ -19,6 +21,8 @@ export class ConfirmacionComponent {
   }
   confirmarAction()
   {
+
+ 
     this.data.response = true;
     this.confir.emit(this.data);
   }

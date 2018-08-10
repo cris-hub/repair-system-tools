@@ -86,7 +86,7 @@ export class FactibilidadHerramientaComponent implements OnInit, OnChanges {
     else {
       this.data.esEstudioFactibilidad = "ok";
     }
-    if (contadorFalse >= 1) {
+    if (contadorFalse >= 1 {
       this.data.esEstudioFactibilidad = "falta";
     }
     this.paramsHerramientaEstudioFactibilidad.emit(this.data);

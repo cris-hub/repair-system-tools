@@ -1,9 +1,9 @@
 
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ParametroService } from '../../common/services/entity/parametro.service';
-import { ParametrosModel, OrdenTrabajoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaModel, HerramientaMaterialModel, HerramientaTamanoModel, SolicitudOrdenTrabajoModel, AttachmentModel, OrdenTrabajoAnexosModel, CatalogoModel } from '../../common/models/Index';
+import { ParametrosModel, OrdenTrabajoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaModel, HerramientaMaterialModel, HerramientaTamanoModel, SolicitudOrdenTrabajoModel, AttachmentModel, OrdenTrabajoAnexosModel, CatalogoModel, EntidadModel } from '../../common/models/Index';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
 import { Observable } from 'rxjs';
 import { debounceTime, map, filter, retry } from 'rxjs/operators';
@@ -22,53 +22,53 @@ import { LoaderService } from '../../common/services/entity/loaderService';
 })
 export class CrearOitComponent implements OnInit {
 
-  
+
   verHistorial: false;
-  public  oit: any;
+  public oit: any;
   //directiva en html
   @ViewChild(ConfirmacionComponent) confimar: ConfirmacionComponent;
   @ViewChild('instance') instance: NgbTypeahead;
 
   //formulario
-  public  formularioOrdenTrabajo: FormGroup;
-  public  anexos: any = [];
+  public formularioOrdenTrabajo: FormGroup;
+  public anexos: any = [];
 
   //parametros catalogo
-  public  parametrosTipoServicio: ParametrosModel = new ParametrosModel();
-  public  parametrosPrioridadOrdenTrabajo: ParametrosModel = new ParametrosModel();
+  public parametrosTipoServicio: ParametrosModel = new ParametrosModel();
+  public parametrosPrioridadOrdenTrabajo: ParametrosModel = new ParametrosModel();
   //objeto formulario
-  public  ordenTrabajo: OrdenTrabajoModel;
-  public  solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
+  public ordenTrabajo: OrdenTrabajoModel;
+  public solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
 
 
   //id que viene de la uri
-  public  idOrdenDeTrabajoDesdeUrl;
+  public idOrdenDeTrabajoDesdeUrl;
 
   // acciones
-  public  esVer: boolean = false;
-  public  esProcesar: boolean = false;
-  public  esEditar: boolean = false;
-  public  esNueva: boolean = false;
-  public  estaCargando: boolean = false;
-  public  accionRealizarTituloPagina: string = '';
+  public esVer: boolean = false;
+  public esProcesar: boolean = false;
+  public esEditar: boolean = false;
+  public esNueva: boolean = false;
+  public estaCargando: boolean = false;
+  public accionRealizarTituloPagina: string = '';
 
 
   //autoCOmpletar cliente
-  public  Cliente: ClienteModel = new ClienteModel();
-  public  clientes: Array<ClienteModel> = new Array<ClienteModel>();
-  public  paginacion;
+  public Cliente: ClienteModel = null;
+  public clientes: Array<ClienteModel> = new Array<ClienteModel>();
+  public paginacion;
 
   //auttoCompleta LineaCliente
-  public  Linea: ClienteLineaModel = new ClienteLineaModel();
-  public  lineas: Array<ClienteLineaModel> = new Array<ClienteLineaModel>();
+  public Linea: ClienteLineaModel = new ClienteLineaModel();
+  public lineas: Array<ClienteLineaModel> = new Array<ClienteLineaModel>();
 
 
   //autoComplet herramienta
-  public  herramienta: HerramientaModel = new HerramientaModel();
-  public  herraminetas: Array<HerramientaModel> = new Array<HerramientaModel>();
-  public  herraminetasview: Array<HerramientaModel> = new Array<HerramientaModel>();
-  public  materialId;
-  public  material = new HerramientaMaterialModel();;
+  public herramienta: HerramientaModel = new HerramientaModel();
+  public herraminetas: Array<HerramientaModel> = new Array<HerramientaModel>();
+  public herraminetasview: Array<HerramientaModel> = new Array<HerramientaModel>();
+  public materialId;
+  public material = new HerramientaMaterialModel();;
 
 
   constructor(
@@ -82,7 +82,7 @@ export class CrearOitComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private formBulder: FormBuilder,
     private toastrService: ToastrService,
-    private loaderService : LoaderService
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
@@ -90,7 +90,7 @@ export class CrearOitComponent implements OnInit {
     this.accionRealizar()
     this.obtenerOrdenTrabajoURI();
     this.paginacion = new PaginacionModel(1, 10);
-    this.consultarHerraminetas();
+
 
     this.consultarParametros();
 
@@ -104,13 +104,30 @@ export class CrearOitComponent implements OnInit {
       .subscribe(response => {
         this.parametrosTipoServicio.Catalogos = response.Catalogos.filter(tipoServicio => { return tipoServicio.Grupo == 'TIPO_SERVICIO_ORDEN_TRABAJO' });
         this.parametrosPrioridadOrdenTrabajo.Catalogos = response.Catalogos.filter(tipoServicio => { return tipoServicio.Grupo == 'PRIORIDAD_ORDENTRABAJO' });
+        this.parametroSrv.consultarParametrosPorEntidad('SOLICITUD').subscribe(response => {
+          let EntidadModel: EntidadModel[] = response.Catalogos.filter(tipoServicio => tipoServicio.Grupo == 'PRIORIDAD_SOLICITUD');
+
+          this.parametrosPrioridadOrdenTrabajo.Catalogos = this.parametrosPrioridadOrdenTrabajo.Catalogos.concat(EntidadModel);
+          console.log(this.parametrosPrioridadOrdenTrabajo);
+        })
+        console.log(this.parametrosPrioridadOrdenTrabajo);
 
       });
   }
 
   consultarHerraminetas() {
     this.herraminetaService.ConsultarHerramientas(this.paginacion).subscribe(response => {
-      this.herraminetas = response.Listado;
+      this.herraminetas = response.Listado.filter(t => {
+        if (this.Cliente) {
+          if (t.ClienteId == this.Cliente.Id) {
+            if (this.Linea.Id) {
+              return t.LineaId == this.Linea.Id;
+            }
+            return t;
+          }
+        }
+
+      });
 
     })
   }
@@ -120,16 +137,21 @@ export class CrearOitComponent implements OnInit {
       subscribe(
         response => {
           this.clientes = response.Listado
-
+          this.consultarLineasCliente();
+          this.consultarHerraminetas();
         });
   }
 
   consultarLineasCliente() {
-    if (this.Cliente.Guid) {
-      this.clienteService.consultarLineasPorGuidCliente(this.Cliente.Guid).
-        subscribe(response => {
-          this.lineas = response;
-        })
+    if (this.Cliente) {
+      if (this.Cliente.Guid) {
+        this.clienteService.consultarLineasPorGuidCliente(this.Cliente.Guid).
+          subscribe(response => {
+            this.lineas = response;
+         
+
+          })
+      }
     } else if (this.ordenTrabajo.Cliente.Guid) {
       this.clienteService.consultarLineasPorGuidCliente(this.ordenTrabajo.Cliente.Guid).
         subscribe(response => {
@@ -246,7 +268,7 @@ export class CrearOitComponent implements OnInit {
   }
 
   asignarValoresSolitudOrdenTrabajo(solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel, ordenTrabajo: OrdenTrabajoModel) {
-    
+
     solicitudOrdenTrabajo.Anexos.forEach(anexo => {
       let anexoOrdenTrabajo: OrdenTrabajoAnexosModel = new OrdenTrabajoAnexosModel();
       delete anexo.DocumentoAdjunto['SolicitudOrdenTrabajoAnexos'];
@@ -327,7 +349,7 @@ export class CrearOitComponent implements OnInit {
       RemisionCliente: [ordenTrabajo.RemisionCliente],
       SerialHerramienta: [ordenTrabajo.SerialHerramienta],
       SerialMaterial: [ordenTrabajo.SerialMaterial],
-      PrioridadId : [ordenTrabajo.PrioridadId],
+      PrioridadId: [ordenTrabajo.PrioridadId],
       ProvieneDeSolicitud: [ordenTrabajo.SolicitudOrdenTrabajo ? true : false],
 
 
@@ -342,7 +364,7 @@ export class CrearOitComponent implements OnInit {
 
       MaterialId: [this.material.Id],
 
-      
+
       TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],
       TamanoHerramienta: this.formBulder.group({
         Id: [ordenTrabajo.TamanoHerramienta.Id],
@@ -355,8 +377,8 @@ export class CrearOitComponent implements OnInit {
       LineaId: [ordenTrabajo.Linea.Id],
       Linea: [ordenTrabajo.Linea],
 
-      ClienteId: [ordenTrabajo.Cliente.Id],
-      Cliente: [ordenTrabajo.Cliente],
+      ClienteId: [ordenTrabajo.Cliente.Id, Validators.required],
+      Cliente: [ordenTrabajo.Cliente, Validators.required],
       RemisionInicial: [ordenTrabajo.RemisionInicial],
       SolicitudOrdenTrabajo: [ordenTrabajo.SolicitudOrdenTrabajo],
     });
@@ -381,6 +403,13 @@ export class CrearOitComponent implements OnInit {
   }
 
   enviar(data) {
+    let form = this.formularioOrdenTrabajo.get('Linea')
+    if (this.lineas.length > 0) {
+      form.setValidators(Validators.required)
+    } else {
+      form.setValidators(null);
+    }
+    form.updateValueAndValidity();
 
     if (this.formularioOrdenTrabajo.status != 'VALID') {
       return
@@ -399,7 +428,7 @@ export class CrearOitComponent implements OnInit {
     switch (this.accionRealizar()) {
       case 'Editar OIT':
         this.ordenTrabajoServicio.actualizarOrdenDeTrabajo(objeto).subscribe(response => {
-            this.loaderService.display(true);
+          this.loaderService.display(true);
           if (response) {
 
             this.toastrService.success('correcto', 'accion' + this.accionRealizar())
@@ -437,7 +466,7 @@ export class CrearOitComponent implements OnInit {
     }
     this.loaderService.display(false);
 
-    
+
   }
 
 
