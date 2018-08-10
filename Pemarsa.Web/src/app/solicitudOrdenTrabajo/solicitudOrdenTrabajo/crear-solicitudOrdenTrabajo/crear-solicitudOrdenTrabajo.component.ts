@@ -19,8 +19,8 @@ declare var $: any;
   templateUrl: './crear-solicitudOrdenTrabajo.component.html'
 })
 export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
+  @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
 
-  @ViewChild(ConfirmacionComponent) public confirmar: ConfirmacionComponent;
   @ViewChild('inputFile') inputFile: ElementRef;
   @ViewChild('instance') instance: NgbTypeahead;
   @Input() public accion: string[];
@@ -33,7 +33,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   public esVer: boolean = false;
   public esValido: boolean = false;
   public tieneRemison: boolean = false;
-  public abrirModal: boolean = false;
+  public abrirModal: boolean = true;
 
   public solicitudOrdenTrabajoModel: SolicitudOrdenTrabajoModel;
   public Origenes: CatalogoModel[] = new Array<CatalogoModel>();
@@ -220,6 +220,15 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
   }
 
+
+  eliminarAdjunto(adjunto: AttachmentModel) {
+    let index: any = this.attachments.findIndex(c => c.Id == adjunto.Id);
+    this.attachments.find(e => e.Id == adjunto.Id).Estado = false;
+    
+    this.attachments.splice(index, 1);
+  }
+
+
   addFile(event: any) {
     try {
       let reader = new FileReader();
@@ -233,7 +242,8 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
           attachment.Nombre = file.name;
 
           attachment.Stream = reader.result.split(',')[1];
-
+          attachment.Estado = true;
+          
           //estos campo debe ser actualizado con la api de seguridad
           attachment.NombreUsuarioCrea = 'Admin';
           attachment.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
@@ -256,11 +266,6 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
   }
 
-  eliminarAdjunto(adjunto: AttachmentModel) {
-    let index: any = this.attachments.findIndex(c => c.Id == adjunto.Id);
-
-    this.attachments.splice(index, 1);
-  }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -384,7 +389,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
     }
     this.frmSolicitudOit.updateValueAndValidity();
-    
+
 
 
 
@@ -394,10 +399,15 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
         this.frmSolicitudOit.get(control.toString()).markAsDirty()
         this.frmSolicitudOit.get(control.toString()).markAsTouched()
       }
+      this.abrirModal = false;
+
       this.toastr.error('faltan datos por diligenciar')
       return;
+    } else {
+
+      this.abrirModal = true;
     }
-    this.abrirModal = true
+
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
 
 
@@ -409,11 +419,9 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   }
   enviarFormularioConfir(event) {
     if (event.response) {
-      $(function () {
-        $('#confirmarModal').modal('toggle');
-      });
+
       if (this.frmSolicitudOit.valid) {
-        this.enviarFormulario(event.frmSolicitudOit);
+        this.enviarFormulario(this.frmSolicitudOit.value);
 
       }
 

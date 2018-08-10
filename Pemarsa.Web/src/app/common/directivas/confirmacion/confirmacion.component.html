@@ -1,17 +1,15 @@
 <!-- Modal -->
-
-  <div class="modal-dialog" role="document" style="z-index: 4000;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{titulo}}</h5>
-      </div>
-      <div class="modal-body">
-        {{Mensaje}}
-      </div>
-      <div class="modal-footer">
-        <button *ngIf="Cancelar" type="button" class="btn btn-secondary" data-target="#crear" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary" data-dismiss="modal" data-target="#crear" data-number="1" (click)="confirmarAction()">Aceptar</button>
-      </div>
+<div class="modal-dialog" role="document"  style="z-index: 4000;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">{{titulo}}</h5>
+    </div>
+    <div class="modal-body">
+      {{Mensaje}}
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="Cancelar" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+      <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
     </div>
   </div>
-
+</div>

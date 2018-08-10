@@ -116,8 +116,11 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
 
   persistenciaDatosResponse(evento) {
     if (evento) {
-      this.toastr.info(this.accion[0]+'Ok');
+      this.toastr.success('accion realizada correctamente')
       this.consultarSolicitudesDeTrabajo();
+    } else {
+      this.toastr.info('No se pudo realizar la accion, vuelve a intentarlo en otro momento')
+
     }
     
   }

@@ -13,7 +13,7 @@
 
         <div class="form-group">
           <div class="col-sm-7">
-            <label for="Responsable" class="col-sm-3  col-sm-offset-2 control-label"><b>Responsable:</b></label>
+
             <div class="col-md-6">
               <label class="control-label">Responsable:</label>
               <p *ngIf="solicitudOrdenTrabajoModelInput.Responsable">{{solicitudOrdenTrabajoModelInput.Responsable.Valor}}</p>
@@ -30,10 +30,7 @@
                       (ngModelChange)="cambioOrigen($event)"
                       class="form-control form-control-lg"
                       name="OrigenSolicitudId"
-                       
-                      formControlName="OrigenSolicitudId"
-
-                      >
+                      formControlName="OrigenSolicitudId">
                 <option value="">Seleccione</option>
                 <option *ngFor="let origen of Origenes" [value]="origen.Id">{{origen.Valor}}</option>
               </select>
@@ -50,8 +47,7 @@
               <select [attr.disabled]="esVer == true ? '' : null"
                       class="form-control form-control-lg"
                       name="PrioridadId"
-                      formControlName="PrioridadId"
-                      >
+                      formControlName="PrioridadId">
                 <option value="">Seleccione</option>
                 <option *ngFor="let prioridad of Prioridades" [value]="prioridad.Id">{{prioridad.Valor}}</option>
               </select>
@@ -134,11 +130,10 @@
             <label for="Cotizacion" class="col-sm-3 col-sm-offset-2 control-label"><b>Cotizacion:</b></label>
             <div class="col-sm-7">
               <input [attr.disabled]="esVer == true ? '' : null"
-                     type="text"
+                     type="number"
                      class="form-control"
                      formControlName="Cotizacion"
-                     placeholder="Cotizacion"
-                     >
+                     placeholder="Cotizacion">
             </div>
             <strong *ngIf="frmSolicitudOit.get('Cotizacion').invalid
                       &&  (frmSolicitudOit.get('Cotizacion').dirty
@@ -149,11 +144,10 @@
             <label for="Cantidad" class="col-sm-3 control-label"><b>Cantidad:</b></label>
             <div class="col-sm-9">
               <input [attr.disabled]="esVer == true ? '' : null"
-                     type="text"
+                     type="number"
                      class="form-control"
                      formControlName="Cantidad"
-                     placeholder="Cantidad"
-                     >
+                     placeholder="Cantidad">
             </div>
             <strong *ngIf="frmSolicitudOit.get('Cantidad').invalid
                       &&  (frmSolicitudOit.get('Cantidad').dirty
@@ -167,7 +161,6 @@
             <input [attr.disabled]="esVer == true ? '' : null"
                    type="text" class="form-control"
                    formControlName="DetallesSolicitud"
-                   
                    placeholder="DetallesSolicitud">
           </div>
           <strong *ngIf="frmSolicitudOit.get('DetallesSolicitud').invalid
@@ -182,12 +175,17 @@
           </div>
         </div>
         <div *ngFor="let attachment of attachments" class="form-group">
-          <div class="col-sm-3 col-sm-offset-3">
-            <input [attr.disabled]="esVer == true ? '' : null" class="form-control" type="text" value="{{attachment.NombreArchivo}}">
+          <div class="col-sm-6 col-sm-offset-3">
+            <span  *ngIf="attachment.Estado" [attr.disabled]="esVer == true ? '' : null" class="well well-sm" type="text">
+              {{attachment.NombreArchivo}}
+              <i (click)="eliminarAdjunto(attachment)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+              <a href="{{attachment.Ruta}}" class="pull-right">
+                <i class="glyphicon glyphicon-download"></i>
+              </a>
+            </span>
+           
           </div>
-          <div class="col-sm-5 float-right">
-            <i *ngIf="!esVer == true ? '' : null" class="glyphicon glyphicon-minus" (click)="eliminarAdjunto(attachment)"></i>
-          </div>
+
         </div>
       </form>
     </div>
