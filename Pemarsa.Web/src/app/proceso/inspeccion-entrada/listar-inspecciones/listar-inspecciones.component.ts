@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { InspeccionModel, ProcesoModel, PaginacionModel, ParametrosModel, CatalogoModel } from '../../../common/models/Index';
+import { InspeccionModel, ProcesoModel, PaginacionModel, ParametrosModel, CatalogoModel, FiltroParametrosProcesosoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity/index';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { error } from 'util';
 import { ToastrService } from 'ngx-toastr';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { FiltroProcesoComponent } from '../../filtro-proceso/filtro-proceso.component';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
   public  Paramtros: ParametrosModel;
   public  tipoProcesos: CatalogoModel[];
   public  Procesos: Array<ProcesoModel>;
+  public filter : string
 
   constructor(
     private procesoService: ProcesoService,
@@ -73,7 +75,27 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
     }
   }
 
+  consultarProcesoPorFiltro(filtro:FiltroParametrosProcesosoModel) {
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    filtro.TipoProceso = this.tipoProcesoActual.Valor;
+    
+    this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
+      .subscribe(response => {
+        this.Procesos = response.Listado;
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+      });
+  }
 
+  limiteConsulta(event: any) {
+    this.paginacion = new PaginacionModel(1, event);
+    this.consultarProcesos();
+  }
+
+  cambioPagina(page: any) {
+    this.paginacion.PaginaActual = page;
+    this.consultarProcesos();
+  }
   primeraLetraMayuscula(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }//convertir en pipe este metrodo

@@ -13,7 +13,7 @@ export class ListarFormatoComponent implements OnInit {
   public formatos: Array<FormatoModel>
   public paginacion: PaginacionModel;
   public parametrosConexionFormato: ParametrosModel = new ParametrosModel();
-
+  public filter:string
   constructor(
     private formatoService: FormatoService,
     private parametroService: ParametroService

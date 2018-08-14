@@ -72,8 +72,8 @@ export class UTComponent implements OnInit {
     let parametrosUlrMap: Map<string, string> = new Map<string, string>();
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
-    parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
-    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
+    parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[0].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[3].path);
 
     return parametrosUlrMap;
   }

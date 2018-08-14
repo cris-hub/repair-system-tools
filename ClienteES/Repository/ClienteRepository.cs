@@ -43,7 +43,7 @@ namespace ClienteES.Repository
                 var existeCliente = _context.Cliente.Any(d => d.Nit == cliente.Nit);
                 if (existeCliente)
                 {
-                    throw new Exception("Ya hay un cliente registrado con este Nickname");
+                    throw new Exception("Ya hay un cliente registrado con este Nit");
                 }
                 cliente.Guid = Guid.NewGuid();
                 cliente.FechaRegistro = DateTime.Now;
@@ -80,9 +80,9 @@ namespace ClienteES.Repository
             try
             {
                 var existeCliente = _context.Cliente.Count(d => d.Nit == cliente.Nit);
-                if (existeCliente>0)
+                if (existeCliente>1)
                 {
-                    throw new Exception("Ya hay un cliente registrado con este Nickname");
+                    throw new Exception("Ya hay un cliente registrado con este Nit");
                 }
                 
 

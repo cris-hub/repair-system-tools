@@ -25,6 +25,7 @@ export class ListarClienteComponent implements OnInit {
   @ViewChild(ConfirmacionComponent) confirmar: ConfirmacionComponent;
 
   public  registroSeleccionado: string;
+  public filter: string;
   public  clientes: ClienteModel[];
 
   // paginacion
@@ -32,7 +33,8 @@ export class ListarClienteComponent implements OnInit {
   public  parametros: ParametrosModel;
   public  responsables: CatalogoModel[];
   public  estados: EntidadModel[];
-  public  esFiltrar: boolean = false;
+  public esFiltrar: boolean = false;
+  
 
   constructor(
     public clienteSrv: ClienteService,

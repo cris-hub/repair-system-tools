@@ -346,14 +346,14 @@ namespace ProcesoES.Repository
         public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipoPorFiltro(ParametrosProcesosoDTO parametrosDTO, UsuarioDTO usuarioDTO)
         {
             var query = _context.Proceso
-                .Where(c => c.TipoProceso.Id == parametrosDTO.TipoProceso || parametrosDTO.TipoProceso == 0)
-                .Where(c => c.OrdenTrabajo.Prioridad.Id == parametrosDTO.OrdenTrabajoPrioridad || parametrosDTO.OrdenTrabajoPrioridad == 0)
-                .Where(c => c.EstadoId == parametrosDTO.Estado || parametrosDTO.Estado == 0)
+                .Where(c => c.TipoProceso.Valor == parametrosDTO.TipoProceso || String.IsNullOrEmpty(parametrosDTO.TipoProceso))
+                .Where(c => c.OrdenTrabajo.Prioridad.Valor == parametrosDTO.OrdenTrabajoPrioridad || String.IsNullOrEmpty(parametrosDTO.OrdenTrabajoPrioridad))
+                .Where(c => c.Estado.Valor.ToLower().Contains(parametrosDTO.Estado.ToLower()) || String.IsNullOrEmpty(parametrosDTO.Estado))
                 .Where(c => c.OrdenTrabajoId.ToString().Contains(parametrosDTO.NumeroOIT) || String.IsNullOrEmpty(parametrosDTO.NumeroOIT))
                 .Where(c => c.FechaRegistro.ToString().Contains(parametrosDTO.Fecha) || String.IsNullOrEmpty(parametrosDTO.Fecha))
                 .Where(c => c.OrdenTrabajo.SerialHerramienta.ToString().Contains(parametrosDTO.SerialHerramienta) || String.IsNullOrEmpty(parametrosDTO.SerialHerramienta))
                 .Where(c => c.OrdenTrabajo.Herramienta.Nombre.Contains(parametrosDTO.HerraminetaNombre) || String.IsNullOrEmpty(parametrosDTO.HerraminetaNombre))
-                .Where(c => c.OrdenTrabajo.Cliente.NickName.Contains(parametrosDTO.ClienteNickname) || String.IsNullOrEmpty(parametrosDTO.ClienteNickname));
+                .Where(c => c.OrdenTrabajo.Cliente.NickName.ToLower().Contains(parametrosDTO.ClienteNickname.ToLower()) || String.IsNullOrEmpty(parametrosDTO.ClienteNickname));
 
 
             var result = await query.Skip(parametrosDTO.RegistrosOmitir())
@@ -502,11 +502,11 @@ namespace ProcesoES.Repository
                 return procesoReasignacionRehazado;
 
             }
-            
+
             Proceso procesoReasignacion = new Proceso()
             {
                 TipoProcesoAnteriorId = proceso.TipoProcesoAnteriorId,
-                TipoProcesoId =  proceso.TipoProcesoSiguienteId,
+                TipoProcesoId = proceso.TipoProcesoSiguienteId,
                 Reasignado = proceso.Reasignado,
                 Guid = Guid.NewGuid(),
                 EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
@@ -584,6 +584,28 @@ namespace ProcesoES.Repository
 
 
                 return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Proceso> ConsultarProcesoPorTipoYOrdenTrabajo(int tipoProceso, Guid guidOrdenTrabajo, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo);
+                
+                var procesos = query.Where(proceso => proceso.OrdenTrabajo.Guid == guidOrdenTrabajo && proceso.TipoProcesoId == tipoProceso);
+                var ordenadosPorultimaCreacion = procesos.OrderBy(t => t.FechaRegistro);
+
+                Proceso procesoResult = await ordenadosPorultimaCreacion.FirstAsync();
+
+                return procesoResult;
+
+                throw new NotImplementedException();
             }
             catch (Exception)
             {

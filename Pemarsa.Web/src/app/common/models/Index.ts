@@ -21,6 +21,7 @@ export * from './FormatoParametroModel';
 export * from './OrdenTrabajoModel';
 export * from './OrdenTrabajoAnexosModel';
 export * from './OrdenTrabajoHistorialModificacionModel';
+export * from './OrdenTrabajoHistorialProcesosModel';
 export * from './ProcesoModel';
 export * from './DetalleSoldaduraModel';
 export * from './InspeccionConexionFormatoParametrosModel';

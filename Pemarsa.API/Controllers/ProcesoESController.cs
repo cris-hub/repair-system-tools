@@ -213,6 +213,21 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpGet("ConsultarProcesoPorTipoYOrdenTrabajo")]
+        public async Task<IActionResult> ConsultarProcesoPorTipoYOrdenTrabajo([FromQuery]int tipoProceso,[FromQuery]string guidOit)
+        {
+            try
+            {
+                Proceso proceso = await _procesoService.ConsultarProcesoPorTipoYOrdenTrabajo(tipoProceso, Guid.Parse(guidOit), new UsuarioDTO());
+                
+
+                return Ok(proceso);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
     }
 }

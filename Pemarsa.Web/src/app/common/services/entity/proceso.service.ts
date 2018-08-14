@@ -11,6 +11,7 @@ import { CatalogoModel, ProcesoModel, InspeccionModel } from "../../models/Index
 export class ProcesoService {
 
 
+  
   public crearProceso(proceso: ProcesoModel): Observable<string> {
     return this.http.post<string>(this.urlServer + 'CrearProceso', proceso, {
       headers: this.header
@@ -95,5 +96,11 @@ export class ProcesoService {
     return this.http.get<InspeccionModel>(this.urlServer + 'ConsultarSiguienteInspeccion?guidProceso=' + guidProceso + '&pieza=' + pieza, {
       headers: this.header
     });
+  }
+
+  public consultarProcesosPorTipoPorFiltro(filtro: any): Observable<ListadoResponseModel> {
+    var x = this.obj_to_query(filtro);
+    return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarProcesosPorTipoPorFiltro" + x,
+      { headers: this.header });
   }
 }

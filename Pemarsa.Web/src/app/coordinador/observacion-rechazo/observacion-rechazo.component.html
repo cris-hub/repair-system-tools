@@ -1,0 +1,46 @@
+<!-- Modal -->
+
+<div class="form-group row">
+
+  <div class="btn-group col-md-offset-4 " role="group" aria-label="Basic example">
+    <button class="btn btn-danger"
+            data-target="#siguienteProcesoModal"
+            data-toggle="modal"
+            #butonA
+            (click)="event(butonA)">
+      rechazar
+    </button>
+  </div>
+</div>
+
+
+<div *ngIf="abrilModal " class="modal" id="siguienteProcesoModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="z-index: 4000;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{titulo}}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label " id="corre">
+            Proceso sugerido
+          </label>
+          <div class="col-md-6">
+            <p>
+              {{data.TipoProcesoSiguienteSugerido.Valor}}
+            </p>
+          </div>
+        </div>
+
+        <select (change)="seleccionarSiguienteProceso($event.target.value)" class="custom-select mr-sm-2 form-control-lg">
+          <option value="0">Seleccione</option>
+          <option *ngFor="let tipoProceso of tiposProcesos" [value]="tipoProceso.Id">{{tipoProceso.Valor}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="Cancelar" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

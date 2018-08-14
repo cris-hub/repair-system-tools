@@ -4,7 +4,7 @@
   <span class="glyphicon glyphicon-filter"></span>
 </a>
 <div class="dropdown-menu">
-  <form [formGroup]="frmFiltroCliente" class="px-4 py-3">
+  <form [formGroup]="formulario" class="px-4 py-3">
     <div class="form-group">
       <label for="RazonSocial" style="color: #6c757d;"><b>Razón social</b></label>
       <input type="text" class="form-control" formControlName="RazonSocial" placeholder="Razón social">
@@ -23,10 +23,14 @@
     </div>
     <div class="form-group" *ngIf="estadosCatalogo">
       <label for="Estado" style="color: #6c757d;"><b>Estado</b></label>
-      <select class="form-control form-control-lg" formControlName="Estado" >
+      <select class="form-control form-control-lg" formControlName="Estado">
         <option *ngFor="let estadoCatalogo of estadosCatalogo" [value]="estadoCatalogo.Valor">{{estadoCatalogo.Valor}}</option>
       </select>
     </div>
+    <div class="btn-group">
+
+    <button (click)="limpiarFormulario()" role="button" id="clear" type="button" class="btn btn-primary">Limpiar</button>
     <button (click)="submitFiltro(frmFiltroCliente.value)" class="btn btn-primary">Filtrar</button>
+    </div>
   </form>
 </div>

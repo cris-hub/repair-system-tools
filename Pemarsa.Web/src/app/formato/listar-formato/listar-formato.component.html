@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <input   [(ngModel)]="filter" type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
       <br />
     </div>
 
@@ -74,7 +74,8 @@
             <tr *ngFor="let formato of formatos | paginate:{ itemsPerPage: paginacion.CantidadRegistros,
                                                              currentPage: paginacion.PaginaActual,
                                                              totalItems: paginacion.TotalRegistros,
-                                                             id: 'formato'}">
+                                                             id: 'formato'}
+                                                | filter:filter">
               <td>{{formato.Codigo}}</td>
               <td>{{formato.Conexion.Valor}}</td>
               <td>

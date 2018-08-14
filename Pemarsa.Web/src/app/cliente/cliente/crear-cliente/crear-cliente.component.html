@@ -11,9 +11,11 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
           <br />
-          <h3 *ngIf="esActualizar != true && esVer == false">Crear cliente</h3>
-          <h3 *ngIf="esActualizar == true && esVer == false">Editar cliente</h3>
-          <h3 *ngIf="esVer">Detalle cliente</h3>
+          
+            <h3 *ngIf="esActualizar != true && esVer == false"><b>Crear cliente</b></h3>
+            <h3 *ngIf="esActualizar == true && esVer == false"><b>Editar cliente</b></h3>
+            <h3 *ngIf="esVer"><b>Detalle cliente</b></h3>
+          
         </div>
       </div>
       <hr />
@@ -24,7 +26,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Razón social:
+              Razón social:
             </label>
             <div class="col-md-8">
               <input [attr.disabled]="esVer == true ? '' : null"
@@ -39,7 +41,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *NickName:
+              NickName:
             </label>
             <div class="col-md-8">
               <input [attr.disabled]="esVer == true ? '' : null"
@@ -54,7 +56,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Nit:
+              Nit:
             </label>
             <div class="col-md-3">
               <input [attr.disabled]="esVer == true ? '' : null"
@@ -66,7 +68,7 @@
                      placeholder="Nit">
             </div>
             <label class="col-md-2 col-form-label" id="corre">
-              *Teléfono:
+              Teléfono:
             </label>
             <div class="col-md-3">
               <input [attr.disabled]="esVer == true ? '' : null"
@@ -96,7 +98,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Dirección entrega:
+              Dirección entrega:
             </label>
             <div class="col-md-8">
               <input [attr.disabled]="esVer == true ? '' : null"
@@ -110,11 +112,11 @@
           <div class="form-group row">
             <div class="col-md-12 col-lg-10 col-sm-12 col-md-offset-1">
               <div class="panel panel-default">
-                <div class="panel-heading">Persona contacto</div>
+                <div class="panel-heading text-center"><b>Persona contacto</b></div>
                 <div class="panel-body">
                   <div class="form-group row">
                     <label class="col-md-2 col-form-label" id="corre">
-                      *Nombre:
+                      Nombre:
                     </label>
                     <div class="col-md-9">
                       <input [attr.disabled]="esVer == true ? '' : null" type="text"
@@ -125,7 +127,7 @@
                   </div>
                   <div class="form-group row">
                     <label class="col-md-2 col-form-label" id="corre">
-                      *Teléfono:
+                      Teléfono:
                     </label>
                     <div class="col-md-4">
                       <input [attr.disabled]="esVer == true ? '' : null" type="tel"
@@ -133,7 +135,7 @@
                              formControlName="ContactoTelefono" name="ContactoTelefono" class="form-control" placeholder="Teléfono">
                     </div>
                     <label class="col-md-1 col-form-label" id="corre">
-                      *Correo:
+                      Correo:
                     </label>
                     <div class="col-md-4">
                       <input [attr.disabled]="esVer == true ? '' : null" type="text"
@@ -148,7 +150,7 @@
 
           <div class="form-group row">
             <label class="col-md-3 col-form-label" id="corre">
-              *Responsable:
+              Responsable:
             </label>
             <div class="col-md-8">
 
@@ -164,10 +166,10 @@
 
           <div class="form-group row" *ngIf="!esVer">
             <label class="col-md-3 col-form-label" id="corre">
-              <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus iconox20"> </i>
+              <button data-toggle="modal" type="button" data-target="#LineaClienteModal" title="Crear nueva linea para el cliente" (click)="nuevoDataLineaCliente('crear')" class="btn btn-outline-secondary glyphicon glyphicon-plus iconox20"> </button>
             </label>
             <div class="col-md-8">
-              <label class="col-md-11 col-form-label float-lg-left">
+              <label class="col-md-11 col-form-label">
                 Agregar líneas de negocio
               </label>
             </div>
@@ -182,7 +184,7 @@
                     <tr class="titleTable">
                       <th class="text-center">Nombre de linea</th>
                       <th class="text-center">Nombre de contacto</th>
-                      <th class="text-center">Telefono</th>
+                      <th class="text-center">Teléfono</th>
                       <th class="text-center">Correo</th>
                       <th class="text-center">Acciones</th>
                     </tr>
@@ -194,9 +196,11 @@
                       <td>{{linea.ContactoTelefono}}</td>
                       <td>{{linea.ContactoCorreo}}</td>
                       <td>
-                        <i *ngIf="!esVer" data-toggle="modal" data-target="#LineaClienteModal" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="glyphicon glyphicon-pencil pointer"></i>
-                        &nbsp;
-                        <i *ngIf="!esVer" class="glyphicon glyphicon-minus pointer" (click)="eliminarCliente(linea)" data-container="body" data-toggle="popover" data-placement="right" data-content="Optional"></i>
+                        <div class="btn-group">
+                          <button *ngIf="!esVer" data-toggle="modal" data-target="#LineaClienteModal" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="btn btn-outline-secondary glyphicon glyphicon-pencil pointer"  title="editar linea" ></button>
+                          &nbsp;
+                          <button *ngIf="!esVer" class="btn btn-outline-secondary glyphicon glyphicon-minus pointer" (click)="eliminarCliente(linea)" data-container="body" data-toggle="popover" title="eliminar linea" data-placement="right" data-content="Optional"></button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>

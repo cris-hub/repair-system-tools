@@ -196,7 +196,7 @@ namespace Pemarsa.API.Controllers
             }
         }
 
-        [HttpGet("ActualizarEstadoOrdenDeTrabajo")]
+        [HttpPost("ActualizarEstadoOrdenDeTrabajo")]
         public async Task<IActionResult> ActualizarEstadoOrdenDeTrabajo([FromQuery]string guidSolicitudOrdenTrabajo, [FromQuery]string estado)
         {
             try
@@ -223,6 +223,22 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("ConsultarHistorialProcesosDeOrdenDeTrabajo")]
+        public async Task<IActionResult> ConsultarHistorialProcesosDeOrdenDeTrabajo([FromQuery]string guidOrdenTrabajo)
+        {
+            try
+            {
+                List<OrdenTrabajoHistorialProcesoDTO> historial = (await _ordenTrabajoServicio.ConsultarHistorialProcesosDeOrdenDeTrabajo(Guid.Parse(guidOrdenTrabajo), new UsuarioDTO())).ToList();
+
+                return Ok(historial);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
 
     }
 }

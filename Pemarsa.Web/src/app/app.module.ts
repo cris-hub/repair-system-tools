@@ -36,10 +36,11 @@ import { CoordinadorModule } from './coordinador/coordinador.module';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent 
+    HomeComponent,
     
 
   ],
@@ -50,7 +51,7 @@ import { CoordinadorModule } from './coordinador/coordinador.module';
     ClienteModule,
     AutoCompleteModule,
     FormatoModule,
-
+ 
     OrdenTrabajoModule,
     HerramientaModule,
     ProcesoModule,

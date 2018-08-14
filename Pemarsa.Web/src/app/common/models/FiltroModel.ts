@@ -80,3 +80,27 @@ export class FiltroOrdenTrabajoModel extends PaginacionModel {
     this.TipoServio = 0;
   }
 }
+export class FiltroParametrosProcesosoModel extends PaginacionModel {
+  public OrdenTrabajoPrioridad:string
+  public Estado:string
+  public TipoProceso:string
+  public NumeroOIT:string
+  public HerraminetaNombre:string
+  public ClienteNickname:string
+  public SerialHerramienta:string
+  public Fecha :Date
+
+
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros);
+    this.OrdenTrabajoPrioridad = ''
+    this.Estado = ''
+    this.TipoProceso = ''
+    this.NumeroOIT = ''
+    this.HerraminetaNombre = ''
+    this.ClienteNickname = ''
+    this.SerialHerramienta = ''
+    this.Fecha = new Date();
+  }
+}

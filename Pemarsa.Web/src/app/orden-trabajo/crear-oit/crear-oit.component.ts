@@ -148,7 +148,7 @@ export class CrearOitComponent implements OnInit {
         this.clienteService.consultarLineasPorGuidCliente(this.Cliente.Guid).
           subscribe(response => {
             this.lineas = response;
-         
+
 
           })
       }
@@ -291,6 +291,7 @@ export class CrearOitComponent implements OnInit {
   }
 
   consultarOrdenTrabajo() {
+    this.loaderService.display(true);
     this.inicializarFormulario(new OrdenTrabajoModel());
     if (this.accionRealizarTituloPagina == 'Procesar') {
       this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
@@ -302,6 +303,8 @@ export class CrearOitComponent implements OnInit {
         this.consultarHerraminetas();
 
         this.inicializarFormulario(this.ordenTrabajo)
+        this.loaderService.display(false);
+
 
       });
     }
@@ -315,6 +318,8 @@ export class CrearOitComponent implements OnInit {
 
           response.TamanoHerramienta != null ? this.ordenTrabajo.TamanoHerramienta = response.TamanoHerramienta : this.ordenTrabajo.TamanoHerramienta = new HerramientaTamanoModel();
           this.inicializarFormulario(this.ordenTrabajo)
+          this.loaderService.display(false);
+
 
         })
       }
@@ -331,14 +336,17 @@ export class CrearOitComponent implements OnInit {
   }
 
   inicializarFormulario(ordenTrabajo: OrdenTrabajoModel) {
+    if (this.herramienta.Materiales) {
 
-    if (this.herramienta.Materiales.length > 0) {
-      if (this.herramienta.Materiales.find(c => { return c.Id == this.materialId || c.Id == ordenTrabajo.MaterialId })) {
-        if (ordenTrabajo.MaterialId) {
-          this.material = this.herramienta.Materiales.find(c => { return c.Id == ordenTrabajo.MaterialId });
-          this.materialId = ordenTrabajo.MaterialId
-        } else {
-          this.material = this.herramienta.Materiales.find(c => { return c.Id == this.materialId });
+
+      if (this.herramienta.Materiales.length > 0) {
+        if (this.herramienta.Materiales.find(c => { return c.Id == this.materialId || c.Id == ordenTrabajo.MaterialId })) {
+          if (ordenTrabajo.MaterialId) {
+            this.material = this.herramienta.Materiales.find(c => { return c.Id == ordenTrabajo.MaterialId });
+            this.materialId = ordenTrabajo.MaterialId
+          } else {
+            this.material = this.herramienta.Materiales.find(c => { return c.Id == this.materialId });
+          }
         }
       }
     }
@@ -367,7 +375,7 @@ export class CrearOitComponent implements OnInit {
 
 
 
-      MaterialId: [this.material.Id],
+      MaterialId: [this.material.Id == 0 ? null : this.material.Id ],
 
 
       TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],

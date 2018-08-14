@@ -1,0 +1,74 @@
+<br />
+<div class="container-fluid">
+  <div class="row titulo">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <h3 class="margin-20 text-center">Historial procesos OIT´s</h3>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <input type="text" [(ngModel)]="filter" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <br />
+    </div>
+
+
+
+  </div>
+  <div class="row contenido-interno-listar">
+    <div class="col-12">
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Número de OIT:​ </label>
+        <p>{{ordenTrabajo.Id}}</p>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Responsable:​ </label>
+        <p>{{ordenTrabajo.Responsable.Valor}}</p>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Cliente:​ </label>
+        <p>{{ordenTrabajo.Cliente.NickName}}</p>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-2 control-label" id="corre">Fecha:​ </label>
+        <p>{{ordenTrabajo.FechaRegistro}}</p>
+      </div>
+
+
+      <div class="table-responsive-sm table-responsive-md">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr class="titleTable text-center">
+              <th>Proceso</th>
+              <th>Operario</th>
+              <th>Fecha de finalización​</th>
+              <th>Proceso anterior​</th>
+              <th>Libera proceso anterior​</th>
+              <th>Estado</th>
+              <th>Observaciones</th>
+            </tr>
+          </thead>
+          <tbody class="font-black center-table">
+            <tr *ngFor="let historial of historialProcesos  | filter:filter">
+              <td>{{historial.TipoProcesoId | CatalogoPipe:ParametrosCatalogo}}</td>
+              <td>{{historial.NombreOperario}}</td>
+              <td>{{historial.FechaFinalizacion}}</td>
+              <td>{{historial.TipoProcesoAnteriorId | CatalogoPipe:ParametrosCatalogo}}</td>
+              <td>{{historial.NombreLiberaProcesoAnterior}}</td>
+              <td>{{historial.EstadoProceso | CatalogoPipe:ParametrosCatalogo}}</td>
+              <td>{{historial.Observaciones}}</td>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--Paginacion -->
+
+  </div>
+</div>
+
+
+
+
+

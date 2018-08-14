@@ -43,8 +43,8 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                
-                if (solicitudOrdenTrabajo.Remision != null )
+
+                if (solicitudOrdenTrabajo.Remision != null)
                 {
                     await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(solicitudOrdenTrabajo.Remision);
                 }
@@ -112,12 +112,12 @@ namespace OrdenTrabajoES.Service
                 {
                     Proceso proceso = new Proceso();
                     proceso = AsignarValoresOrdenTrabajoAProceso(ordenTrabajo);
-                    await _procesoService.CrearProceso(proceso,usuario);
+                    await _procesoService.CrearProceso(proceso, usuario);
                 }
                 else
                 {
 
-                
+
 
                     OrdenTrabajo OrdenTrabajo = await _ordenTrabajoRepositorio.CrearOrdenDeTrabajo(ordenTrabajo, usuario);
 
@@ -134,18 +134,18 @@ namespace OrdenTrabajoES.Service
                         }
                         else
                         {
-                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto);
+                            await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(anexo.DocumentoAdjunto);
                         }
                     }
-                     OrdenTrabajo.Anexos = ordenTrabajo.Anexos;
+                    OrdenTrabajo.Anexos = ordenTrabajo.Anexos;
 
                     if (OrdenTrabajo != null)
                     {
 
-                            Proceso proceso = new Proceso();
-                            proceso = AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo);
-                            await _procesoService.CrearProceso(proceso,usuario);
-                     
+                        Proceso proceso = new Proceso();
+                        proceso = AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo);
+                        await _procesoService.CrearProceso(proceso, usuario);
+
                     }
                     return OrdenTrabajo.Guid;
 
@@ -187,7 +187,7 @@ namespace OrdenTrabajoES.Service
             try
             {
 
-          
+
                 OrdenTrabajo ordenTrabajo = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoPorGuid(guidOrdenDeTrabajo, usuario);
 
 
@@ -252,7 +252,7 @@ namespace OrdenTrabajoES.Service
                     }
                 }
 
-              
+
 
 
                 return await _ordenTrabajoRepositorio.ActualizarOrdenDeTrabajo(ordenTrabajo, usuario);
@@ -260,14 +260,14 @@ namespace OrdenTrabajoES.Service
             catch (Exception e) { throw e; }
         }
 
-        
+
 
         private static Proceso AsignarValoresOrdenTrabajoAProceso(OrdenTrabajo ordenTrabajo)
         {
             Proceso proceso = new Proceso()
             {
                 CantidadInspeccion = ordenTrabajo.CantidadInspeccionar,
-                
+
                 OrdenTrabajoId = ordenTrabajo.Id
             };
             return proceso;
@@ -275,12 +275,26 @@ namespace OrdenTrabajoES.Service
 
         public async Task<bool> CrearHistorialModificacionesOrdenDeTrabajo(List<OrdenTrabajoHistorialModificacion> modificacionesOrdenTrabajo, UsuarioDTO usuario)
         {
-            return await _ordenTrabajoRepositorio.CrearHistorialModificacionesOrdenDeTrabajo(modificacionesOrdenTrabajo,usuario);
+            return await _ordenTrabajoRepositorio.CrearHistorialModificacionesOrdenDeTrabajo(modificacionesOrdenTrabajo, usuario);
         }
 
         public async Task<Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>> ConsultarHistorialModificacionesOrdenDeTrabajo(Guid guidOrdenTrabajo, Paginacion paginacion, UsuarioDTO usuario)
         {
-            return await _ordenTrabajoRepositorio.ConsultarHistorialModificacionesOrdenDeTrabajo(guidOrdenTrabajo,paginacion,usuario);
+            return await _ordenTrabajoRepositorio.ConsultarHistorialModificacionesOrdenDeTrabajo(guidOrdenTrabajo, paginacion, usuario);
+        }
+
+        public async Task<IEnumerable<OrdenTrabajoHistorialProcesoDTO>> ConsultarHistorialProcesosDeOrdenDeTrabajo(Guid guid, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                IEnumerable < OrdenTrabajoHistorialProcesoDTO > historialProcesos = await _ordenTrabajoRepositorio.ConsultarHistorialProcesosDeOrdenDeTrabajo(guid, usuarioDTO);
+                return historialProcesos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

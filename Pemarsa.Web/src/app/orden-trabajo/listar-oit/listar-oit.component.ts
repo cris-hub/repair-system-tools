@@ -4,6 +4,7 @@ import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../common/services/entity/loaderService';
 
 
 @Component({
@@ -21,11 +22,12 @@ export class ListarOitComponent implements OnInit {
   
 
   public  paginacion: PaginacionModel;
-
+  public filter: string
   constructor(
     private ordenTrabajoService: OrdenTrabajoService,
     private parametroSrv: ParametroService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loaderService: LoaderService
   ) {
   }
 
@@ -47,11 +49,13 @@ export class ListarOitComponent implements OnInit {
   }
 
   consultarOrdenesDeTrabajo() {
+    this.loaderService.display(true);
     this.ordenTrabajoService.consultarOrdenesDeTrabajo(this.paginacion)
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
         this.inicializarHerramienta();
         this.paginacion.TotalRegistros = response.CantidadRegistros;
+        this.loaderService.display(false);
       });
   }
 

@@ -78,7 +78,6 @@ namespace Pemarsa.Domain
 
         public virtual ICollection<OrdenTrabajoHistorialModificacion> HistorialModificaciones { get; set; }
         public virtual ICollection<Proceso> Procesos { get; set; }
-        public virtual ICollection<OrdenTrabajoHistorialProceso> HistorialProcesos { get; set; }
         public virtual ICollection<OrdenTrabajoAnexos> Anexos { get; set; }
 
 

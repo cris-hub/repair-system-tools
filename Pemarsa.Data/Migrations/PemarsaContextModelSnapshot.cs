@@ -1195,34 +1195,6 @@ namespace Pemarsa.Data.Migrations
                     b.ToTable("OrdenTrabajoHistorialModificacion");
                 });
 
-            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialProceso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EstadoProceso");
-
-                    b.Property<DateTime>("FechaProceso");
-
-                    b.Property<int>("LiberaProcesoAnteriorId");
-
-                    b.Property<string>("Observaciones");
-
-                    b.Property<int>("OperarioId");
-
-                    b.Property<int?>("OrdenTrabajoId");
-
-                    b.Property<int>("TipoProcesoAnteriorId");
-
-                    b.Property<int>("TipoProcesoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrdenTrabajoId");
-
-                    b.ToTable("OrdenTrabajoHistorialProceso");
-                });
-
             modelBuilder.Entity("Pemarsa.Domain.Parametro", b =>
                 {
                     b.Property<string>("Entidad")
@@ -1284,6 +1256,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("EstadoId");
 
+                    b.Property<DateTime?>("FechaFinalizacion");
+
                     b.Property<DateTime?>("FechaModifica");
 
                     b.Property<DateTime>("FechaRegistro");
@@ -1293,6 +1267,12 @@ namespace Pemarsa.Data.Migrations
                     b.Property<Guid>("GuidOperario");
 
                     b.Property<Guid>("GuidOrganizacion");
+
+                    b.Property<Guid>("GuidPersonaAsignaOperario");
+
+                    b.Property<Guid>("GuidPersonaCompleta");
+
+                    b.Property<Guid>("GuidPersonaLibera");
 
                     b.Property<Guid>("GuidUsuarioCrea");
 
@@ -1304,6 +1284,12 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("NombreOperario");
 
+                    b.Property<string>("NombrePersonaAsignaOperario");
+
+                    b.Property<string>("NombrePersonaCompleta");
+
+                    b.Property<string>("NombrePersonaLibera");
+
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()
                         .HasMaxLength(60);
@@ -1312,6 +1298,8 @@ namespace Pemarsa.Data.Migrations
                         .HasMaxLength(60);
 
                     b.Property<int?>("NormaId");
+
+                    b.Property<string>("ObservacionRechazo");
 
                     b.Property<int>("OrdenTrabajoId");
 
@@ -1333,7 +1321,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("TipoSoldaduraId");
 
-                    b.Property<string>("TrabajoRealizadoId");
+                    b.Property<string>("TrabajoRealizado");
 
                     b.Property<string>("TrabajoRealizar");
 
@@ -1889,13 +1877,6 @@ namespace Pemarsa.Data.Migrations
                         .WithMany("HistorialModificaciones")
                         .HasForeignKey("OrdenTrabajoId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialProceso", b =>
-                {
-                    b.HasOne("Pemarsa.Domain.OrdenTrabajo")
-                        .WithMany("HistorialProcesos")
-                        .HasForeignKey("OrdenTrabajoId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.ParametroCatalogo", b =>
