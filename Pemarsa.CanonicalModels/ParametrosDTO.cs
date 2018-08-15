@@ -12,6 +12,9 @@ namespace Pemarsa.CanonicalModels
         public string Telefono { get; set; }
         public string Direccion { get; set; }
         public string Estado { get; set; }
+        public string Codigo { get; set; }
+        public string FechaCreacion { get; set; }
+        public string FormatoAdjunto { get; set; }
         public string HerramientaId { get; set; }
         public string Conexion { get; set; }
         public string TipoConexion { get; set; }

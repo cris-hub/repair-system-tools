@@ -40,6 +40,9 @@ export class FiltroClienteComponent {
       e.stopPropagation();
     });
     this.formulario.reset(new FiltroModel(1, 30));
+    this.filtro = new FiltroModel(1,30);
+
+    this.paramsFiltro.emit(this.filtro);
   }
 
   @HostListener("click", ["$event"])

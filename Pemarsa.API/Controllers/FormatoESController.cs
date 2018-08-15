@@ -87,6 +87,9 @@ namespace Pemarsa.API.Controllers
                 {
                     CantidadRegistros = parametrosDTO.CantidadRegistros,
                     PaginaActual = parametrosDTO.PaginaActual,
+                    Codigo = parametrosDTO.Codigo,
+                    FechaCreacion = parametrosDTO.FechaCreacion,
+                    FormatoAdjunto = parametrosDTO.FormatoAdjunto,
                     HerramientaId = parametrosDTO.HerramientaId,
                     HerramientaGuid = parametrosDTO.HerramientaGuid,
                     Conexion = parametrosDTO.Conexion,

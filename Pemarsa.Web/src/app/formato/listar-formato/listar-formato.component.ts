@@ -68,6 +68,7 @@ export class ListarFormatoComponent implements OnInit {
 
 
   consultarFormatoPorFiltro(filtro) {
+    debugger;
     filtro.PaginaActual = this.paginacion.PaginaActual;
     filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
     console.log(filtro)
