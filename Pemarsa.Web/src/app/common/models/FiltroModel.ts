@@ -93,8 +93,8 @@ export class FiltroParametrosProcesosoModel extends PaginacionModel {
   public NumeroOIT:string
   public HerraminetaNombre:string
   public ClienteNickname:string
-  public SerialHerramienta:string
-  public Fecha :Date
+  public SerialHerramienta: string
+  public Fecha: string
 
 
 
@@ -107,6 +107,6 @@ export class FiltroParametrosProcesosoModel extends PaginacionModel {
     this.HerraminetaNombre = ''
     this.ClienteNickname = ''
     this.SerialHerramienta = ''
-    this.Fecha = new Date();
+    this.Fecha = ''
   }
 }
