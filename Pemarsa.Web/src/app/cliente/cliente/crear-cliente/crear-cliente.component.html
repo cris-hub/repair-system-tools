@@ -166,8 +166,8 @@
           <br />
           <br />  
           <div class="form-group row" >
-            <label *ngIf="!esVer" class="col-md-1 col-form-label" id="corre">
-              <i data-toggle="modal" data-target="#LineaClienteModal" title="Crear nueva linea para el cliente" (click)="nuevoDataLineaCliente('crear')" class=" glyphicon glyphicon-plus iconox20"> </i>
+            <label class="col-md-1 col-form-label" id="corre">
+              <i data-toggle="modal" data-target="#LineaClienteModal" *ngIf="!esVer" title="Crear nueva linea para el cliente" (click)="nuevoDataLineaCliente('crear')" class=" glyphicon glyphicon-plus iconox20"> </i>
             </label>
             <div class="col-md-8">
               <label class="col-md-11 col-form-label">
