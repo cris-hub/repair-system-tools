@@ -469,7 +469,10 @@ namespace ProcesoES.Repository
                     _context.Entry(procesoBD).CurrentValues.SetValues(proceso);
                     _context.Entry(proceso).State = EntityState.Detached;
                     _context.Entry(procesoBD).State = EntityState.Detached;
+                    var procesoAnterior = _context.Proceso.FirstOrDefault(d => d.Id == proceso.ProcesoAnteriorId);
+                    
                     Proceso nuevoProceso = AsignarValoresProcesoReasignacion(procesoBD);
+                    nuevoProceso.CantidadInspeccion = procesoAnterior.CantidadInspeccion;
                     _context.Proceso.Add(nuevoProceso);
 
 
