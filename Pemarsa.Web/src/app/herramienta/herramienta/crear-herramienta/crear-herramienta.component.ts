@@ -439,6 +439,9 @@ export class CrearHerramientaComponent implements OnInit {
 
   //Funcion para implementar el modal con la informacion respectiva
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    debugger;
+    if (this.esActualizar) Mensaje = "¿Desea finalizar la actualización de la Herramienta?";
+    
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
 
