@@ -59,7 +59,7 @@
               Nit:
             </label>
             <div class="col-md-3">
-              <input [attr.disabled]="esVer == true ? '' : null"
+              <input [attr.disabled]="esVer == true ? '' : null || esActualizar == true ? '' : null "
                      type="text"
                      formControlName="Nit"
                      validacion [validaciones]="['requerido']"
@@ -112,7 +112,7 @@
           <div class="form-group row">
             <div class="col-md-12 col-lg-10 col-sm-12 col-md-offset-1">
               <div class="panel panel-default">
-                <div class="panel-heading text-center"><b>Persona contacto</b></div>
+                <div class="panel-heading "><b>Persona contacto</b></div>
                 <div class="panel-body">
                   <div class="form-group row">
                     <label class="col-md-2 col-form-label" id="corre">
@@ -163,14 +163,15 @@
               </select>
             </div>
           </div>
-
-          <div class="form-group row" *ngIf="!esVer">
-            <label class="col-md-3 col-form-label" id="corre">
-              <button data-toggle="modal" type="button" data-target="#LineaClienteModal" title="Crear nueva linea para el cliente" (click)="nuevoDataLineaCliente('crear')" class="btn btn-outline-secondary glyphicon glyphicon-plus iconox20"> </button>
+          <br />
+          <br />  
+          <div class="form-group row" >
+            <label *ngIf="!esVer" class="col-md-1 col-form-label" id="corre">
+              <i data-toggle="modal" data-target="#LineaClienteModal" title="Crear nueva linea para el cliente" (click)="nuevoDataLineaCliente('crear')" class=" glyphicon glyphicon-plus iconox20"> </i>
             </label>
             <div class="col-md-8">
               <label class="col-md-11 col-form-label">
-                Agregar líneas de negocio
+                líneas de negocio
               </label>
             </div>
           </div>
@@ -197,9 +198,9 @@
                       <td>{{linea.ContactoCorreo}}</td>
                       <td>
                         <div class="btn-group">
-                          <button *ngIf="!esVer" data-toggle="modal" data-target="#LineaClienteModal" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="btn btn-outline-secondary glyphicon glyphicon-pencil pointer"  title="editar linea" ></button>
+                          <i *ngIf="!esVer" data-toggle="modal" data-target="#LineaClienteModal" (click)="llenarDataLineaCliente(linea, 'editar', i)" class="glyphicon glyphicon-pencil pointer"  title="Editar linea" ></i>
                           &nbsp;
-                          <button *ngIf="!esVer" class="btn btn-outline-secondary glyphicon glyphicon-minus pointer" (click)="eliminarCliente(linea)" data-container="body" data-toggle="popover" title="eliminar linea" data-placement="right" data-content="Optional"></button>
+                          <i *ngIf="!esVer" class=" glyphicon glyphicon-minus pointer" (click)="eliminarCliente(linea)" data-container="body" data-toggle="popover" title="Eliminar linea" data-placement="right" data-content="Optional"></i>
                         </div>
                       </td>
                     </tr>

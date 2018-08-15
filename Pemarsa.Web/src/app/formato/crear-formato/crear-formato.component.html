@@ -33,11 +33,11 @@
             </label>
             <div class="col-md-4">
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="!esTipoFormatoConexion(formatoModel)" (change)="limpiarFormulario()" id="formatoOtros" value="19">
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="formatoModel.TipoFormatoId == 19" (change)="limpiarFormulario()" id="formatoOtros" [value]="19">
                 <label class="form-check-label" for="formatoOtros">formato de otros​</label>
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" (change)="limpiarFormulario()" id="formatoConexion" value="18">
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="formatoModel.TipoFormatoId == 18" (change)="limpiarFormulario()" id="formatoConexion" [value]="18">
                 <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
               </div>
             </div>
@@ -94,11 +94,11 @@
             </label>
             <div class="col-md-4">
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" value="true">
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" [value]="true">
                 <label class="form-check-label" for="AletasSi">Si​</label>
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" value="false">
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" [value]="false">
                 <label class="form-check-label" for="AletasNo">No</label>
               </div>
             </div>
@@ -198,11 +198,17 @@
             </div>
           </div>
 
+     
 
           <!-- Tabla Aletas -->
           <div *ngIf=" (formatoModel.TipoFormatoId == 19 && formFormato.value['esAletas'] == true) ">
+         
+
             <div class="row">
               <div class="col-lg-12">
+                <i (click)="addItemFormParametroAletas()" class="pull-right">
+                  <i class="glyphicon glyphicon-plus pointer"></i>
+                </i>
                 <div class="table-responsive-sm table-responsive-md">
                   <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
                     <thead class="titleTable">
@@ -241,12 +247,9 @@
 
                         <td>
                           <div class="btn-group" role="group" style="display:flex;" aria-label="...">
-                            <button (click)="removeItemFormFormatoPatamtrosAletas(i)" *ngIf="i" class="btn btn-danger ">
+                            <i (click)="removeItemFormFormatoPatamtrosAletas(i)" >
                               <i class="glyphicon glyphicon glyphicon-minus"></i>
-                            </button>
-                            <button (click)="addItemFormParametroAletas()" class=" btn btn-success  ">
-                              <i class="glyphicon glyphicon-plus"></i>
-                            </button>
+                            </i>
                           </div>
                         </td>
                       </tr>
@@ -260,8 +263,12 @@
 
           <!-- Tabla Parametros -->
           <div *ngIf=" ( formatoModel.TipoFormatoId == 18  || formatoModel.TipoFormatoId == 19 ) ">
+            
             <div class="row">
               <div class="col-12">
+                <i (click)="addItemFormParametro()" class="pull-right">
+                  <i class="glyphicon glyphicon-plus"></i>
+                </i>
                 <div class="table-responsive-sm table-responsive-md">
                   <table *ngIf="formFormato.get('Parametros')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
                     <thead class="titleTable">
@@ -301,12 +308,10 @@
 
                         <td>
                           <div class="btn-group" role="group" style="display:flex;" aria-label="...">
-                            <button (click)="removeItemFormFormatoPatamtros(i)" *ngIf="i" class="btn btn-danger ">
+                            <i (click)="removeItemFormFormatoPatamtros(i)">
                               <i class="glyphicon glyphicon glyphicon-minus"></i>
-                            </button>
-                            <button (click)="addItemFormParametro()" class=" btn btn-success  ">
-                              <i class="glyphicon glyphicon-plus"></i>
-                            </button>
+                            </i>
+
                           </div>
                         </td>
                       </tr>

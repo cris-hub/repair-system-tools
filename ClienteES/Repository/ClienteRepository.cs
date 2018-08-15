@@ -79,7 +79,7 @@ namespace ClienteES.Repository
         {
             try
             {
-                var existeCliente = _context.Cliente.Count(d => d.Nit == cliente.Nit);
+                var existeCliente = _context.Cliente.Where(d => d.Nit == cliente.Nit).Count();
                 if (existeCliente>1)
                 {
                     throw new Exception("Ya hay un cliente registrado con este Nit");
@@ -90,7 +90,12 @@ namespace ClienteES.Repository
                                     .Include(c => c.Estado)
                                     
                                     .Include(c => c.Rut)
-                                    .SingleOrDefaultAsync(c => c.Id == cliente.Id);
+                                    .SingleOrDefaultAsync(c => c.Id == cliente.Id && c.Nit == cliente.Nit);
+
+                if (clienteBD == null)
+                {
+                    throw new Exception("Cliente no encontrado, Se encontro alguna inconsistencia en los datos del cliente ");
+                }
 
                 _context.Entry(clienteBD).CurrentValues.SetValues(cliente);
                 

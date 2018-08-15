@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { ignoreElements } from 'rxjs/operators';
+import { LoaderService } from '../../common/services/entity/loaderService';
 
 
 @Component({
@@ -77,16 +78,17 @@ export class CrearFormatoComponent implements OnInit {
     private formatoServicio: FormatoService,
     private parametroSrv: ParametroService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private loaderService : LoaderService,
 
   ) {
   }
 
   ngOnInit() {
     this.formatoModel = new FormatoModel();
+    this.cargarValores();
     this.consultarParametros('formato');
     this.listarHerramienta();
-    this.cargarValores();
 
     this.esValido = false;
   }
@@ -99,17 +101,15 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   consultarParametros(entidad: string) {
+        this.loaderService.display(true)
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
-
         this.parametrosFormatoAdendumTiposFormatos = response.Catalogos.filter(c => c.Grupo == 'FORMATO_ADENDUM');
         this.parametrosTiposFormatos = response.Catalogos.filter(c => c.Grupo == 'TIPOS_FORMATOS');
         this.parametrosEspecificacion = response.Catalogos.filter(c => c.Grupo == 'ESPECIFICACION');
         this.parametrosTipoConexion = response.Catalogos.filter(c => c.Grupo == 'TIPO_CONEXION');
-        console.log(response)
         this.parametrosConexion = response.Catalogos.filter(c => c.Grupo == 'CONEXION');
-
-
+        this.loaderService.display(false)
       }, error => { },
         () => {
           this.initFormFormatoAdendum()
@@ -185,9 +185,7 @@ export class CrearFormatoComponent implements OnInit {
   // gestion Formario 
 
   initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>, herramienta: HerramientaModel) {
-
     this.initFormularioFormatoOtros(formato, Adendum, herramienta);
-
 
     if (this.esVer) {
       this.formFormato.get('Codigo').disable();
@@ -204,10 +202,6 @@ export class CrearFormatoComponent implements OnInit {
       this.formFormato.get('Adendum').disable();
 
     }
-
-
-
-
   }
 
 
@@ -236,8 +230,8 @@ export class CrearFormatoComponent implements OnInit {
       esAletas: [formato.esAletas],
       Adendum: this.formBuilder.array([]),
       FormatoFormatoParametro: this.formBuilder.array([]),
-      Parametros: this.formBuilder.array([this.crearFormFormatoParametroModel()]),
-      Aletas: this.formBuilder.array([this.crearFormFormatoParametroModel()])
+      Parametros: this.formBuilder.array([]),
+      Aletas: this.formBuilder.array([])
     });
 
   }

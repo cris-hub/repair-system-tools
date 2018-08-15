@@ -15,6 +15,7 @@ import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/c
 import { ToastrService } from 'ngx-toastr';
 import { debug } from 'util';
 import { ClienteLineaModel } from '../../../common/models/ClienteLineaModel';
+import { LoaderService } from '../../../common/services/entity/loaderService';
 
 @Component({
   selector: 'app-listar-cliente',
@@ -39,7 +40,9 @@ export class ListarClienteComponent implements OnInit {
   constructor(
     public clienteSrv: ClienteService,
     public parametroSrv: ParametroService,
-    private toastr: ToastrService)
+    private toastr: ToastrService,
+    private loaderService : LoaderService
+  )
   {
     this.paginacion = new PaginacionModel(1, 30);
     this.parametros = new ParametrosModel();
@@ -51,10 +54,13 @@ export class ListarClienteComponent implements OnInit {
   }
 
   consultarClientes() {
+    this.loaderService.display(true);
     this.clienteSrv.consultarClientes(this.paginacion)
       .subscribe(response => {
         this.clientes = response.Listado;
         this.paginacion.TotalRegistros = response.CantidadRegistros;
+        this.loaderService.display(false);
+
       });
   }
 
@@ -69,22 +75,30 @@ export class ListarClienteComponent implements OnInit {
   }
 
   actualizarEstadoCliente(cliente: ClienteModel, estado: string) {
+    this.loaderService.display(true);
+
     this.clienteSrv.ActualizarEstadoCliente(cliente.Guid, estado)
       .subscribe(response => {
         if (response) {
           this.toastr.success('Se actualizó el estado del cliente', '');
         }
+        this.loaderService.display(false);
+
         this.consultarClientes();
       })
   }
 
   consultarParametros() {
+    this.loaderService.display(true);
+
     this.parametroSrv.consultarParametrosPorEntidad("Cliente")
       .subscribe(response => {
         this.estados = response.Catalogos.filter(c => c.Grupo == 'ESTADOS_CLIENTES');
         this.responsables = response.Catalogos.filter(c => c.Grupo == 'RESPONSABLES');
 
         this.parametros = response;
+        this.loaderService.display(false);
+
       });
   }
 
