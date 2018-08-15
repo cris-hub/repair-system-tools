@@ -37,40 +37,39 @@
                 <label class="form-check-label" for="formatoOtros">formato de otros​</label>
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="TipoFormatoId" validacion validaciones="['requerido']" class="form-check-input" type="radio" [checked]="formatoModel.TipoFormatoId == 18" (change)="limpiarFormulario()" id="formatoConexion" [value]="18">
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="formatoModel.TipoFormatoId == 18" (change)="limpiarFormulario()" id="formatoConexion" [value]="18">
                 <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
               </div>
               <label *ngIf="formFormato.get('TipoFormatoId').invalid
                       &&  (formFormato.get('TipoFormatoId').dirty
                       || formFormato.get('TipoFormatoId').touched)"
-                      class="text-danger validaciones">Este campo es obligatorio</label>
+                     class="text-danger validaciones">Este campo es obligatorio</label>
             </div>
 
-          
 
-            
+
+
           </div>
 
           <div *ngIf="formatoModel.TipoFormatoId == 18" class="form-group row">
 
             <label class="col-md-2  col-form-label" id="corre">
-              
+
               Tipo de conexión
             </label>
             <div class="col-md-3">
-              <select formControlName="TiposConexionesId" class=" form-control-lg select">
+              <select formControlName="TiposConexionesId" validacion [validaciones]="[tipoFormatoValidacionesFormatoOtros,tipoFormatoValidacionesFormatoConexiones]" class=" form-control-lg select">
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" value="{{TiposConexiones.Id}}">{{ TiposConexiones.Valor}}</option>
               </select>
 
             </div>
 
             <label class="col-md-2  col-form-label" id="corre">
-              
               Conexión
             </label>
             <div class="col-md-3">
               <div>
-                <select formControlName="ConexionId" validacion validaciones="['requerido']" class="form-control-lg select">
+                <select formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoOtros,tipoFormatoValidacionesFormatoConexiones]" class="form-control-lg select">
                   <option *ngFor="let Conexion of parametrosConexion" value="{{Conexion.Id}}">{{Conexion.Valor}}</option>
 
                 </select>
@@ -86,7 +85,7 @@
               Herramienta
             </label>
             <div formGroupName="Herramienta" class="col-md-8">
-              <select formControlName="Id" validacion validaciones="[requerido]" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
+              <select formControlName="Id" validacion [validaciones]="[tipoFormatoValidacionesFormatoOtros,tipoFormatoValidacionesFormatoConexiones]" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
                 <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta.Id}}">{{ Herramienta.Nombre }}</option>
               </select>
             </div>
@@ -102,10 +101,12 @@
             <div class="col-md-4">
               <div class="form-check form-check-inline col-md-5">
                 <label class="form-check-label" for="EsFormatoAdjuntoSi">Si​</label>
+                &nbsp;     &nbsp;
                 <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoSi" [value]="true">
               </div>
               <div class="form-check form-check-inline col-md-5">
                 <label class="form-check-label" for="EsFormatoAdjuntoNo">No</label>
+                &nbsp;     &nbsp;
                 <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoNo" [value]="false">
               </div>
             </div>
@@ -144,7 +145,7 @@
           <!-- Especificacion -->
           <div *ngIf=" ( formatoModel.TipoFormatoId == 18 ) || formatoModel.TipoFormatoId == 19 " class="form-group row">
             <label class="col-md-2  col-form-label" id="corre">
-              
+
               Especificación:
             </label>
             <div class="col-md-4">
@@ -161,7 +162,7 @@
           <div *ngIf=" ( formatoModel.TipoFormatoId == 18)">
             <div class="form-group row">
               <label class="col-md-2 col-form-label" id="corre">
-                
+
                 TPI:
               </label>
               <div class="col-md-4">
@@ -170,7 +171,7 @@
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" id="corre">
-                
+
                 TPF:
               </label>
               <div class="col-md-4">
@@ -179,6 +180,38 @@
             </div>
           </div>
 
+          <!-- Tabla ADENDUM -->
+          <div *ngIf="formatoModel.TipoFormatoId == 18 ">
+            <div *ngIf="formFormato.get('Adendum') | pemarsaAdendumPipe" class="row">
+              <div class="col-12">
+                <div class="table-responsive-sm table-responsive-md">
+                  <table formArrayName="Adendum" class="table table-bordered table-striped col-md-offset-1 col-md-10 ">
+                    <tbody>
+                      <tr *ngFor="let tipos of formFormato.get('Adendum').tipos ">
+                        <th> <p>{{tipos.Valor}} </p></th>
+                        <div *ngIf="tipos.Id ==26">
+                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8">
+
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
+                          </td>
+                        </div>
+                        <div *ngIf="tipos.Id ==27">
+                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i">
+
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
+                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
+                          </td>
+                        </div>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
           <!-- Tabla Parametros -->
@@ -245,18 +278,20 @@
 
 
           <div *ngIf="formatoModel.TipoFormatoId == 19 " class="form-group row">
-            <label  class="col-md-2 col-form-label" id="corre">
-              
+            <label class="col-md-2 col-form-label" id="corre">
+
               Aletas:
             </label>
             <div class="col-md-4">
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" [value]="true">
                 <label class="form-check-label" for="AletasSi">Si​</label>
+                &nbsp;     &nbsp;
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" [value]="true">
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" [value]="false">
                 <label class="form-check-label" for="AletasNo">No</label>
+                &nbsp;     &nbsp;
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" [value]="false">
               </div>
             </div>
 
@@ -322,44 +357,13 @@
             </div>
           </div>
 
-          <!-- Tabla ADENDUM -->
-          <div *ngIf="formatoModel.TipoFormatoId == 18 ">
-            <div *ngIf="formFormato.get('Adendum') | pemarsaAdendumPipe" class="row">
-              <div class="col-12">
-                <div class="table-responsive-sm table-responsive-md">
-                  <table formArrayName="Adendum" class="table table-bordered table-striped col-md-offset-1 col-md-10 ">
-                    <tbody>
-                      <tr *ngFor="let tipos of formFormato.get('Adendum').tipos ">
-                        <th> <p>{{tipos.Valor}} </p></th>
-                        <div *ngIf="tipos.Id ==26">
-                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8">
 
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
-                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
-                          </td>
-                        </div>
-                        <div *ngIf="tipos.Id ==27">
-                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i">
-
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
-                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
-                          </td>
-                        </div>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="form-group">
             <br />
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
-                <button [routerLink]="['/formato']" type="button" class="btn btn-md">Regresar</button>
+                <button [routerLink]="['/formato']" type="button" class="btn btn-md">Cancelar</button>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col">
                 <button type="submit" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>

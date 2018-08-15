@@ -288,6 +288,7 @@ export class CrearHerramientaComponent implements OnInit {
   }
   validacionHerramientaMotor() {
     let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
+
     if (valor) {
       if (this.herramienta.TamanosMotor.length > 0 || this.herramienta.TamanosHerramienta.length > 0) {
         this.frmHerramienta.get('TamanosMotor').setValidators(null)
@@ -442,6 +443,9 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   ConfirmacionEvento(event: any) {
+
+    this.frmHerramienta.get('EsHerramientaPetrolera').markAsDirty();
+    this.frmHerramienta.get('EsHerramientaPetrolera').markAsTouched();
     this.validacionHerramientaMotor()
 
 
