@@ -236,7 +236,7 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Herramienta)
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
-                    .Include(c => c.Responsable)
+                    .Include(c => c.Responsable).OrderByDescending(c => c.FechaRegistro)
                     .Where(ordern =>
                     (string.IsNullOrEmpty(parametrosDTO.NumeroOIT) || ordern.Id == Int32.Parse(parametrosDTO.NumeroOIT)) &&
                     (string.IsNullOrEmpty(parametrosDTO.Remision) || ordern.RemisionCliente.ToString().Contains(parametrosDTO.NumeroOIT)) &&

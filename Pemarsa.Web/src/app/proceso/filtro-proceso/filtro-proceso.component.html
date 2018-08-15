@@ -30,7 +30,7 @@
       <label for="Estado" style="color: #6c757d;"><b>Prioridad</b></label>
       <select class="form-control form-control-lg" formControlName="OrdenTrabajoPrioridad">
         <option [value]="''">seleccione</option>
-        
+
         <option *ngFor="let prioridad of catalogoPrioridad" [value]="prioridad.Valor">{{prioridad.Valor}}</option>
       </select>
     </div>
@@ -39,10 +39,10 @@
       <label for="Telefono" style="color: #6c757d;"><b>Fecha</b></label>
       <input type="date" class="form-control" formControlName="Fecha" placeholder="Fecha ">
     </div>
-    <div class="btn-group">
-
-    <button (click)="limpiarFormulario()"  role="button"  id="clear" type="button" class="btn btn-primary">Limpiar</button>
-    <button (click)="submitFiltro(formulario.value)" id="filtro" role="button" type="button" class="btn btn-primary">Filtrar</button>
+    <div class="btn-group float-right">
+      <button (click)="limpiarFormulario()" role="button" id="clear" type="button" class="btn btn">Limpiar</button>
+      &nbsp;&nbsp;
+      <button (click)="submitFiltro(formulario.value)" id="filtro" role="button" type="button" class="btn btn-primary">Filtrar</button>
     </div>
   </form>
 </div>

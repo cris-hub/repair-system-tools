@@ -354,23 +354,31 @@ namespace ProcesoES.Repository
 
         public async Task<Tuple<int, IEnumerable<Proceso>>> ConsultarProcesosPorTipoPorFiltro(ParametrosProcesosoDTO parametrosDTO, UsuarioDTO usuarioDTO)
         {
-            var query = _context.Proceso
-                .Where(c => c.TipoProceso.Valor == parametrosDTO.TipoProceso || String.IsNullOrEmpty(parametrosDTO.TipoProceso))
-                .Where(c => c.OrdenTrabajo.Prioridad.Valor == parametrosDTO.OrdenTrabajoPrioridad || String.IsNullOrEmpty(parametrosDTO.OrdenTrabajoPrioridad))
-                .Where(c => c.Estado.Valor.ToLower().Contains(parametrosDTO.Estado.ToLower()) || String.IsNullOrEmpty(parametrosDTO.Estado))
-                .Where(c => c.OrdenTrabajoId.ToString().Contains(parametrosDTO.NumeroOIT) || String.IsNullOrEmpty(parametrosDTO.NumeroOIT))
-                .Where(c => c.FechaRegistro.ToString().Contains(parametrosDTO.Fecha) || String.IsNullOrEmpty(parametrosDTO.Fecha))
-                .Where(c => c.OrdenTrabajo.SerialHerramienta.ToString().Contains(parametrosDTO.SerialHerramienta) || String.IsNullOrEmpty(parametrosDTO.SerialHerramienta))
-                .Where(c => c.OrdenTrabajo.Herramienta.Nombre.Contains(parametrosDTO.HerraminetaNombre) || String.IsNullOrEmpty(parametrosDTO.HerraminetaNombre))
-                .Where(c => c.OrdenTrabajo.Cliente.NickName.ToLower().Contains(parametrosDTO.ClienteNickname.ToLower()) || String.IsNullOrEmpty(parametrosDTO.ClienteNickname));
+            try
+            {
+                var query = _context.Proceso
+                        .Where(c => c.TipoProceso.Valor == parametrosDTO.TipoProceso || String.IsNullOrEmpty(parametrosDTO.TipoProceso))
+                        .Where(c => c.OrdenTrabajo.Prioridad.Valor == parametrosDTO.OrdenTrabajoPrioridad || String.IsNullOrEmpty(parametrosDTO.OrdenTrabajoPrioridad))
+                        .Where(c => c.Estado.Valor.ToLower().Contains(parametrosDTO.Estado.ToLower()) || String.IsNullOrEmpty(parametrosDTO.Estado))
+                        .Where(c => c.OrdenTrabajoId.ToString().Contains(parametrosDTO.NumeroOIT) || String.IsNullOrEmpty(parametrosDTO.NumeroOIT))
+                        .Where(c => c.FechaRegistro.ToString().Contains(parametrosDTO.Fecha) || String.IsNullOrEmpty(parametrosDTO.Fecha))
+                        .Where(c => c.OrdenTrabajo.SerialHerramienta.ToString().Contains(parametrosDTO.SerialHerramienta) || String.IsNullOrEmpty(parametrosDTO.SerialHerramienta))
+                        .Where(c => c.OrdenTrabajo.Herramienta.Nombre.Contains(parametrosDTO.HerraminetaNombre) || String.IsNullOrEmpty(parametrosDTO.HerraminetaNombre))
+                        .Where(c => c.OrdenTrabajo.Cliente.NickName.ToLower().Contains(parametrosDTO.ClienteNickname.ToLower()) || String.IsNullOrEmpty(parametrosDTO.ClienteNickname));
 
 
-            var result = await query.Skip(parametrosDTO.RegistrosOmitir())
-                .Take(parametrosDTO.CantidadRegistros)
-                .ToListAsync();
+                var result = await query.Skip(parametrosDTO.RegistrosOmitir())
+                    .Take(parametrosDTO.CantidadRegistros)
+                    .ToListAsync();
 
-            var cantidad = await _context.Proceso.CountAsync();
-            return new Tuple<int, IEnumerable<Proceso>>(cantidad, result);
+                var cantidad = await _context.Proceso.CountAsync();
+                return new Tuple<int, IEnumerable<Proceso>>(cantidad, result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public async Task<Guid> CrearInspeccion(Guid guidProceso, int tipoInspeccion, int pieza, UsuarioDTO usuarioDTO)

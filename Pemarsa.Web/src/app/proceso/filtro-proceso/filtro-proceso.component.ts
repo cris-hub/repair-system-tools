@@ -70,6 +70,9 @@ export class FiltroProcesoComponent implements OnInit{
       e.stopPropagation();
     });
     this.formulario.reset(new FiltroParametrosProcesosoModel(1, 30));
+    this.filtro = new FiltroParametrosProcesosoModel(1, 30);
+
+    this.paramsFiltro.emit(this.filtro);
   }
 
   @HostListener("click", ["$event"])
