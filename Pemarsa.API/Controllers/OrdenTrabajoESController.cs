@@ -80,7 +80,8 @@ namespace Pemarsa.API.Controllers
                     Cliente = parametrosDTO.Cliente,
                     ClienteLinea = parametrosDTO.ClienteLinea,
                     DetallesSolicitud = parametrosDTO.DetallesSolicitud,
-                    Estado = parametrosDTO.Estado
+                    Estado = parametrosDTO.Estado,
+                    Prioridad = parametrosDTO.Prioridad
                 }, new UsuarioDTO()));
                 return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
             }

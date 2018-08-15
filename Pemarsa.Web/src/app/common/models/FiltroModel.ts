@@ -18,6 +18,9 @@ export class FiltroModel extends PaginacionModel {
 }
 
 export class FiltroFormatoModel extends PaginacionModel {
+  public Codigo: string;
+  public FechaCreacion: string;
+  public FormatoAdjunto: string; 
   public HerramientaId: string;
   public Conexion: string;
   public TipoConexion: string;
@@ -25,6 +28,9 @@ export class FiltroFormatoModel extends PaginacionModel {
 
   constructor(public PaginaActual: number, public CantidadRegistros: number) {
     super(PaginaActual, CantidadRegistros);
+    this.Codigo = '';
+    this.FechaCreacion = '';
+    this.FormatoAdjunto = '';
     this.HerramientaId = '';
     this.Conexion = '';
     this.TipoConexion = '';
