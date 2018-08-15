@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ignoreElements } from 'rxjs/operators';
 import { LoaderService } from '../../common/services/entity/loaderService';
+import { TIPOS_FORMATO } from '../formato-enum/formato.enum';
 
 
 @Component({
@@ -25,44 +26,44 @@ import { LoaderService } from '../../common/services/entity/loaderService';
 export class CrearFormatoComponent implements OnInit {
 
   //Catalogos
-  public  parametrosEspecificacion: EntidadModel[];
-  public  parametrosTipoConexion: EntidadModel[];
-  public  parametrosConexion: EntidadModel[];
-  public  parametrosTiposFormatos: EntidadModel[];
-  public  parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
+  public parametrosEspecificacion: EntidadModel[];
+  public parametrosTipoConexion: EntidadModel[];
+  public parametrosConexion: EntidadModel[];
+  public parametrosTiposFormatos: EntidadModel[];
+  public parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
 
   //Herramienta
-  public  herramientaModel: HerramientaModel = new HerramientaModel();
-  public  Herramientas: Array<HerramientaModel>;
+  public herramientaModel: HerramientaModel = new HerramientaModel();
+  public Herramientas: Array<HerramientaModel>;
 
-  public  paginacion: PaginacionModel = new PaginacionModel(1, 30);
+  public paginacion: PaginacionModel = new PaginacionModel(1, 30);
 
   //Formularios
-  public  formAdendum: FormArray;
-  public  formFormato: FormGroup;
-  public  formFormatoPatamtros: FormArray;
-  public  formFormatoPatamtrosAletas: FormArray;
+  public formAdendum: FormArray;
+  public formFormato: FormGroup;
+  public formFormatoPatamtros: FormArray;
+  public formFormatoPatamtrosAletas: FormArray;
 
 
   //Acciones
-  public  esActualizar: boolean;
-  public  esVer: boolean;
-  public  esValido: boolean;
+  public esActualizar: boolean;
+  public esVer: boolean;
+  public esValido: boolean;
 
 
   //Formatos
-  public  formatoModel: FormatoModel;
-  public  parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
-  public  aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  public formatoModel: FormatoModel;
+  public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  public aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
 
-  public  formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
+  public formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
 
-  public  formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
+  public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
 
   //Carga Archivos
-  public  lectorArchivos: FileReader;
-  public  Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
-  public  planoView: AttachmentModel;
+  public lectorArchivos: FileReader;
+  public Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
+  public planoView: AttachmentModel;
 
 
 
@@ -79,7 +80,7 @@ export class CrearFormatoComponent implements OnInit {
     private parametroSrv: ParametroService,
     private toastr: ToastrService,
     private router: Router,
-    private loaderService : LoaderService,
+    private loaderService: LoaderService,
 
   ) {
   }
@@ -101,7 +102,7 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   consultarParametros(entidad: string) {
-        this.loaderService.display(true)
+    this.loaderService.display(true)
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
         this.parametrosFormatoAdendumTiposFormatos = response.Catalogos.filter(c => c.Grupo == 'FORMATO_ADENDUM');
@@ -351,17 +352,38 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   limpiarFormulario() {
-
+    
     let id = this.formFormato.value['TipoFormatoId']
     this.formFormato.value['TipoFormatoId'] = id
+    this.formFormato.reset();
+    this.formFormato.get('TipoFormatoId').setValue(id)
     this.formatoModel.TipoFormatoId = id;
+    if (id == TIPOS_FORMATO.FORMATOCONEXION) {
+      this.formFormato.get('TiposConexionesId').setValidators(Validators.required);
+      this.formFormato.get('ConexionId').setValidators(Validators.required);
+      this.formFormato.get('TPI').setValidators(Validators.required);
+      this.formFormato.get('TPF').setValidators(Validators.required);
+      this.formFormato.get('Adendum').setValidators(Validators.required);
+      this.formFormato.get('EspecificacionId').setValidators(Validators.required);
+      this.formFormato.get('Parametros').setValidators(Validators.required);
+    }
+    if (id == TIPOS_FORMATO.FORMATOOTROS) {
+      this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
+      this.formFormato.get('Planos').setValidators(Validators.required);
+      this.formFormato.get('Parametros').setValidators(Validators.required);
 
+    }
+    
 
+    this.formFormato.updateValueAndValidity();
   }
 
 
   //Persistir Datos
   enviarFormulario() {
+    this.formFormato.get('TipoFormatoId').markAsDirty()
+    this.formFormato.get('TipoFormatoId').markAsTouched();
+    this.formFormato.updateValueAndValidity();
 
     this.asignarValoresFormularioFormato(this.formFormato.value);
     this.esFormularioValido(this.formFormato)
@@ -373,7 +395,8 @@ export class CrearFormatoComponent implements OnInit {
     this.formatoModel.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
 
     if (!this.esValido) {
-      this.toastr.info('formato no valido!', 'validacion');
+      this.toastr.error('formato no valido!', 'validacion');
+      return
     }
     if (this.formatoModel.TipoFormatoId == 18) {
       delete this.formatoModel['Herramienta'];
@@ -403,8 +426,8 @@ export class CrearFormatoComponent implements OnInit {
   asignarValoresFormularioFormato(val: any) {
 
     this.asignarFormatoParametros(val);
-    delete val['Parametros'];
-    delete val['Aletas'];
+     val['Parametros'] = null;
+     val['Aletas'] = null;
 
     console.log(val)
     debugger;

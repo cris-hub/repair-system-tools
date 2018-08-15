@@ -99,6 +99,9 @@ export class CrearClienteComponent implements OnInit {
         this.lineaCliente = this.cliente.Lineas.filter(d => d.Activa == true);
         this.initForm(this.cliente);
         this.loaderService.display(false);
+      }, () => {
+        this.loaderService.display(false);
+
       });
   }
 
@@ -165,6 +168,8 @@ export class CrearClienteComponent implements OnInit {
       }, errorMessage => {
         debugger
         this.toastr.error(errorMessage.error.Message);
+        this.loaderService.display(false);
+
       });
   }
 
@@ -199,6 +204,8 @@ export class CrearClienteComponent implements OnInit {
       }, errorMessage => {
         debugger
         this.toastr.error(errorMessage.error.Message);
+        this.loaderService.display(false);
+
       });
   }
 
