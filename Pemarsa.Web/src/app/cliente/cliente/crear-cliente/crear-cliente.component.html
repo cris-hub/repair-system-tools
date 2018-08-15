@@ -217,7 +217,8 @@
                 <button type="button" *ngIf="!esVer" class="btn btn-md" (click)="salir()">Cancelar</button>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col">
-                <button *ngIf="isSubmitted == true && esVer == false" type="submit" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+                <button *ngIf="isSubmitted == true && esVer == false && !esActualizar" type="submit" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la creación del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
+                <button *ngIf="isSubmitted == true && esVer == false && esActualizar" type="submit" (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea finalizar la actualización del cliente?',true,{frmCliente: frmCliente.value})" data-toggle="modal" data-target="#confirmarModal" class="btn btn-primary btn-md" id="guardar">Guardar</button>
                 <button *ngIf="isSubmitted != true && esVer == false" type="submit" class="btn btn-primary btn-md" disabled>Guardar</button>
               </div>
             </div>
