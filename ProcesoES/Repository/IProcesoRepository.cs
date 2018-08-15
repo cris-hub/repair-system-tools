@@ -22,5 +22,6 @@ namespace ProcesoES.Repository
         Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid,int pieza, UsuarioDTO usuarioDTO);
         Task<bool> ActualizarEstadoInspeccionPieza(Guid guid, int pieza, int estado, UsuarioDTO usuarioDTO);
         Task<Proceso> ConsultarProcesoPorTipoYOrdenTrabajo(int guidProceso, Guid guidOrdenTrabajo, UsuarioDTO usuarioDTO);
+        Task<bool> RechazarProceso(Guid guid, string observacion, UsuarioDTO usuarioDTO);
     }
 }

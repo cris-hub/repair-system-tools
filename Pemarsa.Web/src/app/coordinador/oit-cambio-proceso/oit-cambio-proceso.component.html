@@ -57,7 +57,7 @@
     </div>
   </div>
 
-    <div class="row contenido-interno-listar">
+    <div class="row contenido-interno">
       <div class="col-md-12">
         <div class="table-responsive-sm table-responsive-md">
 
@@ -80,7 +80,7 @@
                     class="font-black center-table"
                    >
               <tr [ngClass]="obtenerEstilos(Proceso)">
-                <td>{{Proceso.Id}}</td>
+                <td>{{Proceso.OrdenTrabajo.Id}}</td>
                 <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
                 <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>
                 <td>{{Proceso.OrdenTrabajo.SerialHerramienta}}</td>
@@ -98,15 +98,15 @@
 
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <div>
-                      <button routerLink="/aprobacion-supervisor/{{Proceso.Guid}}" class="btn btn-outline-secondary glyphicon glyphicon-eye-open pointer"></button>
+                      <button routerLink="/aprobacion-supervisor/{{Proceso.Guid}}" title="Detalle proceso" class="btn btn-outline-secondary glyphicon glyphicon-eye-open pointer"></button>
                     </div>
 
                     <div>
-                      <button routerLink="/aprobacion-supervisor/procesar/{{Proceso.Guid}}" class="btn btn-outline-secondary glyphicon glyphicon-wrench pointer"></button>
+                      <button routerLink="/aprobacion-supervisor/procesar/{{Proceso.Guid}}" title="Procesar"  class="btn btn-outline-secondary glyphicon glyphicon-wrench pointer"></button>
                     </div>
 
                     <div>
-                      <button style=" transform: rotate(180deg);" class="btn btn-outline-secondary glyphicon glyphicon-share-alt pointer"></button>
+                      <app-observacion-rechazo [data]="Proceso" (confir)="actualizarObservacionRechazo(event)"></app-observacion-rechazo>
                     </div>
 
                     <div>
@@ -119,9 +119,6 @@
                     </div>
                   </div>
 
-                  <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-              <i (click)="historial(oit.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
-            </div>-->
 
                 </td>
               </tr>

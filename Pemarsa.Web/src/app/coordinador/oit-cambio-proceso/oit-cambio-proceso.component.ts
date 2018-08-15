@@ -66,7 +66,7 @@ export class OitCambioProcesoComponent implements OnInit {
   consultarProcesos() {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
-        this.Procesos = response.Listado
+        this.Procesos = response.Listado.filter(d => d.EstadoId!=ESTADOS_PROCESOS.Procesado)
         this.paginacion.CantidadRegistros = response.CantidadRegistros
       }, error => {
         console.log(error)
@@ -78,6 +78,11 @@ export class OitCambioProcesoComponent implements OnInit {
     switch (proceso.EstadoId) {
       case ESTADOS_PROCESOS.Rechazado: return "rechadado";
     }
+  }
+
+  actualizarObservacionRechazo(event) {
+    console.log(event)
+    this.consultarProcesos();
   }
 
   limiteConsulta(event: any) {

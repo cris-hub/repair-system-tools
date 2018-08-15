@@ -5,13 +5,29 @@ import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
 export class ProcesoModel extends EntityModel {
 
   public GuidOperario: string;
-  public CantidadInspeccion: number;
-  public EsPruebaConGauge: boolean;
   public NombreOperario: string;
-  public TrabajoRealizadoId: number
-  public TrabajoRealizar: string;
-  public Pieza: number;
+
+  public GuidPersonaAsignaOperario: string;
+  public NombrePersonaAsignaOperario: string;
+
+  public GuidPersonaCompleta: string;
+  public NombrePersonaCompleta: string;
+
+  public GuidPersonaLibera: string;
+  public NombrePersonaLibera: string;
+
+  public CantidadInspeccion: number;
+
+  public EsPruebaConGauge: boolean;
   public Reasignado : boolean
+
+  public TrabajoRealizar: string;
+
+  public TrabajoRealizado: string
+
+  public ObservacionRechazo: string
+
+  public Pieza: number;
 
   public EstadoId: number;
   public Estado: CatalogoModel;

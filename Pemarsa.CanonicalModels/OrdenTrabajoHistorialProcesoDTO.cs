@@ -9,7 +9,7 @@ namespace Pemarsa.Domain
     {
         
         
-        public int EstadoProceso { get; set; }
+        public int? EstadoProceso { get; set; }
 
         public DateTime? FechaFinalizacion { get; set; }
 

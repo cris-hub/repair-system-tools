@@ -229,5 +229,21 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpPut("RechazarProceso")]
+        public async Task<IActionResult> RechazarProceso([FromQuery]string guiidProceso, [FromQuery]string observacion)
+        {
+            try
+            {
+
+                bool operacionCorrecta = await _procesoService.RechazarProceso(Guid.Parse(guiidProceso), observacion, new UsuarioDTO());
+
+                return Ok(operacionCorrecta);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

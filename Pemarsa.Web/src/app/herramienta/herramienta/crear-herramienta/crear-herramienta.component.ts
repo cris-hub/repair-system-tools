@@ -255,8 +255,8 @@ export class CrearHerramientaComponent implements OnInit {
       EsHerramientaPetrolera: [herramienta.EsHerramientaPetrolera, Validators.required],
       Materiales: [herramienta.Materiales],
       HerramientaEstudioFactibilidad: [herramienta.HerramientaEstudioFactibilidad, Validators.required],
-      TamanosMotor: [this.herramientaTamanoMotor],
-      TamanosHerramienta: [this.herramientaTamano],
+      TamanosMotor: [herramienta.TamanosMotor],
+      TamanosHerramienta: [herramienta.TamanosHerramienta],
       EsHerramientaPorCantidad: [herramienta.EsHerramientaPorCantidad],
       EstadoId: [herramienta.EstadoId],
       NombreUsuarioVerifica: ['Admin'],//este campo debe ser actualizado con la api de seguridad
@@ -289,37 +289,23 @@ export class CrearHerramientaComponent implements OnInit {
   validacionHerramientaMotor() {
     let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
     if (valor) {
-      if (this.frmHerramienta.get('TamanosHerramienta').value.length>0) {
-
-      }
-      this.frmHerramienta.get('EsHerramientaMotor')
-      this.frmHerramienta.get('TamanosMotor').setValidators(Validators.required)
-      this.frmHerramienta.get('TamanosMotor').setErrors({ 'requerido': true })
-
-      this.frmHerramienta.get('TamanosHerramienta').setValidators(Validators.required)
-      this.frmHerramienta.get('TamanosHerramienta').setErrors({ 'requerido': true })
-
-      if (this.frmHerramienta.get('TamanosMotor').value.length > 0 &&
-        this.frmHerramienta.get('TamanosHerramienta').value.length > 0
-        ) {
+      if (this.herramienta.TamanosMotor.length > 0 || this.herramienta.TamanosHerramienta.length > 0) {
         this.frmHerramienta.get('TamanosMotor').setValidators(null)
         this.frmHerramienta.get('TamanosMotor').setErrors(null)
 
         this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
         this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
+        
+      } else {
+        this.frmHerramienta.get('TamanosMotor').setValidators(Validators.required)
+        this.frmHerramienta.get('TamanosMotor').setErrors({ 'requerido': true })
+
+        this.frmHerramienta.get('TamanosHerramienta').setValidators(Validators.required)
+        this.frmHerramienta.get('TamanosHerramienta').setErrors({ 'requerido': true })
       }
 
-    } else {
-      this.frmHerramienta.get('TamanosMotor').setValidators(null)
-      this.frmHerramienta.get('TamanosMotor').setErrors(null)
-
-      this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
-      this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
-
-
     }
-    this.frmHerramienta.updateValueAndValidity();
-
+      this.frmHerramienta.updateValueAndValidity();
   }
 
   /**
@@ -381,7 +367,7 @@ export class CrearHerramientaComponent implements OnInit {
     }
   }
   eliminarMaterial(material: EntidadModel) {
-    let index: any = this.CatalogoMaterialesAdd.findIndex(c => c.Id == material.Id);
+    let index: any = this.CatalogoMaterialesAdd.findIndex(c => c.Id == material.Id );
     this.CatalogoMaterialesVer.push(material);
     this.CatalogoMaterialesAdd.splice(index, 1);
   }
@@ -396,9 +382,11 @@ export class CrearHerramientaComponent implements OnInit {
       nuevaHerramientaTamanoMotor.GuidOrganizacion = "00000000-0000-0000-0000-000000000000";//este campo debe ser llenado desde la api de seguridad
       nuevaHerramientaTamanoMotor.NombreUsuarioCrea = "Admin";//este campo debe ser llenado desde la api de seguridad
       this.herramientaTamanoMotor.push(nuevaHerramientaTamanoMotor);
+      
       this.inputTamanoMotor.nativeElement.value = "";
       this.isSubmitted = true;
     }
+    this.herramienta.TamanosMotor = this.herramienta.TamanosMotor.concat(this.herramientaTamanoMotor)
   }
 
   eliminarHerramientaTamanoMotor(index: any) {
@@ -418,6 +406,8 @@ export class CrearHerramientaComponent implements OnInit {
       this.inputTamanoHerramienta.nativeElement.value = "";
       this.isSubmitted = true;
     }
+    this.herramienta.TamanosHerramienta = this.herramienta.TamanosMotor.concat(this.herramientaTamano)
+
   }
 
   eliminarHerramientaTamano(index: any) {

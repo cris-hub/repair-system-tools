@@ -29,7 +29,7 @@
       </div>
       <div class="form-group row">
         <label class="col-md-2 control-label" id="corre">Fecha:​ </label>
-        <p>{{ordenTrabajo.FechaRegistro}}</p>
+        <p>{{ordenTrabajo.FechaRegistro | date:'short'}}</p>
       </div>
 
 
@@ -50,7 +50,7 @@
             <tr *ngFor="let historial of historialProcesos  | filter:filter">
               <td>{{historial.TipoProcesoId | CatalogoPipe:ParametrosCatalogo}}</td>
               <td>{{historial.NombreOperario}}</td>
-              <td>{{historial.FechaFinalizacion}}</td>
+              <td>{{historial.FechaFinalizacion | date:'short'}}</td>
               <td>{{historial.TipoProcesoAnteriorId | CatalogoPipe:ParametrosCatalogo}}</td>
               <td>{{historial.NombreLiberaProcesoAnterior}}</td>
               <td>{{historial.EstadoProceso | CatalogoPipe:ParametrosCatalogo}}</td>

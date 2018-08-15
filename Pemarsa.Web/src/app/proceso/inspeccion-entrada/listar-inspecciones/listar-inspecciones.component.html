@@ -77,7 +77,7 @@
           </thead>
           <tbody class="font-black center-table">
             <tr *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter">
-              <td>{{Proceso.Id}}</td>
+              <td>{{Proceso.OrdenTrabajo.Id}}</td>
               <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
               <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>
               <td>{{Proceso.OrdenTrabajo.SerialHerramienta}}</td>

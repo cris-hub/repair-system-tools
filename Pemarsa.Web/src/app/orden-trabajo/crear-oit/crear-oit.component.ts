@@ -318,7 +318,6 @@ export class CrearOitComponent implements OnInit {
 
           response.TamanoHerramienta != null ? this.ordenTrabajo.TamanoHerramienta = response.TamanoHerramienta : this.ordenTrabajo.TamanoHerramienta = new HerramientaTamanoModel();
           this.inicializarFormulario(this.ordenTrabajo)
-          this.loaderService.display(false);
 
 
         })
@@ -326,6 +325,7 @@ export class CrearOitComponent implements OnInit {
     }
 
 
+    this.loaderService.display(false);
 
 
 

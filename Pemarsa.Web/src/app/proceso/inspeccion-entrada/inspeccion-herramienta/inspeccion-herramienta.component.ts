@@ -407,6 +407,12 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
 
   regresar() {
+    if (this.Proceso.CantidadInspeccion == 1) {
+      this.router.navigate([
+        'inspeccion/entrada/'
+      ]);
+      return
+    }
     this.router.navigate([
       'inspeccion/entrada/' +
       this.obtenerProcesoDesdeUrl().get('proceso') + '/' +

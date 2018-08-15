@@ -84,6 +84,11 @@ export class ProcesoService {
       headers: this.header
     });
   }
+  public rechazarProceso(guiidProceso: string, observacion: string): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'RechazarProceso?guiidProceso=' + guiidProceso + '&observacion=' + observacion, {
+      headers: this.header
+    });
+  }
 
 
   public actualizarEstadoInspeccionPieza(guidProceso: string, pieza: string, estado: number): Observable<boolean> {

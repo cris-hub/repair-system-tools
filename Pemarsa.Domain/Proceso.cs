@@ -31,14 +31,14 @@ namespace Pemarsa.Domain
         public string ObservacionRechazo { get; set; }
 
         public string TrabajoRealizar { get; set; }
-        public bool Reasignado { get; set; }
+        public bool? Reasignado { get; set; }
 
         public DateTime? FechaFinalizacion { get; set; }
 
         #region Catalogos canonnicas
 
         [ForeignKey("Estado")]
-        public int EstadoId { get; set; }
+        public int? EstadoId { get; set; }
         public virtual Catalogo Estado { get; set; }
 
         [ForeignKey("TipoProcesoAnterior")]

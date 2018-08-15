@@ -141,14 +141,23 @@ namespace ProcesoES.Repository
                     _context.Entry(t).State = t.Id <= 0 ?
                             EntityState.Added :
                             EntityState.Modified;
-                    if (t.EstadoId <= 0)
+                    if (t.EstadoId == 0)
                     {
 
-                        var catalogo = await _context.Catalogo.SingleOrDefaultAsync(d => d.Id == t.EstadoId);
-                        _context.Entry(catalogo).State = EntityState.Unchanged;
+
+                        _context.Entry(t).Property(d => d.EstadoId).CurrentValue = null;
+
+                   
                     }
 
+                    if (t.TipoConexionId == 0)
+                    {
 
+
+                        _context.Entry(t).Property(d => d.TipoConexionId).CurrentValue = null;
+
+
+                    }
 
                     _context.Entry(t).State = t.Id <= 0 ?
                                         EntityState.Added :
@@ -329,7 +338,7 @@ namespace ProcesoES.Repository
 
 
 
-                var result = query.Where(c => c.TipoProcesoId == tipoProceso)
+                var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO)
                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros);
 
@@ -448,6 +457,7 @@ namespace ProcesoES.Repository
 
 
                     proceso.EstadoId = (int)ESTADOSPROCESOS.ASIGNADO;
+                    proceso.FechaFinalizacion = DateTime.Now;
                     _context.Entry(proceso).Property(d => d.Reasignado).IsModified = true;
                     _context.Update(proceso);
 
@@ -457,6 +467,12 @@ namespace ProcesoES.Repository
                 }
 
 
+                proceso.TipoProcesoId = proceso.TipoProcesoId ?? (int)TIPOPROCESOS.INSPECCIONENTRADA;
+                proceso.EstadoId = proceso.EstadoId ?? (int)ESTADOSPROCESOS.PENDIENTE;
+
+                proceso.Guid = Guid.NewGuid();
+                proceso.NombreUsuarioCrea = "admin";
+                proceso.FechaRegistro = DateTime.Now;
 
                 await _context.Proceso.AddAsync(proceso);
 
@@ -467,7 +483,7 @@ namespace ProcesoES.Repository
                     proceso.InspeccionEntrada = new List<ProcesoInspeccionEntrada>();
                     for (int i = 1; i <= proceso.CantidadInspeccion; i++)
                     {
-                        await CrearInspeccion(proceso.Guid, 65, i, usuario);
+                        await CrearInspeccion(proceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
                     }
 
                 }
@@ -485,7 +501,7 @@ namespace ProcesoES.Repository
         private static Proceso AsignarValoresProcesoReasignacion(Proceso proceso)
         {
 
-            if (!proceso.Reasignado)
+            if (proceso.Reasignado ==false)
             {
                 Proceso procesoReasignacionRehazado = new Proceso()
                 {
@@ -597,7 +613,7 @@ namespace ProcesoES.Repository
             try
             {
                 var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo);
-                
+
                 var procesos = query.Where(proceso => proceso.OrdenTrabajo.Guid == guidOrdenTrabajo && proceso.TipoProcesoId == tipoProceso);
                 var ordenadosPorultimaCreacion = procesos.OrderBy(t => t.FechaRegistro);
 
@@ -606,6 +622,44 @@ namespace ProcesoES.Repository
                 return procesoResult;
 
                 throw new NotImplementedException();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> RechazarProceso(Guid guid, string observacion, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                Proceso procesoAsignacionBd = await _context.Proceso.Where(d => d.Guid == guid).FirstOrDefaultAsync();
+                _context.Entry(procesoAsignacionBd).Property(d => d.EstadoId).CurrentValue = (int)ESTADOSPROCESOS.PROCESADO;
+                _context.Entry(procesoAsignacionBd).Property(d => d.ObservacionRechazo).CurrentValue = observacion;
+                _context.Entry(procesoAsignacionBd).Property(d => d.Reasignado).CurrentValue = true;
+
+
+                Proceso procesoAnteriorBd = await _context.Proceso.Where(d => d.Id == procesoAsignacionBd.ProcesoAnteriorId).FirstOrDefaultAsync();
+                _context.Entry(procesoAnteriorBd).Property(d => d.ObservacionRechazo).CurrentValue = observacion;
+                _context.Entry(procesoAnteriorBd).Property(d => d.EstadoId).CurrentValue = (int)ESTADOSPROCESOS.RECHAZADO;
+                _context.Entry(procesoAnteriorBd).Property(d => d.FechaFinalizacion).CurrentValue = DateTime.Now;
+                _context.Entry(procesoAnteriorBd).Property(d => d.Reasignado).CurrentValue = false;
+
+                Proceso nuevoProceso = new Proceso
+                {
+                    TipoProcesoId = procesoAnteriorBd.TipoProcesoId,
+                    TipoProcesoAnteriorId = procesoAnteriorBd.TipoProcesoId,
+                    ObservacionRechazo = observacion,
+                    CantidadInspeccion = procesoAnteriorBd.CantidadInspeccion,
+                    OrdenTrabajoId = procesoAnteriorBd.OrdenTrabajoId,
+                    EstadoId = (int)ESTADOSPROCESOS.RECHAZADO,
+                    ProcesoAnteriorId = procesoAnteriorBd.Id
+                };
+
+
+                Guid guidProceso = await CrearProceso(nuevoProceso, usuarioDTO);
+                return guidProceso != null;
             }
             catch (Exception)
             {

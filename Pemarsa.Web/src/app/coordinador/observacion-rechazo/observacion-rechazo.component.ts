@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { ProcesoModel, EntidadModel } from '../../common/models/Index';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcesoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ToastrService } from 'ngx-toastr';
@@ -33,22 +33,31 @@ export class ObservacionRechazoComponent implements OnInit {
 
   ngOnInit() {
     this.consultarProcesosSugerir();
+    this.initFormulario();
   }
 
   constructor(
     private procesoService: ProcesoService,
     private parametrosService: ParametroService,
     private toasrService: ToastrService,
+    private formBuilder: FormBuilder,
 
   ) { }
+
+  initFormulario() {
+    this.formulario = this.formBuilder.group({
+      ObservacionRechazo: [this.data.ObservacionRechazo, Validators.required]
+    });
+  }
   cancelarAction() {
     this.response = false;
     this.confir.emit(this.response);
   }
   confirmarAction() {
-    this.crearProceso();
-
-
+    if (!this.formulario.valid) {
+      return
+    }
+    this.rechazarProceso();
   }
 
   event(input) {
@@ -93,8 +102,8 @@ export class ObservacionRechazoComponent implements OnInit {
 
   // formulario
 
-  crearProceso() {
-    this.procesoService.crearProceso(this.data)
+  rechazarProceso() {
+    this.procesoService.rechazarProceso(this.data.Guid, this.formulario.get('ObservacionRechazo').value)
       .subscribe(response => {
         response ? this.response = true : false
         this.confir.emit(this.response);

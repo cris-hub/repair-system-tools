@@ -9,11 +9,11 @@ import { ParametrosModel, CatalogoModel, EntidadModel } from '../models/Index';
 export class CatalogoPipe implements PipeTransform {
   transform(item: any, parametros: EntidadModel[]): any {
     if (!item || !parametros) {
-      return '';
+      return ;
     }
 
-    let catlogo: CatalogoModel = parametros.find(d => d.Id == item);
-
+    let catlogo: CatalogoModel;
+    catlogo = parametros.find(d => d.Id == item) ? parametros.find(d => d.Id == item) : new CatalogoModel() 
 
 
     return catlogo.Valor;

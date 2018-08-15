@@ -29,5 +29,6 @@ namespace ProcesoES.Service
         Task<Inspeccion> ConsultarSiguienteInspeccion(Guid guid, int pieza, UsuarioDTO usuarioDTO);
         Task<bool> ActualizarEstadoInspeccionPieza(Guid guid, int pieza, int estado, UsuarioDTO usuarioDTO);
         Task<Proceso> ConsultarProcesoPorTipoYOrdenTrabajo(int TipoProceso, Guid guid2, UsuarioDTO usuarioDTO);
+        Task<bool> RechazarProceso(Guid guid, string observacion, UsuarioDTO usuarioDTO);
     }
 }
