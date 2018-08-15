@@ -13,22 +13,22 @@ import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
 
 })
 export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
-  
-  public  solicitudesOrdenTrabajos: SolicitudOrdenTrabajoModel[];
-  public  solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
-  // paginacion
-  public  accion: string[] ;
-  public  paginacion: PaginacionModel;
-  public  parametros: ParametrosModel;
-  public  esFiltrar: boolean = false;
 
+  public solicitudesOrdenTrabajos: SolicitudOrdenTrabajoModel[];
+  public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
+  // paginacion
+  public accion: string[];
+  public paginacion: PaginacionModel;
+  public parametros: ParametrosModel;
+  public esFiltrar: boolean = false;
+  public filter: string;
   public esNuevaAccion: boolean = false;
   constructor(
     public solicitudOrdenTrabajoSrv: SolicitudOrdenTrabajoService,
     public parametroSrv: ParametroService,
     private toastr: ToastrService,
-     ) {
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -76,7 +76,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
   }
 
   habilitarNuevaOit() {
-    this.solicitudOrdenTrabajoModelInput =null
+    this.solicitudOrdenTrabajoModelInput = null
     this.accion = ['Crear']
     this.esNuevaAccion = true;
   }
@@ -122,6 +122,6 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
       this.toastr.info('No se pudo realizar la accion, vuelve a intentarlo en otro momento')
 
     }
-    
+
   }
 }

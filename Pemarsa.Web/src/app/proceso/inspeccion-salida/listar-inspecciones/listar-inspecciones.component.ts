@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InspeccionModel, ProcesoModel, PaginacionModel, ParametrosModel, CatalogoModel } from '../../../common/models/Index';
+import { InspeccionModel, ProcesoModel, PaginacionModel, ParametrosModel, CatalogoModel, FiltroParametrosProcesosoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity/index';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
@@ -72,6 +72,18 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
       });
     }
   }
+  consultarProcesoPorFiltro(filtro: FiltroParametrosProcesosoModel) {
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    filtro.TipoProceso = this.tipoProcesoActual.Valor;
+
+    this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
+      .subscribe(response => {
+        this.Procesos = response.Listado;
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+      });
+  }
+
 
   limiteConsulta(event: any) {
     this.paginacion = new PaginacionModel(1, event);
