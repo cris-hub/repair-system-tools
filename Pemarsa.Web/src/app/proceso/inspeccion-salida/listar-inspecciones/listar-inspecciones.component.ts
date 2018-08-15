@@ -63,6 +63,7 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
   consultarProcesos() {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
+        debugger;
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         
         this.paginacion.CantidadRegistros = response.CantidadRegistros
@@ -79,7 +80,8 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
 
     this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
       .subscribe(response => {
-        this.Procesos = response.Listado;
+        debugger;
+        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);;
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }

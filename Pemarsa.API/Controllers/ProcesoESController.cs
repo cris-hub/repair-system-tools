@@ -122,7 +122,7 @@ namespace Pemarsa.API.Controllers
             try
             {
                 Tuple<int, IEnumerable<Proceso>> procesos = await _procesoService.ConsultarProcesosPorTipoPorFiltro(parametrosDTO, new UsuarioDTO());
-                return Ok(procesos);
+                return Ok(new { CantidadRegistros = procesos.Item1, Listado = procesos.Item2.ToList() });
             }
             catch (Exception e)
             {
@@ -163,7 +163,7 @@ namespace Pemarsa.API.Controllers
         }
 
 
-        [HttpPut("ActualizarInspección")]
+        [HttpPut("ActualizarInspeccion")]
         public async Task<IActionResult> ActualizarInspección([FromBody]Inspeccion inspeccion)
         {
             try

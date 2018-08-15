@@ -82,7 +82,8 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
     
     this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
       .subscribe(response => {
-        this.Procesos = response.Listado;
+        debugger;
+        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado && d.Reasignado != false);
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }

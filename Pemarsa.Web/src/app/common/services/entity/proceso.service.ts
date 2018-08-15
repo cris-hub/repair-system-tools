@@ -69,7 +69,7 @@ export class ProcesoService {
 
   public actualizarInspección(inspeccion: InspeccionModel): Observable<boolean> {
     return this.http.put<boolean>(
-      this.urlServer + 'ActualizarInspección', inspeccion, { headers: this.header }
+      this.urlServer + 'ActualizarInspeccion', inspeccion, { headers: this.header }
     )
   }
 
