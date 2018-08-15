@@ -144,8 +144,8 @@ namespace Pemarsa.CanonicalModels
 
             public struct FormatoAdendem
             {
-                public const string Tipo1 = "Tipo1";
-                public const string Tipo2 = "Tipo1";
+                public const string OD = "O.D";
+                public const string BEV = "BEV";
 
             }
 

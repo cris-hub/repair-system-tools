@@ -11,7 +11,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
           <br />
-          <h3>Crear formato</h3>
+          <h3><b>Crear formato</b></h3>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
 
 
             <label class="col-md-2 col-form-label" id="corre">
-              <span [ngClass]="{'red' : formFormato.controls.TipoFormatoId.status=='INVALID'}">*</span>
+
               Tipo de formato:
             </label>
             <div class="col-md-4">
@@ -37,38 +37,44 @@
                 <label class="form-check-label" for="formatoOtros">formato de otros​</label>
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="formatoModel.TipoFormatoId == 18" (change)="limpiarFormulario()" id="formatoConexion" [value]="18">
+                <input formControlName="TipoFormatoId" validacion validaciones="['requerido']" class="form-check-input" type="radio" [checked]="formatoModel.TipoFormatoId == 18" (change)="limpiarFormulario()" id="formatoConexion" [value]="18">
                 <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
               </div>
+              <label *ngIf="formFormato.get('TipoFormatoId').invalid
+                      &&  (formFormato.get('TipoFormatoId').dirty
+                      || formFormato.get('TipoFormatoId').touched)"
+                      class="text-danger validaciones">Este campo es obligatorio</label>
             </div>
+
+          
+
+            
           </div>
 
           <div *ngIf="formatoModel.TipoFormatoId == 18" class="form-group row">
 
             <label class="col-md-2  col-form-label" id="corre">
-              <span [ngClass]="{'red' : formFormato.controls.TiposConexionesId.status=='INVALID'}">*</span>
+              
               Tipo de conexión
             </label>
             <div class="col-md-3">
               <select formControlName="TiposConexionesId" class=" form-control-lg select">
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" value="{{TiposConexiones.Id}}">{{ TiposConexiones.Valor}}</option>
               </select>
-              <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
-                 style="font-size: 20px;cursor: pointer;"></i>
+
             </div>
 
             <label class="col-md-2  col-form-label" id="corre">
-              <span [ngClass]="{'red' : formFormato.controls.ConexionId.status=='INVALID'}">*</span>
+              
               Conexión
             </label>
             <div class="col-md-3">
               <div>
-                <select formControlName="ConexionId" class="form-control-lg select">
+                <select formControlName="ConexionId" validacion validaciones="['requerido']" class="form-control-lg select">
                   <option *ngFor="let Conexion of parametrosConexion" value="{{Conexion.Id}}">{{Conexion.Valor}}</option>
 
                 </select>
-                <i data-toggle="modal" data-target="#LineaClienteModal" (click)="nuevoDataLineaCliente('crear')" class="glyphicon glyphicon-plus float-right"
-                   style="font-size: 20px;cursor: pointer;"></i>
+
               </div>
             </div>
           </div>
@@ -80,47 +86,27 @@
               Herramienta
             </label>
             <div formGroupName="Herramienta" class="col-md-8">
-              <select formControlName="Id" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
+              <select formControlName="Id" validacion validaciones="[requerido]" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
                 <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta.Id}}">{{ Herramienta.Nombre }}</option>
               </select>
             </div>
           </div>
 
           <!--check aletas -->
-          <div *ngIf="formatoModel.TipoFormatoId == 19 " class="form-group row">
-            <label [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID'}" class="col-md-2 col-form-label" id="corre">
-              <span *ngIf="formFormato.controls.Aletas.status=='INVALID'" [ngClass]="{'red' : formFormato.controls.Aletas.status=='INVALID' }">*</span>
-              Aletas:
-            </label>
-            <div class="col-md-4">
-              <div class="form-check form-check-inline col-md-5">
-                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" [value]="true">
-                <label class="form-check-label" for="AletasSi">Si​</label>
-              </div>
-              <div class="form-check form-check-inline col-md-5">
-                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" [value]="false">
-                <label class="form-check-label" for="AletasNo">No</label>
-              </div>
-            </div>
-
-          </div>
-
-
           <!-- Documentos -->
           <div *ngIf="formatoModel.TipoFormatoId == 18" class="form-group row">
 
             <label class="col-md-2 col-form-label" id="corre">
-              <span *ngIf="formFormato.controls.EsFormatoAdjunto" [ngClass]="{'red' : formFormato.controls.EsFormatoAdjunto.status=='INVALID'}">*</span>
               Documento adjunto:
             </label>
             <div class="col-md-4">
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoSi" [value]="true">
                 <label class="form-check-label" for="EsFormatoAdjuntoSi">Si​</label>
+                <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoSi" [value]="true">
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoNo" [value]="false">
                 <label class="form-check-label" for="EsFormatoAdjuntoNo">No</label>
+                <input formControlName="EsFormatoAdjunto" class="form-check-input" type="radio" id="EsFormatoAdjuntoNo" [value]="false">
               </div>
             </div>
 
@@ -134,36 +120,31 @@
             <div class="col-md-2">
               <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
             </div>
-            <div class="col-md-5 col-md-offset-2">
-              <div *ngIf="Planos.length > 0" class="panel panel-default">
-                <div class="panel-heading">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#archivos">Archivos {{Planos.length}}</a>
-                  <span class="pull-right panel-collapse-clickable" data-toggle="collapse" data-parent="#accordion" href="#archivos">
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                  </span>
-                </div>
-                <div>
+          </div>
 
-                </div>
-                <div id="archivos" class="panel-collapse panel-collapse collapse">
-                  <div class="panel-body">
-                    <ul>
-                      <li *ngFor="let plano of planos">
-                        <a>{{plano.NombreArchivo}}</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+          <div *ngIf="formatoModel.TipoFormatoId == 19 || ( formatoModel.TipoFormatoId == 18 && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
+
+            <div *ngFor="let plano of planos">
+
+              <div class="col-md-12">
+                <p class="form-control">
+                  {{plano.NombreArchivo}}
+                  <!--<i (click)="eliminarAdjunto(adjunto.DocumentoAdjunto)" class="glyphicon glyphicon-minus pointer pull-right"></i>-->
+                  <a href="{{plano.Ruta}}" class="pull-right">
+                    <i class="glyphicon glyphicon-download"></i>
+                  </a>
+                </p>
               </div>
 
             </div>
           </div>
 
 
+
           <!-- Especificacion -->
           <div *ngIf=" ( formatoModel.TipoFormatoId == 18 ) || formatoModel.TipoFormatoId == 19 " class="form-group row">
             <label class="col-md-2  col-form-label" id="corre">
-              <span [ngClass]="{'red' : formFormato.controls.EspecificacionId.status=='INVALID'}">*</span>
+              
               Especificación:
             </label>
             <div class="col-md-4">
@@ -180,7 +161,7 @@
           <div *ngIf=" ( formatoModel.TipoFormatoId == 18)">
             <div class="form-group row">
               <label class="col-md-2 col-form-label" id="corre">
-                <span [ngClass]="{'red' : formFormato.controls.TPI.status=='INVALID'}">*</span>
+                
                 TPI:
               </label>
               <div class="col-md-4">
@@ -189,7 +170,7 @@
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" id="corre">
-                <span [ngClass]="{'red' : formFormato.controls.TPF.status=='INVALID'}">*</span>
+                
                 TPF:
               </label>
               <div class="col-md-4">
@@ -198,72 +179,11 @@
             </div>
           </div>
 
-     
-
-          <!-- Tabla Aletas -->
-          <div *ngIf=" (formatoModel.TipoFormatoId == 19 && formFormato.value['esAletas'] == true) ">
-         
-
-            <div class="row">
-              <div class="col-lg-12">
-                <i (click)="addItemFormParametroAletas()" class="pull-right">
-                  <i class="glyphicon glyphicon-plus pointer"></i>
-                </i>
-                <div class="table-responsive-sm table-responsive-md">
-                  <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
-                    <thead class="titleTable">
-                      <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Parametro</th>
-                        <th scope="col">Item</th>
-                        <th scope="col">ToleranciaMin</th>
-                        <th scope="col">ToleranciaMax</th>
-                        <th scope="col">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody formArrayName="Aletas"
-                           *ngFor="let Aletas of formFormato.get('Aletas').controls; let i = index;">
-                      <tr [formGroupName]="i">
-
-                        <td>
-                          <p *ngIf="i>0">{{i}} </p>
-                        </td>
-
-                        <td>
-                          <input formControlName="Parametro" class="form-control" type="text" />
-                        </td>
-                        <td>
-                          <input formControlName="Item" class="form-control" type="text" />
-                        </td>
-
-
-                        <td>
-                          <input formControlName="ToleranciaMin" class="form-control" type="text" />
-                        </td>
-
-                        <td>
-                          <input formControlName="ToleranciaMax" class="form-control" type="text" />
-                        </td>
-
-                        <td>
-                          <div class="btn-group" role="group" style="display:flex;" aria-label="...">
-                            <i (click)="removeItemFormFormatoPatamtrosAletas(i)" >
-                              <i class="glyphicon glyphicon glyphicon-minus"></i>
-                            </i>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
 
 
           <!-- Tabla Parametros -->
           <div *ngIf=" ( formatoModel.TipoFormatoId == 18  || formatoModel.TipoFormatoId == 19 ) ">
-            
+
             <div class="row">
               <div class="col-12">
                 <i (click)="addItemFormParametro()" class="pull-right">
@@ -312,6 +232,86 @@
                               <i class="glyphicon glyphicon glyphicon-minus"></i>
                             </i>
 
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div *ngIf="formatoModel.TipoFormatoId == 19 " class="form-group row">
+            <label  class="col-md-2 col-form-label" id="corre">
+              
+              Aletas:
+            </label>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == true" class="form-check-input" type="radio" id="AletasSi" [value]="true">
+                <label class="form-check-label" for="AletasSi">Si​</label>
+              </div>
+              <div class="form-check form-check-inline col-md-5">
+                <input formControlName="esAletas" [checked]="formFormato.value['esAletas'] == undefined" class="form-check-input" type="radio" id="AletasNo" [value]="false">
+                <label class="form-check-label" for="AletasNo">No</label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Tabla Aletas -->
+          <div *ngIf=" (formatoModel.TipoFormatoId == 19 && formFormato.value['esAletas'] == true) ">
+
+
+            <div class="row">
+              <div class="col-lg-12">
+                <i (click)="addItemFormParametroAletas()" class="pull-right">
+                  <i class="glyphicon glyphicon-plus pointer"></i>
+                </i>
+                <div class="table-responsive-sm table-responsive-md">
+                  <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
+                    <thead class="titleTable">
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Parametro</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">ToleranciaMin</th>
+                        <th scope="col">ToleranciaMax</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="Aletas"
+                           *ngFor="let Aletas of formFormato.get('Aletas').controls; let i = index;">
+                      <tr [formGroupName]="i">
+
+                        <td>
+                          <p *ngIf="i>0">{{i}} </p>
+                        </td>
+
+                        <td>
+                          <input formControlName="Parametro" class="form-control" type="text" />
+                        </td>
+                        <td>
+                          <input formControlName="Item" class="form-control" type="text" />
+                        </td>
+
+
+                        <td>
+                          <input formControlName="ToleranciaMin" class="form-control" type="text" />
+                        </td>
+
+                        <td>
+                          <input formControlName="ToleranciaMax" class="form-control" type="text" />
+                        </td>
+
+                        <td>
+                          <div class="btn-group" role="group" style="display:flex;" aria-label="...">
+                            <i (click)="removeItemFormFormatoPatamtrosAletas(i)">
+                              <i class="glyphicon glyphicon glyphicon-minus"></i>
+                            </i>
                           </div>
                         </td>
                       </tr>

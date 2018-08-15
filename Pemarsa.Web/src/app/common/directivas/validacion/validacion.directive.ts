@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, HostListener, Renderer2, SimpleChanges } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 
 
@@ -22,6 +22,7 @@ export class ValidacionDirective implements Validator {
   public text;
   public mensaje: string = '';
   public textoInput: string;
+  private _onChange: () => void;
 
   /**
    * - se mejoraria si se logra escuchar el evento submit
@@ -39,12 +40,16 @@ export class ValidacionDirective implements Validator {
 
   }
 
+
+
   // escucha el evento del boton que va ha hacer submit
 
   @HostListener('focusout')
   focusOut() {
     this.asignar();
   }
+
+
   @HostListener('blur')
   blur() {
     this.asignar();
@@ -52,7 +57,8 @@ export class ValidacionDirective implements Validator {
   @HostListener('keyup')
   keyup() {
     this.asignar();
-  } @HostListener('input')
+  }
+  @HostListener('input')
   input() {
     this.asignar();
   }
@@ -76,7 +82,9 @@ export class ValidacionDirective implements Validator {
 
   }
 
-  registerOnValidatorChange?(fn: () => void): void {
+  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.asignar();
 
   }
 
