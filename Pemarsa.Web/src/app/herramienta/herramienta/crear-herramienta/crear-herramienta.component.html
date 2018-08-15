@@ -117,17 +117,24 @@
           <div class="form-group row">
             <div class="col-md-10  col-md-offset-1">
               <div class="panel panel-default ">
-                <div class="panel-heading text-center">
-                  Herramienta Petrolera:&nbsp;&nbsp;
+                <div class="panel-heading gris" style="background:#d7dce3 !important; color:#1f1e1e  !important">
+                  <div class="row">
+                    <div class="col-md-6">
+                      Herramienta Petrolera:&nbsp;&nbsp;
+                      <label class="form-check-label">SI</label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="true">
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <label class="form-check-label">NO</label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="false">
 
-                  <label class="form-check-label">SI</label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="true">
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <label class="form-check-label">NO</label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="false">
-                  <strong *ngIf="frmHerramienta.get('EsHerramientaPetrolera').invalid" class="text-danger validaciones">*</strong>
+                    </div>
+                    <div class="col-md-5" [ngClass]="{'white' : (!frmHerramienta.controls.EsHerramientaPetrolera.valid && (frmHerramienta.controls.EsHerramientaPetrolera.touched || frmHerramienta.controls.EsHerramientaPetrolera.dirty))}">
+
+                      <strong *ngIf="frmHerramienta.get('EsHerramientaPetrolera').invalid   && (frmHerramienta.controls.EsHerramientaPetrolera.touched || frmHerramienta.controls.EsHerramientaPetrolera.dirty)" class=" validaciones">Este campo es obligatorio</strong>
+                    </div>
+                  </div>
                 </div>
                 <div class="panel-body">
                   <div class="card-body col-md-8">

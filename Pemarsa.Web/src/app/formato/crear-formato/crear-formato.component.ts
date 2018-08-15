@@ -53,6 +53,8 @@ export class CrearFormatoComponent implements OnInit {
 
   //Formatos
   public formatoModel: FormatoModel;
+  public tipoFormatoValidacionesFormatoOtros = '';
+  public tipoFormatoValidacionesFormatoConexiones = '';
   public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
   public aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
 
@@ -355,22 +357,26 @@ export class CrearFormatoComponent implements OnInit {
     
     let id = this.formFormato.value['TipoFormatoId']
     this.formFormato.value['TipoFormatoId'] = id
-    this.formFormato.reset();
+    
     this.formFormato.get('TipoFormatoId').setValue(id)
     this.formatoModel.TipoFormatoId = id;
     if (id == TIPOS_FORMATO.FORMATOCONEXION) {
-      this.formFormato.get('TiposConexionesId').setValidators(Validators.required);
-      this.formFormato.get('ConexionId').setValidators(Validators.required);
-      this.formFormato.get('TPI').setValidators(Validators.required);
-      this.formFormato.get('TPF').setValidators(Validators.required);
-      this.formFormato.get('Adendum').setValidators(Validators.required);
-      this.formFormato.get('EspecificacionId').setValidators(Validators.required);
-      this.formFormato.get('Parametros').setValidators(Validators.required);
+      this.tipoFormatoValidacionesFormatoOtros = ''
+      this.tipoFormatoValidacionesFormatoConexiones = 'requrido'
+      //this.formFormato.get('TiposConexionesId').setValidators(Validators.required);
+      //this.formFormato.get('ConexionId').setValidators(Validators.required);
+      //this.formFormato.get('TPI').setValidators(Validators.required);
+      //this.formFormato.get('TPF').setValidators(Validators.required);
+      //this.formFormato.get('Adendum').setValidators(Validators.required);
+      //this.formFormato.get('EspecificacionId').setValidators(Validators.required);
+      //this.formFormato.get('Parametros').setValidators(Validators.required);
     }
     if (id == TIPOS_FORMATO.FORMATOOTROS) {
-      this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
-      this.formFormato.get('Planos').setValidators(Validators.required);
-      this.formFormato.get('Parametros').setValidators(Validators.required);
+      this.tipoFormatoValidacionesFormatoOtros = 'requrido'
+      this.tipoFormatoValidacionesFormatoConexiones = ''
+      //this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
+      //this.formFormato.get('Planos').setValidators(Validators.required);
+      //this.formFormato.get('Parametros').setValidators(Validators.required);
 
     }
     
@@ -398,13 +404,13 @@ export class CrearFormatoComponent implements OnInit {
       this.toastr.error('formato no valido!', 'validacion');
       return
     }
-    if (this.formatoModel.TipoFormatoId == 18) {
-      delete this.formatoModel['Herramienta'];
+    if (this.formatoModel.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION) {
+       this.formatoModel.Herramienta = null
 
 
     } else {
 
-      delete this.formatoModel['Adendum'];
+       this.formatoModel['Adendum'] = null;
 
     }
 
@@ -451,19 +457,23 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   crearFormato(formato: FormatoModel) {
+    this.loaderService.display(true)
     console.log(formato
     )
     this.formatoServicio.crearFormato(formato).subscribe((a) => {
-      console.log(a)
+      this.toastr.success('Formato creado correctamente!', '');
+      this.loaderService.display(false)
+      setTimeout(e => { this.router.navigate(['/formato']); }, 200);
     });
   }
 
   actualizarFormato() {
-
+    this.loaderService.display(true)
     console.log(this.formatoModel);
     this.formatoServicio.actualizarFormato(this.formatoModel)
       .subscribe(response => {
-        this.toastr.success('cliente editado correctamente!', '');
+        this.toastr.success('Formato modificado correctamente!', '');
+        this.loaderService.display(true)
         setTimeout(e => { this.router.navigate(['/formato']); }, 200);
       });
 
