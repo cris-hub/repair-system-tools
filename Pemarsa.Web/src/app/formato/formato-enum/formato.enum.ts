@@ -2,3 +2,8 @@ export enum TIPOS_FORMATO {
   FORMATOCONEXION=18,
   FORMATOOTROS=19
 }
+export enum TIPOS_ESPECIFICACION {
+  'API7-2' = 20,
+  '5B ' = 21,
+  'BH' = 113
+}

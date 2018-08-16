@@ -23,6 +23,15 @@ namespace FormatoES.Repository
         {
             try
             {
+                if (formato.Codigo != null)
+                {
+
+                    var exitesCodigo = await _context.Formato.AnyAsync(d => d.Codigo == formato.Codigo);
+                    if (exitesCodigo)
+                    {
+                        throw new Exception("El codigo de para este formato ya existe, por favor intente otro");
+                    }
+                }
                 formato.Guid = Guid.NewGuid();
                 formato.GuidUsuarioCrea = Guid.NewGuid();
                 formato.NombreUsuarioCrea = "USUARIO CREA";
@@ -76,11 +85,11 @@ namespace FormatoES.Repository
             {
                 var query = _context.Formato.AsNoTracking()
                                     .Include(c => c.Adendum)
-                                    .Include(c => c.FormatoFormatoParametro).ThenInclude(d=>d.FormatoParametro)
+                                    .Include(c => c.FormatoFormatoParametro).ThenInclude(d => d.FormatoParametro)
                                     .Include(c => c.Planos)
-                                    
-                                    
-                                    
+
+
+
                                     .Include(c => c.Herramienta);
 
                 var result = await query
@@ -105,13 +114,13 @@ namespace FormatoES.Repository
                 .Include(f => f.Adendum)
                 .Include(f => f.FormatoFormatoParametro)
                 .Where(f => (string.IsNullOrEmpty(parametrosDTO.HerramientaId) || f.Herramienta.Id == Int32.Parse(parametrosDTO.HerramientaId))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.Codigo) || f.Codigo.ToLower().Contains(parametrosDTO.Codigo.ToLower()))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.FechaCreacion) || f.FechaRegistro.ToString().Contains(parametrosDTO.FechaCreacion))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.HerramientaId) || f.Herramienta.Nombre.ToLower().Contains(parametrosDTO.HerramientaId.ToLower()))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.Conexion) || f.Conexion.Valor.ToLower().Contains(parametrosDTO.Conexion.ToLower()))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.HerramientaGuid) || f.Conexion.Guid.ToString().Contains(parametrosDTO.HerramientaGuid))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormatoId.ToString().Contains(parametrosDTO.TipoConexion))
-                        &&  (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormato.Valor.ToLower().Contains(parametrosDTO.TipoConexion.ToLower())));
+                        && (string.IsNullOrEmpty(parametrosDTO.Codigo) || f.Codigo.ToLower().Contains(parametrosDTO.Codigo.ToLower()))
+                        && (string.IsNullOrEmpty(parametrosDTO.FechaCreacion) || f.FechaRegistro.ToString().Contains(parametrosDTO.FechaCreacion))
+                        && (string.IsNullOrEmpty(parametrosDTO.HerramientaId) || f.Herramienta.Nombre.ToLower().Contains(parametrosDTO.HerramientaId.ToLower()))
+                        && (string.IsNullOrEmpty(parametrosDTO.Conexion) || f.Conexion.Valor.ToLower().Contains(parametrosDTO.Conexion.ToLower()))
+                        && (string.IsNullOrEmpty(parametrosDTO.HerramientaGuid) || f.Conexion.Guid.ToString().Contains(parametrosDTO.HerramientaGuid))
+                        && (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormatoId.ToString().Contains(parametrosDTO.TipoConexion))
+                        && (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormato.Valor.ToLower().Contains(parametrosDTO.TipoConexion.ToLower())));
 
 
             /*
@@ -131,7 +140,7 @@ namespace FormatoES.Repository
                 .Where(f => (string.IsNullOrEmpty(parametrosDTO.TipoConexion) || f.TipoFormato.Valor.ToLower().Contains(parametrosDTO.TipoConexion.ToLower())));*/
 
 
-            
+
             var paginacion = await query.OrderBy(f => f.FechaRegistro).ToListAsync();
             var cantidad = await query.CountAsync();
             return new Tuple<int, ICollection<Formato>>(cantidad, paginacion);

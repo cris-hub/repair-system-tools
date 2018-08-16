@@ -197,7 +197,7 @@ export class InspeccionHerramientaComponent implements OnInit {
     this.activedRoute.snapshot.url.forEach(url => url.path == 'procesar' || url.path == 'editar' || url.path == 'ver' ? this.accion = url.path : this.accion = undefined);
   }
   obtenerTipoInspeccionDesdeUrl(): string {
-    return this.activedRoute.snapshot.url[1].path;
+    return 'salida'
   }
   obtenerPiezadesdeUrl(): string {
     let index = this.activedRoute.snapshot.paramMap.get('index')

@@ -514,13 +514,18 @@ namespace Pemarsa.Data.DBInitialize
                     new Catalogo{
                         Id = 20,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Especificacion.Incosistencias,
+                        Valor = CanonicalConstants.Especificacion.tipo1,
                         Grupo = CanonicalConstants.Grupos.Especificacion
                     },
                     new Catalogo{
                         Id = 21,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Especificacion.Reparacion,
+                        Valor = CanonicalConstants.Especificacion.tipo2,
+                        Grupo = CanonicalConstants.Grupos.Especificacion
+                     },new Catalogo{
+                        Id = 113,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.tipo3,
                         Grupo = CanonicalConstants.Grupos.Especificacion
                      }
                 };

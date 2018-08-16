@@ -345,7 +345,7 @@ namespace ProcesoES.Repository
 
 
 
-                var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO)
+                var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO).OrderBy(d=>d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros);
 

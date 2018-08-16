@@ -67,6 +67,8 @@ export class OitCambioProcesoComponent implements OnInit {
   consultarProcesos() {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
+        this.Procesos = response.Listado.filter(d => d.EstadoId!=ESTADOS_PROCESOS.Procesado)
+        this.paginacion.CantidadRegistros = this.Procesos.length
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         this.Procesos.forEach((p) => {
           p.OrdenTrabajoId = p.OrdenTrabajo.Id;
@@ -77,7 +79,6 @@ export class OitCambioProcesoComponent implements OnInit {
           p.EstadoValor = p.Estado.Valor;
           p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
         });
-        this.paginacion.CantidadRegistros = response.CantidadRegistros;
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)

@@ -18,8 +18,9 @@ namespace Pemarsa.CanonicalModels
 
         public struct Especificacion
         {
-            public const string Incosistencias = "Incosistencias";
-            public const string Reparacion = "Reparacion";
+            public const string tipo1 = "API 7-2";
+            public const string tipo2 = "5B";
+            public const string tipo3 = "BH";
         }
 
         public struct Estados

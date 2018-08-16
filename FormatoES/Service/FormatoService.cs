@@ -30,7 +30,7 @@ namespace FormatoES.Service
             _context = context;
         }
 
-        public async Task<bool> ActualizarFormato(Formato formato, string RutaServer, UsuarioDTO usuario)
+        public async Task<bool> ActualizarFormato(Formato formato, UsuarioDTO usuario)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace FormatoES.Service
             catch (Exception) { throw; }
         }
 
-        public async Task<Guid> CrearFormato(Formato formato, string RutaServer, UsuarioDTO usuario)
+        public async Task<Guid> CrearFormato(Formato formato, UsuarioDTO usuario)
         {
             try
             {
@@ -48,19 +48,8 @@ namespace FormatoES.Service
 
                     foreach (var plano in formato.Planos)
                     {
-                        //Se combierte el stream del documento adjutno en butes
-                        Byte[] bytes = Convert.FromBase64String(plano.Stream);
 
-                        //Se valida si existe la carpeta en el servidor
-                        if (!Directory.Exists($"{RutaServer}"))
-                            Directory.CreateDirectory($"{RutaServer}");
-
-                        //se guarda la ruta en el documentoAfjunto para registrarla en la base de datos
-                        string nameSystem = $"{Guid.NewGuid().ToString()}.{plano.NombreArchivo.Split('.')[1]}";
-                        plano.Ruta = $"{RutaServer}{nameSystem}";
-                        plano.Nombre = nameSystem;
-
-                        await File.WriteAllBytesAsync(plano.Ruta, bytes);
+                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(plano);
 
                     }
                 }

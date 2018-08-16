@@ -16,12 +16,12 @@ import { FiltroProcesoComponent } from '../../filtro-proceso/filtro-proceso.comp
 })
 export class ListarInspeccionesEntradaComponent implements OnInit {
 
-  public paginacion: PaginacionModel = new PaginacionModel(1, 10);
-  public tipoProcesoActual: CatalogoModel = new CatalogoModel();
-  public Paramtros: ParametrosModel;
-  public tipoProcesos: CatalogoModel[];
-  public Procesos: Array<ProcesoModel>;
-  public filter: string
+  public  paginacion: PaginacionModel = new PaginacionModel(1, 20);
+  public  tipoProcesoActual: CatalogoModel = new CatalogoModel();
+  public  Paramtros: ParametrosModel;
+  public  tipoProcesos: CatalogoModel[];
+  public  Procesos: Array<ProcesoModel>;
+  public filter : string
 
   constructor(
     private procesoService: ProcesoService,
@@ -66,6 +66,8 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado && d.Reasignado != false);
+        
+        this.paginacion.CantidadRegistros = this.Procesos.length
         this.Procesos.forEach((p) => {
           p.OrdenTrabajoId = p.OrdenTrabajo.Id;
           p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
@@ -77,7 +79,6 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
             p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
           }
         });
-        this.paginacion.CantidadRegistros = response.CantidadRegistros
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)
