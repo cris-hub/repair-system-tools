@@ -355,7 +355,7 @@ export class CrearOitComponent implements OnInit {
     this.formularioOrdenTrabajo = this.formBulder.group({
 
       Cantidad: [ordenTrabajo.Herramienta.EsHerramientaPorCantidad ? ordenTrabajo.Cantidad : 1],
-      CantidadInspeccionar: [ordenTrabajo.CantidadInspeccionar],
+      
       DetallesSolicitud: [ordenTrabajo.DetallesSolicitud],
       ObservacionRemision: [ordenTrabajo.ObservacionRemision],
       OrdenCompra: [ordenTrabajo.OrdenCompra],
@@ -390,7 +390,7 @@ export class CrearOitComponent implements OnInit {
       LineaId: [ordenTrabajo.Linea.Id],
       Linea: [ordenTrabajo.Linea],
 
-      ClienteId: [ordenTrabajo.Cliente.Id, Validators.required],
+      ClienteId: [this.Cliente ? this.Cliente.Id : ordenTrabajo.ClienteId],
       Cliente: [ordenTrabajo.Cliente, Validators.required],
       RemisionInicial: [ordenTrabajo.RemisionInicial],
       SolicitudOrdenTrabajo: [ordenTrabajo.SolicitudOrdenTrabajo],
@@ -486,7 +486,7 @@ export class CrearOitComponent implements OnInit {
   asignarValoresFormulario(data) {
 
     Object.assign(this.ordenTrabajo, data);
-
+    this.ordenTrabajo.ClienteId = this.Cliente.Id
 
     return this.ordenTrabajo;
 

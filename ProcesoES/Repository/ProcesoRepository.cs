@@ -250,7 +250,14 @@ namespace ProcesoES.Repository
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.ImagenMfl)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Conexiones).ThenInclude(d => d.Conexion)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Insumos)
-                            .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
+
+                           .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion).ThenInclude(e => e.InspeccionEquipoUtilizado).ThenInclude(e => e.EquipoUtilizado)
+                            .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion).ThenInclude(c => c.InspeccionFotos).ThenInclude(d => d.DocumentoAdjunto)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.ImagenMedicionEspesores)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.Dimensionales)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.ImagenMfl)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.Conexiones).ThenInclude(d => d.Conexion)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.OrdenTrabajo.Herramienta)
                             .Include(c => c.OrdenTrabajo.TamanoHerramienta)
                             .Include(c => c.OrdenTrabajo.Material).ThenInclude(m => m.Material)
@@ -363,7 +370,7 @@ namespace ProcesoES.Repository
                         .Include(proceso => proceso.Estado)
                         .Include(proceso => proceso.TipoProcesoAnterior)
                         .Include(proceso => proceso.OrdenTrabajo.Prioridad)
-                        .Where(c => 
+                        .Where(c =>
                                     (string.IsNullOrEmpty(parametrosDTO.TipoProceso) || c.TipoProceso.Valor == parametrosDTO.TipoProceso) &&
                                     (string.IsNullOrEmpty(parametrosDTO.HerraminetaNombre) || c.OrdenTrabajo.Herramienta.Nombre.ToLower().Contains(parametrosDTO.HerraminetaNombre.ToLower())) &&
                                     (string.IsNullOrEmpty(parametrosDTO.OrdenTrabajoPrioridad) || c.OrdenTrabajo.Prioridad.Valor == parametrosDTO.OrdenTrabajoPrioridad) &&
@@ -470,10 +477,10 @@ namespace ProcesoES.Repository
                     _context.Entry(proceso).State = EntityState.Detached;
                     _context.Entry(procesoBD).State = EntityState.Detached;
                     var procesoAnterior = _context.Proceso.FirstOrDefault(d => d.Id == proceso.ProcesoAnteriorId);
-                    
+
                     Proceso nuevoProceso = AsignarValoresProcesoReasignacion(procesoBD);
                     nuevoProceso.CantidadInspeccion = procesoAnterior.CantidadInspeccion;
-                    _context.Proceso.Add(nuevoProceso);
+                    await CrearProceso(nuevoProceso, usuario);
 
 
                     proceso.EstadoId = (int)ESTADOSPROCESOS.ASIGNADO;
@@ -482,6 +489,20 @@ namespace ProcesoES.Repository
                     _context.Update(proceso);
 
                     await _context.SaveChangesAsync();
+
+
+                    proceso.InspeccionEntrada = new List<ProcesoInspeccionEntrada>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(nuevoProceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                    }
+
+                    proceso.ProcesoInspeccionSalida = new List<ProcesoInspeccionSalida>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(nuevoProceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                    }
+
 
                     return nuevoProceso.Guid;
                 }
@@ -543,7 +564,7 @@ namespace ProcesoES.Repository
             {
                 TipoProcesoAnteriorId = proceso.TipoProcesoAnteriorId,
                 TipoProcesoId = proceso.TipoProcesoSiguienteId,
-                Reasignado = proceso.Reasignado,
+
                 Guid = Guid.NewGuid(),
                 EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
                 OrdenTrabajoId = proceso.OrdenTrabajoId,
