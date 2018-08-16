@@ -303,9 +303,9 @@ export class InspeccionHerramientaComponent implements OnInit {
   quitarDeLaListaDeSeleccionDeInspecciones(inspecion) {
 
 
-    let inspeccionEntrada: ProcesoInspeccionEntradaModel = this.Proceso.ProcesoInspeccionSalida.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.PENDIENTE })
+    let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = this.Proceso.ProcesoInspeccionSalida.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.PENDIENTE })
 
-    this.procesoService.actualizarEstadoInspeccion(inspeccionEntrada.Inspeccion.Guid, ESTADOS_INSPECCION.ANULADA).subscribe(response => {
+    this.procesoService.actualizarEstadoInspeccion(ProcesoInspeccionSalida.Inspeccion.Guid, ESTADOS_INSPECCION.ANULADA).subscribe(response => {
 
 
       if (response) {

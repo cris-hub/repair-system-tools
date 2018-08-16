@@ -529,6 +529,16 @@ namespace ProcesoES.Repository
 
                 }
 
+                if (proceso.ProcesoInspeccionSalida == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+                    proceso.ProcesoInspeccionSalida = new List<ProcesoInspeccionSalida>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(proceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                    }
+
+                }
+
                 return proceso.Guid;
             }
             catch (Exception e)

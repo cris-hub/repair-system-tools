@@ -86,7 +86,7 @@ export class VisualDimensionalComponent implements OnInit {
   //consultas
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
-
+    this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso  = response
@@ -99,6 +99,7 @@ export class VisualDimensionalComponent implements OnInit {
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
+        this.loaderService.display(false)
       }, error => {
 
       }, () => {

@@ -80,7 +80,7 @@ export class UTComponent implements OnInit {
   }
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
-
+    this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response
@@ -89,12 +89,13 @@ export class UTComponent implements OnInit {
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
-
+          
         });
 
         this.inspeccion = ProcesoInspeccionSalida.Inspeccion;
-
+        
         console.log(this.inspeccion)
+        this.loaderService.display(false)
       }, error => {
 
       }, () => {
