@@ -63,7 +63,7 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
   consultarProcesos() {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
-        debugger;
+        
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         
         this.paginacion.CantidadRegistros = response.CantidadRegistros

@@ -189,22 +189,24 @@
                     <tbody>
                       <tr *ngFor="let tipos of formFormato.get('Adendum').tipos ">
                         <th> <p>{{tipos.Valor}} </p></th>
-                        <div *ngIf="tipos.Id ==26">
-                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8">
+                        <td *ngIf="tipos.Id ==26" >
+                          <div  *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8" style="display: table-cell;">
 
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
-                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
-                          </td>
-                        </div>
-                        <div *ngIf="tipos.Id ==27">
-                          <td *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i">
+                            <input *ngIf="formFormato.get('Adendum').controls[i].value" formControlName="Posicion" class="form-control" type="text" />
+                            <input *ngIf="formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                            <input formControlName="Valor"  class="form-control" type="text" />
 
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
-                            <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
-                            <input formControlName="Valor" tabindex="{{i}}" class="form-control" type="text" />
-                          </td>
-                        </div>
+                          </div>
+                        </td>
+                        <td *ngIf="tipos.Id ==27">
+                          <div 
+                            *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i" style="display: table-cell;">
+
+                            <input *ngIf="formFormato.get('Adendum').controls[i].value" formControlName="Position" class="form-control" type="text" />
+                            <input *ngIf="formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                            <input formControlName="Valor"  class="form-control" type="text" />
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>

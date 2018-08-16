@@ -15,6 +15,7 @@ import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_I
 import { isUndefined } from 'util';
 import { Location } from '@angular/common';
 import { ValidacionDirective } from '../../../common/directivas/validacion/validacion.directive';
+import { ProcesoInspeccionSalidaModel } from '../../../common/models/ProcesoInspeccionSalidaModel';
 
 @Component({
   selector: 'app-emi',
@@ -95,14 +96,14 @@ export class EMIComponent implements OnInit {
       .subscribe(response => {
         this.proceso = response
 
-        let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
+        let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = response.ProcesoInspeccionSalida.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
         });
 
-        this.inspeccion = inspeccionEntrada.Inspeccion;
+        this.inspeccion = ProcesoInspeccionSalida.Inspeccion;
 
 
         this.inspeccion.ImagenMfl
@@ -207,14 +208,14 @@ export class EMIComponent implements OnInit {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
           this.router.navigate([
-            'inspeccion/entrada/' +
+            'inspeccion/salida/' +
             this.obtenerParametrosRuta().get('procesoId') + '/' +
             this.obtenerParametrosRuta().get('pieza') + '/' +
             this.obtenerParametrosRuta().get('accion')]);
           return
         }
         this.router.navigate([
-          'inspeccion/entrada/' +
+          'inspeccion/salida/' +
           TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
           this.obtenerParametrosRuta().get('procesoId') + '/' +
           this.obtenerParametrosRuta().get('pieza') + '/' +
@@ -224,10 +225,10 @@ export class EMIComponent implements OnInit {
   }
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
-          this.router.navigate(['inspeccion/entrada'])
+          this.router.navigate(['inspeccion/salida'])
         };
       });
     }

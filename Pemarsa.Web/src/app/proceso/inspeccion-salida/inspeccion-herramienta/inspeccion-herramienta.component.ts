@@ -109,7 +109,7 @@ export class InspeccionHerramientaComponent implements OnInit {
       }
       console.log(this.tieneProcesoSugerido)
 
-      if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+      if (this.Proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
         this.inspeccionesTerminada = true
       }
       else {
@@ -126,7 +126,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   completarProcesoInspeccion(guidProceso: string) {
 
-    if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
+    if (this.Proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
           this.router.navigate(['inspeccion/salida'])
@@ -303,9 +303,9 @@ export class InspeccionHerramientaComponent implements OnInit {
   quitarDeLaListaDeSeleccionDeInspecciones(inspecion) {
 
 
-    let inspeccionEntrada: ProcesoInspeccionEntradaModel = this.Proceso.InspeccionEntrada.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.PENDIENTE })
+    let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = this.Proceso.ProcesoInspeccionSalida.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.PENDIENTE })
 
-    this.procesoService.actualizarEstadoInspeccion(inspeccionEntrada.Inspeccion.Guid, ESTADOS_INSPECCION.ANULADA).subscribe(response => {
+    this.procesoService.actualizarEstadoInspeccion(ProcesoInspeccionSalida.Inspeccion.Guid, ESTADOS_INSPECCION.ANULADA).subscribe(response => {
 
 
       if (response) {
@@ -342,7 +342,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   //inspecciones seleccionadas
   private AgregarElemntosUI(idInspeccionSeleccionada) {
 
-    this.Proceso.InspeccionEntrada.forEach(inspecion => {
+    this.Proceso.ProcesoInspeccionSalida.forEach(inspecion => {
       this.tiposInspecciones.forEach(c => {
         if (c.Id == inspecion.Inspeccion.TipoInspeccionId
           && (inspecion.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
@@ -367,7 +367,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private procesarInspeccionesSeleccionadas() {
     if (this.tipoProcesoActual.Id == TIPO_PROCESO.INSPECCIONENTRADA) {
       let inspeccionEntrada: ProcesoInspeccionEntradaModel = new ProcesoInspeccionEntradaModel();
-      this.Proceso.InspeccionEntrada = this.crearInspecciones<ProcesoInspeccionEntradaModel>(inspeccionEntrada);
+      this.Proceso.ProcesoInspeccionSalida = this.crearInspecciones<ProcesoInspeccionEntradaModel>(inspeccionEntrada);
     }
     else if (this.tipoProcesoActual.Id == TIPO_PROCESO.INSPECCIONSALIDA) {
       let inspeccionsalida: ProcesoInspeccionSalidaModel = new ProcesoInspeccionSalidaModel();
@@ -434,7 +434,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
 
   estadoCompleta(pieza) {
-    let inspecciones = this.Proceso.InspeccionEntrada
+    let inspecciones = this.Proceso.ProcesoInspeccionSalida
       .filter(i => i.Inspeccion.Pieza == pieza)
       .filter(t => t.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
     if (inspecciones.length <= 0) {

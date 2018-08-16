@@ -250,7 +250,14 @@ namespace ProcesoES.Repository
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.ImagenMfl)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Conexiones).ThenInclude(d => d.Conexion)
                             .Include(d => d.InspeccionEntrada).ThenInclude(c => c.Inspeccion.Insumos)
-                            .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion)
+
+                           .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion).ThenInclude(e => e.InspeccionEquipoUtilizado).ThenInclude(e => e.EquipoUtilizado)
+                            .Include(c => c.ProcesoInspeccionSalida).ThenInclude(d => d.Inspeccion).ThenInclude(c => c.InspeccionFotos).ThenInclude(d => d.DocumentoAdjunto)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.ImagenMedicionEspesores)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.Dimensionales)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.ImagenMfl)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.Conexiones).ThenInclude(d => d.Conexion)
+                            .Include(d => d.ProcesoInspeccionSalida).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.OrdenTrabajo.Herramienta)
                             .Include(c => c.OrdenTrabajo.TamanoHerramienta)
                             .Include(c => c.OrdenTrabajo.Material).ThenInclude(m => m.Material)
@@ -363,7 +370,7 @@ namespace ProcesoES.Repository
                         .Include(proceso => proceso.Estado)
                         .Include(proceso => proceso.TipoProcesoAnterior)
                         .Include(proceso => proceso.OrdenTrabajo.Prioridad)
-                        .Where(c => 
+                        .Where(c =>
                                     (string.IsNullOrEmpty(parametrosDTO.TipoProceso) || c.TipoProceso.Valor == parametrosDTO.TipoProceso) &&
                                     (string.IsNullOrEmpty(parametrosDTO.HerraminetaNombre) || c.OrdenTrabajo.Herramienta.Nombre.ToLower().Contains(parametrosDTO.HerraminetaNombre.ToLower())) &&
                                     (string.IsNullOrEmpty(parametrosDTO.OrdenTrabajoPrioridad) || c.OrdenTrabajo.Prioridad.Valor == parametrosDTO.OrdenTrabajoPrioridad) &&
@@ -469,8 +476,11 @@ namespace ProcesoES.Repository
                     _context.Entry(procesoBD).CurrentValues.SetValues(proceso);
                     _context.Entry(proceso).State = EntityState.Detached;
                     _context.Entry(procesoBD).State = EntityState.Detached;
+                    var procesoAnterior = _context.Proceso.FirstOrDefault(d => d.Id == proceso.ProcesoAnteriorId);
+
                     Proceso nuevoProceso = AsignarValoresProcesoReasignacion(procesoBD);
-                    _context.Proceso.Add(nuevoProceso);
+                    nuevoProceso.CantidadInspeccion = procesoAnterior.CantidadInspeccion;
+                    await CrearProceso(nuevoProceso, usuario);
 
 
                     proceso.EstadoId = (int)ESTADOSPROCESOS.ASIGNADO;
@@ -479,6 +489,20 @@ namespace ProcesoES.Repository
                     _context.Update(proceso);
 
                     await _context.SaveChangesAsync();
+
+
+                    proceso.InspeccionEntrada = new List<ProcesoInspeccionEntrada>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(nuevoProceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                    }
+
+                    proceso.ProcesoInspeccionSalida = new List<ProcesoInspeccionSalida>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(nuevoProceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                    }
+
 
                     return nuevoProceso.Guid;
                 }
@@ -498,6 +522,16 @@ namespace ProcesoES.Repository
                 if (proceso.InspeccionEntrada == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
                 {
                     proceso.InspeccionEntrada = new List<ProcesoInspeccionEntrada>();
+                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                    {
+                        await CrearInspeccion(proceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                    }
+
+                }
+
+                if (proceso.ProcesoInspeccionSalida == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+                    proceso.ProcesoInspeccionSalida = new List<ProcesoInspeccionSalida>();
                     for (int i = 1; i <= proceso.CantidadInspeccion; i++)
                     {
                         await CrearInspeccion(proceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
@@ -540,7 +574,7 @@ namespace ProcesoES.Repository
             {
                 TipoProcesoAnteriorId = proceso.TipoProcesoAnteriorId,
                 TipoProcesoId = proceso.TipoProcesoSiguienteId,
-                Reasignado = proceso.Reasignado,
+
                 Guid = Guid.NewGuid(),
                 EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
                 OrdenTrabajoId = proceso.OrdenTrabajoId,
@@ -574,13 +608,24 @@ namespace ProcesoES.Repository
         {
             try
             {
+                Inspeccion inspecion = null;
+                var query = _context.Proceso.Include(proceso => proceso.InspeccionEntrada).ThenInclude(inspecionEntrada => inspecionEntrada.Inspeccion)
+                    .Include(proceso => proceso.ProcesoInspeccionSalida).ThenInclude(procesoInspeccionSalida => procesoInspeccionSalida.Inspeccion);
+                var procesoBD = query.FirstOrDefault(d => d.Guid == guid);
+                if (procesoBD.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
+                {
+                    var queryInspeccionesEntradas = query.SelectMany(t => t.InspeccionEntrada).Where(d => d.Proceso.Guid == guid);
+                    var queryInspecciones = queryInspeccionesEntradas.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+                    inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
 
-                var query = _context.Proceso.Include(proceso => proceso.InspeccionEntrada).ThenInclude(inspecionEntrada => inspecionEntrada.Inspeccion);
-                query.Where(d => d.Guid == guid);
-                var queryInspeccionesEntradas = query.SelectMany(t => t.InspeccionEntrada);
-                var queryInspecciones = queryInspeccionesEntradas.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+                }
+                else if (procesoBD.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+                    var queryProcesoInspeccionSalida = query.SelectMany(t => t.ProcesoInspeccionSalida).Where(d => d.Proceso.Guid == guid);
+                    var queryInspecciones = queryProcesoInspeccionSalida.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+                    inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
+                }
 
-                Inspeccion inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
 
                 return inspecion;
 
@@ -597,21 +642,45 @@ namespace ProcesoES.Repository
             try
             {
 
+
                 var query = _context.Inspeccion.Include(d => d.ProcesoInspeccionEntrada).ThenInclude(t => t.Proceso);
-                var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
-                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
-                if (inpeccion.Count() > 0)
+                var proceso = _context.Proceso.FirstOrDefault(d => d.Guid == guid);
+                if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
                 {
-                    foreach (var item in inpeccion)
+                    var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
+                    var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
+                    if (inpeccion.Count() > 0)
                     {
-                        item.EstadoId = estado;
+                        foreach (var item in inpeccion)
+                        {
+                            item.EstadoId = estado;
+                        }
+
                     }
+                    _context.Inspeccion.UpdateRange(inpeccion);
+
+                }
+                else if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+
+                    var procesoInspeccionSalida = query.SelectMany(p => p.ProcesoInspeccionSalida.Where(i => i.Proceso.Guid == guid));
+                    var inpeccion = procesoInspeccionSalida.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
+                    if (inpeccion.Count() > 0)
+                    {
+                        foreach (var item in inpeccion)
+                        {
+                            item.EstadoId = estado;
+                        }
+
+                    }
+                    _context.Inspeccion.UpdateRange(inpeccion);
 
                 }
 
 
 
-                _context.Inspeccion.UpdateRange(inpeccion);
+
+
 
 
 
