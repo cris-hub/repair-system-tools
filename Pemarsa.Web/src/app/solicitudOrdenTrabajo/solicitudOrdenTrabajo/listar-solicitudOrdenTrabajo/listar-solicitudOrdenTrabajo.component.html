@@ -72,13 +72,13 @@
           </thead>
           <tbody class="font-black center-table" *ngFor="let oit of solicitudesOrdenTrabajos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter">
             <tr [ngClass]="obtenerEstilosPorPrioridad(oit.Prioridad.Valor)">
-              <td>{{oit.Responsable.Valor}}</td>
-              <td>{{oit.Cliente.NickName}}</td>
-              <td>{{oit.ClienteLinea.Nombre}}</td>
-              <td>{{oit.Prioridad.Valor}}</td>
+              <td>{{oit.ResponsableValor}} </td>
+              <td>{{oit.ClienteNickName}}</td>
+              <td>{{oit.ClienteLineaNombre}}</td>
+              <td>{{oit.PrioridadValor}} </td>
               <td>{{oit.DetallesSolicitud}}</td>
               <td>{{oit.FechaRegistro | date:'short'}}</td>
-              <td>{{oit.Estado.Valor}}</td>
+              <td>{{oit.EstadoValor}}</td>
               <td>
                 <i (click)="actualizarSolicitudOit(oit)" data-toggle="modal" data-target="#solicitudOitModal" class="glyphicon glyphicon-pencil pointer"  title="Editar solicitud OIT"></i>
                 &nbsp;&nbsp;

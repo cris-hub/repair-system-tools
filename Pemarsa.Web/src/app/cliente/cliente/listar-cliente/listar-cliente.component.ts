@@ -27,7 +27,7 @@ export class ListarClienteComponent implements OnInit {
 
   public  registroSeleccionado: string;
   public filter: string;
-  public  clientes: ClienteModel[];
+  public clientes: ClienteModel[];
 
   // paginacion
   public  paginacion: PaginacionModel;
@@ -58,6 +58,12 @@ export class ListarClienteComponent implements OnInit {
     this.clienteSrv.consultarClientes(this.paginacion)
       .subscribe(response => {
         this.clientes = response.Listado;
+        this.clientes.forEach((c) => {
+          c.EstadoValor = c.Estado.Valor;
+        });
+        //for (var i of this.clientes) {
+        //    i.EstadoValor = i.Estado.Valor;
+        //}
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.loaderService.display(false);
 
@@ -108,6 +114,12 @@ export class ListarClienteComponent implements OnInit {
     this.clienteSrv.consultarClientesPorFiltro(filtro)
       .subscribe(response => {
         this.clientes = response.Listado;
+        this.clientes.forEach((c) => {
+          c.EstadoValor = c.Estado.Valor;
+        });
+        //for (var i of this.clientes) {
+        //  i.EstadoValor = i.Estado.Valor;
+        //}
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         //this.sortedCollection = this.orderPipe.transform(this.clientes, 'RazonSocial');
       }); 

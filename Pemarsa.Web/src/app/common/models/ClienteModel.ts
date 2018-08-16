@@ -17,7 +17,8 @@ export class ClienteModel extends EntityModel  {
   public RazonSocial: string 
   public Telefono: string 
   public DocumentoAdjuntoId: number; 
-  public Estado: CatalogoModel;  
+  public Estado: CatalogoModel;
+  public EstadoValor: string;
   public Rut: AttachmentModel;
 
   constructor() {

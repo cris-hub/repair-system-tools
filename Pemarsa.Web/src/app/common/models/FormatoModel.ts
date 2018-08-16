@@ -19,6 +19,7 @@ export class FormatoModel extends EntityModel {
     public TipoConexion?: CatalogoModel,
     public ConexionId?: number,
     public Conexion?: CatalogoModel,
+    public ConexionValor?: string, 
     public EsFormatoAdjunto?:boolean,
     public esAletas?: boolean,
   ) {

@@ -68,7 +68,11 @@ export class ProcesoModel extends EntityModel {
   public ProcesoAnteriorId: number
   public ProcesoAnterior: ProcesoModel;
 
-  public OrdenTrabajoId: number
+  public OrdenTrabajoId: number;
+  public OrdenTrabajoHerramientaNombre: string;
+  public OrdenTrabajoClienteNickName: string;
+  public OrdenTrabajoSerialHerramienta: string;
+  public OrdenTrabajoPrioridadValor: string;
   public OrdenTrabajo: OrdenTrabajoModel;
 
   public DetalleSoldaduraId: number
@@ -78,7 +82,8 @@ export class ProcesoModel extends EntityModel {
   
   public InspeccionEntrada: ProcesoInspeccionEntradaModel[];
 
-
+  public EstadoValor: string;
+  public TipoProcesoAnteriorValor: string;
 
   constructor() {
     super();

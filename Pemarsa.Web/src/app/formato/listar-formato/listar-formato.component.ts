@@ -46,6 +46,8 @@ export class ListarFormatoComponent implements OnInit {
           Object.assign(
             f.Conexion, this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
           );
+
+          f.ConexionValor = f.Conexion.Valor;
         }
 
       })
@@ -68,32 +70,26 @@ export class ListarFormatoComponent implements OnInit {
 
 
   consultarFormatoPorFiltro(filtro) {
-    debugger;
     filtro.PaginaActual = this.paginacion.PaginaActual;
     filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
     console.log(filtro)
     this.formatoService.consultarFormatosPorFiltro(filtro)
       .subscribe(response => {
         this.formatos = response.Listado;
+        console.log(response)
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.formatos.forEach((f) => {
-
           f.Conexion = new CatalogoModel()
-
-
-
           if (f.ConexionId) {
-
             Object.assign(
-              f.Conexion
-              ,
-              this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
-
+              f.Conexion, this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
             );
+
+            f.ConexionValor = f.Conexion.Valor;
           }
-          console.log(f)
+          //console.log(f)
 
         })
-        this.paginacion.TotalRegistros = response.CantidadRegistros;
 
       });
   }
