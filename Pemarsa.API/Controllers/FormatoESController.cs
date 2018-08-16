@@ -30,18 +30,8 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                //se obtiene la informacion del appsettings
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json");
-
-                //se obtiene la configuracion establecida en el appsettings
-                Configuration = builder.Build();
-
-                var pathServer = Configuration["FileServer:VirtualPath"];
-
-
-                return Ok(await _service.CrearFormato(formato, pathServer, new UsuarioDTO()));
+          
+                return Ok(await _service.CrearFormato(formato,  new UsuarioDTO()));
 
             }
             catch (Exception e)
@@ -108,17 +98,9 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                //se obtiene la informacion del appsettings 
-                var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
 
-                // se obtiene la configuracion establecida en el appsettings 
-                Configuration = builder.Build();
 
-                var pathServer = Configuration["FileServer:VirtualPath"];
-
-                return Ok(await _service.ActualizarFormato(formato, pathServer, new UsuarioDTO()));
+                return Ok(await _service.ActualizarFormato(formato, new UsuarioDTO()));
             }
             catch (Exception e)
             {

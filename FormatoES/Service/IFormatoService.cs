@@ -8,11 +8,11 @@ namespace FormatoES.Service
 {
     public interface IFormatoService
     {
-        Task<Guid> CrearFormato(Formato formato, string RutaServer, UsuarioDTO usuario);
+        Task<Guid> CrearFormato(Formato formato, UsuarioDTO usuario);
 
         Task<Formato> ConsultarFormatoPorGuid(Guid guidFormato, UsuarioDTO usuario);
 
-        Task<bool> ActualizarFormato(Formato formato, string RutaServer, UsuarioDTO usuario);
+        Task<bool> ActualizarFormato(Formato formato,  UsuarioDTO usuario);
 
         Task<Tuple<int, ICollection<Formato>>> ConsultarFormatos(Paginacion paginacion, UsuarioDTO usuario);
 

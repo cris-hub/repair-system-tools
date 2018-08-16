@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, HostListener, Renderer2, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, Input, HostListener, Renderer2, SimpleChanges, OnChanges } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 
 
@@ -13,7 +13,7 @@ import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
   ]
 })
 
-export class ValidacionDirective implements Validator {
+export class ValidacionDirective implements Validator,OnChanges {
 
   @Input() validaciones: string[];
   @Input() control: AbstractControl;
@@ -84,12 +84,15 @@ export class ValidacionDirective implements Validator {
 
   registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.control)
+    
     this.asignar();
 
   }
 
 
   ListaValidaciones(): string {
+    console.log(this.validaciones)
     for (let validaciones of this.validaciones) {
 
       // tipos de validaciones se la validacion requiere de un parametro se le asigna ejem: "typovalidacion:parametro"
