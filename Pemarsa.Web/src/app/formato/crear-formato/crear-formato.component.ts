@@ -37,7 +37,7 @@ export class CrearFormatoComponent implements OnInit {
   public Herramientas: Array<HerramientaModel>;
 
   public paginacion: PaginacionModel = new PaginacionModel(1, 30);
-
+  
   //Formularios
   public formAdendum: FormArray;
   public formFormato: FormGroup;
@@ -62,6 +62,11 @@ export class CrearFormatoComponent implements OnInit {
 
   public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
 
+
+  public tipos = [
+    { Id: 27, Valor: 'BEV' },
+    { Id: 26, Valor: 'O.D' }
+  ]
   //Carga Archivos
   public lectorArchivos: FileReader;
   public Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
@@ -300,7 +305,7 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formatosAdendumModel.forEach(p => {
       let form = this.formBuilder.group({});
-      form.addControl('Position', new FormControl(p.Posicion));
+      form.addControl('Posicion', new FormControl(p.Posicion));
       form.addControl('TipoId', new FormControl(p.TipoId));
       form.addControl('Valor', new FormControl(p.Valor));
       this.formAdendum.push(form);
@@ -363,20 +368,28 @@ export class CrearFormatoComponent implements OnInit {
     if (id == TIPOS_FORMATO.FORMATOCONEXION) {
       this.tipoFormatoValidacionesFormatoOtros = ''
       this.tipoFormatoValidacionesFormatoConexiones = 'requrido'
-      //this.formFormato.get('TiposConexionesId').setValidators(Validators.required);
-      //this.formFormato.get('ConexionId').setValidators(Validators.required);
-      //this.formFormato.get('TPI').setValidators(Validators.required);
-      //this.formFormato.get('TPF').setValidators(Validators.required);
-      //this.formFormato.get('Adendum').setValidators(Validators.required);
-      //this.formFormato.get('EspecificacionId').setValidators(Validators.required);
-      //this.formFormato.get('Parametros').setValidators(Validators.required);
+      this.formFormato.get('TiposConexionesId').setValidators(Validators.required);
+      this.formFormato.get('ConexionId').setValidators(Validators.required);
+      this.formFormato.get('TPI').setValidators(Validators.required);
+      this.formFormato.get('TPF').setValidators(Validators.required);
+      this.formFormato.get('Adendum').setValidators(Validators.required);
+      this.formFormato.get('EspecificacionId').setValidators(Validators.required);
+      this.formFormato.get('Parametros').setValidators(Validators.required);
+
+
+      this.formFormato.get('TiposConexionesId').setErrors({ 'requerido': true });
+      this.formFormato.get('ConexionId').setErrors({ 'requerido': true });
     }
     if (id == TIPOS_FORMATO.FORMATOOTROS) {
       this.tipoFormatoValidacionesFormatoOtros = 'requrido'
       this.tipoFormatoValidacionesFormatoConexiones = ''
-      //this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
-      //this.formFormato.get('Planos').setValidators(Validators.required);
-      //this.formFormato.get('Parametros').setValidators(Validators.required);
+      this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
+      this.formFormato.get('Planos').setValidators(Validators.required);
+      this.formFormato.get('Parametros').setValidators(Validators.required);
+
+      this.formFormato.get('Herramienta').get('Id').setErrors({'requerido':true});
+      this.formFormato.get('Planos').setErrors({'requerido':true});
+      this.formFormato.get('Parametros').setErrors({'requerido':true});
 
     }
     

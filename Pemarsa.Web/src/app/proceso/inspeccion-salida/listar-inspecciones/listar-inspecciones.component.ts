@@ -15,7 +15,7 @@ import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 })
 export class ListarInspeccionesSalidaComponent implements OnInit {
 
-  public  paginacion: PaginacionModel = new PaginacionModel(1, 10);
+  public  paginacion: PaginacionModel = new PaginacionModel(1, 20);
   public  tipoProcesoActual: CatalogoModel = new CatalogoModel();
   public  Paramtros: ParametrosModel;
   public  tipoProcesos: CatalogoModel[];
@@ -66,7 +66,7 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
         
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         
-        this.paginacion.CantidadRegistros = response.CantidadRegistros
+        this.paginacion.CantidadRegistros = this.Procesos.length;
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)

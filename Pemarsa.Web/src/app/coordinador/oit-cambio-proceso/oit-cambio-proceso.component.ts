@@ -67,7 +67,7 @@ export class OitCambioProcesoComponent implements OnInit {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
         this.Procesos = response.Listado.filter(d => d.EstadoId!=ESTADOS_PROCESOS.Procesado)
-        this.paginacion.CantidadRegistros = response.CantidadRegistros
+        this.paginacion.CantidadRegistros = this.Procesos.length
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)
