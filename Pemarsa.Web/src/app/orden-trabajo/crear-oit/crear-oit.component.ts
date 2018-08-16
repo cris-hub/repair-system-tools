@@ -355,7 +355,7 @@ export class CrearOitComponent implements OnInit {
     this.formularioOrdenTrabajo = this.formBulder.group({
 
       Cantidad: [ordenTrabajo.Herramienta.EsHerramientaPorCantidad ? ordenTrabajo.Cantidad : 1],
-      
+
       DetallesSolicitud: [ordenTrabajo.DetallesSolicitud],
       ObservacionRemision: [ordenTrabajo.ObservacionRemision],
       OrdenCompra: [ordenTrabajo.OrdenCompra],
@@ -375,7 +375,7 @@ export class CrearOitComponent implements OnInit {
 
 
 
-      MaterialId: [this.material.Id == 0 ? null : this.material.Id ],
+      MaterialId: [this.material.Id == 0 ? null : this.material.Id],
 
 
       TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],
@@ -437,47 +437,49 @@ export class CrearOitComponent implements OnInit {
   }
 
   persistirOrdenTrabajo(objeto) {
-    this.loaderService.display(true);
+
     switch (this.accionRealizar()) {
       case 'Editar OIT':
+        this.loaderService.display(true);
         this.ordenTrabajoServicio.actualizarOrdenDeTrabajo(objeto).subscribe(response => {
-          this.loaderService.display(true);
+
+          this.loaderService.display(false);
           if (response) {
 
             this.toastrService.success('peticion realizada exitosamente')
             this.router.navigate(['/oit']);
           }
-          this.loaderService.display(false);
 
         });
         break;
       case 'Crear OIT':
+        this.loaderService.display(true);
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
-          this.loaderService.display(true);
 
+          this.loaderService.display(false);
           if (response) {
             this.toastrService.success('peticion realizada exitosamente')
             this.router.navigate(['/oit']);
           }
-          this.loaderService.display(false);
 
         });;
         break;
       case 'Procesar':
+        this.loaderService.display(true);
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
-          this.loaderService.display(true);
 
+
+          this.loaderService.display(false);
           if (response) {
             this.toastrService.success('peticion realizada exitosamente')
             this.router.navigate(['/oit']);
           }
-          this.loaderService.display(false);
 
         });;
         break;
 
     }
-    this.loaderService.display(false);
+
 
 
   }
@@ -486,7 +488,8 @@ export class CrearOitComponent implements OnInit {
   asignarValoresFormulario(data) {
 
     Object.assign(this.ordenTrabajo, data);
-    this.ordenTrabajo.ClienteId = this.Cliente.Id
+    this.Cliente ? this.ordenTrabajo.ClienteId = this.Cliente.Id : this.ordenTrabajo.ClienteId
+
 
     return this.ordenTrabajo;
 
