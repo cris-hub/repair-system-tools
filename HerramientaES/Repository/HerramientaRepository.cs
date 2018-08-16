@@ -31,96 +31,136 @@ namespace HerramientaES.Repository
                                     .SingleOrDefaultAsync(c => c.Id == herramienta.Id);
 
                 _context.Entry(herramientaBD).CurrentValues.SetValues(herramienta);
-
+                
+                
                 #region Actualizar Materiales
-
-
-                //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
-                var materiales = herramienta.Materiales.Select(d => new HerramientaMaterial()
-                {
-                    MaterialId = d.MaterialId,
-                    HerramientaId = herramientaBD.Id,
-                    Guid = Guid.NewGuid(),
-                    GuidOrganizacion = Guid.NewGuid(),
-                    Estado = true,
-                    GuidUsuarioCrea = Guid.NewGuid(),
-                    NombreUsuarioCrea = "admin"
-                }).Where(d => !herramientaBD.Materiales.Any(e=>e.Guid ==d.Guid) ).ToList();
-
-
-
-                _context.HerramientaMaterial.AddRange(materiales);
-
-                #endregion
-
-                #region Actualizar TamanosHerramienta
-                herramientaBD.TamanosHerramienta = herramienta.TamanosHerramienta;
-                var tamanosHerramienta = herramientaBD.TamanosHerramienta;
-
-
-                herramienta.TamanosHerramienta = herramienta.TamanosHerramienta ?? new List<HerramientaTamano>();
-                herramientaBD.TamanosHerramienta = herramientaBD.TamanosHerramienta ?? new List<HerramientaTamano>();
-                //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
-                var TamanosHerramientaEliminar = (from hbd in herramientaBD.TamanosHerramienta
-                                                  where !herramienta.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                                  select hbd).ToList();
-
-                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
-                var TamanosHerramientaInsertar = (from hbd in herramienta.TamanosHerramienta
-                                                  where !herramientaBD.TamanosHerramienta.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                                  select hbd).ToList();
-
-                herramientaBD.TamanosHerramienta.ToList().ForEach(e =>
+                /*actualiza el estado los materiales de la base de datos*/
+                foreach (var MaterialesDB in herramientaBD.Materiales)
                 {
 
-                    TamanosHerramientaEliminar.ForEach(ef =>
+                    if (!herramienta.Materiales.Any(dNew => dNew.Id == MaterialesDB.Id && dNew.Estado.Equals(true)))
                     {
-                        if (e.Id == ef.Id) { e.Estado = false; }
-                    });
-                    HerramientaTamanoMotor hbd = (herramientaBD.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
-                    HerramientaTamanoMotor h = (herramienta.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
-                    //campos a actulizar
-                    e.Tamano = (h != null) ? h.Tamano : hbd.Tamano;
-                });
+                        MaterialesDB.Estado = false;
+                        MaterialesDB.FechaModifica = DateTime.Now;
+                        _context.HerramientaMaterial.Update(MaterialesDB);
+                    }
+                }
 
-                TamanosHerramientaInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
-
-
-                _context.HerramientaTamano.AddRange(TamanosHerramientaInsertar);
+                /*Agrega Materiales*/
+                foreach (var materiales in herramienta.Materiales)
+                {
+                    if (herramientaBD.Materiales.Where(m => m.MaterialId == materiales.MaterialId && m.Estado.Equals(false)).Any())
+                    {
+                        var actualizarMaterial = herramientaBD.Materiales.Where(m => m.MaterialId == materiales.MaterialId && m.Estado.Equals(false)).FirstOrDefault();
+                        actualizarMaterial.FechaModifica = DateTime.Now;
+                        actualizarMaterial.Estado = true;
+                        _context.HerramientaMaterial.Update(actualizarMaterial);
+                    }
+                    else if (!herramientaBD.Materiales.Any(ddb => ddb.Id == materiales.Id))
+                    {
+                        materiales.Herramienta = null;
+                        materiales.HerramientaId = herramientaBD.Id;
+                        materiales.Guid = Guid.NewGuid();
+                        materiales.FechaRegistro = DateTime.Now;
+                        materiales.Material = null;
+                        _context.HerramientaMaterial.Add(materiales);
+                    }
+                }
 
                 #endregion
 
-                #region Actualizar TamanosMotor
-                herramienta.TamanosMotor = herramienta.TamanosMotor ?? new List<HerramientaTamanoMotor>();
-                herramientaBD.TamanosMotor = herramientaBD.TamanosMotor ?? new List<HerramientaTamanoMotor>();
-                //se obtinen los tamaños que fueron eliminados en el objeto herramienta que se recibe del cliente.
-                var tamanosMotoEliminar = (from hbd in herramientaBD.TamanosMotor
-                                           where !herramienta.TamanosMotor.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                           select hbd).ToList();
-
-                //se obtinen los tamaños que fueron agregados en el objeto herramienta que se recibe del cliente.
-                var tamanosMotorInsertar = (from hbd in herramienta.TamanosMotor
-                                            where !herramientaBD.TamanosMotor.Any(x => x.Id == hbd.Id && x.Guid == hbd.Guid && hbd.Estado.Equals(true))
-                                            select hbd).ToList();
-
-                herramientaBD.TamanosMotor.ToList().ForEach(e =>
+                if (herramienta.EsHerramientaMotor == false)
+                {
+                    foreach (var tamanosHerrmienta in herramientaBD.TamanosHerramienta)
+                    {
+                        tamanosHerrmienta.Estado = false;
+                        tamanosHerrmienta.FechaModifica = DateTime.Now;
+                        _context.HerramientaTamano.Update(tamanosHerrmienta);
+                    }
+                    foreach (var tamanosMotor in herramientaBD.TamanosMotor)
+                    {
+                        tamanosMotor.Estado = false;
+                        tamanosMotor.FechaModifica = DateTime.Now;
+                        _context.HerramientaTamanoMotor.Update(tamanosMotor);
+                    }
+                }
+                else
                 {
 
-                    tamanosMotoEliminar.ForEach(ef =>
+                    #region Actualizar TamanosHerramienta
+
+
+                    /*actaliza el estado los tamaños de herramienta de la base de datos*/
+                    foreach (var tamanosHerrmienta in herramientaBD.TamanosHerramienta)
                     {
-                        if (e.Id == ef.Id) { e.Estado = false; }
-                    });
-                    HerramientaTamanoMotor hbd = (herramientaBD.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
-                    HerramientaTamanoMotor h = (herramienta.TamanosMotor.FirstOrDefault(a => a.Id == e.Id));
-                    //campos a actulizar
-                    e.Tamano = (h != null) ? h.Tamano : hbd.Tamano;
-                });
 
-                tamanosMotorInsertar.ForEach(e => { e.Guid = Guid.NewGuid(); e.FechaRegistro = DateTime.Now; e.HerramientaId = herramientaBD.Id; });
+                        if (!herramienta.TamanosHerramienta.Any(dNew => dNew.Id == tamanosHerrmienta.Id))
+                        {
+                            tamanosHerrmienta.Estado = false;
+                            tamanosHerrmienta.FechaModifica = DateTime.Now;
+                            _context.HerramientaTamano.Update(tamanosHerrmienta);
+                        }
+                    }
 
-                _context.HerramientaTamanoMotor.UpdateRange(herramientaBD.TamanosMotor);
-                _context.HerramientaTamanoMotor.AddRange(tamanosMotorInsertar);
-                #endregion
+                    /*Agrega tamaños de herramienta*/
+                    foreach (var tamanosHerrmientaAdd in herramienta.TamanosHerramienta)
+                    {
+                        if (herramientaBD.TamanosHerramienta.Where(th => th.Tamano.ToLower() == tamanosHerrmientaAdd.Tamano.ToLower() && th.Estado.Equals(false)).Any())
+                        {
+                            var actualizarTamanoHerramienta = herramientaBD.TamanosHerramienta.Where(th => th.Tamano.ToLower() == tamanosHerrmientaAdd.Tamano.ToLower() && th.Estado.Equals(false)).FirstOrDefault();
+                            actualizarTamanoHerramienta.FechaModifica = DateTime.Now;
+                            actualizarTamanoHerramienta.Estado = true;
+                            _context.HerramientaTamano.Update(actualizarTamanoHerramienta);
+                        }
+                        else if (!herramientaBD.TamanosHerramienta.Any(ddb => ddb.Id == tamanosHerrmientaAdd.Id))
+                        {
+                            tamanosHerrmientaAdd.Herramienta = null;
+                            tamanosHerrmientaAdd.HerramientaId = herramientaBD.Id;
+                            tamanosHerrmientaAdd.Guid = Guid.NewGuid();
+                            tamanosHerrmientaAdd.FechaRegistro = DateTime.Now;
+                            _context.HerramientaTamano.Add(tamanosHerrmientaAdd);
+                        }
+                    }
+
+                    #endregion
+
+                    #region Actualizar TamanosMotor
+
+                    /*Acualiza el estado a false los tamaños de motor de la base de datos*/
+                    foreach (var tamanosMotor in herramientaBD.TamanosMotor)
+                    {
+
+                        if (!herramienta.TamanosMotor.Any(dNew => dNew.Id == tamanosMotor.Id))
+                        {
+                            tamanosMotor.Estado = false;
+                            tamanosMotor.FechaModifica = DateTime.Now;
+                            _context.HerramientaTamanoMotor.Update(tamanosMotor);
+                        }
+                    }
+
+                    /*Agrega tamaños de motor, si ya existe solo le cambia el estado a true y si no existe crea un nuevo tamaño de motor */
+                    foreach (var tamanosMotorAdd in herramienta.TamanosMotor)
+                    {
+
+                        if (herramientaBD.TamanosMotor.Where(th => th.Tamano.ToLower() == tamanosMotorAdd.Tamano.ToLower() && th.Estado.Equals(false)).Any())
+                        {
+                            var actualizarTamanoMotor = herramientaBD.TamanosMotor.Where(th => th.Tamano.ToLower() == tamanosMotorAdd.Tamano.ToLower() && th.Estado.Equals(false)).FirstOrDefault();
+                            actualizarTamanoMotor.FechaModifica = DateTime.Now;
+                            actualizarTamanoMotor.Estado = true;
+                            _context.HerramientaTamanoMotor.Update(actualizarTamanoMotor);
+                        }
+                        else if (!herramientaBD.TamanosMotor.Any(ddb => ddb.Id == tamanosMotorAdd.Id))
+                        {
+                            tamanosMotorAdd.Herramienta = null;
+                            tamanosMotorAdd.HerramientaId = herramientaBD.Id;
+                            tamanosMotorAdd.Guid = Guid.NewGuid();
+                            tamanosMotorAdd.FechaRegistro = DateTime.Now;
+                            _context.HerramientaTamanoMotor.Add(tamanosMotorAdd);
+                        }
+                    }
+                    #endregion
+
+                }
 
                 herramientaBD.HerramientaEstudioFactibilidad.Admin = herramienta.HerramientaEstudioFactibilidad.Admin;
                 herramientaBD.HerramientaEstudioFactibilidad.ManoObra = herramienta.HerramientaEstudioFactibilidad.ManoObra;
