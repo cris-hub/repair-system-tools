@@ -170,7 +170,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
           this.router.navigate([
-            'inspeccion/entrada/' +
+            'inspeccion/salida/' +
             this.obtenerParametrosRuta().get('procesoId') + '/' +
             this.obtenerParametrosRuta().get('pieza') + '/' +
             this.obtenerParametrosRuta().get('accion')]);
@@ -178,7 +178,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
           return
         }
         this.router.navigate([
-          'inspeccion/entrada/' +
+          'inspeccion/salida/' +
           TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
           this.obtenerParametrosRuta().get('procesoId') + '/' +
           this.obtenerParametrosRuta().get('pieza') + '/' +
@@ -192,7 +192,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
     if (this.proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
-          this.router.navigate(['inspeccion/entrada'])
+          this.router.navigate(['inspeccion/salida'])
         };
       });
     }

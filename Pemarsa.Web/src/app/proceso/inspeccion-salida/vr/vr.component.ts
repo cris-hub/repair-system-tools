@@ -59,7 +59,7 @@ export class VRComponent implements OnInit {
       .subscribe(response => {
         this.proceso = response
 
-        let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = response.InspeccionEntrada.find(c => {
+        let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = response.ProcesoInspeccionSalida.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
@@ -138,14 +138,14 @@ export class VRComponent implements OnInit {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
           this.router.navigate([
-            'inspeccion/entrada/' +
+            'inspeccion/salida/' +
             this.obtenerParametrosRuta().get('procesoId') + '/' +
             this.obtenerParametrosRuta().get('pieza') + '/' +
             this.obtenerParametrosRuta().get('accion')]);
           return
         }
         this.router.navigate([
-          'inspeccion/entrada/' +
+          'inspeccion/salida/' +
           TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
           this.obtenerParametrosRuta().get('procesoId') + '/' +
           this.obtenerParametrosRuta().get('pieza') + '/' +
@@ -158,7 +158,7 @@ export class VRComponent implements OnInit {
     if (this.proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
-          this.router.navigate(['inspeccion/entrada'])
+          this.router.navigate(['inspeccion/salida'])
         };
       });
     }

@@ -598,13 +598,24 @@ namespace ProcesoES.Repository
         {
             try
             {
+                Inspeccion inspecion = null;
+                var query = _context.Proceso.Include(proceso => proceso.InspeccionEntrada).ThenInclude(inspecionEntrada => inspecionEntrada.Inspeccion)
+                    .Include(proceso => proceso.ProcesoInspeccionSalida).ThenInclude(procesoInspeccionSalida => procesoInspeccionSalida.Inspeccion);
+                var procesoBD = query.FirstOrDefault(d => d.Guid == guid);
+                if (procesoBD.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
+                {
+                    var queryInspeccionesEntradas = query.SelectMany(t => t.InspeccionEntrada).Where(d => d.Proceso.Guid == guid);
+                    var queryInspecciones = queryInspeccionesEntradas.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+                    inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
 
-                var query = _context.Proceso.Include(proceso => proceso.InspeccionEntrada).ThenInclude(inspecionEntrada => inspecionEntrada.Inspeccion);
-                query.Where(d => d.Guid == guid);
-                var queryInspeccionesEntradas = query.SelectMany(t => t.InspeccionEntrada);
-                var queryInspecciones = queryInspeccionesEntradas.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+                }
+                else if (procesoBD.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+                    var queryProcesoInspeccionSalida = query.SelectMany(t => t.ProcesoInspeccionSalida).Where(d => d.Proceso.Guid == guid);
+                    var queryInspecciones = queryProcesoInspeccionSalida.Select(insEntra => insEntra.Inspeccion).Where(d => d.Pieza == pieza).OrderBy(t => t.FechaRegistro);
+                    inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
+                }
 
-                Inspeccion inspecion = await queryInspecciones.Where(e => e.EstadoId == (int)ESTADOS_INSPECCION.ENPROCESO).FirstOrDefaultAsync();
 
                 return inspecion;
 
@@ -621,21 +632,45 @@ namespace ProcesoES.Repository
             try
             {
 
+
                 var query = _context.Inspeccion.Include(d => d.ProcesoInspeccionEntrada).ThenInclude(t => t.Proceso);
-                var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
-                var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
-                if (inpeccion.Count() > 0)
+                var proceso = _context.Proceso.FirstOrDefault(d => d.Guid == guid);
+                if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
                 {
-                    foreach (var item in inpeccion)
+                    var procesoInspeccionEntradas = query.SelectMany(p => p.ProcesoInspeccionEntrada.Where(i => i.Proceso.Guid == guid));
+                    var inpeccion = procesoInspeccionEntradas.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
+                    if (inpeccion.Count() > 0)
                     {
-                        item.EstadoId = estado;
+                        foreach (var item in inpeccion)
+                        {
+                            item.EstadoId = estado;
+                        }
+
                     }
+                    _context.Inspeccion.UpdateRange(inpeccion);
+
+                }
+                else if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+                {
+
+                    var procesoInspeccionSalida = query.SelectMany(p => p.ProcesoInspeccionSalida.Where(i => i.Proceso.Guid == guid));
+                    var inpeccion = procesoInspeccionSalida.Select(t => t.Inspeccion).Where(t => t.Pieza == pieza && (t.EstadoId != (int)ESTADOS_INSPECCION.ANULADA && t.EstadoId != (int)ESTADOS_INSPECCION.COMPLETADA));
+                    if (inpeccion.Count() > 0)
+                    {
+                        foreach (var item in inpeccion)
+                        {
+                            item.EstadoId = estado;
+                        }
+
+                    }
+                    _context.Inspeccion.UpdateRange(inpeccion);
 
                 }
 
 
 
-                _context.Inspeccion.UpdateRange(inpeccion);
+
+
 
 
 
