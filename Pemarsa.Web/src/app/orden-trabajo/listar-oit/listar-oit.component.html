@@ -75,12 +75,12 @@
           <tbody class="font-black center-table">
             <tr *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter">
               <td>{{oit.Id}}</td>
-              <td>{{oit.Cliente.NickName}}</td>
-              <td>{{oit.Herramienta.Nombre}}</td>
-              <td>{{oit.TipoServicio.Valor}}</td>
-              <td>{{oit.Responsable.Valor}}</td>
+              <td>{{oit.ClienteNickname}}</td>
+              <td>{{oit.HerramientaNombre}}</td>
+              <td>{{oit.TipoServicioValor}}</td>
+              <td>{{oit.ResponsableValor}}</td>
               <td>{{oit.FechaRegistro | date:'short'}}</td>
-              <td>{{oit.Estado.Valor}}</td>
+              <td>{{oit.EstadoValor}} </td>
               <td>
                 <div class="row">
                   <div class="col-sm-12">

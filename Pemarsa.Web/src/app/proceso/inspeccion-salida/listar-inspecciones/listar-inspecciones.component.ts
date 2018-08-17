@@ -63,10 +63,18 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
   consultarProcesos() {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
-        
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         
         this.paginacion.CantidadRegistros = this.Procesos.length;
+        this.Procesos.forEach((p) => {
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.EstadoValor = p.Estado.Valor;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+        });
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)
@@ -80,8 +88,16 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
 
     this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
       .subscribe(response => {
-        debugger;
-        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);;
+        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
+        this.Procesos.forEach((p) => {
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.EstadoValor = p.Estado.Valor;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }

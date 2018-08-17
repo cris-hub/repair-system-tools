@@ -7,7 +7,7 @@
       <h3 class="margin-20 text-center">{{tipoProcesoActual.Valor}}</h3>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <input [(ngModel)]="filter" type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
       <br />
     </div>
     <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
@@ -76,20 +76,21 @@
                 <th >Acciones</th>
               </tr>
             </thead>
-            <tbody *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'}"
+            <tbody *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter"
                     class="font-black center-table"
                    >
               <tr [ngClass]="obtenerEstilos(Proceso)">
-                <td>{{Proceso.OrdenTrabajo.Id}}</td>
-                <td>{{Proceso.OrdenTrabajo.Herramienta.Nombre}}</td>
-                <td>{{Proceso.OrdenTrabajo.Cliente.NickName}}</td>
-                <td>{{Proceso.OrdenTrabajo.SerialHerramienta}}</td>
-                <td>{{Proceso.OrdenTrabajo.Prioridad.Valor}}</td>
+
+                <td>{{Proceso.OrdenTrabajoId}}</td>
+                <td>{{Proceso.OrdenTrabajoHerramientaNombre}}</td>
+                <td>{{Proceso.OrdenTrabajoClienteNickName}}</td>
+                <td>{{Proceso.OrdenTrabajoSerialHerramienta}}</td>
+                <td>{{Proceso.OrdenTrabajoPrioridadValor}}</td>
                 <td>{{Proceso.FechaRegistro | date:'short'}}</td>
-                <td>{{Proceso.Estado.Valor}}</td>
+                <td>{{Proceso.EstadoValor}}</td>
                 <td>
                   <b *ngIf="Proceso.TipoProcesoAnterior">
-                    {{Proceso.TipoProcesoAnterior.Valor}}
+                   {{Proceso.TipoProcesoAnteriorValor}}
                   </b>
                 </td>
 

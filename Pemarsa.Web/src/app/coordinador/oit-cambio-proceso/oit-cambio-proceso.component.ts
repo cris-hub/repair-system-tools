@@ -19,6 +19,7 @@ export class OitCambioProcesoComponent implements OnInit {
   public Paramtros: ParametrosModel;
   public tipoProcesos: CatalogoModel[];
   public Procesos: Array<ProcesoModel>;
+  public filter: string;
 
   constructor(
     private procesoService: ProcesoService,
@@ -68,6 +69,16 @@ export class OitCambioProcesoComponent implements OnInit {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
         this.Procesos = response.Listado.filter(d => d.EstadoId!=ESTADOS_PROCESOS.Procesado)
         this.paginacion.CantidadRegistros = this.Procesos.length
+        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
+        this.Procesos.forEach((p) => {
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          p.EstadoValor = p.Estado.Valor;
+          p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+        });
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)

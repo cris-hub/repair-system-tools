@@ -47,7 +47,7 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
     this.parametroService.consultarParametrosPorEntidad('PROCESO').subscribe(response => {
       this.tipoProcesos = response.Catalogos.filter(catalogo => { return catalogo.Grupo == "TIPO_PROCESO" });
       this.Paramtros = response;
-      this.obtenerTipoProceso(this.tipoProcesos,'entrada');
+      this.obtenerTipoProceso(this.tipoProcesos, 'entrada');
     }, error => {
       console.log(error)
       this.toastrService.error(error.message)
@@ -68,6 +68,17 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado && d.Reasignado != false);
         
         this.paginacion.CantidadRegistros = this.Procesos.length
+        this.Procesos.forEach((p) => {
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.EstadoValor = p.Estado.Valor;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          if (p.TipoProcesoAnterior != null) {
+            p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+          }
+        });
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)
@@ -75,15 +86,25 @@ export class ListarInspeccionesEntradaComponent implements OnInit {
     }
   }
 
-  consultarProcesoPorFiltro(filtro:FiltroParametrosProcesosoModel) {
+  consultarProcesoPorFiltro(filtro: FiltroParametrosProcesosoModel) {
     filtro.PaginaActual = this.paginacion.PaginaActual;
     filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
     filtro.TipoProceso = this.tipoProcesoActual.Valor;
-    
+
     this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
       .subscribe(response => {
-        debugger;
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado && d.Reasignado != false);
+        this.Procesos.forEach((p) => {
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.EstadoValor = p.Estado.Valor;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          if (p.TipoProcesoAnterior != null) {
+            p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+          }
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }

@@ -43,6 +43,13 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
       .subscribe(response => {
 
         this.solicitudesOrdenTrabajos = response.Listado;
+        this.solicitudesOrdenTrabajos.forEach((sot) => {
+          sot.ResponsableValor = sot.Responsable.Valor;
+          sot.ClienteNickName = sot.Cliente.NickName;
+          sot.ClienteLineaNombre = sot.ClienteLinea.Nombre;
+          sot.PrioridadValor = sot.Prioridad.Valor;
+          sot.EstadoValor = sot.Estado.Valor;
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
 
@@ -71,6 +78,13 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     this.solicitudOrdenTrabajoSrv.ConsultarSolicitudesDeTrabajoPorFiltro(filtro)
       .subscribe(response => {
         this.solicitudesOrdenTrabajos = response.Listado;
+        this.solicitudesOrdenTrabajos.forEach((sot) => {
+          sot.ResponsableValor = sot.Responsable.Valor;
+          sot.ClienteNickName = sot.Cliente.NickName;
+          sot.ClienteLineaNombre = sot.ClienteLinea.Nombre;
+          sot.PrioridadValor = sot.Prioridad.Valor;
+          sot.EstadoValor = sot.Estado.Valor;
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }

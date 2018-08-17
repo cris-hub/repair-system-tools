@@ -44,6 +44,13 @@ export class ListarOitComponent implements OnInit {
     this.ordenTrabajoService.consultarOrdenesDeTrabajoPorFiltro(filtro)
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
+        this.ordenesTrabajo.forEach((ot) => {
+          ot.ClienteNickname = ot.Cliente.NickName;
+          ot.HerramientaNombre = ot.Herramienta.Nombre;
+          ot.TipoServicioValor = ot.TipoServicio.Valor;
+          ot.ResponsableValor = ot.Responsable.Valor;
+          ot.EstadoValor = ot.Estado.Valor;
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }
@@ -53,6 +60,13 @@ export class ListarOitComponent implements OnInit {
     this.ordenTrabajoService.consultarOrdenesDeTrabajo(this.paginacion)
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
+        this.ordenesTrabajo.forEach((ot) => {
+          ot.ClienteNickname = ot.Cliente.NickName;
+          ot.HerramientaNombre = ot.Herramienta.Nombre;
+          ot.TipoServicioValor = ot.TipoServicio.Valor;
+          ot.ResponsableValor = ot.Responsable.Valor;
+          ot.EstadoValor = ot.Estado.Valor;
+        });
         this.inicializarHerramienta();
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.loaderService.display(false);
