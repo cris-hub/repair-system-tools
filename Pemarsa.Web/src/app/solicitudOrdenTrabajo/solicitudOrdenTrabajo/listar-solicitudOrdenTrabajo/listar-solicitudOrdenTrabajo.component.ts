@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { SolicitudOrdenTrabajoService } from '../../../common/services/entity/SolicitudOrdenTrabajo.service';
 import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-listar-solicitudOrdenTrabajo',
@@ -27,6 +28,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     public solicitudOrdenTrabajoSrv: SolicitudOrdenTrabajoService,
     public parametroSrv: ParametroService,
     private toastr: ToastrService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -49,6 +51,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
           sot.ClienteLineaNombre = sot.ClienteLinea.Nombre;
           sot.PrioridadValor = sot.Prioridad.Valor;
           sot.EstadoValor = sot.Estado.Valor;
+          sot.FechaRegistroVista = this.datePipe.transform(sot.FechaRegistro, "dd/MM/yyyy, h:mm a");
         });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
@@ -84,6 +87,7 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
           sot.ClienteLineaNombre = sot.ClienteLinea.Nombre;
           sot.PrioridadValor = sot.Prioridad.Valor;
           sot.EstadoValor = sot.Estado.Valor;
+          sot.FechaRegistroVista = this.datePipe.transform(sot.FechaRegistro, "dd/MM/yyyy, h:mm a");
         });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });

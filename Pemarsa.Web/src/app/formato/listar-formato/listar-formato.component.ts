@@ -3,6 +3,7 @@ import { FormatoModel, PaginacionModel, ParametrosModel, CatalogoModel } from '.
 import { FormatoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { LoaderService } from '../../common/services/entity/loaderService';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-listar-formato',
@@ -18,7 +19,8 @@ export class ListarFormatoComponent implements OnInit {
   constructor(
     private formatoService: FormatoService,
     private parametroService: ParametroService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -41,6 +43,8 @@ export class ListarFormatoComponent implements OnInit {
       console.log(response)
       this.paginacion.TotalRegistros = response.CantidadRegistros;
       this.formatos.forEach((f) => {
+        f.FechaRegistroVista = this.datePipe.transform(f.FechaRegistro, "dd/MM/yyyy");
+
         f.Conexion = new CatalogoModel()
         if (f.ConexionId) {
           Object.assign(
@@ -55,7 +59,6 @@ export class ListarFormatoComponent implements OnInit {
 
     });
   }
-
 
   limiteConsulta(event: any) {
     this.paginacion = new PaginacionModel(1, event);
@@ -79,6 +82,7 @@ export class ListarFormatoComponent implements OnInit {
         console.log(response)
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.formatos.forEach((f) => {
+          f.FechaRegistroVista = this.datePipe.transform(f.FechaRegistro, "dd/MM/yyyy");
           f.Conexion = new CatalogoModel()
           if (f.ConexionId) {
             Object.assign(

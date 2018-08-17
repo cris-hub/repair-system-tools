@@ -5,6 +5,7 @@ import { ParametroService } from '../../common/services/entity/parametro.service
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../common/services/entity/loaderService';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class ListarOitComponent implements OnInit {
     private ordenTrabajoService: OrdenTrabajoService,
     private parametroSrv: ParametroService,
     private toastr: ToastrService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private datePipe: DatePipe
   ) {
   }
 
@@ -45,6 +47,7 @@ export class ListarOitComponent implements OnInit {
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
         this.ordenesTrabajo.forEach((ot) => {
+          ot.FechaRegistroVista = this.datePipe.transform(ot.FechaRegistro, "dd/MM/yyyy, h:mm a");
           ot.ClienteNickname = ot.Cliente.NickName;
           ot.HerramientaNombre = ot.Herramienta.Nombre;
           ot.TipoServicioValor = ot.TipoServicio.Valor;
@@ -61,6 +64,7 @@ export class ListarOitComponent implements OnInit {
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
         this.ordenesTrabajo.forEach((ot) => {
+          ot.FechaRegistroVista = this.datePipe.transform(ot.FechaRegistro, "dd/MM/yyyy, h:mm a");
           ot.ClienteNickname = ot.Cliente.NickName;
           ot.HerramientaNombre = ot.Herramienta.Nombre;
           ot.TipoServicioValor = ot.TipoServicio.Valor;

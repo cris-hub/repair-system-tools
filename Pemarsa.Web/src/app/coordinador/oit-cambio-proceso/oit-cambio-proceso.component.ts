@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProcesoService } from '../../common/services/entity';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/inspeccion.enum';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-oit-cambio-proceso',
@@ -26,7 +27,8 @@ export class OitCambioProcesoComponent implements OnInit {
     private parametroService: ParametroService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private datePipe: DatePipe
 
   ) {
 
@@ -71,6 +73,7 @@ export class OitCambioProcesoComponent implements OnInit {
         this.paginacion.CantidadRegistros = this.Procesos.length
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         this.Procesos.forEach((p) => {
+          p.FechaRegistroVista = this.datePipe.transform(p.FechaRegistro, "dd/MM/yyyy, h:mm a");
           p.OrdenTrabajoId = p.OrdenTrabajo.Id;
           p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
           p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;

@@ -6,6 +6,7 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { error } from 'util';
 import { ToastrService } from 'ngx-toastr';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private toastrService: ToastrService
-
+    private datePipe: DatePipe
   ) {
 
   }
@@ -67,6 +68,7 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
         
         this.paginacion.CantidadRegistros = this.Procesos.length;
         this.Procesos.forEach((p) => {
+          p.FechaRegistroVista = this.datePipe.transform(p.FechaRegistro, "dd/MM/yyyy, h:mm a");
           p.OrdenTrabajoId = p.OrdenTrabajo.Id;
           p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
           p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
@@ -90,6 +92,7 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
       .subscribe(response => {
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
         this.Procesos.forEach((p) => {
+          p.FechaRegistroVista = this.datePipe.transform(p.FechaRegistro, "dd/MM/yyyy, h:mm a");
           p.OrdenTrabajoId = p.OrdenTrabajo.Id;
           p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
           p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
