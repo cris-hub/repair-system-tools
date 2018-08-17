@@ -49,8 +49,7 @@ export class CrearFormatoComponent implements OnInit {
   public esActualizar: boolean;
   public esVer: boolean;
   public esValido: boolean;
-  public bloqueartipoFormato: boolean = false;
-
+  public bloqueartipoFormato: boolean
 
   //Formatos
   public formatoModel: FormatoModel;
@@ -102,6 +101,7 @@ export class CrearFormatoComponent implements OnInit {
     this.consultarParametros('formato');
     this.listarHerramienta();
 
+    this.bloqueartipoFormato = false
     this.esValido = false;
   }
 
@@ -384,12 +384,27 @@ export class CrearFormatoComponent implements OnInit {
     this.tipoFormatoValidacionesFormatoConexiones = '';
     this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
     this.formFormato.get('Parametros').setValidators(Validators.required);
-    this.formFormato.get('Herramienta').get('Id').setErrors({ 'requerido': true });
+    if (!this.formFormato.get('Herramienta').get('Id').value) {
+      this.formFormato.get('Herramienta').get('Id').setErrors({ 'requerido': true });
+
+    } else {
+      this.formFormato.get('Herramienta').get('Id').setErrors(null);
+    }
+
+
     if (this.formFormato.get('Planos').value.length > 0) {
       this.formFormato.get('Planos').setErrors(null);
       this.formFormato.get('Planos').setValidators(null);
+    } else {
+      this.formFormato.get('Planos').setErrors({ 'requerido': true });
+      this.formFormato.get('Planos').setValidators(Validators.required);
     }
-    this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+
+    if (!(this.formFormato.get('Parametros').value.length > 0)) {
+      this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+    } else {
+      this.formFormato.get('Parametros').setErrors(null);
+    }
   }
 
   private ValidacionesFormatoConexion() {
@@ -402,30 +417,41 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormato.get('EspecificacionId').setValidators(Validators.required);
     this.formFormato.get('Parametros').setValidators(Validators.required);
     this.formFormato.get('Planos').setValidators(null);
+
     if (!(this.formFormato.get('Parametros').value.length > 0)) {
       this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+    } else {
+      this.formFormato.get('Parametros').setErrors(null);
     }
+
     let esDocumentoObligatorio: boolean = this.formFormato.get('EsFormatoAdjunto').value;
     if (esDocumentoObligatorio) {
       this.formFormato.get('Planos').setValidators(Validators.required);
+      this.formFormato.get('Adendum').setErrors({ 'requerido': true });
+
+    } else {
+      this.formFormato.get('Planos').setValidators(null);
+
     }
+
     this.formFormato.get('EspecificacionId').valueChanges.subscribe(d => {
       if (d == TIPOS_ESPECIFICACION["API7-2"]) {
         this.formFormato.get('Adendum').setValidators(Validators.required);
         let adundum = this.formFormato.get('Adendum').value as Array<FormatoAdendumModel>;
         if (adundum.some(d => d.Valor != null)) {
           this.formFormato.get('Adendum').setValidators(null);
-        }
-        else {
+        } else {
           this.formFormato.get('Adendum').setErrors({ 'requerido': true });
         }
+      } else {
+        this.formFormato.get('Adendum').setValidators(null);
+        this.formFormato.get('Adendum').setErrors(null);
+
       }
     });
-    if (this.formFormato.get('Planos').value.length > 0) {
-      this.formFormato.get('Planos').setErrors(null);
-      this.formFormato.get('Planos').setValidators(null);
-    }
+
   }
+
 
   private cambioFormulario() {
     this.bloqueartipoFormato = true;
@@ -438,12 +464,12 @@ export class CrearFormatoComponent implements OnInit {
 
   //Persistir Datos
   enviarFormulario() {
-
+    this.confirmarTipoFormato()
 
     this.formFormato.get('TipoFormatoId').markAsDirty()
     this.formFormato.get('Adendum').markAsDirty()
     this.formFormato.get('Parametros').markAsDirty()
-    this.formFormato.get('TipoFormatoId').markAsTouched();
+
     this.formFormato.updateValueAndValidity();
 
     this.asignarValoresFormularioFormato(this.formFormato.value);

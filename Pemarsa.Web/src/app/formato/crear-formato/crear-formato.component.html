@@ -27,18 +27,18 @@
             </div>
 
 
-            <label class="col-md-2 col-form-label" id="corre">
+            <label [hidden]="bloqueartipoFormato" class="col-md-2 col-form-label" id="corre">
 
               Tipo de formato:
             </label>
-            <div class="col-md-4">
+            <div class="col-md-4" [hidden]="bloqueartipoFormato">
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoOtros(formatoModel)"  [attr.disabled]="bloqueartipoFormato ? '' : null"(change)="confirmarTipoFormato()" id="formatoOtros" [value]="19">
-                <label class="form-check-label" for="formatoOtros">formato de otros​</label>
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" (change)="confirmarTipoFormato()" [value]="19">
+                <label class="form-check-label" for="formatoOtros">Otros​</label>
               </div>
               <div class="form-check form-check-inline col-md-5">
-                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" [checked]="esTipoFormatoConexion(formatoModel)" [attr.disabled]="bloqueartipoFormato ? '' : null" (change)="confirmarTipoFormato()" id="formatoConexion" [value]="18">
-                <label class="form-check-label" for="formatoConexion">Formato de conexión​</label>
+                <input formControlName="TipoFormatoId" class="form-check-input" type="radio" (change)="confirmarTipoFormato()" [value]="18">
+                <label class="form-check-label" for="formatoConexion">Conexión​</label>
               </div>
               <label *ngIf="formFormato.get('TipoFormatoId').invalid
                       &&  (formFormato.get('TipoFormatoId').dirty
