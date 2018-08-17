@@ -22,6 +22,10 @@ export class FormatoModel extends EntityModel {
     public ConexionValor?: string, 
     public EsFormatoAdjunto?:boolean,
     public esAletas?: boolean,
+
+    public AdjuntoId?: number,
+    public Adjunto?:AttachmentModel
+
   ) {
     super();
     

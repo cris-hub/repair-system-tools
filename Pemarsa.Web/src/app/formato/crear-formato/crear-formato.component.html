@@ -81,17 +81,17 @@
           <!-- Slect Herramienta -->
           <div *ngIf="esTipoFormatoOtros(formatoModel) && formFormato.get('Herramienta')" class="form-group row">
             <label class="col-md-2  col-form-label" id="corre">
-              <span>*</span>
+              
               Herramienta
             </label>
             <div formGroupName="Herramienta" class="col-md-8">
-              <select formControlName="Id" validacion [validaciones]="[tipoFormatoValidacionesFormatoOtros]" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()" value="seleccione">
-                <option *ngFor="let Herramienta of Herramientas" value="{{Herramienta.Id}}">{{ Herramienta.Nombre }}</option>
+              <select formControlName="Id" validacion [validaciones]="[tipoFormatoValidacionesFormatoOtros]" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()">
+                <option [value]="''">Seleecione</option>
+                <option *ngFor="let Herramienta of Herramientas" [value]="Herramienta.Id">{{ Herramienta.Nombre }}</option>
               </select>
             </div>
           </div>
 
-          <!--check aletas -->
           <!-- Documentos -->
           <div *ngIf="esTipoFormatoConexion(formatoModel)" class="form-group row">
 
@@ -113,26 +113,55 @@
 
           </div>
 
-          <div *ngIf="esTipoFormatoOtros(formatoModel) || ( esTipoFormatoConexion(formatoModel) && formFormato.value['EsFormatoAdjunto'] == true  )" class="form-group row">
+          <div *ngIf="esTipoFormatoConexion(formatoModel) && (formFormato.value['EsFormatoAdjunto'] == true)" class="form-group row">
             <label class="col-md-2 col-form-label" id="corre">
-              <span>*</span>
-              Adjuntar plano:
+
+              Adjunto :
             </label>
-            <div class="col-md-2">
+            <div class="col-md-6">
+              <input type="file" (change)="addDocumentoAdjuntoFormato($event)" class="form-control-file" >
+            </div>
+            <strong *ngIf="formFormato.get('Adjunto').invalid && (formFormato.get('Adjunto').touched || formFormato.get('Adjunto').dirty) "
+                    class="text-danger validaciones">Este campo es obligatorio</strong>
+          </div>
+
+          <div  class="form-group row">
+            <div class="col-md-5 col-md-offset-2">
+                <div class="form-group row">
+                  <div  *ngIf="Adjunto.NombreArchivo" class="col-md-12">
+                    <p  class="form-control">
+                      {{Adjunto.NombreArchivo}}
+                      <i (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                      <a href="{{Adjunto.Ruta}}" class="pull-right">
+                        <i class="glyphicon glyphicon-download"></i>
+                      </a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+
+          <div *ngIf="(esTipoFormatoConexion(formatoModel) || esTipoFormatoOtros(formatoModel))" class="form-group row">
+            <label class="col-md-2 col-form-label" id="corre">
+
+              planos :
+            </label>
+            <div class="col-md-6">
               <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
             </div>
             <strong *ngIf="formFormato.get('Planos').invalid && (formFormato.get('Planos').touched || formFormato.get('Planos').dirty) "
-                   class="text-danger validaciones">Este campo es obligatorio</strong>
+                    class="text-danger validaciones">Este campo es obligatorio</strong>
           </div>
 
-          <div *ngIf="esTipoFormatoOtros(formatoModel) || ( esTipoFormatoConexion(formatoModel) && formFormato.value['EsFormatoAdjunto'])" class="form-group row">
+          <div class="form-group row">
 
 
             <div class="col-md-5 col-md-offset-2">
               <div *ngFor="let plano of Planos">
                 <div class="form-group row">
                   <div class="col-md-12">
-                    <p class="form-control">
+                    <p  *ngIf="esTipoFormatoOtros(formatoModel) || ( esTipoFormatoConexion(formatoModel))" class="form-control">
                       {{plano.NombreArchivo}}
                       <i (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
                       <a href="{{plano.Ruta}}" class="pull-right">
@@ -305,6 +334,7 @@
           </div>
 
 
+          <!--check aletas -->
 
           <div *ngIf="esTipoFormatoOtros(formatoModel)" class="form-group row">
             <label class="col-md-2 col-form-label" id="corre">

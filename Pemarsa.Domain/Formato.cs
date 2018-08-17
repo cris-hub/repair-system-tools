@@ -11,6 +11,10 @@ namespace Pemarsa.Domain
         [Required]
         public ICollection<DocumentoAdjunto> Planos { get; set; }
 
+        public int? AdjuntoId { get; set; }
+        public DocumentoAdjunto Adjunto { get; set; }
+
+
         [Required, ForeignKey("TipoFormato")]
         public int TipoFormatoId { get; set; }
         public virtual Catalogo TipoFormato { get; set; }
@@ -41,14 +45,14 @@ namespace Pemarsa.Domain
         public int? ConexionId { get; set; }
         public virtual Catalogo Conexion { get; set; }
 
-        
+
         public virtual IEnumerable<FormatoAdendum> Adendum { get; set; }
 
-        
+
         public virtual IEnumerable<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
 
-        
-        
+
+
 
 
 

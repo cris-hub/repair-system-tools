@@ -73,6 +73,7 @@ export class CrearFormatoComponent implements OnInit {
   //Carga Archivos
   public lectorArchivos: FileReader;
   public Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
+  public Adjunto: AttachmentModel = new AttachmentModel();;
   public planoView: AttachmentModel;
 
 
@@ -149,6 +150,7 @@ export class CrearFormatoComponent implements OnInit {
 
   consultarFormato(guid: any): any {
     this.initForm(new FormatoModel(new Array<AttachmentModel>()), new Array<FormatoAdendumModel>(), new HerramientaModel());
+    this.loaderService.display(true);
     this.formatoServicio.consultarFormatoPorGuid(guid)
       .subscribe(response => {
 
@@ -169,11 +171,12 @@ export class CrearFormatoComponent implements OnInit {
         this.formatosAdendumModel = response.Adendum;
         this.herramientaModel.Id = response.HerramientaId;
         this.Planos = response.Planos
-        this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
+        this.Adjunto = response.Adjunto
 
-        console.log(response)
-        console.log(this.parametrosFormatoAdendumTiposFormatos)
-        console.log(this.parametrosFormatoAdendumTiposFormatos)
+        this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
+        this.bloqueartipoFormato = true;
+        this.loaderService.display(false);
+
       }, error => { },
         () => {
           this.initFormFormatoAdendum()
@@ -216,7 +219,6 @@ export class CrearFormatoComponent implements OnInit {
     }
   }
 
-
   initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
     if (formato.FormatoFormatoParametro) {
       formato.FormatoFormatoParametro.filter(c => {
@@ -227,6 +229,7 @@ export class CrearFormatoComponent implements OnInit {
     }
 
     this.formFormato = this.formBuilder.group({
+      Adjunto: [this.Adjunto ],
       Planos: [this.Planos],
       Codigo: [formato.Codigo],
       TipoFormatoId: [formato.TipoFormatoId, Validators.required],
@@ -326,6 +329,7 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormatoPatamtros.push(this.crearFormFormatoParametroModel());
     console.log(this.formFormatoPatamtros);
   }
+
   addItemFormParametroAletas(): void {
     this.formFormatoPatamtrosAletas = this.formFormato.get('Aletas') as FormArray;
     this.formFormatoPatamtrosAletas.push(this.crearFormFormatoParametroModel());
@@ -335,19 +339,9 @@ export class CrearFormatoComponent implements OnInit {
   removeItemFormFormatoPatamtros(i) {
     this.formFormatoPatamtros.removeAt(i);
   }
+
   removeItemFormFormatoPatamtrosAletas(i) {
     this.formFormatoPatamtrosAletas.removeAt(i);
-  }
-
-  esTipoFormatoOtros(formato: FormatoModel): boolean {
-
-
-    return formato.TipoFormatoId == TIPOS_FORMATO.FORMATOOTROS
-  }
-
-  esTipoFormatoConexion(formato: FormatoModel): boolean {
-
-    return formato.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION
   }
 
   crearFormFormatoParametroModel(): any {
@@ -365,6 +359,18 @@ export class CrearFormatoComponent implements OnInit {
     return formatoParametrosModel;
   }
 
+  //validaciones
+  esTipoFormatoOtros(formato: FormatoModel): boolean {
+
+
+    return formato.TipoFormatoId == TIPOS_FORMATO.FORMATOOTROS
+  }
+
+  esTipoFormatoConexion(formato: FormatoModel): boolean {
+
+    return formato.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION
+  }
+
   confirmarTipoFormato() {
     let id = this.cambioFormulario();
 
@@ -378,17 +384,18 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormato.updateValueAndValidity();
   }
 
-
   private validacionesFormatoOtros() {
     this.tipoFormatoValidacionesFormatoOtros = 'requerido';
     this.tipoFormatoValidacionesFormatoConexiones = '';
     this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
     this.formFormato.get('Parametros').setValidators(Validators.required);
+
     if (!this.formFormato.get('Herramienta').get('Id').value) {
       this.formFormato.get('Herramienta').get('Id').setErrors({ 'requerido': true });
-
+      this.formFormato.get('Herramienta').get('Id').setValidators((Validators.required));
     } else {
       this.formFormato.get('Herramienta').get('Id').setErrors(null);
+      this.formFormato.get('Herramienta').get('Id').setValidators(null);
     }
 
 
@@ -425,14 +432,22 @@ export class CrearFormatoComponent implements OnInit {
     }
 
     let esDocumentoObligatorio: boolean = this.formFormato.get('EsFormatoAdjunto').value;
-    if (esDocumentoObligatorio) {
-      this.formFormato.get('Planos').setValidators(Validators.required);
-      this.formFormato.get('Adendum').setErrors({ 'requerido': true });
+    if (esDocumentoObligatorio && (this.Adjunto.NombreArchivo == '')) {
+      this.formFormato.get('Adjunto').setValidators(Validators.required);
+      this.formFormato.get('Adjunto').setErrors({ 'requerido': true });
 
     } else {
-      this.formFormato.get('Planos').setValidators(null);
-
+      this.formFormato.get('Adjunto').setValidators(null);
+      this.formFormato.get('Adjunto').setErrors(null);
     }
+    if (this.formFormato.get('Planos').value.length > 0) {
+      this.formFormato.get('Planos').setErrors(null);
+      this.formFormato.get('Planos').setValidators(null);
+    } else {
+      this.formFormato.get('Planos').setErrors({ 'requerido': true });
+      this.formFormato.get('Planos').setValidators(Validators.required);
+    }
+
 
     this.formFormato.get('EspecificacionId').valueChanges.subscribe(d => {
       if (d == TIPOS_ESPECIFICACION["API7-2"]) {
@@ -452,7 +467,6 @@ export class CrearFormatoComponent implements OnInit {
 
   }
 
-
   private cambioFormulario() {
     this.bloqueartipoFormato = true;
     let id = this.formFormato.value['TipoFormatoId'];
@@ -462,6 +476,9 @@ export class CrearFormatoComponent implements OnInit {
     return id;
   }
 
+
+
+
   //Persistir Datos
   enviarFormulario() {
     this.confirmarTipoFormato()
@@ -469,6 +486,7 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormato.get('TipoFormatoId').markAsDirty()
     this.formFormato.get('Adendum').markAsDirty()
     this.formFormato.get('Parametros').markAsDirty()
+    this.formFormato.get('Adjunto').markAsDirty()
 
     this.formFormato.updateValueAndValidity();
 
@@ -482,7 +500,7 @@ export class CrearFormatoComponent implements OnInit {
     this.formatoModel.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
 
     if (!this.esValido) {
-      this.toastr.error('formato no valido!', 'validacion');
+      this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
       return
     }
     if (this.formatoModel.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION) {
@@ -490,7 +508,7 @@ export class CrearFormatoComponent implements OnInit {
 
 
     } else {
-
+      this.formatoModel['Adjunto'] = null;
       this.formatoModel['Adendum'] = null;
 
     }
@@ -501,6 +519,21 @@ export class CrearFormatoComponent implements OnInit {
       this.crearFormato(this.formatoModel);
 
     }
+  }
+
+  private asignarFormatoParametros(val: any) {
+    val.Aletas.forEach(d => {
+      val.FormatoFormatoParametro.push({
+        TipoFormatoParametroId: 84,
+        FormatoParametro: d
+      });
+    });
+    val.Parametros.forEach(d => {
+      val.FormatoFormatoParametro.push({
+        TipoFormatoParametroId: 85,
+        FormatoParametro: d
+      });
+    });
   }
 
   esFormularioValido(formulario: FormGroup): boolean {
@@ -521,21 +554,7 @@ export class CrearFormatoComponent implements OnInit {
 
 
     this.formatoModel = Object.assign(this.formatoModel, val)
-  }
-
-  private asignarFormatoParametros(val: any) {
-    val.Aletas.forEach(d => {
-      val.FormatoFormatoParametro.push({
-        TipoFormatoParametroId: 84,
-        FormatoParametro: d
-      });
-    });
-    val.Parametros.forEach(d => {
-      val.FormatoFormatoParametro.push({
-        TipoFormatoParametroId: 85,
-        FormatoParametro: d
-      });
-    });
+    this.formatoModel.Adjunto = this.Adjunto;
   }
 
   crearFormato(formato: FormatoModel) {
@@ -546,6 +565,10 @@ export class CrearFormatoComponent implements OnInit {
       this.toastr.success('Formato creado correctamente!', '');
       this.loaderService.display(false)
       setTimeout(e => { this.router.navigate(['/formato']); }, 200);
+    }, (errorMessage) => {
+      this.toastr.error(errorMessage.error.Message);
+      this.loaderService.display(false)
+
     });
   }
 
@@ -555,14 +578,26 @@ export class CrearFormatoComponent implements OnInit {
     this.formatoServicio.actualizarFormato(this.formatoModel)
       .subscribe(response => {
         this.toastr.success('Formato modificado correctamente!', '');
-        this.loaderService.display(true)
+        this.loaderService.display(false)
         setTimeout(e => { this.router.navigate(['/formato']); }, 200);
-      });
+      }, (errorMessage) => {
+        this.toastr.error(errorMessage.error.Message);
+        this.loaderService.display(false)
 
+      });
   }
 
   //Carga Archivos
 
+  addDocumentoAdjuntoFormato(event: any) {
+    let files = this.leerArchivo(event);
+    for (var i = 0; i < files.length; i++) {
+      this.planoView = this.obtenerDatosArchivoAdjunto(files[i]);
+      this.personaModifica();
+      this.Adjunto = this.planoView;
+    }
+
+  }
   addFile(event: any) {
     let files = this.leerArchivo(event);
     for (var i = 0; i < files.length; i++) {
@@ -619,6 +654,11 @@ export class CrearFormatoComponent implements OnInit {
 
   obtenerStreamArchivo(e: any) {
     return e.currentTarget.result.split(',')[1];
+  }
+
+  eliminarAdjuntoFormato(adjunto: AttachmentModel) {
+    this.Adjunto.Estado = false;
+
   }
 
 

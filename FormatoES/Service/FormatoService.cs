@@ -43,6 +43,12 @@ namespace FormatoES.Service
         {
             try
             {
+                if (formato.Adjunto != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(formato.Adjunto);
+
+                }
+
                 if (formato.Planos != null)
                 {
 
