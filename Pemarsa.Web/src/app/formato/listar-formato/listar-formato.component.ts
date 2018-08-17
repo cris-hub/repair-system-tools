@@ -3,6 +3,7 @@ import { FormatoModel, PaginacionModel, ParametrosModel, CatalogoModel } from '.
 import { FormatoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { LoaderService } from '../../common/services/entity/loaderService';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-listar-formato',
@@ -18,7 +19,8 @@ export class ListarFormatoComponent implements OnInit {
   constructor(
     private formatoService: FormatoService,
     private parametroService: ParametroService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -41,6 +43,8 @@ export class ListarFormatoComponent implements OnInit {
       console.log(response)
       this.paginacion.TotalRegistros = response.CantidadRegistros;
       this.formatos.forEach((f) => {
+        f.FechaRegistroVista = this.datePipe.transform(f.FechaRegistro, "dd/MM/yyyy");
+
         f.Conexion = new CatalogoModel()
         if (f.ConexionId) {
           Object.assign(
@@ -48,12 +52,6 @@ export class ListarFormatoComponent implements OnInit {
           );
 
           f.ConexionValor = f.Conexion.Valor;
-          //f.FechaRegistro = new Date();
-          //f.FechaRegistroVista = f.FechaRegistro.toString().split("T", 1)[0]; //this.transformDate(f.FechaRegistro);
-          //if (!f.FechaRegistroVista) {
-          //debugger;
-          //  f.FechaRegistroVista = "Fecha";
-          //}
         }
 
       })
@@ -61,18 +59,6 @@ export class ListarFormatoComponent implements OnInit {
 
     });
   }
-
-  //transformDate(date: string) {
-
-  //  var fecha = date.split("T", 1)[0];
-  //  return fecha;
-  //}
-
-  //myFunction() {
-  //  this.date = new Date();
-  //  let latest_date = this.datepipe.transform(this.date, 'yyyy-MM-dd');
-  //}
-
 
   limiteConsulta(event: any) {
     this.paginacion = new PaginacionModel(1, event);
@@ -96,6 +82,7 @@ export class ListarFormatoComponent implements OnInit {
         console.log(response)
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.formatos.forEach((f) => {
+          f.FechaRegistroVista = this.datePipe.transform(f.FechaRegistro, "dd/MM/yyyy");
           f.Conexion = new CatalogoModel()
           if (f.ConexionId) {
             Object.assign(

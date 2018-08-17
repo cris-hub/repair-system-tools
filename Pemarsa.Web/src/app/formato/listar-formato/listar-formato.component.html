@@ -81,9 +81,7 @@
               <td>
                 <a *ngFor=" let plano of formato.Planos">{{plano.NombreArchivo}}, &nbsp;</a>
               </td>
-              <td>{{formato.FechaRegistro | date: 'dd/MM/yyyy'}}</td>
-              <!--<td>{{formato.FechaRegistro}}</td>
-              <td>{{formato.FechaRegistroVista}}</td>-->
+              <td>{{formato.FechaRegistroVista}}</td>
               <td>
                 <i class="glyphicon glyphicon-eye-open pointer" routerLink="/formato/ver/{{formato.Guid}}" data-toggle="tooltip" title="Ver detalle formato"></i>
                 &nbsp;&nbsp;
