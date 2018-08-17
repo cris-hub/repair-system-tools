@@ -3,8 +3,9 @@ export class EntityModel {
   public Guid: string;
   public GuidUsuarioCrea: string;
   public GuidUsuarioModifica: string;
-  public GuidOrganizacion: string; 
-  public FechaRegistro: Date; 
+  public GuidOrganizacion: string;
+  public FechaRegistro: Date;
+  //public FechaRegistroVista: string; 
   public FechaModifica: Date; 
   public NombreUsuarioCrea: string; 
   public NombreUsuarioModifica: string; 

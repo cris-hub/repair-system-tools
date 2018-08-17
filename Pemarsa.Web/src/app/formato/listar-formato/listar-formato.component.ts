@@ -48,6 +48,12 @@ export class ListarFormatoComponent implements OnInit {
           );
 
           f.ConexionValor = f.Conexion.Valor;
+          //f.FechaRegistro = new Date();
+          //f.FechaRegistroVista = f.FechaRegistro.toString().split("T", 1)[0]; //this.transformDate(f.FechaRegistro);
+          //if (!f.FechaRegistroVista) {
+          //debugger;
+          //  f.FechaRegistroVista = "Fecha";
+          //}
         }
 
       })
@@ -55,6 +61,17 @@ export class ListarFormatoComponent implements OnInit {
 
     });
   }
+
+  //transformDate(date: string) {
+
+  //  var fecha = date.split("T", 1)[0];
+  //  return fecha;
+  //}
+
+  //myFunction() {
+  //  this.date = new Date();
+  //  let latest_date = this.datepipe.transform(this.date, 'yyyy-MM-dd');
+  //}
 
 
   limiteConsulta(event: any) {
