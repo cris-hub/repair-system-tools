@@ -57,6 +57,86 @@ namespace FormatoES.Repository
         {
             try
             {
+                if (formato.FormatoFormatoParametro != null)
+                {
+                    foreach (var parametros in formato.FormatoFormatoParametro)
+                    {
+                        parametros.FormatoId = formato.Id;
+                        parametros.FormatoParametroId = parametros.FormatoParametro.Id;
+                        var formatoBD = _context.FormatoFormatoParametro
+                            .Include(t => t.FormatoParametro)
+                            .Include(t => t.TipoFormatoParametro)
+                            
+                            .Include(t => t.Formato)
+                            
+                            .FirstOrDefault(d => d.FormatoId == formato.Id && d.FormatoParametroId == parametros.FormatoParametro.Id);
+                        if (formatoBD != null)
+                        {
+                            
+                            _context.Entry(parametros).State = EntityState.Detached;
+                            
+
+                            _context.Entry(formatoBD).CurrentValues.SetValues(parametros);
+                            _context.FormatoFormatoParametro.Update(formatoBD);
+                            
+                        }
+                        else
+                        {
+                            _context.Entry(parametros).State = EntityState.Added;
+                        }
+
+
+                    }
+                }
+                if (formato.Adendum != null)
+                {
+                    foreach (var Adendum in formato.Adendum)
+                    {
+
+                        Adendum.FormatoId = formato.Id;
+
+                        var AdendumoBD = _context.FormatoAdendum
+                            .FirstOrDefault(d => d.FormatoId == formato.Id );
+                        if (AdendumoBD != null)
+                        {
+
+
+                            _context.Entry(AdendumoBD).State = EntityState.Detached;
+                            
+                            _context.Entry(AdendumoBD).CurrentValues.SetValues(Adendum);
+                            _context.FormatoAdendum.Update(AdendumoBD);
+
+                        }
+                        else {
+                            _context.Entry(Adendum).State = EntityState.Added;
+                        } 
+
+
+
+                    }
+                }
+                if (formato.Herramienta != null)
+                {
+                    _context.Entry(formato.Herramienta).State = EntityState.Unchanged;
+
+                }
+                if (formato.TipoFormato != null)
+                {
+                    _context.Entry(formato.TipoFormato).State = EntityState.Unchanged;
+
+                }
+                if (formato.Conexion != null)
+                {
+                    _context.Entry(formato.Conexion).State = EntityState.Unchanged;
+
+                }
+                if (formato.TiposConexiones != null)
+                {
+                    _context.Entry(formato.TiposConexiones).State = EntityState.Unchanged;
+
+                }
+
+                formato.Version += 1;
                 _context.Formato.Update(formato);
                 return await _context.SaveChangesAsync() > 0;
             }
@@ -72,6 +152,7 @@ namespace FormatoES.Repository
                     .Include(f => f.Herramienta)
                     .Include(f => f.Planos)
                     .Include(f => f.TipoFormato)
+                    .Include(f => f.Adjunto)
 
                     .Include(f => f.FormatoFormatoParametro).ThenInclude(t => t.FormatoParametro)
                     .FirstOrDefaultAsync(f => f.Guid == guidformato);

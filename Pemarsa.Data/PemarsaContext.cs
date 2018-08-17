@@ -51,6 +51,7 @@ namespace Pemarsa.Data
         public DbSet<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
         public DbSet<OrdenTrabajoAnexos> OrdenTrabajoAnexos { get; set; }
         public DbSet<FormatoParametro> FormatoParametro { get; set; }
+        public DbSet<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
         public DbSet<FormatoAdendum> FormatoAdendum { get; set; }
         public DbSet<Formato> Formato { get; set; }
         public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }

@@ -53,7 +53,10 @@ export class ListarFormatoComponent implements OnInit {
 
           f.ConexionValor = f.Conexion.Valor;
         }
+        if (f.Adjunto) {
 
+          f.DocumentoVista = f.Adjunto.NombreArchivo
+        }
       })
       this.loaderService.display(false);
 

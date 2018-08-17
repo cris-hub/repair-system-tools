@@ -79,7 +79,7 @@
               <td>{{formato.Codigo}}</td>
               <td>{{formato.ConexionValor}}</td>
               <td>
-                <a *ngFor=" let plano of formato.Planos">{{plano.NombreArchivo}}, &nbsp;</a>
+                <a *ngIf="formato.Adjunto" [href]="formato.Adjunto.Ruta">{{formato.DocumentoVista}}, &nbsp;</a>
               </td>
               <td>{{formato.FechaRegistroVista}}</td>
               <td>

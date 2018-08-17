@@ -25,6 +25,10 @@ import { TIPOS_FORMATO, TIPOS_ESPECIFICACION } from '../formato-enum/formato.enu
 })
 export class CrearFormatoComponent implements OnInit {
 
+  //renderizadoVista
+
+  public tituloVista = ''
+
   //Catalogos
   public parametrosEspecificacion: EntidadModel[];
   public parametrosTipoConexion: EntidadModel[];
@@ -97,6 +101,7 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.accionRealizar();
     this.formatoModel = new FormatoModel();
     this.cargarValores();
     this.consultarParametros('formato');
@@ -105,7 +110,16 @@ export class CrearFormatoComponent implements OnInit {
     this.bloqueartipoFormato = false
     this.esValido = false;
   }
-
+  accionRealizar() {
+    switch (this.router.url.split('/')[2]) {
+      case 'ver': this.tituloVista = 'Formato'; break;
+      case 'crear': this.tituloVista = 'Nuevo formato'; break;
+      case 'editar': this.tituloVista = 'Editar formato'; break;
+      default: this.tituloVista = 'Formato'
+    }
+    console.log(this.router.url.split('/')[2])
+    console.log(this.route)
+  }
 
   listarHerramienta() {
     this.herramientaServicio.ConsultarHerramientas(this.paginacion).subscribe(r => {

@@ -11,7 +11,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
           <br />
-          <h3><b>Crear formato</b></h3>
+          <h3><b>{{tituloVista}}</b></h3>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@
           <div  class="form-group row">
             <div class="col-md-5 col-md-offset-2">
                 <div class="form-group row">
-                  <div  *ngIf="Adjunto.NombreArchivo" class="col-md-12">
+                  <div  *ngIf="Adjunto" class="col-md-12">
                     <p  class="form-control">
                       {{Adjunto.NombreArchivo}}
                       <i (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>

@@ -27,8 +27,8 @@ export class ListarInspeccionesSalidaComponent implements OnInit {
     private parametroService: ParametroService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private toastrService: ToastrService
-    private datePipe: DatePipe
+    private toastrService: ToastrService,
+    private datePipe: DatePipe,
   ) {
 
   }
