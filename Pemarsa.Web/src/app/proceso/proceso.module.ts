@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UtilModule } from '../common/modules/util.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -20,6 +20,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VisualDimensionalComponent } from './inspeccion-entrada/visual-dimensional/visual-dimensional.component';
 import { InspeccionEntradaModule } from './inspeccion-entrada/inspeccion-entrada.module';
 import { InspeccionSalidaModule } from './inspeccion-salida/inspeccion-salida.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
+
+
 
 @NgModule({
   imports: [
@@ -28,11 +32,14 @@ import { InspeccionSalidaModule } from './inspeccion-salida/inspeccion-salida.mo
     ReactiveFormsModule,
     UtilModule,
     NgxPaginationModule,
-
     NgbModule,
+    FormsModule,
+    Ng2SearchPipeModule,
+
  
     
 
-  ]
+  ],
+  declarations: []
 })
 export class ProcesoModule { }

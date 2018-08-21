@@ -1,7 +1,7 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
 <a data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-  <span class="glyphicon glyphicon-glass"></span>
+  <span class="glyphicon glyphicon-filter"></span>
 </a>
 <div class="dropdown-menu">
   <form [formGroup]="frmFiltroHerramienta" class="px-4 py-3">
@@ -9,6 +9,10 @@
       <label for="Nombre" style="color: #6c757d;"><b>Nombre</b></label>
       <input type="text" class="form-control" formControlName="Nombre" placeholder="Nombre">
     </div>
-    <button (click)="submitFiltro(frmFiltroHerramienta.value)" class="btn btn-primary">Filtrar</button>
+    <div class="btn-group">
+      <button (click)="limpiarFormulario()" role="button" id="clear" type="button" class="btn btn">Limpiar</button>
+      &nbsp;&nbsp;
+      <button (click)="submitFiltro(frmFiltroHerramienta.value)" class="btn btn-primary">Filtrar</button>
+    </div>
   </form>
 </div>

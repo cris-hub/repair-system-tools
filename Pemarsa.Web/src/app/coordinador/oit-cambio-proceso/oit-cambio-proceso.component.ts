@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProcesoService } from '../../common/services/entity';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/inspeccion.enum';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-oit-cambio-proceso',
@@ -19,13 +20,15 @@ export class OitCambioProcesoComponent implements OnInit {
   public Paramtros: ParametrosModel;
   public tipoProcesos: CatalogoModel[];
   public Procesos: Array<ProcesoModel>;
+  public filter: string;
 
   constructor(
     private procesoService: ProcesoService,
     private parametroService: ParametroService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private datePipe: DatePipe
 
   ) {
 
@@ -66,8 +69,19 @@ export class OitCambioProcesoComponent implements OnInit {
   consultarProcesos() {
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
-        this.Procesos = response.Listado
-        this.paginacion.CantidadRegistros = response.CantidadRegistros
+        this.Procesos = response.Listado.filter(d => d.EstadoId!=ESTADOS_PROCESOS.Procesado)
+        this.paginacion.CantidadRegistros = this.Procesos.length
+        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);
+        this.Procesos.forEach((p) => {
+          p.FechaRegistroVista = this.datePipe.transform(p.FechaRegistro, "dd/MM/yyyy, h:mm a");
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          p.EstadoValor = p.Estado.Valor;
+          p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+        });
       }, error => {
         console.log(error)
         this.toastrService.error(error.message)
@@ -78,6 +92,11 @@ export class OitCambioProcesoComponent implements OnInit {
     switch (proceso.EstadoId) {
       case ESTADOS_PROCESOS.Rechazado: return "rechadado";
     }
+  }
+
+  actualizarObservacionRechazo(event) {
+    console.log(event)
+    this.consultarProcesos();
   }
 
   limiteConsulta(event: any) {

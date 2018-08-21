@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormatoModel, PaginacionModel, ParametrosModel, CatalogoModel } from '../../common/models/Index';
 import { FormatoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
+import { LoaderService } from '../../common/services/entity/loaderService';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-listar-formato',
@@ -13,10 +15,12 @@ export class ListarFormatoComponent implements OnInit {
   public formatos: Array<FormatoModel>
   public paginacion: PaginacionModel;
   public parametrosConexionFormato: ParametrosModel = new ParametrosModel();
-
+  public filter: string
   constructor(
     private formatoService: FormatoService,
-    private parametroService: ParametroService
+    private parametroService: ParametroService,
+    private loaderService: LoaderService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -27,45 +31,37 @@ export class ListarFormatoComponent implements OnInit {
   }
 
   consultarFomatos() {
-
+    this.loaderService.display(true);
     this.parametroService.consultarParametrosPorEntidad('formato').subscribe(response => {
       this.parametrosConexionFormato.Catalogos = response.Catalogos.filter(c => { return c.Grupo == 'CONEXION' });
+      this.loaderService.display(false);
     });
+    this.loaderService.display(true);
+
     this.formatoService.consultarFormatos(this.paginacion).subscribe((response) => {
       this.formatos = response.Listado
       console.log(response)
-
       this.paginacion.TotalRegistros = response.CantidadRegistros;
-
       this.formatos.forEach((f) => {
+        f.FechaRegistroVista = this.datePipe.transform(f.FechaRegistro, "dd/MM/yyyy");
 
         f.Conexion = new CatalogoModel()
-
-
-
         if (f.ConexionId) {
-
           Object.assign(
-            f.Conexion
-            ,
-            this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
-
+            f.Conexion, this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
           );
-        }
 
+          f.ConexionValor = f.Conexion.Valor;
+        }
+        if (f.Adjunto) {
+
+          f.DocumentoVista = f.Adjunto.NombreArchivo
+        }
       })
+      this.loaderService.display(false);
 
     });
-
-
-
-
-
-    console.log(this.parametrosConexionFormato);
-
-
   }
-
 
   limiteConsulta(event: any) {
     this.paginacion = new PaginacionModel(1, event);
@@ -86,25 +82,21 @@ export class ListarFormatoComponent implements OnInit {
     this.formatoService.consultarFormatosPorFiltro(filtro)
       .subscribe(response => {
         this.formatos = response.Listado;
+        console.log(response)
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.formatos.forEach((f) => {
-
+          f.FechaRegistroVista = this.datePipe.transform(f.FechaRegistro, "dd/MM/yyyy");
           f.Conexion = new CatalogoModel()
-
-
-
           if (f.ConexionId) {
-
             Object.assign(
-              f.Conexion
-              ,
-              this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
-
+              f.Conexion, this.parametrosConexionFormato.Catalogos.filter((c) => { return c.Id == f.ConexionId })[0]
             );
+
+            f.ConexionValor = f.Conexion.Valor;
           }
-          console.log(f)
+          //console.log(f)
 
         })
-        this.paginacion.TotalRegistros = response.CantidadRegistros;
 
       });
   }

@@ -69,6 +69,7 @@
     <Folder Include="src\app\common\components\login\" />
     <Folder Include="src\app\common\components\logout\" />
     <Folder Include="src\app\common\services\Interceptors\" />
+    <Folder Include="src\app\proceso\common-proceso\" />
     <Folder Include="src\app\shared\" />
     <Folder Include="src\assets\img\" />
     <Folder Include="wwwroot\" />
@@ -133,5 +134,7 @@
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\index.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\listar-solicitudOrdenTrabajo\listar-solicitudOrdenTrabajo.component.ts" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties angular_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

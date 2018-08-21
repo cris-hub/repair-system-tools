@@ -164,3 +164,8 @@
 .red {
   color: #f33c3c;
 }
+
+
+strong {
+display:inline-flex;
+}

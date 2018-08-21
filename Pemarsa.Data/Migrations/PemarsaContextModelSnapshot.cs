@@ -316,6 +316,8 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("AdjuntoId");
+
                     b.Property<string>("Codigo");
 
                     b.Property<int?>("ConexionId");
@@ -351,11 +353,11 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("TipoFormatoId");
 
-                    b.Property<int?>("TiposConexionesId");
-
                     b.Property<int>("Version");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdjuntoId");
 
                     b.HasIndex("ConexionId");
 
@@ -364,8 +366,6 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("HerramientaId");
 
                     b.HasIndex("TipoFormatoId");
-
-                    b.HasIndex("TiposConexionesId");
 
                     b.ToTable("Formato");
                 });
@@ -427,6 +427,26 @@ namespace Pemarsa.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FormatoParametro");
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.FormatoTiposConexion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Estado");
+
+                    b.Property<int?>("FormatoId");
+
+                    b.Property<int>("TipoConexionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormatoId");
+
+                    b.HasIndex("TipoConexionId");
+
+                    b.ToTable("FormatoTiposConexion");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Herramienta", b =>
@@ -1195,34 +1215,6 @@ namespace Pemarsa.Data.Migrations
                     b.ToTable("OrdenTrabajoHistorialModificacion");
                 });
 
-            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialProceso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EstadoProceso");
-
-                    b.Property<DateTime>("FechaProceso");
-
-                    b.Property<int>("LiberaProcesoAnteriorId");
-
-                    b.Property<string>("Observaciones");
-
-                    b.Property<int>("OperarioId");
-
-                    b.Property<int?>("OrdenTrabajoId");
-
-                    b.Property<int>("TipoProcesoAnteriorId");
-
-                    b.Property<int>("TipoProcesoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrdenTrabajoId");
-
-                    b.ToTable("OrdenTrabajoHistorialProceso");
-                });
-
             modelBuilder.Entity("Pemarsa.Domain.Parametro", b =>
                 {
                     b.Property<string>("Entidad")
@@ -1282,7 +1274,9 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<bool?>("EsPruebaConGauge");
 
-                    b.Property<int>("EstadoId");
+                    b.Property<int?>("EstadoId");
+
+                    b.Property<DateTime?>("FechaFinalizacion");
 
                     b.Property<DateTime?>("FechaModifica");
 
@@ -1294,6 +1288,12 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid>("GuidOrganizacion");
 
+                    b.Property<Guid>("GuidPersonaAsignaOperario");
+
+                    b.Property<Guid>("GuidPersonaCompleta");
+
+                    b.Property<Guid>("GuidPersonaLibera");
+
                     b.Property<Guid>("GuidUsuarioCrea");
 
                     b.Property<Guid?>("GuidUsuarioModifica");
@@ -1304,6 +1304,12 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("NombreOperario");
 
+                    b.Property<string>("NombrePersonaAsignaOperario");
+
+                    b.Property<string>("NombrePersonaCompleta");
+
+                    b.Property<string>("NombrePersonaLibera");
+
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()
                         .HasMaxLength(60);
@@ -1313,6 +1319,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("NormaId");
 
+                    b.Property<string>("ObservacionRechazo");
+
                     b.Property<int>("OrdenTrabajoId");
 
                     b.Property<int?>("ProcesoAnteriorId");
@@ -1321,7 +1329,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("ProcesosRealizarId");
 
-                    b.Property<bool>("Reasignado");
+                    b.Property<bool?>("Reasignado");
 
                     b.Property<int?>("TipoProcesoAnteriorId");
 
@@ -1333,7 +1341,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("TipoSoldaduraId");
 
-                    b.Property<string>("TrabajoRealizadoId");
+                    b.Property<string>("TrabajoRealizado");
 
                     b.Property<string>("TrabajoRealizar");
 
@@ -1535,13 +1543,17 @@ namespace Pemarsa.Data.Migrations
 
             modelBuilder.Entity("Pemarsa.Domain.DocumentoAdjunto", b =>
                 {
-                    b.HasOne("Pemarsa.Domain.Formato", "Formato")
+                    b.HasOne("Pemarsa.Domain.Formato")
                         .WithMany("Planos")
                         .HasForeignKey("FormatoId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Formato", b =>
                 {
+                    b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "Adjunto")
+                        .WithMany()
+                        .HasForeignKey("AdjuntoId");
+
                     b.HasOne("Pemarsa.Domain.Catalogo", "Conexion")
                         .WithMany()
                         .HasForeignKey("ConexionId");
@@ -1558,10 +1570,6 @@ namespace Pemarsa.Data.Migrations
                         .WithMany()
                         .HasForeignKey("TipoFormatoId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pemarsa.Domain.Catalogo", "TiposConexiones")
-                        .WithMany()
-                        .HasForeignKey("TiposConexionesId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.FormatoAdendum", b =>
@@ -1583,13 +1591,25 @@ namespace Pemarsa.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.FormatoParametro", "FormatoParametro")
-                        .WithMany("FormatoFormatoParametro")
+                        .WithMany()
                         .HasForeignKey("FormatoParametroId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoFormatoParametro")
                         .WithMany()
                         .HasForeignKey("TipoFormatoParametroId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.FormatoTiposConexion", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.Formato", "Formato")
+                        .WithMany("FormatoTiposConexion")
+                        .HasForeignKey("FormatoId");
+
+                    b.HasOne("Pemarsa.Domain.Catalogo", "TipoConexion")
+                        .WithMany()
+                        .HasForeignKey("TipoConexionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1891,13 +1911,6 @@ namespace Pemarsa.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Pemarsa.Domain.OrdenTrabajoHistorialProceso", b =>
-                {
-                    b.HasOne("Pemarsa.Domain.OrdenTrabajo")
-                        .WithMany("HistorialProcesos")
-                        .HasForeignKey("OrdenTrabajoId");
-                });
-
             modelBuilder.Entity("Pemarsa.Domain.ParametroCatalogo", b =>
                 {
                     b.HasOne("Pemarsa.Domain.Catalogo", "Catalogo")
@@ -1934,8 +1947,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
-                        .HasForeignKey("EstadoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EstadoId");
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Instructivo")
                         .WithMany()

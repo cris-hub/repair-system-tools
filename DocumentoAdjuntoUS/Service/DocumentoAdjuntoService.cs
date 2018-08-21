@@ -25,24 +25,26 @@ namespace DocumentoAdjuntoUS.Service
         {
             try
             {
+
+
                 string RutaServer = ObtenerRutaServidor();
 
 
-                
+
 
                 //Se valida si existe la carpeta en el servidor
                 if (!Directory.Exists($"{RutaServer}"))
                     Directory.CreateDirectory($"{RutaServer}");
 
                 //se guarda la ruta en el documentoAfjunto para registrarla en la base de datos
-                if (documentoAdjunto.Nombre==null)
+                if (documentoAdjunto.Nombre == null)
                 {
                     string nameSystem = $"{Guid.NewGuid().ToString()}.{documentoAdjunto.NombreArchivo.Split('.')[1]}";
                     documentoAdjunto.Ruta = $"{RutaServer}/{nameSystem}";
                     documentoAdjunto.Nombre = nameSystem;
 
                 }
-            
+
 
 
                 //Se combierte el stream del documento adjutno en butes
@@ -53,13 +55,20 @@ namespace DocumentoAdjuntoUS.Service
                     await File.WriteAllBytesAsync(documentoAdjunto.Ruta, bytes);
                 }
 
-       
 
-                //Se elimina el archivo actual registrado para este documento
-                string path = await _repository.ConsultarRutaActualPapelTrabajo(documentoAdjunto.Id);
-                //File.Delete(path);
+                if (documentoAdjunto.Id != 0)
+                {
+                    //Se elimina el archivo actual registrado para este documento
+                    string path = await _repository.ConsultarRutaActualPapelTrabajo(documentoAdjunto.Id);
+                    //File.Delete(path);
 
-                return await _repository.ActualizarDocumentoAdjunto(documentoAdjunto);
+                    return await _repository.ActualizarDocumentoAdjunto(documentoAdjunto);
+                }
+                else
+                {
+
+                    return await _repository.CrearDocumentoAdjunto(documentoAdjunto)>0;
+                }
             }
             catch (Exception)
             {
@@ -74,11 +83,11 @@ namespace DocumentoAdjuntoUS.Service
             {
                 string RutaServer = ObtenerRutaServidor();
 
-                DocumentoAdjunto doc =  await _repository.ConsultarDocumentoAdjuntoPorId(documentoAdjuntoId);
+                DocumentoAdjunto doc = await _repository.ConsultarDocumentoAdjuntoPorId(documentoAdjuntoId);
                 byte[] readText = File.ReadAllBytes(doc.Ruta);
                 doc.Stream = Convert.ToBase64String(readText);
-                    
-                return  doc;
+
+                return doc;
             }
             catch (Exception)
             {

@@ -122,7 +122,7 @@ namespace Pemarsa.API.Controllers
             try
             {
                 Tuple<int, IEnumerable<Proceso>> procesos = await _procesoService.ConsultarProcesosPorTipoPorFiltro(parametrosDTO, new UsuarioDTO());
-                return Ok(procesos);
+                return Ok(new { CantidadRegistros = procesos.Item1, Listado = procesos.Item2.ToList() });
             }
             catch (Exception e)
             {
@@ -163,7 +163,7 @@ namespace Pemarsa.API.Controllers
         }
 
 
-        [HttpPut("ActualizarInspección")]
+        [HttpPut("ActualizarInspeccion")]
         public async Task<IActionResult> ActualizarInspección([FromBody]Inspeccion inspeccion)
         {
             try
@@ -213,6 +213,37 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpGet("ConsultarProcesoPorTipoYOrdenTrabajo")]
+        public async Task<IActionResult> ConsultarProcesoPorTipoYOrdenTrabajo([FromQuery]int tipoProceso,[FromQuery]string guidOit)
+        {
+            try
+            {
+                Proceso proceso = await _procesoService.ConsultarProcesoPorTipoYOrdenTrabajo(tipoProceso, Guid.Parse(guidOit), new UsuarioDTO());
+                
+
+                return Ok(proceso);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("RechazarProceso")]
+        public async Task<IActionResult> RechazarProceso([FromQuery]string guiidProceso, [FromQuery]string observacion)
+        {
+            try
+            {
+
+                bool operacionCorrecta = await _procesoService.RechazarProceso(Guid.Parse(guiidProceso), observacion, new UsuarioDTO());
+
+                return Ok(operacionCorrecta);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
     }
 }

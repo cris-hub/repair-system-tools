@@ -6,9 +6,9 @@ namespace Pemarsa.CanonicalModels
 {
     public class ParametrosProcesosoDTO : Paginacion
     {
-        public int OrdenTrabajoPrioridad { get; set; }
-        public int Estado { get; set; }
-        public int TipoProceso { get; set; }
+        public string OrdenTrabajoPrioridad { get; set; }
+        public string Estado { get; set; }
+        public string TipoProceso { get; set; }
         public string NumeroOIT { get; set; }
         public string HerraminetaNombre { get; set; }
         public string ClienteNickname { get; set; }

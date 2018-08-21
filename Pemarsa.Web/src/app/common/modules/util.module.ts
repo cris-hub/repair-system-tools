@@ -13,12 +13,20 @@ import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdend
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
 import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
 
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { CatalogoPipe } from '../pipes/catalogoPipe';
+import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proceso.component';
+import { DetalleProcesoComponent } from '../../proceso/common-proceso/detalle-proceso/detalle-proceso.component';
+
+
+
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+
   ],
 
   declarations: [
@@ -29,9 +37,12 @@ import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/s
     PemarsaStringFormat,
     SiguienteProcesoComponent,
     SugerirProcesoComponent,
+    CatalogoPipe,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
+    FiltroProcesoComponent,
     filtrarColumnasAdendumPorTipoPipe,
+    DetalleProcesoComponent
   ],
 
   exports: [
@@ -42,9 +53,12 @@ import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/s
     SiguienteProcesoComponent,
     AutocompletarComponent,
     PemarsaStringFormat,
+    CatalogoPipe,
+    FiltroProcesoComponent,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     filtrarColumnasAdendumPorTipoPipe,
+    DetalleProcesoComponent,
   ],
 
   providers: [

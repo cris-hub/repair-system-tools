@@ -5,13 +5,29 @@ import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
 export class ProcesoModel extends EntityModel {
 
   public GuidOperario: string;
-  public CantidadInspeccion: number;
-  public EsPruebaConGauge: boolean;
   public NombreOperario: string;
-  public TrabajoRealizadoId: number
-  public TrabajoRealizar: string;
-  public Pieza: number;
+
+  public GuidPersonaAsignaOperario: string;
+  public NombrePersonaAsignaOperario: string;
+
+  public GuidPersonaCompleta: string;
+  public NombrePersonaCompleta: string;
+
+  public GuidPersonaLibera: string;
+  public NombrePersonaLibera: string;
+
+  public CantidadInspeccion: number;
+
+  public EsPruebaConGauge: boolean;
   public Reasignado : boolean
+
+  public TrabajoRealizar: string;
+
+  public TrabajoRealizado: string
+
+  public ObservacionRechazo: string
+
+  public Pieza: number;
 
   public EstadoId: number;
   public Estado: CatalogoModel;
@@ -52,7 +68,11 @@ export class ProcesoModel extends EntityModel {
   public ProcesoAnteriorId: number
   public ProcesoAnterior: ProcesoModel;
 
-  public OrdenTrabajoId: number
+  public OrdenTrabajoId: number;
+  public OrdenTrabajoHerramientaNombre: string;
+  public OrdenTrabajoClienteNickName: string;
+  public OrdenTrabajoSerialHerramienta: string;
+  public OrdenTrabajoPrioridadValor: string;
   public OrdenTrabajo: OrdenTrabajoModel;
 
   public DetalleSoldaduraId: number
@@ -62,7 +82,8 @@ export class ProcesoModel extends EntityModel {
   
   public InspeccionEntrada: ProcesoInspeccionEntradaModel[];
 
-
+  public EstadoValor: string;
+  public TipoProcesoAnteriorValor: string;
 
   constructor() {
     super();

@@ -1,7 +1,7 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
 <a data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-  <span class="glyphicon glyphicon-glass"></span>
+  <span class="glyphicon glyphicon-filter"></span>
 </a>
 <div class="dropdown-menu">
   <form [formGroup]="frmFiltroOit" class="px-4 py-3">
@@ -39,7 +39,11 @@
         <option *ngFor="let Responsable of Responsables" [value]="Responsable.Id">{{Responsable.Valor}}</option>
       </select>
     </div>
-    <button (click)="submitFiltro(frmFiltroOit.value)" class="btn btn-primary">Filtrar</button>
+    <div class="btn-group float-lg-right">
+      <button (click)="limpiarFormulario()" role="button" id="clear" type="button" class="btn btn">Limpiar</button>
+      &nbsp;&nbsp;
+      <button (click)="submitFiltro(frmFiltroOit.value)" class="btn btn-primary">Filtrar</button>
+    </div>
   </form>
 </div>
 

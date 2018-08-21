@@ -78,35 +78,31 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
                     .Include(c => c.Responsable).AsNoTracking().FirstOrDefaultAsync(c => c.Id == ordenTrabajo.Id);
-                _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
 
-
-
-                ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
-                ordenTrabajoBD.Anexos = ordenTrabajo.Anexos;
-
-                ordenTrabajoBD.HerramientaId = ordenTrabajo.Herramienta.Id;
-                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
-                ordenTrabajoBD.NombreUsuarioCrea = "admin";
-
-
-                _context.OrdenTrabajo.Update(ordenTrabajoBD);
 
                 foreach (var entry in _context.Entry(ordenTrabajoBD).Properties)
                 {
-                    if (entry.IsModified)
-                    {
 
-                        ModificacionOrdenTrabajo.Add(new OrdenTrabajoHistorialModificacion()
+
+                    var value = GetPropValue(ordenTrabajo, entry.Metadata.Name);
+
+                    if (value != null && entry.CurrentValue != null)
+                    {
+                        if (!entry.CurrentValue.Equals(value))
                         {
-                            UsuarioModifica = "admin",
-                            OrdenTrabajoId = ordenTrabajoBD.Id,
-                            Campo = entry.Metadata.Name,
-                            ValorAnterior = entry.OriginalValue == null ? "desconocidos" : entry.OriginalValue.ToString(),
-                            FechaModificacion = DateTime.Now,
-                            Guid = Guid.NewGuid(),
-                            GuidUsuarioModifica = Guid.NewGuid()
-                        });
+
+                            ModificacionOrdenTrabajo.Add(new OrdenTrabajoHistorialModificacion()
+                            {
+                                UsuarioModifica = "admin",
+                                OrdenTrabajoId = ordenTrabajoBD.Id,
+                                Campo = entry.Metadata.Name,
+                                ValorAnterior = entry.OriginalValue == null ? "desconocidos" : entry.OriginalValue.ToString(),
+                                FechaModificacion = DateTime.Now,
+                                Guid = Guid.NewGuid(),
+                                GuidUsuarioModifica = Guid.NewGuid()
+                            });
+
+                        }
                     }
 
                     Console.WriteLine(
@@ -117,7 +113,22 @@ namespace OrdenTrabajoES.Repository
                 }
 
 
+                _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
 
+
+                if (ordenTrabajo.Material.Id != 0)
+                {
+                ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
+
+                }
+                ordenTrabajoBD.Anexos = ordenTrabajo.Anexos;
+
+                ordenTrabajoBD.HerramientaId = ordenTrabajo.Herramienta.Id;
+                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
+                ordenTrabajoBD.NombreUsuarioCrea = "admin";
+
+
+                _context.OrdenTrabajo.Update(ordenTrabajoBD);
 
 
                 var changes = await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
@@ -127,6 +138,11 @@ namespace OrdenTrabajoES.Repository
                 return changes;
             }
             catch (Exception e) { throw e; }
+        }
+
+        public static object GetPropValue(object src, string propName)
+        {
+            return src.GetType().GetProperty(propName).GetValue(src, null);
         }
 
         public async Task<bool> ActualizarSolcitudDeTrabajo(SolicitudOrdenTrabajo solicitudOrdenTrabajo, UsuarioDTO usuario)
@@ -152,7 +168,7 @@ namespace OrdenTrabajoES.Repository
                     .Take(paginacion.CantidadRegistros)
                     .ToListAsync();
 
-                var cantidad = await _context.SolicitudOrdenTrabajo.CountAsync();
+                var cantidad = await _context.OrdenTrabajoHistorialModificacion.Where(c => c.OrdenTrabajo.Guid == guidOrdenTrabajo).CountAsync();
                 return new Tuple<int, IEnumerable<OrdenTrabajoHistorialModificacion>>(cantidad, result);
             }
             catch (Exception) { throw; }
@@ -220,7 +236,7 @@ namespace OrdenTrabajoES.Repository
                     .Include(c => c.Herramienta)
                     .Include(c => c.TipoServicio)
                     .Include(c => c.Estado)
-                    .Include(c => c.Responsable)
+                    .Include(c => c.Responsable).OrderByDescending(c => c.FechaRegistro)
                     .Where(ordern =>
                     (string.IsNullOrEmpty(parametrosDTO.NumeroOIT) || ordern.Id == Int32.Parse(parametrosDTO.NumeroOIT)) &&
                     (string.IsNullOrEmpty(parametrosDTO.Remision) || ordern.RemisionCliente.ToString().Contains(parametrosDTO.NumeroOIT)) &&
@@ -428,6 +444,36 @@ namespace OrdenTrabajoES.Repository
 
             }
             catch (Exception e) { throw e; }
+        }
+
+        public async Task<IEnumerable<OrdenTrabajoHistorialProcesoDTO>> ConsultarHistorialProcesosDeOrdenDeTrabajo(Guid guid, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var procesosOrdenTrabajoQuery = _context.OrdenTrabajo.Include(d => d.Procesos);
+
+                var procesosOrdenTrabajo = procesosOrdenTrabajoQuery.Where(d=>d.Guid == guid).SelectMany(d => d.Procesos.Select(t => new OrdenTrabajoHistorialProcesoDTO
+                {
+                    EstadoProceso = t.EstadoId,
+                    FechaFinalizacion = t.FechaFinalizacion,
+                    TipoProcesoId = t.TipoProcesoId,
+                    OperarioId = t.GuidOperario,
+                    NombreOperario = t.NombreOperario,
+                    Observaciones = t.ObservacionRechazo ?? t.TrabajoRealizado,
+                    LiberaProcesoAnteriorGuid = t.GuidPersonaLibera,
+                    NombreLiberaProcesoAnterior = t.NombrePersonaLibera,
+                    TipoProcesoAnteriorId = t.TipoProcesoAnteriorId
+                }));
+
+
+                return await procesosOrdenTrabajo.ToListAsync();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

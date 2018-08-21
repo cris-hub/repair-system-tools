@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel, FormatoFormatoParametroModel } from "../../common/models/index";
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel, FormatoFormatoParametroModel, FormatoTiposConexionModel, CatalogoModel } from "../../common/models/index";
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { attachEmbeddedView } from '@angular/core/src/view';
 import { HerramientaService } from '../../common/services/entity';
 import { isObject } from 'util';
@@ -14,6 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { ignoreElements } from 'rxjs/operators';
+import { LoaderService } from '../../common/services/entity/loaderService';
+import { TIPOS_FORMATO, TIPOS_ESPECIFICACION } from '../formato-enum/formato.enum';
 
 
 @Component({
@@ -23,46 +25,64 @@ import { ignoreElements } from 'rxjs/operators';
 })
 export class CrearFormatoComponent implements OnInit {
 
+  //renderizadoVista
+
+  public tituloVista = ''
+
   //Catalogos
-  public  parametrosEspecificacion: EntidadModel[];
-  public  parametrosTipoConexion: EntidadModel[];
-  public  parametrosConexion: EntidadModel[];
-  public  parametrosTiposFormatos: EntidadModel[];
-  public  parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
+  public parametrosEspecificacion: EntidadModel[];
+  public parametrosTipoConexion: EntidadModel[];
+  public parametrosConexion: EntidadModel[];
+  public parametrosTiposFormatos: EntidadModel[];
+  public parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
 
   //Herramienta
-  public  herramientaModel: HerramientaModel = new HerramientaModel();
-  public  Herramientas: Array<HerramientaModel>;
+  public herramientaModel: HerramientaModel = new HerramientaModel();
+  public Herramientas: Array<HerramientaModel>;
 
-  public  paginacion: PaginacionModel = new PaginacionModel(1, 30);
+  public paginacion: PaginacionModel = new PaginacionModel(1, 30);
 
   //Formularios
-  public  formAdendum: FormArray;
-  public  formFormato: FormGroup;
-  public  formFormatoPatamtros: FormArray;
-  public  formFormatoPatamtrosAletas: FormArray;
+  public formAdendum: FormArray;
+  public formFormato: FormGroup;
+  public formFormatoPatamtros: FormArray;
+  public formFormatoTiposConexion: FormArray;
+
+
+  public formFormatoPatamtrosAletas: FormArray;
 
 
   //Acciones
-  public  esActualizar: boolean;
-  public  esVer: boolean;
-  public  esValido: boolean;
-
+  public esActualizar: boolean;
+  public esVer: boolean;
+  public esValido: boolean;
+  public bloqueartipoFormato: boolean
 
   //Formatos
-  public  formatoModel: FormatoModel;
-  public  parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
-  public  aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  public formatoModel: FormatoModel;
+  public tipoFormatoValidacionesFormatoOtros = '';
+  public tipoFormatoValidacionesFormatoConexiones = '';
+  public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
+  public aletas: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
 
-  public  formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
+  public formatoFormatoParametroModel: Array<FormatoFormatoParametroModel> = new Array<FormatoFormatoParametroModel>();
 
-  public  formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
+  public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
+
+
+  public tipos = [
+    { Id: 27, Valor: 'BEV' },
+    { Id: 26, Valor: 'O.D' }
+  ]
+
+
 
   //Carga Archivos
-  public  lectorArchivos: FileReader;
-  public  Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
-  public  planoView: AttachmentModel;
-
+  public lectorArchivos: FileReader;
+  public Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
+  public Adjunto: AttachmentModel;
+  public planoView: AttachmentModel;
+  private maximoArchivos = 5;
 
 
 
@@ -77,20 +97,32 @@ export class CrearFormatoComponent implements OnInit {
     private formatoServicio: FormatoService,
     private parametroSrv: ParametroService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService,
 
   ) {
   }
 
   ngOnInit() {
+    this.accionRealizar();
     this.formatoModel = new FormatoModel();
+    this.cargarValores();
     this.consultarParametros('formato');
     this.listarHerramienta();
-    this.cargarValores();
 
+    this.bloqueartipoFormato = false
     this.esValido = false;
   }
-
+  accionRealizar() {
+    switch (this.router.url.split('/')[2]) {
+      case 'ver': this.tituloVista = 'Formato'; break;
+      case 'crear': this.tituloVista = 'Nuevo formato'; break;
+      case 'editar': this.tituloVista = 'Editar formato'; break;
+      default: this.tituloVista = 'Formato'
+    }
+    console.log(this.router.url.split('/')[2])
+    console.log(this.route)
+  }
 
   listarHerramienta() {
     this.herramientaServicio.ConsultarHerramientas(this.paginacion).subscribe(r => {
@@ -99,21 +131,21 @@ export class CrearFormatoComponent implements OnInit {
   }
 
   consultarParametros(entidad: string) {
+    this.loaderService.display(true)
     this.parametroSrv.consultarParametrosPorEntidad(entidad)
       .subscribe(response => {
-
         this.parametrosFormatoAdendumTiposFormatos = response.Catalogos.filter(c => c.Grupo == 'FORMATO_ADENDUM');
         this.parametrosTiposFormatos = response.Catalogos.filter(c => c.Grupo == 'TIPOS_FORMATOS');
         this.parametrosEspecificacion = response.Catalogos.filter(c => c.Grupo == 'ESPECIFICACION');
         this.parametrosTipoConexion = response.Catalogos.filter(c => c.Grupo == 'TIPO_CONEXION');
-        console.log(response)
         this.parametrosConexion = response.Catalogos.filter(c => c.Grupo == 'CONEXION');
-
-
+        this.loaderService.display(false)
       }, error => { },
         () => {
           this.initFormFormatoAdendum()
           this.initFormFormatoParamtros()
+          this.initFormTiposConexion()
+
           this.initFormFormatoParamtrosAletas()
 
         }
@@ -137,6 +169,7 @@ export class CrearFormatoComponent implements OnInit {
 
   consultarFormato(guid: any): any {
     this.initForm(new FormatoModel(new Array<AttachmentModel>()), new Array<FormatoAdendumModel>(), new HerramientaModel());
+    this.loaderService.display(true);
     this.formatoServicio.consultarFormatoPorGuid(guid)
       .subscribe(response => {
 
@@ -157,16 +190,19 @@ export class CrearFormatoComponent implements OnInit {
         this.formatosAdendumModel = response.Adendum;
         this.herramientaModel.Id = response.HerramientaId;
         this.Planos = response.Planos
-        this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
+        this.Adjunto = response.Adjunto
 
-        console.log(response)
-        console.log(this.parametrosFormatoAdendumTiposFormatos)
-        console.log(this.parametrosFormatoAdendumTiposFormatos)
+        this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
+        this.bloqueartipoFormato = true;
+        this.loaderService.display(false);
+
       }, error => { },
         () => {
           this.initFormFormatoAdendum()
           this.initFormFormatoParamtros()
           this.initFormFormatoParamtrosAletas()
+          this.initFormTiposConexion()
+
         }
       );
   }
@@ -182,12 +218,42 @@ export class CrearFormatoComponent implements OnInit {
     return this.route.snapshot.paramMap.get('id');
   }
 
+
+  //Agregar Tipos conexiones
+
+  agregarTipoConexion(tipoConexion) {
+    let tipoConexionParam: CatalogoModel = this.parametrosTipoConexion.find(d => d.Id == tipoConexion);
+
+
+    this.formFormatoTiposConexion.push(this.formBuilder.group({
+      FormatoId: this.formatoModel.Id,
+      TipoConexionId: tipoConexionParam.Id,
+      TipoConexion: tipoConexionParam,
+      Estado: true
+    }));
+
+    let index = this.parametrosTipoConexion.findIndex(d => d.Id == tipoConexion);
+    this.parametrosTipoConexion.splice(index, 1);
+  }
+
+  removerDeElementosSeleccionado(tipoConexion: CatalogoModel) {
+
+    let value = this.formFormatoTiposConexion.value.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado == true)
+
+    value.Estado = false;
+    this.formFormatoTiposConexion.push(this.formBuilder.group({
+      FormatoId: this.formatoModel.Id,
+      TipoConexionId: value.Id,
+      TipoConexion: value,
+      Estado: value.Estado
+    }));
+    this.parametrosTipoConexion.push(value.TipoConexion);
+  }
+
   // gestion Formario 
 
   initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>, herramienta: HerramientaModel) {
-
     this.initFormularioFormatoOtros(formato, Adendum, herramienta);
-
 
     if (this.esVer) {
       this.formFormato.get('Codigo').disable();
@@ -195,7 +261,7 @@ export class CrearFormatoComponent implements OnInit {
       this.formFormato.get('EspecificacionId').disable();
       this.formFormato.get('TPI').disable();
       this.formFormato.get('TPF').disable();
-      this.formFormato.get('TiposConexionesId').disable();
+      this.formFormato.get('FormatoTiposConexion').disable();
       this.formFormato.get('ConexionId').disable();
       this.formFormato.get('ConexionId').disable();
       this.formFormato.get('Herramienta').disable();
@@ -204,12 +270,7 @@ export class CrearFormatoComponent implements OnInit {
       this.formFormato.get('Adendum').disable();
 
     }
-
-
-
-
   }
-
 
   initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
     if (formato.FormatoFormatoParametro) {
@@ -221,10 +282,11 @@ export class CrearFormatoComponent implements OnInit {
     }
 
     this.formFormato = this.formBuilder.group({
+      Adjunto: [this.Adjunto],
       Planos: [this.Planos],
       Codigo: [formato.Codigo],
       TipoFormatoId: [formato.TipoFormatoId, Validators.required],
-      TiposConexionesId: [formato.TiposConexionesId],
+      FormatoTiposConexion: this.formBuilder.array([]),
       ConexionId: [formato.ConexionId],
       TPI: [formato.TPI],
       TPF: [formato.TPF],
@@ -232,12 +294,14 @@ export class CrearFormatoComponent implements OnInit {
       Herramienta: this.formBuilder.group({
         Id: [herramienta.Id]
       }),
+
+      HerramientaId: [herramienta.Id],
       EsFormatoAdjunto: [formato.EsFormatoAdjunto],
       esAletas: [formato.esAletas],
       Adendum: this.formBuilder.array([]),
       FormatoFormatoParametro: this.formBuilder.array([]),
-      Parametros: this.formBuilder.array([this.crearFormFormatoParametroModel()]),
-      Aletas: this.formBuilder.array([this.crearFormFormatoParametroModel()])
+      Parametros: this.formBuilder.array([]),
+      Aletas: this.formBuilder.array([])
     });
 
   }
@@ -257,6 +321,29 @@ export class CrearFormatoComponent implements OnInit {
       });
       this.formFormatoPatamtros.push(form)
     });
+  }
+
+  initFormTiposConexion() {
+    this.formFormatoTiposConexion = this.formFormato.get('FormatoTiposConexion') as FormArray;
+
+    this.formatoModel.FormatoTiposConexion.forEach(f => {
+      let form = this.formBuilder.group({
+        FormatoId: [f.FormatoId],
+        Id: [f.Id],
+        TipoConexionId: [f.TipoConexionId],
+        TipoConexion: [f.TipoConexion],
+        Estado: [f.Estado]
+
+
+      });
+      this.formFormatoTiposConexion.push(form)
+
+      let index = this.parametrosTipoConexion.findIndex(d => d.Id == f.Id);
+      this.parametrosTipoConexion.splice(index, 1);
+    });
+
+    console.log(this.formFormatoTiposConexion);
+
   }
 
   initFormFormatoParamtrosAletas() {
@@ -303,7 +390,8 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formatosAdendumModel.forEach(p => {
       let form = this.formBuilder.group({});
-      form.addControl('Position', new FormControl(p.Posicion));
+      form.addControl('Id', new FormControl(p.Id ? p.Id : 0));
+      form.addControl('Posicion', new FormControl(p.Posicion));
       form.addControl('TipoId', new FormControl(p.TipoId));
       form.addControl('Valor', new FormControl(p.Valor));
       this.formAdendum.push(form);
@@ -320,6 +408,7 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormatoPatamtros.push(this.crearFormFormatoParametroModel());
     console.log(this.formFormatoPatamtros);
   }
+
   addItemFormParametroAletas(): void {
     this.formFormatoPatamtrosAletas = this.formFormato.get('Aletas') as FormArray;
     this.formFormatoPatamtrosAletas.push(this.crearFormFormatoParametroModel());
@@ -329,16 +418,9 @@ export class CrearFormatoComponent implements OnInit {
   removeItemFormFormatoPatamtros(i) {
     this.formFormatoPatamtros.removeAt(i);
   }
+
   removeItemFormFormatoPatamtrosAletas(i) {
     this.formFormatoPatamtrosAletas.removeAt(i);
-  }
-
-  esTipoFormatoOtros(formato: FormatoModel): boolean {
-    return formato.TipoFormatoId == 19
-  }
-
-  esTipoFormatoConexion(formato: FormatoModel): boolean {
-    return formato.TipoFormatoId == 18
   }
 
   crearFormFormatoParametroModel(): any {
@@ -356,18 +438,136 @@ export class CrearFormatoComponent implements OnInit {
     return formatoParametrosModel;
   }
 
-  limpiarFormulario() {
+  //validaciones
+  esTipoFormatoOtros(formato: FormatoModel): boolean {
 
-    let id = this.formFormato.value['TipoFormatoId']
-    this.formFormato.value['TipoFormatoId'] = id
-    this.formatoModel.TipoFormatoId = id;
 
+    return formato.TipoFormatoId == TIPOS_FORMATO.FORMATOOTROS
+  }
+
+  esTipoFormatoConexion(formato: FormatoModel): boolean {
+
+    return formato.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION
+  }
+
+  confirmarTipoFormato() {
+    let id = this.cambioFormulario();
+
+    if (id == TIPOS_FORMATO.FORMATOCONEXION) {
+      this.ValidacionesFormatoConexion();
+    }
+    if (id == TIPOS_FORMATO.FORMATOOTROS) {
+      this.validacionesFormatoOtros();
+    }
+
+    this.formFormato.updateValueAndValidity();
+  }
+
+  private validacionesFormatoOtros() {
+    this.tipoFormatoValidacionesFormatoOtros = 'requerido';
+    this.tipoFormatoValidacionesFormatoConexiones = '';
+    this.formFormato.get('Herramienta').get('Id').setValidators(Validators.required);
+    this.formFormato.get('Parametros').setValidators(Validators.required);
+
+    if (!this.formFormato.get('Herramienta').get('Id').value) {
+      this.formFormato.get('Herramienta').get('Id').setErrors({ 'requerido': true });
+      this.formFormato.get('Herramienta').get('Id').setValidators((Validators.required));
+    } else {
+      this.formFormato.get('Herramienta').get('Id').setErrors(null);
+      this.formFormato.get('Herramienta').get('Id').setValidators(null);
+    }
+
+
+    if (this.formFormato.get('Planos').value.length > 0) {
+      this.formFormato.get('Planos').setErrors(null);
+      this.formFormato.get('Planos').setValidators(null);
+    } else {
+      this.formFormato.get('Planos').setErrors({ 'requerido': true });
+      this.formFormato.get('Planos').setValidators(Validators.required);
+    }
+
+    if (!(this.formFormato.get('Parametros').value.length > 0)) {
+      this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+    } else {
+      this.formFormato.get('Parametros').setErrors(null);
+    }
+  }
+
+  private ValidacionesFormatoConexion() {
+    this.tipoFormatoValidacionesFormatoOtros = '';
+    this.tipoFormatoValidacionesFormatoConexiones = 'requerido';
+    this.formFormato.get('FormatoTiposConexion').setValidators(Validators.required);
+    this.formFormato.get('ConexionId').setValidators(Validators.required);
+    this.formFormato.get('TPI').setValidators(Validators.required);
+    this.formFormato.get('TPF').setValidators(Validators.required);
+    this.formFormato.get('EspecificacionId').setValidators(Validators.required);
+    this.formFormato.get('Parametros').setValidators(Validators.required);
+    this.formFormato.get('Planos').setValidators(null);
+
+    if (!(this.formFormato.get('Parametros').value.length > 0)) {
+      this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+    } else {
+      this.formFormato.get('Parametros').setErrors(null);
+    }
+
+    let esDocumentoObligatorio: boolean = this.formFormato.get('EsFormatoAdjunto').value;
+    if (esDocumentoObligatorio && (this.Adjunto.NombreArchivo == '')) {
+      this.formFormato.get('Adjunto').setValidators(Validators.required);
+      this.formFormato.get('Adjunto').setErrors({ 'requerido': true });
+
+    } else {
+      this.formFormato.get('Adjunto').setValidators(null);
+      this.formFormato.get('Adjunto').setErrors(null);
+    }
+    if (this.formFormato.get('Planos').value.length > 0) {
+      this.formFormato.get('Planos').setErrors(null);
+      this.formFormato.get('Planos').setValidators(null);
+    } else {
+      this.formFormato.get('Planos').setErrors({ 'requerido': true });
+      this.formFormato.get('Planos').setValidators(Validators.required);
+    }
+
+
+    this.formFormato.get('EspecificacionId').valueChanges.subscribe(d => {
+      if (d == TIPOS_ESPECIFICACION["API7-2"]) {
+        this.formFormato.get('Adendum').setValidators(Validators.required);
+        let adundum = this.formFormato.get('Adendum').value as Array<FormatoAdendumModel>;
+        if (adundum.some(d => d.Valor != null)) {
+          this.formFormato.get('Adendum').setValidators(null);
+        } else {
+          this.formFormato.get('Adendum').setErrors({ 'requerido': true });
+        }
+      } else {
+        this.formFormato.get('Adendum').setValidators(null);
+        this.formFormato.get('Adendum').setErrors(null);
+
+      }
+    });
 
   }
+
+  private cambioFormulario() {
+    this.bloqueartipoFormato = true;
+    let id = this.formFormato.value['TipoFormatoId'];
+    this.formFormato.value['TipoFormatoId'] = id;
+    this.formFormato.get('TipoFormatoId').setValue(id);
+    this.formatoModel.TipoFormatoId = id;
+    return id;
+  }
+
+
 
 
   //Persistir Datos
   enviarFormulario() {
+    this.confirmarTipoFormato()
+
+    this.formFormato.get('TipoFormatoId').markAsDirty()
+    this.formFormato.get('Adendum').markAsDirty()
+    this.formFormato.get('Parametros').markAsDirty()
+    this.formFormato.get('Adjunto').markAsDirty()
+
+    this.formFormato.updateValueAndValidity();
 
     this.asignarValoresFormularioFormato(this.formFormato.value);
     this.esFormularioValido(this.formFormato)
@@ -379,15 +579,16 @@ export class CrearFormatoComponent implements OnInit {
     this.formatoModel.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
 
     if (!this.esValido) {
-      this.toastr.info('formato no valido!', 'validacion');
+      this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
+      return
     }
-    if (this.formatoModel.TipoFormatoId == 18) {
-      delete this.formatoModel['Herramienta'];
+    if (this.formatoModel.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION) {
+      this.formatoModel.Herramienta = null
 
 
     } else {
-
-      delete this.formatoModel['Adendum'];
+      this.formatoModel['Adjunto'] = null;
+      this.formatoModel['Adendum'] = null;
 
     }
 
@@ -399,7 +600,26 @@ export class CrearFormatoComponent implements OnInit {
     }
   }
 
+  private asignarFormatoParametros(val: any) {
+    val.Aletas.forEach(d => {
+      val.FormatoFormatoParametro.push({
+        TipoFormatoParametroId: 84,
+        FormatoParametro: d,
+        FormatoId: this.formatoModel ? this.formatoModel.Id : null
+      });
+    });
+    val.Parametros.forEach(d => {
+      val.FormatoFormatoParametro.push({
+        TipoFormatoParametroId: 85,
+        FormatoParametro: d,
+        FormatoParametroId: d.Id,
+        FormatoId: this.formatoModel ? this.formatoModel.Id : null
+      });
+    });
+  }
+
   esFormularioValido(formulario: FormGroup): boolean {
+    this.formFormato.get('Planos').markAsDirty();
     if (formulario.status == 'VALID') {
       this.esValido = true;
     }
@@ -409,52 +629,64 @@ export class CrearFormatoComponent implements OnInit {
   asignarValoresFormularioFormato(val: any) {
 
     this.asignarFormatoParametros(val);
-    delete val['Parametros'];
-    delete val['Aletas'];
+    val['Parametros'] = null;
+    val['Aletas'] = null;
+    delete val['Herramienta'];
 
     console.log(val)
-    debugger;
+
 
     this.formatoModel = Object.assign(this.formatoModel, val)
-  }
-
-  private asignarFormatoParametros(val: any) {
-    val.Aletas.forEach(d => {
-      val.FormatoFormatoParametro.push({
-        TipoFormatoParametroId: 84,
-        FormatoParametro: d
-      });
-    });
-    val.Parametros.forEach(d => {
-      val.FormatoFormatoParametro.push({
-        TipoFormatoParametroId: 85,
-        FormatoParametro: d
-      });
-    });
+    this.formatoModel.Adjunto = this.Adjunto;
   }
 
   crearFormato(formato: FormatoModel) {
+    this.loaderService.display(true)
     console.log(formato
     )
     this.formatoServicio.crearFormato(formato).subscribe((a) => {
-      console.log(a)
+      this.toastr.success('Formato creado correctamente!', '');
+      this.loaderService.display(false)
+      setTimeout(e => { this.router.navigate(['/formato']); }, 200);
+    }, (errorMessage) => {
+      this.toastr.error(errorMessage.error.Message);
+      this.loaderService.display(false)
+
     });
   }
 
   actualizarFormato() {
-
+    this.loaderService.display(true)
     console.log(this.formatoModel);
     this.formatoServicio.actualizarFormato(this.formatoModel)
       .subscribe(response => {
-        this.toastr.success('cliente editado correctamente!', '');
+        this.toastr.success('Formato modificado correctamente!', '');
+        this.loaderService.display(false)
         setTimeout(e => { this.router.navigate(['/formato']); }, 200);
-      });
+      }, (errorMessage) => {
+        this.toastr.error(errorMessage.error.Message);
+        this.loaderService.display(false)
 
+      });
   }
 
   //Carga Archivos
 
+  addDocumentoAdjuntoFormato(event: any) {
+    let files = this.leerArchivo(event);
+    for (var i = 0; i < files.length; i++) {
+      this.planoView = this.obtenerDatosArchivoAdjunto(files[i]);
+      this.personaModifica();
+      this.Adjunto = this.planoView;
+    }
+
+  }
   addFile(event: any) {
+
+    if (this.Planos.length == this.maximoArchivos) {
+      this.toastr.error('Se ha alcanzado, el maximo de archivos')
+      return
+    }
     let files = this.leerArchivo(event);
     for (var i = 0; i < files.length; i++) {
       this.planoView = this.obtenerDatosArchivoAdjunto(files[i]);
@@ -512,7 +744,18 @@ export class CrearFormatoComponent implements OnInit {
     return e.currentTarget.result.split(',')[1];
   }
 
+  eliminarAdjuntoFormato(adjunto: AttachmentModel) {
+    this.Adjunto.Estado = false;
 
+  }
+
+
+  eliminarAdjunto(adjunto: AttachmentModel) {
+    let index: any = this.Planos.findIndex(c => c.Id == adjunto.Id);
+    this.Planos.find(e => e.Id == adjunto.Id).Estado = false;
+    this.maximoArchivos += 1
+    this.Planos.splice(index, 1);
+  }
 
 
 

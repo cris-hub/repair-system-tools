@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { SolicitudOrdenTrabajoService } from '../../../common/services/entity/SolicitudOrdenTrabajo.service';
 import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-listar-solicitudOrdenTrabajo',
@@ -13,22 +14,23 @@ import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
 
 })
 export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
-  
-  public  solicitudesOrdenTrabajos: SolicitudOrdenTrabajoModel[];
-  public  solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
-  // paginacion
-  public  accion: string[] ;
-  public  paginacion: PaginacionModel;
-  public  parametros: ParametrosModel;
-  public  esFiltrar: boolean = false;
 
+  public solicitudesOrdenTrabajos: SolicitudOrdenTrabajoModel[];
+  public solicitudOrdenTrabajoModelInput: SolicitudOrdenTrabajoModel;
+  // paginacion
+  public accion: string[];
+  public paginacion: PaginacionModel;
+  public parametros: ParametrosModel;
+  public esFiltrar: boolean = false;
+  public filter: string;
   public esNuevaAccion: boolean = false;
   constructor(
     public solicitudOrdenTrabajoSrv: SolicitudOrdenTrabajoService,
     public parametroSrv: ParametroService,
     private toastr: ToastrService,
-     ) {
-    
+    private datePipe: DatePipe
+  ) {
+
   }
 
   ngOnInit() {
@@ -43,6 +45,14 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
       .subscribe(response => {
 
         this.solicitudesOrdenTrabajos = response.Listado;
+        this.solicitudesOrdenTrabajos.forEach((sot) => {
+          sot.ResponsableValor = sot.Responsable.Valor;
+          sot.ClienteNickName = sot.Cliente.NickName;
+          sot.ClienteLineaNombre = sot.ClienteLinea.Nombre;
+          sot.PrioridadValor = sot.Prioridad.Valor;
+          sot.EstadoValor = sot.Estado.Valor;
+          sot.FechaRegistroVista = this.datePipe.transform(sot.FechaRegistro, "dd/MM/yyyy, h:mm a");
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
 
@@ -71,12 +81,20 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
     this.solicitudOrdenTrabajoSrv.ConsultarSolicitudesDeTrabajoPorFiltro(filtro)
       .subscribe(response => {
         this.solicitudesOrdenTrabajos = response.Listado;
+        this.solicitudesOrdenTrabajos.forEach((sot) => {
+          sot.ResponsableValor = sot.Responsable.Valor;
+          sot.ClienteNickName = sot.Cliente.NickName;
+          sot.ClienteLineaNombre = sot.ClienteLinea.Nombre;
+          sot.PrioridadValor = sot.Prioridad.Valor;
+          sot.EstadoValor = sot.Estado.Valor;
+          sot.FechaRegistroVista = this.datePipe.transform(sot.FechaRegistro, "dd/MM/yyyy, h:mm a");
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }
 
   habilitarNuevaOit() {
-    this.solicitudOrdenTrabajoModelInput =null
+    this.solicitudOrdenTrabajoModelInput = null
     this.accion = ['Crear']
     this.esNuevaAccion = true;
   }
@@ -122,6 +140,6 @@ export class ListarSolicitudOrdenTrabajoComponent implements OnInit {
       this.toastr.info('No se pudo realizar la accion, vuelve a intentarlo en otro momento')
 
     }
-    
+
   }
 }

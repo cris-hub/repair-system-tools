@@ -18,7 +18,7 @@ namespace Pemarsa.Domain
         public string ToleranciaMin { get; set; }
 
 
-        public virtual IEnumerable<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
+        
 
 
     }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, HostListener, EventEmitter } from "@a
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { FiltroSolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-filtro-solicitudOrdenTrabajo',
@@ -44,6 +45,15 @@ export class FiltroSolicitudOrdenTrabajoComponent {
         this.Estados = this.parametros.Catalogos.filter(e => e.Grupo == "ESTADOS_SOLICITUD");
         this.Prioridades = this.parametros.Catalogos.filter(e => e.Grupo == "PRIORIDAD_SOLICITUD");
       });
+  }
+
+  limpiarFormulario() {
+    $('.dropdown-menu').click(function (e) {
+      e.stopPropagation();
+    });
+    this.frmFiltroOit.reset(new FiltroSolicitudOrdenTrabajoModel(1, 30));
+    this.filtro = new FiltroSolicitudOrdenTrabajoModel(1, 30);
+    this.paramsFiltro.emit(this.filtro);
   }
 
   @HostListener("click", ["$event"])

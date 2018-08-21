@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FiltroFormatoModel } from '../../common/models/Index';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-filtro-formato',
@@ -21,14 +22,25 @@ export class FiltroFormatoComponent {
   initForm() {
     console.log(this.filtro)
     this.formularioFormatoFiltro = this.frmBuilder.group({
-      HerramientaId: [this.filtro.HerramientaId],
+      Codigo: [this.filtro.Codigo],
       Conexion: [this.filtro.Conexion],
-      TipoConexion: [this.filtro.TipoConexion],
-      HerramientaGuid: [this.filtro.HerramientaGuid],
+      FormatoAdjunto: [this.filtro.FormatoAdjunto],
+      FechaCreacion: [this.filtro.FechaCreacion],
     });
   }
   submitFiltro(filtroGroup: any) {
+    debugger;
     this.filtro = <FiltroFormatoModel>filtroGroup;
+    this.paramsFiltro.emit(this.filtro);
+  }
+
+  limpiarFormulario() {
+    $('.dropdown-menu').click(function (e) {
+      e.stopPropagation();
+    });
+    this.formularioFormatoFiltro.reset(new FiltroFormatoModel(1, 30));
+    this.filtro = new FiltroFormatoModel(1, 30);
+
     this.paramsFiltro.emit(this.filtro);
   }
 

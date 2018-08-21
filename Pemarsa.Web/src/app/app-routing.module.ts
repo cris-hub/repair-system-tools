@@ -26,6 +26,7 @@ import { UTAComponent } from './proceso/inspeccion-entrada/uta/uta.component';
 import { VisualDimensionalComponent } from './proceso/inspeccion-entrada/visual-dimensional/visual-dimensional.component';
 import { ProcesarOitComponent } from './coordinador/procesar-oit/procesar-oit.component';
 import { OitCambioProcesoComponent } from './coordinador/oit-cambio-proceso/oit-cambio-proceso.component';
+import { HistorialProcesosComponent } from './orden-trabajo/historial-procesos/historial-procesos.component';
 
 const routes: Routes = [
 
@@ -57,6 +58,7 @@ const routes: Routes = [
 
   //OITs
   { path: 'oit', component: ListarOitComponent },
+  { path: 'oit/historial-procesos/:id', component: HistorialProcesosComponent },
   { path: 'oit/nueva-oit', component: CrearOitComponent },
   { path: 'oit/:id', component: CrearOitComponent },
   { path: 'oit/:id/editar', component: CrearOitComponent },

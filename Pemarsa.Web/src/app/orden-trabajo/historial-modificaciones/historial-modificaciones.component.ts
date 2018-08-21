@@ -13,7 +13,7 @@ export class HistorialModificacionesComponent implements OnInit, OnChanges {
 
   @Input() public  guidProceso;
 
-  public  paginacion: PaginacionModel = new PaginacionModel(1, 5);
+  public  paginacion: PaginacionModel = new PaginacionModel(1, 10);
   public  HistorialModificaciones: Array<OrdenTrabajoHistorialModificacionModel>;
 
   constructor(

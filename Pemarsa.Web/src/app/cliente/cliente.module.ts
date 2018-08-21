@@ -10,14 +10,19 @@ import {
   CrearClienteComponent
 } from './cliente/index'
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     NgxPaginationModule,
     UtilModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    Ng2SearchPipeModule,
+
+
   ],
   declarations: [
     ListarClienteComponent,

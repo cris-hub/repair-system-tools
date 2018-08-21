@@ -2,6 +2,7 @@ import { Component, OnInit, Output, HostListener, EventEmitter} from '@angular/c
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { FiltroOrdenTrabajoModel, CatalogoModel, ParametrosModel } from '../../common/models/Index';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-filtro-orden-trabajo',
@@ -48,6 +49,16 @@ export class FiltroOrdenTrabajoComponent  {
   }
   submitFiltro(filtroGroup: any) {
     this.filtro = <FiltroOrdenTrabajoModel>filtroGroup;
+    this.paramsFiltro.emit(this.filtro);
+  }
+
+  limpiarFormulario() {
+    $('.dropdown-menu').click(function (e) {
+      e.stopPropagation();
+    });
+    this.frmFiltroOit.reset(new FiltroOrdenTrabajoModel(1, 30));
+    this.filtro = new FiltroOrdenTrabajoModel(1, 30);
+
     this.paramsFiltro.emit(this.filtro);
   }
 

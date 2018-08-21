@@ -9,24 +9,36 @@ namespace Pemarsa.Domain
     public class Proceso : Entity
     {
         [Required]
-        public Guid GuidOperario { get; set; }
-        [Required]
         public int CantidadInspeccion { get; set; }
 
         public bool? EsPruebaConGauge { get; set; }
 
+        [Required]
+        public Guid GuidOperario { get; set; }
         public string NombreOperario { get; set; }
 
-        public string TrabajoRealizadoId { get; set; }
+        public Guid GuidPersonaAsignaOperario { get; set; }
+        public string NombrePersonaAsignaOperario { get; set; }
+
+        public Guid GuidPersonaCompleta { get; set; }
+        public string NombrePersonaCompleta { get; set; }
+
+        public Guid GuidPersonaLibera { get; set; }
+        public string NombrePersonaLibera { get; set; }
+
+        public string TrabajoRealizado { get; set; }
+
+        public string ObservacionRechazo { get; set; }
 
         public string TrabajoRealizar { get; set; }
-        public bool Reasignado { get; set; }
+        public bool? Reasignado { get; set; }
 
+        public DateTime? FechaFinalizacion { get; set; }
 
         #region Catalogos canonnicas
 
         [ForeignKey("Estado")]
-        public int EstadoId { get; set; }
+        public int? EstadoId { get; set; }
         public virtual Catalogo Estado { get; set; }
 
         [ForeignKey("TipoProcesoAnterior")]

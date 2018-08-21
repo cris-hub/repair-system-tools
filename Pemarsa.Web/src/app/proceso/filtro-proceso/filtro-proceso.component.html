@@ -1,0 +1,48 @@
+<!-- Modal -->
+<!-- Button trigger modal -->
+<a data-toggle="dropdown" class="dropdown-toggle" (click)="conultarParametros()" aria-haspopup="true" aria-expanded="false">
+  <span class="glyphicon glyphicon-filter"></span>
+</a>
+<div class="dropdown-menu" id="menu">
+  <form [formGroup]="formulario" class="px-4 py-3">
+    <div class="form-group">
+      <label for="RazonSocial" style="color: #6c757d;"><b>Herramineta</b></label>
+      <input type="text" class="form-control" formControlName="HerraminetaNombre" placeholder="Herramineta">
+    </div>
+    <div class="form-group">
+      <label for="Nit" style="color: #6c757d;"><b>Cliente nickname</b></label>
+      <input type="text" class="form-control" formControlName="ClienteNickname" placeholder="Cliente nickname">
+    </div>
+    <div class="form-group">
+      <label for="Telefono" style="color: #6c757d;"><b>Serial herramienta</b></label>
+      <input type="text" class="form-control" formControlName="SerialHerramienta" placeholder="Serial herramienta ">
+    </div>
+
+    <div class="form-group" *ngIf="catalogoEstados">
+      <label for="Estado" style="color: #6c757d;"><b>Estado</b></label>
+      <select class="form-control form-control-lg" formControlName="Estado">
+        <option [value]="''">seleccione</option>
+        <option *ngFor="let estado of catalogoEstados" [value]="estado.Valor">{{estado.Valor}}</option>
+      </select>
+    </div>
+
+    <div class="form-group" *ngIf="catalogoPrioridad">
+      <label for="Estado" style="color: #6c757d;"><b>Prioridad</b></label>
+      <select class="form-control form-control-lg" formControlName="OrdenTrabajoPrioridad">
+        <option [value]="''">seleccione</option>
+
+        <option *ngFor="let prioridad of catalogoPrioridad" [value]="prioridad.Valor">{{prioridad.Valor}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="Telefono" style="color: #6c757d;"><b>Fecha</b></label>
+      <input type="date" class="form-control" formControlName="Fecha" placeholder="Fecha ">
+    </div>
+    <div class="btn-group float-right">
+      <button (click)="limpiarFormulario()" role="button" id="clear" type="button" class="btn btn">Limpiar</button>
+      &nbsp;&nbsp;
+      <button (click)="submitFiltro(formulario.value)" id="filtro" role="button" type="button" class="btn btn-primary">Filtrar</button>
+    </div>
+  </form>
+</div>

@@ -12,6 +12,7 @@ import { AttachmentModel } from "../../../common/models/AttachmentModel";
 import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
 import { ToastrService } from "ngx-toastr";
 import { ignoreElements } from "rxjs/operators";
+import { LoaderService } from "../../../common/services/entity/loaderService";
 
 @Component({
   selector: 'app-crear-cliente',
@@ -42,7 +43,8 @@ export class CrearClienteComponent implements OnInit {
     private frmBuilder: FormBuilder,
     private clienteSrv: ClienteService,
     private parametroSrv: ParametroService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loaderService:LoaderService,
   ) {
     this.loading = true;
     this.consultarParametros("cliente");
@@ -89,12 +91,17 @@ export class CrearClienteComponent implements OnInit {
    * funcion que llama al servicio
    */
   consultarCliente(guid: string) {
+    this.loaderService.display(true);
     this.clienteSrv.consultarClientePorGuid(guid)
       .subscribe(response => {
         this.cliente = response;
 
         this.lineaCliente = this.cliente.Lineas.filter(d => d.Activa == true);
         this.initForm(this.cliente);
+        this.loaderService.display(false);
+      }, () => {
+        this.loaderService.display(false);
+
       });
   }
 
@@ -150,14 +157,19 @@ export class CrearClienteComponent implements OnInit {
       this.cliente.Rut = this.attachment;
     }
 
+    this.loaderService.display(true);
     this.clienteSrv.crearCliente(this.cliente)
       .subscribe(response => {
         debugger;
-        this.toastr.success('cliente registrado correctamente!', '');
-        setTimeout(e => { this.router.navigate(['/cliente']); },200);
+        this.toastr.success('Cliente registrado correctamente!', '');
+        this.loaderService.display(false);
+        setTimeout(e => { this.router.navigate(['/cliente']); }, 200);
+
       }, errorMessage => {
         debugger
         this.toastr.error(errorMessage.error.Message);
+        this.loaderService.display(false);
+
       });
   }
 
@@ -180,15 +192,20 @@ export class CrearClienteComponent implements OnInit {
 
     cliente.GuidUsuarioModifica = '00000000-0000-0000-0000-000000000000'//este campo debe ser actualizado con la api de seguridad
     cliente.NombreUsuarioModifica = 'admin'//este campo debe ser actualizado con la api de seguridad
-    
+    this.loaderService.display(true);
+
     this.clienteSrv.actualizarCliente(cliente)
       .subscribe(response => {
         debugger;
-        this.toastr.success('cliente editato correctamente!', '');
+        this.toastr.success('Cliente modificado correctamente!', '');
+        this.loaderService.display(false);
+
         setTimeout(e => { this.router.navigate(['/cliente']); }, 200);
       }, errorMessage => {
         debugger
         this.toastr.error(errorMessage.error.Message);
+        this.loaderService.display(false);
+
       });
   }
 
@@ -273,7 +290,7 @@ export class CrearClienteComponent implements OnInit {
   actualizarEstadoClienteConfirmacion(event: any) {
     
     if (!this.frmCliente.valid) {
-      this.toastr.error('faltan datos por diligenciar')
+      this.toastr.error('Faltan datos por diligenciar')
       return
     }
     if (event.response == true) {

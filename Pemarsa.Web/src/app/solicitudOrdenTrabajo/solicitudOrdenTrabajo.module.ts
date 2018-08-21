@@ -8,6 +8,7 @@ import {
   ListarSolicitudOrdenTrabajoComponent, FiltroSolicitudOrdenTrabajoComponent, CrearSolicitudOrdenTrabajoComponent
 } from "./solicitudOrdenTrabajo/index";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng2SearchPipeModule } from "ng2-search-filter";
 @NgModule({
   imports: [
     CommonModule,
@@ -16,7 +17,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    Ng2SearchPipeModule,
   ],
   declarations: [
     ListarSolicitudOrdenTrabajoComponent,

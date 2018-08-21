@@ -12,6 +12,8 @@ import { AutocompletarComponent } from '../common/directivas/autocompletar/autoc
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { FiltroOrdenTrabajoComponent } from './filtro-orden-trabajo/filtro-orden-trabajo.component';
 import { HistorialModificacionesComponent } from './historial-modificaciones/historial-modificaciones.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { HistorialProcesosComponent } from './historial-procesos/historial-procesos.component';
 
 @NgModule({
   imports: [
@@ -22,8 +24,10 @@ import { HistorialModificacionesComponent } from './historial-modificaciones/his
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
-    FormsModule
+    
+    FormsModule,
+    Ng2SearchPipeModule,
   ],
-  declarations: [ ListarOitComponent, CrearOitComponent, FiltroOrdenTrabajoComponent, HistorialModificacionesComponent]
+  declarations: [ ListarOitComponent, CrearOitComponent, FiltroOrdenTrabajoComponent, HistorialModificacionesComponent, HistorialProcesosComponent]
 })
 export class OrdenTrabajoModule { }

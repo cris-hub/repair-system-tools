@@ -4,6 +4,8 @@ import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../common/services/entity/loaderService';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -21,11 +23,13 @@ export class ListarOitComponent implements OnInit {
   
 
   public  paginacion: PaginacionModel;
-
+  public filter: string
   constructor(
     private ordenTrabajoService: OrdenTrabajoService,
     private parametroSrv: ParametroService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loaderService: LoaderService,
+    private datePipe: DatePipe
   ) {
   }
 
@@ -42,16 +46,34 @@ export class ListarOitComponent implements OnInit {
     this.ordenTrabajoService.consultarOrdenesDeTrabajoPorFiltro(filtro)
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
+        this.ordenesTrabajo.forEach((ot) => {
+          ot.FechaRegistroVista = this.datePipe.transform(ot.FechaRegistro, "dd/MM/yyyy, h:mm a");
+          ot.ClienteNickname = ot.Cliente.NickName;
+          ot.HerramientaNombre = ot.Herramienta.Nombre;
+          ot.TipoServicioValor = ot.TipoServicio.Valor;
+          ot.ResponsableValor = ot.Responsable.Valor;
+          ot.EstadoValor = ot.Estado.Valor;
+        });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
       });
   }
 
   consultarOrdenesDeTrabajo() {
+    this.loaderService.display(true);
     this.ordenTrabajoService.consultarOrdenesDeTrabajo(this.paginacion)
       .subscribe(response => {
         this.ordenesTrabajo = response.Listado;
+        this.ordenesTrabajo.forEach((ot) => {
+          ot.FechaRegistroVista = this.datePipe.transform(ot.FechaRegistro, "dd/MM/yyyy, h:mm a");
+          ot.ClienteNickname = ot.Cliente.NickName;
+          ot.HerramientaNombre = ot.Herramienta.Nombre;
+          ot.TipoServicioValor = ot.TipoServicio.Valor;
+          ot.ResponsableValor = ot.Responsable.Valor;
+          ot.EstadoValor = ot.Estado.Valor;
+        });
         this.inicializarHerramienta();
         this.paginacion.TotalRegistros = response.CantidadRegistros;
+        this.loaderService.display(false);
       });
   }
 

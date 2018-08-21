@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <input type="text" [(ngModel)]="filter" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
       <br />
     </div>
 
@@ -73,14 +73,14 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'}">
+            <tr *ngFor="let oit of ordenesTrabajo | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter">
               <td>{{oit.Id}}</td>
-              <td>{{oit.Cliente.NickName}}</td>
-              <td>{{oit.Herramienta.Nombre}}</td>
-              <td>{{oit.TipoServicio.Valor}}</td>
-              <td>{{oit.Responsable.Valor}}</td>
-              <td>{{oit.FechaRegistro | date:'short'}}</td>
-              <td>{{oit.Estado.Valor}}</td>
+              <td>{{oit.ClienteNickname}}</td>
+              <td>{{oit.HerramientaNombre}}</td>
+              <td>{{oit.TipoServicioValor}}</td>
+              <td>{{oit.ResponsableValor}}</td>
+              <td>{{oit.FechaRegistroVista}}</td>
+              <td>{{oit.EstadoValor}} </td>
               <td>
                 <div class="row">
                   <div class="col-sm-12">
@@ -107,12 +107,10 @@
                     </div>
                   </div>
                 </div>
-                <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i routerLink="/oit/{{oit.Guid}}/procesar" class="glyphicon glyphicon-wrench pointer"></i>
-                </div>-->
-                <!--<div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
-                  <i (click)="historial(oit.Guid)" data-toggle="modal" data-target="#historialModal" class="glyphicon glyphicon-list-alt pointer"></i>
-                </div>-->
+                <div class="col-md-6" style="padding-top:7px; width:14%; float:left; display:block;">
+                  <i routerLink="historial-procesos/{{oit.Guid}}" title="Historial de procesos " class="glyphicon glyphicon-list"></i>
+                </div>
+             
               </td>
             </tr>
           </tbody>
@@ -140,8 +138,3 @@
 
 </div>
 
-
-<div *ngIf="esNuevaAccion" class="modal" id="historialModal" tabindex="-1" role="dialog" aria-labelledby="historialModallabel"
-     aria-hidden="true">
-  <app-historial-modificaciones [guidProceso]="oit"></app-historial-modificaciones>
-</div>

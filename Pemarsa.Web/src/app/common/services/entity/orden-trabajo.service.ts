@@ -1,23 +1,18 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { ConfigService } from "../../config/config.service";
-import { PaginacionModel, ListadoResponseModel, SolicitudOrdenTrabajoModel, AttachmentModel, OrdenTrabajoModel } from "../../models/Index";
+import { PaginacionModel, ListadoResponseModel, SolicitudOrdenTrabajoModel, AttachmentModel, OrdenTrabajoModel, OrdenTrabajoHistorialProcesosModel } from "../../models/Index";
 import { Observable } from "rxjs";
 
 @Injectable()
 export class OrdenTrabajoService {
 
-
-
-  
   private header: HttpHeaders;
   private urlServer: string;
 
   constructor(private http: HttpClient, private configSrv: ConfigService) {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'OrdenTrabajoES/';
-
-    
   }
 
   private obj_to_query(obj) {
@@ -42,7 +37,7 @@ export class OrdenTrabajoService {
   }
 
   public actualizarEstadoOrdenDeTrabajo(GuidOrdenDeTrabajo: any, estado: any): any {
-    return this.http.get<boolean>(this.urlServer + 'ActualizarEstadoOrdenDeTrabajo?guidSolicitudOrdenTrabajo=' + GuidOrdenDeTrabajo + '&estado=' + estado,
+    return this.http.post<boolean>(this.urlServer + 'ActualizarEstadoOrdenDeTrabajo?guidSolicitudOrdenTrabajo=' + GuidOrdenDeTrabajo + '&estado=' + estado,
       { headers: this.header });
   }
 
@@ -51,7 +46,7 @@ export class OrdenTrabajoService {
   }
 
   public crearOrdenDeTrabajo(ordenTrabajo: OrdenTrabajoModel): Observable<boolean> {
-   return this.http.post<boolean>(this.urlServer + 'CrearOrdenDeTrabajo', ordenTrabajo, { headers: this.header });
+    return this.http.post<boolean>(this.urlServer + 'CrearOrdenDeTrabajo', ordenTrabajo, { headers: this.header });
   }
 
   public actualizarOrdenDeTrabajo(ordenTrabajo: OrdenTrabajoModel): Observable<boolean> {
@@ -64,17 +59,22 @@ export class OrdenTrabajoService {
       { headers: this.header });
   }
 
-  public consultarHistorialModificacionesOrdenDeTrabajo(guidProceso: string, paginacion :PaginacionModel): Observable<ListadoResponseModel>  {
+  public consultarHistorialModificacionesOrdenDeTrabajo(guidProceso: string, paginacion: PaginacionModel): Observable<ListadoResponseModel> {
     return this.http.get<ListadoResponseModel>(
       this.urlServer + 'ConsultarHistorialModificacionesOrdenDeTrabajo?guidProceso=' + guidProceso,
       {
         headers: this.header,
-         params: new HttpParams()
+        params: new HttpParams()
           .set('CantidadRegistros', paginacion.CantidadRegistros.toString())
           .set('PaginaActual', paginacion.PaginaActual.toString())
       });
   }
 
+  public consultarHistorialProcesosDeOrdenDeTrabajo(guid: string): Observable<Array<OrdenTrabajoHistorialProcesosModel>> {
+    return this.http.get<Array<OrdenTrabajoHistorialProcesosModel>>(this.urlServer + 'ConsultarHistorialProcesosDeOrdenDeTrabajo?guidOrdenTrabajo=' + guid, {
+      headers : this.header
+    });
+  }
 }
 
 
