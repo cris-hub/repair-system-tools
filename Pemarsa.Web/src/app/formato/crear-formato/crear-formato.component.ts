@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel, FormatoFormatoParametroModel } from "../../common/models/index";
+import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel, FormatoFormatoParametroModel, FormatoTiposConexionModel, CatalogoModel } from "../../common/models/index";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { attachEmbeddedView } from '@angular/core/src/view';
 import { HerramientaService } from '../../common/services/entity';
@@ -79,7 +79,7 @@ export class CrearFormatoComponent implements OnInit {
   public Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
   public Adjunto: AttachmentModel = new AttachmentModel();;
   public planoView: AttachmentModel;
-
+  private maximoArchivos = 5;
 
 
 
@@ -211,6 +211,26 @@ export class CrearFormatoComponent implements OnInit {
     return this.route.snapshot.paramMap.get('id');
   }
 
+
+  //Agregar Tipos conexiones
+
+  agregarTipoConexion(tipoConexion: CatalogoModel) {
+    let FornatoTipoConexion: FormatoTiposConexionModel = {
+      FormatoId: this.formatoModel.Id,
+      TipoConexionId: tipoConexion.Id,
+      TipoConexion: tipoConexion,
+      Estado : true
+    }
+    this.formatoModel.FormatoTiposConexionModel.push(FornatoTipoConexion)
+    let index = this.parametrosTipoConexion.findIndex(d => d.Id == tipoConexion.Id);
+    this.parametrosTipoConexion.splice(index, 1);
+  }
+
+  removerDeElementosSeleccionado(tipoConexion : CatalogoModel) {
+    this.formatoModel.FormatoTiposConexionModel.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado==true).Estado = false;
+    this.parametrosTipoConexion.push(tipoConexion);
+  }
+
   // gestion Formario 
 
   initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>, herramienta: HerramientaModel) {
@@ -243,7 +263,7 @@ export class CrearFormatoComponent implements OnInit {
     }
 
     this.formFormato = this.formBuilder.group({
-      Adjunto: [this.Adjunto ],
+      Adjunto: [this.Adjunto],
       Planos: [this.Planos],
       Codigo: [formato.Codigo],
       TipoFormatoId: [formato.TipoFormatoId, Validators.required],
@@ -255,6 +275,8 @@ export class CrearFormatoComponent implements OnInit {
       Herramienta: this.formBuilder.group({
         Id: [herramienta.Id]
       }),
+      FormatoTiposConexionModel: [formato.FormatoTiposConexionModel],
+      HerramientaId: [herramienta.Id],
       EsFormatoAdjunto: [formato.EsFormatoAdjunto],
       esAletas: [formato.esAletas],
       Adendum: this.formBuilder.array([]),
@@ -326,6 +348,7 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formatosAdendumModel.forEach(p => {
       let form = this.formBuilder.group({});
+      form.addControl('Id', new FormControl(p.Id));
       form.addControl('Posicion', new FormControl(p.Posicion));
       form.addControl('TipoId', new FormControl(p.TipoId));
       form.addControl('Valor', new FormControl(p.Valor));
@@ -539,13 +562,16 @@ export class CrearFormatoComponent implements OnInit {
     val.Aletas.forEach(d => {
       val.FormatoFormatoParametro.push({
         TipoFormatoParametroId: 84,
-        FormatoParametro: d
+        FormatoParametro: d,
+        FormatoId: this.formatoModel ? this.formatoModel.Id : null
       });
     });
     val.Parametros.forEach(d => {
       val.FormatoFormatoParametro.push({
         TipoFormatoParametroId: 85,
-        FormatoParametro: d
+        FormatoParametro: d,
+        FormatoParametroId: d.Id,
+        FormatoId: this.formatoModel ? this.formatoModel.Id : null
       });
     });
   }
@@ -613,6 +639,11 @@ export class CrearFormatoComponent implements OnInit {
 
   }
   addFile(event: any) {
+
+    if (this.Planos.length == this.maximoArchivos) {
+      this.toastr.error('Se ha alcanzado, el maximo de archivos')
+      return
+    }
     let files = this.leerArchivo(event);
     for (var i = 0; i < files.length; i++) {
       this.planoView = this.obtenerDatosArchivoAdjunto(files[i]);
@@ -679,7 +710,7 @@ export class CrearFormatoComponent implements OnInit {
   eliminarAdjunto(adjunto: AttachmentModel) {
     let index: any = this.Planos.findIndex(c => c.Id == adjunto.Id);
     this.Planos.find(e => e.Id == adjunto.Id).Estado = false;
-
+    this.maximoArchivos += 1
     this.Planos.splice(index, 1);
   }
 

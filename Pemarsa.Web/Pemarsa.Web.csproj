@@ -68,6 +68,7 @@
     <Folder Include="src\app\common\components\login\" />
     <Folder Include="src\app\common\components\logout\" />
     <Folder Include="src\app\common\services\Interceptors\" />
+    <Folder Include="src\app\proceso\common-proceso\" />
     <Folder Include="src\app\shared\" />
     <Folder Include="src\assets\img\" />
     <Folder Include="wwwroot\" />

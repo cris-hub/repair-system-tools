@@ -1,10 +1,11 @@
-import { EntityModel, HerramientaModel, AttachmentModel, FormatoAdendumModel, FormatoParametroModel, CatalogoModel, FormatoFormatoParametroModel } from "./Index";
+import { EntityModel, HerramientaModel, AttachmentModel, FormatoAdendumModel, FormatoParametroModel, CatalogoModel, FormatoFormatoParametroModel, FormatoTiposConexionModel } from "./Index";
 
 export class FormatoModel extends EntityModel {
 
   constructor(
     public Planos?: Array<AttachmentModel>,
     public Adendum?: Array<FormatoAdendumModel>,
+    public FormatoTiposConexionModel?: Array<FormatoTiposConexionModel>,
     public TipoFormatoId?: number,
     public TipoFormato?: CatalogoModel,
     public FormatoFormatoParametro?: Array<FormatoFormatoParametroModel>,

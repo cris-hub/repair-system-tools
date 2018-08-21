@@ -34,6 +34,24 @@ namespace FormatoES.Service
         {
             try
             {
+                if (formato.Adjunto != null)
+                {
+                    await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(formato.Adjunto);
+
+                }
+
+                if (formato.Planos != null)
+                {
+
+                    foreach (var plano in formato.Planos)
+                    {
+
+                        await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(plano);
+
+                    }
+                }
+
+
                 return await _repository.ActualizarFormato(formato, usuario);
             }
             catch (Exception) { throw; }
@@ -122,7 +140,8 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ConsultarFormatoPorTipoConexion(tipoConexion, usuario);
+                var query = await _repository.ConsultarFormatoPorTipoConexion(tipoConexion, usuario);
+                return query;
             }
             catch (Exception) { throw; }
         }

@@ -37,9 +37,7 @@ namespace Pemarsa.Domain
         public int? EspecificacionId { get; set; }
         public virtual Catalogo Especificacion { get; set; }
 
-        [ForeignKey("TiposConexiones")]
-        public int? TiposConexionesId { get; set; }
-        public virtual Catalogo TiposConexiones { get; set; }
+        
 
         [ForeignKey("Conexion")]
         public int? ConexionId { get; set; }
@@ -47,8 +45,7 @@ namespace Pemarsa.Domain
 
 
         public virtual IEnumerable<FormatoAdendum> Adendum { get; set; }
-
-
+        public virtual IEnumerable<FormatoTiposConexion> FormatoTiposConexion { get; set; }
         public virtual IEnumerable<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
 
 

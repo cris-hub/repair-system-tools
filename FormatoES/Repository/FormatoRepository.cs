@@ -57,64 +57,75 @@ namespace FormatoES.Repository
         {
             try
             {
-                if (formato.FormatoFormatoParametro != null)
+
+
+                foreach (var FormatoFormatoParametro in formato.FormatoFormatoParametro)
                 {
-                    foreach (var parametros in formato.FormatoFormatoParametro)
+                    if (!(FormatoFormatoParametro.FormatoId <= 0 && FormatoFormatoParametro.FormatoParametroId <= 0))
                     {
-                        parametros.FormatoId = formato.Id;
-                        parametros.FormatoParametroId = parametros.FormatoParametro.Id;
-                        var formatoBD = _context.FormatoFormatoParametro
-                            .Include(t => t.FormatoParametro)
-                            .Include(t => t.TipoFormatoParametro)
-                            
-                            .Include(t => t.Formato)
-                            
-                            .FirstOrDefault(d => d.FormatoId == formato.Id && d.FormatoParametroId == parametros.FormatoParametro.Id);
-                        if (formatoBD != null)
-                        {
-                            
-                            _context.Entry(parametros).State = EntityState.Detached;
-                            
+                        _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
+                        _context.FormatoParametro.Update(FormatoFormatoParametro.FormatoParametro);
 
-                            _context.Entry(formatoBD).CurrentValues.SetValues(parametros);
-                            _context.FormatoFormatoParametro.Update(formatoBD);
-                            
-                        }
-                        else
-                        {
-                            _context.Entry(parametros).State = EntityState.Added;
-                        }
-
-
+                    }
+                    else
+                    {
+                        _context.Entry(FormatoFormatoParametro).State = EntityState.Added;
+                        _context.FormatoFormatoParametro.Add(FormatoFormatoParametro);
                     }
                 }
                 if (formato.Adendum != null)
                 {
+
+
                     foreach (var Adendum in formato.Adendum)
                     {
-
-                        Adendum.FormatoId = formato.Id;
-
-                        var AdendumoBD = _context.FormatoAdendum
-                            .FirstOrDefault(d => d.FormatoId == formato.Id );
-                        if (AdendumoBD != null)
+                        if (!(Adendum.Id <= 0))
                         {
-
-
-                            _context.Entry(AdendumoBD).State = EntityState.Detached;
-                            
-                            _context.Entry(AdendumoBD).CurrentValues.SetValues(Adendum);
-                            _context.FormatoAdendum.Update(AdendumoBD);
+                            _context.Entry(Adendum).State = EntityState.Modified;
+                            _context.FormatoAdendum.Update(Adendum);
 
                         }
-                        else {
+                        else
+                        {
                             _context.Entry(Adendum).State = EntityState.Added;
-                        } 
-
-
-
+                            _context.FormatoAdendum.Add(Adendum);
+                        }
                     }
                 }
+
+
+                formato.Version += 1;
+                _context.Entry(formato).State = EntityState.Modified;
+
+
+
+
+
+                //}
+                //if (formato.Adendum != null)
+                //{
+                //    foreach (var Adendum in formato.Adendum)
+                //    {
+
+                //        Adendum.FormatoId = formato.Id;
+                //        var AdendumoBD = formatoBD.Adendum.FirstOrDefault(d => d.FormatoId == formato.Id && d.Id == Adendum.Id);
+
+                //        if (AdendumoBD != null)
+                //        {
+
+                //            _context.Entry(AdendumoBD).CurrentValues.SetValues(Adendum);
+                //            _context.FormatoAdendum.Update(AdendumoBD);
+
+                //        }
+                //        else
+                //        {
+                //            _context.Entry(Adendum).State = EntityState.Added;
+                //        }
+
+
+
+                //    }
+                //}
                 if (formato.Herramienta != null)
                 {
                     _context.Entry(formato.Herramienta).State = EntityState.Unchanged;
@@ -130,14 +141,19 @@ namespace FormatoES.Repository
                     _context.Entry(formato.Conexion).State = EntityState.Unchanged;
 
                 }
-                if (formato.TiposConexiones != null)
+                if (formato.FormatoTiposConexion != null)
                 {
-                    _context.Entry(formato.TiposConexiones).State = EntityState.Unchanged;
+                    foreach (var formatoTiposConexion in formato.FormatoTiposConexion)
+                    {
+                        _context.Entry(formatoTiposConexion).State = EntityState.Modified;
+                        _context.Entry(formatoTiposConexion.TipoConexion).State = EntityState.Unchanged;
+
+                    }
 
                 }
 
-                formato.Version += 1;
-                _context.Formato.Update(formato);
+
+
                 return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception) { throw; }
@@ -243,11 +259,16 @@ namespace FormatoES.Repository
         {
             try
             {
-                return await _context.Formato
+                var query = _context.Formato
                     .Include(f => f.Adendum)
                     .Include(f => f.Herramienta)
-                    .Where(f => f.TiposConexionesId == tipoConexion)
-                    .ToListAsync();
+                    .Include(f => f.FormatoTiposConexion).ThenInclude(fc => fc.TipoConexion).Where(d => d.FormatoTiposConexion.Any(dr => dr.TipoConexionId == tipoConexion)).ToListAsync();
+
+
+                return await query;
+
+
+
 
             }
             catch (Exception) { throw; }

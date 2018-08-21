@@ -16,6 +16,7 @@ import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/s
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CatalogoPipe } from '../pipes/catalogoPipe';
 import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proceso.component';
+import { DetalleProcesoComponent } from '../../proceso/common-proceso/detalle-proceso/detalle-proceso.component';
 
 
 
@@ -41,6 +42,7 @@ import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proc
     pemarsaAdendumPipe,
     FiltroProcesoComponent,
     filtrarColumnasAdendumPorTipoPipe,
+    DetalleProcesoComponent
   ],
 
   exports: [
@@ -56,6 +58,7 @@ import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proc
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     filtrarColumnasAdendumPorTipoPipe,
+    DetalleProcesoComponent,
   ],
 
   providers: [
