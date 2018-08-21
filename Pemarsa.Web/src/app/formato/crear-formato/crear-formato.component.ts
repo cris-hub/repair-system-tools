@@ -470,7 +470,9 @@ export class CrearFormatoComponent implements OnInit {
       this.formFormato.get('Herramienta').get('Id').setValidators((Validators.required));
     } else {
       this.formFormato.get('Herramienta').get('Id').setErrors(null);
+
       this.formFormato.get('Herramienta').get('Id').setValidators(null);
+      this.formFormato.get('HerramientaId').setValue(this.formFormato.get('Herramienta').get('Id').value);
     }
 
 
@@ -630,7 +632,7 @@ export class CrearFormatoComponent implements OnInit {
     this.asignarFormatoParametros(val);
     val['Parametros'] = null;
     val['Aletas'] = null;
-    delete val['Herramienta'];
+   
 
     console.log(val)
 
