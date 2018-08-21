@@ -80,7 +80,7 @@ export class CrearFormatoComponent implements OnInit {
   //Carga Archivos
   public lectorArchivos: FileReader;
   public Planos: Array<AttachmentModel> = new Array<AttachmentModel>();
-  public Adjunto: AttachmentModel = new AttachmentModel();;
+  public Adjunto: AttachmentModel;
   public planoView: AttachmentModel;
   private maximoArchivos = 5;
 
@@ -201,6 +201,8 @@ export class CrearFormatoComponent implements OnInit {
           this.initFormFormatoAdendum()
           this.initFormFormatoParamtros()
           this.initFormFormatoParamtrosAletas()
+          this.initFormTiposConexion()
+
         }
       );
   }
@@ -320,6 +322,7 @@ export class CrearFormatoComponent implements OnInit {
         FormatoId: [f.FormatoId],
         Id: [f.Id],
         TipoConexionId: [f.TipoConexionId],
+        TipoConexion: [f.TipoConexion],
         Estado: [f.Estado]
 
 
@@ -374,7 +377,7 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formatosAdendumModel.forEach(p => {
       let form = this.formBuilder.group({});
-      form.addControl('Id', new FormControl(p.Id));
+      form.addControl('Id', new FormControl(p.Id ? p.Id : 0 ));
       form.addControl('Posicion', new FormControl(p.Posicion));
       form.addControl('TipoId', new FormControl(p.TipoId));
       form.addControl('Valor', new FormControl(p.Valor));

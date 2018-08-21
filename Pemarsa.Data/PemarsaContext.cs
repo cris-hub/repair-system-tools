@@ -54,6 +54,7 @@ namespace Pemarsa.Data
         public DbSet<FormatoParametro> FormatoParametro { get; set; }
         public DbSet<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
         public DbSet<FormatoAdendum> FormatoAdendum { get; set; }
+        public DbSet<FormatoTiposConexion> FormatoTiposConexion { get; set; }
         public DbSet<Formato> Formato { get; set; }
         public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }
         public DbSet<Proceso> Proceso { get; set; }

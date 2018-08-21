@@ -23,6 +23,16 @@ namespace FormatoES.Repository
         {
             try
             {
+
+                if (formato.FormatoTiposConexion != null)
+                {
+                    foreach (var tipo in formato.FormatoTiposConexion)
+                    {
+                        _context.Entry(tipo.TipoConexion).State = EntityState.Unchanged;
+
+                    }
+                }
+
                 if (formato.Codigo != null)
                 {
 
@@ -169,6 +179,7 @@ namespace FormatoES.Repository
                     .Include(f => f.Planos)
                     .Include(f => f.TipoFormato)
                     .Include(f => f.Adjunto)
+                    .Include(f=>f.FormatoTiposConexion).ThenInclude(ftc=>ftc.TipoConexion)
 
                     .Include(f => f.FormatoFormatoParametro).ThenInclude(t => t.FormatoParametro)
                     .FirstOrDefaultAsync(f => f.Guid == guidformato);
