@@ -567,8 +567,11 @@ export class CrearFormatoComponent implements OnInit {
 
     this.esFormularioValido(this.formFormato)
     if (!this.esFormularioValido) {
+      this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
       return
     }
+    
+
     this.asignarValoresFormularioFormato(this.formFormato.value);
 
     console.log(this.formFormato)
@@ -577,10 +580,7 @@ export class CrearFormatoComponent implements OnInit {
     this.formatoModel.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
     this.formatoModel.GuidOrganizacion = '00000000-0000-0000-0000-000000000000';
 
-    if (!this.esValido) {
-      this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
-      return
-    }
+
     if (this.formatoModel.TipoFormatoId == TIPOS_FORMATO.FORMATOCONEXION) {
       this.formatoModel.Herramienta = null
 
