@@ -59,6 +59,7 @@
             </label>
             <div class="col-md-3" >
               <select   validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class=" form-control-lg select">
+                <option  [value]="''">Seleccione</option>
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="TiposConexiones.Id">{{TiposConexiones.Valor}}</option>
               </select>
 
@@ -70,6 +71,7 @@
             <div class="col-md-3">
               <div>
                 <select formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control-lg select">
+                  <option [value]="''">Seleccione</option>
                   <option *ngFor="let Conexion of parametrosConexion" [value]="Conexion.Id">{{Conexion.Valor}}</option>
 
                 </select>
@@ -102,7 +104,7 @@
             </label>
             <div formGroupName="Herramienta" class="col-md-8">
               <select formControlName="Id" validacion [validaciones]="[tipoFormatoValidacionesFormatoOtros]" class="form-control form-control-lg pull-rigth" (click)="listarHerramienta()">
-                <option [value]="''">Seleecione</option>
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let Herramienta of Herramientas" [value]="Herramienta.Id">{{ Herramienta.Nombre }}</option>
               </select>
             </div>
@@ -312,7 +314,7 @@
                       <tr [formGroupName]="i">
 
                         <td>
-                          <p *ngIf="i>0">{{i}} </p>
+                          <p *ngIf="formFormato.get('Parametros').controls[i]">{{formFormato.get('Parametros').controls[i].value.Id }} </p>
                         </td>
 
                         <td>
@@ -398,7 +400,8 @@
                       <tr [formGroupName]="i">
 
                         <td>
-                          <p *ngIf="i>0">{{i}} </p>
+                          <p *ngIf="formFormato.get('Aletas').controls[i]">{{formFormato.get('Aletas').controls[i].value.Id }} </p>
+
                         </td>
 
                         <td>

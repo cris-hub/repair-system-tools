@@ -223,7 +223,7 @@ export class CrearFormatoComponent implements OnInit {
 
   agregarTipoConexion(tipoConexion) {
     let tipoConexionParam: CatalogoModel = this.parametrosTipoConexion.find(d => d.Id == tipoConexion);
- 
+
 
     this.formFormatoTiposConexion.push(this.formBuilder.group({
       FormatoId: this.formatoModel.Id,
@@ -232,13 +232,22 @@ export class CrearFormatoComponent implements OnInit {
       Estado: true
     }));
 
-    let index = this.parametrosTipoConexion.findIndex(d => d.Id == tipoConexion.Id);
+    let index = this.parametrosTipoConexion.findIndex(d => d.Id == tipoConexion);
     this.parametrosTipoConexion.splice(index, 1);
   }
 
   removerDeElementosSeleccionado(tipoConexion: CatalogoModel) {
-    this.formatoModel.FormatoTiposConexion.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado == true).Estado = false;
-    this.parametrosTipoConexion.push(tipoConexion);
+
+    let value = this.formFormatoTiposConexion.value.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado == true)
+
+    value.Estado = false;
+    this.formFormatoTiposConexion.push(this.formBuilder.group({
+      FormatoId: this.formatoModel.Id,
+      TipoConexionId: value.Id,
+      TipoConexion: value,
+      Estado: value.Estado
+    }));
+    this.parametrosTipoConexion.push(value.TipoConexion);
   }
 
   // gestion Formario 
@@ -377,7 +386,7 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formatosAdendumModel.forEach(p => {
       let form = this.formBuilder.group({});
-      form.addControl('Id', new FormControl(p.Id ? p.Id : 0 ));
+      form.addControl('Id', new FormControl(p.Id ? p.Id : 0));
       form.addControl('Posicion', new FormControl(p.Posicion));
       form.addControl('TipoId', new FormControl(p.TipoId));
       form.addControl('Valor', new FormControl(p.Valor));
