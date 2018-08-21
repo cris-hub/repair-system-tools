@@ -71,7 +71,7 @@ namespace FormatoES.Repository
 
                 foreach (var FormatoFormatoParametro in formato.FormatoFormatoParametro)
                 {
-                    if (!(FormatoFormatoParametro.FormatoId <= 0 && FormatoFormatoParametro.FormatoParametroId <= 0))
+                    if (!(FormatoFormatoParametro.FormatoId <= 0 || FormatoFormatoParametro.FormatoParametroId <= 0))
                     {
                         _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
                         _context.FormatoParametro.Update(FormatoFormatoParametro.FormatoParametro);
@@ -79,6 +79,7 @@ namespace FormatoES.Repository
                     }
                     else
                     {
+                        _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Added;
                         _context.Entry(FormatoFormatoParametro).State = EntityState.Added;
                         _context.FormatoFormatoParametro.Add(FormatoFormatoParametro);
                     }

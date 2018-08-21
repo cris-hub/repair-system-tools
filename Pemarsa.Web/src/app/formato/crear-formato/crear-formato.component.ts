@@ -337,7 +337,11 @@ export class CrearFormatoComponent implements OnInit {
 
       });
       this.formFormatoTiposConexion.push(form)
+
+      let index = this.parametrosTipoConexion.findIndex(d => d.Id == f.Id);
+      this.parametrosTipoConexion.splice(index, 1);
     });
+
     console.log(this.formFormatoTiposConexion);
 
   }
