@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180821145919_tipoconexion")]
+    partial class tipoconexion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -431,18 +433,13 @@ namespace Pemarsa.Data.Migrations
 
             modelBuilder.Entity("Pemarsa.Domain.FormatoTiposConexion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Estado");
-
-                    b.Property<int?>("FormatoId");
+                    b.Property<int>("FormatoId");
 
                     b.Property<int>("TipoConexionId");
 
-                    b.HasKey("Id");
+                    b.Property<bool>("Estado");
 
-                    b.HasIndex("FormatoId");
+                    b.HasKey("FormatoId", "TipoConexionId");
 
                     b.HasIndex("TipoConexionId");
 
@@ -1605,7 +1602,8 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Formato", "Formato")
                         .WithMany("FormatoTiposConexion")
-                        .HasForeignKey("FormatoId");
+                        .HasForeignKey("FormatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoConexion")
                         .WithMany()

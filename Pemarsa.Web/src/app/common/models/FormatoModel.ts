@@ -5,7 +5,7 @@ export class FormatoModel extends EntityModel {
   constructor(
     public Planos?: Array<AttachmentModel>,
     public Adendum?: Array<FormatoAdendumModel>,
-    public FormatoTiposConexionModel?: Array<FormatoTiposConexionModel>,
+    public FormatoTiposConexion?: Array<FormatoTiposConexionModel>,
     public TipoFormatoId?: number,
     public TipoFormato?: CatalogoModel,
     public FormatoFormatoParametro?: Array<FormatoFormatoParametroModel>,
@@ -16,8 +16,7 @@ export class FormatoModel extends EntityModel {
     public Especificacion?: CatalogoModel,
     public TPI?: string,
     public TPF?: string,
-    public TiposConexionesId?: number,
-    public TipoConexion?: CatalogoModel,
+    
     public ConexionId?: number,
     public Conexion?: CatalogoModel,
     public ConexionValor?: string, 
@@ -33,6 +32,7 @@ export class FormatoModel extends EntityModel {
     
     this.Adendum = new Array<FormatoAdendumModel>()
     this.Planos = new Array<AttachmentModel>()
+    this.FormatoTiposConexion = new Array<FormatoTiposConexionModel>()
   }
 
 

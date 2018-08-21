@@ -57,8 +57,8 @@
 
               Tipo de conexión
             </label>
-            <div class="col-md-3">
-              <select formControlName="TiposConexionesId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion(TiposConexiones)" class=" form-control-lg select">
+            <div class="col-md-3" >
+              <select   validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class=" form-control-lg select">
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="TiposConexiones.Id">{{TiposConexiones.Valor}}</option>
               </select>
 
@@ -80,17 +80,16 @@
 
 
           <div *ngIf="esTipoFormatoConexion(formatoModel)" class="form-group row">
-
-          
-
-              <div *ngIf="formatoModel.FormatoTiposConexionModel.length >0" class="col-md-offset-2 col-md-8">
-                <div  *ngFor="let FormatoTiposConexionModel of formatoModel.FormatoTiposConexionModel"  >
-                  <span *ngIf="FormatoTiposConexionModel.Estado" class="col-md-2 badge badge-secondary aliniar-text">
-                    {{FormatoTiposConexionModel.TipoConexion.Valor}}
-                    <i (click)="removerDeElementosSeleccionado(FormatoTiposConexionModel.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+            <div *ngIf="formatoModel.FormatoTiposConexion" class="col-md-12">
+              <div *ngIf="formatoModel.FormatoTiposConexion.length >0 || formFormato.get('FormatoTiposConexion').value" class="col-md-offset-2 col-md-8">
+                <div *ngFor="let formatoTiposConexion of formFormato.get('FormatoTiposConexion').value ">
+                  <span *ngIf="formatoTiposConexion.Estado" class="col-md-2 badge badge-secondary aliniar-text">
+                    {{formatoTiposConexion.TipoConexion.Valor}}
+                    <i (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
                   </span>
                 </div>
               </div>
+            </div>
 
 
           </div>
@@ -146,7 +145,7 @@
             <div class="col-md-5 col-md-offset-2">
               <div class="form-group row">
                 <div *ngIf="Adjunto" class="col-md-12">
-                  <p class="form-control">
+                  <p class="form-control" *ngIf="Adjunto.NombreArchivo">
                     {{Adjunto.NombreArchivo}}
                     <i (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
                     <a href="{{Adjunto.Ruta}}" class="pull-right">

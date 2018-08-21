@@ -26,6 +26,7 @@ namespace Pemarsa.Data
             modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
 
             modelBuilder.Entity<FormatoFormatoParametro>().HasKey(k => new { k.FormatoId, k.FormatoParametroId });
+            
 
             modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
             modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
