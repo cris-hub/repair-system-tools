@@ -59,7 +59,7 @@
             </label>
             <div class="col-md-3">
               <select formControlName="TiposConexionesId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion(TiposConexiones)" class=" form-control-lg select">
-                <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="{{TiposConexiones.Id}}">{{ TiposConexiones.Valor}}</option>
+                <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="TiposConexiones.Id">{{TiposConexiones.Valor}}</option>
               </select>
 
             </div>
@@ -70,7 +70,7 @@
             <div class="col-md-3">
               <div>
                 <select formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control-lg select">
-                  <option *ngFor="let Conexion of parametrosConexion" value="{{Conexion.Id}}">{{Conexion.Valor}}</option>
+                  <option *ngFor="let Conexion of parametrosConexion" [value]="Conexion.Id">{{Conexion.Valor}}</option>
 
                 </select>
 
