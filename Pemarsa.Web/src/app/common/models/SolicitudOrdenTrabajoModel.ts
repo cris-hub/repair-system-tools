@@ -36,6 +36,11 @@ export class SolicitudOrdenTrabajoModel extends EntityModel {
 
   public Anexos: SolicitudOrdenTrabajoAnexosModel[];
 
+  public ResponsableValor: string;
+  public ClienteNickName: string;
+  public ClienteLineaNombre: string;
+  public PrioridadValor: string;
+  public EstadoValor: string;
 
   constructor() {
     super();

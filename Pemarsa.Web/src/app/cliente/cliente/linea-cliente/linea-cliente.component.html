@@ -3,7 +3,7 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header panelModal text-center">
-      <h3 class="modal-title">{{accion}} línea</h3>
+      <h3 class="modal-title"><b>Línea negocio</b></h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span class="font-white" aria-hidden="true">&times;</span>
       </button>
@@ -12,23 +12,23 @@
       <div class="modal-body">
         
         <div class="form-group">
-          <label for="Nombre"><b>*Nombre de linea</b></label>
+          <label for="Nombre"><b>Nombre de linea</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" validacion [validaciones]="['requerido']" formControlName="Nombre" placeholder="Nombre de linea">
         </div>
         <div class="form-group">
-          <label for="ContactoNombre"><b>*Nombre Contacto</b></label>
+          <label for="ContactoNombre"><b>Nombre contacto</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" validacion [validaciones]="['requerido']" formControlName="ContactoNombre" placeholder="Nombre Contacto">
         </div>
         <div class="form-group">
-          <label for="ContactoTelefono"><b>*Teléfono de Contacto</b></label>
+          <label for="ContactoTelefono"><b>Teléfono de contacto</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="tel" class="form-control" validacion [validaciones]="['requerido']" formControlName="ContactoTelefono" placeholder="Teléfono de contacto">
         </div>
         <div class="form-group">
-          <label for="ContactoCorreo"><b>*Correo de Contacto</b></label>
+          <label for="ContactoCorreo"><b>Correo de contacto</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="email" class="form-control" validacion [validaciones]="['requerido','correo']" formControlName="ContactoCorreo" placeholder="Correo de Contacto">
         </div>
         <div class="form-group">
-          <label for="Direccion"><b>*Direccion</b></label>
+          <label for="Direccion"><b>Dirección</b></label>
           <input [attr.disabled]="accion == 'ver' ? '' : null" type="text" class="form-control" formControlName="Direccion" placeholder="Direccion">
         </div>
       </div>
@@ -36,7 +36,7 @@
         <button (click)="limpiarlineaCliente()" data-dismiss="modal" #close class="btn btn-md">Cancelar</button>
         <input *ngIf="accion == 'crear' || accion == 'editar'"
                (click)="submitlineaCliente(frmLineaCliente.value)"
-               type="submit" #crear value="{{accion}}" class="btn btn-primary">
+               type="submit" #crear value="Guardar" class="btn btn-primary">
       </div>
     </form>
 

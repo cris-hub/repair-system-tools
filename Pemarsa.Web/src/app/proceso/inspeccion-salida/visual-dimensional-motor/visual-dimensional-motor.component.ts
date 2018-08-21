@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
+import { ProcesoInspeccionSalidaModel } from '../../../common/models/ProcesoInspeccionSalidaModel';
 
 @Component({
   selector: 'app-visualdimencional',
@@ -79,8 +80,8 @@ export class VisualDimensionalMotorComponent implements OnInit {
     let parametrosUlrMap: Map<string, string> = new Map<string, string>();
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
-    parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
-    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
+    parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[0].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[3].path);
 
     return parametrosUlrMap;
   }
@@ -89,19 +90,20 @@ export class VisualDimensionalMotorComponent implements OnInit {
   //consultas
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
-
+    this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response
-        let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
+        let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = response.ProcesoInspeccionSalida.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
 
         });
-        this.inspeccion = inspeccionEntrada.Inspeccion;
+        this.inspeccion = ProcesoInspeccionSalida.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
+        this.loaderService.display(false)
       }, error => {
 
       }, () => {
@@ -169,7 +171,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
           this.completarProcesoInspeccion(guidProceso);
           this.procesoService.iniciarProcesar = false;
           this.router.navigate([
-            'inspeccion/entrada/' +
+            'inspeccion/salida/' +
             this.obtenerParametrosRuta().get('procesoId') + '/' +
             this.obtenerParametrosRuta().get('pieza') + '/' +
             this.obtenerParametrosRuta().get('accion')]);
@@ -177,7 +179,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
           return
         }
         this.router.navigate([
-          'inspeccion/entrada/' +
+          'inspeccion/salida/' +
           TIPO_INSPECCION[this.inspeccion.TipoInspeccionId] + '/' +
           this.obtenerParametrosRuta().get('procesoId') + '/' +
           this.obtenerParametrosRuta().get('pieza') + '/' +
@@ -188,10 +190,10 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
-          this.router.navigate(['inspeccion/entrada'])
+          this.router.navigate(['inspeccion/salida'])
         };
       });
     }

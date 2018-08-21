@@ -18,8 +18,9 @@ import { EMIComponent } from './emi/emi.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VisualDimensionalComponent } from './visual-dimensional/visual-dimensional.component';
 import { UtilModule } from '../../common/modules/util.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InspeccionEntradaRoutingModule } from './inspeccion-entrada.routing.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   imports: [
@@ -29,6 +30,8 @@ import { InspeccionEntradaRoutingModule } from './inspeccion-entrada.routing.mod
     UtilModule,
     NgxPaginationModule,
     NgbModule,
+    FormsModule,
+    Ng2SearchPipeModule,
 
   ],
   declarations: [ListarInspeccionesEntradaComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalMotorComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent, VisualDimensionalComponent]

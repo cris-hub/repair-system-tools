@@ -274,6 +274,35 @@ namespace ProcesoES.Service
                 throw;
             };
         }
+
+        public async Task<Proceso> ConsultarProcesoPorTipoYOrdenTrabajo(int tipoProceso, Guid guidOrdenTrabajo, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                Proceso proceso = await _procesoRepository.ConsultarProcesoPorTipoYOrdenTrabajo(tipoProceso, guidOrdenTrabajo, usuarioDTO);
+                return proceso;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> RechazarProceso(Guid guid, string observacion, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                bool rechazado = await _procesoRepository.RechazarProceso(guid,observacion, usuarioDTO);
+
+                    return rechazado;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 
 

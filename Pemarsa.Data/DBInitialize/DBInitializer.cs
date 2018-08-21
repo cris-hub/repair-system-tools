@@ -266,13 +266,13 @@ namespace Pemarsa.Data.DBInitialize
                      new Catalogo{
                         Id = 26,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.FormatoAdendem.Tipo1,
+                        Valor = CanonicalConstants.Tipos.FormatoAdendem.OD,
                         Grupo = CanonicalConstants.Grupos.FormatoAdendum
                     },
                       new Catalogo{
                         Id = 27,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.FormatoAdendem.Tipo2,
+                        Valor = CanonicalConstants.Tipos.FormatoAdendem.BEV,
                         Grupo = CanonicalConstants.Grupos.FormatoAdendum
                     },new Catalogo{
                         Id = 36,
@@ -514,13 +514,18 @@ namespace Pemarsa.Data.DBInitialize
                     new Catalogo{
                         Id = 20,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Especificacion.Incosistencias,
+                        Valor = CanonicalConstants.Especificacion.tipo1,
                         Grupo = CanonicalConstants.Grupos.Especificacion
                     },
                     new Catalogo{
                         Id = 21,
                         Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Especificacion.Reparacion,
+                        Valor = CanonicalConstants.Especificacion.tipo2,
+                        Grupo = CanonicalConstants.Grupos.Especificacion
+                     },new Catalogo{
+                        Id = 113,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.tipo3,
                         Grupo = CanonicalConstants.Grupos.Especificacion
                      }
                 };

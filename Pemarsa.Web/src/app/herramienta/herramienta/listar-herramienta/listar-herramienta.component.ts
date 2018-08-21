@@ -20,7 +20,7 @@ export class ListarHerramientaComponent implements OnInit {
   public  paginacion: PaginacionModel;
   public  parametros: ParametrosModel;
   public  esFiltrar: boolean = false;
-
+  public filter: string
   constructor(
     public herramientaSrv: HerramientaService,
     public parametroSrv: ParametroService,

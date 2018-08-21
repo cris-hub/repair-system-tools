@@ -9,8 +9,9 @@ import {
   FactibilidadHerramientaComponent,
   CrearHerramientaComponent
 } from './herramienta/index'
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AutoCompletarComponent } from './herramienta/auto-completar/auto-completar.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   imports: [
@@ -18,7 +19,10 @@ import { AutoCompletarComponent } from './herramienta/auto-completar/auto-comple
     NgxPaginationModule,
     UtilModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    Ng2SearchPipeModule,
+    
   ],
   declarations: [
     ListarHerramientaComponent,

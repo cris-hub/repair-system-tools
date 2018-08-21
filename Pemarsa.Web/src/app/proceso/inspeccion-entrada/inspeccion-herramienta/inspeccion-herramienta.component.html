@@ -150,7 +150,7 @@
                                    [accion]="accion"
                                    (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso a ' + accion + '?', true, Proceso)"
                                    (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
-              <button *ngIf="!inspeccionesEnProceso" class="btn btn-success" (click)="procesar();">procesar</button>
+              <button *ngIf="!inspeccionesEnProceso && !(inspeccionesTerminada && !tieneProcesoSugerido)" class="btn btn-success" (click)="procesar();">procesar</button>
             </div>
           </div>
         </div>

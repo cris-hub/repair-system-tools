@@ -13,8 +13,8 @@ export enum CONEXIONID {
 }
 
 export enum TIPOSFORMATOADENDUM {
-  'Tipo1' = 26,
-  'Tipo2' = 27
+  'O.D' = 26,
+  'BEV' = 27
 }
 export enum CONEXION {
 

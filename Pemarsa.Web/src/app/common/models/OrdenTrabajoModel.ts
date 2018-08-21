@@ -35,6 +35,11 @@ export class OrdenTrabajoModel extends EntityModel {
   public SolicitudOrdenTrabajoId: number;
   public SolicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
   public Anexos: OrdenTrabajoAnexosModel[];
+  public ClienteNickname: string;
+  public HerramientaNombre: string;
+  public TipoServicioValor: string;
+  public ResponsableValor: string;
+  public EstadoValor: string;
 
   //Añadir propiedades de coleciones
 

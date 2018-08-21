@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
 import { ToastrService } from "ngx-toastr";
@@ -7,7 +7,8 @@ import { ToastrService } from "ngx-toastr";
   selector: 'app-liena-cliente',
   templateUrl: './linea-cliente.component.html'
 })
-export class LineaClienteComponent {
+export class LineaClienteComponent implements OnChanges {
+ 
   @ViewChild('close') close : ElementRef
   public data: any = {};
   public frmLineaCliente: FormGroup;
@@ -19,6 +20,10 @@ export class LineaClienteComponent {
     private frmBuilder: FormBuilder,
     private toastrService : ToastrService
   ) {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.lineaCliente = new ClienteLineaModel();
     this.initForm();
   }

@@ -1,0 +1,32 @@
+<!-- Modal -->
+<button style=" transform: rotate(180deg);"
+        title="Rechzar proceso"
+        class="btn btn-outline-secondary glyphicon glyphicon-share-alt pointer"
+        data-target="#siguienteProcesoModal"
+        data-toggle="modal"
+        #butonA
+        (click)="event(butonA)"></button>
+
+
+<div *ngIf="abrilModal " class="modal" id="siguienteProcesoModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Observacion rechazo</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formulario">
+
+          
+            <textarea formControlName="ObservacionRechazo" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Rechazar</button>
+      </div>
+    </div>
+  </div>
+</div>

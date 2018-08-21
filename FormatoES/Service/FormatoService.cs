@@ -30,37 +30,50 @@ namespace FormatoES.Service
             _context = context;
         }
 
-        public async Task<bool> ActualizarFormato(Formato formato, string RutaServer, UsuarioDTO usuario)
+        public async Task<bool> ActualizarFormato(Formato formato, UsuarioDTO usuario)
         {
             try
             {
-                return await _repository.ActualizarFormato(formato, usuario);
-            }
-            catch (Exception) { throw; }
-        }
+                if (formato.Adjunto != null)
+                {
+                    await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(formato.Adjunto);
 
-        public async Task<Guid> CrearFormato(Formato formato, string RutaServer, UsuarioDTO usuario)
-        {
-            try
-            {
+                }
+
                 if (formato.Planos != null)
                 {
 
                     foreach (var plano in formato.Planos)
                     {
-                        //Se combierte el stream del documento adjutno en butes
-                        Byte[] bytes = Convert.FromBase64String(plano.Stream);
 
-                        //Se valida si existe la carpeta en el servidor
-                        if (!Directory.Exists($"{RutaServer}"))
-                            Directory.CreateDirectory($"{RutaServer}");
+                        await _serviceDocumentoAdjunto.ActualizarDocumentoAdjunto(plano);
 
-                        //se guarda la ruta en el documentoAfjunto para registrarla en la base de datos
-                        string nameSystem = $"{Guid.NewGuid().ToString()}.{plano.NombreArchivo.Split('.')[1]}";
-                        plano.Ruta = $"{RutaServer}{nameSystem}";
-                        plano.Nombre = nameSystem;
+                    }
+                }
 
-                        await File.WriteAllBytesAsync(plano.Ruta, bytes);
+
+                return await _repository.ActualizarFormato(formato, usuario);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<Guid> CrearFormato(Formato formato, UsuarioDTO usuario)
+        {
+            try
+            {
+                if (formato.Adjunto != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(formato.Adjunto);
+
+                }
+
+                if (formato.Planos != null)
+                {
+
+                    foreach (var plano in formato.Planos)
+                    {
+
+                        await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(plano);
 
                     }
                 }
@@ -127,7 +140,8 @@ namespace FormatoES.Service
         {
             try
             {
-                return await _repository.ConsultarFormatoPorTipoConexion(tipoConexion, usuario);
+                var query = await _repository.ConsultarFormatoPorTipoConexion(tipoConexion, usuario);
+                return query;
             }
             catch (Exception) { throw; }
         }

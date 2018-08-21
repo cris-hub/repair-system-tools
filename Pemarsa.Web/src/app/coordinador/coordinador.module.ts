@@ -11,6 +11,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ObservacionRechazoComponent } from './observacion-rechazo/observacion-rechazo.component';
 
 @NgModule({
   imports: [
@@ -21,8 +23,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    Ng2SearchPipeModule,
+
   ],
-  declarations: [ OitCambioProcesoComponent, CriterioLiberacionComponent,  ProcesarOitComponent]
+  declarations: [ OitCambioProcesoComponent, CriterioLiberacionComponent,  ProcesarOitComponent, ObservacionRechazoComponent]
 })
 export class CoordinadorModule { }

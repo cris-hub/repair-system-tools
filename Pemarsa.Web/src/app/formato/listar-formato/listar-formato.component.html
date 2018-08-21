@@ -2,11 +2,11 @@
 <div class="container-fluid">
   <div class="row titulo">
     <div class="col-lg-3 col-md-6 col-sm-12">
-      <h3 class="margin-20 text-center">Listado de formatos</h3>
+      <h3 class="margin-20 text-center"><b>Listado de formatos</b></h3>
     </div>
 
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <input   [(ngModel)]="filter" type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
       <br />
     </div>
 
@@ -51,7 +51,7 @@
         <div class="col col-sm-3 col-md-4">
           <br />
           &nbsp;
-          <i [routerLink]="['/formato/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Agregar formato"></i>
+          <i [routerLink]="['/formato/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Crear formato"></i>
         </div>
       </div>
     </div>
@@ -74,13 +74,14 @@
             <tr *ngFor="let formato of formatos | paginate:{ itemsPerPage: paginacion.CantidadRegistros,
                                                              currentPage: paginacion.PaginaActual,
                                                              totalItems: paginacion.TotalRegistros,
-                                                             id: 'formato'}">
+                                                             id: 'formato'}
+                                                | filter:filter">
               <td>{{formato.Codigo}}</td>
-              <td>{{formato.Conexion.Valor}}</td>
+              <td>{{formato.ConexionValor}}</td>
               <td>
-                <a *ngFor=" let plano of formato.Planos">{{plano.NombreArchivo}}, &nbsp;</a>
+                <a *ngIf="formato.Adjunto" [href]="formato.Adjunto.Ruta">{{formato.DocumentoVista}}, &nbsp;</a>
               </td>
-              <td>{{formato.FechaRegistro | date: 'dd/MM/yyyy'}}</td>
+              <td>{{formato.FechaRegistroVista}}</td>
               <td>
                 <i class="glyphicon glyphicon-eye-open pointer" routerLink="/formato/ver/{{formato.Guid}}" data-toggle="tooltip" title="Ver detalle formato"></i>
                 &nbsp;&nbsp;

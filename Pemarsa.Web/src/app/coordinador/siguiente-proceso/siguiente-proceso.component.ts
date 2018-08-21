@@ -5,6 +5,7 @@ import { ProcesoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ToastrService } from 'ngx-toastr';
 import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/inspeccion.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-siguiente-proceso',
@@ -39,6 +40,7 @@ export class SiguienteProcesoComponent implements OnInit {
     private procesoService: ProcesoService,
     private parametrosService: ParametroService,
     private toasrService: ToastrService,
+    private router: Router,
 
   ) { }
   cancelarAction() {
@@ -99,7 +101,7 @@ export class SiguienteProcesoComponent implements OnInit {
         response ? this.response = true : false
         this.confir.emit(this.response);
         console.log(this.response)
-
+        this.router.navigate(['/aprobacion-supervisor'])
       }, errorResponse => {
         this.response = false;
         this.toasrService.error(errorResponse.message);

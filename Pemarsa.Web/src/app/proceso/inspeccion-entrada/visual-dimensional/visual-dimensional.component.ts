@@ -77,8 +77,8 @@ export class VisualDimensionalComponent implements OnInit {
     let parametrosUlrMap: Map<string, string> = new Map<string, string>();
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     parametrosUlrMap.set('pieza', this.activedRoute.snapshot.paramMap.get('index'));
-    parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[2].path);
-    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[5].path);
+    parametrosUlrMap.set('tipoInspeccion', this.activedRoute.snapshot.url[0].path);
+    parametrosUlrMap.set('accion', this.activedRoute.snapshot.url[3].path);
 
     return parametrosUlrMap;
   }
@@ -86,7 +86,7 @@ export class VisualDimensionalComponent implements OnInit {
   //consultas
   consultarProceso() {
     this.iniciarFormulario(new InspeccionModel());
-
+    this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso  = response
@@ -99,6 +99,7 @@ export class VisualDimensionalComponent implements OnInit {
         this.inspeccion = inspeccionEntrada.Inspeccion;
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
+        this.loaderService.display(false)
       }, error => {
 
       }, () => {

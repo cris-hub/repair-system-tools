@@ -26,6 +26,7 @@ namespace Pemarsa.Data
             modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
 
             modelBuilder.Entity<FormatoFormatoParametro>().HasKey(k => new { k.FormatoId, k.FormatoParametroId });
+            
 
             modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
             modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
@@ -51,7 +52,9 @@ namespace Pemarsa.Data
         public DbSet<SolicitudOrdenTrabajoAnexos> SolicitudOrdenTrabajoAnexos { get; set; }
         public DbSet<OrdenTrabajoAnexos> OrdenTrabajoAnexos { get; set; }
         public DbSet<FormatoParametro> FormatoParametro { get; set; }
+        public DbSet<FormatoFormatoParametro> FormatoFormatoParametro { get; set; }
         public DbSet<FormatoAdendum> FormatoAdendum { get; set; }
+        public DbSet<FormatoTiposConexion> FormatoTiposConexion { get; set; }
         public DbSet<Formato> Formato { get; set; }
         public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }
         public DbSet<Proceso> Proceso { get; set; }
