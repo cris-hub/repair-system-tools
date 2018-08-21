@@ -565,8 +565,11 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formFormato.updateValueAndValidity();
 
-    this.asignarValoresFormularioFormato(this.formFormato.value);
     this.esFormularioValido(this.formFormato)
+    if (!this.esFormularioValido) {
+      return
+    }
+    this.asignarValoresFormularioFormato(this.formFormato.value);
 
     console.log(this.formFormato)
     console.log(this.formatoModel);
