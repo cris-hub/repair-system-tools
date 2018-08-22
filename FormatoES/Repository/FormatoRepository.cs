@@ -71,7 +71,7 @@ namespace FormatoES.Repository
 
                 foreach (var FormatoFormatoParametro in formato.FormatoFormatoParametro)
                 {
-                    if (!(FormatoFormatoParametro.FormatoId <= 0 || FormatoFormatoParametro.FormatoParametroId <= 0))
+                    if (!(FormatoFormatoParametro.FormatoId <= 0 && (FormatoFormatoParametro.FormatoParametroId <= 0 || FormatoFormatoParametro.FormatoParametro.Id <= 0)))
                     {
                         _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
                         _context.FormatoParametro.Update(FormatoFormatoParametro.FormatoParametro);
@@ -79,9 +79,20 @@ namespace FormatoES.Repository
                     }
                     else
                     {
+                        if (FormatoFormatoParametro.FormatoParametro.Id <= 0)
+                        {
+
                         _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Added;
                         _context.Entry(FormatoFormatoParametro).State = EntityState.Added;
                         _context.FormatoFormatoParametro.Add(FormatoFormatoParametro);
+                        }
+                        else
+                        {
+                            _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Modified;
+                            _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
+                            _context.FormatoFormatoParametro.Add(FormatoFormatoParametro);
+                        }
+
                     }
                 }
                 if (formato.Adendum != null)
@@ -193,6 +204,7 @@ namespace FormatoES.Repository
             try
             {
                 var query = _context.Formato.AsNoTracking()
+                                    .Include(c => c.Adendum)
                                     .Include(c => c.Adendum)
                                     .Include(c => c.FormatoFormatoParametro).ThenInclude(d => d.FormatoParametro)
                                     .Include(c => c.Planos)
