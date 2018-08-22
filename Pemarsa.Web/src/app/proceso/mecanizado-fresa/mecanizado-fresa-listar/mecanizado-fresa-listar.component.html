@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row titulo">
     <div class="col-lg-3 col-md-6 col-sm-12">
-      <h3 class="margin-20 text-center">Listado de clientes</h3>
+      <h3 class="margin-20 text-center">Listado de OIT´s para mecanizado fresado</h3>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12">
       <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
@@ -21,7 +21,7 @@
             <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
             </a>
-            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit"> 
               <li class="records-page-contactos" data-page="10">
                 <a (click)="limiteConsulta(10)">10 Registros</a>
               </li>
@@ -48,8 +48,6 @@
         </div>
         <div class="col col-sm-3 col-md-4">
           <br />
-          &nbsp;
-          <i [routerLink]="['/cliente/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Agregar cliente"></i>
         </div>
       </div>
     </div>
@@ -73,7 +71,25 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr></tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <i class="glyphicon glyphicon-eye-open pointer"></i>
+                &nbsp;
+                <i routerLink="/mecanizado/fresado/procesar" class="glyphicon glyphicon-wrench pointer"></i>
+                &nbsp;
+                <i class="glyphicon glyphicon-share-alt devolver pointer"></i>
+                &nbsp;
+                <i data-toggle="modal" class="glyphicon glyphicon-print pointer"></i>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

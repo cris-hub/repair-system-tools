@@ -8,6 +8,29 @@ body {
 }
 
 
+.panel-border {
+  border: 0px solid transparent;
+}
+
+/*.panel-default > .panel-border > .panel-heading {
+  color: #000 !important;
+  background-color: #ffffff !important;
+  border-color: #ddd !important;
+}*/
+.panel-color {
+  color: #000 !important;
+  background-color: #ffffff !important;
+  border-color: #ddd;
+}
+
+.devolver {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: "FlipH";
+  filter: FlipH;
+}
 
 /*iconos incompletos*/
 
