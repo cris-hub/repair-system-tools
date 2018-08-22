@@ -71,19 +71,23 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr *ngFor="let Proceso of Procesos">
+              <td>{{Proceso.OrdenTrabajoId}}</td>
+              <td>{{Proceso.OrdenTrabajoHerramientaNombre}}</td>
+              <td>{{Proceso.OrdenTrabajoClienteNickName}}</td>
+              <td>{{Proceso.OrdenTrabajoSerialHerramienta}}</td>
+              <td>{{Proceso.OrdenTrabajoPrioridadValor}}</td>
+              <td>{{Proceso.FechaRegistroVista}}</td>
+              <td>{{Proceso.EstadoValor}}</td>
+              <td>
+                <b *ngIf="Proceso.TipoProcesoAnterior">
+                  {{Proceso.TipoProcesoAnteriorValor}}
+                </b>
+              </td>
               <td>
                 <i class="glyphicon glyphicon-eye-open pointer"></i>
                 &nbsp;
-                <i routerLink="/mecanizado/fresado/procesar" class="glyphicon glyphicon-wrench pointer"></i>
+                <i routerLink="/mecanizado/fresado/procesar/{{Proceso.Guid}}" class="glyphicon glyphicon-wrench pointer"></i>
                 &nbsp;
                 <i class="glyphicon glyphicon-share-alt devolver pointer"></i>
                 &nbsp;

@@ -7,7 +7,7 @@ const routes: Routes = [
 
   //Listar Fresado
   { path: '', component: MecanizadoFresaListarComponent },
-  { path: 'procesar', component: MecanizadoFresaProcesarComponent }
+  { path: 'procesar/:id', component: MecanizadoFresaProcesarComponent }
 ]
 
 @NgModule({
