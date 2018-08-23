@@ -58,7 +58,7 @@
               Tipo de conexión
             </label>
             <div class="col-md-3" >
-              <select   validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class=" form-control-lg select">
+              <select   [attr.disabled]="esVer ? '' : null" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class="form-control form-control-lg">
                 <option  [value]="''">Seleccione</option>
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="TiposConexiones.Id">{{TiposConexiones.Valor}}</option>
               </select>
@@ -70,7 +70,7 @@
             </label>
             <div class="col-md-3">
               <div>
-                <select formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control-lg select">
+                <select  [attr.disabled]="esVer ? '' : null" formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control form-control-lg">
                   <option [value]="''">Seleccione</option>
                   <option *ngFor="let Conexion of parametrosConexion" [value]="Conexion.Id">{{Conexion.Valor}}</option>
 
@@ -87,7 +87,7 @@
                 <div *ngFor="let formatoTiposConexion of formFormato.get('FormatoTiposConexion').value ">
                   <span *ngIf="formatoTiposConexion.Estado" class="col-md-2 badge badge-secondary aliniar-text">
                     {{formatoTiposConexion.TipoConexion.Valor}}
-                    <i (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+                    <i *ngIf="!esVer" (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
                   </span>
                 </div>
               </div>
