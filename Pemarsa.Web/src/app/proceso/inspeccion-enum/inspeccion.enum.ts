@@ -41,9 +41,9 @@ export enum ALERTAS_ERROR_TITULO {
 
 
 export enum ALERTAS_OK_MENSAJE {
-  InspeccionEliminar = 'Se ha eliminado la inspeccion exitosamente',
-  InspeccionActualizada = 'Se ha realizado la inspeccion exitosamente',
-  InspeccionCreada = 'Se ha creado una nueva inspeccion exitosamente',
+  InspeccionEliminar = 'Se ha eliminado la inspección exitosamente',
+  InspeccionActualizada = 'Se ha realizado la inspección exitosamente',
+  InspeccionCreada = 'Se ha creado una nueva inspección exitosamente',
 
 }
 export enum ALERTAS_INFO_MENSAJE {

@@ -106,7 +106,7 @@
   <label class="col-md-2 col-form-label " id="corre">
     Tamaño :
   </label>
-  <div class="col-md-2">
+  <div  *ngIf="proceso.OrdenTrabajo.TamanoHerramienta"  class="col-md-2">
     <p>
       {{proceso.OrdenTrabajo.TamanoHerramienta.Tamano}}
     </p>
