@@ -141,69 +141,26 @@ export class CrearOitComponent implements OnInit {
 
   consultarCatalogos() {
 
-    //if (this.esEditar) {
-    //  this.Cliente = this.ordenTrabajo.Cliente;
-    //  this.Linea = this.ordenTrabajo.Linea;
-    //  this.herramienta = this.ordenTrabajo.Herramienta;
-    //}
 
     this.parametroSrv.consultarParametrosPorEntidad("CLIENTE")
       .subscribe(response => {
         this.parametrosConsultas = response;
         this.catalogoClientes = response.Consultas.filter(c => c.Grupo == "cliente");
-        //if (this.Cliente.Id) {
         var clienteId = this.Cliente == null ? 0 : this.Cliente.Id == null ? 0 : this.Cliente.Id;
         this.catalogoClienteLineas = response.Consultas.filter(c => c.Grupo == "clientelinea" && c.CatalogoId == clienteId);
-
         var LineaId = this.Linea == null ? 0 : this.Linea.Id == null ? 0 : this.Linea.Id;
         if (this.catalogoClientes) {
           if (this.catalogoClienteLineas.length > 0) {
             this.catalogoHerramientas = response.Consultas.filter(c => c.Simbolo == "herramienta" && Number(c.Grupo) == LineaId);
           }
           else {
-            this.catalogoHerramientas = response.Consultas.filter(c => c.Simbolo == "herramienta" && c.CatalogoId == clienteId );
+            this.catalogoHerramientas = response.Consultas.filter(c => c.Simbolo == "herramienta" && c.CatalogoId == clienteId);
           }
-          
+
         }
-        //this.catalogoHerramientas.filter(t => {
-        //  if (this.Cliente) {
-        //    if (t.CatalogoId == this.Cliente.Id) {
-        //      if (this.Linea.Id) {
-        //        return Number(t.Grupo) == this.Linea.Id;
-        //      }
-        //      return t;
-        //    }
-        //  }
-
-        //});
-
-
-        //}
       });
   }
 
-  consultarCatalogosHer() {
-    debugger;
-    //var LineaId = this.Linea == null ? 0 : this.Linea.Id == null ? 0 : this.Linea.Id;
-
-    if (this.catalogoHerramientas != null) {
-
-
-      this.catalogoHerramientas.filter(t => {
-        if (this.Cliente) {
-
-          if (this.Linea.Id) {
-            return t.CatalogoId == this.Linea.Id;
-          }
-          return t;
-        }
-
-
-      });
-
-      //this.catalogoHerramientas.filter(c => c.CatalogoId == this.Linea.Id);
-    }
-  }
 
   consultarHerramientaPorGuid(guid: string) {
     this.herraminetaService.ConsultarHerramientaPorGuid(guid)
@@ -408,8 +365,10 @@ export class CrearOitComponent implements OnInit {
     if (this.accionRealizarTituloPagina == 'Procesar') {
       this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
         this.solicitudOrdenTrabajo = response;
+        this.Cliente = new EntidadModel();
         this.Cliente.Id = this.solicitudOrdenTrabajo.Cliente.Id
         this.Cliente.Valor = this.solicitudOrdenTrabajo.Cliente.NickName
+        this.Linea = new EntidadModel();
         this.Linea.Id = this.solicitudOrdenTrabajo.ClienteLinea.Id
         this.Linea.Valor = this.solicitudOrdenTrabajo.ClienteLinea.Nombre
         this.asignarValoresSolitudOrdenTrabajo(this.solicitudOrdenTrabajo, this.ordenTrabajo)
