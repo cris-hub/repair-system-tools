@@ -307,7 +307,7 @@ export class CrearOitComponent implements OnInit {
       } else if (term === '')
         return [];
       else {
-        return this.lineas.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        return this.catalogoClienteLineas.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       }
 
     }));
@@ -321,7 +321,7 @@ export class CrearOitComponent implements OnInit {
       } else if (term === '')
         return [];
       else {
-        return this.herraminetas.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        return this.catalogoHerramientas.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       }
 
     }));
