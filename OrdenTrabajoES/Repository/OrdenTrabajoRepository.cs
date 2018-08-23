@@ -126,7 +126,7 @@ namespace OrdenTrabajoES.Repository
                 ordenTrabajoBD.HerramientaId = ordenTrabajo.HerramientaId;
                 ordenTrabajoBD.ClienteId = ordenTrabajo.ClienteId;
                 ordenTrabajoBD.LineaId = ordenTrabajo.LineaId;
-                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramientaId;
+                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramientaId == 0 ? null : ordenTrabajo.TamanoHerramientaId ;
                 ordenTrabajoBD.NombreUsuarioCrea = "admin";
 
 
@@ -359,9 +359,20 @@ namespace OrdenTrabajoES.Repository
                 ordenTrabajo.FechaRegistro = DateTime.Now;
                 ordenTrabajo.TipoServicioId = (int)TIPOSERVICIOS.REPARACIÓN;
                 ordenTrabajo.ResponsableId = (int)RESPONSABLES.JUAN_MARQUEZ;
+                if (ordenTrabajo.TamanoHerramientaId == 0)
+                {
+                    ordenTrabajo.TamanoHerramientaId = null;
+                }
                 ordenTrabajo.CantidadInspeccionar = CalcularCantidadInpseccionar(ordenTrabajo.Cantidad);
                 OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
                 _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
+                if (ordenTrabajoBD.TamanoHerramienta != null)
+                {
+
+                _context.Entry(ordenTrabajoBD.TamanoHerramienta).State = EntityState.Unchanged;
+                }
+
+             
                 ordenTrabajoBD.NombreUsuarioCrea = USUARIO_CREA.ADMIN.ToString();
                 _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();

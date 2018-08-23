@@ -155,11 +155,11 @@
           <!--Grupo -->
           <div class="form-group row">
             <!--Tamaño herramienta-->
-            <div formGroupName="TamanoHerramienta" class="col-lg-6 col-sm-12 col-md-6 col-12 row">
+            <div class="col-lg-6 col-sm-12 col-md-6 col-12 row">
               <div class="col-lg-4 col-md-4 col-sm-3 col-12">
-                <label class="float-lg-right" id="corre"> Tamaño herramienta: </label>
+                <label  *ngIf="herramientaModel.EsHerramientaMotor" class="float-lg-right" id="corre"> Tamaño herramienta: </label>
               </div>
-              <div class="col-lg-8 col-md-8 col-sm-9 col-12">
+              <div *ngIf="herramientaModel.EsHerramientaMotor" formGroupName="TamanoHerramienta" class="col-lg-8 col-md-8 col-sm-9 col-12">
                 <select formControlName="Id" validacion [validaciones]="['requerido']" class="form-control-lg form-control select">
                   <option *ngFor="let tamano of herramientaModel.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
                 </select>

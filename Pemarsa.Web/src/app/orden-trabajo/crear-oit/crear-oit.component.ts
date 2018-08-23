@@ -52,7 +52,8 @@ export class CrearOitComponent implements OnInit {
   public esNueva: boolean = false;
   public estaCargando: boolean = false;
   public accionRealizarTituloPagina: string = '';
-
+  public TamañoRequerido: string = '';
+  
 
   //autoCOmpletar cliente
   public Cliente: EntidadModel = null;
@@ -166,17 +167,31 @@ export class CrearOitComponent implements OnInit {
     this.herraminetaService.ConsultarHerramientaPorGuid(guid)
       .subscribe(response => {
         this.herramientaModel = response;
+        let TamanoHerramienta = this.formularioOrdenTrabajo.get('TamanoHerramienta')
+
+        if (this.herramientaModel.EsHerramientaMotor) {
+          this.TamañoRequerido = 'requerido'
+          TamanoHerramienta.get('Id').setValidators(Validators.required)
+          TamanoHerramienta.get('Id').setErrors({ 'requerido': true });
+
+        } else {
+          this.TamañoRequerido = ''
+
+          TamanoHerramienta.get('Id').setValidators(null);
+          TamanoHerramienta.get('Id').setErrors(null);
+        }
+        TamanoHerramienta.updateValueAndValidity();
       });
   }
 
   consultarClientes() {
     this.clienteService.consultarClientes(this.paginacion).
       subscribe(
-      response => {
-        this.clientes = response.Listado
-        this.consultarLineasCliente();
-        this.consultarHerraminetas();
-      });
+        response => {
+          this.clientes = response.Listado
+          this.consultarLineasCliente();
+          this.consultarHerraminetas();
+        });
   }
 
   consultarLineasCliente() {
@@ -465,10 +480,10 @@ export class CrearOitComponent implements OnInit {
       MaterialId: [this.material.Id == 0 ? null : this.material.Id],
 
 
-      TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],
+      TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id ? ordenTrabajo.TamanoHerramienta.Id : 0],
       TamanoHerramienta: this.formBulder.group({
-        Id: [ordenTrabajo.TamanoHerramienta.Id],
-        Tamano: [ordenTrabajo.TamanoHerramienta.Tamano]
+        Id: [ordenTrabajo.TamanoHerramienta.Id ? ordenTrabajo.TamanoHerramienta.Id : 0],
+        Tamano: [ordenTrabajo.TamanoHerramienta.Tamano ? ordenTrabajo.TamanoHerramienta.Tamano : 0]
       }),
 
       HerramientaId: [this.herramienta ? this.herramienta.Id : ordenTrabajo.Herramienta.Id],
@@ -511,6 +526,9 @@ export class CrearOitComponent implements OnInit {
       form.setValidators(null);
     }
     form.updateValueAndValidity();
+
+    
+
 
     if (this.formularioOrdenTrabajo.status != 'VALID') {
       return
