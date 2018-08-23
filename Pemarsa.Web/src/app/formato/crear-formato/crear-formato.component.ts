@@ -145,7 +145,6 @@ export class CrearFormatoComponent implements OnInit {
           this.initFormFormatoAdendum()
           this.initFormFormatoParamtros()
           this.initFormTiposConexion()
-
           this.initFormFormatoParamtrosAletas()
 
         }
@@ -202,7 +201,10 @@ export class CrearFormatoComponent implements OnInit {
           this.initFormFormatoParamtros()
           this.initFormFormatoParamtrosAletas()
           this.initFormTiposConexion()
+          if (this.esVer) {
+            this.formFormato.disable();
 
+          }
         }
       );
   }
@@ -251,21 +253,7 @@ export class CrearFormatoComponent implements OnInit {
   initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>, herramienta: HerramientaModel) {
     this.initFormularioFormatoOtros(formato, Adendum, herramienta);
 
-    if (this.esVer) {
-      this.formFormato.get('Codigo').disable();
-      this.formFormato.get('TipoFormatoId').disable();
-      this.formFormato.get('EspecificacionId').disable();
-      this.formFormato.get('TPI').disable();
-      this.formFormato.get('TPF').disable();
-      this.formFormato.get('FormatoTiposConexion').disable();
-      this.formFormato.get('ConexionId').disable();
-      this.formFormato.get('ConexionId').disable();
-      this.formFormato.get('Herramienta').disable();
-      this.formFormato.get('Aletas').disable();
-      this.formFormato.get('Planos').disable();
-      this.formFormato.get('Adendum').disable();
-
-    }
+   
   }
 
   initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
@@ -299,6 +287,7 @@ export class CrearFormatoComponent implements OnInit {
       Parametros: this.formBuilder.array([]),
       Aletas: this.formBuilder.array([])
     });
+
 
   }
 
@@ -572,7 +561,7 @@ export class CrearFormatoComponent implements OnInit {
       this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
       return
     }
-    
+
 
     this.asignarValoresFormularioFormato(this.formFormato.value);
 
@@ -632,7 +621,7 @@ export class CrearFormatoComponent implements OnInit {
     this.asignarFormatoParametros(val);
     val['Parametros'] = null;
     val['Aletas'] = null;
-   
+
 
     console.log(val)
 

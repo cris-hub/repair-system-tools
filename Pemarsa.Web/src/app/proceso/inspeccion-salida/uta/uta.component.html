@@ -42,7 +42,9 @@
 
           <div class="col-md-auto image-upload">
             <label for="file-input-ultrasonido">
-              <span class="badge"> {{DocumetosRestantesImagenPantallaUltrasonido}} <i class="glyphicon glyphicon-paperclip pointer"></i></span>
+              <span [ngClass]="{'badge badge-success pointer': DocumetosRestantesImagenPantallaUltrasonido == 0 ,'badge badge-danger pointer': DocumetosRestantesImagenPantallaUltrasonido != 0} "> {{DocumetosRestantesImagenPantallaUltrasonido}} <i class="glyphicon glyphicon-paperclip"></i></span>
+
+              
             </label>
             <input id="file-input-ultrasonido" formControlName="ImagenPantallaUltrasonido" validacion [validaciones]="['requerido']" (change)="addFileUltrasonido($event)" type="file" />
           </div>

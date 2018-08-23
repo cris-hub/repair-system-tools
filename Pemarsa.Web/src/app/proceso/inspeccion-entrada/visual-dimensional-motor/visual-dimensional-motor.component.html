@@ -8,7 +8,7 @@
       <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
         <br />
 
-        <h3>Visual dimensioanl</h3>
+        <h3>Visual dimensional</h3>
       </div>
     </div>
     <hr />
@@ -88,24 +88,27 @@
                       <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
                     </select>
                   </div>
+                  <br />
                   <div class="col-md-9">
                     <label class="control-label" id="corre">* Tipo conexión{{i+1}} </label>
-                    <select formControlName="TipoConexionId"  class="form-control form-control-lg">
+                    <select formControlName="TipoConexionId" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
                       <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
                     </select>
                   </div>
+                  <br />
                   <div class="col-md-9">
                     <label class="control-label" id="corre">*Estado {{i+1}} </label>
-                    <select formControlName="EstadoId"   class="form-control form-control-lg">
+                    <select formControlName="EstadoId" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
                       <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
                     </select>
 
                   </div>
+                  <br />
                   <div class="col-md-9">
                     <label class="control-label" id="corre">*Observacion {{i+1}} </label>
-                    <textarea formControlName="Observaciones"  class="form-control"></textarea>
+                    <textarea formControlName="Observaciones" class="form-control"></textarea>
                   </div>
                 </div>
               </div>
