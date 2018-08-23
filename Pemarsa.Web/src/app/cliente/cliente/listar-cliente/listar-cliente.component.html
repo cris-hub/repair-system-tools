@@ -79,25 +79,21 @@
               <td>
 
                 <div class="btn-group" role="group" aria-label="Basic example">
+                  <i class=" glyphicon glyphicon-eye-open pointer" routerLink="/cliente/ver/{{cliente.Guid}}" data-toggle="tooltip" data-placement="top" title="Ver detalle cliente"></i>
+                  &nbsp; &nbsp;
+                  <i class=" glyphicon glyphicon-pencil pointer" routerLink="/cliente/editar/{{cliente.Guid}}" data-toggle="tooltip" title="Editar cliente"></i>
+                  &nbsp; &nbsp;
+                  <div *ngIf="parametros.Catalogos" role="group" data-toggle="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class=" glyphicon glyphicon-star pointer" data-toggle="tooltip" title="Cambiar estado"></span>
+                    </a>
+                    <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+                      <li *ngFor="let estado of estados" class="records-page-contactos">
+                        <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
+                      </li>
+                    </ul>
+                  </div>
 
-                  
-                    <i class=" glyphicon glyphicon-eye-open pointer" routerLink="/cliente/ver/{{cliente.Guid}}" data-toggle="tooltip"  data-placement="top" title="Ver detalle cliente"></i>
-         
-
-                    <i class=" glyphicon glyphicon-pencil pointer" routerLink="/cliente/editar/{{cliente.Guid}}" data-toggle="tooltip" title="Editar cliente"></i>
-      
-            
-                    <div *ngIf="parametros.Catalogos" role="group" data-toggle="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class=" glyphicon glyphicon-star pointer" data-toggle="tooltip" title="Cambiar estado"></span>
-                      </a>
-                      <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
-                        <li *ngFor="let estado of estados" class="records-page-contactos">
-                          <a (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente','¿Desea actualizar el estado cliente?',true,{cliente: cliente, estado: estado.Valor})" data-toggle="modal" data-target="#confirmarModal">{{estado.Valor}}</a>
-                        </li>
-                      </ul>
-                    </div>
-      
                 </div>
 
 

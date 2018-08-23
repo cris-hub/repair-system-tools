@@ -115,8 +115,8 @@ export class CrearFormatoComponent implements OnInit {
   }
   accionRealizar() {
     switch (this.router.url.split('/')[2]) {
-      case 'ver': this.tituloVista = 'Formato'; break;
-      case 'crear': this.tituloVista = 'Nuevo formato'; break;
+      case 'ver': this.tituloVista = 'Detalle formato'; break;
+      case 'crear': this.tituloVista = 'Crear formato'; break;
       case 'editar': this.tituloVista = 'Editar formato'; break;
       default: this.tituloVista = 'Formato'
     }
