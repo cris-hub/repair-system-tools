@@ -3,7 +3,8 @@
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header panelModal text-center">
-      <h3 class="modal-title">{{accion[0]}} solicitud OIT</h3>
+     
+      <h3 class="modal-title">{{titulo}} solicitud OIT</h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span class="font-white" aria-hidden="true">&times;</span>
       </button>
@@ -199,9 +200,10 @@
       <app-confirmacion-modal (confir)="enviarFormularioConfir($event)"></app-confirmacion-modal>
     </div>
     <div class="modal-footer">
-      <button data-dismiss="modal" (click)="salir()" class="btn btn">Cancelar</button>
+      <button data-dismiss="modal" (click)="salir()" class="btn btn" *ngIf="accion[0] == 'Ver'" >Volver</button>
+      <button data-dismiss="modal" (click)="salir()" class="btn btn" *ngIf="accion[0] != 'Ver'">Cancelar</button>
       <button *ngIf=" accion[0] == 'Procesar'"
-              (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar la ' + accion[0] + ' la solicitud?', true, { frmSolicitudOit : frmSolicitudOit.value})"
+              (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿' + Mensaje + '?', true, { frmSolicitudOit : frmSolicitudOit.value})"
               data-target="#confirmarModal"
               data-toggle="modal"
               type="submit"
@@ -209,7 +211,7 @@
         {{accion[0]}}
       </button>
       <button *ngIf="accion[0] == 'Crear' || accion[0] == 'Editar'"
-              (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar la ' + accion[0] + ' la solicitud?', true, { frmSolicitudOit : frmSolicitudOit.value})"
+              (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿' + Mensaje + '?', true, { frmSolicitudOit : frmSolicitudOit.value})"
               data-target="#confirmarModal"
               data-toggle="modal"
               type="submit"

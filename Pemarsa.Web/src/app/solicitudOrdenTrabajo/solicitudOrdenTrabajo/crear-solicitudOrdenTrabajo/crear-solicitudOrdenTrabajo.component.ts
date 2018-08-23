@@ -29,6 +29,9 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   public origen;
 
+  public titulo = '';
+  public Mensaje = '';
+
   public esActualizar: boolean = false;
   public esVer: boolean = false;
   public esValido: boolean = false;
@@ -65,6 +68,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
+    this.cargarAcciones();
     this.solicitudOrdenTrabajoModel = new SolicitudOrdenTrabajoModel();
     this.model = new CatalogoModel();
     this.model1 = new CatalogoModel();
@@ -91,6 +95,25 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
   ) {
 
+  }
+
+  cargarAcciones() {
+    switch (this.accion[0]) {
+      case 'Ver': this.titulo = 'Detalle'; break;
+      case 'Crear':
+        this.titulo = 'Crear';
+        this.Mensaje = 'Desea finalizar la creación de la solicitud';
+        break;
+      case 'Editar':
+        this.titulo = 'Editar';
+        this.Mensaje = 'Desea finalizar la actualización de la solicitud';
+        break;
+      case 'Procesar':
+        this.titulo = 'Procesar';
+        this.Mensaje = 'Desea finalizar el proceso de la solicitud';
+        break;
+      default: this.titulo = 'Solicitud';
+    }
   }
 
   initForm() {
@@ -224,7 +247,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
   eliminarAdjunto(adjunto: AttachmentModel) {
     let index: any = this.attachments.findIndex(c => c.Id == adjunto.Id);
     this.attachments.find(e => e.Id == adjunto.Id).Estado = false;
-    
+
     this.attachments.splice(index, 1);
   }
 
@@ -243,7 +266,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
 
           attachment.Stream = reader.result.split(',')[1];
           attachment.Estado = true;
-          
+
           //estos campo debe ser actualizado con la api de seguridad
           attachment.NombreUsuarioCrea = 'Admin';
           attachment.GuidUsuarioCrea = '00000000-0000-0000-0000-000000000000';
@@ -335,7 +358,7 @@ export class CrearSolicitudOrdenTrabajoComponent implements OnInit, OnChanges {
     }
     this.solicitudOrdenTrabajoSrv.crearSolicitudOit(this.solicitudOrdenTrabajoModel).subscribe(response => {
       if (response) {
-        
+
         this.accionEvento.emit(response);
       }
     });
