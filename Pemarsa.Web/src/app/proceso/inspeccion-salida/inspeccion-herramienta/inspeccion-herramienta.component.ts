@@ -143,7 +143,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   consultarSiguienteInspeccion(guidProceso: string) {
 
     console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
-    if (this.Proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerProcesoDesdeUrl().get('pieza') && this.procesoService.iniciarProcesar) {
+    if (this.inspeccionesEnProceso) {
 
       this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
         this.Inspeccion = response;
