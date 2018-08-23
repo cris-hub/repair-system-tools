@@ -241,9 +241,11 @@ export class CrearFormatoComponent implements OnInit {
   removerDeElementosSeleccionado(tipoConexion: CatalogoModel) {
 
     let value = this.formFormatoTiposConexion.value.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado == true);
-    let index = this.formFormatoTiposConexion.controls.findIndex(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true);
-    this.formFormatoTiposConexion.removeAt(index);
     value.Estado = false;
+    let index = this.formFormatoTiposConexion.controls.findIndex(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true);
+    this.formFormatoTiposConexion.controls.find(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true).setValue(value);
+    
+    
 
     this.parametrosTipoConexion.push(value.TipoConexion);
   }
