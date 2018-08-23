@@ -100,6 +100,7 @@ namespace ParametroUS.Repository
                                         Guid = reader.GetGuid(1),
                                         Valor = reader.GetString(2),
                                         Grupo = reader.GetValue(4).ToString(),
+                                        Simbolo = consulta.Tabla,
                                         Estado = false,
                                         CatalogoId = reader.GetInt32(3)
                                     };

@@ -36,6 +36,7 @@ export class CrearOitComponent implements OnInit {
   //parametros catalogo
   public parametrosTipoServicio: ParametrosModel = new ParametrosModel();
   public parametrosPrioridadOrdenTrabajo: ParametrosModel = new ParametrosModel();
+  public parametrosConsultas: ParametrosModel;
   //objeto formulario
   public ordenTrabajo: OrdenTrabajoModel;
   public solicitudOrdenTrabajo: SolicitudOrdenTrabajoModel;
@@ -54,22 +55,28 @@ export class CrearOitComponent implements OnInit {
 
 
   //autoCOmpletar cliente
-  public Cliente: ClienteModel = null;
+  public Cliente: EntidadModel = null;
   public clientes: Array<ClienteModel> = new Array<ClienteModel>();
   public paginacion;
 
   //auttoCompleta LineaCliente
-  public Linea: ClienteLineaModel = new ClienteLineaModel();
+  public Linea: EntidadModel = new EntidadModel();
   public lineas: Array<ClienteLineaModel> = new Array<ClienteLineaModel>();
 
 
   //autoComplet herramienta
-  public herramienta: HerramientaModel = new HerramientaModel();
+  public herramienta: EntidadModel = new EntidadModel();
+  public herramientaModel: HerramientaModel = new HerramientaModel();
   public herraminetas: Array<HerramientaModel> = new Array<HerramientaModel>();
   public herraminetasview: Array<HerramientaModel> = new Array<HerramientaModel>();
   public materialId;
   public material = new HerramientaMaterialModel();;
 
+
+  //
+  public catalogoClientes: EntidadModel[];
+  public catalogoClienteLineas: EntidadModel[];
+  public catalogoHerramientas: EntidadModel[];
 
   constructor(
     private location: Location,
@@ -89,13 +96,12 @@ export class CrearOitComponent implements OnInit {
     this.ordenTrabajo = new OrdenTrabajoModel();
     this.accionRealizar()
     this.obtenerOrdenTrabajoURI();
-    this.paginacion = new PaginacionModel(1, 10);
+    this.paginacion = new PaginacionModel(1, 50);
 
 
     this.consultarParametros();
 
     this.consultarOrdenTrabajo();
-
 
   }
 
@@ -117,6 +123,7 @@ export class CrearOitComponent implements OnInit {
 
   consultarHerraminetas() {
     this.herraminetaService.ConsultarHerramientas(this.paginacion).subscribe(response => {
+      debugger;
       this.herraminetas = response.Listado.filter(t => {
         if (this.Cliente) {
           if (t.ClienteId == this.Cliente.Id) {
@@ -132,14 +139,44 @@ export class CrearOitComponent implements OnInit {
     })
   }
 
+  consultarCatalogos() {
+
+
+    this.parametroSrv.consultarParametrosPorEntidad("CLIENTE")
+      .subscribe(response => {
+        this.parametrosConsultas = response;
+        this.catalogoClientes = response.Consultas.filter(c => c.Grupo == "cliente");
+        var clienteId = this.Cliente == null ? 0 : this.Cliente.Id == null ? 0 : this.Cliente.Id;
+        this.catalogoClienteLineas = response.Consultas.filter(c => c.Grupo == "clientelinea" && c.CatalogoId == clienteId);
+        var LineaId = this.Linea == null ? 0 : this.Linea.Id == null ? 0 : this.Linea.Id;
+        if (this.catalogoClientes) {
+          if (this.catalogoClienteLineas.length > 0) {
+            this.catalogoHerramientas = response.Consultas.filter(c => c.Simbolo == "herramienta" && Number(c.Grupo) == LineaId);
+          }
+          else {
+            this.catalogoHerramientas = response.Consultas.filter(c => c.Simbolo == "herramienta" && c.CatalogoId == clienteId);
+          }
+
+        }
+      });
+  }
+
+
+  consultarHerramientaPorGuid(guid: string) {
+    this.herraminetaService.ConsultarHerramientaPorGuid(guid)
+      .subscribe(response => {
+        this.herramientaModel = response;
+      });
+  }
+
   consultarClientes() {
     this.clienteService.consultarClientes(this.paginacion).
       subscribe(
-        response => {
-          this.clientes = response.Listado
-          this.consultarLineasCliente();
-          this.consultarHerraminetas();
-        });
+      response => {
+        this.clientes = response.Listado
+        this.consultarLineasCliente();
+        this.consultarHerraminetas();
+      });
   }
 
   consultarLineasCliente() {
@@ -163,40 +200,71 @@ export class CrearOitComponent implements OnInit {
   }
 
   cambioItemEvent(evento) {
+    debugger;
     console.log(evento)
+
+    //this.consultarHerramientaPorGuid(evento.item.Guid);
+
 
 
 
   }
 
+  seleccionarHerramienta(evento) {
+    debugger;
+    console.log(evento)
+
+    this.consultarHerramientaPorGuid(evento.item.Guid);
+  }
+
+  formatoValorMostrarCatalogo = (x: { Valor: string }) => x.Valor;
+  formatoValorMostrarHerramientaCatalogo = (x: { Valor: string }) => x.Valor;
+  formatoValorMostrarLineaCatalogo = (x: { Valor: string }) => x.Valor;
+
+
   formatoValorMostrar = (x: { NickName: string }) => x.NickName;
   formatoValorMostrarHerramienta = (x: { Nombre: string }) => x.Nombre;
-
-  formatoValorMostrarLinea = (x: { Nombre: string }) => x.Nombre;
+  formatoValorMostrarLinea = (x: { Valor: string }) => x.Valor;
 
   buscarConcidencia = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       map(term => {
         if (term === '_') {
-          return this.clientes
+          return this.catalogoClientes
         } else if (term === '')
           return [];
         else {
-          return this.clientes.filter(v => v.NickName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+          return this.catalogoClientes.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
         }
 
       }));
+
+
+
+  //buscarConcidencia = (text$: Observable<string>) =>
+  //  text$.pipe(
+  //    debounceTime(200),
+  //    map(term => {
+  //      if (term === '_') {
+  //        return this.clientes
+  //      } else if (term === '')
+  //        return [];
+  //      else {
+  //        return this.clientes.filter(v => v.NickName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+  //      }
+
+  //    }));
 
   buscarConcidenciaLinea = (text$: Observable<string>) => text$.pipe(
     debounceTime(200),
     map(term => {
       if (term === '_') {
-        return this.lineas
+        return this.catalogoClienteLineas
       } else if (term === '')
         return [];
       else {
-        return this.lineas.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        return this.catalogoClienteLineas.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       }
 
     }));
@@ -206,17 +274,18 @@ export class CrearOitComponent implements OnInit {
     debounceTime(200),
     map(term => {
       if (term === '_') {
-        return this.herraminetas
+        return this.catalogoHerramientas
       } else if (term === '')
         return [];
       else {
-        return this.herraminetas.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        return this.catalogoHerramientas.filter(v => v.Valor.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       }
 
     }));
 
 
   buscarConcidenciaHerrmienta(event) {
+    debugger;
     if (!this.herraminetas || !(this.herraminetas.length > 0)) {
       this.herraminetasview = new Array<HerramientaModel>();
       this.consultarHerraminetas();
@@ -296,8 +365,12 @@ export class CrearOitComponent implements OnInit {
     if (this.accionRealizarTituloPagina == 'Procesar') {
       this.solicitudOrdenTrabajoService.consultarSolicitudDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
         this.solicitudOrdenTrabajo = response;
-        this.Cliente = this.solicitudOrdenTrabajo.Cliente
-        this.Linea = this.solicitudOrdenTrabajo.ClienteLinea
+        this.Cliente = new EntidadModel();
+        this.Cliente.Id = this.solicitudOrdenTrabajo.Cliente.Id
+        this.Cliente.Valor = this.solicitudOrdenTrabajo.Cliente.NickName
+        this.Linea = new EntidadModel();
+        this.Linea.Id = this.solicitudOrdenTrabajo.ClienteLinea.Id
+        this.Linea.Valor = this.solicitudOrdenTrabajo.ClienteLinea.Nombre
         this.asignarValoresSolitudOrdenTrabajo(this.solicitudOrdenTrabajo, this.ordenTrabajo)
         this.consultarLineasCliente();
         this.consultarHerraminetas();
@@ -310,13 +383,27 @@ export class CrearOitComponent implements OnInit {
     }
     else {
       if (!this.esNueva || this.idOrdenDeTrabajoDesdeUrl) {
+        debugger;
         this.ordenTrabajoServicio.consultarOrdenDeTrabajoPorGuid(this.idOrdenDeTrabajoDesdeUrl).subscribe(response => {
           this.ordenTrabajo = response;
-          response.Herramienta != null ? this.herramienta = response.Herramienta : this.herramienta = new HerramientaModel();
+          response.Herramienta != null ? this.herramientaModel = response.Herramienta : this.herramientaModel = new HerramientaModel();
           response.Material != null ? this.ordenTrabajo.Material = response.Material : this.ordenTrabajo.Material = new HerramientaMaterialModel();
           response.Herramienta != null ? this.ordenTrabajo.Herramienta = response.Herramienta : this.ordenTrabajo.Herramienta = new HerramientaModel();
 
           response.TamanoHerramienta != null ? this.ordenTrabajo.TamanoHerramienta = response.TamanoHerramienta : this.ordenTrabajo.TamanoHerramienta = new HerramientaTamanoModel();
+
+          this.Cliente = new EntidadModel();
+          this.Cliente.Valor = this.ordenTrabajo.Cliente.NickName;
+          this.Cliente.Id = this.ordenTrabajo.Cliente.Id;
+
+          this.Linea = new EntidadModel();
+          this.Linea.Valor = this.ordenTrabajo.Linea.Nombre;
+          this.Linea.Id = this.ordenTrabajo.Linea.Id;
+
+          this.herramienta = new EntidadModel();
+          this.herramienta.Valor = this.ordenTrabajo.Herramienta.Nombre;
+          this.herramienta.Id = this.ordenTrabajo.Herramienta.Id;
+
           this.inicializarFormulario(this.ordenTrabajo)
 
 
@@ -336,16 +423,16 @@ export class CrearOitComponent implements OnInit {
   }
 
   inicializarFormulario(ordenTrabajo: OrdenTrabajoModel) {
-    if (this.herramienta.Materiales) {
+    if (this.herramientaModel.Materiales) {
 
 
-      if (this.herramienta.Materiales.length > 0) {
-        if (this.herramienta.Materiales.find(c => { return c.Id == this.materialId || c.Id == ordenTrabajo.MaterialId })) {
+      if (this.herramientaModel.Materiales.length > 0) {
+        if (this.herramientaModel.Materiales.find(c => { return c.Id == this.materialId || c.Id == ordenTrabajo.MaterialId })) {
           if (ordenTrabajo.MaterialId) {
-            this.material = this.herramienta.Materiales.find(c => { return c.Id == ordenTrabajo.MaterialId });
+            this.material = this.herramientaModel.Materiales.find(c => { return c.Id == ordenTrabajo.MaterialId });
             this.materialId = ordenTrabajo.MaterialId
           } else {
-            this.material = this.herramienta.Materiales.find(c => { return c.Id == this.materialId });
+            this.material = this.herramientaModel.Materiales.find(c => { return c.Id == this.materialId });
           }
         }
       }
@@ -384,14 +471,14 @@ export class CrearOitComponent implements OnInit {
         Tamano: [ordenTrabajo.TamanoHerramienta.Tamano]
       }),
 
-      HerramientaId: [ordenTrabajo.Herramienta.Id],
-      Herramienta: [ordenTrabajo.Herramienta],
+      HerramientaId: [this.herramienta ? this.herramienta.Id : ordenTrabajo.Herramienta.Id],
+      Herramienta: [this.herramienta],
 
-      LineaId: [ordenTrabajo.Linea.Id],
-      Linea: [ordenTrabajo.Linea],
+      LineaId: [this.Linea ? this.Linea.Id : ordenTrabajo.Linea.Id],
+      Linea: [this.Linea],
 
       ClienteId: [this.Cliente ? this.Cliente.Id : ordenTrabajo.ClienteId],
-      Cliente: [ordenTrabajo.Cliente, Validators.required],
+      Cliente: [this.Cliente, Validators.required],
       RemisionInicial: [ordenTrabajo.RemisionInicial],
       SolicitudOrdenTrabajo: [ordenTrabajo.SolicitudOrdenTrabajo],
     });
@@ -416,6 +503,7 @@ export class CrearOitComponent implements OnInit {
   }
 
   enviar(data) {
+    debugger;
     let form = this.formularioOrdenTrabajo.get('Linea')
     if (this.lineas.length > 0) {
       form.setValidators(Validators.required)
@@ -432,8 +520,15 @@ export class CrearOitComponent implements OnInit {
     var objeto = this.asignarValoresFormulario(this.formularioOrdenTrabajo.value);
     console.log(this.formularioOrdenTrabajo.value)
     console.log(JSON.stringify(objeto));
+    if (this.esEditar) {
+      objeto.LineaId = objeto.Linea.Id;
+      objeto.HerramientaId = objeto.Herramienta.Id;
+      objeto.ClienteId = objeto.Cliente.Id;
+    }
+    objeto.Cliente = null;
+    objeto.Linea = null;
+    objeto.Herramienta = null;
     this.persistirOrdenTrabajo(objeto);
-
   }
 
   persistirOrdenTrabajo(objeto) {
@@ -454,6 +549,8 @@ export class CrearOitComponent implements OnInit {
         break;
       case 'Crear OIT':
         this.loaderService.display(true);
+        debugger;
+
         this.ordenTrabajoServicio.crearOrdenDeTrabajo(objeto).subscribe(response => {
 
           this.loaderService.display(false);

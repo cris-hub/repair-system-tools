@@ -1300,6 +1300,14 @@ namespace Pemarsa.Data.DBInitialize
                                     OR Grupo = 'EQUIPOS_EMI'  
                                     OR Grupo = 'BOBINAS_MAGNETICAS'  ",
                     }
+                    ,
+                    new Consulta
+                    {
+                        Id = 6,
+                        Guid = Guid.NewGuid(),
+                        Campos = "id, guid, nombre, clienteId, lineaId",
+                        Tabla = "herramienta"
+                    }
 
 
 
@@ -1377,6 +1385,19 @@ namespace Pemarsa.Data.DBInitialize
                                 {
                                     ConsultaId = consulta.Id,
                                     Entidad = CanonicalConstants.Entidades.Inspeccion
+                                }
+                                );
+                            }
+                            break;
+                        case 6:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 6) && (pc.Entidad == CanonicalConstants.Entidades.Cliente)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.Cliente
                                 }
                                 );
                             }
