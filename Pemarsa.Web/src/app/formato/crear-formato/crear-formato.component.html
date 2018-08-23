@@ -20,7 +20,7 @@
         <form [formGroup]="formFormato">
           <div class="form-group row">
             <label class="col-md-2 col-form-label" id="corre">
-              Codigo:
+              Código:
             </label>
             <div class="col-md-3">
               <input [attr.disabled]="esVer ? '' : null" formControlName="Codigo" class="form-control " type="text" />
@@ -440,7 +440,8 @@
             <br />
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
-                <button [routerLink]="['/formato']" type="button" class="btn btn-md">Cancelar</button>
+                <button [routerLink]="['/formato']" type="button" class="btn btn-md" *ngIf="esVer">Volver</button>
+                <button [routerLink]="['/formato']" type="button" class="btn btn-md" *ngIf="!esVer">Cancelar</button>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col">
                 <button *ngIf="!esVer" type="submit" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>
