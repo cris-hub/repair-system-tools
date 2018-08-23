@@ -54,6 +54,8 @@ export class SiguienteProcesoComponent implements OnInit {
   }
 
   event(input) {
+    
+    this.data.TipoProcesoSiguienteId = this.data.TipoProcesoSiguienteSugerido.Id
     if (input.innerHTML == 'rechazar') {
       this.data.EstadoId = ESTADOS_PROCESOS.Rechazado
       this.data.Reasignado = false

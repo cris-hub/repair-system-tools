@@ -60,6 +60,20 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPost("CrearInspeccionConexiones")]
+        public async Task<IActionResult> CrearInspeccionConexiones([FromBody]Proceso proceso)
+        {
+            try
+            {
+                Guid Guidproceso = await _procesoService.CrearProceso(proceso, new UsuarioDTO());
+                return Ok(Guidproceso);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPut("ActualizarEstadoProceso")]
         public async Task<IActionResult> ActualizarEstadoProceso([FromQuery]string guidProceso, [FromQuery]string estado)
         {

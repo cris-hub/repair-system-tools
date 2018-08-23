@@ -28,19 +28,9 @@
         <h5 class="modal-title" id="exampleModalLongTitle">{{titulo}}</h5>
       </div>
       <div class="modal-body">
-        <div class="form-group row">
-          <label class="col-md-6 col-form-label " id="corre">
-           Proceso sugerido
-          </label>
-          <div class="col-md-6">
-            <p>
-              {{data.TipoProcesoSiguienteSugerido.Valor}}
-            </p>
-          </div>
-        </div>
-
         <select (change)="seleccionarSiguienteProceso($event.target.value)" class="custom-select mr-sm-2 form-control-lg">
-          <option value="0">Seleccione</option>
+          
+          <option [value]="data.TipoProcesoSiguienteSugerido.Id">{{data.TipoProcesoSiguienteSugerido.Valor}}</option>
           <option *ngFor="let tipoProceso of tiposProcesos" [value]="tipoProceso.Id">{{tipoProceso.Valor}}</option>
         </select>
       </div>

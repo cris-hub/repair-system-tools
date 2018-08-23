@@ -99,24 +99,28 @@
 
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <div>
-                      <button routerLink="/aprobacion-supervisor/{{Proceso.Guid}}" title="Detalle proceso" class="btn btn-outline-secondary glyphicon glyphicon-eye-open pointer"></button>
+                      <i routerLink="/aprobacion-supervisor/{{Proceso.Guid}}" title="Detalle proceso" class=" glyphicon glyphicon-eye-open pointer"></i>
                     </div>
+                    &nbsp;
 
                     <div>
-                      <button routerLink="/aprobacion-supervisor/procesar/{{Proceso.Guid}}" title="Procesar"  class="btn btn-outline-secondary glyphicon glyphicon-wrench pointer"></button>
+                      <i routerLink="/aprobacion-supervisor/procesar/{{Proceso.Guid}}" title="Procesar" class="glyphicon glyphicon-wrench pointer"></i>
                     </div>
+                    &nbsp;
 
                     <div>
                       <app-observacion-rechazo [data]="Proceso" (confir)="actualizarObservacionRechazo(event)"></app-observacion-rechazo>
                     </div>
+                    &nbsp;
 
                     <div>
-                      <button style=" transform: rotate(270deg);" class="btn btn-outline-secondary glyphicon glyphicon-share-alt pointer"></button>
+                      <i style=" transform: rotate(270deg);" class=" glyphicon glyphicon-share-alt pointer"></i>
                     </div>
+                    &nbsp;
 
 
                     <div>
-                      <button class="btn btn-outline-secondary glyphicon glyphicon-print pointer"></button>
+                      <i class=" glyphicon glyphicon-print pointer"></i>
                     </div>
                   </div>
 
