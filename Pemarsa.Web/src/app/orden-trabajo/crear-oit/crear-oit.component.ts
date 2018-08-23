@@ -441,7 +441,7 @@ export class CrearOitComponent implements OnInit {
 
     this.formularioOrdenTrabajo = this.formBulder.group({
 
-      Cantidad: [ordenTrabajo.Herramienta.EsHerramientaPorCantidad ? ordenTrabajo.Cantidad : 1],
+      Cantidad: [this.herramientaModel.EsHerramientaPorCantidad ? ordenTrabajo.Cantidad : 1],
 
       DetallesSolicitud: [ordenTrabajo.DetallesSolicitud],
       ObservacionRemision: [ordenTrabajo.ObservacionRemision],
