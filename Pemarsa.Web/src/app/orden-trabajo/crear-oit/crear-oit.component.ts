@@ -480,10 +480,10 @@ export class CrearOitComponent implements OnInit {
       MaterialId: [this.material.Id == 0 ? null : this.material.Id],
 
 
-      TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id],
+      TamanoHerramientaId: [ordenTrabajo.TamanoHerramienta.Id ? ordenTrabajo.TamanoHerramienta.Id : 0],
       TamanoHerramienta: this.formBulder.group({
-        Id: [ordenTrabajo.TamanoHerramienta.Id],
-        Tamano: [ordenTrabajo.TamanoHerramienta.Tamano]
+        Id: [ordenTrabajo.TamanoHerramienta.Id ? ordenTrabajo.TamanoHerramienta.Id : 0],
+        Tamano: [ordenTrabajo.TamanoHerramienta.Tamano ? ordenTrabajo.TamanoHerramienta.Tamano : 0]
       }),
 
       HerramientaId: [this.herramienta ? this.herramienta.Id : ordenTrabajo.Herramienta.Id],
