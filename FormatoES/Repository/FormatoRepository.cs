@@ -28,7 +28,9 @@ namespace FormatoES.Repository
                 {
                     foreach (var tipo in formato.FormatoTiposConexion)
                     {
-                        _context.Entry(tipo.TipoConexion).State = EntityState.Unchanged;
+
+                        _context.Entry(tipo.TipoConexion).State = EntityState.Detached;
+                        _context.Entry(tipo).State = tipo.Id <= 0 ? EntityState.Added : EntityState.Modified;
 
                     }
                 }
@@ -124,8 +126,11 @@ namespace FormatoES.Repository
                 {
                     foreach (var tipoConexion in formato.FormatoTiposConexion)
                     {
-                        _context.Entry(tipoConexion.TipoConexion).State = EntityState.Unchanged;
-                        _context.Entry(tipoConexion).State = tipoConexion.Id <= 0 ? EntityState.Added : EntityState.Modified;
+                        _context.Entry(tipoConexion.TipoConexion).State = EntityState.Detached;
+                  
+                    
+                            _context.Entry(tipoConexion).State = tipoConexion.Id <= 0 ? EntityState.Added : EntityState.Modified;
+                        
 
                     }
                 }
@@ -144,7 +149,7 @@ namespace FormatoES.Repository
                     _context.Entry(formato.Conexion).State = EntityState.Unchanged;
 
                 }
-                
+
 
 
 
@@ -176,7 +181,7 @@ namespace FormatoES.Repository
             try
             {
                 var query = _context.Formato.AsNoTracking()
-                                    .Include(c => c.Adendum)
+                                    .Include(c => c.Adjunto)
                                     .Include(c => c.Adendum)
                                     .Include(c => c.FormatoFormatoParametro).ThenInclude(d => d.FormatoParametro)
                                     .Include(c => c.Planos)

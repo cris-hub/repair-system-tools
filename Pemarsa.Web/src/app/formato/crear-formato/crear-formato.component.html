@@ -85,7 +85,7 @@
             <div *ngIf="formatoModel.FormatoTiposConexion" class="col-md-12">
               <div *ngIf="formatoModel.FormatoTiposConexion.length >0 || formFormato.get('FormatoTiposConexion').value" class="col-md-offset-2 col-md-8">
                 <div *ngFor="let formatoTiposConexion of formFormato.get('FormatoTiposConexion').value ">
-                  <span *ngIf="formatoTiposConexion.Estado" class="col-md-2 badge badge-secondary aliniar-text">
+                  <span *ngIf="formatoTiposConexion.Estado " class="col-md-2 badge badge-secondary aliniar-text">
                     {{formatoTiposConexion.TipoConexion.Valor}}
                     <i *ngIf="!esVer" (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
                   </span>
