@@ -556,8 +556,8 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formFormato.updateValueAndValidity();
 
-    this.esFormularioValido(this.formFormato)
-    if (!this.esFormularioValido) {
+   
+    if (!this.esFormularioValido(this.formFormato)) {
       this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
       return
     }

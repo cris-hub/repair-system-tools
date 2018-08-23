@@ -71,29 +71,23 @@ namespace FormatoES.Repository
 
                 foreach (var FormatoFormatoParametro in formato.FormatoFormatoParametro)
                 {
-                    if (!(FormatoFormatoParametro.FormatoId <= 0 && (FormatoFormatoParametro.FormatoParametroId <= 0 || FormatoFormatoParametro.FormatoParametro.Id <= 0)))
-                    {
-                        _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
-                        _context.FormatoParametro.Update(FormatoFormatoParametro.FormatoParametro);
-
-                    }
-                    else
-                    {
+            
+            
                         if (FormatoFormatoParametro.FormatoParametro.Id <= 0)
                         {
 
-                        _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Added;
-                        _context.Entry(FormatoFormatoParametro).State = EntityState.Added;
-                        _context.FormatoFormatoParametro.Add(FormatoFormatoParametro);
+                            _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Added;
+                            
+                            
                         }
                         else
                         {
                             _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Modified;
-                            _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
-                            _context.FormatoFormatoParametro.Add(FormatoFormatoParametro);
+                            
+                            
                         }
-
-                    }
+                    
+                    
                 }
                 if (formato.Adendum != null)
                 {
