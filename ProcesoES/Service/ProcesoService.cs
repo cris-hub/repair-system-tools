@@ -32,7 +32,7 @@ namespace ProcesoES.Service
                 if (proceso.Id == 0)
                 {
 
-                    proceso.TipoProcesoId = (int)TIPOPROCESOS.INSPECCIONENTRADA;
+                    proceso.TipoProcesoId = proceso.TipoProcesoId ?? (int)TIPOPROCESOS.INSPECCIONENTRADA;
                     proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
                     proceso.Guid = Guid.NewGuid();
                     proceso.NombreUsuarioCrea = "admin";
