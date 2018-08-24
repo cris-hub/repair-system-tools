@@ -27,6 +27,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private Proceso: ProcesoModel = new ProcesoModel();
   private Inspeccion: InspeccionModel = new InspeccionModel();
   public estadoProceso: string;
+  public Iniciar: boolean = false;
 
   //catalogo
   private Parametros: ParametrosModel;
@@ -116,7 +117,7 @@ export class InspeccionHerramientaComponent implements OnInit {
         this.inspeccionesTerminada = false
 
       }
-      if (this.tiposInspeccionesSeleccionadas.some(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true, this.obtenerProcesoDesdeUrl().get('pieza'))
+      if (this.tiposInspeccionesSeleccionadas.some(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true && this.Iniciar, this.obtenerProcesoDesdeUrl().get('pieza'))
       ) {
         this.inspeccionesEnProceso = true
       } else {
@@ -254,6 +255,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   procesar() {
 
     this.procesoService.iniciarProcesar = true
+    this.Iniciar = true;
     this.completarProcesoInspeccion(this.Proceso.Guid);
     this.actualizarEstadoProceso();
     this.actualizarEstadoInpeccionPieza();

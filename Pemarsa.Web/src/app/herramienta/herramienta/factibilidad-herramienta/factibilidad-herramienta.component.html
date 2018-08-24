@@ -7,6 +7,9 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="frmHerramientaEstudioFactibilidad">
+        <div class="col-md-12">
+          <p class="text-center font-small">Por favor diligencia los siguientes campos si de acuerdo al estudio de factibilidad la herramienta cumple o no cumple.</p>
+        </div>
         <div class="form-group col-md-12">
           <label class="col-lg-4 col-md-4 col-sm-4 col-4 text-right" for="Maquina"><b>Máquina:&nbsp;</b></label>
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
@@ -16,10 +19,6 @@
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
             <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Maquina == false" formControlName="Maquina" class="form-check-input" type="radio" id="MaquinaRadioNo" value="false">
             <label class="form-check-label" for="MaquinaRadioNo">NO</label>
-          </div>&nbsp;
-          <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
-            <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Maquina == null" formControlName="Maquina" class="form-check-input" type="radio" id="MaquinaRadioNull" value="null" [checked]="true">
-            <label class="form-check-label" for="MaquinaRadioNull">Ninguno</label>
           </div>
         </div>
 
@@ -32,10 +31,6 @@
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
             <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Material == false" formControlName="Material" class="form-check-input" type="radio" id="MaterialRadioNo" value="false">
             <label class="form-check-label" for="MaterialRadioNo">NO</label>
-          </div>&nbsp;
-          <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
-            <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Material == null" formControlName="Material" class="form-check-input" type="radio" id="MaquinaRadioNull" value="null" [checked]="true">
-            <label class="form-check-label" for="MaterialRadioNull">Ninguno</label>
           </div>
         </div>
 
@@ -48,10 +43,6 @@
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
             <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Metodo == false" formControlName="Metodo" class="form-check-input" type="radio" id="MetodoRadioNo" value="false">
             <label class="form-check-label" for="MetodoRadioNo">NO</label>
-          </div>&nbsp;
-          <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
-            <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Metodo == null" formControlName="Metodo" class="form-check-input" type="radio" id="MetodoRadioNull" value="null" [checked]="true">
-            <label class="form-check-label" for="MetodoRadioNull">Ninguno</label>
           </div>
         </div>
 
@@ -64,10 +55,6 @@
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
             <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.ManoObra == false" formControlName="ManoObra" class="form-check-input" type="radio" id="ManoObraRadioNo" value="false">
             <label class="form-check-label" for="ManoObraRadioNo">NO</label>
-          </div>&nbsp;
-          <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
-            <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.ManoObra == null" formControlName="ManoObra" class="form-check-input" type="radio" id="ManoObraRadioNull" value="null" [checked]="true">
-            <label class="form-check-label" for="ManoObraRadioNull">Ninguno</label>
           </div>
         </div>
 
@@ -80,10 +67,6 @@
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
             <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Admin == false" formControlName="Admin" class="form-check-input" type="radio" id="AdminRadioNo" value="false">
             <label class="form-check-label" for="AdminRadioNo">NO</label>
-          </div>&nbsp;
-          <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
-            <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Admin == null" formControlName="Admin" class="form-check-input" type="radio" id="AdminRadioNull" value="null" [checked]="true">
-            <label class="form-check-label" for="AdminRadioNull">Ninguno</label>
           </div>
         </div>
 
@@ -96,18 +79,16 @@
           <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
             <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Mantenimiento == false" formControlName="Mantenimiento" class="form-check-input" type="radio" id="MantenimientoRadioNo" value="false">
             <label class="form-check-label" for="MantenimientoRadioNo">NO</label>
-          </div>&nbsp;
-          <div class="form-check form-check-inline col-lg-2 col-md-2 col-sm-1 col-2">
-            <input [attr.disabled]="accion == 'ver' ? '' : null" [checked]="HerramientaEstudioFactibilidad.Mantenimiento == null" formControlName="Mantenimiento" class="form-check-input" type="radio" id="MantenimientoRadioNull" value="null" [checked]="true">
-            <label class="form-check-label" for="MantenimientoRadioNull">Ninguno</label>
           </div>
         </div>
 
       </form>
     </div>
     <div class="modal-footer">
-      <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitEstudioFactibilidad(frmHerramientaEstudioFactibilidad.value)" data-dismiss="modal" class="btn btn-primary">Agregar</button>
-      <button *ngIf="accion == 'ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+      <div class="col-12 text-center">
+        <button *ngIf="accion == 'crear' || accion == 'editar'" (click)="submitEstudioFactibilidad(frmHerramientaEstudioFactibilidad.value)" data-dismiss="modal" class="btn btn-primary">Agregar</button>
+        <button *ngIf="accion == 'ver'" (click)="limpiarlineaCliente()" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+      </div>
     </div>
   </div>
 </div>

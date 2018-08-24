@@ -57,9 +57,9 @@
 
               Tipo de conexión
             </label>
-            <div class="col-md-3" >
-              <select   [attr.disabled]="esVer ? '' : null" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class="form-control form-control-lg">
-                <option  [value]="''">Seleccione</option>
+            <div class="col-md-3">
+              <select [attr.disabled]="esVer ? '' : null" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class="form-control form-control-lg">
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="TiposConexiones.Id">{{TiposConexiones.Valor}}</option>
               </select>
 
@@ -70,7 +70,7 @@
             </label>
             <div class="col-md-3">
               <div>
-                <select  [attr.disabled]="esVer ? '' : null" formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control form-control-lg">
+                <select [attr.disabled]="esVer ? '' : null" formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control form-control-lg">
                   <option [value]="''">Seleccione</option>
                   <option *ngFor="let Conexion of parametrosConexion" [value]="Conexion.Id">{{Conexion.Valor}}</option>
 
@@ -82,12 +82,13 @@
 
 
           <div *ngIf="esTipoFormatoConexion(formatoModel)" class="form-group row">
-            <div *ngIf="formatoModel.FormatoTiposConexion" class="col-md-12">
+            <div *ngIf="formatoModel.FormatoTiposConexion" class="col-md-12 top-10">
               <div *ngIf="formatoModel.FormatoTiposConexion.length >0 || formFormato.get('FormatoTiposConexion').value" class="col-md-offset-2 col-md-8">
-                <div *ngFor="let formatoTiposConexion of formFormato.get('FormatoTiposConexion').value ">
-                  <span *ngIf="formatoTiposConexion.Estado " class="col-md-2 badge badge-secondary aliniar-text">
+                <div *ngFor="let formatoTiposConexion of formFormato.get('FormatoTiposConexion').value" class="line-heigth-33">
+                  <span *ngIf="formatoTiposConexion.Estado " class="badge badge-pemarsa aliniar-text">
                     {{formatoTiposConexion.TipoConexion.Valor}}
-                    <i *ngIf="!esVer" (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+                    &nbsp;
+                    <i *ngIf="!esVer" (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-minus pull-right pointer" data-toggle="tooltip" title="Eliminar tipo de conexión"></i>
                   </span>
                 </div>
               </div>
@@ -150,7 +151,7 @@
                   <p class="form-control" *ngIf="Adjunto.NombreArchivo">
                     {{Adjunto.NombreArchivo}}
                     <i *ngIf="!esVer" (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
-                    <a href="{{Adjunto.Ruta}}" class="pull-right">
+                    <a href="{{Adjunto.Ruta}}" class="pull-right icono-descarga" target="_blank">
                       <i class="glyphicon glyphicon-download"></i>
                     </a>
                   </p>
@@ -182,7 +183,7 @@
                     <p *ngIf="esTipoFormatoOtros(formatoModel) || ( esTipoFormatoConexion(formatoModel))" class="form-control">
                       {{plano.NombreArchivo}}
                       <i *ngIf="!esVer" (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
-                      <a href="{{plano.Ruta}}" class="pull-right">
+                      <a href="{{plano.Ruta}}" class="pull-right icono-descarga" target="_blank">
                         <i class="glyphicon glyphicon-download"></i>
                       </a>
                     </p>
