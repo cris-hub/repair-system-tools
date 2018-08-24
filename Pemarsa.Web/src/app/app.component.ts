@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
             id: "12",
             name: "Fresado",
             image: "",
-            url: "",
+            url: "/mecanizado/fresado",
             color: "color",
             title: "Fresado",
             submenu: false,
@@ -136,7 +136,7 @@ export class AppComponent implements OnInit {
               {
                 icono: "icon-fresado",
                 color: "color4",
-                class: "remove"
+                class: "display"
               }
 
           },

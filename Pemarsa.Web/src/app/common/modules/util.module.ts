@@ -17,6 +17,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CatalogoPipe } from '../pipes/catalogoPipe';
 import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proceso.component';
 import { DetalleProcesoComponent } from '../../proceso/common-proceso/detalle-proceso/detalle-proceso.component';
+import { InformacionOitComponent } from 'src/app/proceso/mecanizado-fresa/informacion-oit/informacion-oit.component';
+import { AsignarProcesoComponent } from 'src/app/proceso/mecanizado-fresa/asignar-proceso/asignar-proceso.component';
 
 
 
@@ -41,6 +43,8 @@ import { DetalleProcesoComponent } from '../../proceso/common-proceso/detalle-pr
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     FiltroProcesoComponent,
+    InformacionOitComponent,
+    AsignarProcesoComponent,
     filtrarColumnasAdendumPorTipoPipe,
     DetalleProcesoComponent
   ],
@@ -55,6 +59,8 @@ import { DetalleProcesoComponent } from '../../proceso/common-proceso/detalle-pr
     PemarsaStringFormat,
     CatalogoPipe,
     FiltroProcesoComponent,
+    InformacionOitComponent,
+    AsignarProcesoComponent,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     filtrarColumnasAdendumPorTipoPipe,

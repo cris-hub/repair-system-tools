@@ -70,7 +70,9 @@ const routes: Routes = [
   {
     path: 'inspeccion/salida', loadChildren: './proceso/inspeccion-salida/inspeccion-salida.module#InspeccionSalidaModule'
   },
-
+  {
+    path: 'mecanizado/fresado', loadChildren: './proceso/mecanizado-fresa/mecanizado-fresa.module#MecanizadoFresaModule'
+  },
 
     // aprobacion
   
