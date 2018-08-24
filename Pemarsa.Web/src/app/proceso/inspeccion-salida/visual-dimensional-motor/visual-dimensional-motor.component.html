@@ -156,10 +156,10 @@
         <div class="form-group row">
 
           <div class="col-md-offset-2 col-md-8">
-            <div>
-              <span *ngFor="let equipo of inspeccion.InspeccionEquipoUtilizado" class="col-md-2 badge badge-secondary aliniar-text">
+            <div *ngFor="let equipo of inspeccion.InspeccionEquipoUtilizado" class="line-heigth-33">
+              <span class="badge badge-pemarsa">
                 {{equipo.EquipoUtilizado.Valor}}
-                <i (click)="removerDeElementosSeleccionado(equipo.EquipoUtilizado)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+                <i (click)="removerDeElementosSeleccionado(equipo.EquipoUtilizado)" class="glyphicon glyphicon-minus pull-right pointer"></i>
               </span>
             </div>
           </div>

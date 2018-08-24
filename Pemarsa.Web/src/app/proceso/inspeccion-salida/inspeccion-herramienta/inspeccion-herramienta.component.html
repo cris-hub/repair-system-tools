@@ -145,12 +145,13 @@
 
 
 
-              <button (click)="regresar();" class="btn">Regresar</button>
+              <button (click)="regresar();" class="btn">Cancelar</button>
+              &nbsp;
               <app-sugerir-proceso *ngIf="inspeccionesTerminada && !tieneProcesoSugerido"
                                    [accion]="accion"
                                    (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso a ' + accion + '?', true, Proceso)"
                                    (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
-              <button  *ngIf="!inspeccionesEnProceso && !(inspeccionesTerminada && !tieneProcesoSugerido)" class="btn btn-success" (click)="procesar();">procesar</button>
+              <button *ngIf="!inspeccionesEnProceso && !(inspeccionesTerminada && !tieneProcesoSugerido)" class="btn btn-primary btn-md" (click)="procesar();">Procesar</button>
             </div>
           </div>
         </div>
