@@ -20,10 +20,10 @@
         <form [formGroup]="formFormato">
           <div class="form-group row">
             <label class="col-md-2 col-form-label" id="corre">
-              Codigo:
+              Código:
             </label>
             <div class="col-md-3">
-              <input formControlName="Codigo" class="form-control " type="text" />
+              <input [attr.disabled]="esVer ? '' : null" formControlName="Codigo" class="form-control " type="text" />
             </div>
 
 
@@ -58,7 +58,7 @@
               Tipo de conexión
             </label>
             <div class="col-md-3" >
-              <select   validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class=" form-control-lg select">
+              <select   [attr.disabled]="esVer ? '' : null" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" (change)="agregarTipoConexion($event.target.value)" class="form-control form-control-lg">
                 <option  [value]="''">Seleccione</option>
                 <option *ngFor="let TiposConexiones of parametrosTipoConexion" [value]="TiposConexiones.Id">{{TiposConexiones.Valor}}</option>
               </select>
@@ -70,7 +70,7 @@
             </label>
             <div class="col-md-3">
               <div>
-                <select formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control-lg select">
+                <select  [attr.disabled]="esVer ? '' : null" formControlName="ConexionId" validacion [validaciones]="[tipoFormatoValidacionesFormatoConexiones]" class="form-control form-control-lg">
                   <option [value]="''">Seleccione</option>
                   <option *ngFor="let Conexion of parametrosConexion" [value]="Conexion.Id">{{Conexion.Valor}}</option>
 
@@ -85,9 +85,9 @@
             <div *ngIf="formatoModel.FormatoTiposConexion" class="col-md-12">
               <div *ngIf="formatoModel.FormatoTiposConexion.length >0 || formFormato.get('FormatoTiposConexion').value" class="col-md-offset-2 col-md-8">
                 <div *ngFor="let formatoTiposConexion of formFormato.get('FormatoTiposConexion').value ">
-                  <span *ngIf="formatoTiposConexion.Estado" class="col-md-2 badge badge-secondary aliniar-text">
+                  <span *ngIf="formatoTiposConexion.Estado " class="col-md-2 badge badge-secondary aliniar-text">
                     {{formatoTiposConexion.TipoConexion.Valor}}
-                    <i (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
+                    <i *ngIf="!esVer" (click)="removerDeElementosSeleccionado(formatoTiposConexion.TipoConexion)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
                   </span>
                 </div>
               </div>
@@ -136,7 +136,7 @@
 
               Adjunto :
             </label>
-            <div class="col-md-6">
+            <div *ngIf="!esVer" class="col-md-6">
               <input type="file" (change)="addDocumentoAdjuntoFormato($event)" class="form-control-file">
             </div>
             <strong *ngIf="formFormato.get('Adjunto').invalid && (formFormato.get('Adjunto').touched || formFormato.get('Adjunto').dirty) "
@@ -149,7 +149,7 @@
                 <div *ngIf="Adjunto" class="col-md-12">
                   <p class="form-control" *ngIf="Adjunto.NombreArchivo">
                     {{Adjunto.NombreArchivo}}
-                    <i (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                    <i *ngIf="!esVer" (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
                     <a href="{{Adjunto.Ruta}}" class="pull-right">
                       <i class="glyphicon glyphicon-download"></i>
                     </a>
@@ -165,8 +165,8 @@
 
               planos :
             </label>
-            <div class="col-md-6">
-              <input type="file" (change)="addFile($event)" class="form-control-file" multiple>
+            <div *ngIf="!esVer" class="col-md-6">
+              <input *ngIf="!esVer" type="file" (change)="addFile($event)" class="form-control-file" multiple>
             </div>
             <strong *ngIf="formFormato.get('Planos').invalid && (formFormato.get('Planos').touched || formFormato.get('Planos').dirty) "
                     class="text-danger validaciones">Este campo es obligatorio</strong>
@@ -181,7 +181,7 @@
                   <div class="col-md-12">
                     <p *ngIf="esTipoFormatoOtros(formatoModel) || ( esTipoFormatoConexion(formatoModel))" class="form-control">
                       {{plano.NombreArchivo}}
-                      <i (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+                      <i *ngIf="!esVer" (click)="eliminarAdjunto(plano)" class="glyphicon glyphicon-minus pointer pull-right"></i>
                       <a href="{{plano.Ruta}}" class="pull-right">
                         <i class="glyphicon glyphicon-download"></i>
                       </a>
@@ -260,7 +260,7 @@
                       <tr>
                         <th> <p>{{tipos.Valor}} </p></th>
                         <td *ngIf="tipos.Id ==26">
-                          <div *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8" style="display: table-cell;">
+                          <div *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+7" style="display: table-cell;">
 
                             <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Posicion" class="form-control" type="text" />
                             <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
@@ -293,19 +293,15 @@
 
             <div class="row">
               <div class="col-12">
-                <i (click)="addItemFormParametro()" class="pull-right">
-                  <i class="glyphicon glyphicon-plus"></i>
-                </i>
                 <div class="table-responsive-sm table-responsive-md">
-                  <table *ngIf="formFormato.get('Parametros')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
+                  <table *ngIf="formFormato.get('Parametros')" class="table table-bordered table-striped col-md-offset-1 col-md-10 col-sm-11">
                     <thead class="titleTable">
                       <tr class="text-center">
                         <th scope="col">Id</th>
                         <th scope="col">Item</th>
-                        <th scope="col">Dimension Especifica</th>
-
-                        <th scope="col">ToleranciaMin</th>
-                        <th scope="col">ToleranciaMax</th>
+                        <th scope="col">Dimensión Específica</th>
+                        <th scope="col">Tolerancia Min</th>
+                        <th scope="col">Tolerancia Max</th>
                         <th scope="col">Acciones</th>
                       </tr>
                     </thead>
@@ -334,9 +330,9 @@
                         </td>
 
                         <td>
-                          <div class="btn-group" role="group" style="display:flex;" aria-label="...">
+                          <div *ngIf="!esVer" class="btn-group" role="group" style="display:flex;" aria-label="...">
                             <i (click)="removeItemFormFormatoPatamtros(i)">
-                              <i class="glyphicon glyphicon glyphicon-minus"></i>
+                              <i class="glyphicon glyphicon glyphicon-minus pointer"></i>
                             </i>
 
                           </div>
@@ -345,6 +341,9 @@
                     </tbody>
                   </table>
                 </div>
+                <i *ngIf="!esVer" (click)="addItemFormParametro()" class="col-md-1 col-sm-1">
+                  <i class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Agregar"></i>
+                </i>
                 <strong *ngIf="formFormato.get('Parametros').invalid && (formFormato.get('Parametros').touched || formFormato.get('Parametros').dirty) "
                         class="col-md-offset-1 text-danger validaciones">Este campo es obligatorio</strong>
               </div>
@@ -380,18 +379,15 @@
 
             <div class="row">
               <div class="col-lg-12">
-                <i (click)="addItemFormParametroAletas()" class="pull-right">
-                  <i class="glyphicon glyphicon-plus pointer"></i>
-                </i>
                 <div class="table-responsive-sm table-responsive-md">
-                  <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10">
+                  <table *ngIf="formFormato.get('Aletas')" class="table table-bordered table-striped col-md-offset-1 col-md-10 col-sm-11">
                     <thead class="titleTable">
-                      <tr>
+                      <tr class="text-center">
                         <th scope="col">Id</th>
-                        <th scope="col">Parametro</th>
+                        <th scope="col">Parámetro</th>
                         <th scope="col">Item</th>
-                        <th scope="col">ToleranciaMin</th>
-                        <th scope="col">ToleranciaMax</th>
+                        <th scope="col">Tolerancia Min</th>
+                        <th scope="col">Tolerancia Max</th>
                         <th scope="col">Acciones</th>
                       </tr>
                     </thead>
@@ -421,9 +417,9 @@
                         </td>
 
                         <td>
-                          <div class="btn-group" role="group" style="display:flex;" aria-label="...">
+                          <div *ngIf="!esVer" class="btn-group" role="group" style="display:flex;" aria-label="...">
                             <i (click)="removeItemFormFormatoPatamtrosAletas(i)">
-                              <i class="glyphicon glyphicon glyphicon-minus"></i>
+                              <i class="glyphicon glyphicon glyphicon-minus pointer"></i>
                             </i>
                           </div>
                         </td>
@@ -431,6 +427,9 @@
                     </tbody>
                   </table>
                 </div>
+                <i *ngIf="!esVer" (click)="addItemFormParametroAletas()" class="col-md-1 col-sm-1">
+                  <i class="glyphicon glyphicon-plus pointer"></i>
+                </i>
               </div>
             </div>
           </div>
@@ -441,10 +440,11 @@
             <br />
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col alinear-derecha">
-                <button [routerLink]="['/formato']" type="button" class="btn btn-md">Cancelar</button>
+                <button [routerLink]="['/formato']" type="button" class="btn btn-md" *ngIf="esVer">Volver</button>
+                <button [routerLink]="['/formato']" type="button" class="btn btn-md" *ngIf="!esVer">Cancelar</button>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col">
-                <button type="submit" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>
+                <button *ngIf="!esVer" type="submit" (click)="enviarFormulario()" class="btn btn-primary btn-md">Guardar</button>
               </div>
             </div>
           </div>

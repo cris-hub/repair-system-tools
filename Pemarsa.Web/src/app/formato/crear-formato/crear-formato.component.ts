@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ignoreElements } from 'rxjs/operators';
 import { LoaderService } from '../../common/services/entity/loaderService';
 import { TIPOS_FORMATO, TIPOS_ESPECIFICACION } from '../formato-enum/formato.enum';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -115,8 +116,8 @@ export class CrearFormatoComponent implements OnInit {
   }
   accionRealizar() {
     switch (this.router.url.split('/')[2]) {
-      case 'ver': this.tituloVista = 'Formato'; break;
-      case 'crear': this.tituloVista = 'Nuevo formato'; break;
+      case 'ver': this.tituloVista = 'Detalle formato'; break;
+      case 'crear': this.tituloVista = 'Crear formato'; break;
       case 'editar': this.tituloVista = 'Editar formato'; break;
       default: this.tituloVista = 'Formato'
     }
@@ -145,7 +146,6 @@ export class CrearFormatoComponent implements OnInit {
           this.initFormFormatoAdendum()
           this.initFormFormatoParamtros()
           this.initFormTiposConexion()
-
           this.initFormFormatoParamtrosAletas()
 
         }
@@ -193,6 +193,8 @@ export class CrearFormatoComponent implements OnInit {
         this.Adjunto = response.Adjunto
 
         this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
+        
+        
         this.bloqueartipoFormato = true;
         this.loaderService.display(false);
 
@@ -202,7 +204,10 @@ export class CrearFormatoComponent implements OnInit {
           this.initFormFormatoParamtros()
           this.initFormFormatoParamtrosAletas()
           this.initFormTiposConexion()
+          if (this.esVer) {
+            this.formFormato.disable();
 
+          }
         }
       );
   }
@@ -231,7 +236,7 @@ export class CrearFormatoComponent implements OnInit {
       TipoConexion: tipoConexionParam,
       Estado: true
     }));
-
+    this.formFormatoTiposConexion.updateValueAndValidity();
     let index = this.parametrosTipoConexion.findIndex(d => d.Id == tipoConexion);
     this.parametrosTipoConexion.splice(index, 1);
   }
@@ -240,8 +245,11 @@ export class CrearFormatoComponent implements OnInit {
 
     let value = this.formFormatoTiposConexion.value.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado == true);
     let index = this.formFormatoTiposConexion.controls.findIndex(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true);
-    this.formFormatoTiposConexion.removeAt(index);
+    let form = this.formFormatoTiposConexion.controls.find(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true)
     value.Estado = false;
+    form.setValue(value);
+    this.formFormatoTiposConexion.updateValueAndValidity();
+    
 
     this.parametrosTipoConexion.push(value.TipoConexion);
   }
@@ -251,21 +259,7 @@ export class CrearFormatoComponent implements OnInit {
   initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>, herramienta: HerramientaModel) {
     this.initFormularioFormatoOtros(formato, Adendum, herramienta);
 
-    if (this.esVer) {
-      this.formFormato.get('Codigo').disable();
-      this.formFormato.get('TipoFormatoId').disable();
-      this.formFormato.get('EspecificacionId').disable();
-      this.formFormato.get('TPI').disable();
-      this.formFormato.get('TPF').disable();
-      this.formFormato.get('FormatoTiposConexion').disable();
-      this.formFormato.get('ConexionId').disable();
-      this.formFormato.get('ConexionId').disable();
-      this.formFormato.get('Herramienta').disable();
-      this.formFormato.get('Aletas').disable();
-      this.formFormato.get('Planos').disable();
-      this.formFormato.get('Adendum').disable();
-
-    }
+   
   }
 
   initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
@@ -300,6 +294,7 @@ export class CrearFormatoComponent implements OnInit {
       Aletas: this.formBuilder.array([])
     });
 
+
   }
 
   initFormFormatoParamtros() {
@@ -323,6 +318,8 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormatoTiposConexion = this.formFormato.get('FormatoTiposConexion') as FormArray;
 
     this.formatoModel.FormatoTiposConexion.forEach(f => {
+      if (f.Estado == true) {
+
       let form = this.formBuilder.group({
         FormatoId: [f.FormatoId],
         Id: [f.Id],
@@ -336,6 +333,7 @@ export class CrearFormatoComponent implements OnInit {
 
       let index = this.parametrosTipoConexion.findIndex(d => d.Id == f.Id);
       this.parametrosTipoConexion.splice(index, 1);
+      }
     });
 
     console.log(this.formFormatoTiposConexion);
@@ -470,7 +468,9 @@ export class CrearFormatoComponent implements OnInit {
       this.formFormato.get('Herramienta').get('Id').setValidators((Validators.required));
     } else {
       this.formFormato.get('Herramienta').get('Id').setErrors(null);
+
       this.formFormato.get('Herramienta').get('Id').setValidators(null);
+      this.formFormato.get('HerramientaId').setValue(this.formFormato.get('Herramienta').get('Id').value);
     }
 
 
@@ -565,12 +565,12 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formFormato.updateValueAndValidity();
 
-    this.esFormularioValido(this.formFormato)
-    if (!this.esFormularioValido) {
+   
+    if (!this.esFormularioValido(this.formFormato)) {
       this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
       return
     }
-    
+
 
     this.asignarValoresFormularioFormato(this.formFormato.value);
 
@@ -630,7 +630,7 @@ export class CrearFormatoComponent implements OnInit {
     this.asignarFormatoParametros(val);
     val['Parametros'] = null;
     val['Aletas'] = null;
-    delete val['Herramienta'];
+
 
     console.log(val)
 

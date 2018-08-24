@@ -1,4 +1,4 @@
-<div >
+<div>
   <br />
   <div class="container-fluid">
     <div class="row">
@@ -97,9 +97,13 @@
             </div>
             <div class="col-lg-9 col-sm-9 col-md-9 col-12 left-9">
               <div>
-                <input type="text" 
-                       class="form-control form-control-lg" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
-                       [resultFormatter]="formatoValorMostrar" [inputFormatter]="formatoValorMostrar" (selectItem)="cambioItemEvent($event)"
+                <!--<input type="text"
+        class="form-control form-control-lg" (ngModelChange)="consultarClientes()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
+        [resultFormatter]="formatoValorMostrar" [inputFormatter]="formatoValorMostrar" (selectItem)="cambioItemEvent($event)"
+        formControlName="Cliente" validacion [validaciones]="['requerido']" />-->
+                <input type="text"
+                       class="form-control form-control-lg" (ngModelChange)="consultarCatalogos()" [(ngModel)]="Cliente" [ngbTypeahead]="buscarConcidencia"
+                       [resultFormatter]="formatoValorMostrarCatalogo" [inputFormatter]="formatoValorMostrarCatalogo" (selectItem)="cambioItemEvent($event)"
                        formControlName="Cliente" validacion [validaciones]="['requerido']" />
               </div>
             </div>
@@ -115,8 +119,8 @@
               </div>
               <div class="col-lg-8 col-md-8 col-sm-9 col-12">
                 <div>
-                  <input type="text" class="form-control form-control-lg" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
-                         [resultFormatter]="formatoValorMostrarLinea" validacion [validaciones]="['requerido']" [inputFormatter]="formatoValorMostrarLinea" formControlName="Linea" />
+                  <input type="text" class="form-control form-control-lg" (ngModelChange)="consultarCatalogos()" [(ngModel)]="Linea" [ngbTypeahead]="buscarConcidenciaLinea"
+                         [resultFormatter]="formatoValorMostrarHerramientaCatalogo" [inputFormatter]="formatoValorMostrarHerramientaCatalogo" formControlName="Linea" />
                   <strong *ngIf="formularioOrdenTrabajo.get('Linea').invalid &&  (formularioOrdenTrabajo.get('Linea').dirty || formularioOrdenTrabajo.get('Linea').touched)" class="text-danger validaciones">Este campo es obligatorio</strong>
                 </div>
               </div>
@@ -142,7 +146,7 @@
             </div>
             <div class="col-lg-9 col-sm-9 col-md-9 col-12 left-9">
               <input type="text" class="form-control form-control-lg" [(ngModel)]="herramienta" [ngbTypeahead]="buscarConcidenciaHerramienta"
-                     [resultFormatter]="formatoValorMostrarHerramienta" [inputFormatter]="formatoValorMostrarHerramienta" (selectItem)="cambioItemEvent($event)"
+                     [resultFormatter]="formatoValorMostrarLineaCatalogo" [inputFormatter]="formatoValorMostrarLineaCatalogo" (selectItem)="seleccionarHerramienta($event)"
                      formControlName="Herramienta" validacion [validaciones]="['requerido']" />
             </div>
           </div>
@@ -151,13 +155,13 @@
           <!--Grupo -->
           <div class="form-group row">
             <!--Tamaño herramienta-->
-            <div formGroupName="TamanoHerramienta" class="col-lg-6 col-sm-12 col-md-6 col-12 row">
+            <div class="col-lg-6 col-sm-12 col-md-6 col-12 row">
               <div class="col-lg-4 col-md-4 col-sm-3 col-12">
-                <label class="float-lg-right" id="corre"> Tamaño herramienta: </label>
+                <label  *ngIf="herramientaModel.EsHerramientaMotor" class="float-lg-right" id="corre"> Tamaño herramienta: </label>
               </div>
-              <div class="col-lg-8 col-md-8 col-sm-9 col-12">
+              <div *ngIf="herramientaModel.EsHerramientaMotor" formGroupName="TamanoHerramienta" class="col-lg-8 col-md-8 col-sm-9 col-12">
                 <select formControlName="Id" validacion [validaciones]="['requerido']" class="form-control-lg form-control select">
-                  <option *ngFor="let tamano of herramienta.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
+                  <option *ngFor="let tamano of herramientaModel.TamanosHerramienta" value="{{tamano.Id}}">{{tamano.Tamano}}</option>
                 </select>
               </div>
             </div>
@@ -175,7 +179,7 @@
           </div>
           <!--Fin Grupo-->
           <!--Grupo -->
-          <div class="form-group row" *ngIf="ordenTrabajo.Herramienta.EsHerramientaPorCantidad">
+          <div class="form-group row" *ngIf="herramientaModel.EsHerramientaPorCantidad">
             <!--Cantidad-->
             <div class="col-lg-6 col-sm-12 col-md-6 col-12 row">
               <div class="col-lg-4 col-md-4 col-sm-3 col-12">
@@ -185,8 +189,8 @@
                 <input formControlName="Cantidad" validacion [validaciones]="['requerido']" type="number" class="form-control form-control-lg">
               </div>
             </div>
-            
-        
+
+
           </div>
           <!--Fin Grupo-->
           <!--Serial material-->
@@ -199,13 +203,13 @@
             </div>
           </div>
           <!--Materiales herramienta-->
-          <div class="form-group row" *ngIf="herramienta.Materiales">
+          <div class="form-group row" *ngIf="herramientaModel.Materiales">
             <div class="col-lg-2 col-sm-3 col-md-2 col-12 left-10">
               <label class="float-lg-right">Materiales herramienta:</label>
             </div>
-            <div *ngIf="herramienta.Materiales" class="col-lg-3 col-sm-9 col-md-9 col-12 left-9">
+            <div *ngIf="herramientaModel.Materiales" class="col-lg-3 col-sm-9 col-md-9 col-12 left-9">
               <select formControlName="MaterialId" class="form-control-lg form-control select" [(ngModel)]="materialId" (change)="herramientaValor($event)">
-                <option *ngFor="let Material of herramienta.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
+                <option *ngFor="let Material of herramientaModel.Materiales" [value]="Material.Id">{{Material.Material.Valor}}</option>
               </select>
             </div>
           </div>

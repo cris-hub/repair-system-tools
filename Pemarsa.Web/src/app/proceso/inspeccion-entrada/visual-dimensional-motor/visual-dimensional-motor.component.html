@@ -8,7 +8,7 @@
       <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
         <br />
 
-        <h3>Visual dimensioanl</h3>
+        <h3>Visual dimensional</h3>
       </div>
     </div>
     <hr />
@@ -77,35 +77,38 @@
             <div class="col-md-offset-2">
 
               <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class=" col-md-3 ">
-                <div [formGroupName]="i" class="row conexiones-display">
-                  <div *ngIf="false" class="col-md-auto">
+                <div [formGroupName]="i" class="row">
+                  <div *ngIf="false" class="col-md-9">
                     <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']" [(ngModel)]="test" class="form-control " />
                   </div>
-                  <div class="col-md-auto">
+                  <div class="col-md-9">
                     <label class="control-label" id="corre">* Conexión {{i+1}} </label>
                     <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
                       <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
                     </select>
                   </div>
-                  <div class="col-md-auto">
+                  <br />
+                  <div class="col-md-9">
                     <label class="control-label" id="corre">* Tipo conexión{{i+1}} </label>
-                    <select formControlName="TipoConexionId"  class="form-control form-control-lg">
+                    <select formControlName="TipoConexionId" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
                       <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
                     </select>
                   </div>
+                  <br />
                   <div class="col-md-9">
                     <label class="control-label" id="corre">*Estado {{i+1}} </label>
-                    <select formControlName="EstadoId"   class="form-control form-control-lg">
+                    <select formControlName="EstadoId" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
                       <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
                     </select>
 
                   </div>
-                  <div class="col-md-auto">
+                  <br />
+                  <div class="col-md-9">
                     <label class="control-label" id="corre">*Observacion {{i+1}} </label>
-                    <textarea formControlName="Observaciones"  class="form-control"></textarea>
+                    <textarea formControlName="Observaciones" class="form-control"></textarea>
                   </div>
                 </div>
               </div>
@@ -172,7 +175,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-offset-4 col">
-              <button class="btn" (click)="procesar()">Proceosar y continuar</button>
+              <button class="btn" (click)="procesar()">Procesar y continuar</button>
             </div>
           </div>
         </div>

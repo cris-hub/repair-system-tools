@@ -123,19 +123,22 @@ namespace OrdenTrabajoES.Repository
                 }
                 ordenTrabajoBD.Anexos = ordenTrabajo.Anexos;
 
-                ordenTrabajoBD.HerramientaId = ordenTrabajo.Herramienta.Id;
-                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramienta.Id;
+                ordenTrabajoBD.HerramientaId = ordenTrabajo.HerramientaId;
+                ordenTrabajoBD.ClienteId = ordenTrabajo.ClienteId;
+                ordenTrabajoBD.LineaId = ordenTrabajo.LineaId;
+                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramientaId == 0 ? null : ordenTrabajo.TamanoHerramientaId ;
                 ordenTrabajoBD.NombreUsuarioCrea = "admin";
 
 
-                _context.OrdenTrabajo.Update(ordenTrabajoBD);
-
+                //_context.OrdenTrabajo.Update(ordenTrabajoBD);
+                _context.Entry(ordenTrabajoBD).State = EntityState.Modified;
+                var actualizo = _context.SaveChanges() > 0;
 
                 var changes = await CrearHistorialModificacionesOrdenDeTrabajo(ModificacionOrdenTrabajo, usuario);
 
 
 
-                return changes;
+                return actualizo;
             }
             catch (Exception e) { throw e; }
         }
@@ -356,9 +359,20 @@ namespace OrdenTrabajoES.Repository
                 ordenTrabajo.FechaRegistro = DateTime.Now;
                 ordenTrabajo.TipoServicioId = (int)TIPOSERVICIOS.REPARACIÓN;
                 ordenTrabajo.ResponsableId = (int)RESPONSABLES.JUAN_MARQUEZ;
+                if (ordenTrabajo.TamanoHerramientaId == 0)
+                {
+                    ordenTrabajo.TamanoHerramientaId = null;
+                }
                 ordenTrabajo.CantidadInspeccionar = CalcularCantidadInpseccionar(ordenTrabajo.Cantidad);
                 OrdenTrabajo ordenTrabajoBD = new OrdenTrabajo();
                 _context.Entry(ordenTrabajoBD).CurrentValues.SetValues(ordenTrabajo);
+                if (ordenTrabajoBD.TamanoHerramienta != null)
+                {
+
+                _context.Entry(ordenTrabajoBD.TamanoHerramienta).State = EntityState.Unchanged;
+                }
+
+             
                 ordenTrabajoBD.NombreUsuarioCrea = USUARIO_CREA.ADMIN.ToString();
                 _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();

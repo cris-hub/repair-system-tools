@@ -31,8 +31,8 @@ namespace HerramientaES.Repository
                                     .SingleOrDefaultAsync(c => c.Id == herramienta.Id);
 
                 _context.Entry(herramientaBD).CurrentValues.SetValues(herramienta);
-                
-                
+
+
                 #region Actualizar Materiales
                 /*actualiza el estado los materiales de la base de datos*/
                 foreach (var MaterialesDB in herramientaBD.Materiales)
@@ -71,12 +71,12 @@ namespace HerramientaES.Repository
 
                 if (herramienta.EsHerramientaMotor == false)
                 {
-                    foreach (var tamanosHerrmienta in herramientaBD.TamanosHerramienta)
-                    {
-                        tamanosHerrmienta.Estado = false;
-                        tamanosHerrmienta.FechaModifica = DateTime.Now;
-                        _context.HerramientaTamano.Update(tamanosHerrmienta);
-                    }
+                    //foreach (var tamanosHerrmienta in herramientaBD.TamanosHerramienta)
+                    //{
+                    //    tamanosHerrmienta.Estado = false;
+                    //    tamanosHerrmienta.FechaModifica = DateTime.Now;
+                    //    _context.HerramientaTamano.Update(tamanosHerrmienta);
+                    //}
                     foreach (var tamanosMotor in herramientaBD.TamanosMotor)
                     {
                         tamanosMotor.Estado = false;
@@ -86,43 +86,6 @@ namespace HerramientaES.Repository
                 }
                 else
                 {
-
-                    #region Actualizar TamanosHerramienta
-
-
-                    /*actaliza el estado los tamaños de herramienta de la base de datos*/
-                    foreach (var tamanosHerrmienta in herramientaBD.TamanosHerramienta)
-                    {
-
-                        if (!herramienta.TamanosHerramienta.Any(dNew => dNew.Id == tamanosHerrmienta.Id))
-                        {
-                            tamanosHerrmienta.Estado = false;
-                            tamanosHerrmienta.FechaModifica = DateTime.Now;
-                            _context.HerramientaTamano.Update(tamanosHerrmienta);
-                        }
-                    }
-
-                    /*Agrega tamaños de herramienta*/
-                    foreach (var tamanosHerrmientaAdd in herramienta.TamanosHerramienta)
-                    {
-                        if (herramientaBD.TamanosHerramienta.Where(th => th.Tamano.ToLower() == tamanosHerrmientaAdd.Tamano.ToLower() && th.Estado.Equals(false)).Any())
-                        {
-                            var actualizarTamanoHerramienta = herramientaBD.TamanosHerramienta.Where(th => th.Tamano.ToLower() == tamanosHerrmientaAdd.Tamano.ToLower() && th.Estado.Equals(false)).FirstOrDefault();
-                            actualizarTamanoHerramienta.FechaModifica = DateTime.Now;
-                            actualizarTamanoHerramienta.Estado = true;
-                            _context.HerramientaTamano.Update(actualizarTamanoHerramienta);
-                        }
-                        else if (!herramientaBD.TamanosHerramienta.Any(ddb => ddb.Id == tamanosHerrmientaAdd.Id))
-                        {
-                            tamanosHerrmientaAdd.Herramienta = null;
-                            tamanosHerrmientaAdd.HerramientaId = herramientaBD.Id;
-                            tamanosHerrmientaAdd.Guid = Guid.NewGuid();
-                            tamanosHerrmientaAdd.FechaRegistro = DateTime.Now;
-                            _context.HerramientaTamano.Add(tamanosHerrmientaAdd);
-                        }
-                    }
-
-                    #endregion
 
                     #region Actualizar TamanosMotor
 
@@ -161,6 +124,43 @@ namespace HerramientaES.Repository
                     #endregion
 
                 }
+
+                #region Actualizar TamanosHerramienta
+
+
+                /*actaliza el estado los tamaños de herramienta de la base de datos*/
+                foreach (var tamanosHerrmienta in herramientaBD.TamanosHerramienta)
+                {
+
+                    if (!herramienta.TamanosHerramienta.Any(dNew => dNew.Id == tamanosHerrmienta.Id))
+                    {
+                        tamanosHerrmienta.Estado = false;
+                        tamanosHerrmienta.FechaModifica = DateTime.Now;
+                        _context.HerramientaTamano.Update(tamanosHerrmienta);
+                    }
+                }
+
+                /*Agrega tamaños de herramienta*/
+                foreach (var tamanosHerrmientaAdd in herramienta.TamanosHerramienta)
+                {
+                    if (herramientaBD.TamanosHerramienta.Where(th => th.Tamano.ToLower() == tamanosHerrmientaAdd.Tamano.ToLower() && th.Estado.Equals(false)).Any())
+                    {
+                        var actualizarTamanoHerramienta = herramientaBD.TamanosHerramienta.Where(th => th.Tamano.ToLower() == tamanosHerrmientaAdd.Tamano.ToLower() && th.Estado.Equals(false)).FirstOrDefault();
+                        actualizarTamanoHerramienta.FechaModifica = DateTime.Now;
+                        actualizarTamanoHerramienta.Estado = true;
+                        _context.HerramientaTamano.Update(actualizarTamanoHerramienta);
+                    }
+                    else if (!herramientaBD.TamanosHerramienta.Any(ddb => ddb.Id == tamanosHerrmientaAdd.Id))
+                    {
+                        tamanosHerrmientaAdd.Herramienta = null;
+                        tamanosHerrmientaAdd.HerramientaId = herramientaBD.Id;
+                        tamanosHerrmientaAdd.Guid = Guid.NewGuid();
+                        tamanosHerrmientaAdd.FechaRegistro = DateTime.Now;
+                        _context.HerramientaTamano.Add(tamanosHerrmientaAdd);
+                    }
+                }
+
+                #endregion
 
                 herramientaBD.HerramientaEstudioFactibilidad.Admin = herramienta.HerramientaEstudioFactibilidad.Admin;
                 herramientaBD.HerramientaEstudioFactibilidad.ManoObra = herramienta.HerramientaEstudioFactibilidad.ManoObra;

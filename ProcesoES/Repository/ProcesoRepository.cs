@@ -71,8 +71,8 @@ namespace ProcesoES.Repository
                 }
                 proceso.EstadoId = estadoProceso.Id;
                 proceso.FechaModifica = DateTime.Now;
-                _context.Proceso.Add(proceso);
                 _context.Entry(proceso).State = EntityState.Modified;
+                
                 return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception e) { throw e; }
@@ -508,7 +508,7 @@ namespace ProcesoES.Repository
                 }
 
 
-                proceso.TipoProcesoId = proceso.TipoProcesoId ?? (int)TIPOPROCESOS.INSPECCIONENTRADA;
+                proceso.TipoProcesoId = proceso.TipoProcesoId;
                 proceso.EstadoId = proceso.EstadoId ?? (int)ESTADOSPROCESOS.PENDIENTE;
 
                 proceso.Guid = Guid.NewGuid();

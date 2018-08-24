@@ -28,6 +28,7 @@ export class CrearHerramientaComponent implements OnInit {
   public loading: boolean;
   public esVer: boolean = false;
   public frmHerramienta: FormGroup;
+  public obligatorio: boolean = false;
 
   public esEstudioFactibilidad: string = "vacio";
 
@@ -290,23 +291,39 @@ export class CrearHerramientaComponent implements OnInit {
     let valor = this.frmHerramienta.controls['EsHerramientaMotor'].value
 
     if (valor) {
-      if (this.herramienta.TamanosMotor.length > 0 || this.herramienta.TamanosHerramienta.length > 0) {
+      if (this.herramienta.TamanosMotor.length > 0) {
         this.frmHerramienta.get('TamanosMotor').setValidators(null)
         this.frmHerramienta.get('TamanosMotor').setErrors(null)
-
-        this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
-        this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
         
       } else {
         this.frmHerramienta.get('TamanosMotor').setValidators(Validators.required)
         this.frmHerramienta.get('TamanosMotor').setErrors({ 'requerido': true })
+      }
+
+    }
+      this.frmHerramienta.updateValueAndValidity();
+  }
+
+  validacionHerramientaPetrolera() {
+    let valor = this.frmHerramienta.controls['EsHerramientaPetrolera'].value
+
+    if (valor) {
+      if (this.herramienta.TamanosHerramienta.length > 0) {
+
+        this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
+        this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
+
+      } else {
 
         this.frmHerramienta.get('TamanosHerramienta').setValidators(Validators.required)
         this.frmHerramienta.get('TamanosHerramienta').setErrors({ 'requerido': true })
       }
 
+    } else {
+      this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
+      this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
     }
-      this.frmHerramienta.updateValueAndValidity();
+    this.frmHerramienta.updateValueAndValidity();
   }
 
   /**
@@ -407,14 +424,26 @@ export class CrearHerramientaComponent implements OnInit {
       this.inputTamanoHerramienta.nativeElement.value = "";
       this.isSubmitted = true;
     }
-    this.herramienta.TamanosHerramienta = this.herramienta.TamanosMotor.concat(this.herramientaTamano)
+    this.herramienta.TamanosHerramienta = this.herramienta.TamanosMotor.concat(this.herramientaTamano);
+    let valor = this.frmHerramienta.controls['EsHerramientaPetrolera'].value;
+    if (this.herramientaTamano.length > 0 && valor) {
+      this.frmHerramienta.get('TamanosHerramienta').setValidators(null)
+      this.frmHerramienta.get('TamanosHerramienta').setErrors(null)
+    }
 
+ 
   }
 
   eliminarHerramientaTamano(index: any) {
+ 
     this.isSubmitted = true;
-
     this.herramientaTamano.splice(index, 1);
+    this.herramienta.TamanosHerramienta = this.herramienta.TamanosMotor.concat(this.herramientaTamano);
+    let valor = this.frmHerramienta.controls['EsHerramientaPetrolera'].value;
+    if (this.herramientaTamano.length == 0 && valor) {
+      this.frmHerramienta.get('TamanosHerramienta').setValidators(Validators.required)
+      this.frmHerramienta.get('TamanosHerramienta').setErrors({ 'requerido': true })
+    }
   }
 
   consultarClientes() {
@@ -446,11 +475,11 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   ConfirmacionEvento(event: any) {
-
+    debugger;
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsDirty();
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsTouched();
-    this.validacionHerramientaMotor()
-
+    this.validacionHerramientaMotor();
+    this.validacionHerramientaPetrolera();
 
     if (this.frmHerramienta.status != 'VALID') {
       this.toastr.error('faltan datos por diligenciar')

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180821212819_se-agrega-alter-key-fotmato-formato-parametro.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\Pemarsa.API\appsettings.json" Link="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

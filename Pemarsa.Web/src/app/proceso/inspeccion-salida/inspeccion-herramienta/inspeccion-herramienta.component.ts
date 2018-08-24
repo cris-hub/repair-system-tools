@@ -116,7 +116,7 @@ export class InspeccionHerramientaComponent implements OnInit {
         this.inspeccionesTerminada = false
 
       }
-      if (this.tiposInspeccionesSeleccionadas.every(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true)
+      if (this.tiposInspeccionesSeleccionadas.some(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true)
       ) {
         this.inspeccionesEnProceso = true
       } else { this.inspeccionesEnProceso = false }
@@ -143,7 +143,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   consultarSiguienteInspeccion(guidProceso: string) {
 
     console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
-    if (this.Proceso.EstadoId == ESTADOS_PROCESOS["En Proceso"] && this.obtenerProcesoDesdeUrl().get('pieza') && this.procesoService.iniciarProcesar) {
+    if (this.inspeccionesEnProceso) {
 
       this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
         this.Inspeccion = response;
@@ -247,11 +247,12 @@ export class InspeccionHerramientaComponent implements OnInit {
   //persistir
   procesar() {
 
+    this.procesoService.iniciarProcesar = true
 
     this.completarProcesoInspeccion(this.Proceso.Guid);
     this.actualizarEstadoProceso();
     this.actualizarEstadoInpeccionPieza();
-    this.procesoService.iniciarProcesar = true
+    
     this.consultarSiguienteInspeccion(this.Proceso.Guid);
   }
   actualizarEstadoProceso() {
