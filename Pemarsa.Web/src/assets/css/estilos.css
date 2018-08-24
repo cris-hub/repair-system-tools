@@ -7,20 +7,44 @@ body {
   font-size: 14px !important;
 }
 
+.icono-descarga {
+  color: #495057;
+  position: relative;
+  top: -1px;
+  cursor: pointer;
+}
 
+/**/
+.badge-pemarsa {
+  color: #fff;
+  background-color: #a0a1a2;
+  width: 104px;
+  height: 26px;
+  padding: 7px !important;
+  font-size: 13px !important;
+}
+
+.line-heigth-33 {
+  line-height: 33px;
+}
+
+.top-10 {
+  top: -16px;
+}
 
 /*iconos incompletos*/
 
 .display {
-  display:none;
+  display: none;
 }
-  .remove {
+
+.remove {
   display: block;
   color: white;
 }
 
-.separador{
-  height:190px;
+.separador {
+  height: 190px;
 }
 
 /*powered_by*/
@@ -84,7 +108,6 @@ body {
   background-color: rgba(249, 249, 249, 0.95);
   padding: 65px;
   height: 100%;
-  
   -webkit-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 17px -9px rgba(0,0,0,0.75);
