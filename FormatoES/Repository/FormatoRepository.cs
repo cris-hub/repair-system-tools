@@ -28,7 +28,9 @@ namespace FormatoES.Repository
                 {
                     foreach (var tipo in formato.FormatoTiposConexion)
                     {
-                        _context.Entry(tipo.TipoConexion).State = EntityState.Unchanged;
+
+                        _context.Entry(tipo.TipoConexion).State = EntityState.Detached;
+                        _context.Entry(tipo).State = tipo.Id <= 0 ? EntityState.Added : EntityState.Modified;
 
                     }
                 }
@@ -71,23 +73,26 @@ namespace FormatoES.Repository
 
                 foreach (var FormatoFormatoParametro in formato.FormatoFormatoParametro)
                 {
-            
-            
-                        if (FormatoFormatoParametro.FormatoParametro.Id <= 0)
-                        {
 
-                            _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Added;
-                            
-                            
-                        }
-                        else
-                        {
-                            _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Modified;
-                            
-                            
-                        }
-                    
-                    
+
+                    if (FormatoFormatoParametro.FormatoParametro.Id <= 0)
+                    {
+
+                        _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Added;
+                        _context.Entry(FormatoFormatoParametro).State = EntityState.Added;
+
+
+                    }
+                    else
+                    {
+                        _context.Entry(FormatoFormatoParametro.FormatoParametro).State = EntityState.Modified;
+                        _context.Entry(FormatoFormatoParametro).State = EntityState.Modified;
+
+
+
+                    }
+
+
                 }
                 if (formato.Adendum != null)
                 {
@@ -117,31 +122,18 @@ namespace FormatoES.Repository
 
 
 
-                //}
-                //if (formato.Adendum != null)
-                //{
-                //    foreach (var Adendum in formato.Adendum)
-                //    {
+                if (formato.FormatoTiposConexion != null)
+                {
+                    foreach (var tipoConexion in formato.FormatoTiposConexion)
+                    {
+                        _context.Entry(tipoConexion.TipoConexion).State = EntityState.Detached;
+                  
+                    
+                            _context.Entry(tipoConexion).State = tipoConexion.Id <= 0 ? EntityState.Added : EntityState.Modified;
+                        
 
-                //        Adendum.FormatoId = formato.Id;
-                //        var AdendumoBD = formatoBD.Adendum.FirstOrDefault(d => d.FormatoId == formato.Id && d.Id == Adendum.Id);
-
-                //        if (AdendumoBD != null)
-                //        {
-
-                //            _context.Entry(AdendumoBD).CurrentValues.SetValues(Adendum);
-                //            _context.FormatoAdendum.Update(AdendumoBD);
-
-                //        }
-                //        else
-                //        {
-                //            _context.Entry(Adendum).State = EntityState.Added;
-                //        }
-
-
-
-                //    }
-                //}
+                    }
+                }
                 if (formato.Herramienta != null)
                 {
                     _context.Entry(formato.Herramienta).State = EntityState.Unchanged;
@@ -157,16 +149,7 @@ namespace FormatoES.Repository
                     _context.Entry(formato.Conexion).State = EntityState.Unchanged;
 
                 }
-                if (formato.FormatoTiposConexion != null)
-                {
-                    foreach (var formatoTiposConexion in formato.FormatoTiposConexion)
-                    {
-                        _context.Entry(formatoTiposConexion).State = EntityState.Modified;
-                        _context.Entry(formatoTiposConexion.TipoConexion).State = EntityState.Unchanged;
 
-                    }
-
-                }
 
 
 
@@ -185,7 +168,7 @@ namespace FormatoES.Repository
                     .Include(f => f.Planos)
                     .Include(f => f.TipoFormato)
                     .Include(f => f.Adjunto)
-                    .Include(f=>f.FormatoTiposConexion).ThenInclude(ftc=>ftc.TipoConexion)
+                    .Include(f => f.FormatoTiposConexion).ThenInclude(ftc => ftc.TipoConexion)
 
                     .Include(f => f.FormatoFormatoParametro).ThenInclude(t => t.FormatoParametro)
                     .FirstOrDefaultAsync(f => f.Guid == guidformato);
@@ -198,7 +181,7 @@ namespace FormatoES.Repository
             try
             {
                 var query = _context.Formato.AsNoTracking()
-                                    .Include(c => c.Adendum)
+                                    .Include(c => c.Adjunto)
                                     .Include(c => c.Adendum)
                                     .Include(c => c.FormatoFormatoParametro).ThenInclude(d => d.FormatoParametro)
                                     .Include(c => c.Planos)

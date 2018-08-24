@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ignoreElements } from 'rxjs/operators';
 import { LoaderService } from '../../common/services/entity/loaderService';
 import { TIPOS_FORMATO, TIPOS_ESPECIFICACION } from '../formato-enum/formato.enum';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -192,6 +193,8 @@ export class CrearFormatoComponent implements OnInit {
         this.Adjunto = response.Adjunto
 
         this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
+        
+        
         this.bloqueartipoFormato = true;
         this.loaderService.display(false);
 
@@ -233,7 +236,7 @@ export class CrearFormatoComponent implements OnInit {
       TipoConexion: tipoConexionParam,
       Estado: true
     }));
-
+    this.formFormatoTiposConexion.updateValueAndValidity();
     let index = this.parametrosTipoConexion.findIndex(d => d.Id == tipoConexion);
     this.parametrosTipoConexion.splice(index, 1);
   }
@@ -242,8 +245,11 @@ export class CrearFormatoComponent implements OnInit {
 
     let value = this.formFormatoTiposConexion.value.find(d => d.TipoConexionId == tipoConexion.Id && d.Estado == true);
     let index = this.formFormatoTiposConexion.controls.findIndex(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true);
-    this.formFormatoTiposConexion.removeAt(index);
+    let form = this.formFormatoTiposConexion.controls.find(d => d.value.TipoConexionId == tipoConexion.Id && d.value.Estado == true)
     value.Estado = false;
+    form.setValue(value);
+    this.formFormatoTiposConexion.updateValueAndValidity();
+    
 
     this.parametrosTipoConexion.push(value.TipoConexion);
   }
@@ -312,6 +318,8 @@ export class CrearFormatoComponent implements OnInit {
     this.formFormatoTiposConexion = this.formFormato.get('FormatoTiposConexion') as FormArray;
 
     this.formatoModel.FormatoTiposConexion.forEach(f => {
+      if (f.Estado == true) {
+
       let form = this.formBuilder.group({
         FormatoId: [f.FormatoId],
         Id: [f.Id],
@@ -325,6 +333,7 @@ export class CrearFormatoComponent implements OnInit {
 
       let index = this.parametrosTipoConexion.findIndex(d => d.Id == f.Id);
       this.parametrosTipoConexion.splice(index, 1);
+      }
     });
 
     console.log(this.formFormatoTiposConexion);
