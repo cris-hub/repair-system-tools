@@ -208,6 +208,7 @@ namespace Pemarsa.CanonicalModels
                     public const string Rectificado = "Rectificado";
                     public const string Soldadura = "Soldadura";
                     public const string Reasignacion = "Reasignacion";
+                    public const string junk = "Junk";
                 }
 
                 public struct TipoInspeccion
@@ -253,6 +254,11 @@ namespace Pemarsa.CanonicalModels
             {
                 public const string Tipo1 = "Tipo1";
                 public const string Tipo2 = "Tipo2";
+            }
+            public struct Operario
+            {
+                public const string Operario1 = "Catalina Ochavez";
+                public const string Operario2 = "Julian Milan";
             }
 
         }
@@ -324,6 +330,7 @@ namespace Pemarsa.CanonicalModels
             public const string Estado = "ESTADO_PROCESO";
             public const string Instructivo = "INSTRUCTIVO_PROCESO";
             public const string MaquinaAsignada = "MAQUINA_ASIGNADA_PROCESO";
+            public const string Operario = "OPERARIO";
             public const string Norma = "NORMA_PROCESO";
             public const string TipoProceso = "TIPO_PROCESO";
             public const string TipoSoldadura = "TIPO_SOLDADURA_PROCESO";
@@ -332,7 +339,7 @@ namespace Pemarsa.CanonicalModels
             public const string TubosPatrones = "TUBOS_PATRONES";
             public const string EquiposEmi = "EQUIPOS_EMI";
             public const string BobinasMagneticas = "BOBINAS_MAGNETICAS";
-            
+
 
 
 

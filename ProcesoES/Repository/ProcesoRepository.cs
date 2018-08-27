@@ -342,19 +342,33 @@ namespace ProcesoES.Repository
                     .Include(proceso => proceso.TipoProcesoAnterior)
                     .Include(proceso => proceso.OrdenTrabajo.Prioridad);
 
+                List<Proceso> procesos = new List<Proceso> ();
 
+                if (tipoProceso == (int)TIPOPROCESOS.REASIGNACION)
+                {
+                    var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO).OrderBy(d => d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
+                        .Skip(paginacion.RegistrosOmitir())
+                                        .Take(paginacion.CantidadRegistros);
 
-
-                var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO).OrderBy(d => d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
-                    .Skip(paginacion.RegistrosOmitir())
-                                    .Take(paginacion.CantidadRegistros);
 
                 await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
+                    procesos = result.ToList();
+                }
+                else {
+                    var result = query.Where(c => c.TipoProcesoId == tipoProceso).OrderBy(d => d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
+                    .Skip(paginacion.RegistrosOmitir())
+                                    .Take(paginacion.CantidadRegistros);
+                await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
+                    procesos = result.ToList();
+                }
+                
+
+
 
 
 
                 var cantidad = await _context.Proceso.CountAsync();
-                return new Tuple<int, IEnumerable<Proceso>>(cantidad, result);
+                return new Tuple<int, IEnumerable<Proceso>>(cantidad, procesos);
             }
             catch (Exception e) { throw e; }
         }
@@ -775,6 +789,20 @@ namespace ProcesoES.Repository
             {
                 _context.InspeccionConexion.UpdateRange(inspeccionesConexiones);
 
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarProceso(Proceso proceso, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                _context.Entry(proceso).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception)

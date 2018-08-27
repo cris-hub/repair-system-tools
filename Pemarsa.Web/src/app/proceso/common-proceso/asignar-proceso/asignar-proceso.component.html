@@ -1,10 +1,11 @@
-<div class="form-group row ">
+<div [formGroup]="formularioAsignacioTrabajo" class="form-group row ">
   <div class="col-lg-4">
     <label class="float-right">Maquina asignada:</label>
   </div>
   <div class="col-lg-6">
-    <select  formControlName="MaquinaAsignadaId"  class="form-control form-control-lg">
-      <option *ngFor="let paramtro of parametros" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+    <select [attr.disabled]="disable ? '' : null"  formControlName="MaquinaAsignadaId" validacion [validaciones]="[requerido]" class="form-control form-control-lg">
+      <option [value]="''">Seleccione</option>
+      <option *ngFor="let paramtro of parametrosMaquinas" [value]="paramtro.Id">{{paramtro.Valor}}</option>
     </select>
   </div>
 
@@ -12,9 +13,9 @@
     <label class="float-right">Operario:</label>
   </div>
   <div class="col-lg-6">
-    <select formControlName="MaquinaAsignadaId" class="form-control form-control-lg">
-      <option *ngFor="let paramtro of parametros" [value]="paramtro.Id">{{paramtro.Valor}}</option>
-
+    <select [attr.disabled]="disable ? '' : null" formControlName="GuidOperario" validacion [validaciones]="[requerido]" class="form-control form-control-lg">
+      <option [value]="''">Seleccione</option>
+      <option *ngFor="let paramtro of parametrosOperarios" [value]="paramtro.Guid">{{paramtro.Valor}}</option>
     </select>
   </div>
 
@@ -23,17 +24,18 @@
     <label class="float-right">Norma:</label>
   </div>
   <div class="col-lg-6">
-    <select formControlName="MaquinaAsignadaId" class="form-control form-control-lg">
-      <option *ngFor="let paramtro of parametros" [value]="paramtro.Id">{{paramtro.Valor}}</option>
-
+    <select [attr.disabled]="disable ? '' : null" formControlName="NormaId" validacion [validaciones]="[requerido]" class="form-control form-control-lg">
+      <option [value]="''">Seleccione</option>
+      <option *ngFor="let paramtro of parametrosNorma" [value]="paramtro.Id">{{paramtro.Valor}}</option>
     </select>
   </div>
 
 
   <div class="col-lg-4">
-    <label  formControlName="MaquinaAsignadaId" class="float-right">Trabajo a realizar:</label>
+    <label class="float-right">Trabajo a realizar:</label>
+    
   </div>
   <div class="col-lg-6">
-    <textarea class="form-control" ></textarea>
+    <textarea [attr.disabled]="disable ? '' : null" formControlName="TrabajoRealizar" validacion [validaciones]="[requerido]"  class="form-control" ></textarea>
   </div>
 </div>

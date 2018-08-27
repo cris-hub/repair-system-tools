@@ -61,6 +61,20 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpPut("ActualizarProceso")]
+        public async Task<IActionResult> ActualizarProceso([FromBody]Proceso proceso)
+        {
+            try
+            {
+                bool seActualizo = await _procesoService.ActualizarProceso(proceso, new UsuarioDTO());
+                return Ok(seActualizo);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost("CrearInspeccionConexiones")]
         public async Task<IActionResult> CrearInspeccionConexiones([FromBody]IEnumerable<InspeccionConexion> InspeccionesConexiones)
         {

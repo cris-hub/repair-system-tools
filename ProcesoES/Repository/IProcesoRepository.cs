@@ -25,5 +25,6 @@ namespace ProcesoES.Repository
         Task<bool> RechazarProceso(Guid guid, string observacion, UsuarioDTO usuarioDTO);
         Task<IEnumerable<Guid>> CrearInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO);
         Task<bool> ActualizarInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO);
+        Task<bool> ActualizarProceso(Proceso proceso, UsuarioDTO usuarioDTO);
     }
 }

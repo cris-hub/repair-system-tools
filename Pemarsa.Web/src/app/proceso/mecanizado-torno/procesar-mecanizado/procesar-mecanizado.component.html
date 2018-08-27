@@ -17,24 +17,24 @@
 
   <div class="row contenido-interno">
     <div class="col-md-12">
-      <form>
+      <form (ngSubmit)="procesar()">
 
         <app-detalle-proceso [proceso]="proceso">
 
         </app-detalle-proceso>
 
-        <app-asignar-proceso [formGroup]="formularioAsignacion">
+        <app-asignar-proceso (formularioEvent)="iniciarformularioAsignacion($event)" [proceso]="proceso">
 
         </app-asignar-proceso>
 
-        <app-trabajo-realizado [formGroup]="formularioTrabajoRealizado">
+        <app-trabajo-realizado (formularioEvent)="iniciarformularioTrabajoRealizado($event)" [proceso]="proceso">
 
         </app-trabajo-realizado>
 
 
-        <app-siguiente-proceso [data]="proceso" (click)="confirmarParams('Seleccione siguiente proceso', '¿sugerir el proceso ?', true, proceso)">
-
-        </app-siguiente-proceso>
+        <button type="submit" class="btn centrar">
+          {{accion}}
+        </button>
       </form>
     </div>
 

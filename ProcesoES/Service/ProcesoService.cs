@@ -331,6 +331,20 @@ namespace ProcesoES.Service
                 throw;
             }
         }
+
+        public async Task<bool> ActualizarProceso(Proceso proceso, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                bool seActualizo = await _procesoRepository.ActualizarProceso(proceso, usuarioDTO);
+                return seActualizo;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 
 

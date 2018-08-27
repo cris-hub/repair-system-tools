@@ -340,6 +340,11 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.Soldadura,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
                     },new Catalogo{
+                        Id = 114,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.junk,
+                        Grupo = CanonicalConstants.Grupos.TipoProceso
+                    },new Catalogo{
                         Id = 42,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo1,
@@ -733,6 +738,18 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Proceso.Norma.Tipo1,
                         Grupo = CanonicalConstants.Grupos.Norma
+                     },
+                    new Catalogo{
+                        Id = 115,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.Operario.Operario1,
+                        Grupo = CanonicalConstants.Grupos.Operario
+                     },
+                    new Catalogo{
+                        Id = 116,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.Operario.Operario2,
+                        Grupo = CanonicalConstants.Grupos.Operario
                      }
                 };
                 foreach (var proceso in procesos)
@@ -1137,7 +1154,7 @@ namespace Pemarsa.Data.DBInitialize
                     }
                 }
 
-                // Solicitudes //
+                // procesos //
                 foreach (var proceso in procesos)
                 {
                     switch (proceso.Grupo)
@@ -1182,6 +1199,19 @@ namespace Pemarsa.Data.DBInitialize
                             }
                             break;
                         case CanonicalConstants.Grupos.Norma:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.Operario:
                             if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
                             {
                                 context.ParametroCatalogo.Add
@@ -1317,9 +1347,12 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Campos = "Id, Guid, Valor, Id, Grupo",
                         Tabla = "catalogo",
-                        Condicion = @" Grupo = 'MAQUINA_ASIGNADA'
+                        Condicion = @" Grupo = 'MAQUINA_ASIGNADA_PROCESO'
                                     OR Grupo = 'OPERARIO'  
                                     OR Grupo = 'NORMA_PROCESO'  
+                                    OR Grupo = 'EQUIPO_MEDICION_UTILIZADO_PROCESO'  
+                                    OR Grupo = 'INSTRUCTIVO_PROCESO'  
+                                    OR Grupo = 'OPERARIO'  
 
                                 "
                     }
@@ -1417,7 +1450,20 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
-          
+                        case 7:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 7) && (pc.Entidad == CanonicalConstants.Entidades.MecanizadoTorno)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.MecanizadoTorno
+                                }
+                                );
+                            }
+                            break;
+
                     }
                 }
 
