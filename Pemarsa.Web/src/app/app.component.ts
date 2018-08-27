@@ -160,7 +160,7 @@ export class AppComponent implements OnInit {
             id: "14",
             name: "Alistamiento",
             image: "",
-            url: "",
+            url: "/alistamiento",
             color: "color",
             title: "Alistamiento",
             submenu: false,
@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
               {
                 icono: "icon-alistamiento",
                 color: "color6",
-                class: "remove"
+                class: "display"
               }
 
           },

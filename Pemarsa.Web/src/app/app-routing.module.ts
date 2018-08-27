@@ -77,6 +77,9 @@ const routes: Routes = [
   {
     path: 'mecanizado/torno', loadChildren: './proceso/mecanizado-torno/mecanizado-torno.module#MecanizadoTornoModule'
   },
+  {
+    path: 'alistamiento', loadChildren: './proceso/alistamiento/alistamiento.module#AlistamientoModule'
+  },
 
     // aprobacion
   

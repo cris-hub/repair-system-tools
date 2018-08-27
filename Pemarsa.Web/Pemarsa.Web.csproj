@@ -57,6 +57,7 @@
     <None Remove="src\app\herramienta\herramienta\herramienta.module.ts" />
     <None Remove="src\app\herramienta\herramienta\index.ts" />
     <None Remove="src\app\herramienta\herramienta\listar-herramienta\listar-herramienta.component.ts" />
+    <None Remove="src\app\proceso\alistamiento\alistamiento.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
@@ -127,6 +128,7 @@
     <TypeScriptCompile Include="src\app\herramienta\herramienta\filtro-herramienta\filtro-herramienta.component.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\index.ts" />
     <TypeScriptCompile Include="src\app\herramienta\herramienta\listar-herramienta\listar-herramienta.component.ts" />
+    <TypeScriptCompile Include="src\app\proceso\alistamiento\alistamiento.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />

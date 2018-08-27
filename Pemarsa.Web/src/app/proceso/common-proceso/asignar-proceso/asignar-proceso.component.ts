@@ -68,6 +68,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
     
 
     if (this.proceso.Id) {
+      debugger;
 
       if (this.proceso.EstadoId == ESTADOS_PROCESOS.Pendiente) {
         this.formularioAsignacioTrabajo.setValidators(Validators.required)

@@ -4,7 +4,7 @@
     <br />
     <div class="row">
       <div class="col-lg-4">
-        <label class="float-right">Instructivo:</label>
+        <label class="float-right">Instructivo: {{requeridoformularioTrabajoRealizado}}</label>
       </div>
       <div class="col-lg-6">
         <select [attr.disabled]="disable ? '' : null" formControlName="InstructivoId" validacion [validaciones]="[requeridoformularioTrabajoRealizado]" class="form-control form-control-lg">

@@ -65,6 +65,8 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   }
 
   validacionesFormulario() {
+    debugger;
+    //funion
     if (this.proceso.Id) {
       if (this.proceso.EstadoId == ESTADOS_PROCESOS.Asignado) {
         this.requeridoformularioTrabajoRealizado = 'requerido'
