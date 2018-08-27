@@ -2,7 +2,6 @@ import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AutoCompleteModule, AutoComplete } from 'primeng/autocomplete';
 import { RouterModule } from '@angular/router';
 import { RouterConfigLoader } from '@angular/router/src/router_config_loader';
 import { ConfigLoader } from './common/config/config.loader';
@@ -32,7 +31,8 @@ import { OrdenTrabajoService } from './common/services/entity/orden-trabajo.serv
 import { ProcesoModule } from './proceso/proceso.module';
 import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
 import { LoaderService } from './common/services/entity/loaderService';
-import { CoordinadorModule } from './coordinador/coordinador.module';
+import { CoordinadorModule } from './proceso/coordinador/coordinador.module';
+
 
 
 
@@ -49,9 +49,7 @@ import { CoordinadorModule } from './coordinador/coordinador.module';
     HttpClientModule,
     CoordinadorModule,
     ClienteModule,
-    AutoCompleteModule,
     FormatoModule,
- 
     OrdenTrabajoModule,
     HerramientaModule,
     ProcesoModule,
@@ -67,8 +65,8 @@ import { CoordinadorModule } from './coordinador/coordinador.module';
     
 
   ],
-  entryComponents: [AutoComplete]
-  ,
+  
+  
   providers: [
     ConfigService,
     {

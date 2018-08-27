@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FiltroProcesoComponent } from '../../filtro-proceso/filtro-proceso.component';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../../../common/services/entity/loaderService';
+import { ProcesoService } from '../../../common/services/entity';
+import { ProcesoModel, OrdenTrabajoModel } from '../../../common/models/Index';
+import { OrdenTrabajoService } from '../../../common/services/entity/orden-trabajo.service';
 
 @Component({
   selector: 'app-mecanizado-fresa-procesar',
@@ -9,10 +13,22 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MecanizadoFresaProcesarComponent implements OnInit {
 
-  constructor(private activedRoute: ActivatedRoute) { }
+
+  public proceso: ProcesoModel;
+  public ordenTrabajo: OrdenTrabajoModel;
+
+
+  constructor(
+    private activedRoute: ActivatedRoute,
+    private loaderService: LoaderService,
+    private procesoService: ProcesoService,
+    private ordenTrabajoService: OrdenTrabajoService,
+  ) { }
 
   ngOnInit() {
     this.obtenerParametrosRuta();
+    this.consultarProceso();
+
   }
 
   obtenerParametrosRuta() {
@@ -20,4 +36,31 @@ export class MecanizadoFresaProcesarComponent implements OnInit {
     parametrosUlrMap.set('procesoId', this.activedRoute.snapshot.paramMap.get('id'));
     return parametrosUlrMap;
   }
+
+
+  consultarProceso() {
+    this.loaderService.display(true)
+    this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
+      .subscribe(response => {
+        this.proceso = response;
+        this.loaderService.display(false)
+      }, error => {
+
+      }, () => {
+
+        this.ordenTrabajoService.consultarOrdenDeTrabajoPorGuid(this.proceso.OrdenTrabajo.Guid)
+          .subscribe(response => {
+            this.ordenTrabajo = response;
+            console.log(this.ordenTrabajo);
+          });
+
+      });
+  }
+
 }
+
+
+
+
+
+

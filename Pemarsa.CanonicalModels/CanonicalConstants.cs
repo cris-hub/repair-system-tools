@@ -22,6 +22,12 @@ namespace Pemarsa.CanonicalModels
             public const string tipo2 = "5B";
             public const string tipo3 = "BH";
         }
+        public struct MaquinaAsignada
+        {
+            public const string tipo1 = "Taladro";
+            public const string tipo2 = "Maseta";
+            public const string tipo3 = "Tijeras";
+        }
 
         public struct Estados
         {
@@ -326,6 +332,7 @@ namespace Pemarsa.CanonicalModels
             public const string TubosPatrones = "TUBOS_PATRONES";
             public const string EquiposEmi = "EQUIPOS_EMI";
             public const string BobinasMagneticas = "BOBINAS_MAGNETICAS";
+            
 
 
 
@@ -337,6 +344,7 @@ namespace Pemarsa.CanonicalModels
             public const string Materiales = "MATERIALES";
             public const string Formato = "FORMATO";
             public const string Solicitud = "SOLICITUD";
+            public const string MecanizadoTorno = "MECANIZADO_TORNO";
             public const string OrdenTrabajo = "ORDEN_TRABAJO";
             public const string Proceso = "PROCESO";
             public const string Inspeccion = "INSPECCION";

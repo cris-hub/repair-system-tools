@@ -30,5 +30,7 @@ namespace ProcesoES.Service
         Task<bool> ActualizarEstadoInspeccionPieza(Guid guid, int pieza, int estado, UsuarioDTO usuarioDTO);
         Task<Proceso> ConsultarProcesoPorTipoYOrdenTrabajo(int TipoProceso, Guid guid2, UsuarioDTO usuarioDTO);
         Task<bool> RechazarProceso(Guid guid, string observacion, UsuarioDTO usuarioDTO);
+        Task<IEnumerable<Guid>> CrearInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO);
+        Task<bool> ActualizarInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO);
     }
 }

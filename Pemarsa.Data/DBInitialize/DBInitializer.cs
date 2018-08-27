@@ -743,6 +743,8 @@ namespace Pemarsa.Data.DBInitialize
 
                 #endregion
 
+
+
                 //if (!context.Catalogo.Any())
                 //{
                 //    context.Catalogo.AddRange(estados);
@@ -757,6 +759,7 @@ namespace Pemarsa.Data.DBInitialize
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Solicitud},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.OrdenTrabajo},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Proceso},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.MecanizadoTorno},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Formato},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Inspeccion}
 
@@ -1307,6 +1310,18 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Campos = "id, guid, nombre, clienteId, lineaId",
                         Tabla = "herramienta"
+                    } ,
+                    new Consulta
+                    {
+                        Id = 7,
+                        Guid = Guid.NewGuid(),
+                        Campos = "Id, Guid, Valor, Id, Grupo",
+                        Tabla = "catalogo",
+                        Condicion = @" Grupo = 'MAQUINA_ASIGNADA'
+                                    OR Grupo = 'OPERARIO'  
+                                    OR Grupo = 'NORMA_PROCESO'  
+
+                                "
                     }
 
 
@@ -1402,6 +1417,7 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
+          
                     }
                 }
 

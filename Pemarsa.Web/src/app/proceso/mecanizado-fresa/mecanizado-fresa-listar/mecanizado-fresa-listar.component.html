@@ -21,7 +21,7 @@
             <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
             </a>
-            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit"> 
+            <!--<ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit"> 
               <li class="records-page-contactos" data-page="10">
                 <a (click)="limiteConsulta(10)">10 Registros</a>
               </li>
@@ -43,7 +43,7 @@
               <li class="records-page-contactos" data-page="300">
                 <a (click)="limiteConsulta(300)">300 Registros</a>
               </li>
-            </ul>
+            </ul>-->
           </div>
         </div>
         <div class="col col-sm-3 col-md-4">
@@ -87,7 +87,7 @@
               <td>
                 <i class="glyphicon glyphicon-eye-open pointer"></i>
                 &nbsp;
-                <i routerLink="/mecanizado/fresado/procesar/{{Proceso.Guid}}" class="glyphicon glyphicon-wrench pointer"></i>
+                <i routerLink="procesar/{{Proceso.Guid}}" class="glyphicon glyphicon-wrench pointer"></i>
                 &nbsp;
                 <i class="glyphicon glyphicon-share-alt devolver pointer"></i>
                 &nbsp;

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InformacionOitComponent } from './informacion-oit.component';
+import { TrabajoRealizadoComponent } from './trabajo-realizado.component';
 
-describe('InformacionOitComponent', () => {
-  let component: InformacionOitComponent;
-  let fixture: ComponentFixture<InformacionOitComponent>;
+describe('TrabajoRealizadoComponent', () => {
+  let component: TrabajoRealizadoComponent;
+  let fixture: ComponentFixture<TrabajoRealizadoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InformacionOitComponent ]
+      declarations: [ TrabajoRealizadoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InformacionOitComponent);
+    fixture = TestBed.createComponent(TrabajoRealizadoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

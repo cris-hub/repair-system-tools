@@ -26,12 +26,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
   imports: [
     CommonModule,
     InspeccionEntradaRoutingModule,
-    ReactiveFormsModule,
     UtilModule,
-    NgxPaginationModule,
-    NgbModule,
-    FormsModule,
-    Ng2SearchPipeModule,
 
   ],
   declarations: [ListarInspeccionesEntradaComponent, InspeccionHerramientaComponent, VRComponent, UTComponent, VisualDimensionalMotorComponent, MPIComponent, EMIComponent, LPIComponent, UTAComponent, VisualDimensionalComponent]

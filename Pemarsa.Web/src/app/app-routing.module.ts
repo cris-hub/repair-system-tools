@@ -24,9 +24,10 @@ import { VisualDimensionalMotorComponent } from './proceso/inspeccion-entrada//v
 import { MPIComponent } from './proceso/inspeccion-entrada/mpi/mpi.component';
 import { UTAComponent } from './proceso/inspeccion-entrada/uta/uta.component';
 import { VisualDimensionalComponent } from './proceso/inspeccion-entrada/visual-dimensional/visual-dimensional.component';
-import { ProcesarOitComponent } from './coordinador/procesar-oit/procesar-oit.component';
-import { OitCambioProcesoComponent } from './coordinador/oit-cambio-proceso/oit-cambio-proceso.component';
+
 import { HistorialProcesosComponent } from './orden-trabajo/historial-procesos/historial-procesos.component';
+import { OitCambioProcesoComponent } from './proceso/coordinador/oit-cambio-proceso/oit-cambio-proceso.component';
+import { ProcesarOitComponent } from './proceso/coordinador/procesar-oit/procesar-oit.component';
 
 const routes: Routes = [
 
@@ -71,7 +72,10 @@ const routes: Routes = [
     path: 'inspeccion/salida', loadChildren: './proceso/inspeccion-salida/inspeccion-salida.module#InspeccionSalidaModule'
   },
   {
-    path: 'mecanizado/fresado', loadChildren: './proceso/mecanizado-fresa/mecanizado-fresa.module#MecanizadoFresaModule'
+    path: 'mecanizado/fresa', loadChildren: './proceso/mecanizado-fresa/mecanizado-fresa.module#MecanizadoFresaModule'
+  },
+  {
+    path: 'mecanizado/torno', loadChildren: './proceso/mecanizado-torno/mecanizado-torno.module#MecanizadoTornoModule'
   },
 
     // aprobacion

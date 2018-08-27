@@ -1,18 +1,18 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { ProcesoModel, EntidadModel } from '../../common/models/Index';
-import { FormGroup } from '@angular/forms';
-import { ProcesoService } from '../../common/services/entity';
-import { ParametroService } from '../../common/services/entity/parametro.service';
+
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../proceso/inspeccion-enum/inspeccion.enum';
-import { Router } from '@angular/router';
+import { ProcesoModel, EntidadModel } from '../../../common/models/Index';
+import { ProcesoService } from '../../../common/services/entity';
+import { ParametroService } from '../../../common/services/entity/parametro.service';
+import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 
 @Component({
-  selector: 'app-siguiente-proceso',
-  templateUrl: './siguiente-proceso.component.html',
-  styleUrls: ['./siguiente-proceso.component.css']
+  selector: 'app-observacion-rechazo',
+  templateUrl: './observacion-rechazo.component.html',
+  styleUrls: ['./observacion-rechazo.component.css']
 })
-export class SiguienteProcesoComponent implements OnInit {
+export class ObservacionRechazoComponent implements OnInit {
   @Output() confir = new EventEmitter();
   @Input() public data: ProcesoModel
   // proceso
@@ -34,28 +34,34 @@ export class SiguienteProcesoComponent implements OnInit {
 
   ngOnInit() {
     this.consultarProcesosSugerir();
+    this.initFormulario();
   }
 
   constructor(
     private procesoService: ProcesoService,
     private parametrosService: ParametroService,
     private toasrService: ToastrService,
-    private router: Router,
+    private formBuilder: FormBuilder,
 
   ) { }
+
+  initFormulario() {
+    this.formulario = this.formBuilder.group({
+      ObservacionRechazo: [this.data.ObservacionRechazo, Validators.required]
+    });
+  }
   cancelarAction() {
     this.response = false;
     this.confir.emit(this.response);
   }
   confirmarAction() {
-    this.crearProceso();
-
-
+    if (!this.formulario.valid) {
+      return
+    }
+    this.rechazarProceso();
   }
 
   event(input) {
-    
-    this.data.TipoProcesoSiguienteId = this.data.TipoProcesoSiguienteSugerido.Id
     if (input.innerHTML == 'rechazar') {
       this.data.EstadoId = ESTADOS_PROCESOS.Rechazado
       this.data.Reasignado = false
@@ -91,19 +97,19 @@ export class SiguienteProcesoComponent implements OnInit {
   seleccionarSiguienteProceso(event) {
     this.procesoSiguiente = event;
     this.data.TipoProcesoSiguienteId = this.procesoSiguiente;
-    
+
 
   }
 
   // formulario
 
-  crearProceso() {
-    this.procesoService.crearProceso(this.data)
+  rechazarProceso() {
+    this.procesoService.rechazarProceso(this.data.Guid, this.formulario.get('ObservacionRechazo').value)
       .subscribe(response => {
         response ? this.response = true : false
         this.confir.emit(this.response);
         console.log(this.response)
-        this.router.navigate(['/aprobacion-supervisor'])
+
       }, errorResponse => {
         this.response = false;
         this.toasrService.error(errorResponse.message);

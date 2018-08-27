@@ -1,11 +1,10 @@
 
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProcesoService } from '../../common/services/entity';
-import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ToastrService } from 'ngx-toastr';
-import { EntidadModel, ProcesoModel } from '../../common/models/Index';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TIPO_INSPECCION } from '../../proceso/inspeccion-enum/inspeccion.enum';
+import { ProcesoModel, EntidadModel } from '../../../common/models/Index';
+import { ProcesoService } from '../../../common/services/entity';
+import { ParametroService } from '../../../common/services/entity/parametro.service';
 
 @Component({
   selector: 'app-sugerir-proceso',

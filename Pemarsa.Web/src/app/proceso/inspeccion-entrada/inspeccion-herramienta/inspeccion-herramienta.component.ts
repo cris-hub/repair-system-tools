@@ -12,8 +12,9 @@ import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoIns
 import { create } from 'domain';
 import { parse } from 'url';
 import { LoaderService } from '../../../common/services/entity/loaderService';
-import { SugerirProcesoComponent } from '../../../coordinador/sugerir-proceso/sugerir-proceso.component';
+
 import { escape } from 'querystring';
+import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
 
 @Component({
   selector: 'app-inspeccion-herramienta',

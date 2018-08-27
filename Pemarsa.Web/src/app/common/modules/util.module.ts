@@ -10,15 +10,13 @@ import { PemarsaStringFormat } from '../pipes/pemarsaStringFormat';
 import { filterEstadoConexionPorConexion } from '../pipes/filterEstadosConexion';
 import { pemarsaAdendumPipe } from '../pipes/pemarsaAdendumPipe';
 import { filtrarColumnasAdendumPorTipoPipe } from '../pipes/filtrarColumnasAdendumPorTipoPipe';
-import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
-import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
-
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CatalogoPipe } from '../pipes/catalogoPipe';
 import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proceso.component';
-import { DetalleProcesoComponent } from '../../proceso/common-proceso/detalle-proceso/detalle-proceso.component';
-import { InformacionOitComponent } from 'src/app/proceso/mecanizado-fresa/informacion-oit/informacion-oit.component';
-import { AsignarProcesoComponent } from 'src/app/proceso/mecanizado-fresa/asignar-proceso/asignar-proceso.component';
+import { SiguienteProcesoComponent } from '../../proceso/coordinador/siguiente-proceso/siguiente-proceso.component';
+import { SugerirProcesoComponent } from '../../proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 
 
@@ -28,6 +26,7 @@ import { AsignarProcesoComponent } from 'src/app/proceso/mecanizado-fresa/asigna
     ReactiveFormsModule,
     NgbModule,
     FormsModule,
+    Ng2SearchPipeModule,
 
   ],
 
@@ -43,10 +42,8 @@ import { AsignarProcesoComponent } from 'src/app/proceso/mecanizado-fresa/asigna
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     FiltroProcesoComponent,
-    InformacionOitComponent,
-    AsignarProcesoComponent,
-    filtrarColumnasAdendumPorTipoPipe,
-    DetalleProcesoComponent
+    filtrarColumnasAdendumPorTipoPipe
+    
   ],
 
   exports: [
@@ -59,12 +56,15 @@ import { AsignarProcesoComponent } from 'src/app/proceso/mecanizado-fresa/asigna
     PemarsaStringFormat,
     CatalogoPipe,
     FiltroProcesoComponent,
-    InformacionOitComponent,
-    AsignarProcesoComponent,
+    FormsModule,
+    NgxPaginationModule,
+    Ng2SearchPipeModule,
+    ReactiveFormsModule,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     filtrarColumnasAdendumPorTipoPipe,
-    DetalleProcesoComponent,
+    CommonModule,
+    NgbModule,
   ],
 
   providers: [
