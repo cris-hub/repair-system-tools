@@ -23,6 +23,13 @@ namespace HerramientaES.Repository
         {
             try
             {
+                var existeHerramienta = _context.Herramienta.Where(h => h.Nombre.ToLower() == herramienta.Nombre.ToLower());
+                var validar = existeHerramienta.Where(h => h.Guid != herramienta.Guid).Count();
+                if (validar > 0)
+                {
+                    throw new ApplicationException("Ya existe una herramienta registrada con el mismo nombre.");
+                }
+
                 var herramientaBD = await _context.Herramienta.AsNoTracking()
                                     .Include(c => c.Materiales).ThenInclude(d => d.Material)
                                     .Include(c => c.TamanosHerramienta)
@@ -290,6 +297,12 @@ namespace HerramientaES.Repository
         {
             try
             {
+                var existe = _context.Herramienta.Any(h => h.Nombre.ToLower() == herramienta.Nombre.ToLower());
+                if (existe)
+                {
+                    throw new ApplicationException("Ya existe una herramienta registrada con el mismo nombre.");
+                }
+
                 herramienta.Guid = Guid.NewGuid();
                 herramienta.FechaRegistro = DateTime.Now;
 

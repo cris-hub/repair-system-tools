@@ -121,6 +121,9 @@ export class CrearHerramientaComponent implements OnInit {
       .subscribe(response => {
         this.toastr.success('Herramienta editada correctamente!', '');
         setTimeout(e => { this.router.navigate(['/herramienta']); }, 200);
+      }, errorMessage => {
+        debugger
+        this.toastr.error(errorMessage.error);
       });
   }
 
@@ -220,6 +223,9 @@ export class CrearHerramientaComponent implements OnInit {
       .subscribe(response => {
         this.toastr.success('Herramienta registrada correctamente!', '');
         setTimeout(e => { this.router.navigate(['/herramienta']); }, 200);
+      }, errorMessage => {
+        debugger
+        this.toastr.error(errorMessage.error);
       });
   }
 
