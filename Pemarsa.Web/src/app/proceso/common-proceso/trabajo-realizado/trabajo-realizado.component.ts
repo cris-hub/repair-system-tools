@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { EntidadModel, ProcesoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -13,6 +13,12 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.requeridoformularioTrabajoRealizado = ''
+    let value = changes.proceso.currentValue['EstadoId'];
+    if (value == ESTADOS_PROCESOS.Asignado) {
+      this.requeridoformularioTrabajoRealizado = 'requerido'
+    }
+    console.log(this.requeridoformularioTrabajoRealizado);
     this.ngOnInit()
   }
   //paramtros
@@ -26,6 +32,9 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel
   //eventos
+
+
+
 
   //formulario
   public formularioTrabajoRealizado: FormGroup
@@ -41,6 +50,11 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
+    this.requeridoformularioTrabajoRealizado = ''
+    let value = this.proceso['EstadoId'];
+    if (value == ESTADOS_PROCESOS.Asignado) {
+      this.requeridoformularioTrabajoRealizado = 'requerido'
+    }
     this.consultarParametros();
     this.iniciarFormulario(this.proceso)
     this.validacionesFormulario();
@@ -69,7 +83,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
     //funion
     if (this.proceso.Id) {
       if (this.proceso.EstadoId == ESTADOS_PROCESOS.Asignado) {
-        this.requeridoformularioTrabajoRealizado = 'requerido'
+        
         this.formularioTrabajoRealizado.setValidators(Validators.required)
         this.formularioTrabajoRealizado.setErrors({ 'requerido': true })
         this.formularioTrabajoRealizado.get('EstadoId').setValue(ESTADOS_PROCESOS.Completado);
@@ -77,10 +91,10 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
         
         this.disable = false;
       } else if ((this.proceso.EstadoId != ESTADOS_PROCESOS.Asignado)) {
-        this.requeridoformularioTrabajoRealizado = ''
+        
         this.formularioTrabajoRealizado.setValidators(null)
         this.formularioTrabajoRealizado.setErrors(null)
-        
+        delete this.formularioTrabajoRealizado.controls['EstadoId']
         this.disable = true;
       }
 
