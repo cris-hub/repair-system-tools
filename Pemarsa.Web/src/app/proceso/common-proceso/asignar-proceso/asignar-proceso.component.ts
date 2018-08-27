@@ -44,10 +44,13 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.requerido = ''
+    
     let value = this.proceso['EstadoId'];
     if (value == ESTADOS_PROCESOS.Pendiente) {
       this.requerido = 'requerido'
+    } else {
+      this.requerido = ''
+
     }
     console.log(this.requerido);
     this.consultarParametros();
@@ -98,6 +101,13 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
 
     this.formularioAsignacioTrabajo.updateValueAndValidity();
+  }
+
+  enviar() {
+    debugger;
+    if (!this.formularioAsignacioTrabajo.valid) {
+      return
+    }
   }
 
   consultarParametros() {
