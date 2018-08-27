@@ -142,13 +142,13 @@ export class CrearFormatoComponent implements OnInit {
         this.parametrosConexion = response.Catalogos.filter(c => c.Grupo == 'CONEXION');
         this.loaderService.display(false)
       }, error => { },
-        () => {
-          this.initFormFormatoAdendum()
-          this.initFormFormatoParamtros()
-          this.initFormTiposConexion()
-          this.initFormFormatoParamtrosAletas()
+      () => {
+        this.initFormFormatoAdendum()
+        this.initFormFormatoParamtros()
+        this.initFormTiposConexion()
+        this.initFormFormatoParamtrosAletas()
 
-        }
+      }
       );
 
 
@@ -193,22 +193,22 @@ export class CrearFormatoComponent implements OnInit {
         this.Adjunto = response.Adjunto
 
         this.initForm(this.formatoModel, this.formatosAdendumModel, this.herramientaModel);
-        
-        
+
+
         this.bloqueartipoFormato = true;
         this.loaderService.display(false);
 
       }, error => { },
-        () => {
-          this.initFormFormatoAdendum()
-          this.initFormFormatoParamtros()
-          this.initFormFormatoParamtrosAletas()
-          this.initFormTiposConexion()
-          if (this.esVer) {
-            this.formFormato.disable();
+      () => {
+        this.initFormFormatoAdendum()
+        this.initFormFormatoParamtros()
+        this.initFormFormatoParamtrosAletas()
+        this.initFormTiposConexion()
+        if (this.esVer) {
+          this.formFormato.disable();
 
-          }
         }
+      }
       );
   }
 
@@ -249,7 +249,7 @@ export class CrearFormatoComponent implements OnInit {
     value.Estado = false;
     form.setValue(value);
     this.formFormatoTiposConexion.updateValueAndValidity();
-    
+
 
     this.parametrosTipoConexion.push(value.TipoConexion);
   }
@@ -259,7 +259,7 @@ export class CrearFormatoComponent implements OnInit {
   initForm(formato: FormatoModel, Adendum: Array<FormatoAdendumModel>, herramienta: HerramientaModel) {
     this.initFormularioFormatoOtros(formato, Adendum, herramienta);
 
-   
+
   }
 
   initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
@@ -320,19 +320,19 @@ export class CrearFormatoComponent implements OnInit {
     this.formatoModel.FormatoTiposConexion.forEach(f => {
       if (f.Estado == true) {
 
-      let form = this.formBuilder.group({
-        FormatoId: [f.FormatoId],
-        Id: [f.Id],
-        TipoConexionId: [f.TipoConexionId],
-        TipoConexion: [f.TipoConexion],
-        Estado: [f.Estado]
+        let form = this.formBuilder.group({
+          FormatoId: [f.FormatoId],
+          Id: [f.Id],
+          TipoConexionId: [f.TipoConexionId],
+          TipoConexion: [f.TipoConexion],
+          Estado: [f.Estado]
 
 
-      });
-      this.formFormatoTiposConexion.push(form)
+        });
+        this.formFormatoTiposConexion.push(form)
 
-      let index = this.parametrosTipoConexion.findIndex(d => d.Id == f.Id);
-      this.parametrosTipoConexion.splice(index, 1);
+        let index = this.parametrosTipoConexion.findIndex(d => d.Id == f.Id);
+        this.parametrosTipoConexion.splice(index, 1);
       }
     });
 
@@ -484,7 +484,16 @@ export class CrearFormatoComponent implements OnInit {
 
     if (!(this.formFormato.get('Parametros').value.length > 0)) {
       this.formFormato.get('Parametros').setErrors({ 'requerido': true });
-    } else {
+    } else if (this.formFormato.get('Parametros').value.length > 0) {
+      this.formFormato.get('Parametros').setValidators(Validators.required);
+      let formato = this.formFormato.get('Parametros').value as Array<FormatoParametroModel>;
+      if (formato.some(d => d.Item == "") && formato.some(d => d.DimensionEspecifica == "")) {
+        this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+      } else {
+        this.formFormato.get('Parametros').setValidators(null);
+      }
+    }
+    else {
       this.formFormato.get('Parametros').setErrors(null);
     }
   }
@@ -502,7 +511,17 @@ export class CrearFormatoComponent implements OnInit {
 
     if (!(this.formFormato.get('Parametros').value.length > 0)) {
       this.formFormato.get('Parametros').setErrors({ 'requerido': true });
-    } else {
+    }
+    else if (this.formFormato.get('Parametros').value.length > 0) {
+      this.formFormato.get('Parametros').setValidators(Validators.required);
+      let formato = this.formFormato.get('Parametros').value as Array<FormatoParametroModel>;
+      if (formato.some(d => d.Item == "") && formato.some(d => d.DimensionEspecifica == "")) {
+        this.formFormato.get('Parametros').setErrors({ 'requerido': true });
+      } else {
+        this.formFormato.get('Parametros').setValidators(null);
+      }
+    }
+    else {
       this.formFormato.get('Parametros').setErrors(null);
     }
 
@@ -565,7 +584,7 @@ export class CrearFormatoComponent implements OnInit {
 
     this.formFormato.updateValueAndValidity();
 
-   
+
     if (!this.esFormularioValido(this.formFormato)) {
       this.toastr.error('Faltan datos por diligenciar!', 'Algunos de los datos no se han diligenciado, por favor valida y vuelva a intentar');
       return
@@ -648,7 +667,7 @@ export class CrearFormatoComponent implements OnInit {
       this.loaderService.display(false)
       setTimeout(e => { this.router.navigate(['/formato']); }, 200);
     }, (errorMessage) => {
-      this.toastr.error(errorMessage.error.Message);
+      this.toastr.error(errorMessage.error);
       this.loaderService.display(false)
 
     });
@@ -663,7 +682,7 @@ export class CrearFormatoComponent implements OnInit {
         this.loaderService.display(false)
         setTimeout(e => { this.router.navigate(['/formato']); }, 200);
       }, (errorMessage) => {
-        this.toastr.error(errorMessage.error.Message);
+        this.toastr.error(errorMessage.error);
         this.loaderService.display(false)
 
       });

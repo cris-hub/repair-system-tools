@@ -23,7 +23,7 @@
               Código:
             </label>
             <div class="col-md-3">
-              <input [attr.disabled]="esVer ? '' : null" formControlName="Codigo" class="form-control " type="text" />
+              <input [attr.disabled]="esVer ? '' : null" formControlName="Codigo" class="form-control " type="text" validacion [validaciones]="['requerido']" />
             </div>
 
 
@@ -168,9 +168,9 @@
             </label>
             <div *ngIf="!esVer" class="col-md-6">
               <input *ngIf="!esVer" type="file" (change)="addFile($event)" class="form-control-file" multiple>
-            </div>
             <strong *ngIf="formFormato.get('Planos').invalid && (formFormato.get('Planos').touched || formFormato.get('Planos').dirty) "
                     class="text-danger validaciones">Este campo es obligatorio</strong>
+            </div>
           </div>
 
           <div class="form-group row">
@@ -257,6 +257,11 @@
               <div class="col-12">
                 <div class="table-responsive-sm table-responsive-md" formArrayName="Adendum">
                   <table class="table table-bordered table-striped col-md-offset-1 col-md-10 ">
+                    <thead class="titleTable">
+                      <tr class="text-center">
+                        <th colspan="2">TABLA ADENDUM​</th>
+                      </tr>
+                    </thead>
                     <tbody *ngFor="let tipos of tipos ">
                       <tr>
                         <th> <p>{{tipos.Valor}} </p></th>

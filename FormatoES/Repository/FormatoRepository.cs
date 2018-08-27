@@ -69,6 +69,12 @@ namespace FormatoES.Repository
         {
             try
             {
+                var existeFormato = _context.Formato.Where(f => f.Codigo.ToLower() == formato.Codigo.ToLower());
+                var validar = existeFormato.Where(f => f.Guid != formato.Guid).Count();
+                if (validar > 0)
+                {
+                    throw new ApplicationException("Ya existe un formato registrado con el mismo nombre.");
+                }
 
 
                 foreach (var FormatoFormatoParametro in formato.FormatoFormatoParametro)
