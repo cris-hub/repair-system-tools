@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CrearOitComponent } from './crear-oit/crear-oit.component';
 import { AutocompletarComponent } from '../common/directivas/autocompletar/autocompletar.component';
-import {AutoCompleteModule} from 'primeng/autocomplete';
 import { FiltroOrdenTrabajoComponent } from './filtro-orden-trabajo/filtro-orden-trabajo.component';
 import { HistorialModificacionesComponent } from './historial-modificaciones/historial-modificaciones.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -20,7 +19,6 @@ import { HistorialProcesosComponent } from './historial-procesos/historial-proce
     CommonModule,
     NgxPaginationModule,
     UtilModule,
-    AutoCompleteModule,
     ReactiveFormsModule,
     RouterModule,
     NgbModule,

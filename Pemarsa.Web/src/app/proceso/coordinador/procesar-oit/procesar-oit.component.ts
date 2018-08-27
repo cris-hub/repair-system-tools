@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AttachmentModel, InspeccionModel, ProcesoModel, InspeccionFotosModel } from '../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProcesoService } from '../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { Location } from '@angular/common';
-import { LoaderService } from '../../common/services/entity/loaderService';
-import { ProcesoInspeccionEntradaModel } from '../../common/models/ProcesoInspeccionEntradaModel';
-import { TIPO_INSPECCION, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO } from '../../proceso/inspeccion-enum/inspeccion.enum';
 import { SiguienteProcesoComponent } from '../siguiente-proceso/siguiente-proceso.component';
+import { ProcesoModel } from '../../../common/models/Index';
+import { ProcesoService } from '../../../common/services/entity';
+import { LoaderService } from '../../../common/services/entity/loaderService';
+import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 
 
 @Component({

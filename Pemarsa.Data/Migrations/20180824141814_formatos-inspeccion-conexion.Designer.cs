@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180824141814_formatos-inspeccion-conexion")]
+    partial class formatosinspeccionconexion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,6 +226,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("PresionOxigeno");
 
+                    b.Property<int>("ProcesoId");
+
                     b.Property<int>("TamañoCortadoresId");
 
                     b.Property<int>("TemperaturaDespuesProceso");
@@ -245,6 +249,8 @@ namespace Pemarsa.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ModoAplicacionId");
+
+                    b.HasIndex("ProcesoId");
 
                     b.HasIndex("TamañoCortadoresId");
 
@@ -1522,6 +1528,11 @@ namespace Pemarsa.Data.Migrations
                     b.HasOne("Pemarsa.Domain.Catalogo", "ModoAplicacion")
                         .WithMany()
                         .HasForeignKey("ModoAplicacionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "Proceso")
+                        .WithMany()
+                        .HasForeignKey("ProcesoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TamanoCortadores")

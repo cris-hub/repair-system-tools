@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DetalleProcesoComponent implements OnInit {
 
+  public colapse: boolean = false;
   @Input() proceso
 
   constructor() { }
@@ -14,4 +15,8 @@ export class DetalleProcesoComponent implements OnInit {
   ngOnInit() {
   }
 
+  colapsar() {
+    this.colapse ? this.colapse = false : this.colapse = true
+    console.log(this.colapse)
+  }
 }

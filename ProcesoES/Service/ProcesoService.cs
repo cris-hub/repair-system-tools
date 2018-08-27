@@ -293,9 +293,37 @@ namespace ProcesoES.Service
         {
             try
             {
-                bool rechazado = await _procesoRepository.RechazarProceso(guid,observacion, usuarioDTO);
+                bool rechazado = await _procesoRepository.RechazarProceso(guid, observacion, usuarioDTO);
 
-                    return rechazado;
+                return rechazado;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Guid>> CrearInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                IEnumerable<Guid> inspeccionesConexionesResult = await _procesoRepository.CrearInspeccionConexiones(inspeccionesConexiones, usuarioDTO);
+                return inspeccionesConexionesResult;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var seActualizo = await _procesoRepository.ActualizarInspeccionConexiones(inspeccionesConexiones, usuarioDTO);
+                return seActualizo;
             }
             catch (Exception)
             {

@@ -51,8 +51,7 @@ namespace Pemarsa.Domain
         public int TipoSoldaduraId { get; set; }
         public virtual Catalogo TipoSoldadura { get; set; }
 
-        [ForeignKey("Proceso")]
-        public int ProcesoId { get; set; }
+        [NotMapped]
         public virtual Proceso Proceso { get; set; }
         #endregion
     }

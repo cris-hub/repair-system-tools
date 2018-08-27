@@ -49,12 +49,12 @@ export class MecanizadoFresaListarComponent implements OnInit {
   }
 
   obtenerTipoProceso(tiposProcesos: CatalogoModel[], procesoDesdeUrl: string) {
-    debugger;
+    
     this.tipoProcesoActual = tiposProcesos.find(proceso => { return proceso.Valor.toLowerCase().includes(procesoDesdeUrl) });
   }
 
   consultarProcesos() {
-    debugger;
+    
     if (this.tipoProcesoActual) {
       this.procesoService.consultarProcesosPorTipo(this.tipoProcesoActual, this.paginacion).subscribe(response => {
         this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado);

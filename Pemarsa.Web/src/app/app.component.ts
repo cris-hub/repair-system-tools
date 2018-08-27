@@ -112,7 +112,7 @@ export class AppComponent implements OnInit {
             id: "11",
             name: "Torneado",
             image: "",
-            url: "",
+            url: "/mecanizado/torno",
             color: "color",
             title: "Torneado",
             submenu: false,
@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
               {
                 icono: "icon-torneado",
                 color: "color3",
-                class: "remove"
+                class: "display"
               }
 
           },
@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
             id: "12",
             name: "Fresado",
             image: "",
-            url: "/mecanizado/fresado",
+            url: "/mecanizado/fresa",
             color: "color",
             title: "Fresado",
             submenu: false,

@@ -72,7 +72,7 @@ namespace ProcesoES.Repository
                 proceso.EstadoId = estadoProceso.Id;
                 proceso.FechaModifica = DateTime.Now;
                 _context.Entry(proceso).State = EntityState.Modified;
-                
+
                 return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception e) { throw e; }
@@ -345,7 +345,7 @@ namespace ProcesoES.Repository
 
 
 
-                var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO).OrderBy(d=>d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
+                var result = query.Where(c => c.TipoProcesoId == tipoProceso && c.EstadoId != (int)ESTADOSPROCESOS.ASIGNADO).OrderBy(d => d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros);
 
@@ -746,6 +746,36 @@ namespace ProcesoES.Repository
 
                 Guid guidProceso = await CrearProceso(nuevoProceso, usuarioDTO);
                 return guidProceso != null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Guid>> CrearInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                await _context.InspeccionConexion.AddRangeAsync(inspeccionesConexiones);
+                List<Guid> guidsResult = inspeccionesConexiones.Select(d => d.Guid).ToList();
+                return guidsResult;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarInspeccionConexiones(IEnumerable<InspeccionConexion> inspeccionesConexiones, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                _context.InspeccionConexion.UpdateRange(inspeccionesConexiones);
+
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception)
             {

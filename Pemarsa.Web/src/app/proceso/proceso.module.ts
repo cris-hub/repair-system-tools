@@ -21,6 +21,13 @@ import { VisualDimensionalComponent } from './inspeccion-entrada/visual-dimensio
 import { InspeccionEntradaModule } from './inspeccion-entrada/inspeccion-entrada.module';
 import { InspeccionSalidaModule } from './inspeccion-salida/inspeccion-salida.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ObservacionRechazoComponent } from './coordinador/observacion-rechazo/observacion-rechazo.component';
+import { CoordinadorModule } from './coordinador/coordinador.module';
+import { MecanizadoTornoModule } from './mecanizado-torno/mecanizado-torno.module';
+import { DetalleProcesoComponent } from './common-proceso/detalle-proceso/detalle-proceso.component';
+
+import { TrabajoRealizadoComponent } from './common-proceso/trabajo-realizado/trabajo-realizado.component';
+import { AsignarProcesoComponent } from './common-proceso/asignar-proceso/asignar-proceso.component';
 
 
 
@@ -28,18 +35,11 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
     UtilModule,
-    NgxPaginationModule,
-    NgbModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-
- 
+    
     
 
   ],
-  declarations: []
+  declarations: [DetalleProcesoComponent, AsignarProcesoComponent, TrabajoRealizadoComponent], exports: [DetalleProcesoComponent, TrabajoRealizadoComponent, AsignarProcesoComponent ]
 })
 export class ProcesoModule { }

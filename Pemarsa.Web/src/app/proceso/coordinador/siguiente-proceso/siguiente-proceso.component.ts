@@ -1,28 +1,33 @@
-
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProcesoService } from '../../common/services/entity';
-import { ParametroService } from '../../common/services/entity/parametro.service';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { EntidadModel, ProcesoModel } from '../../common/models/Index';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { TIPO_INSPECCION } from '../../proceso/inspeccion-enum/inspeccion.enum';
+import { Router } from '@angular/router';
+import { ParametroService } from '../../../common/services/entity/parametro.service';
+import { ProcesoService } from '../../../common/services/entity';
+import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { ProcesoModel, EntidadModel } from '../../../common/models/Index';
 
 @Component({
-  selector: 'app-sugerir-proceso',
-  templateUrl: './sugerir-proceso.component.html',
-  styleUrls: ['./sugerir-proceso.component.css']
+  selector: 'app-siguiente-proceso',
+  templateUrl: './siguiente-proceso.component.html',
+  styleUrls: ['./siguiente-proceso.component.css']
 })
-export class SugerirProcesoComponent implements OnInit {
+export class SiguienteProcesoComponent implements OnInit {
   @Output() confir = new EventEmitter();
-  @Input() public accion
+  @Input() public data: ProcesoModel
   // proceso
-  public data: ProcesoModel;
+
   public titulo: String;
   public Mensaje: String;
   public Cancelar: Boolean;
   public tiposProcesos: EntidadModel[];
   private response: Boolean
-  public procesoSugerido: string;
+  public procesoSiguiente: number;
+
+
+  //open modal
+  public abrilModal = false
+
 
   // formulario
   public formulario: FormGroup
@@ -35,6 +40,7 @@ export class SugerirProcesoComponent implements OnInit {
     private procesoService: ProcesoService,
     private parametrosService: ParametroService,
     private toasrService: ToastrService,
+    private router: Router,
 
   ) { }
   cancelarAction() {
@@ -42,8 +48,21 @@ export class SugerirProcesoComponent implements OnInit {
     this.confir.emit(this.response);
   }
   confirmarAction() {
-    this.actualizarProcesoASugerir();
+    this.crearProceso();
 
+
+  }
+
+  event(input) {
+    
+    this.data.TipoProcesoSiguienteId = this.data.TipoProcesoSiguienteSugerido.Id
+    if (input.innerHTML == 'rechazar') {
+      this.data.EstadoId = ESTADOS_PROCESOS.Rechazado
+      this.data.Reasignado = false
+    } else {
+      this.data.Reasignado = true
+    }
+    this.abrilModal = true
 
   }
 
@@ -52,6 +71,8 @@ export class SugerirProcesoComponent implements OnInit {
     this.Mensaje = Mensaje;
     this.Cancelar = Cancelar;
     this.data = objData;
+    this.abrilModal = true
+
   }
 
   consultarProcesosSugerir() {
@@ -67,19 +88,22 @@ export class SugerirProcesoComponent implements OnInit {
   }
 
 
-  seleccionarProcesoSugerir(event) {
-    this.procesoSugerido = event;
+  seleccionarSiguienteProceso(event) {
+    this.procesoSiguiente = event;
+    this.data.TipoProcesoSiguienteId = this.procesoSiguiente;
+    
+
   }
 
   // formulario
 
-  actualizarProcesoASugerir() {
-    this.procesoService.actualizarProcesoSugerir(this.data.Guid, this.procesoSugerido)
+  crearProceso() {
+    this.procesoService.crearProceso(this.data)
       .subscribe(response => {
-        this.response = response
+        response ? this.response = true : false
         this.confir.emit(this.response);
         console.log(this.response)
-
+        this.router.navigate(['/aprobacion-supervisor'])
       }, errorResponse => {
         this.response = false;
         this.toasrService.error(errorResponse.message);

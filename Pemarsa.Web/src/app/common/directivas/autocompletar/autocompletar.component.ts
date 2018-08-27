@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from "@angu
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/operators';
-import { AutoComplete } from 'primeng/autocomplete';
+
 
 
 @Component({

@@ -1,0 +1,39 @@
+<div class="form-group row ">
+  <div class="col-lg-4">
+    <label class="float-right">Maquina asignada:</label>
+  </div>
+  <div class="col-lg-6">
+    <select  formControlName="MaquinaAsignadaId"  class="form-control form-control-lg">
+      <option *ngFor="let paramtro of parametros" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+    </select>
+  </div>
+
+  <div class="col-lg-4">
+    <label class="float-right">Operario:</label>
+  </div>
+  <div class="col-lg-6">
+    <select formControlName="MaquinaAsignadaId" class="form-control form-control-lg">
+      <option *ngFor="let paramtro of parametros" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+
+    </select>
+  </div>
+
+
+  <div class="col-lg-4">
+    <label class="float-right">Norma:</label>
+  </div>
+  <div class="col-lg-6">
+    <select formControlName="MaquinaAsignadaId" class="form-control form-control-lg">
+      <option *ngFor="let paramtro of parametros" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+
+    </select>
+  </div>
+
+
+  <div class="col-lg-4">
+    <label  formControlName="MaquinaAsignadaId" class="float-right">Trabajo a realizar:</label>
+  </div>
+  <div class="col-lg-6">
+    <textarea class="form-control" ></textarea>
+  </div>
+</div>
