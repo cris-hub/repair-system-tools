@@ -1,35 +1,36 @@
+<form>
+  <div [formGroup]="formularioTrabajoRealizado" class="form-group row ">
+    <div class="col-lg-12">
+      <br />
+      <div class="row">
+        <div class="col-lg-4">
+          <label class="float-right">Instructivo:</label>
+        </div>
+        <div class="col-lg-6">
+          <select [attr.disabled]="disable ? '' : null" formControlName="InstructivoId" validacion [validaciones]="[requeridoformularioTrabajoRealizado]" class="form-control form-control-lg">
+            <option [value]="''">Seleccione</option>
+            <option *ngFor="let paramtro of parametrosInstructivo" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+          </select>
+        </div>
 
-<div [formGroup]="formularioTrabajoRealizado" class="form-group row ">
-  <div class="col-lg-12">
-    <br />
-    <div class="row">
-      <div class="col-lg-4">
-        <label class="float-right">Instructivo:</label>
-      </div>
-      <div class="col-lg-6">
-        <select [attr.disabled]="disable ? '' : null" formControlName="InstructivoId" validacion [validaciones]="[requeridoformularioTrabajoRealizado]" class="form-control form-control-lg">
-          <option [value]="''">Seleccione</option>
-          <option *ngFor="let paramtro of parametrosInstructivo" [value]="paramtro.Id">{{paramtro.Valor}}</option>
-        </select>
+        <div class="col-lg-4">
+          <label class="float-right">Equipo de medición utilizado:​</label>
+        </div>
+        <div class="col-lg-6">
+          <select [attr.disabled]="disable ? '' : null" formControlName="EquipoMedicionUtilizadoId" validacion [validaciones]="[requeridoformularioTrabajoRealizado]" class="form-control form-control-lg">
+            <option [value]="''">Seleccione</option>
+            <option *ngFor="let paramtro of parametrosEquipoUtilizado" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+          </select>
+        </div>
+
+        <div class="col-lg-4">
+          <label class="float-right">Trabajo realizado:</label>
+        </div>
+        <div class="col-lg-6">
+          <textarea [attr.disabled]="disable ? '' : null" formControlName="TrabajoRealizado" validacion [validaciones]="[requeridoformularioTrabajoRealizado]" class="form-control"></textarea>
+        </div>
       </div>
 
-      <div class="col-lg-4">
-        <label class="float-right">Equipo de medición utilizado:​</label>
-      </div>
-      <div class="col-lg-6">
-        <select [attr.disabled]="disable ? '' : null" formControlName="EquipoMedicionUtilizadoId" validacion [validaciones]="[requeridoformularioTrabajoRealizado]" class="form-control form-control-lg">
-          <option [value]="''">Seleccione</option>
-          <option *ngFor="let paramtro of parametrosEquipoUtilizado" [value]="paramtro.Id">{{paramtro.Valor}}</option>
-        </select>
-      </div>
-
-      <div class="col-lg-4">
-        <label class="float-right">Trabajo realizado:</label>
-      </div>
-      <div class="col-lg-6">
-        <textarea [attr.disabled]="disable ? '' : null" formControlName="TrabajoRealizado"  validacion [validaciones]="[requeridoformularioTrabajoRealizado]"  class="form-control"></textarea>
-      </div>
     </div>
-
   </div>
-</div>
+</form>

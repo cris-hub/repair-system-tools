@@ -94,7 +94,8 @@ export class ProcesarMecanizadoComponent implements OnInit {
 
   //procesar
   procesar() {
-    if (!this.formularioAsignacion.valid && !this.formularioTrabajoRealizado.valid) {
+    if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid)) {
+      this.toastrService.error('Faltan datos por diligenciar');
       this.esFormularioValido = false;
       return;
     }

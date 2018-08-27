@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { EntidadModel, ProcesoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { ValidacionDirective } from '../../../common/directivas/validacion/validacion.directive';
 
 @Component({
   selector: 'app-asignar-proceso',
@@ -13,7 +14,8 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    debugger;
+
+   
     this.ngOnInit()
   }
   //paramtros
@@ -42,6 +44,12 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
+    this.requerido = ''
+    let value = this.proceso['EstadoId'];
+    if (value == ESTADOS_PROCESOS.Pendiente) {
+      this.requerido = 'requerido'
+    }
+    console.log(this.requerido);
     this.consultarParametros();
     this.iniciarFormulario(this.proceso)
     this.validacionesFormulario();
@@ -60,12 +68,12 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
     this.formularioAsignacioTrabajo.valueChanges.subscribe(value => {
       console.log(value)
       this.formularioEvent.emit(this.formularioAsignacioTrabajo);
-      
+
     })
   }
 
   validacionesFormulario() {
-    
+
 
     if (this.proceso.Id) {
 
@@ -73,15 +81,15 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
         this.formularioAsignacioTrabajo.setValidators(Validators.required)
         this.formularioAsignacioTrabajo.setErrors({ 'requerido': true })
         this.formularioAsignacioTrabajo.get('EstadoId').setValue(ESTADOS_PROCESOS.Asignado);
-        this.requerido = 'requerido'
-        
+
+
         this.disable = false;
 
       } else if (this.proceso.EstadoId != ESTADOS_PROCESOS.Pendiente) {
         this.formularioAsignacioTrabajo.setValidators(null)
         this.formularioAsignacioTrabajo.setErrors(null)
-        this.requerido = '';
-        
+
+        delete this.formularioAsignacioTrabajo.controls['EstadoId']
         this.disable = true;
 
       }
