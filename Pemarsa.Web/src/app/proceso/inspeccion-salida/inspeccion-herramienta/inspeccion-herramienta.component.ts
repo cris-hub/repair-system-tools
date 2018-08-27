@@ -29,6 +29,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private Inspeccion: InspeccionModel = new InspeccionModel();
   public estadoProceso: string;
   public Iniciar: boolean = false;
+  public ModalOcultar: boolean = false;
   //catalogo
   private Parametros: ParametrosModel;
   private tipoProcesoActual: CatalogoModel = new CatalogoModel();
@@ -111,7 +112,9 @@ export class InspeccionHerramientaComponent implements OnInit {
       console.log(this.tieneProcesoSugerido)
 
       if (this.Proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
-        this.inspeccionesTerminada = true
+        this.inspeccionesTerminada = true;
+        this.ModalOcultar = true;
+        this.abrirmodal();
       }
       else {
         this.inspeccionesTerminada = false
@@ -119,82 +122,105 @@ export class InspeccionHerramientaComponent implements OnInit {
       }
       if (this.tiposInspeccionesSeleccionadas.some(t => t['estado'] == ESTADOS_INSPECCION[77] || t['estado'] == ESTADOS_INSPECCION[108] && this.procesoService.iniciarProcesar == true && this.Iniciar)
       ) {
-        debugger;
         this.inspeccionesEnProceso = true
       } else { this.inspeccionesEnProceso = false }
 
     }
   }
 
-  completarProcesoInspeccion(guidProceso: string) {
+  abrirmodal() {
+    if (this.ModalOcultar) {
+      setTimeout(function () {
+        var element = document.getElementById("modalSugerir");
+        if (element != null) {
+          element.click();
+        }
+        this.ModalOcultar = false;
+      }, 800);
+    }
+  }
 
+  completarProcesoInspeccion(guidProceso: string) {
     if (this.Proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
           this.router.navigate(['inspeccion/salida'])
         };
       });
-    } else {
-      this.router.navigate([
-        'inspeccion/salida/' +
-        this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
-        this.obtenerProcesoDesdeUrl().get('accion')]);
     }
-  }
-
-  consultarSiguienteInspeccion(guidProceso: string) {
-
-    console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
-    if (this.inspeccionesEnProceso) {
-
-      this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
-        this.Inspeccion = response;
-
-        if (response == null) {
-          this.completarProcesoInspeccion(guidProceso);
-          this.procesoService.iniciarProcesar = false;
-          this.router.navigate(['inspeccion/salida/']);
-
-          return
-        }
+    else if ((this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
+      .every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) && (!this.Proceso.TipoProcesoSiguienteSugeridoId)) {
+      if (!this.ModalOcultar && this.inspeccionesTerminada) {
+        this.ModalOcultar = false;
+        this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+          if (response == true) {
+            this.ModalOcultar = false;
+            this.router.navigate(['inspeccion/entrada'])
+          };
+        });
+      }
+    }
+      else {
         this.router.navigate([
           'inspeccion/salida/' +
-          TIPO_INSPECCION[this.Inspeccion.TipoInspeccionId] + '/' +
           this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
-          this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
           this.obtenerProcesoDesdeUrl().get('accion')]);
-      });
+      }
     }
-  }
 
-  //Obtener Parametros uri
-  consultarParametros() {
-    this.parametrosService.consultarParametrosPorEntidad('PROCESO').subscribe(
-      response => {
-        this.Parametros = response;
-        this.tiposInspecciones = response.Consultas;
+    consultarSiguienteInspeccion(guidProceso: string) {
 
-        this.tiposProcesos = response.Catalogos.filter(catalogo => {
-          return catalogo.Grupo ==
-            "TIPO_PROCESO"
+      console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
+      if (this.inspeccionesEnProceso) {
+
+        this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
+          this.Inspeccion = response;
+
+          if (response == null) {
+            this.completarProcesoInspeccion(guidProceso);
+            this.procesoService.iniciarProcesar = false;
+            this.router.navigate(['inspeccion/salida/']);
+
+            return
+          }
+          this.router.navigate([
+            'inspeccion/salida/' +
+            TIPO_INSPECCION[this.Inspeccion.TipoInspeccionId] + '/' +
+            this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+            this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
+            this.obtenerProcesoDesdeUrl().get('accion')]);
         });
-        this.obtenerTipoProceso(this.tiposProcesos, this.obtenerTipoInspeccionDesdeUrl());
+      }
+    }
 
-      }, error => {
-        this.toastrService.error(error.message)
-      }, () => {
-      })
-  }
-  obtenerProcesoDesdeUrl(): Map<string, string> {
-    let parametrosUlr: Map<string, string> = new Map<string, string>();
-    this.Proceso.CantidadInspeccion == 1 ? this.PiezaId = 1 : this.PiezaId = this.obtenerPiezadesdeUrl()
+    //Obtener Parametros uri
+    consultarParametros() {
+      this.parametrosService.consultarParametrosPorEntidad('PROCESO').subscribe(
+        response => {
+          this.Parametros = response;
+          this.tiposInspecciones = response.Consultas;
+
+          this.tiposProcesos = response.Catalogos.filter(catalogo => {
+            return catalogo.Grupo ==
+              "TIPO_PROCESO"
+          });
+          this.obtenerTipoProceso(this.tiposProcesos, this.obtenerTipoInspeccionDesdeUrl());
+
+        }, error => {
+          this.toastrService.error(error.message)
+        }, () => {
+        })
+    }
+    obtenerProcesoDesdeUrl(): Map < string, string > {
+      let parametrosUlr: Map<string, string> = new Map<string, string>();
+      this.Proceso.CantidadInspeccion == 1 ? this.PiezaId = 1 : this.PiezaId = this.obtenerPiezadesdeUrl()
     this.accionRealizar();
 
-    parametrosUlr.set('proceso', this.ObtenerPtroceso());
-    parametrosUlr.set('pieza', this.PiezaId);
-    parametrosUlr.set('accion', this.accion);
-    return parametrosUlr;
-  }
+      parametrosUlr.set('proceso', this.ObtenerPtroceso());
+      parametrosUlr.set('pieza', this.PiezaId);
+      parametrosUlr.set('accion', this.accion);
+      return parametrosUlr;
+    }
   private accionRealizar() {
     this.activedRoute.snapshot.url.forEach(url => url.path == 'procesar' || url.path == 'editar' || url.path == 'ver' ? this.accion = url.path : this.accion = undefined);
   }
@@ -254,7 +280,7 @@ export class InspeccionHerramientaComponent implements OnInit {
     this.completarProcesoInspeccion(this.Proceso.Guid);
     this.actualizarEstadoProceso();
     this.actualizarEstadoInpeccionPieza();
-    
+
     this.consultarSiguienteInspeccion(this.Proceso.Guid);
   }
   actualizarEstadoProceso() {
@@ -399,6 +425,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   responseSugerenciaProceso(event) {
     if (event) {
+      this.ModalOcultar = false;
       this.completarProcesoInspeccion(this.Proceso.Guid)
 
     }

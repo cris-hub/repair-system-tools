@@ -107,7 +107,7 @@
             </label>
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
-                <option [value]="0">Seleccione</option>
+                <option value="null">Seleccione</option>
                 <option *ngFor="let clienteLn of clienteLinea" [value]="clienteLn.Id">{{clienteLn.Valor}}</option>
               </select>
               <strong *ngIf="frmHerramienta.get('LineaId').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>
@@ -120,7 +120,7 @@
                 <div class="panel-heading gris" style="background:#d7dce3 !important; color:#1f1e1e  !important">
                   <div class="row">
                     <div class="col-md-6">
-                      Herramienta Petrolera:&nbsp;&nbsp;
+                      <b>Herramienta Petrolera:</b>&nbsp;&nbsp;
                       <label class="form-check-label">SI</label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <input [attr.disabled]="esVer == true ? '' : null" formControlName="EsHerramientaPetrolera" class="form-check-input" type="radio" [value]="true">

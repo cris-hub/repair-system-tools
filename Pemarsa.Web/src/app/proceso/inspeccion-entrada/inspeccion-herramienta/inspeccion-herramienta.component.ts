@@ -29,6 +29,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private Inspeccion: InspeccionModel = new InspeccionModel();
   public estadoProceso: string;
   public Iniciar: boolean = false;
+  private ModalOcultar: boolean = false;
 
   //catalogo
   private Parametros: ParametrosModel;
@@ -113,6 +114,8 @@ export class InspeccionHerramientaComponent implements OnInit {
 
       if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
         this.inspeccionesTerminada = true
+        this.ModalOcultar = true;
+        this.abrirmodal();
       }
       else {
         this.inspeccionesTerminada = false
@@ -128,6 +131,18 @@ export class InspeccionHerramientaComponent implements OnInit {
     }
   }
 
+  abrirmodal() {
+    if (this.ModalOcultar) {
+      setTimeout(function () {
+        var element = document.getElementById("modalSugerir");
+        if (element != null) {
+          element.click();
+        }
+        this.ModalOcultar = false;
+      }, 800);
+    }
+  }
+
   completarProcesoInspeccion(guidProceso: string) {
     this.consultarProceso();
     if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
@@ -137,10 +152,18 @@ export class InspeccionHerramientaComponent implements OnInit {
         };
       });
     } else if ((this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
-      .every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) &&  (!this.Proceso.TipoProcesoSiguienteSugeridoId)) {
-      
-      
-    }else {
+      .every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) && (!this.Proceso.TipoProcesoSiguienteSugeridoId)) {
+      if (!this.ModalOcultar && this.inspeccionesTerminada) {
+        this.ModalOcultar = false;
+        this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+          if (response == true) {
+            this.ModalOcultar = false;
+            this.router.navigate(['inspeccion/entrada'])
+          };
+        });
+      }
+
+    } else {
       this.router.navigate([
         'inspeccion/entrada/' +
         this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
@@ -149,7 +172,6 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
 
   consultarSiguienteInspeccion(guidProceso: string) {
-
     console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
     if (this.inspeccionesEnProceso) {
 
@@ -254,13 +276,12 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   //persistir
   procesar() {
-
     this.procesoService.iniciarProcesar = true
     this.Iniciar = true;
     this.completarProcesoInspeccion(this.Proceso.Guid);
     this.actualizarEstadoProceso();
     this.actualizarEstadoInpeccionPieza();
-    
+
     this.consultarSiguienteInspeccion(this.Proceso.Guid);
   }
   actualizarEstadoProceso() {
@@ -342,7 +363,6 @@ export class InspeccionHerramientaComponent implements OnInit {
     this.persistirNuevaInspeccionSelecionada(this.Proceso.Guid, this.tipoInspeccion);
 
     this.procesarInspeccionesSeleccionadas();
-
   }
 
 
@@ -404,7 +424,8 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   responseSugerenciaProceso(event) {
     if (event) {
-      this.completarProcesoInspeccion(this.Proceso.Guid)
+      this.ModalOcultar = false;
+      this.completarProcesoInspeccion(this.Proceso.Guid);
 
     }
   }

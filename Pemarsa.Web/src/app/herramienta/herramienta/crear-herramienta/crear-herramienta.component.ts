@@ -122,7 +122,6 @@ export class CrearHerramientaComponent implements OnInit {
         this.toastr.success('Herramienta editada correctamente!', '');
         setTimeout(e => { this.router.navigate(['/herramienta']); }, 200);
       }, errorMessage => {
-        debugger
         this.toastr.error(errorMessage.error);
       });
   }
@@ -224,7 +223,6 @@ export class CrearHerramientaComponent implements OnInit {
         this.toastr.success('Herramienta registrada correctamente!', '');
         setTimeout(e => { this.router.navigate(['/herramienta']); }, 200);
       }, errorMessage => {
-        debugger
         this.toastr.error(errorMessage.error);
       });
   }
@@ -285,9 +283,9 @@ export class CrearHerramientaComponent implements OnInit {
   validacionLineaCliente() {
     let valor = this.frmHerramienta.controls['ClienteId'].value
     if (valor && this.clienteLinea.length > 0) {
-      this.frmHerramienta.controls['LineaId'].setValidators(Validators.required)
+      this.frmHerramienta.get('LineaId').setValidators(Validators.required)
+      this.frmHerramienta.get('LineaId').setErrors({ 'requerido': true })
     } else {
-
       this.frmHerramienta.setControl('LineaId', new FormControl(null))
 
     }
@@ -474,14 +472,12 @@ export class CrearHerramientaComponent implements OnInit {
 
   //Funcion para implementar el modal con la informacion respectiva
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
-    debugger;
     if (this.esActualizar) Mensaje = "¿Desea finalizar la actualización de la Herramienta?";
     
     this.confirmar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
 
   ConfirmacionEvento(event: any) {
-    debugger;
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsDirty();
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsTouched();
     this.validacionHerramientaMotor();

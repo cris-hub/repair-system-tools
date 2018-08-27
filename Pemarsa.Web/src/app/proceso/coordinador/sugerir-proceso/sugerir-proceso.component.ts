@@ -13,7 +13,8 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 })
 export class SugerirProcesoComponent implements OnInit {
   @Output() confir = new EventEmitter();
-  @Input() public accion
+  @Input() public accion;
+  @Input() public ocultar;
   // proceso
   public data: ProcesoModel;
   public titulo: String;

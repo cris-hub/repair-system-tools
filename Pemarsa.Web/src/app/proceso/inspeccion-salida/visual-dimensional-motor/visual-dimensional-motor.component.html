@@ -80,12 +80,12 @@
           <div class="row">
             <div class="col-md-offset-2">
 
-              <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class=" col-md-3 ">
+              <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                 <div [formGroupName]="i" class="row">
-                  <div *ngIf="false" class="col-md-auto">
+                  <div *ngIf="false" class="col-lg-9 col-md-12 col-sm-12">
                     <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']" [(ngModel)]="test" class="form-control " />
                   </div>
-                  <div class="col-md-9">
+                  <div class="col-lg-9 col-md-12 col-sm-12">
                     <label class="control-label" id="corre">* Conexión {{i+1}} </label>
                     <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
@@ -93,7 +93,7 @@
                     </select>
                   </div>
                   <br />
-                  <div class="col-md-9">
+                  <div class="col-lg-9 col-md-12 col-sm-12">
                     <label class="control-label" id="corre">* Tipo conexión{{i+1}} </label>
                     <select formControlName="TipoConexionId" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
@@ -101,7 +101,7 @@
                     </select>
                   </div>
                   <br />
-                  <div class="col-md-9">
+                  <div class="col-lg-9 col-md-12 col-sm-12">
                     <label class="control-label" id="corre">*Estado {{i+1}} </label>
                     <select formControlName="EstadoId" class="form-control form-control-lg">
                       <option value="0">Seleccione</option>
@@ -110,7 +110,7 @@
 
                   </div>
                   <br />
-                  <div class="col-md-9">
+                  <div class="col-lg-9 col-md-12 col-sm-12">
                     <label class="control-label" id="corre">*Observacion {{i+1}} </label>
                     <textarea formControlName="Observaciones" class="form-control"></textarea>
                   </div>

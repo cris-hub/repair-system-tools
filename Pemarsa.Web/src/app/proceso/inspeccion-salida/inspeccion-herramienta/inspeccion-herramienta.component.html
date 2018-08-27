@@ -148,6 +148,7 @@
               <button (click)="regresar();" class="btn">Cancelar</button>
               &nbsp;
               <app-sugerir-proceso *ngIf="inspeccionesTerminada && !tieneProcesoSugerido"
+                                   [ocultar]="true"
                                    [accion]="accion"
                                    (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso a ' + accion + '?', true, Proceso)"
                                    (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
