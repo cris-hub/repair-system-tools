@@ -1,8 +1,10 @@
 <!-- Modal -->
 <button *ngIf="accion=='procesar'"
+        [ngClass]="{'hidden': ocultar}"
         data-target="#confirmarModal"
         data-toggle="modal"
-        class="btn btn-primary">
+        class="btn btn-primary"
+        id="modalSugerir">
   Sugerir
 </button>
 

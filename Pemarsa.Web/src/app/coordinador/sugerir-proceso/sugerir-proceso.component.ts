@@ -14,7 +14,8 @@ import { TIPO_INSPECCION } from '../../proceso/inspeccion-enum/inspeccion.enum';
 })
 export class SugerirProcesoComponent implements OnInit {
   @Output() confir = new EventEmitter();
-  @Input() public accion
+  @Input() public accion;
+  @Input() public ocultar;
   // proceso
   public data: ProcesoModel;
   public titulo: String;
