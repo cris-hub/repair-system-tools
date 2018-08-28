@@ -255,7 +255,7 @@
             </div>
             <div *ngIf="!esVer" class="col-lg-6 col-md-6 col-sm-6 col">
               <button type="submit"
-                      (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿Desea finalizar de ' + accionRealizarTituloPagina + ' de la orden ?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
+                      (click)="confirmarParams('Por favor verifique que la información fue digitada correctamente', '¿' + MensajeModal + '?', true, { formularioOrdenTrabajo : formularioOrdenTrabajo.value})"
                       data-target="#confirmarModal"
                       data-toggle="modal"
                       class="btn btn-primary btn-md">
