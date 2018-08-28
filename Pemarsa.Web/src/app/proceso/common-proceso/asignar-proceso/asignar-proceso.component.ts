@@ -28,6 +28,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   //eventos
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel
+  @Input() public alistamiento;
   //eventos
 
   //formulario
@@ -35,7 +36,6 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   //formulario
 
   //validaciones
-  public requerido = 'requerido';
   public disable = false;
 
   constructor(
@@ -46,13 +46,6 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   ngOnInit() {
     
     let value = this.proceso['EstadoId'];
-    if (value == ESTADOS_PROCESOS.Pendiente) {
-      this.requerido = 'requerido'
-    } else {
-      this.requerido = ''
-
-    }
-    console.log(this.requerido);
     this.consultarParametros();
     this.iniciarFormulario(this.proceso)
     this.validacionesFormulario();

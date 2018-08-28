@@ -33,6 +33,8 @@ namespace Pemarsa.Domain
         public string TrabajoRealizar { get; set; }
         public bool? Reasignado { get; set; }
 
+        public bool? AplicaEquipoMedicion { get; set; }
+
         public DateTime? FechaFinalizacion { get; set; }
 
         #region Catalogos canonnicas
@@ -79,10 +81,6 @@ namespace Pemarsa.Domain
 
         #endregion
 
-        [ForeignKey("ProcesosRealizar")]
-        public int? ProcesosRealizarId { get; set; }
-        public virtual Proceso ProcesosRealizar { get; set; }
-
         [ForeignKey("ProcesoSiguiente")]
         public int? ProcesoSiguienteId { get; set; }
         public virtual Proceso ProcesoSiguiente { get; set; }
@@ -101,6 +99,8 @@ namespace Pemarsa.Domain
 
         public IEnumerable<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
         public IEnumerable<ProcesoInspeccionEntrada> InspeccionEntrada { get; set; }
+
+        public IEnumerable<ProcesoRealizar> ProcesoRealizar { get; set; }
 
     }
 }

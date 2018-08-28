@@ -25,6 +25,8 @@ namespace Pemarsa.Data
             modelBuilder.Entity<ProcesoInspeccionSalida>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
             modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
 
+            modelBuilder.Entity<ProcesoRealizar>().HasKey(k => new { k.TipoProcesoId, k.ProcesoId});
+
             modelBuilder.Entity<FormatoFormatoParametro>().HasKey(k => new { k.FormatoId, k.FormatoParametroId});
             
 
@@ -60,6 +62,7 @@ namespace Pemarsa.Data
         public DbSet<Proceso> Proceso { get; set; }
         public DbSet<ProcesoInspeccionEntrada> ProcesoInspeccionEntrada { get; set; }
         public DbSet<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
+        public DbSet<ProcesoRealizar> ProcesoRealizar { get; set; }
         public DbSet<InspeccionConexion> InspeccionConexion { get; set; }
         public DbSet<InspeccionEquipoUtilizado> InspeccionEquipoUtilizado { get; set; }
         public DbSet<InspeccionDimensionalOtro> InspeccionDimensionalOtro { get; set; }
