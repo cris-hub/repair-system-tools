@@ -5,9 +5,10 @@ import { SiguienteProcesoComponent } from 'src/app/proceso/coordinador/siguiente
 import { ProcesoService } from 'src/app/common/services/entity';
 import { LoaderService } from 'src/app/common/services/entity/loaderService';
 import { ToastrService } from 'ngx-toastr';
-import { ProcesoModel } from 'src/app/common/models/Index';
+import { ProcesoModel, EntidadModel } from 'src/app/common/models/Index';
 import { ESTADOS_PROCESOS, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
 import { Location } from '@angular/common';
+import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 
 @Component({
   selector: 'app-alistamiento-procesar',
@@ -20,6 +21,7 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
+  public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
 
   //formulario
   public formularioAsignacion: FormGroup
@@ -28,6 +30,8 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   //accion
   public accion: string;
+
+  public parametrosProcesoRealizarAdd: EntidadModel[] = [];
 
   constructor(
     private location: Location,
@@ -53,6 +57,7 @@ export class AlistamientoProcesarComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response;
+        this.procesoRealizar = response.ProcesoRealizar;
         this.accionRealizar(this.proceso.EstadoId)
         console.log(this.proceso)
       }, error => {
@@ -94,11 +99,12 @@ export class AlistamientoProcesarComponent implements OnInit {
   }
 
   //procesar
-  procesar() {
+  procesar() {    
     if (!this.formularioAsignacion.valid && !this.formularioTrabajoRealizado.valid) {
       this.esFormularioValido = false;
       return;
     }
+    this.parametrosProcesoRealizarAdd;
     this.asignarDatosProceso()
     this.actualizarDatos();
 

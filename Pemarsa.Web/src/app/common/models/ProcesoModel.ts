@@ -1,6 +1,7 @@
 import { EntityModel, CatalogoModel, OrdenTrabajoModel, DetalleSoldaduraModel } from "./Index";
 import { ProcesoInspeccionEntradaModel } from "./ProcesoInspeccionEntradaModel";
 import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
+import { ProcesoRealizarModel } from "src/app/common/models/ProcesoRealizarModel";
 
 export class ProcesoModel extends EntityModel {
 
@@ -60,7 +61,7 @@ export class ProcesoModel extends EntityModel {
   public Instructivo: CatalogoModel;
 
   //public ProcesosRealizarId: number
-  public ProcesosRealizar: ProcesoModel;
+  public ProcesoRealizar: ProcesoRealizarModel[];
 
   public ProcesoSiguienteId: number
   public ProcesoSiguiente: ProcesoModel;
