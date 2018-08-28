@@ -260,6 +260,10 @@ namespace Pemarsa.CanonicalModels
                 public const string Operario1 = "Catalina Ochavez";
                 public const string Operario2 = "Julian Milan";
             }
+            public struct ProcesoRealizar
+            {
+                public const string Estampado = "Estampado";
+            }
 
         }
 
@@ -335,6 +339,7 @@ namespace Pemarsa.CanonicalModels
             public const string TipoProceso = "TIPO_PROCESO";
             public const string TipoSoldadura = "TIPO_SOLDADURA_PROCESO";
             public const string TiposInspeccion = "TIPOS_INSPECCION";
+            public const string ProcesoRealizar = "PROCESO_REALIZAR";
 
             public const string TubosPatrones = "TUBOS_PATRONES";
             public const string EquiposEmi = "EQUIPOS_EMI";

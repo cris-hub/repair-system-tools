@@ -59,7 +59,7 @@ export class ProcesoModel extends EntityModel {
   public InstructivoId: number
   public Instructivo: CatalogoModel;
 
-  public ProcesosRealizarId: number
+  //public ProcesosRealizarId: number
   public ProcesosRealizar: ProcesoModel;
 
   public ProcesoSiguienteId: number

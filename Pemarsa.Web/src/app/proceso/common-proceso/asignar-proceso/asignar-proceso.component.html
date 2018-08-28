@@ -37,9 +37,9 @@
       <label class="float-right">Procesos a realizar:</label>
     </div>
     <div *ngIf="alistamiento" class="col-lg-6">
-      <select [attr.disabled]="disable ? '' : null" formControlName="ProcesosId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
+      <select [attr.disabled]="disable ? '' : null" formControlName="ProcesoRealizar" validacion [validaciones]="[alistamiento ? 'requerido' : '']" class="form-control form-control-lg">
         <option [value]="''">Seleccione</option>
-        <!--<option *ngFor="let paramtro of parametrosNorma" [value]="paramtro.Id">{{paramtro.Valor}}</option>-->
+        <option *ngFor="let paramtro of parametrosProcesoRealizar" [value]="paramtro.Id">{{paramtro.Valor}}</option>
       </select>
     </div>
 

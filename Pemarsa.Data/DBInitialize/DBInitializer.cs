@@ -750,7 +750,14 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Proceso.Operario.Operario2,
                         Grupo = CanonicalConstants.Grupos.Operario
-                     }
+                     },
+                    new Catalogo
+                    {
+                        Id = 117,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.ProcesoRealizar.Estampado,
+                        Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    }
                 };
                 foreach (var proceso in procesos)
                 {
@@ -1224,6 +1231,19 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
+                        case CanonicalConstants.Grupos.ProcesoRealizar:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
 
 
                     }
@@ -1352,7 +1372,8 @@ namespace Pemarsa.Data.DBInitialize
                                     OR Grupo = 'NORMA_PROCESO'  
                                     OR Grupo = 'EQUIPO_MEDICION_UTILIZADO_PROCESO'  
                                     OR Grupo = 'INSTRUCTIVO_PROCESO'  
-                                    OR Grupo = 'OPERARIO'  
+                                    OR Grupo = 'OPERARIO' 
+                                    OR Grupo = 'PROCESO_REALIZAR' 
 
                                 "
                     }

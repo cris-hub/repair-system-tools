@@ -23,6 +23,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   public parametrosOperarios: EntidadModel[] = [];
   public parametrosMaquinas: EntidadModel[] = [];
   public parametrosNorma: EntidadModel[] = [];
+  public parametrosProcesoRealizar: EntidadModel[] = [];
   //paramtros
 
   //eventos
@@ -58,6 +59,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
       NormaId: [this.proceso.NormaId, Validators.required],
       TrabajoRealizar: [this.proceso.TrabajoRealizar, Validators.required],
       EstadoId: [this.proceso.EstadoId],
+      ProcesoRealizar: [this.proceso.ProcesosRealizar]
     })
     this.formularioEvent.emit(this.formularioAsignacioTrabajo);
 
@@ -104,10 +106,12 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   consultarParametros() {
     this.paramtroService.consultarParametrosPorEntidad('MECANIZADO_TORNO').subscribe(response => {
+    debugger
       this.parametros = response.Consultas;
       this.parametrosOperarios = this.parametros.filter(d => d.Grupo == 'OPERARIO');
       this.parametrosMaquinas = this.parametros.filter(d => d.Grupo == 'MAQUINA_ASIGNADA_PROCESO');
       this.parametrosNorma = this.parametros.filter(d => d.Grupo == 'NORMA_PROCESO');
+      this.parametrosProcesoRealizar = this.parametros.filter(d => d.Grupo == 'PROCESO_REALIZAR');
     })
   }
 
