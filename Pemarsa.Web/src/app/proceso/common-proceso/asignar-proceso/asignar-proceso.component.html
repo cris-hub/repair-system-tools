@@ -1,10 +1,10 @@
 <form  [formGroup]="formularioAsignacioTrabajo" (ngSubmit)="enviar()">
 
   <div class="form-group row ">
-    <div class="col-lg-4">
+    <div *ngIf="!alistamiento" class="col-lg-4">
       <label class="float-right">Maquina asignada:</label>
     </div>
-    <div class="col-lg-6">
+    <div *ngIf="!alistamiento" class="col-lg-6">
       <select [attr.disabled]="disable ? '' : null" formControlName="MaquinaAsignadaId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
         <option [value]="''">Seleccione</option>
         <option *ngFor="let paramtro of parametrosMaquinas" [value]="paramtro.Id">{{paramtro.Valor}}</option>
@@ -29,6 +29,17 @@
       <select [attr.disabled]="disable ? '' : null" formControlName="NormaId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
         <option [value]="''">Seleccione</option>
         <option *ngFor="let paramtro of parametrosNorma" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+      </select>
+    </div>
+
+
+    <div *ngIf="alistamiento" class="col-lg-4">
+      <label class="float-right">Procesos a realizar:</label>
+    </div>
+    <div *ngIf="alistamiento" class="col-lg-6">
+      <select [attr.disabled]="disable ? '' : null" formControlName="ProcesosId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
+        <option [value]="''">Seleccione</option>
+        <!--<option *ngFor="let paramtro of parametrosNorma" [value]="paramtro.Id">{{paramtro.Valor}}</option>-->
       </select>
     </div>
 
