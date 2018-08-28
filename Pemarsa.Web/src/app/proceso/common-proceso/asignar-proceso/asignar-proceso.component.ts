@@ -36,7 +36,8 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   //formulario
 
   //validaciones
-  public disable = false;
+  public disable: boolean;
+
 
   constructor(
     private paramtroService: ParametroService,
@@ -53,10 +54,10 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   iniciarFormulario(proceso: ProcesoModel) {
     this.formularioAsignacioTrabajo = this.formBuilder.group({
-      MaquinaAsignadaId: [this.proceso.MaquinaAsignadaId, Validators.required],
-      GuidOperario: [this.proceso.GuidOperario, Validators.required],
-      NormaId: [this.proceso.NormaId, Validators.required],
-      TrabajoRealizar: [this.proceso.TrabajoRealizar, Validators.required],
+      MaquinaAsignadaId: [this.proceso.MaquinaAsignadaId],
+      GuidOperario: [this.proceso.GuidOperario],
+      NormaId: [this.proceso.NormaId],
+      TrabajoRealizar: [this.proceso.TrabajoRealizar],
       EstadoId: [this.proceso.EstadoId],
     })
     this.formularioEvent.emit(this.formularioAsignacioTrabajo);
@@ -70,6 +71,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   validacionesFormulario() {
 
+    
 
     if (this.proceso.Id) {
       

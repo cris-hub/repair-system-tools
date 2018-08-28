@@ -13,12 +13,8 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.requeridoformularioTrabajoRealizado = ''
-    let value = changes.proceso.currentValue['EstadoId'];
-    if (value == ESTADOS_PROCESOS.Asignado) {
-      this.requeridoformularioTrabajoRealizado = 'requerido'
-    }
-    console.log(this.requeridoformularioTrabajoRealizado);
+
+
     this.ngOnInit()
   }
   //paramtros
@@ -41,8 +37,8 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   //formulario
 
   //validaciones
-  public requeridoformularioTrabajoRealizado = 'requerido';
-  public disable = false;
+
+  public disable: boolean;
 
   constructor(
     private paramtroService: ParametroService,
@@ -50,11 +46,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.requeridoformularioTrabajoRealizado = ''
-    let value = this.proceso['EstadoId'];
-    if (value == ESTADOS_PROCESOS.Asignado) {
-      this.requeridoformularioTrabajoRealizado = 'requerido'
-    }
+
     this.consultarParametros();
     this.iniciarFormulario(this.proceso)
     this.validacionesFormulario();
@@ -62,9 +54,9 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
 
   iniciarFormulario(proceso: ProcesoModel) {
     this.formularioTrabajoRealizado = this.formBuilder.group({
-      InstructivoId: [this.proceso.InstructivoId, Validators.required],
-      EquipoMedicionUtilizadoId: [this.proceso.EquipoMedicionUtilizadoId, Validators.required],
-      TrabajoRealizado: [this.proceso.TrabajoRealizado, Validators.required],
+      InstructivoId: [this.proceso.InstructivoId],
+      EquipoMedicionUtilizadoId: [this.proceso.EquipoMedicionUtilizadoId],
+      TrabajoRealizado: [this.proceso.TrabajoRealizado],
       EstadoId: [this.proceso.EstadoId],
 
     })
@@ -73,25 +65,26 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
     this.formularioTrabajoRealizado.valueChanges.subscribe(value => {
       console.log(value)
       this.formularioEvent.emit(this.formularioTrabajoRealizado);
-      
+
 
     })
   }
 
   validacionesFormulario() {
-    
+
     //funion
+      this.disable = true;
     if (this.proceso.Id) {
       if (this.proceso.EstadoId == ESTADOS_PROCESOS.Asignado) {
-        
+
         this.formularioTrabajoRealizado.setValidators(Validators.required)
         this.formularioTrabajoRealizado.setErrors({ 'requerido': true })
         this.formularioTrabajoRealizado.get('EstadoId').setValue(ESTADOS_PROCESOS.Completado);
-        
-        
         this.disable = false;
+
+
       } else if ((this.proceso.EstadoId != ESTADOS_PROCESOS.Asignado)) {
-        
+
         this.formularioTrabajoRealizado.setValidators(null)
         this.formularioTrabajoRealizado.setErrors(null)
         delete this.formularioTrabajoRealizado.controls['EstadoId']
@@ -99,7 +92,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
       }
 
     }
-    
+
 
     this.formularioTrabajoRealizado.updateValueAndValidity();
   }
