@@ -9,6 +9,7 @@ import { ProcesoModel, EntidadModel } from 'src/app/common/models/Index';
 import { ESTADOS_PROCESOS, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
 import { Location } from '@angular/common';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
+import { SugerirProcesoComponent } from 'src/app/proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
 
 @Component({
   selector: 'app-alistamiento-procesar',
@@ -18,7 +19,7 @@ import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel
 export class AlistamientoProcesarComponent implements OnInit {
 
   @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
-
+  @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
@@ -99,7 +100,7 @@ export class AlistamientoProcesarComponent implements OnInit {
   }
 
   //procesar
-  procesar() {    
+  procesar() {
     if (!this.formularioAsignacion.valid && !this.formularioTrabajoRealizado.valid) {
       this.esFormularioValido = false;
       return;
@@ -132,6 +133,25 @@ export class AlistamientoProcesarComponent implements OnInit {
         this.loaderService.display(false)
 
       })
+  }
+
+  confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    debugger;
+    this.sugerir.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
+  }
+
+  responseSugerenciaProceso(event) {
+    debugger;
+    if (event) {
+      //this.ModalOcultar = false;
+      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response == true) {
+          //this.ModalOcultar = false;
+          this.router.navigate(['alistamiento'])
+        };
+      });
+
+    }
   }
 
 

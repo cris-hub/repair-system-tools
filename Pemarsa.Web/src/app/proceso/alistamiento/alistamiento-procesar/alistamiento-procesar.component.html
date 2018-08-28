@@ -37,6 +37,11 @@
             {{accion}}
           </button>
         </div>
+        <app-sugerir-proceso 
+                             [ocultar]="true"
+                             [accion]="'procesar'"
+                             (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
+                             (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
       </form>
     </div>
 
