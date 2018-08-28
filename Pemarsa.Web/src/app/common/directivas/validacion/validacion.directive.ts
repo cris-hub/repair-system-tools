@@ -23,6 +23,17 @@ export class ValidacionDirective implements Validator,OnChanges {
   public mensaje: string = '';
   public textoInput: string;
   private _onChange: () => void;
+  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if ('validaciones' in changes) {
+
+      if (this._onChange) this._onChange();
+    }
+
+    
+
+  }
 
   /**
    * - se mejoraria si se logra escuchar el evento submit
@@ -82,13 +93,6 @@ export class ValidacionDirective implements Validator,OnChanges {
 
   }
 
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.control)
-    
-    this.asignar();
-
-  }
 
 
   ListaValidaciones(): string {

@@ -1,5 +1,6 @@
-<form  [formGroup]="formularioAsignacioTrabajo" (ngSubmit)="enviar()">
+<form [formGroup]="formularioAsignacioTrabajo" (ngSubmit)="enviar()">
 
+  {{disable}}
   <div class="form-group row ">
     <div *ngIf="!alistamiento" class="col-lg-4">
       <label class="float-right">Maquina asignada:</label>

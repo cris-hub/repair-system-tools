@@ -1,0 +1,8 @@
+.centrar {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+.full-screen {
+  max-width: 100% !important;
+}

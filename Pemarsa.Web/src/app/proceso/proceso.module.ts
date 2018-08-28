@@ -29,6 +29,7 @@ import { DetalleProcesoComponent } from './common-proceso/detalle-proceso/detall
 import { TrabajoRealizadoComponent } from './common-proceso/trabajo-realizado/trabajo-realizado.component';
 import { AsignarProcesoComponent } from './common-proceso/asignar-proceso/asignar-proceso.component';
 import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
+import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccion/conexion-inspeccion.component';
 
 
 
@@ -41,6 +42,6 @@ import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexio
     
 
   ],
-  declarations: [DetalleProcesoComponent, AsignarProcesoComponent, TrabajoRealizadoComponent, InspeccionConexionComponent], exports: [DetalleProcesoComponent, TrabajoRealizadoComponent, AsignarProcesoComponent, InspeccionConexionComponent ]
+  declarations: [DetalleProcesoComponent, AsignarProcesoComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent], exports: [DetalleProcesoComponent, TrabajoRealizadoComponent, AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent]
 })
 export class ProcesoModule { }
