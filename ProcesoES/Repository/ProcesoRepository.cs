@@ -267,6 +267,7 @@ namespace ProcesoES.Repository
                             .Include(c => c.OrdenTrabajo.Anexos)
                             .Include(c => c.TipoProcesoSiguienteSugerido)
                             .Include(c => c.ProcesoRealizar).ThenInclude(c=> c.TipoProceso)
+                            .Include(c => c.ProcesoEquipoMedicion)
                             .Include(c => c.TipoProcesoAnterior);
 
 

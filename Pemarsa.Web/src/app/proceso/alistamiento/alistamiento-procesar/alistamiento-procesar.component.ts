@@ -10,6 +10,7 @@ import { ESTADOS_PROCESOS, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from 'src
 import { Location } from '@angular/common';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 import { SugerirProcesoComponent } from 'src/app/proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
+import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
 
 @Component({
   selector: 'app-alistamiento-procesar',
@@ -20,6 +21,7 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
+  @ViewChild(EquipoMedicionComponent) public equipoMedicion: EquipoMedicionComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
@@ -31,8 +33,6 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   //accion
   public accion: string;
-
-  public parametrosProcesoRealizarAdd: EntidadModel[] = [];
 
   constructor(
     private location: Location,
@@ -107,20 +107,24 @@ export class AlistamientoProcesarComponent implements OnInit {
       this.esFormularioValido = false;
       return;
     }
-    this.parametrosProcesoRealizarAdd;
     this.asignarDatosProceso()
     this.actualizarDatos();
 
   }
   asignarDatosProceso() {
-    Object.assign(this.proceso, this.formularioAsignacion.value)
-    Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
+    if (this.accion == 'Asignar') {
+
+      Object.assign(this.proceso, this.formularioAsignacion.value)
+    } else {
+
+      Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
+    }
   }
 
   //persistir
   actualizarDatos() {
 
-    this.loaderService.display(true)
+    this.loaderService.display(true);
     this.procesoService.actualizarProceso(this.proceso).subscribe(
       response => {
         response ?
@@ -138,17 +142,13 @@ export class AlistamientoProcesarComponent implements OnInit {
   }
 
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
-    debugger;
     this.sugerir.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
 
   responseSugerenciaProceso(event) {
-    debugger;
     if (event) {
-      //this.ModalOcultar = false;
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
-          //this.ModalOcultar = false;
           this.router.navigate(['alistamiento'])
         };
       });

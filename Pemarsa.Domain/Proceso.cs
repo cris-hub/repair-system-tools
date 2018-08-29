@@ -102,5 +102,7 @@ namespace Pemarsa.Domain
 
         public IEnumerable<ProcesoRealizar> ProcesoRealizar { get; set; }
 
+        public IEnumerable<ProcesoEquipoMedicion> ProcesoEquipoMedicion { get; set; }
+
     }
 }

@@ -40,6 +40,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   //validaciones
   public disable: boolean;
+  public procesosRealizarBool: boolean = false;
 
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
 
@@ -59,8 +60,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   iniciarFormulario(proceso: ProcesoModel) {
 
     if (this.proceso.ProcesoRealizar != undefined) {
-      if (this.proceso.ProcesoRealizar.length > 0) {
-
+      if (this.proceso.ProcesoRealizar.length > 0 && !this.procesosRealizarBool) {
         this.cargarMateriales(this.proceso.ProcesoRealizar);
       }
     }
@@ -144,16 +144,18 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
       let index: any = this.parametrosProcesoRealizar.findIndex(c => c.Id == idSeleccionado);
       this.parametrosProcesoRealizarAdd.push(nuevoItem);
       this.parametrosProcesoRealizar.splice(index, 1);
-
+      this.procesosRealizarBool = true;
+      Object.assign(this.proceso, this.formularioAsignacioTrabajo.value)
       this.iniciarFormulario(this.proceso);
+
     }
   }
   eliminarProcesoRealizar(material: EntidadModel) {
     let index: any = this.parametrosProcesoRealizarAdd.findIndex(c => c.Id == material.Id);
     this.parametrosProcesoRealizar.push(material);
     this.parametrosProcesoRealizarAdd.splice(index, 1);
-
-    this.procesosRealizar.emit(this.parametrosProcesoRealizarAdd);
+    Object.assign(this.proceso, this.formularioAsignacioTrabajo.value)
+    this.iniciarFormulario(this.proceso);
   }
 
   cargarMateriales(procesoRealizar: any) {

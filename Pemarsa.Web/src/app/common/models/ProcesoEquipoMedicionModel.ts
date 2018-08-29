@@ -1,12 +1,12 @@
 import { CatalogoModel } from "src/app/common/models/Index";
 import { ProcesoModel } from "src/app/common/models/ProcesoModel";
 
-export class ProcesoRealizarModel {
+export class ProcesoEquipoMedicionModel {
 
-  public Valor: string;
+  public ValorEquipoMedicion: string;
 
-  public TipoProcesoId: number
-  public TipoProceso: CatalogoModel;
+  public IdEquipoMedicion: number
+  public EquipoMedicion: CatalogoModel;
 
   public ProcesoId: number;
   public Proceso: ProcesoModel;

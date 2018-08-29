@@ -2,6 +2,7 @@ import { EntityModel, CatalogoModel, OrdenTrabajoModel, DetalleSoldaduraModel } 
 import { ProcesoInspeccionEntradaModel } from "./ProcesoInspeccionEntradaModel";
 import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
 import { ProcesoRealizarModel } from "src/app/common/models/ProcesoRealizarModel";
+import { ProcesoEquipoMedicionModel } from "src/app/common/models/ProcesoEquipoMedicionModel";
 
 export class ProcesoModel extends EntityModel {
 
@@ -85,6 +86,8 @@ export class ProcesoModel extends EntityModel {
 
   public EstadoValor: string;
   public TipoProcesoAnteriorValor: string;
+
+  public ProcesoEquipoMedicion: ProcesoEquipoMedicionModel[];
 
   constructor() {
     super();
