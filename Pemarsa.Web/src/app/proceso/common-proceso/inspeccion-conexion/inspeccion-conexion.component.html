@@ -1,34 +1,53 @@
 <!-- Modal -->
-<div class="btn-group centrar">
+<div class="centrar" *ngFor="let conexion of conexiones">
   <button [ngClass]="{'hidden': ocultar}"
-          data-target="#confirmarModal"
+          [attr.data-target]="'#'+'modal-'+conexion.Id"
           data-toggle="modal"
           type="button"
           class="btn "
           id="modalSugerir">
-    Inspeccion dimensional
+    Inspeccion dimensional {{conexion.NumeroConexion}}
+    <span class="glyphicon glyphicon-hourglass gray"></span>
+    <span class="glyphicon glyphicon-ok green"></span>
+    <span class="glyphicon glyphicon-remove red"></span>
   </button>
-  <span class="glyphicon glyphicon-hourglass gray"></span>
-  <span class="glyphicon glyphicon-ok green"></span>
-  <span class="glyphicon glyphicon-remove red"></span>
-</div>
-<br />
-<div class="modal" id="confirmarModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{titulo}}</h5>
-      </div>
-      <div class="modal-body">
-        <select (change)="seleccionarProcesoSugerir($event.target.value)" class="custom-select mr-sm-2 form-control-lg">
-          <option value="0">Seleccione</option>
-          <option *ngFor="let tipoProceso of tiposProcesos" [value]="tipoProceso.Guid">{{tipoProceso.Valor}}</option>
-        </select>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
+
+
+  <div class="modal" id="modal-{{conexion.Id}}" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Inspeccion conexión {{conexion.NumeroConexion}}</h5>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="col-md-2  " id="corre">
+                  Cliente :
+                </label>
+                <div class="col-md-5">
+                  <p>
+                    {{proceso.OrdenTrabajo.Cliente.NickName}}
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+

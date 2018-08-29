@@ -31,13 +31,21 @@
 
         </app-trabajo-realizado>
 
-        <!--<app-inspeccion-conexion [ocultar]="false"
-                                 [accion]="accion"
-                                 [proceso]="proceso">
+        <div class="btn-group centrar-group">
+          <button [ngClass]="{'hidden': ocultar}"
+                  [routerLink]="'inspeccion-dimencional'"
+                  class="btn "
+                  type="button"
+                  id="modalSugerir">
+            Inspeccion dimensional
+          </button>
+          <span class="glyphicon glyphicon-hourglass gray"></span>
+          <span class="glyphicon glyphicon-ok green"></span>
+          <span class="glyphicon glyphicon-remove red"></span>
+        </div>
+        <br />
 
-        </app-inspeccion-conexion>-->
 
-        <app-conexion-inspeccion></app-conexion-inspeccion>
 
 
 

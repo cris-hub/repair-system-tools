@@ -15,7 +15,7 @@ import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS } from '../
   styleUrls: ['./procesar-mecanizado.component.css']
 })
 export class ProcesarMecanizadoComponent implements OnInit {
-  @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
+  
 
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();

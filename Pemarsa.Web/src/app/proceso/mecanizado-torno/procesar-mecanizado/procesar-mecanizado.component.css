@@ -3,3 +3,8 @@
   margin-right: auto;
   display: block;
 }
+.centrar-group {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}

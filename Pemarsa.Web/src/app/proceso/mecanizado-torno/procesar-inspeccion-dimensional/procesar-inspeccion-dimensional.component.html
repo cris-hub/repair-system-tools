@@ -1,3 +1,48 @@
-<p>
-  procesar-inspeccion-dimensional works!
-</p>
+<br />
+<div class="container-fluid">
+
+
+  <div class="row">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h3>Mecanizado torno (Inspeccion dimensional)</h3>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div class="row contenido-interno">
+    <div class="col-md-12">
+      <form (ngSubmit)="procesar()">
+
+        <app-detalle-proceso [proceso]="proceso">
+
+        </app-detalle-proceso>
+
+
+        <app-conexion-inspeccion [conexiones]="conexiones">
+
+        </app-conexion-inspeccion>
+
+        <app-inspeccion-conexion [ocultar]="false"
+                                 [accion]="accion"
+                                 [conexiones]="conexiones"
+                                 [proceso]="proceso">
+
+        </app-inspeccion-conexion>
+
+
+        <button type="submit" class="btn centrar">
+          Finalizar
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+
+</div>

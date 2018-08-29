@@ -10,33 +10,33 @@
               <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']" [(ngModel)]="test" class="form-control " />
             </div>
             <div class="col-lg-9 col-md-12 col-sm-12">
-              <label class="control-label" id="corre">* Conexión {{i+1}} </label>
+              <label class="control-label" id="corre"> Conexión {{i+1}} </label>
               <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
-                <option value="0">Seleccione</option>
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
               </select>
             </div>
             <br />
             <div class="col-lg-9 col-md-12 col-sm-12">
-              <label class="control-label" id="corre">* Tipo conexión{{i+1}} </label>
+              <label class="control-label" id="corre"> Tipo conexión{{i+1}} </label>
               <select formControlName="TipoConexionId" class="form-control form-control-lg">
-                <option value="0">Seleccione</option>
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
               </select>
             </div>
             <br />
             <div class="col-lg-9 col-md-12 col-sm-12">
-              <label class="control-label" id="corre">*Estado {{i+1}} </label>
+              <label class="control-label" id="corre">Estado {{i+1}} </label>
               <select formControlName="EstadoId" class="form-control form-control-lg">
-                <option value="0">Seleccione</option>
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
               </select>
 
             </div>
             <br />
             <div class="col-lg-9 col-md-12 col-sm-12">
-              <label class="control-label" id="corre">*Observacion {{i+1}} </label>
-              <textarea formControlName="Observaciones" class="form-control"></textarea>
+              <label class="control-label" id="corre">Observacion {{i+1}} </label>
+              <textarea formControlName="Observaciones" placeholder="Observacion Inspeccion" class="form-control"></textarea>
             </div>
           </div>
         </div>

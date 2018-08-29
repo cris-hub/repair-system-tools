@@ -48,6 +48,11 @@ export class ProcesoService {
 
     });
   }
+  public consultarProcesoPorTipoYOrdenTrabajo(tipoProceso: number, guidOrdenTrabajo: string): Observable<ProcesoModel> {
+    return this.http.get<ProcesoModel>(this.urlServer + 'ConsultarProcesoPorTipoYOrdenTrabajo?tipoProceso=' + tipoProceso + '&guidOit=' + guidOrdenTrabajo, {
+      headers: this.header
+    });
+  }
 
   public consultarProcesoPorGuid(guidProceso: string): Observable<ProcesoModel> {
     return this.http.get<ProcesoModel>(this.urlServer + 'consultarProcesoPorGuid?guidProceso=' + guidProceso, {

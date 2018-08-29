@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { InspeccionConexionModel, InspeccionModel } from '../../../common/models/Index';
+import { InspeccionConexionModel, InspeccionModel, EntidadModel } from '../../../common/models/Index';
 import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPOS_CONEXION, CONEXION, ALERTAS_INFO_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 
 import { ToastrService } from 'ngx-toastr';
+import { ParametroService } from '../../../common/services/entity/parametro.service';
+import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 
 
 @Component({
@@ -11,23 +13,41 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './conexion-inspeccion.component.html',
   styleUrls: ['./conexion-inspeccion.component.css']
 })
-export class ConexionInspeccionComponent implements OnInit {
+export class ConexionInspeccionComponent implements OnInit,OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+    if (changes['conexiones']) {
+      this.iniciarFormulario()
+
+    }
+
+  }
   public formInpeccionVisualDimensional: FormGroup
   public formConexiones: any
 
-  public inspeccion: InspeccionModel = new InspeccionModel();
+  @Input() public conexiones: InspeccionConexionModel[] = []
+
+
+  //catalogos
+  public Conexiones: EntidadModel[] = new Array<EntidadModel>();
+  public Conexion: EntidadModel = new EntidadModel();
+  public EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
+  public TiposConexion: EntidadModel[] = new Array<EntidadModel>();
+  public EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  
   constructor(
     private formBuider: FormBuilder,
     private toastrService: ToastrService,
+    private parametroService: ParametroService,
   ) { }
 
   ngOnInit() {
-    this.iniciarFormulario()
+    this.consultarParatros();
+    
   }
 
   iniciarFormulario() {
     this.formInpeccionVisualDimensional = this.formBuider.group({
-      InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
       Conexiones: this.formBuider.array([])
     });
     this.crearFormConexiones()
@@ -44,14 +64,14 @@ export class ConexionInspeccionComponent implements OnInit {
     let posicion = this.formConexiones.controls.length
 
 
-    while (this.inspeccion.Conexiones.length < 3) {
-      this.inspeccion.Conexiones.push(new InspeccionConexionModel())
+    while (this.conexiones.length < 3) {
+      this.conexiones.push(new InspeccionConexionModel())
 
     }
 
 
 
-    this.inspeccion.Conexiones.forEach((p, i) => {
+    this.conexiones.forEach((p, i) => {
 
 
       let form = this.formBuider.group({});
@@ -82,8 +102,8 @@ export class ConexionInspeccionComponent implements OnInit {
       formGroup.reset({
         NumeroConexion: formGroup.get('NumeroConexion').value,
         ConexionId: CONEXION.NOAPLICA,
-        EstadoId: null,
-        TipoConexionId: null,
+        EstadoId: '',
+        TipoConexionId: '',
         Observaciones: '',
         Id: 0
 
@@ -99,5 +119,16 @@ export class ConexionInspeccionComponent implements OnInit {
       formGroup.enable();
     }
     console.log(event)
+  }
+
+  //consulta
+  consultarParatros() {
+    this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
+      this.Conexiones = response.Consultas.filter(conexion => conexion.Grupo == GRUPOS.CONEXION);
+      this.EstadosConexion = response.Consultas.filter(estados => estados.Grupo == GRUPOS.ESTADOSCONEXIONBOX || estados.Grupo == GRUPOS.ESTADOSCONEXIONPIN);
+      this.TiposConexion = response.Consultas.filter(tipos => tipos.Grupo == GRUPOS.TIPOCONEXION);
+      this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
+
+    })
   }
 }

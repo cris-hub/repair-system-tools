@@ -712,7 +712,8 @@ namespace ProcesoES.Repository
         {
             try
             {
-                var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo);
+                var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo)
+                    .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d=>d.Inspeccion).ThenInclude(d=>d.Conexiones);
 
                 var procesos = query.Where(proceso => proceso.OrdenTrabajo.Guid == guidOrdenTrabajo && proceso.TipoProcesoId == tipoProceso);
                 var ordenadosPorultimaCreacion = procesos.OrderBy(t => t.FechaRegistro);

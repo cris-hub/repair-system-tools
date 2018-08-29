@@ -7,11 +7,11 @@ export class InspeccionConexionModel extends EntityModel{
 
   public Observaciones:string
 
-  public ConexionId: number
+  public ConexionId
   public Conexion: CatalogoModel
 
 
-  public EstadoId: number
+  public EstadoId
   public Estado: CatalogoModel
 
 
@@ -30,9 +30,9 @@ export class InspeccionConexionModel extends EntityModel{
   constructor() {
     super();
     this.NumeroConexion = 0
-    this.ConexionId = 0
-    this.EstadoId = 0
-    this.TipoConexionId = 0
+    this.ConexionId = ''
+    this.EstadoId = ''
+    this.TipoConexionId = ''
     this.Observaciones = ''
     this.Id = 0
 

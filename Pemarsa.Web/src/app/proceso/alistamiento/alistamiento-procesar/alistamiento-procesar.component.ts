@@ -94,8 +94,10 @@ export class AlistamientoProcesarComponent implements OnInit {
   }
 
   //procesar
+  //procesar
   procesar() {
-    if (!this.formularioAsignacion.valid && !this.formularioTrabajoRealizado.valid) {
+    if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid)) {
+      this.toastrService.error('Faltan datos por diligenciar');
       this.esFormularioValido = false;
       return;
     }
