@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180829194908_inspeccion-conexion-relacion")]
+    partial class inspeccionconexionrelacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,6 +375,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("FormatoId");
 
+                    b.Property<int?>("InspeccionConexionFormatoAdendumId");
+
                     b.Property<int>("Posicion");
 
                     b.Property<int?>("TipoId");
@@ -382,6 +386,8 @@ namespace Pemarsa.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FormatoId");
+
+                    b.HasIndex("InspeccionConexionFormatoAdendumId");
 
                     b.HasIndex("TipoId");
 
@@ -412,6 +418,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<string>("DimensionEspecifica");
 
+                    b.Property<int?>("InspeccionConexionFormatoParametrosId");
+
                     b.Property<string>("Item");
 
                     b.Property<string>("Parametro");
@@ -421,6 +429,8 @@ namespace Pemarsa.Data.Migrations
                     b.Property<string>("ToleranciaMin");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InspeccionConexionFormatoParametrosId");
 
                     b.ToTable("FormatoParametro");
                 });
@@ -874,6 +884,10 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("IdAsignaUsuario");
 
+                    b.Property<int>("InspeccionConexionFormatoAdendumId");
+
+                    b.Property<int>("InspeccionConexionFormatoParametrosId");
+
                     b.Property<string>("NombreUsuarioElabora");
 
                     b.Property<int>("OIT");
@@ -894,6 +908,10 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasIndex("HerramientaId");
 
+                    b.HasIndex("InspeccionConexionFormatoAdendumId");
+
+                    b.HasIndex("InspeccionConexionFormatoParametrosId");
+
                     b.ToTable("InspeccionConexionFormato");
                 });
 
@@ -902,15 +920,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("FormatoAdendumId");
-
-                    b.Property<int>("InspeccionConexionFormatoId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("FormatoAdendumId");
-
-                    b.HasIndex("InspeccionConexionFormatoId");
 
                     b.ToTable("InspeccionConexionFormatoAdendum");
                 });
@@ -922,15 +932,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<bool>("EstaConforme");
 
-                    b.Property<int>("FormatoParametroId");
-
-                    b.Property<int>("InspeccionConexionFormatoId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("FormatoParametroId");
-
-                    b.HasIndex("InspeccionConexionFormatoId");
 
                     b.ToTable("InspeccionConexionFormatoParametros");
                 });
@@ -1614,6 +1616,10 @@ namespace Pemarsa.Data.Migrations
                         .WithMany("Adendum")
                         .HasForeignKey("FormatoId");
 
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormatoAdendum")
+                        .WithMany("FormatoAdendum")
+                        .HasForeignKey("InspeccionConexionFormatoAdendumId");
+
                     b.HasOne("Pemarsa.Domain.Catalogo", "Tipo")
                         .WithMany()
                         .HasForeignKey("TipoId");
@@ -1635,6 +1641,13 @@ namespace Pemarsa.Data.Migrations
                         .WithMany()
                         .HasForeignKey("TipoFormatoParametroId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pemarsa.Domain.FormatoParametro", b =>
+                {
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormatoParametros")
+                        .WithMany("FormatoParametro")
+                        .HasForeignKey("InspeccionConexionFormatoParametrosId");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.FormatoTiposConexion", b =>
@@ -1808,31 +1821,15 @@ namespace Pemarsa.Data.Migrations
                         .WithMany()
                         .HasForeignKey("HerramientaId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
 
-            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormatoAdendum", b =>
-                {
-                    b.HasOne("Pemarsa.Domain.FormatoAdendum", "FormatoAdendum")
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormatoAdendum", "InspeccionConexionFormatoAdendum")
                         .WithMany()
-                        .HasForeignKey("FormatoAdendumId")
+                        .HasForeignKey("InspeccionConexionFormatoAdendumId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormato", "InspeccionConexionFormato")
-                        .WithMany("InspeccionConexionFormatoAdendum")
-                        .HasForeignKey("InspeccionConexionFormatoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormatoParametros", b =>
-                {
-                    b.HasOne("Pemarsa.Domain.FormatoParametro", "FormatoParametro")
+                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormatoParametros", "InspeccionConexionFormatoParametros")
                         .WithMany()
-                        .HasForeignKey("FormatoParametroId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormato", "InspeccionConexionFormato")
-                        .WithMany("InspeccionConexionFormatoParametros")
-                        .HasForeignKey("InspeccionConexionFormatoId")
+                        .HasForeignKey("InspeccionConexionFormatoParametrosId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

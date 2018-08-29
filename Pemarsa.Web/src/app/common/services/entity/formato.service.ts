@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { FormatoModel, PaginacionModel, ListadoResponseModel } from "../../models/Index";
+import { FormatoModel, PaginacionModel, ListadoResponseModel, InspeccionConexionModel } from "../../models/Index";
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { ConfigService } from "../../config/config.service";
@@ -48,6 +48,9 @@ export class FormatoService {
   }
   public consultarFormatoPorGuid(guid: string): Observable<FormatoModel> {
     return this.http.get<FormatoModel>(this.urlServer + 'ConsultarFormatoPorGuid?guidFormato=' + guid);
+  }
+  public consultarFormatoPorInspeccionConexion(Inspeccion: InspeccionConexionModel): Observable<FormatoModel> {
+    return this.http.get<FormatoModel>(this.urlServer + 'ConsultarFormatoPorInspeccionConexion/' + Inspeccion );
   }
   public actualizarFormato(model: FormatoModel): Observable<boolean> {
     return this.http.put<boolean>(this.urlServer + 'ActualizarFormato',

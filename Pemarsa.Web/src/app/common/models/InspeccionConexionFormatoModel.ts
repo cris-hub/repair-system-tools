@@ -15,9 +15,9 @@ export class InspeccionConexionFormatoModel {
 
   public EstaConforme :boolean
 
-  public FlatBoardId : number
+  public FloatBoardId : number
 
-  public FlatBoardLongitud
+  public FloatBoardLongitud
 
   public GuIdUsuarioElabora: string
 
@@ -31,22 +31,17 @@ export class InspeccionConexionFormatoModel {
 
 
   public FloatValveId : number
-  public FloatValve
+  public FloatValve: CatalogoModel
 
 
   public EquipoUsadoId : number
   public EquipoUsado :CatalogoModel
 
 
+  public IdAsignaUsuario : number
 
-
-  public InspeccionConexionFormatoAdendumId : number
-  public InspeccionConexionFormatoAdendum  :InspeccionConexionFormatoAdendumModel
-
-
-
-  public InspeccionConexionFormatoParametrosId : number
-  public InspeccionConexionFormatoParametros: InspeccionConexionFormatoParametrosModel
+  
+  
 
 
 
@@ -59,6 +54,10 @@ export class InspeccionConexionFormatoModel {
 
   public HerramientaId : number
   public Herramienta: HerramientaModel
+
+  public InspeccionConexionFormatoAdendum: InspeccionConexionFormatoAdendumModel[]
+
+  public InspeccionConexionFormatoParametros: InspeccionConexionFormatoParametrosModel[]
 
   constructor() {
   };

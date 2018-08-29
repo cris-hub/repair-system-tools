@@ -133,10 +133,10 @@ namespace FormatoES.Repository
                     foreach (var tipoConexion in formato.FormatoTiposConexion)
                     {
                         _context.Entry(tipoConexion.TipoConexion).State = EntityState.Detached;
-                  
-                    
-                            _context.Entry(tipoConexion).State = tipoConexion.Id <= 0 ? EntityState.Added : EntityState.Modified;
-                        
+
+
+                        _context.Entry(tipoConexion).State = tipoConexion.Id <= 0 ? EntityState.Added : EntityState.Modified;
+
 
                     }
                 }
@@ -279,6 +279,26 @@ namespace FormatoES.Repository
 
             }
             catch (Exception) { throw; }
+        }
+
+        public async Task<Formato> ConsultarFormatoPorInspeccionConexion(InspeccionConexion inspeccionConexion, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var query = _context.Formato.Include(d => d.Adendum)
+                    .Include(t => t.FormatoTiposConexion)
+                    .Include(t => t.FormatoFormatoParametro).ThenInclude(a => a.FormatoParametro);
+
+                Formato formato = await query.FirstOrDefaultAsync(t => t.ConexionId == inspeccionConexion.ConexionId && t.FormatoTiposConexion.Any(d => d.TipoConexionId == inspeccionConexion.TipoConexionId));
+                return formato;
+
+                throw new NotImplementedException();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

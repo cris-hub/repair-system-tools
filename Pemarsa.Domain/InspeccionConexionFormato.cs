@@ -23,9 +23,9 @@ namespace Pemarsa.Domain
 
         public bool EstaConforme { get; set; }
 
-        public int FlatBoardId { get; set; }
+        public int FloatBoardId { get; set; }
 
-        public int FlatBoardLongitud { get; set; }
+        public int FloatBoardLongitud { get; set; }
 
         public Guid GuidUsuarioElabora { get; set; }
 
@@ -37,6 +37,8 @@ namespace Pemarsa.Domain
 
         public string Serial { get; set; }
 
+        public int IdAsignaUsuario { get; set; }
+
         [ForeignKey("FloatValve")]
         public int FloatValveId { get; set; }
         public virtual Catalogo FloatValve { get; set; }
@@ -47,15 +49,11 @@ namespace Pemarsa.Domain
 
 
 
-        [ForeignKey("InspeccionConexionFormatoAdendum")]
-        public int InspeccionConexionFormatoAdendumId { get; set; }
-        public virtual InspeccionConexionFormatoAdendum InspeccionConexionFormatoAdendum { get; set; }
+        
         
 
-        [ForeignKey("InspeccionConexionFormatoParametros")]
-        public int InspeccionConexionFormatoParametrosId { get; set; }
-        public virtual InspeccionConexionFormatoParametros InspeccionConexionFormatoParametros { get; set; }
         
+     
 
 
 
@@ -70,5 +68,10 @@ namespace Pemarsa.Domain
         [ForeignKey("Herramienta")]
         public int HerramientaId { get; set; }
         public virtual Herramienta Herramienta { get; set; }
+
+
+        public virtual IEnumerable<InspeccionConexionFormatoParametros> InspeccionConexionFormatoParametros { get; set; }
+        public virtual IEnumerable<InspeccionConexionFormatoAdendum> InspeccionConexionFormatoAdendum { get; set; }
+
     }
 }

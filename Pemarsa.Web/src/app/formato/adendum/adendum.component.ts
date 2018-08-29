@@ -12,7 +12,7 @@ export class AdendumComponent implements OnInit {
 
   @Input('tiposFormatos') public parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
 
-  @Input('adendum') public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
+  @Input() public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
 
   public formAdendum: FormArray;
   public formulario: FormGroup;

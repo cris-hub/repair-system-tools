@@ -1,10 +1,12 @@
 .centrar {
+  
   margin-left: auto;
   margin-right: auto;
   display: table;
 }
 .full-screen {
   max-width: 100% !important;
+  display: contents !important;
 }
 
 .unir-left {
@@ -15,4 +17,16 @@
 .unir-right {
   margin-right: 0px;
   padding-right: 0px;
+}
+
+.alinear-conetido {
+  text-align: center !important;
+}
+
+
+.color-gris {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  padding: .375rem .75rem;
+  background-color: #BEB8B8
 }

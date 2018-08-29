@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel } from '../../../common/models/Index';
-import { ProcesoService } from '../../../common/services/entity';
+import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, FormatoAdendumModel, FormatoParametroModel, FormatoModel } from '../../../common/models/Index';
+import { ProcesoService, FormatoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-inspeccion-conexion',
@@ -12,79 +13,94 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 })
 export class InspeccionConexionComponent implements OnInit {
   @Output() confir = new EventEmitter();
-  @Input() public accion;
-  @Input() public ocultar;
+  
+  
   // proceso
   @Input() public proceso: ProcesoModel;
   @Input() public conexiones: InspeccionConexionModel[];
-
-  public InspeccionConexionFormato: InspeccionConexionFormatoModel
-
-  public titulo: String;
-  public Mensaje: String;
-  public Cancelar: Boolean;
-  public tiposProcesos: EntidadModel[];
+  //response
   private response: Boolean
-  public procesoSugerido: string;
+
+  //data binding
+  public InspeccionConexionFormato: InspeccionConexionFormatoModel = new InspeccionConexionFormatoModel()
+  public InspeccionConexionFormatoParametro: InspeccionConexionFormatoParametrosModel = new InspeccionConexionFormatoParametrosModel()
+  public InspeccionConexionFormatoAdendum: InspeccionConexionFormatoAdendumModel = new InspeccionConexionFormatoAdendumModel()
+
+  public adendums: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>()
+  public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>()
+  public formato: FormatoModel = new FormatoModel();
+  public formatos: FormatoModel[] = []
+  
 
   // formulario
-  public formulario: FormGroup
+  public formularioformato: FormGroup
+  public formularioInspeccionConexionFormato: FormGroup
+  public formularioInspeccionConexionFormatoParametro: FormGroup
+  public formularioInspeccionConexionFormatoAdendum: FormGroup
+
+  //formulario datos catalogos
+  public ParametrosFloatValveIds : EntidadModel[]
+  public ParametrosEspecificaciones : EntidadModel[]
 
   ngOnInit() {
-    this.consultarProcesosSugerir();
+    this.consultarFormato();
+    this.iniciarFormaulario();
+
   }
 
   constructor(
+    private formatoService : FormatoService,
+    private formBuilder: FormBuilder,
     private procesoService: ProcesoService,
     private parametrosService: ParametroService,
     private toasrService: ToastrService,
 
   ) { }
+
+
+  consultarFormato() {
+    if (this.conexiones.length>0) {
+      for (var i of this.conexiones) {
+        this.formatoService.consultarFormatoPorInspeccionConexion(i).subscribe(response => {
+          this.formatos.push(response);
+        });
+      }
+    }
+  }
+  iniciarFormaulario() {
+    this.formularioformato = this.formBuilder.group({
+      EspecificacionId: [this.formato.EspecificacionId],
+      TPF: [this.formato.TPF],
+      TPI: [this.formato.TPI],
+    });
+    this.formularioInspeccionConexionFormato = this.formBuilder.group({
+      IdAsignaUsuario: [this.InspeccionConexionFormato.IdAsignaUsuario],
+      FloatBoardId: [this.InspeccionConexionFormato.FloatBoardId],
+      FloatBoardLongitud: [this.InspeccionConexionFormato.FloatBoardLongitud],
+      FloatValveId: [this.InspeccionConexionFormato.FloatValveId],
+      EsEstampado: [this.InspeccionConexionFormato.EsEstampado],
+      EsBoreBack: [this.InspeccionConexionFormato.EsBoreBack],
+      EsCw: [this.InspeccionConexionFormato.EsCw],
+      EsStandBlasting: [this.InspeccionConexionFormato.EsStandBlasting],
+      NombreUsuarioElabora: [this.InspeccionConexionFormato.NombreUsuarioElabora],
+      EstaConforme: [this.InspeccionConexionFormato.EstaConforme],
+    });
+    this.formularioInspeccionConexionFormatoParametro = this.formBuilder.group({
+
+      EstaConforme: [this.InspeccionConexionFormatoParametro.EstaConforme],
+    });
+    this.formularioInspeccionConexionFormatoAdendum = this.formBuilder.group({
+
+    });
+
+  }
+
+
   cancelarAction() {
     this.response = false;
     this.confir.emit(this.response);
   }
-  confirmarAction() {
-    this.actualizarProcesoASugerir();
 
-
-  }
-
-
-
-  consultarProcesosSugerir() {
-    this.parametrosService.consultarParametrosPorEntidad('PROCESO').subscribe(
-      response => {
-        this.tiposProcesos = response.Catalogos.filter(catalogo => {
-          return catalogo.Grupo === 'TIPO_PROCESO'
-        });
-      }, error => {
-        this.toasrService.error(error.message)
-      }, () => {
-      })
-  }
-
-
-  seleccionarProcesoSugerir(event) {
-    this.procesoSugerido = event;
-  }
-
-  // formulario
-
-  actualizarProcesoASugerir() {
-    this.procesoService.actualizarProcesoSugerir(this.proceso.Guid, this.procesoSugerido)
-      .subscribe(response => {
-        this.response = response
-        this.confir.emit(this.response);
-        console.log(this.response)
-
-      }, errorResponse => {
-        this.response = false;
-        this.toasrService.error(errorResponse.message);
-      }, () => {
-
-      });
-  }
 
 
 

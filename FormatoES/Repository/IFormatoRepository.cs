@@ -15,6 +15,7 @@ namespace FormatoES.Repository
         Task<Tuple<int, ICollection<Formato>>> ConsultarFormatosPorFiltro(ParametrosDTO parametrosDTO, UsuarioDTO usuario);
         Task<Formato> ConsultarFormatoPorGuidHerramienta(Guid guidHerramienta, UsuarioDTO usuario);
         Task<ICollection<Formato>> ConsultarFormatoPorTipoConexion(int tipoConexion, UsuarioDTO usuario);
+        Task<Formato> ConsultarFormatoPorInspeccionConexion(InspeccionConexion inspeccionConexion, UsuarioDTO usuarioDTO);
     }
 
 }

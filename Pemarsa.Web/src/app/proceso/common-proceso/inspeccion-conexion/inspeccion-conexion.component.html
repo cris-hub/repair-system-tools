@@ -17,105 +17,107 @@
     <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Inspeccion conexión {{conexion.NumeroConexion}}</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"><b>Inspeccion conexión {{conexion.NumeroConexion}}</b></h5>
         </div>
         <div class="modal-body">
-
-          <div class="container-fluid">
-            <div class="col-md-12">
-              <div class="form-group ">
-                <label class="col-md-3" id="corre">
-                  Cliente :
-                </label>
-                <div class="col-md-3">
-                  <p class="form-control">
-                    {{proceso.OrdenTrabajo.Cliente.NickName}}
-                  </p>
-                </div>
-
-                <label class="col-md-3  ">
-                  Herramienta :
-                </label>
-                <div class="col-md-3">
-                  <p class="form-control">
-                    {{proceso.OrdenTrabajo.Herramienta.Nombre}}
-                  </p>
-                </div>
-
-              </div>
-
-              <div class="form-group ">
-                <label class="col-md-1 ">
-                  Serial :
-                </label>
-                <div class="col-md-2">
-                  <p class="form-control">
-                    {{proceso.OrdenTrabajo.SerialHerramienta}}
-                  </p>
-                </div>
-
-                <label class="col-md-1  ">
-                  OIT :
-                </label>
-                <div class="col-md-2">
-                  <p class="form-control">
-                    {{proceso.OrdenTrabajo.Id}}
-                  </p>
-                </div>
-                <label class="col-md-1  ">
-                  OD :
-                </label>
-                <div class="col-md-2">
-                  <p class="form-control">
-                    {{proceso.OrdenTrabajo.OrdenCompra}}
-                  </p>
-                </div>
-                <label class="col-md-1  ">
-                  ID :
-                </label>
-                <div class="col-md-2">
-                  <p>
-                    {{proceso.OrdenTrabajo.OrdenCompra}}
-                  </p>
-                </div>
-
-              </div>
-
-
-
-              <div class="form-group ">
-                
-                <label class="1">
-                  Float bore:
-                </label>
-                <div class="col-md-5">
-                  <label class="1">
-                    ID :
+          <form [formGroup]="formularioInspeccionConexionFormato">
+            <div class="container-fluid">
+              <div class="col-md-12">
+                <div class="form-group ">
+                  <label class="col-md-1" id="corre">
+                    Cliente :
                   </label>
-                  <div class="col-md-1">
-
+                  <div class="col-md-5">
+                    <p class="form-control">
+                      {{proceso.OrdenTrabajo.Cliente.NickName}}
+                    </p>
                   </div>
-                  <label class="1">
-                    Longitud :
+
+                  <label class="col-md-1  " id="corre">
+                    Herramienta :
+                  </label>
+                  <div class="col-md-4">
+                    <p class="form-control">
+                      {{proceso.OrdenTrabajo.Herramienta.Nombre}}
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group ">
+                  <label class="col-md-1 " id="corre">
+                    Serial :
                   </label>
                   <div class="col-md-2">
-
+                    <p class="form-control">
+                      {{proceso.OrdenTrabajo.SerialHerramienta}}
+                    </p>
                   </div>
-                </div>
 
-
-
-                <label class="1">
-                  Float valve:
-                </label>
-                <div class="col-md-5">
+                  <label class="col-md-1  " id="corre">
+                    OIT :
+                  </label>
+                  <div class="col-md-2">
+                    <p class="form-control">
+                      {{proceso.OrdenTrabajo.Id}}
+                    </p>
+                  </div>
+                  <label class="col-md-1  " id="corre">
+                    OD :
+                  </label>
+                  <div class="col-md-1">
+                    <p class="form-control">
+                      {{proceso.OrdenTrabajo.OrdenCompra}}
+                    </p>
+                  </div>
+                  <label class="col-md-1  " id="corre">
+                    ID :
+                  </label>
+                  <div>
+                    <input type="text" formControlName="IdAsignaUsuario" class="form-control col-md-1" />
+                  </div>
 
                 </div>
 
               </div>
-            </div>
+              <div class="col-md-12">
+                <div class="form-group ">
 
-            <div class="col-md-6 unir-right ">
+                  <label class="col-md-1" id="corre">
+                    Float bore:
+                  </label>
+                  <div class="col-md-5 color-gris">
+                    <label class="col-md-1" id="corre">
+                      ID :
+                    </label>
+                    <div>
+                      <input type="text" formControlName="FloatBoardId" class="col-md-3 form-control" />
+                    </div>
+                    <label class="col-md-3" id="corre">
+                      Longitud :
+                    </label>
+                    <div>
+                      <input type="text" formControlName="FloatBoardLongitud" class="col-md-3 form-control" />
+                    </div>
+                  </div>
+
+
+
+                  <label class="col-md-1" id="corre">
+                    Float valve:
+                  </label>
+                  <div class="col-md-4 color-gris">
+                    <select formControlName="FloatValveId" class="col-md-12 form-control">
+                      <option [value]="">Seleccione</option>
+                      <option *ngFor="let ParametrosFloatValveId of ParametrosFloatValveIds" [value]="ParametrosFloatValveId.Id">{{ParametrosFloatValveId.Valor}}</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 unir-right ">
                 <table class="table table-bordered table-striped ">
                   <thead class="titleTable">
                     <tr class="text-center">
@@ -125,125 +127,139 @@
                       <th scope="col">TPI​</th>
                       <th scope="col">TPF​</th>
                       <th scope="col">CW​​</th>
-                      <th scope="col">SANDBLASTING​​​</th>
-                      
+                      <th scope="col">STANDBLASTING​​​</th>
+
 
                     </tr>
                   </thead>
-                  <tbody class="font-black center-table">
+                  <tbody class="font-black">
                     <tr>
 
-                      <td>
-                        <p>id </p>
-                      </td>
-                      <td>
-                        <p>Item </p>
-                      </td>
-                       <td>
-                        <p>Item </p>
-                      </td>
-                       <td>
-                        <p>Item </p>
-                      </td>
-                       <td>
-                        <p>Item </p>
-                      </td>
-                       <td>
-                        <p>Item </p>
-                      </td>
-                       <td>
-                        <p>Item </p>
-                      </td>
+                      <td [formGroup]="formularioformato">
+                        <select formControlName="EspecificacionId" class="form-control">
+                          <option [value]="''">Seleccione</option>
+                          <option *ngFor="let ParametrosEspecificacion of ParametrosEspecificaciones" [value]="ParametrosEspecificacion.Id">{{ParametrosEspecificacion.Valor}}</option>
+                        </select>
 
+                      </td>
+                      <td class="alinear-conetido ">
+                        <input formControlName="EsEstampado" class="form-check-input form-check form-check-inline " type="checkbox">
+                      </td>
+                      <td class="alinear-conetido ">
+
+                        <input formControlName="EsBoreBack" class="form-check-input form-check form-check-inline" type="checkbox">
+                      </td>
+                      <td [formGroup]="formularioformato">
+                        <input formControlName="TPF" class="form-control" type="text">
+                      </td>
+                      <td [formGroup]="formularioformato">
+                        <input formControlName="TPI" class="form-control" type="text">
+                      </td>
+                      <td class="alinear-conetido ">
+                        <input formControlName="EsCw" class="form-check-input form-check form-check-inline" type="checkbox">
+                      </td>
+                      <td class="alinear-conetido ">
+                        <input formControlName="EsStandBlasting" class="form-check-input form-check form-check-inline" type="checkbox">
+                      </td>
 
                     </tr>
                   </tbody>
                 </table>
-              
-
-            </div>
-            <div class="col-md-6 unir-left">
 
 
-
-              <app-adendum></app-adendum>
-
-            </div>
-
-
-            <div class="col-md-12">
-
-
-
-              <div class="col-md-8 unir-right">
-                <app-parametros>
-
-                </app-parametros>
               </div>
-              <div class="col-md-4 unir-left ">
-
-              <table class="table table-bordered table-striped ">
-                <thead class="titleTable">
-                  <tr class="text-center">
-                    <th scope="col">Medida actual</th>
-                    <th scope="col">Conformidad</th>
-                  </tr>
-                </thead>
-                <tbody class="font-black center-table">
-                  <tr>
-
-                    <td>
-                      <p>id </p>
-                    </td>
-                    <td>
-                      <p>Item </p>
-                    </td>
-
-
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <div class="col-md-6 unir-left ">
 
 
 
-            </div>
-
-
-            <div class="form-group col-md-12">
-
-              <label class="col-md-3  ">
-                !!! AQUI VA EQUIPO MEDICION
-              </label>
-              <div class="col-md-3">
+                <app-adendum [formatosAdendumModel]="adendums"></app-adendum>
 
               </div>
 
-            </div>
 
-            <div class="form-group col-md-12">
+              <div class="col-md-12">
 
-              <label class="col-md-3  ">
-                Elaborado por :
-              </label>
-              <div class="col-md-3">
+
+
+                <div class="col-md-10 unir-right">
+                  <app-parametros [parametros]="parametros">
+
+                  </app-parametros>
+                </div>
+                <div class="col-md-2 unir-left ">
+
+                  <table class="table table-bordered table-striped ">
+                    <thead class="titleTable">
+                      <tr class="text-center">
+
+                        <th scope="col">Conformidad</th>
+                      </tr>
+                    </thead>
+                    <tbody class="font-black center-table" [formGroup]="formularioInspeccionConexionFormatoParametro">
+                      <tr>
+                        <td>
+                          <div class="col-md-6">
+                            SI
+                            <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="true">
+                          </div>
+                          <div class="col-md-6">
+                            NO
+                            <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="false">
+                          </div>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+              </div>
+
+
+              <div class="form-group col-md-12">
+
+                <label class="col-md-3  ">
+                  !!! AQUI VA EQUIPO MEDICION
+                </label>
+                <div class="col-md-3">
+
+                </div>
+
+              </div>
+
+              <div class="form-group col-md-12">
+
+                <label class="col-md-1  " id="corre">
+                  Elaborado por :
+                </label>
+                <div class="col-md-3">
+                  <input formControlName="NombreUsuarioElabora" class="form-check-input form-check form-check-inline " type="text" >
+                </div>
+
+              </div>
+              <div class="form-group col-md-12">
+
+                <label class="col-md-1" id="corre">
+                  Conforme : 
+                </label>
+                <div class="col-md-2">
+                  <div class="col-md-6">
+                    SI
+                    <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="true">
+                  </div>
+                  <div class="col-md-6">
+                    NO
+                    <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="false">
+                  </div>
+                </div>
 
               </div>
 
             </div>
-            <div class="form-group col-md-12">
-
-              <label class="col-md-3  ">
-                Conforme
-              </label>
-              <div class="col-md-3">
-
-              </div>
-
-            </div>
-
-          </div>
-          <div class="modal-footer">
+          </form>
+          <div class="modal-footer aalinear-conetido">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
             <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
           </div>
@@ -252,7 +268,6 @@
     </div>
   </div>
 
-
-
+</div>
 
 

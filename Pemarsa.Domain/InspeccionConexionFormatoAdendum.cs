@@ -10,6 +10,10 @@ namespace Pemarsa.Domain
 
         public int FormatoAdendumId { get; set; }
         public FormatoAdendum FormatoAdendum { get; set; }
-        
+
+        [ForeignKey("InspeccionConexionFormato")]
+        public int InspeccionConexionFormatoId { get; set; }
+        public InspeccionConexionFormato InspeccionConexionFormato { get; set; }
+
     }
 }

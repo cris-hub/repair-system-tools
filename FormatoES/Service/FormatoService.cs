@@ -145,5 +145,20 @@ namespace FormatoES.Service
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<Formato> ConsultarFormatoPorInspeccionConexion(InspeccionConexion inspeccionConexion, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                Formato formato = await _repository.ConsultarFormatoPorInspeccionConexion(inspeccionConexion, usuarioDTO);
+                return formato;
+                throw new NotImplementedException();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

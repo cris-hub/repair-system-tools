@@ -133,6 +133,19 @@ namespace Pemarsa.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("ConsultarFormatoPorInspeccionConexion")]
+        public async Task<IActionResult> ConsultarFormatoPorInspeccionConexion(InspeccionConexion inspeccionConexion)
+        {
+            try
+            {
+                Formato formato = (await _service.ConsultarFormatoPorInspeccionConexion(inspeccionConexion, new UsuarioDTO()));
+                return Ok(formato);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
 
     }

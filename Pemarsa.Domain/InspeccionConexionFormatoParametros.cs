@@ -10,5 +10,11 @@ namespace Pemarsa.Domain
         [ForeignKey("FormatoParametro")]
         public int FormatoParametroId { get; set; }
         public FormatoParametro FormatoParametro { get; set; }
+
+        [ForeignKey("InspeccionConexionFormato")]
+        public int InspeccionConexionFormatoId { get; set; }
+        public InspeccionConexionFormato InspeccionConexionFormato { get; set; }
+
+        
     }
 }
