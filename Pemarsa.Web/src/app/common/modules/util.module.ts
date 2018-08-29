@@ -16,7 +16,6 @@ import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proc
 import { SiguienteProcesoComponent } from '../../proceso/coordinador/siguiente-proceso/siguiente-proceso.component';
 import { SugerirProcesoComponent } from '../../proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EquipoMedicionComponent } from '../../proceso/common-proceso/equipo-medicion/equipo-medicion.component';
 
 
 
@@ -39,7 +38,6 @@ import { EquipoMedicionComponent } from '../../proceso/common-proceso/equipo-med
     PemarsaStringFormat,
     SiguienteProcesoComponent,
     SugerirProcesoComponent,
-    EquipoMedicionComponent,
     CatalogoPipe,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
@@ -54,7 +52,6 @@ import { EquipoMedicionComponent } from '../../proceso/common-proceso/equipo-med
     ValidacionDirective,
     SugerirProcesoComponent,
     SiguienteProcesoComponent,
-    EquipoMedicionComponent,
     AutocompletarComponent,
     PemarsaStringFormat,
     CatalogoPipe,

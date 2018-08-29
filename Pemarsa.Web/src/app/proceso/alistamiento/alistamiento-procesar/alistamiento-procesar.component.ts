@@ -21,7 +21,6 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
-  @ViewChild(EquipoMedicionComponent) public equipoMedicion: EquipoMedicionComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
@@ -116,7 +115,6 @@ export class AlistamientoProcesarComponent implements OnInit {
 
       Object.assign(this.proceso, this.formularioAsignacion.value)
     } else {
-
       Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
     }
   }
