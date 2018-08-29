@@ -9,6 +9,8 @@ import { ListarFormatoComponent } from './listar-formato/listar-formato.componen
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FiltroFormatoComponent } from './filtro-formato/filtro-formato.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { AdendumComponent } from './adendum/adendum.component';
+import { ParametrosComponent } from './parametros/parametros.component';
 
 @NgModule({
   imports: [
@@ -20,9 +22,11 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     NgxPaginationModule,
     ReactiveFormsModule
   ],
-  declarations: [CrearFormatoComponent, ListarFormatoComponent, FiltroFormatoComponent],
+  declarations: [CrearFormatoComponent, ListarFormatoComponent, FiltroFormatoComponent, AdendumComponent, ParametrosComponent],
   exports: [
-    CrearFormatoComponent
+    CrearFormatoComponent,
+    AdendumComponent,
+    ParametrosComponent
   ]
 })
 export class FormatoModule { }

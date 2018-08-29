@@ -1,0 +1,52 @@
+         
+
+
+  
+    <table *ngIf="formulario.get('Parametros')" class="table table-bordered table-striped ">
+      <thead class="titleTable">
+        <tr class="text-center">
+          <th scope="col">Id</th>
+          <th scope="col">Item</th>
+          <th scope="col">Dimensión Específica</th>
+          <th scope="col">Tolerancia Min</th>
+          <th scope="col">Tolerancia Max</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="font-black center-table" formArrayName="Parametros"
+             *ngFor="let Parametros of formulario.get('Parametros').controls; let i = index;">
+        <tr [formGroupName]="i">
+
+          <td>
+            <p *ngIf="formulario.get('Parametros').controls[i]">{{formulario.get('Parametros').controls[i].value.Id }} </p>
+          </td>
+
+          <td>
+            <input formControlName="Item" class="form-control" type="text" />
+          </td>
+          <td>
+            <input formControlName="DimensionEspecifica" class="form-control" type="text" />
+          </td>
+
+
+          <td>
+            <input formControlName="ToleranciaMin" class="form-control" type="text" />
+          </td>
+
+          <td>
+            <input formControlName="ToleranciaMax" class="form-control" type="text" />
+          </td>
+
+          <td>
+            <div *ngIf="!esVer" class="btn-group" role="group" style="display:flex;" aria-label="...">
+              <i (click)="removeItemFormFormatoPatamtros(i)">
+                <i class="glyphicon glyphicon glyphicon-minus pointer"></i>
+              </i>
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+ 

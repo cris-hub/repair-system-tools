@@ -6,3 +6,13 @@
 .full-screen {
   max-width: 100% !important;
 }
+
+.unir-left {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.unir-right {
+  margin-right: 0px;
+  padding-right: 0px;
+}

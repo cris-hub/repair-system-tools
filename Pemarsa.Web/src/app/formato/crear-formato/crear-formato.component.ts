@@ -262,7 +262,6 @@ export class CrearFormatoComponent implements OnInit {
 
 
   }
-
   initFormularioFormatoOtros(formato: FormatoModel, formatoAdendumModel: Array<FormatoAdendumModel>, herramienta?: HerramientaModel) {
     if (formato.FormatoFormatoParametro) {
       formato.FormatoFormatoParametro.filter(c => {
@@ -297,24 +296,7 @@ export class CrearFormatoComponent implements OnInit {
 
 
   }
-
-  initFormFormatoParamtros() {
-    this.formFormatoPatamtros = this.formFormato.get('Parametros') as FormArray;
-    console.log(this.parametros);
-
-    this.parametros.forEach(f => {
-      let form = this.formBuilder.group({
-        DimensionEspecifica: [f.DimensionEspecifica],
-        Id: [f.Id],
-        Item: [f.Item],
-        Parametro: [f.Parametro],
-        ToleranciaMin: [f.ToleranciaMin],
-        ToleranciaMax: [f.ToleranciaMax],
-      });
-      this.formFormatoPatamtros.push(form)
-    });
-  }
-
+  //conexiones 
   initFormTiposConexion() {
     this.formFormatoTiposConexion = this.formFormato.get('FormatoTiposConexion') as FormArray;
 
@@ -340,7 +322,24 @@ export class CrearFormatoComponent implements OnInit {
     console.log(this.formFormatoTiposConexion);
 
   }
+  //parametros
+  initFormFormatoParamtros() {
+    this.formFormatoPatamtros = this.formFormato.get('Parametros') as FormArray;
+    console.log(this.parametros);
 
+    this.parametros.forEach(f => {
+      let form = this.formBuilder.group({
+        DimensionEspecifica: [f.DimensionEspecifica],
+        Id: [f.Id],
+        Item: [f.Item],
+        Parametro: [f.Parametro],
+        ToleranciaMin: [f.ToleranciaMin],
+        ToleranciaMax: [f.ToleranciaMax],
+      });
+      this.formFormatoPatamtros.push(form)
+    });
+  }
+  //aletas
   initFormFormatoParamtrosAletas() {
     this.formFormatoPatamtros = this.formFormato.get('Aletas') as FormArray;
     console.log(this.aletas);
@@ -356,7 +355,7 @@ export class CrearFormatoComponent implements OnInit {
       this.formFormatoPatamtros.push(form)
     });
   }
-
+  //adendum
   initFormFormatoAdendum() {
 
     if (!this.formFormato || !(this.parametrosFormatoAdendumTiposFormatos.length > 0)) {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ProcesoModel, EntidadModel, InspeccionConexionModel } from '../../../common/models/Index';
+import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 
@@ -17,6 +17,9 @@ export class InspeccionConexionComponent implements OnInit {
   // proceso
   @Input() public proceso: ProcesoModel;
   @Input() public conexiones: InspeccionConexionModel[];
+
+  public InspeccionConexionFormato: InspeccionConexionFormatoModel
+
   public titulo: String;
   public Mensaje: String;
   public Cancelar: Boolean;
