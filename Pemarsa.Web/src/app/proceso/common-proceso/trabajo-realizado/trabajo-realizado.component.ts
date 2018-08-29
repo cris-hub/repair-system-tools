@@ -57,9 +57,9 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   }
 
   iniciarFormulario(proceso: ProcesoModel) {
+      //EquipoMedicionUtilizadoId: [this.proceso.EquipoMedicionUtilizadoId],
     this.formularioTrabajoRealizado = this.formBuilder.group({
       InstructivoId: [this.proceso.InstructivoId],
-      EquipoMedicionUtilizadoId: [this.proceso.EquipoMedicionUtilizadoId],
       TrabajoRealizado: [this.proceso.TrabajoRealizado],
       EstadoId: [this.proceso.EstadoId],
       ProcesoRealizar: this.formBuilder.array([])

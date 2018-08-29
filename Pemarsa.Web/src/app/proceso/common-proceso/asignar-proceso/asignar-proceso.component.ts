@@ -29,7 +29,6 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   //eventos
   @Output() formularioEvent = new EventEmitter();
-  @Output() procesosRealizar = new EventEmitter();
   @Input() public proceso: ProcesoModel
   @Input() public alistamiento;
   //eventos

@@ -14,18 +14,22 @@
           </select>
         </div>
 
-        <div class="col-lg-4">
-          <label class="float-right">Equipo de medición utilizado:​</label>
-        </div>
-        <div class="col-lg-6">
-          <select [attr.disabled]="disable ? '' : null" formControlName="EquipoMedicionUtilizadoId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
-            <option [value]="''">Seleccione</option>
-            <option *ngFor="let paramtro of parametrosEquipoUtilizado" [value]="paramtro.Id">{{paramtro.Valor}}</option>
-          </select>
-        </div>
+        <!--<app-equipo-medicion (formularioEvent)="iniciarformularioEquipoMedicion($event)" [proceso]="proceso" [alistamiento]="true"></app-equipo-medicion>-->
+        <!--<div class="col-lg-4">
+    <label class="float-right">Equipo de medición utilizado:​</label>
+  </div>
+  <div class="col-lg-6">
+    <select [attr.disabled]="disable ? '' : null" formControlName="EquipoMedicionUtilizadoId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
+      <option [value]="''">Seleccione</option>
+      <option *ngFor="let paramtro of parametrosEquipoUtilizado" [value]="paramtro.Id">{{paramtro.Valor}}</option>
+    </select>
+  </div>-->
 
         <div class="col-lg-4">
-          <label class="float-right">Trabajo realizado:</label>
+          <label class="float-right">Trabajo realizado
+:
+          </label>
+          do
         </div>
         <div class="col-lg-6">
           <textarea [attr.disabled]="disable ? '' : null" formControlName="TrabajoRealizado" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control"></textarea>

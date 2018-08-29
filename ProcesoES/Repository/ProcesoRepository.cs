@@ -825,6 +825,25 @@ namespace ProcesoES.Repository
 
                     }
                 }
+                if (proceso.ProcesoEquipoMedicion.Any())
+                {
+                    foreach (var item in proceso.ProcesoEquipoMedicion)
+                    {
+
+                    var actualizarProcesoInsp = _context.ProcesoEquipoMedicion.Where(p => p.ProcesoId == item.ProcesoId && p.IdEquipoMedicion == item.IdEquipoMedicion).Count();
+
+                    if (actualizarProcesoInsp > 0)
+                    {
+                        _context.Entry(item).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        await _context.ProcesoEquipoMedicion.AddAsync(item);
+                        await _context.SaveChangesAsync();
+                    }
+                    }
+                }
                 _context.Entry(proceso).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;
             }

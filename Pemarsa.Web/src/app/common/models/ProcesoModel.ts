@@ -75,6 +75,7 @@ export class ProcesoModel extends EntityModel {
   public OrdenTrabajoClienteNickName: string;
   public OrdenTrabajoSerialHerramienta: string;
   public OrdenTrabajoPrioridadValor: string;
+  public AplicaEquipoMedicion: boolean;
   public OrdenTrabajo: OrdenTrabajoModel;
 
   public DetalleSoldaduraId: number
