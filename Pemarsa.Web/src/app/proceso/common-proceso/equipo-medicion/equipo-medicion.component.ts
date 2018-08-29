@@ -26,6 +26,7 @@ export class EquipoMedicionComponent implements OnInit {
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel;
   @Input() public alistamiento;
+  @Input() public disable;
 
 
   public EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
@@ -34,7 +35,7 @@ export class EquipoMedicionComponent implements OnInit {
 
   public formularioEquipoMedicion: FormGroup;
 
-  public disable: boolean;
+  //public disable: boolean;
   public Bloquear: boolean;
 
   constructor(
@@ -46,15 +47,15 @@ export class EquipoMedicionComponent implements OnInit {
   ngOnInit() {
     this.consultarParametros();
     this.iniciarFormulario(this.proceso);
-    this.validacionesFormulario();
+    //this.validacionesFormulario();
   }
 
 
   iniciarFormulario(proceso: ProcesoModel) {
 
+      //EstadoId: [this.proceso.EstadoId],
     this.formularioEquipoMedicion = this.formBuilder.group({
-      EstadoId: [this.proceso.EstadoId],
-      AplicaEquipoMedicion: [this.proceso.AplicaEquipoMedicion],
+      AplicaEquipoMedicion: [this.proceso.AplicaEquipoMedicion ? this.proceso.AplicaEquipoMedicion : false],
       ProcesoEquipoMedicion: [this.proceso.ProcesoEquipoMedicion]
     })
     this.formularioEvent.emit(this.formularioEquipoMedicion);
@@ -117,7 +118,6 @@ export class EquipoMedicionComponent implements OnInit {
   aplicaEquipo(event: any) {
     var seleccionado: any = event.target.checked;
     if (seleccionado) {
-      debugger;
       this.Bloquear = true;
       this.EquiposMedicionUsado = new Array<EntidadModel>();
       this.proceso.ProcesoEquipoMedicion = new Array<ProcesoEquipoMedicionModel>();

@@ -21,7 +21,6 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
-  @ViewChild(EquipoMedicionComponent) public equipoMedicion: EquipoMedicionComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
@@ -29,7 +28,6 @@ export class AlistamientoProcesarComponent implements OnInit {
   //formulario
   public formularioAsignacion: FormGroup
   public formularioTrabajoRealizado: FormGroup
-  public formularioEquipoMedicion: FormGroup
   public esFormularioValido: Boolean = false;
 
   //accion
@@ -83,9 +81,6 @@ export class AlistamientoProcesarComponent implements OnInit {
   iniciarformularioTrabajoRealizado(formularioTrabajoRealizado: FormGroup) {
     this.formularioTrabajoRealizado = formularioTrabajoRealizado;
   }
-  iniciarformularioEquipoMedicion(formularioEquipoMedicion: FormGroup) {
-    this.formularioEquipoMedicion = formularioEquipoMedicion;
-  }
 
   //accionRealizar
   accionRealizar(estadoId: number) {
@@ -106,7 +101,7 @@ export class AlistamientoProcesarComponent implements OnInit {
   //procesar
   //procesar
   procesar() {
-    if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid || !this.formularioEquipoMedicion.valid)) {
+    if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid)) {
       this.toastrService.error('Faltan datos por diligenciar');
       this.esFormularioValido = false;
       return;
@@ -120,9 +115,7 @@ export class AlistamientoProcesarComponent implements OnInit {
 
       Object.assign(this.proceso, this.formularioAsignacion.value)
     } else {
-
       Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
-      Object.assign(this.proceso, this.formularioEquipoMedicion.value)
     }
   }
 

@@ -32,6 +32,7 @@ import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexio
 import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccion/conexion-inspeccion.component';
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
 import { FormatoModule } from '../formato/formato.module';
+import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
 
 
 
@@ -45,7 +46,7 @@ import { FormatoModule } from '../formato/formato.module';
     
 
   ],
-  declarations: [DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent],
-  exports: [DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent ,AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent]
+  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent],
+  exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent ,AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent]
 })
 export class ProcesoModule { }
