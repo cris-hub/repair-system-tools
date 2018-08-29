@@ -1,0 +1,40 @@
+<div [formGroup]="formulario">
+  <div *ngIf="formulario.get('Adendum') " >
+    
+      
+        <table formArrayName="Adendum" class="table table-bordered table-striped">
+          <thead class="titleTable">
+            <tr class="text-center">
+              <th colspan="2">TABLA ADENDUM​</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let tipos of tipos ">
+            <tr>
+              <th> <p>{{tipos.Valor}} </p></th>
+              <td *ngIf="tipos.Id ==26">
+                <div *ngFor="let Adendum of formulario.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8" style="display: table-cell;">
+                  <!--quitar el false para debugar a detalle (!)-->
+                  <input *ngIf="!formulario.get('Adendum').controls[i].value" formControlName="Posicion" class="form-control" type="text" />
+                  <input *ngIf="!formulario.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                  <input formControlName="Valor" class="form-control" type="text" />
+
+                </div>
+              </td>
+              <td *ngIf="tipos.Id ==27">
+                <div *ngFor="let Adendum of formulario.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i" style="display: table-cell;">
+                  <!--quitar el false para debugar a detalle (!)-->
+                  <input *ngIf="!formulario.get('Adendum').controls[i].value" formControlName="Posicion" class="form-control" type="text" />
+                  <input *ngIf="!formulario.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
+                  <input formControlName="Valor" class="form-control" type="text" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+
+    
+    <strong *ngIf="formulario.get('Adendum').invalid && (formulario.get('Adendum').touched || formulario.get('Adendum').dirty) "
+            class="col-md-offset-1 text-danger validaciones">Este campo es obligatorio</strong>
+  </div>
+</div>

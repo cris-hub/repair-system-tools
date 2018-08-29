@@ -10,13 +10,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CoordinadorModule } from '../coordinador/coordinador.module';
 import { ProcesoModule } from '../proceso.module';
+import { FormatoModule } from '../../formato/formato.module';
 
 @NgModule({
   imports: [
     MecanizadoTornoRoutingModule,
     CommonModule,
     ProcesoModule,
-
     CoordinadorModule,
     UtilModule,
     

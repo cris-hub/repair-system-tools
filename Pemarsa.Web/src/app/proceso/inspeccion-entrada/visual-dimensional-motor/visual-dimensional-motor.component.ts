@@ -333,7 +333,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
   }
 
   //autocomplete
-  //filtrar
+  //filtrar equipo medicion select multiple
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),

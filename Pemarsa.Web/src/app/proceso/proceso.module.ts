@@ -31,6 +31,7 @@ import { AsignarProcesoComponent } from './common-proceso/asignar-proceso/asigna
 import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
 import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccion/conexion-inspeccion.component';
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
+import { FormatoModule } from '../formato/formato.module';
 
 
 
@@ -39,7 +40,8 @@ import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/proce
   imports: [
     CommonModule,
     UtilModule,
-    
+    FormatoModule,
+
     
 
   ],
