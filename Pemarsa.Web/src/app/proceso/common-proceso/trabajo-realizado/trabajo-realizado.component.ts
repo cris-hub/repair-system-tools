@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { EntidadModel, ProcesoModel } from '../../../common/models/Index';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 
 @Component({
   selector: 'app-trabajo-realizado',
@@ -27,16 +28,19 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   //eventos
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel
+  @Input() public procesosRealizar: ProcesoRealizarModel[]
   //eventos
 
+  public valor = '';
 
-
-
+  public formProcesoRealizar: any
   //formulario
   public formularioTrabajoRealizado: FormGroup
   //formulario
 
   //validaciones
+
+  public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
 
   public disable: boolean;
 
@@ -58,8 +62,16 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
       EquipoMedicionUtilizadoId: [this.proceso.EquipoMedicionUtilizadoId],
       TrabajoRealizado: [this.proceso.TrabajoRealizado],
       EstadoId: [this.proceso.EstadoId],
+      ProcesoRealizar: this.formBuilder.array([])
 
     })
+    if (this.proceso.ProcesoRealizar != undefined) {
+      this.proceso.ProcesoRealizar = this.procesosRealizar;
+      if (this.proceso.ProcesoRealizar.length > 0) {
+
+        this.crearFormConexiones();
+      }
+    }
     this.formularioEvent.emit(this.formularioTrabajoRealizado);
 
     this.formularioTrabajoRealizado.valueChanges.subscribe(value => {
@@ -70,10 +82,44 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
     })
   }
 
+
+  crearFormConexiones(): any {
+
+    if (!this.formularioTrabajoRealizado) {
+      return
+    }
+
+    this.formProcesoRealizar = this.formularioTrabajoRealizado.get('ProcesoRealizar') as FormArray;
+
+    let posicion = this.formProcesoRealizar.controls.length
+
+    if (this.proceso.ProcesoRealizar != undefined) {
+
+      while (this.proceso.ProcesoRealizar.length < this.proceso.ProcesoRealizar.length) {
+        this.proceso.ProcesoRealizar.push(new ProcesoRealizarModel())
+
+      }
+
+
+
+      this.proceso.ProcesoRealizar.forEach((p, i) => {
+        let form = this.formBuilder.group({});
+        form.addControl('ProcesoId', new FormControl(p.ProcesoId));
+        form.addControl('TipoProcesoId', new FormControl(p.TipoProcesoId));
+        form.addControl('Valor', new FormControl(p.Valor));
+        this.valor = p.TipoProceso.Valor;
+        this.formProcesoRealizar.push(form);
+
+      })
+
+    }
+  }
+
+
   validacionesFormulario() {
 
     //funion
-      this.disable = true;
+    this.disable = true;
     if (this.proceso.Id) {
       if (this.proceso.EstadoId == ESTADOS_PROCESOS.Asignado) {
 

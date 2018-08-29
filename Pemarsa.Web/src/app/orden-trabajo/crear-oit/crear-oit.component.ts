@@ -53,6 +53,7 @@ export class CrearOitComponent implements OnInit {
   public estaCargando: boolean = false;
   public accionRealizarTituloPagina: string = '';
   public TamañoRequerido: string = '';
+  public MensajeModal: string = '';
   
 
   //autoCOmpletar cliente
@@ -334,12 +335,15 @@ export class CrearOitComponent implements OnInit {
     if (this.activeRoute.snapshot.routeConfig.path.includes('editar')) {
       this.esEditar = true;
       this.accionRealizarTituloPagina = 'Editar OIT';
+      this.MensajeModal = '¿Desea finalizar la actualización de la orden?';
     } else if (this.activeRoute.snapshot.routeConfig.path.includes('procesar')) {
       this.esProcesar = true;
       this.accionRealizarTituloPagina = 'Procesar';
+      this.MensajeModal = '¿Desea finalizar el proceso de la orden?';
     } else if (this.activeRoute.snapshot.routeConfig.path.includes('nueva-oit')) {
       this.esNueva = true;
       this.accionRealizarTituloPagina = 'Crear OIT';
+      this.MensajeModal = '¿Desea finalizar la creación de la orden?';
     } else {
       this.esVer = true;
       this.accionRealizarTituloPagina = 'Detalle de OIT';
@@ -508,7 +512,8 @@ export class CrearOitComponent implements OnInit {
   }
 
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
-    this.confimar.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
+    debugger;
+    this.confimar.llenarObjectoData(titulo, this.MensajeModal, Cancelar, objData);
   }
 
   enviarFormularioConfir(event) {

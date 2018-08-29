@@ -4,6 +4,7 @@ import { EntidadModel, ProcesoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { ValidacionDirective } from '../../../common/directivas/validacion/validacion.directive';
+import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 
 @Component({
   selector: 'app-asignar-proceso',
@@ -12,10 +13,9 @@ import { ValidacionDirective } from '../../../common/directivas/validacion/valid
 })
 export class AsignarProcesoComponent implements OnInit, OnChanges {
 
-
   ngOnChanges(changes: SimpleChanges): void {
 
-   
+
     this.ngOnInit()
   }
   //paramtros
@@ -23,10 +23,13 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   public parametrosOperarios: EntidadModel[] = [];
   public parametrosMaquinas: EntidadModel[] = [];
   public parametrosNorma: EntidadModel[] = [];
+  public parametrosProcesoRealizar: EntidadModel[] = [];
+  public parametrosProcesoRealizarAdd: EntidadModel[] = [];
   //paramtros
 
   //eventos
   @Output() formularioEvent = new EventEmitter();
+  @Output() procesosRealizar = new EventEmitter();
   @Input() public proceso: ProcesoModel
   @Input() public alistamiento;
   //eventos
@@ -38,6 +41,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   //validaciones
   public disable: boolean;
 
+  public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
 
   constructor(
     private paramtroService: ParametroService,
@@ -45,7 +49,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    
+
     let value = this.proceso['EstadoId'];
     this.consultarParametros();
     this.iniciarFormulario(this.proceso)
@@ -53,12 +57,31 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   }
 
   iniciarFormulario(proceso: ProcesoModel) {
+
+    if (this.proceso.ProcesoRealizar != undefined) {
+      if (this.proceso.ProcesoRealizar.length > 0) {
+
+        this.cargarMateriales(this.proceso.ProcesoRealizar);
+      }
+    }
+    if (this.parametrosProcesoRealizarAdd.length > 0) {
+
+      for (let material in this.parametrosProcesoRealizarAdd) {
+        let nuevoProcesoRealizar: ProcesoRealizarModel = new ProcesoRealizarModel();
+        nuevoProcesoRealizar.ProcesoId = (this.proceso != undefined ? proceso.Id : 0);
+        nuevoProcesoRealizar.TipoProcesoId = this.parametrosProcesoRealizarAdd[material].Id;
+        this.procesoRealizar.push(nuevoProcesoRealizar);
+      }
+      this.proceso.ProcesoRealizar = this.procesoRealizar;
+    }
+
     this.formularioAsignacioTrabajo = this.formBuilder.group({
       MaquinaAsignadaId: [this.proceso.MaquinaAsignadaId],
       GuidOperario: [this.proceso.GuidOperario],
       NormaId: [this.proceso.NormaId],
       TrabajoRealizar: [this.proceso.TrabajoRealizar],
       EstadoId: [this.proceso.EstadoId],
+      ProcesoRealizar: [this.proceso.ProcesoRealizar]
     })
     this.formularioEvent.emit(this.formularioAsignacioTrabajo);
 
@@ -71,10 +94,10 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   validacionesFormulario() {
 
-    
+
 
     if (this.proceso.Id) {
-      
+
 
       if (this.proceso.EstadoId == ESTADOS_PROCESOS.Pendiente) {
         this.formularioAsignacioTrabajo.setValidators(Validators.required)
@@ -99,7 +122,6 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
   }
 
   enviar() {
-    debugger;
     if (!this.formularioAsignacioTrabajo.valid) {
       return
     }
@@ -111,7 +133,37 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
       this.parametrosOperarios = this.parametros.filter(d => d.Grupo == 'OPERARIO');
       this.parametrosMaquinas = this.parametros.filter(d => d.Grupo == 'MAQUINA_ASIGNADA_PROCESO');
       this.parametrosNorma = this.parametros.filter(d => d.Grupo == 'NORMA_PROCESO');
+      this.parametrosProcesoRealizar = this.parametros.filter(d => d.Grupo == 'PROCESO_REALIZAR');
     })
+  }
+
+  agregarProcesoRealiza(event: any) {
+    let idSeleccionado: any = event.target.value;
+    if (idSeleccionado != "") {
+      let nuevoItem: any = this.parametrosProcesoRealizar.find(c => c.Id == idSeleccionado);
+      let index: any = this.parametrosProcesoRealizar.findIndex(c => c.Id == idSeleccionado);
+      this.parametrosProcesoRealizarAdd.push(nuevoItem);
+      this.parametrosProcesoRealizar.splice(index, 1);
+
+      this.iniciarFormulario(this.proceso);
+    }
+  }
+  eliminarProcesoRealizar(material: EntidadModel) {
+    let index: any = this.parametrosProcesoRealizarAdd.findIndex(c => c.Id == material.Id);
+    this.parametrosProcesoRealizar.push(material);
+    this.parametrosProcesoRealizarAdd.splice(index, 1);
+
+    this.procesosRealizar.emit(this.parametrosProcesoRealizarAdd);
+  }
+
+  cargarMateriales(procesoRealizar: any) {
+    for (let procesos in procesoRealizar) {
+      let objProceso: any = this.parametrosProcesoRealizar.find(e => e.Id == procesoRealizar[procesos].TipoProcesoId);
+      let index: any = this.parametrosProcesoRealizar.findIndex(c => c.Id == procesoRealizar[procesos].TipoProcesoId);
+      this.parametrosProcesoRealizarAdd.push(objProceso);
+      this.parametrosProcesoRealizar.splice(index, 1);
+
+    }
   }
 
 }

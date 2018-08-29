@@ -16,7 +16,8 @@
   </div>
 
   <div class="row contenido-interno">
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="proceso">
+
       <form (ngSubmit)="procesar()">
 
         <app-detalle-proceso [proceso]="proceso">
@@ -27,14 +28,20 @@
 
         </app-asignar-proceso>
 
-        <app-trabajo-realizado (formularioEvent)="iniciarformularioTrabajoRealizado($event)" [proceso]="proceso">
+        <app-trabajo-realizado (formularioEvent)="iniciarformularioTrabajoRealizado($event)" [proceso]="proceso" [procesosRealizar]="procesoRealizar">
 
         </app-trabajo-realizado>
 
-
-        <button type="submit" class="btn centrar">
-          {{accion}}
-        </button>
+        <div class="text-center">
+          <button type="submit" class="btn">
+            {{accion}}
+          </button>
+        </div>
+        <app-sugerir-proceso 
+                             [ocultar]="true"
+                             [accion]="'procesar'"
+                             (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
+                             (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
       </form>
     </div>
 

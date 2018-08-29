@@ -38,10 +38,23 @@
       <label class="float-right">Procesos a realizar:</label>
     </div>
     <div *ngIf="alistamiento" class="col-lg-6">
-      <select [attr.disabled]="disable ? '' : null" formControlName="ProcesosId" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control form-control-lg">
+      <select [attr.disabled]="disable ? '' : null" formControlName="ProcesoRealizar" validacion [validaciones]="[alistamiento ? 'requerido' : '']" class="form-control form-control-lg" (change)="agregarProcesoRealiza($event)">
         <option [value]="''">Seleccione</option>
-        <!--<option *ngFor="let paramtro of parametrosNorma" [value]="paramtro.Id">{{paramtro.Valor}}</option>-->
+        <option *ngFor="let paramtro of parametrosProcesoRealizar" [value]="paramtro.Id">{{paramtro.Valor}}</option>
       </select>
+    </div>
+    <!--Agregar Procesos a realizar-->
+    <div *ngIf="alistamiento && parametrosProcesoRealizarAdd.length > 0" class="col-lg-4">
+    </div>
+    <div *ngIf="alistamiento && parametrosProcesoRealizarAdd.length > 0" class="col-lg-6">
+      <br />
+      <div *ngFor="let materialNew of parametrosProcesoRealizarAdd" class="col-md-12 top-10">
+        <span class="badge badge-pemarsa aliniar-text">
+          {{materialNew.Valor}}
+          &nbsp;
+          <i *ngIf="!disable" (click)="eliminarProcesoRealizar(materialNew)" class="glyphicon glyphicon-minus pull-right pointer" data-toggle="tooltip" title="Eliminar proceso a realizar"></i>
+        </span>
+      </div>
     </div>
 
 

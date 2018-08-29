@@ -5,9 +5,11 @@ import { SiguienteProcesoComponent } from 'src/app/proceso/coordinador/siguiente
 import { ProcesoService } from 'src/app/common/services/entity';
 import { LoaderService } from 'src/app/common/services/entity/loaderService';
 import { ToastrService } from 'ngx-toastr';
-import { ProcesoModel } from 'src/app/common/models/Index';
+import { ProcesoModel, EntidadModel } from 'src/app/common/models/Index';
 import { ESTADOS_PROCESOS, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
 import { Location } from '@angular/common';
+import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
+import { SugerirProcesoComponent } from 'src/app/proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
 
 @Component({
   selector: 'app-alistamiento-procesar',
@@ -17,9 +19,10 @@ import { Location } from '@angular/common';
 export class AlistamientoProcesarComponent implements OnInit {
 
   @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
-
+  @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
+  public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
 
   //formulario
   public formularioAsignacion: FormGroup
@@ -28,6 +31,8 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   //accion
   public accion: string;
+
+  public parametrosProcesoRealizarAdd: EntidadModel[] = [];
 
   constructor(
     private location: Location,
@@ -53,6 +58,7 @@ export class AlistamientoProcesarComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response;
+        this.procesoRealizar = response.ProcesoRealizar;
         this.accionRealizar(this.proceso.EstadoId)
         console.log(this.proceso)
       }, error => {
@@ -101,6 +107,7 @@ export class AlistamientoProcesarComponent implements OnInit {
       this.esFormularioValido = false;
       return;
     }
+    this.parametrosProcesoRealizarAdd;
     this.asignarDatosProceso()
     this.actualizarDatos();
 
@@ -128,6 +135,25 @@ export class AlistamientoProcesarComponent implements OnInit {
         this.loaderService.display(false)
 
       })
+  }
+
+  confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    debugger;
+    this.sugerir.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
+  }
+
+  responseSugerenciaProceso(event) {
+    debugger;
+    if (event) {
+      //this.ModalOcultar = false;
+      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response == true) {
+          //this.ModalOcultar = false;
+          this.router.navigate(['alistamiento'])
+        };
+      });
+
+    }
   }
 
 

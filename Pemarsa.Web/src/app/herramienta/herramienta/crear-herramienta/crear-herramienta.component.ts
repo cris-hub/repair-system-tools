@@ -482,6 +482,7 @@ export class CrearHerramientaComponent implements OnInit {
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsTouched();
     this.validacionHerramientaMotor();
     this.validacionHerramientaPetrolera();
+    this.validacionLineaCliente();
 
     if (this.frmHerramienta.status != 'VALID') {
       this.toastr.error('faltan datos por diligenciar')

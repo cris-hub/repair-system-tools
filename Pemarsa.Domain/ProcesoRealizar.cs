@@ -5,7 +5,7 @@ namespace Pemarsa.Domain
 {
     public class ProcesoRealizar
     {
-        [Required]
+        
         public string Valor { get; set; }
 
         [Required,ForeignKey("TipoProceso")]

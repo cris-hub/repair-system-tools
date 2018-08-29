@@ -107,7 +107,7 @@
             </label>
             <div class="col-md-8">
               <select [attr.disabled]="esVer == true ? '' : null" formControlName="LineaId" class="form-control form-control-lg">
-                <option value="null">Seleccione</option>
+                <option [value]="''">Seleccione</option>
                 <option *ngFor="let clienteLn of clienteLinea" [value]="clienteLn.Id">{{clienteLn.Valor}}</option>
               </select>
               <strong *ngIf="frmHerramienta.get('LineaId').invalid" class="text-danger validaciones">Este campo es obligatorio</strong>

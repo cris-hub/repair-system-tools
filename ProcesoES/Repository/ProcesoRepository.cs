@@ -266,6 +266,7 @@ namespace ProcesoES.Repository
                             .Include(c => c.OrdenTrabajo.Responsable)
                             .Include(c => c.OrdenTrabajo.Anexos)
                             .Include(c => c.TipoProcesoSiguienteSugerido)
+                            .Include(c => c.ProcesoRealizar).ThenInclude(c=> c.TipoProceso)
                             .Include(c => c.TipoProcesoAnterior);
 
 
@@ -342,7 +343,7 @@ namespace ProcesoES.Repository
                     .Include(proceso => proceso.TipoProcesoAnterior)
                     .Include(proceso => proceso.OrdenTrabajo.Prioridad);
 
-                List<Proceso> procesos = new List<Proceso> ();
+                List<Proceso> procesos = new List<Proceso>();
 
                 if (tipoProceso == (int)TIPOPROCESOS.REASIGNACION)
                 {
@@ -351,17 +352,18 @@ namespace ProcesoES.Repository
                                         .Take(paginacion.CantidadRegistros);
 
 
-                await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
+                    await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
                     procesos = result.ToList();
                 }
-                else {
+                else
+                {
                     var result = query.Where(c => c.TipoProcesoId == tipoProceso).OrderBy(d => d.TipoProcesoId == tipoProceso).OrderByDescending(c => c.FechaRegistro)
                     .Skip(paginacion.RegistrosOmitir())
                                     .Take(paginacion.CantidadRegistros);
-                await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
+                    await result.ForEachAsync(async c => c.ProcesoAnterior = await ConsultarProcesoPorId(c.Id, usuarioDTO));
                     procesos = result.ToList();
                 }
-                
+
 
 
 
@@ -803,6 +805,25 @@ namespace ProcesoES.Repository
         {
             try
             {
+                if (proceso.ProcesoRealizar.Any())
+                {
+                    foreach (var item in proceso.ProcesoRealizar)
+                    {
+                        var actualizarProceso = _context.ProcesoRealizar.Where(p => p.ProcesoId == item.ProcesoId && p.TipoProcesoId == item.TipoProcesoId).Count();
+
+                        if (actualizarProceso > 0)
+                        {
+                            _context.Entry(item).State = EntityState.Modified;
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            await _context.ProcesoRealizar.AddAsync(item);
+                            await _context.SaveChangesAsync();
+                        }
+
+                    }
+                }
                 _context.Entry(proceso).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;
             }
