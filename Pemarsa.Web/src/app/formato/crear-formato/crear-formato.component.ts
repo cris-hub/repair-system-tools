@@ -17,6 +17,7 @@ import { ignoreElements } from 'rxjs/operators';
 import { LoaderService } from '../../common/services/entity/loaderService';
 import { TIPOS_FORMATO, TIPOS_ESPECIFICACION } from '../formato-enum/formato.enum';
 import { forEach } from '@angular/router/src/utils/collection';
+import { TIPOSFORMATOADENDUM } from '../../common/enums/parametrosEnum';
 
 
 @Component({
@@ -381,14 +382,26 @@ export class CrearFormatoComponent implements OnInit {
         }
       })
     console.log(this.formatosAdendumModel)
-
-    this.formatosAdendumModel.forEach(p => {
+    
+    this.formatosAdendumModel.filter(t => t.TipoId == TIPOSFORMATOADENDUM.BEV).sort((a,b)=> a.Posicion-b.Posicion).forEach(p => {
       let form = this.formBuilder.group({});
       form.addControl('Id', new FormControl(p.Id ? p.Id : 0));
       form.addControl('Posicion', new FormControl(p.Posicion));
       form.addControl('TipoId', new FormControl(p.TipoId));
       form.addControl('Valor', new FormControl(p.Valor));
       this.formAdendum.push(form);
+      
+
+
+    })    
+    this.formatosAdendumModel.filter(t => t.TipoId == TIPOSFORMATOADENDUM["O.D"]).sort((a, b) => a.Posicion - b.Posicion).forEach(p => {
+      let form = this.formBuilder.group({});
+      form.addControl('Id', new FormControl(p.Id ? p.Id : 0));
+      form.addControl('Posicion', new FormControl(p.Posicion));
+      form.addControl('TipoId', new FormControl(p.TipoId));
+      form.addControl('Valor', new FormControl(p.Valor));
+      this.formAdendum.push(form);
+      
 
 
     })
