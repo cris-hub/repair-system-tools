@@ -10,6 +10,7 @@ import { ESTADOS_PROCESOS, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from 'src
 import { Location } from '@angular/common';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 import { SugerirProcesoComponent } from 'src/app/proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
+import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
 
 @Component({
   selector: 'app-alistamiento-procesar',
@@ -20,6 +21,7 @@ export class AlistamientoProcesarComponent implements OnInit {
 
   @ViewChild(SiguienteProcesoComponent) public siguienteProceso: SiguienteProcesoComponent;
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
+  @ViewChild(EquipoMedicionComponent) public equipoMedicion: EquipoMedicionComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
