@@ -266,8 +266,8 @@
                       <tr>
                         <th> <p>{{tipos.Valor}} </p></th>
                         <td *ngIf="tipos.Id ==26">
-                          <div *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+7" style="display: table-cell;">
-
+                          <div *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i+8" style="display: table-cell;">
+                            <!--quitar el false para debugar a detalle (!)-->
                             <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Posicion" class="form-control" type="text" />
                             <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
                             <input formControlName="Valor" class="form-control" type="text" />
@@ -276,7 +276,7 @@
                         </td>
                         <td *ngIf="tipos.Id ==27">
                           <div *ngFor="let Adendum of formFormato.get('Adendum').controls | filtrarColumnasAdendumPorTipoPipe:tipos ; let i = index ; " [formGroupName]="i" style="display: table-cell;">
-
+                            <!--quitar el false para debugar a detalle (!)-->
                             <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="Posicion" class="form-control" type="text" />
                             <input *ngIf="!formFormato.get('Adendum').controls[i].value" formControlName="TipoId" class="form-control" type="text" />
                             <input formControlName="Valor" class="form-control" type="text" />
