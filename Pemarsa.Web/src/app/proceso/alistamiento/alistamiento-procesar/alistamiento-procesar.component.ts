@@ -32,8 +32,6 @@ export class AlistamientoProcesarComponent implements OnInit {
   //accion
   public accion: string;
 
-  public parametrosProcesoRealizarAdd: EntidadModel[] = [];
-
   constructor(
     private location: Location,
     private procesoService: ProcesoService,
@@ -107,20 +105,24 @@ export class AlistamientoProcesarComponent implements OnInit {
       this.esFormularioValido = false;
       return;
     }
-    this.parametrosProcesoRealizarAdd;
     this.asignarDatosProceso()
     this.actualizarDatos();
 
   }
   asignarDatosProceso() {
-    Object.assign(this.proceso, this.formularioAsignacion.value)
-    Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
+    if (this.accion == 'Asignar') {
+
+      Object.assign(this.proceso, this.formularioAsignacion.value)
+    } else {
+
+      Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
+    }
   }
 
   //persistir
   actualizarDatos() {
 
-    this.loaderService.display(true)
+    this.loaderService.display(true);
     this.procesoService.actualizarProceso(this.proceso).subscribe(
       response => {
         response ?
@@ -138,17 +140,13 @@ export class AlistamientoProcesarComponent implements OnInit {
   }
 
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
-    debugger;
     this.sugerir.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
 
   responseSugerenciaProceso(event) {
-    debugger;
     if (event) {
-      //this.ModalOcultar = false;
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
-          //this.ModalOcultar = false;
           this.router.navigate(['alistamiento'])
         };
       });

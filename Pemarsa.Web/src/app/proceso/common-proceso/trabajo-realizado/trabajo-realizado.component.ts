@@ -91,8 +91,6 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
 
     this.formProcesoRealizar = this.formularioTrabajoRealizado.get('ProcesoRealizar') as FormArray;
 
-    let posicion = this.formProcesoRealizar.controls.length
-
     if (this.proceso.ProcesoRealizar != undefined) {
 
       while (this.proceso.ProcesoRealizar.length < this.proceso.ProcesoRealizar.length) {

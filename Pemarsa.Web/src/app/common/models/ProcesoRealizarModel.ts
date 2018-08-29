@@ -10,9 +10,4 @@ export class ProcesoRealizarModel {
 
   public ProcesoId: number;
   public Proceso: ProcesoModel;
-
-  constructor() {
-    this.TipoProceso = new CatalogoModel();
-
-  }
 }
