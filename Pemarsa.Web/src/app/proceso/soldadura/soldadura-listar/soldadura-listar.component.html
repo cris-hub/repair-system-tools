@@ -1,3 +1,117 @@
-<p>
-  soldadura-listar works!
-</p>
+<br />
+<div class="container-fluid">
+  <div class="row titulo">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <h3 class="margin-20 text-center">Listado de OIT´s para soldadura</h3>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <input type="text" [(ngModel)]="filter" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <br />
+    </div>
+    <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
+    </div>
+    <div class="col-lg-3 col-md-9 col-sm-9 col-xs-12">
+      <div class="row">
+        <div class="col col-sm-5 col-md-5">
+          <br />
+          <app-filtro-proceso (paramsFiltro)="consultarProcesoPorFiltro($event)" class="pointer float-right" data-toggle="tooltip" title="Filtros avanzados"></app-filtro-proceso>
+        </div>
+        <div class="col col-sm-2 col-md-1">
+          <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
+            </a>
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+              <li class="records-page-contactos" data-page="10">
+                <a (click)="limiteConsulta(10)">10 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="20">
+                <a (click)="limiteConsulta(20)">20 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="30">
+                <a (click)="limiteConsulta(30)">30 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="50">
+                <a (click)="limiteConsulta(50)">50 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="100">
+                <a (click)="limiteConsulta(100)">100 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="200">
+                <a (click)="limiteConsulta(200)">200 Registros</a>
+              </li>
+              <li class="records-page-contactos" data-page="300">
+                <a (click)="limiteConsulta(300)">300 Registros</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col col-sm-3 col-md-4">
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row contenido-interno-listar">
+    <div class="col-12">
+      <div class="table-responsive-sm table-responsive-md">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr class="titleTable text-center">
+              <th>Número de OIT</th>
+              <th>Herramienta</th>
+              <th>Cliente</th>
+              <th>Serial</th>
+              <th>Prioridad</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Proceso anterior</th>
+              <th class="width-9">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="font-black center-table">
+            <tr *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter">
+              <td>{{Proceso.OrdenTrabajoId}}</td>
+              <td>{{Proceso.OrdenTrabajoHerramientaNombre}}</td>
+              <td>{{Proceso.OrdenTrabajoClienteNickName}}</td>
+              <td>{{Proceso.OrdenTrabajoSerialHerramienta}}</td>
+              <td>{{Proceso.OrdenTrabajoPrioridadValor}}</td>
+              <td>{{Proceso.FechaRegistroVista}}</td>
+              <td>{{Proceso.EstadoValor}}</td>
+              <td>
+                <b *ngIf="Proceso.TipoProcesoAnterior">
+                  {{Proceso.TipoProcesoAnteriorValor}}
+                </b>
+              </td>
+              <td>
+                <i class="glyphicon glyphicon-eye-open pointer"></i>
+                &nbsp;
+                <i routerLink="procesar/{{Proceso.Guid}}" class="glyphicon glyphicon-wrench pointer"></i>
+                &nbsp;
+                <i class="glyphicon glyphicon-share-alt devolver pointer"></i>
+                &nbsp;
+                <i data-toggle="modal" class="glyphicon glyphicon-print pointer"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--Paginacion -->
+    <div class="row">
+      <nav aria-label="pagination example">
+        <ul class="pagination pagination-circle pg-blue mb-0">
+          <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
+          </pagination-controls>
+        </ul>
+      </nav>
+      <br />
+    </div>
+  </div>
+</div>
+
+
+
+
+
