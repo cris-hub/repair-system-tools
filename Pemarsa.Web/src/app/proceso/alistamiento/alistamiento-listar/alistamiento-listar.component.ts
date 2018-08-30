@@ -5,6 +5,7 @@ import { ParametroService } from 'src/app/common/services/entity/parametro.servi
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { ESTADOS_PROCESOS } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
+import { FiltroParametrosProcesosoModel } from 'src/app/common/models/FiltroModel';
 
 @Component({
   selector: 'app-alistamiento-listar',
@@ -18,6 +19,7 @@ export class AlistamientoListarComponent implements OnInit {
   public tipoProcesos: CatalogoModel[];
   public Procesos: Array<ProcesoModel>;
   public Paramtros: ParametrosModel;
+  public filter: string
 
   constructor(
     private procesoService: ProcesoService,
@@ -74,5 +76,43 @@ export class AlistamientoListarComponent implements OnInit {
       });
     }
   }
+
+
+  consultarProcesoPorFiltro(filtro: FiltroParametrosProcesosoModel) {
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    filtro.TipoProceso = this.tipoProcesoActual.Valor;
+
+    this.procesoService.consultarProcesosPorTipoPorFiltro(filtro)
+      .subscribe(response => {
+        this.Procesos = response.Listado.filter(d => d.EstadoId != ESTADOS_PROCESOS.Procesado && d.Reasignado != false);
+        this.Procesos.forEach((p) => {
+          p.FechaRegistroVista = this.datePipe.transform(p.FechaRegistro, "dd/MM/yyyy, h:mm a");
+          p.OrdenTrabajoId = p.OrdenTrabajo.Id;
+          p.OrdenTrabajoHerramientaNombre = p.OrdenTrabajo.Herramienta.Nombre;
+          p.OrdenTrabajoClienteNickName = p.OrdenTrabajo.Cliente.NickName;
+          p.OrdenTrabajoSerialHerramienta = p.OrdenTrabajo.SerialHerramienta;
+          p.EstadoValor = p.Estado.Valor;
+          p.OrdenTrabajoPrioridadValor = p.OrdenTrabajo.Prioridad.Valor;
+          if (p.TipoProcesoAnterior != null) {
+            p.TipoProcesoAnteriorValor = p.TipoProcesoAnterior.Valor;
+          }
+        });
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+      });
+  }
+
+  limiteConsulta(event: any) {
+    this.paginacion = new PaginacionModel(1, event);
+    this.consultarProcesos();
+  }
+
+  cambioPagina(page: any) {
+    this.paginacion.PaginaActual = page;
+    this.consultarProcesos();
+  }
+  primeraLetraMayuscula(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }//convertir en pipe este metrodo
 
 }

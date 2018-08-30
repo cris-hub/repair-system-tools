@@ -5,7 +5,7 @@
       <h3 class="margin-20 text-center">Listado de OIT´s para alistamiento</h3>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <input type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
+      <input type="text" [(ngModel)]="filter" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm" name="">
       <br />
     </div>
     <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
@@ -14,14 +14,14 @@
       <div class="row">
         <div class="col col-sm-5 col-md-5">
           <br />
-          <!--<filtro-cliente [estadosCatalogo]="parametros.Catalogos" class="pointer float-right" data-toggle="tooltip" title="Filtros avanzados" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>-->
+          <app-filtro-proceso (paramsFiltro)="consultarProcesoPorFiltro($event)" class="pointer float-right" data-toggle="tooltip" title="Filtros avanzados"></app-filtro-proceso>
         </div>
         <div class="col col-sm-2 col-md-1">
           <div class="btn-group margin-13 flex-center" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
             <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
             </a>
-            <!--<ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
+            <ul class="dropdown-menu tamano_dropdawn_200px" style="left:inherit">
               <li class="records-page-contactos" data-page="10">
                 <a (click)="limiteConsulta(10)">10 Registros</a>
               </li>
@@ -43,7 +43,7 @@
               <li class="records-page-contactos" data-page="300">
                 <a (click)="limiteConsulta(300)">300 Registros</a>
               </li>
-            </ul>-->
+            </ul>
           </div>
         </div>
         <div class="col col-sm-3 col-md-4">
@@ -71,7 +71,7 @@
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr *ngFor="let Proceso of Procesos">
+            <tr *ngFor="let Proceso of Procesos | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filter">
               <td>{{Proceso.OrdenTrabajoId}}</td>
               <td>{{Proceso.OrdenTrabajoHerramientaNombre}}</td>
               <td>{{Proceso.OrdenTrabajoClienteNickName}}</td>
@@ -102,12 +102,8 @@
     <div class="row">
       <nav aria-label="pagination example">
         <ul class="pagination pagination-circle pg-blue mb-0">
-          <!--<pagination-controls maxSize="10"
-                               previousLabel="Anterior"
-                               nextLabel="Siguiente"
-                               id="cliente"
-                               (pageChange)="cambioPagina($event)">
-          </pagination-controls>-->
+          <pagination-controls maxSize="10" previousLabel="Anterior" nextLabel="Siguiente" id="cliente" (pageChange)="cambioPagina($event)">
+          </pagination-controls>
         </ul>
       </nav>
       <br />
