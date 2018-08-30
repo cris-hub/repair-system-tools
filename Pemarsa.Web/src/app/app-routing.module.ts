@@ -80,7 +80,10 @@ const routes: Routes = [
   {
     path: 'alistamiento', loadChildren: './proceso/alistamiento/alistamiento.module#AlistamientoModule'
   },
-
+  {
+    path: 'soldadura', loadChildren: './proceso/soldadura/soldadura.module#SoldaduraModule'
+  },
+  
     // aprobacion
   
   { path: 'aprobacion-supervisor', component: OitCambioProcesoComponent },

@@ -144,7 +144,7 @@ export class AppComponent implements OnInit {
             id: "13",
             name: "Soldadura",
             image: "",
-            url: "",
+            url: "/soldadura",
             color: "color",
             title: "Soldadura",
             submenu: false,
@@ -152,7 +152,7 @@ export class AppComponent implements OnInit {
               {
                 icono: "icon-soldadura",
                 color: "color5",
-                class: "remove"
+                class: "display"
               }
 
           },

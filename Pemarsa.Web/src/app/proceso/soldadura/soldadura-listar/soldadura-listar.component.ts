@@ -8,11 +8,12 @@ import { ESTADOS_PROCESOS } from 'src/app/proceso/inspeccion-enum/inspeccion.enu
 import { FiltroParametrosProcesosoModel } from 'src/app/common/models/FiltroModel';
 
 @Component({
-  selector: 'app-alistamiento-listar',
-  templateUrl: './alistamiento-listar.component.html',
-  styleUrls: ['./alistamiento-listar.component.css']
+  selector: 'app-soldadura-listar',
+  templateUrl: './soldadura-listar.component.html',
+  styleUrls: ['./soldadura-listar.component.css']
 })
-export class AlistamientoListarComponent implements OnInit {
+export class SoldaduraListarComponent implements OnInit {
+
 
   public paginacion: PaginacionModel = new PaginacionModel(1, 20);
   public tipoProcesoActual: CatalogoModel = new CatalogoModel();
@@ -34,12 +35,11 @@ export class AlistamientoListarComponent implements OnInit {
 
 
 
-
   consultarParemtros() {
     this.parametroService.consultarParametrosPorEntidad('PROCESO').subscribe(response => {
       this.tipoProcesos = response.Catalogos.filter(catalogo => { return catalogo.Grupo == "TIPO_PROCESO" });
       this.Paramtros = response;
-      this.obtenerTipoProceso(this.tipoProcesos, 'alistamiento');
+      this.obtenerTipoProceso(this.tipoProcesos, 'soldadura');
     }, error => {
       console.log(error)
       this.toastrService.error(error.message)
@@ -114,5 +114,7 @@ export class AlistamientoListarComponent implements OnInit {
   primeraLetraMayuscula(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }//convertir en pipe este metrodo
+
+
 
 }

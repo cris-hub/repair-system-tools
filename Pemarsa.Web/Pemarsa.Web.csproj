@@ -62,6 +62,7 @@
     <None Remove="src\app\proceso\alistamiento\alistamiento.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
+    <None Remove="src\app\proceso\soldadura\soldadura.routing.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo.component.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo.component.ts" />
@@ -135,6 +136,7 @@
     <TypeScriptCompile Include="src\app\proceso\alistamiento\alistamiento.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
+    <TypeScriptCompile Include="src\app\proceso\soldadura\soldadura.routing.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo.component.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo.component.ts" />
