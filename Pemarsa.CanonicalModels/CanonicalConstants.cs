@@ -340,6 +340,7 @@ namespace Pemarsa.CanonicalModels
             public const string TipoSoldadura = "TIPO_SOLDADURA_PROCESO";
             public const string TiposInspeccion = "TIPOS_INSPECCION";
             public const string ProcesoRealizar = "PROCESO_REALIZAR";
+            public const string FLOAT_VALVE = "FLOAT_VALVE";
 
             public const string TubosPatrones = "TUBOS_PATRONES";
             public const string EquiposEmi = "EQUIPOS_EMI";
@@ -359,6 +360,7 @@ namespace Pemarsa.CanonicalModels
             public const string MecanizadoTorno = "MECANIZADO_TORNO";
             public const string OrdenTrabajo = "ORDEN_TRABAJO";
             public const string Proceso = "PROCESO";
+            public const string InspeccionConexion = "INSPECCION_CONEXION";
             public const string Inspeccion = "INSPECCION";
 
         }

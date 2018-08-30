@@ -1,4 +1,4 @@
-import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel, EntityModel } from "./Index";
+import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel, EntityModel, FormatoModel } from "./Index";
 
 export class InspeccionConexionModel extends EntityModel{
 
@@ -19,13 +19,14 @@ export class InspeccionConexionModel extends EntityModel{
   public TipoConexion: CatalogoModel
 
 
-  public FormatoId: number
+  public InspeccionConexionFormatoId: number
   public InspeccionConexionFormato :InspeccionConexionFormatoModel
 
 
   public InspeccionId: number
   public Inspeccion: InspeccionModel
 
+  public Formato : FormatoModel
 
   constructor() {
     super();

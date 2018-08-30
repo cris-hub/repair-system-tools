@@ -2,12 +2,14 @@ import { FormatoParametroModel, InspeccionConexionFormatoModel } from "./Index";
 
 export class InspeccionConexionFormatoParametrosModel {
 
-  public Id: number
-  public EstaConforme: boolean
-  public FormatoParametro :number 
+  public Id?: number
+  public EstaConforme?: boolean
 
-  public InspeccionConexionFormatoId: number
-  public InspeccionConexionFormato: InspeccionConexionFormatoModel
+  public FormatoParametroId?: number
+  public FormatoParametro?: FormatoParametroModel
+
+  public InspeccionConexionFormatoId?: number
+  public InspeccionConexionFormato?: InspeccionConexionFormatoModel
 
 
   constructor() {

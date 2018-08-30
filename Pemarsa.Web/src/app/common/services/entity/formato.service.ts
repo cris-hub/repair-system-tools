@@ -19,7 +19,7 @@ export class FormatoService {
     this.header = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.urlServer = configSrv.getConfiguration().webApiBaseUrl + 'FormatoES/';
 
-    
+
   }
 
   public crearFormato(model: FormatoModel): Observable<boolean> {
@@ -50,7 +50,12 @@ export class FormatoService {
     return this.http.get<FormatoModel>(this.urlServer + 'ConsultarFormatoPorGuid?guidFormato=' + guid);
   }
   public consultarFormatoPorInspeccionConexion(Inspeccion: InspeccionConexionModel): Observable<FormatoModel> {
-    return this.http.get<FormatoModel>(this.urlServer + 'ConsultarFormatoPorInspeccionConexion/' + Inspeccion );
+    return this.http.get<FormatoModel>(this.urlServer + 'ConsultarFormatoPorInspeccionConexion', {
+      headers: this.header,
+      params: new HttpParams()
+        .set('TipoConexionId', Inspeccion.TipoConexionId)
+        .set('ConexionId', Inspeccion.ConexionId)
+    });
   }
   public actualizarFormato(model: FormatoModel): Observable<boolean> {
     return this.http.put<boolean>(this.urlServer + 'ActualizarFormato',

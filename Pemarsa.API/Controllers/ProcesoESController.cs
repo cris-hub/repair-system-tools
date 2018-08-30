@@ -90,7 +90,7 @@ namespace Pemarsa.API.Controllers
         }
 
 
-        [HttpPut("CrearInspeccionConexiones")]
+        [HttpPut("ActualizarInspeccionConexiones")]
         public async Task<IActionResult> ActualizarInspeccionConexiones([FromBody]IEnumerable<InspeccionConexion> InspeccionesConexiones)
         {
             try
