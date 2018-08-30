@@ -18,7 +18,9 @@ import { ESTADOS_PROCESOS } from 'src/app/proceso/inspeccion-enum/inspeccion.enu
 export class EquipoMedicionComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.ngOnInit()
+
+    this.AsignarParametros();
+    this.iniciarFormulario();
   }
   //formBuilder: any;
 
@@ -27,54 +29,63 @@ export class EquipoMedicionComponent implements OnInit {
   @Input() public proceso: ProcesoModel;
   @Input() public alistamiento;
   @Input() public disable;
+  @Input() public equipomedicion;
+  @Input() public equipomedicionMostrar;
 
 
   public EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
   public EquiposMedicionUsadoAdd: EntidadModel[] = new Array<EntidadModel>();
-  public ProcesoEquipoMedicion: ProcesoEquipoMedicionModel[] = new Array<ProcesoEquipoMedicionModel>(); // = new ProcesoEquipoMedicionModel();
+  public EquiposMedicionUsadoView: EntidadModel[] = new Array<EntidadModel>();
 
   public formularioEquipoMedicion: FormGroup;
 
-  //public disable: boolean;
   public Bloquear: boolean;
+
+  public validar: boolean = false;
+  public validarView: boolean = false;
 
   constructor(
     private parametroService: ParametroService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+
+  }
 
 
 
   ngOnInit() {
-    this.consultarParametros();
-    this.iniciarFormulario(this.proceso);
-    //this.validacionesFormulario();
+    this.AsignarParametros();
+    this.iniciarFormulario();
   }
 
 
-  iniciarFormulario(proceso: ProcesoModel) {
-
-      //EstadoId: [this.proceso.EstadoId],
+  iniciarFormulario() {
     this.formularioEquipoMedicion = this.formBuilder.group({
       AplicaEquipoMedicion: [this.proceso.AplicaEquipoMedicion ? this.proceso.AplicaEquipoMedicion : false],
-      ProcesoEquipoMedicion: [this.proceso.ProcesoEquipoMedicion]
+      ProcesoEquipoMedicion: [this.proceso.ProcesoEquipoMedicion ? this.EquiposMedicionUsadoView : null]
     })
-    this.formularioEvent.emit(this.formularioEquipoMedicion);
-
-    this.formularioEquipoMedicion.valueChanges.subscribe(value => {
-      console.log(value)
-      this.formularioEvent.emit(this.formularioEquipoMedicion);
-
-    })
-
   }
 
 
-  consultarParametros() {
-    this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
-      this.EquiposMedicionUsadoAdd = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
-      this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
+  AsignarParametros() {
+    if (this.equipomedicion != undefined) {
+      if (this.equipomedicion.length > 0 && !this.validar) {
+        this.EquiposMedicionUsado = this.equipomedicion;
+        Object.assign(this.EquiposMedicionUsadoAdd, this.equipomedicion);
+        this.validar = true;
+      }
+    }
+    if (this.equipomedicionMostrar != undefined && !this.validarView && this.disable) {
+      if (this.equipomedicionMostrar.length > 0) {
+        this.validarView = true;
+        for (var proces of this.equipomedicionMostrar) {
 
-    })
+        this.EquiposMedicionUsadoView.push(<EntidadModel>{
+          Id: proces.IdEquipoMedicion,
+          Valor: proces.ValorEquipoMedicion
+        });
+        }
+      }
+    }
   }
 
   selectItem(event, input) {
@@ -82,18 +93,17 @@ export class EquipoMedicionComponent implements OnInit {
       return
     }
 
-    this.proceso.ProcesoEquipoMedicion.push(<ProcesoEquipoMedicionModel>{
-      ValorEquipoMedicion: event.item.Valor,
-      IdEquipoMedicion: event.item.Id,
-      ProcesoId: this.proceso ? this.proceso.Id : null
+    this.EquiposMedicionUsadoView.push(<EntidadModel>{
+      Valor: event.item.Valor,
+      Id: event.item.Id
     });
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
     event.preventDefault();
     input.value = '';
 
-    this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.proceso.ProcesoEquipoMedicion;
-    Object.assign(this.proceso, this.formularioEquipoMedicion.value);
-    this.iniciarFormulario(this.proceso);
+    this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.EquiposMedicionUsadoView;
+
+    this.formularioEvent.emit(this.formularioEquipoMedicion);
   }
 
   removerDeListaAMostrar(EquiposMedicionUsado: EntidadModel[], objetoEliminar: EntidadModel) {
@@ -101,17 +111,14 @@ export class EquipoMedicionComponent implements OnInit {
     EquiposMedicionUsado.splice(index, 1);
   }
 
-  removerDeElementosSeleccionado(equipo) {
+  removerDeElementosSeleccionado(equipo: EntidadModel) {
     debugger;
-    let index = this.proceso.ProcesoEquipoMedicion.findIndex(c => c.IdEquipoMedicion == equipo.IdEquipoMedicion);
-    this.proceso.ProcesoEquipoMedicion.splice(index, 1)
+    let index = this.EquiposMedicionUsadoView.findIndex(c => c.Id == equipo.Id);
+    this.EquiposMedicionUsado.push(equipo);
+    this.EquiposMedicionUsadoView.splice(index, 1)
 
-    let procesoE = this.EquiposMedicionUsadoAdd.find(e => e.Id == equipo.IdEquipoMedicion);
-
-    this.EquiposMedicionUsado.push(procesoE);
-    this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.proceso.ProcesoEquipoMedicion;
-    Object.assign(this.proceso, this.formularioEquipoMedicion.value);
-    this.iniciarFormulario(this.proceso);
+    this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.EquiposMedicionUsadoView;
+    this.iniciarFormulario();
   }
 
 
@@ -120,42 +127,17 @@ export class EquipoMedicionComponent implements OnInit {
     if (seleccionado) {
       this.Bloquear = true;
       this.EquiposMedicionUsado = new Array<EntidadModel>();
-      this.proceso.ProcesoEquipoMedicion = new Array<ProcesoEquipoMedicionModel>();
-      this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.proceso.ProcesoEquipoMedicion;
-      Object.assign(this.proceso, this.formularioEquipoMedicion.value);
-      this.iniciarFormulario(this.proceso);
+      this.EquiposMedicionUsadoView = new Array<EntidadModel>();
+      this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.EquiposMedicionUsadoView;
+      this.formularioEvent.emit(this.formularioEquipoMedicion);
     }
     else {
       this.Bloquear = false;
       Object.assign(this.EquiposMedicionUsado, this.EquiposMedicionUsadoAdd);
-      //this.EquiposMedicionUsado = this.EquiposMedicionUsadoAdd;
+      this.formularioEvent.emit(this.formularioEquipoMedicion);
     }
   }
 
-  validacionesFormulario() {
-    this.disable = true;
-    if (this.proceso.Id) {
-      if (this.proceso.EstadoId == ESTADOS_PROCESOS.Asignado) {
-
-        this.formularioEquipoMedicion.setValidators(Validators.required)
-        this.formularioEquipoMedicion.setErrors({ 'requerido': true })
-        this.formularioEquipoMedicion.get('EstadoId').setValue(ESTADOS_PROCESOS.Completado);
-        this.disable = false;
-
-
-      } else if ((this.proceso.EstadoId != ESTADOS_PROCESOS.Asignado)) {
-
-        this.formularioEquipoMedicion.setValidators(null)
-        this.formularioEquipoMedicion.setErrors(null)
-        delete this.formularioEquipoMedicion.controls['EstadoId']
-        this.disable = true;
-      }
-
-    }
-
-
-    this.formularioEquipoMedicion.updateValueAndValidity();
-  }
 
 
   //autocomplete

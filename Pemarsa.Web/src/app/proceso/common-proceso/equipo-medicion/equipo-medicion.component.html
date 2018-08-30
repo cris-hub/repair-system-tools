@@ -1,5 +1,5 @@
 <form [formGroup]="formularioEquipoMedicion" (ngSubmit)="enviar()">
-  <div class="row" >
+  <div class="row">
     <div class="col-lg-4">
       <label class="float-right">Equipo de medición utilizado:​</label>
     </div>
@@ -13,7 +13,7 @@
              (selectItem)="selectItem($event,input)"
              formControlName="ProcesoEquipoMedicion"
              #input />
-             <!--validacion [validaciones]="[disable ? '' : 'requerido']"-->
+      <!--validacion [validaciones]="[disable ? '' : 'requerido']"-->
 
     </div>
     <div class="col-lg-3" *ngIf="alistamiento">
@@ -26,9 +26,11 @@
     <div class="col-lg-4"></div>
 
     <div class="col-lg-4">
-      <div *ngFor="let equipo of proceso.ProcesoEquipoMedicion" class="line-heigth-33">
+
+
+      <div *ngFor="let equipo of EquiposMedicionUsadoView" class="line-heigth-33">
         <span class="badge badge-pemarsa">
-          {{equipo.ValorEquipoMedicion}}
+          {{equipo.Valor}}
           <i *ngIf="!disable" (click)="removerDeElementosSeleccionado(equipo)" class="glyphicon glyphicon-minus pull-right pointer"></i>
         </span>
       </div>

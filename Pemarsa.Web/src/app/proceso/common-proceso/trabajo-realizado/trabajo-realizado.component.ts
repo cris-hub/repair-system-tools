@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
+import { ProcesoEquipoMedicionModel } from 'src/app/common/models/ProcesoEquipoMedicionModel';
 
 @Component({
   selector: 'app-trabajo-realizado',
@@ -19,7 +20,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
     this.ngOnInit()
   }
 
-  
+
   //paramtros
   //public paramme:
   public parametros: EntidadModel[] = [];
@@ -46,6 +47,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   //validaciones
 
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
+  public procesoEquipoMedicion: ProcesoEquipoMedicionModel[] = new Array<ProcesoEquipoMedicionModel>();
 
   public disable: boolean;
 
@@ -63,7 +65,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
 
 
   iniciarformularioEquipoMedicion(formularioEquipoMedicion: FormGroup) {
-   
+
     this.formularioEquipoMedicion = formularioEquipoMedicion;
 
     var aplicaEquipo = this.formularioEquipoMedicion.value.AplicaEquipoMedicion;
@@ -76,7 +78,18 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
       var validar = Array.isArray(equipo);
       if (validar) {
         if (equipo.length > 0) {
+          this.procesoEquipoMedicion = new Array<ProcesoEquipoMedicionModel>();
 
+          for (var equipoM of equipo) {
+
+            this.procesoEquipoMedicion.push(<ProcesoEquipoMedicionModel>{
+              ValorEquipoMedicion: equipoM.Valor,
+              IdEquipoMedicion: equipoM.Id,
+              ProcesoId: this.proceso.Id
+            })
+          }
+
+          this.formularioEquipoMedicion.value.ProcesoEquipoMedicion = this.procesoEquipoMedicion;
           Object.assign(this.formularioTrabajoRealizado.value, this.formularioEquipoMedicion.value);
           Object.assign(this.proceso, this.formularioTrabajoRealizado.value);
           this.iniciarFormulario(this.proceso);
@@ -98,13 +111,13 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
     })
     if (this.proceso.ProcesoRealizar != undefined) {
       this.proceso.ProcesoRealizar = this.procesosRealizar;
-      if(this.proceso.ProcesoRealizar != undefined){
+      if (this.proceso.ProcesoRealizar != undefined) {
 
-      
-      if (this.proceso.ProcesoRealizar.length > 0) {
 
-        this.crearFormConexiones();
-      }
+        if (this.proceso.ProcesoRealizar.length > 0) {
+
+          this.crearFormConexiones();
+        }
       }
     }
     this.formularioEvent.emit(this.formularioTrabajoRealizado);
@@ -180,7 +193,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
     this.paramtroService.consultarParametrosPorEntidad('MECANIZADO_TORNO').subscribe(response => {
       this.parametros = response.Consultas;
       this.parametrosInstructivo = this.parametros.filter(d => d.Grupo == 'INSTRUCTIVO_PROCESO');
-      //this.parametrosEquipoUtilizado = this.parametros.filter(d => d.Grupo == 'EQUIPO_MEDICION_UTILIZADO_PROCESO');
+      this.parametrosEquipoUtilizado = this.parametros.filter(d => d.Grupo == 'EQUIPO_MEDICION_UTILIZADO_PROCESO');
 
     })
   }
