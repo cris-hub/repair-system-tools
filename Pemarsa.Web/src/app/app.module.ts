@@ -32,7 +32,7 @@ import { ProcesoModule } from './proceso/proceso.module';
 import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
 import { LoaderService } from './common/services/entity/loaderService';
 import { CoordinadorModule } from './proceso/coordinador/coordinador.module';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 

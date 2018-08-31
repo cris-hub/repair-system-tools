@@ -28,7 +28,7 @@ import { DetalleProcesoComponent } from './common-proceso/detalle-proceso/detall
 
 import { TrabajoRealizadoComponent } from './common-proceso/trabajo-realizado/trabajo-realizado.component';
 import { AsignarProcesoComponent } from './common-proceso/asignar-proceso/asignar-proceso.component';
-import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
+import { InspeccionConexionComponent, SafePipe } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
 import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccion/conexion-inspeccion.component';
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
 import { FormatoModule } from '../formato/formato.module';
@@ -43,10 +43,11 @@ import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-m
     UtilModule,
     FormatoModule,
 
-    
+
+      
 
   ],
-  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent],
+  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, SafePipe],
   exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent ,AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent]
 })
 export class ProcesoModule { }

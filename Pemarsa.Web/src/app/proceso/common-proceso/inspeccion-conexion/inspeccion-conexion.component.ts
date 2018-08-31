@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, Pipe, PipeTransform } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormArray, Form } from '@angular/forms';
 import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, FormatoAdendumModel, FormatoParametroModel, FormatoModel } from '../../../common/models/Index';
@@ -6,6 +6,16 @@ import { ProcesoService, FormatoService } from '../../../common/services/entity'
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { LoaderService } from '../../../common/services/entity/loaderService';
+import { ConfigService } from '../../../common/config/config.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) { }
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
 
 @Component({
   selector: 'app-inspeccion-conexion',
@@ -36,7 +46,8 @@ export class InspeccionConexionComponent implements OnChanges {
   public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>()
   public formato: FormatoModel = new FormatoModel();
 
-
+  //pathServer
+  public path: string = ''
 
   // formulario
   public formularioformato: FormGroup
@@ -49,12 +60,14 @@ export class InspeccionConexionComponent implements OnChanges {
   public ParametrosEspecificaciones: EntidadModel[]
 
   ngOnInit() {
+    this.obtenerRutaServidor();
     this.consultarParametros();
 
     this.iniciarFormaulario();
   }
 
   constructor(
+    private configService: ConfigService,
     private formatoService: FormatoService,
     private formBuilder: FormBuilder,
     private procesoService: ProcesoService,
@@ -65,6 +78,11 @@ export class InspeccionConexionComponent implements OnChanges {
   ) { }
 
   //consultar
+  obtenerRutaServidor() {
+    this.path = this.configService.getConfiguration().webApiBaseUrl;
+    this.path = this.path.split("api")[0];
+      
+  }
   consultarFormato(i: InspeccionConexionModel) {
 
     this.loaderService.display(true)
@@ -72,6 +90,8 @@ export class InspeccionConexionComponent implements OnChanges {
     this.formatoService.consultarFormatoPorInspeccionConexion(i).subscribe(response => {
       if (response) {
         i.Formato = response
+        this.formato = i.Formato;
+
         if (i.InspeccionConexionFormato) {
           this.adendums = []
           this.parametros = []
@@ -148,7 +168,7 @@ export class InspeccionConexionComponent implements OnChanges {
         this.InspeccionConexionFormatoAdendum.push(InspeccionConexionFormatoAdendum)
       })
     }
-   
+
     if (this.InspeccionConexionFormatoAdendum.length > 0) {
       this.InspeccionConexionFormatoAdendum.forEach(i => {
         let InspeccionConexionFormatoAdendum = this.formBuilder.group({
@@ -171,7 +191,7 @@ export class InspeccionConexionComponent implements OnChanges {
           { FormatoParametro: para }
         this.InspeccionConexionFormatoParametro.push(InspeccionConexionFormatoParametro)
       })
-    } 
+    }
 
 
     if (this.InspeccionConexionFormatoParametro.length > 0) {
@@ -212,7 +232,8 @@ export class InspeccionConexionComponent implements OnChanges {
       this.adendums = []
       this.parametros = []
     } else {
-      this.formato = conexion.Formato;
+      
+      
       if (!conexion.InspeccionConexionFormato) {
         this.adendums = this.formato.Adendum
         this.parametros = this.formato.FormatoFormatoParametro.map(t => t.FormatoParametro)

@@ -9,7 +9,7 @@ namespace Pemarsa.Domain
     {
 
         [Required]
-        public ICollection<DocumentoAdjunto> Planos { get; set; }
+        public IEnumerable<DocumentoAdjunto> Planos { get; set; }
 
         public int? AdjuntoId { get; set; }
         public DocumentoAdjunto Adjunto { get; set; }

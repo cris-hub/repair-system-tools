@@ -96,7 +96,7 @@ export class ValidacionDirective implements Validator,OnChanges {
 
 
   ListaValidaciones(): string {
-    console.log(this.validaciones)
+    
     for (let validaciones of this.validaciones) {
 
       // tipos de validaciones se la validacion requiere de un parametro se le asigna ejem: "typovalidacion:parametro"

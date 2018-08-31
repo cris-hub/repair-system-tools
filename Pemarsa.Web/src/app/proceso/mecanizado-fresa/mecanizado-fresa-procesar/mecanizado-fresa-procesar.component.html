@@ -36,7 +36,7 @@
             {{accion}}
           </button>
           <app-sugerir-proceso *ngIf="accion == 'Liberar'"
-                               [ocultar]="false"
+                               
                                [accion]="'procesar'"
                                (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
                                (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>

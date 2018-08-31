@@ -63,7 +63,7 @@ export class AdendumComponent implements OnInit,OnChanges {
           this.formatosAdendumModel.push(formato)
         }
       })
-    console.log(this.formatosAdendumModel)
+    
 
     this.formatosAdendumModel.filter(t => t.TipoId == TIPOSFORMATOADENDUM.BEV).sort((a, b) => a.Posicion - b.Posicion).forEach(p => {
       let form = this.formBuilder.group({});

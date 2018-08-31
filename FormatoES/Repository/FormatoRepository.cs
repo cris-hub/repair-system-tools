@@ -285,7 +285,10 @@ namespace FormatoES.Repository
         {
             try
             {
-                var query = _context.Formato.Include(d => d.Adendum)
+                var query = _context.Formato
+                    .Include(d => d.Adendum)
+                    .Include(d => d.Planos)
+                    .Include(d => d.Adjunto)
                     .Include(t => t.FormatoTiposConexion)
                     .Include(t => t.FormatoFormatoParametro).ThenInclude(a => a.FormatoParametro);
 
