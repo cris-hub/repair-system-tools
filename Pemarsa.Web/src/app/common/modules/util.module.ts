@@ -16,6 +16,7 @@ import { FiltroProcesoComponent } from '../../proceso/filtro-proceso/filtro-proc
 import { SiguienteProcesoComponent } from '../../proceso/coordinador/siguiente-proceso/siguiente-proceso.component';
 import { SugerirProcesoComponent } from '../../proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 
@@ -27,7 +28,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgbModule,
     FormsModule,
     Ng2SearchPipeModule,
-
+    AngularFontAwesomeModule,
+    
   ],
 
   declarations: [
@@ -43,7 +45,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     pemarsaAdendumPipe,
     FiltroProcesoComponent,
     filtrarColumnasAdendumPorTipoPipe
-    
   ],
 
   exports: [
@@ -57,6 +58,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CatalogoPipe,
     FiltroProcesoComponent,
     FormsModule,
+    AngularFontAwesomeModule,
+
     NgxPaginationModule,
     Ng2SearchPipeModule,
     ReactiveFormsModule,

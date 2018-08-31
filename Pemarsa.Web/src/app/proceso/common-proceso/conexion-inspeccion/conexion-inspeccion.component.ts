@@ -15,7 +15,7 @@ import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 })
 export class ConexionInspeccionComponent implements OnInit,OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    
     if (changes['conexiones']) {
       this.iniciarFormulario()
 
@@ -113,12 +113,12 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
       formGroup.get('ConexionId').enable();
       formGroup.get('ConexionId').setValue(CONEXION.NOAPLICA)
 
-      console.log(formGroup);
+      
 
     } else {
       formGroup.enable();
     }
-    console.log(event)
+    
   }
 
   //consulta

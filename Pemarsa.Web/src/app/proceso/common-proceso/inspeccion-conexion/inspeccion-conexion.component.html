@@ -16,8 +16,6 @@
   </button>
 </div>
 <div class="centrar">
-
-
   <!--<div *ngIf="ocultar">-->
   <div *ngFor="let conexion of conexiones" class="modal" id="modal-{{conexion.Id}}" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
@@ -94,7 +92,7 @@
                   <label class="col-md-1" id="corre">
                     Float bore:
                   </label>
-                  <div class="col-md-5 color-gris">
+                  <div class="col-md-5">
                     <label class="col-md-1" id="corre">
                       ID :
                     </label>
@@ -114,7 +112,7 @@
                   <label class="col-md-1" id="corre">
                     Float valve:
                   </label>
-                  <div class="col-md-4 color-gris">
+                  <div class="col-md-4 ">
                     <select formControlName="FloatValveId" class="col-md-12 form-control form-lg">
                       <option [value]="">Seleccione</option>
                       <option *ngFor="let ParametrosFloatValveId of ParametrosFloatValveIds" [value]="ParametrosFloatValveId.Id">{{ParametrosFloatValveId.Valor}}</option>
@@ -127,72 +125,101 @@
                 <br />
                 <hr />
               </div>
-
-              <div class="col-md-6 unir-right ">
-                <table class="table table-bordered table-striped ">
-                  <thead class="titleTable">
-                    <tr class="text-center">
-                      <th scope="col">ESPECIFICACIÓN​</th>
-                      <th scope="col">ESTAMPADO​</th>
-                      <th scope="col">BORE BACK​</th>
-                      <th scope="col">TPI​</th>
-                      <th scope="col">TPF​</th>
-                      <th scope="col">CW​​</th>
-                      <th scope="col">STANDBLASTING​​​ {{conexion.Formato ? conexion.Formato.EspecificacionId : 'null'}}</th>
-
-
-                    </tr>
-                  </thead>
-                  <tbody class="font-black">
-                    <tr>
-
-                      <td [formGroup]="formularioformato">
-
-                        <select formControlName="EspecificacionId" [value]="conexion.Formato ? conexion.Formato.EspecificacionId :'' " class="form-control">
-                          <option [value]="">Seleccione</option>
-
-                          <option *ngFor="let ParametrosEspecificacion of ParametrosEspecificaciones" [value]="ParametrosEspecificacion.Id">{{ParametrosEspecificacion.Valor}}</option>
-                        </select>
-
-                      </td>
-                      <td class="alinear-conetido ">
-                        <input formControlName="EsEstampado" class="form-check-input form-check form-check-inline " type="checkbox">
-                      </td>
-                      <td class="alinear-conetido ">
-
-                        <input formControlName="EsBoreBack" class="form-check-input form-check form-check-inline" type="checkbox">
-                      </td>
-                      <td [formGroup]="formularioformato">
-                        <input formControlName="TPF" class="form-control" type="text" [value]="conexion.Formato ? conexion.Formato.TPF : ''">
-                      </td>
-                      <td [formGroup]="formularioformato">
-                        <input formControlName="TPI" class="form-control" type="text" [value]="conexion.Formato ? conexion.Formato.TPI : ''">
-                      </td>
-                      <td class="alinear-conetido ">
-                        <input formControlName="EsCw" class="form-check-input form-check form-check-inline" type="checkbox">
-                      </td>
-                      <td class="alinear-conetido ">
-                        <input formControlName="EsStandBlasting" class="form-check-input form-check form-check-inline" type="checkbox">
-                      </td>
-
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="col-md-12">
+                <div class="col-md-6 unir-right ">
+                  <table class="table table-bordered table-striped ">
+                    <thead class="titleTable">
+                      <tr class="text-center">
+                        <th scope="col">ESPECIFICACIÓN​</th>
+                        <th scope="col">ESTAMPADO​</th>
+                        <th scope="col">BORE BACK​</th>
+                        <th scope="col">TPI​</th>
+                        <th scope="col">TPF​</th>
+                        <th scope="col">CW​​</th>
+                        <th scope="col">STANDBLASTING​​​ {{conexion.Formato ? conexion.Formato.EspecificacionId : 'null'}}</th>
 
 
+                      </tr>
+                    </thead>
+                    <tbody class="font-black">
+                      <tr>
+
+                        <td [formGroup]="formularioformato">
+
+                          <select formControlName="EspecificacionId" [value]="conexion.Formato ? conexion.Formato.EspecificacionId :'' " class="form-control">
+                            <option [value]="">Seleccione</option>
+
+                            <option *ngFor="let ParametrosEspecificacion of ParametrosEspecificaciones" [value]="ParametrosEspecificacion.Id">{{ParametrosEspecificacion.Valor}}</option>
+                          </select>
+
+                        </td>
+                        <td class="alinear-conetido ">
+                          <input formControlName="EsEstampado" class="form-check-input form-check form-check-inline " type="checkbox">
+                        </td>
+                        <td class="alinear-conetido ">
+
+                          <input formControlName="EsBoreBack" class="form-check-input form-check form-check-inline" type="checkbox">
+                        </td>
+                        <td [formGroup]="formularioformato">
+                          <input formControlName="TPF" class="form-control" type="text" [value]="conexion.Formato ? conexion.Formato.TPF : ''">
+                        </td>
+                        <td [formGroup]="formularioformato">
+                          <input formControlName="TPI" class="form-control" type="text" [value]="conexion.Formato ? conexion.Formato.TPI : ''">
+                        </td>
+                        <td class="alinear-conetido ">
+                          <input formControlName="EsCw" class="form-check-input form-check form-check-inline" type="checkbox">
+                        </td>
+                        <td class="alinear-conetido ">
+                          <input formControlName="EsStandBlasting" class="form-check-input form-check form-check-inline" type="checkbox">
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                </div>
+                <div class="col-md-6 unir-left ">
+
+
+
+                  <app-adendum [formatosAdendumModel]="adendums"></app-adendum>
+
+                </div>
               </div>
-              <div class="col-md-6 unir-left ">
 
-
-
-                <app-adendum [formatosAdendumModel]="adendums"></app-adendum>
-
+              <div class="col-md-12 "  *ngIf="formato" >
+                <div class="dimensionar" *ngIf="formato.Planos.length>0">
+                  <div >
+                    <br />
+                    <div class="col-md-4 borders centrar">
+                      <span>
+                        <fa name="cogs" class="lg-icon"></fa>
+                        &nbsp;
+                        <a [href]=" path + formato.Planos[0].Nombre">    <i title="Detalle" class=" glyphicon glyphicon-eye-open pointer"></i></a>
+                      </span>
+                    </div>
+                    <div class="col-md-4 borders centrar">
+                      <span>
+                        <fa name="cog" class="lg-icon"></fa>
+                        &nbsp;
+                        <a [href]=" path + formato.Planos[0].Nombre">    <i title="Detalle" class=" glyphicon glyphicon-eye-open pointer"></i></a>
+                      </span>
+                    </div>
+                    <div class="col-md-4 borders centrar">
+                      <span>
+                        <fa name="file" class="lg-icon"></fa>
+                        &nbsp;
+                        <a [href]=" path + formato.Planos[0].Nombre">    <i title="Detalle" class=" glyphicon glyphicon-eye-open pointer"></i></a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-
 
               <div class="col-md-12">
 
-
+                <br />
 
                 <div class="col-md-10 unir-right">
                   <app-parametros [parametros]="parametros">
@@ -236,7 +263,7 @@
               <div class="form-group col-md-12">
 
                 <label class="col-md-3  ">
-                  !!! AQUI VA EQUIPO MEDICION
+                  Equipo medicion
                 </label>
                 <div class="col-md-3">
 

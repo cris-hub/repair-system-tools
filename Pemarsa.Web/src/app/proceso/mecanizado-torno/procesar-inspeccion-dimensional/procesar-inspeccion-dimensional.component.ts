@@ -56,7 +56,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
         this.proceso = response;
         this.accionRealizar(this.proceso.EstadoId)
         this.consultarInspeccionEntradaOrdenTrabajo(TIPO_PROCESO.INSPECCIONENTRADA, this.proceso.OrdenTrabajo.Guid);
-        console.log(this.proceso)
+        
       }, error => {
 
       }, () => {
@@ -68,7 +68,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
     this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(tipoProceso, ordenTrabajo).subscribe(response => {
       this.procesoInspeccionEntrada = response;
       this.procesoInspeccionEntrada.InspeccionEntrada.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
-      console.log(this.conexiones)
+      
     })
   }
 

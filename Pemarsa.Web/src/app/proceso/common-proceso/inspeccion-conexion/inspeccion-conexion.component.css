@@ -32,3 +32,27 @@
   padding: .375rem .75rem;
   background-color: #BEB8B8
 }
+
+.borders {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  padding: .375rem .75rem;
+  height: 100%;
+}
+
+.dimensionar {
+  width: 100%;
+  height: 200px;
+  
+}
+.lg-icon {
+  font-size: 100px;
+  opacity: 0.2;
+}
+
+.centrar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
