@@ -1,0 +1,72 @@
+<br />
+<div class="container-fluid">
+
+
+  <div class="row">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h3>Soldadura</h3>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div class="row contenido-interno">
+    <div class="col-md-12" *ngIf="proceso">
+
+      <form [formGroup]="formularioTipoSoldadura" (ngSubmit)="procesar()">
+
+        <app-detalle-proceso [proceso]="proceso">
+
+        </app-detalle-proceso>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <label class="float-right">Seleccione tipo de soldadura:</label>
+          </div>
+          <div class="col-lg-6">
+            <select class="form-control form-control-lg" formControlName="TipoSoldaduraId" validacion [validaciones]="['requerido']">
+              <option [value]="''">Seleccione</option>
+              <option *ngFor="let paramet of tipoSoldadura" [value]="paramet.Id">{{paramet.Valor}}</option>
+            </select>
+          </div>
+        </div>
+
+        <app-asignar-proceso *ngIf="!ocultar" (formularioEvent)="iniciarformularioAsignacion($event)" [proceso]="proceso">
+
+        </app-asignar-proceso>
+
+        <app-trabajo-realizado *ngIf="!ocultar" (formularioEvent)="iniciarformularioTrabajoRealizado($event)" [proceso]="proceso" [procesosRealizar]="procesoRealizar">
+
+        </app-trabajo-realizado>
+
+        <app-trazabilidad-proceso></app-trazabilidad-proceso>
+
+
+        <div class="text-center" *ngIf="ocultar">
+          <br />
+          <button type="submit" class="btn" >Continuar</button>
+        </div>
+
+
+        <div class="text-center" *ngIf="!ocultar">
+          <button type="submit" class="btn" *ngIf="ocultar || accion != 'Liberar'">
+            {{accion}}
+          </button>
+          <app-sugerir-proceso *ngIf="accion == 'Liberar'"
+                               [ocultar]="false"
+                               [accion]="'procesar'"
+                               (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
+                               (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+
+</div>

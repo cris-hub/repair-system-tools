@@ -15,6 +15,15 @@ body {
 }
 
 /**/
+.badge-pemarsa-proceso {
+  color: #fff;
+  background-color: #a0a1a2;
+  width: 135px;
+  height: 26px;
+  padding: 7px !important;
+  font-size: 13px !important;
+}
+
 .badge-pemarsa {
   color: #fff;
   background-color: #a0a1a2;
@@ -23,6 +32,7 @@ body {
   padding: 7px !important;
   font-size: 13px !important;
 }
+
 .panel-border {
   border: 0px solid transparent;
 }

@@ -64,7 +64,7 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
       }
     }
     if (this.parametrosProcesoRealizarAdd.length > 0) {
-
+      this.procesoRealizar = new Array<ProcesoRealizarModel>(); 
       for (let material in this.parametrosProcesoRealizarAdd) {
         let nuevoProcesoRealizar: ProcesoRealizarModel = new ProcesoRealizarModel();
         nuevoProcesoRealizar.ProcesoId = (this.proceso != undefined ? proceso.Id : 0);
@@ -144,6 +144,8 @@ export class AsignarProcesoComponent implements OnInit, OnChanges {
       this.parametrosProcesoRealizarAdd.push(nuevoItem);
       this.parametrosProcesoRealizar.splice(index, 1);
       this.procesosRealizarBool = true;
+      debugger;
+      this.formularioAsignacioTrabajo.value.ProcesoRealizar = this.parametrosProcesoRealizarAdd;
       Object.assign(this.proceso, this.formularioAsignacioTrabajo.value)
       this.iniciarFormulario(this.proceso);
 

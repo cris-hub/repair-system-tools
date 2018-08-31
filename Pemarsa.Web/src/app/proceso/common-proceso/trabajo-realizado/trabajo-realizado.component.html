@@ -31,7 +31,7 @@
         <div *ngFor="let conexiones of formularioTrabajoRealizado.get('ProcesoRealizar').controls; let i = index;">
           <div [formGroupName]="i" class="row">
             <div class="col-lg-4">
-              <label class="float-right">{{valor}}:</label>
+              <label class="float-right">{{valor[i]}}:</label>
             </div>
             <div class="col-lg-6">
               <input [attr.disabled]="disable ? '' : null" formControlName="Valor" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control " />

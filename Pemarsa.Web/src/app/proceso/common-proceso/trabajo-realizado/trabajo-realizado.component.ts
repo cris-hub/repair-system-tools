@@ -36,7 +36,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   @Input() public alistamiento
   //eventos
 
-  public valor = '';
+  public valor = new Array<string>();
 
   public formProcesoRealizar: any
   //formulario
@@ -153,9 +153,12 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
         form.addControl('ProcesoId', new FormControl(p.ProcesoId));
         form.addControl('TipoProcesoId', new FormControl(p.TipoProcesoId));
         form.addControl('Valor', new FormControl(p.Valor));
-        this.valor = p.TipoProceso.Valor;
+        
+        //form.addControl('TipoProcesoVA', new FormControl(p.TipoProceso.Valor));
+        //thivalor = ;
         this.formProcesoRealizar.push(form);
-
+        debugger;
+        this.valor.push(p.TipoProceso.Valor);
       })
 
     }

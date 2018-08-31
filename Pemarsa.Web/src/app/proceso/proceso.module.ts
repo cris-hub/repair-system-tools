@@ -33,6 +33,7 @@ import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccio
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
 import { FormatoModule } from '../formato/formato.module';
 import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
+import { TrazabilidadProcesoComponent } from './common-proceso/trazabilidad-proceso/trazabilidad-proceso.component';
 
 
 
@@ -46,7 +47,7 @@ import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-m
     
 
   ],
-  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent],
-  exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent ,AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent]
+  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent],
+  exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent, AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent]
 })
 export class ProcesoModule { }
