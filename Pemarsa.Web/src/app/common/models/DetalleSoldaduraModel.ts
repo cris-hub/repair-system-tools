@@ -3,29 +3,29 @@ import { EntityModel, CatalogoModel, ProcesoModel } from "./Index";
 
 export class DetalleSoldaduraModel extends EntityModel {
 
-  private Amperaje: number;
-  private CantidadSoldadura: number;
-  private Lote: number;
-  private PresionAcetileno: number;
-  private PresionGas1: number;
-  private PresionGas2: number;
-  private PresionOxigeno: number;
-  private TemperaturaDespuesProceso: number;
-  private TemperaturaDuranteProceso: number;
-  private TemperaturaPrecalentamiento: number;
-  private TiempoAplicacion: number;
-  private TiempoPrecalentamiento: number;
-  private Voltaje: number;
-  private ModoAplicacionId: number
-  private TamañoCortadoresId: number
-  private TipoFuenteId: number
-  private TipoSoldaduraId: number
-  private ProcesoId: number
-  private ModoAplicacion: CatalogoModel;
-  private TamañoCortadores: CatalogoModel;
-  private TipoFuente: CatalogoModel;
-  private TipoSoldadura: CatalogoModel;
-  private Proceso: ProcesoModel;
+  public Amperaje: number;
+  public CantidadSoldadura: number;
+  public Lote: number;
+  public PresionAcetileno: number;
+  public PresionGas1: number;
+  public PresionGas2: number;
+  public PresionOxigeno: number;
+  public TemperaturaDespuesProceso: number;
+  public TemperaturaDuranteProceso: number;
+  public TemperaturaPrecalentamiento: number;
+  public TiempoAplicacion: number;
+  public TiempoPrecalentamiento: number;
+  public Voltaje: number;
+  public ModoAplicacionId: number
+  public TamañoCortadoresId: number
+  public TipoFuenteId: number
+  public TipoSoldaduraId: number
+  public ProcesoId: number
+  public ModoAplicacion: CatalogoModel;
+  public TamañoCortadores: CatalogoModel;
+  public TipoFuente: CatalogoModel;
+  public TipoSoldadura: CatalogoModel;
+  public Proceso: ProcesoModel;
                                               
   constructor() {
     super();

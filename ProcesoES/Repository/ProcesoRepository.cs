@@ -268,7 +268,8 @@ namespace ProcesoES.Repository
                             .Include(c => c.TipoProcesoSiguienteSugerido)
                             .Include(c => c.ProcesoRealizar).ThenInclude(c => c.TipoProceso)
                             .Include(c => c.ProcesoEquipoMedicion)
-                            .Include(c => c.TipoProcesoAnterior);
+                            .Include(c => c.TipoProcesoAnterior)
+                            .Include(c => c.DetalleSoldadura);
 
 
 
@@ -933,6 +934,39 @@ namespace ProcesoES.Repository
                 }
                 _context.Entry(proceso).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Guid> CrearDetalleSoldadura(DetalleSoldadura detalleSoldadura, UsuarioDTO usuario)
+        {
+            try
+            {
+                detalleSoldadura.Guid = Guid.NewGuid();
+                detalleSoldadura.FechaRegistro = DateTime.Now;
+                detalleSoldadura.NombreUsuarioCrea = "admin";
+
+                _context.DetalleSoldadura.Add(detalleSoldadura);
+                await _context.SaveChangesAsync();
+                return detalleSoldadura.Guid;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<DetalleSoldadura> ConsultarDetalleSoldaduraPorGuid(Guid guidDetalleSoldadura, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var result = await _context.DetalleSoldadura.Where(ds => ds.Guid == guidDetalleSoldadura).FirstOrDefaultAsync();
+                return result;
             }
             catch (Exception)
             {

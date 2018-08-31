@@ -289,5 +289,33 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpPost("CrearDetalleSoldadura")]
+        public async Task<IActionResult> CrearDetalleSoldadura([FromBody]DetalleSoldadura detalleSoldadura)
+        {
+            try
+            {
+                Guid Guidproceso = await _procesoService.CrearDetalleSoldadura(detalleSoldadura, new UsuarioDTO());
+                return Ok(Guidproceso);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ConsultarDetalleSoldaduraPorGuid")]
+        public async Task<IActionResult> ConsultarDetalleSoldaduraPorGuid([FromQuery]string guidDetalleSoldadura)
+        {
+            try
+            {
+                return Ok(await _procesoService.ConsultarDetalleSoldaduraPorGuid(Guid.Parse(guidDetalleSoldadura), new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

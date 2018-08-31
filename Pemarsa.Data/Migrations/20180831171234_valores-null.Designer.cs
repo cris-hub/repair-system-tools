@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180831171234_valores-null")]
+    partial class valoresnull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,19 +160,6 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("ClienteLinea");
-                });
-
-            modelBuilder.Entity("Pemarsa.Domain.ConexionEquipoMedicionUsado", b =>
-                {
-                    b.Property<int?>("InspeccionConexionFormatoId");
-
-                    b.Property<int?>("EquipoMedicionId");
-
-                    b.HasKey("InspeccionConexionFormatoId", "EquipoMedicionId");
-
-                    b.HasIndex("EquipoMedicionId");
-
-                    b.ToTable("ConexionEquipoMedicionUsado");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.Consulta", b =>
@@ -1564,19 +1553,6 @@ namespace Pemarsa.Data.Migrations
                     b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
                         .WithMany("Lineas")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Pemarsa.Domain.ConexionEquipoMedicionUsado", b =>
-                {
-                    b.HasOne("Pemarsa.Domain.Catalogo", "EquipoMedicion")
-                        .WithMany()
-                        .HasForeignKey("EquipoMedicionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pemarsa.Domain.InspeccionConexionFormato", "InspeccionConexionFormato")
-                        .WithMany("ConexionEquipoMedicionUsado")
-                        .HasForeignKey("InspeccionConexionFormatoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

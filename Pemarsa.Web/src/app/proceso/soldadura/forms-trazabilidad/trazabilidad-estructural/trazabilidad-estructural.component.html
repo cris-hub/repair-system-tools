@@ -1,0 +1,81 @@
+<form [formGroup]="formularioTrazabilidadProceso">
+
+  <div class="row">
+
+    <div class="col-lg-4">
+      <label class="float-lg-right">Tipo de soldadura:</label>
+    </div>
+    <div class="col-lg-4">
+      <select class="form-control form-control-lg"
+              [attr.disabled]="disable ? '' : null"
+              formControlName="TipoSoldaduraId">
+        <option value="1">1</option>
+      </select>
+    </div>
+    <div class="col-lg-4"></div>
+
+
+    <div class="col-lg-4">
+      <label class="float-lg-right">Cantidad de soldadura usada:</label>
+    </div>
+    <div class="col-lg-4">
+      <input type="text"
+             [attr.disabled]="disable ? '' : null"
+             class="form-control"
+             formControlName="CantidadSoldadura" />
+    </div>
+    <div class="col-lg-4"></div>
+
+
+    <div class="col-lg-4">
+      <label class="float-lg-right">Mode de aplicación:</label>
+    </div>
+    <div class="col-lg-4">
+      <select class="form-control form-control-lg"
+              [attr.disabled]="disable ? '' : null"
+              formControlName="ModoAplicacionId">
+        <option value="1">1</option>
+      </select>
+    </div>
+    <div class="col-lg-4"></div>
+
+
+    <div class="col-lg-4">
+      <label class="float-lg-right">Lote:</label>
+    </div>
+    <div class="col-lg-4">
+      <input type="text"
+             [attr.disabled]="disable ? '' : null"
+             class="form-control"
+             formControlName="Lote" />
+    </div>
+    <div class="col-lg-4"></div>
+
+
+    <div class="col-lg-4">
+      <label class="float-lg-right">Amperaje:</label>
+    </div>
+    <div class="col-lg-4">
+      <input type="text"
+             [attr.disabled]="disable ? '' : null"
+             class="form-control"
+             formControlName="Amperaje" />
+    </div>
+    <div class="col-lg-4"></div>
+
+
+    <div class="col-lg-4">
+      <label class="float-lg-right">Voltaje:</label>
+    </div>
+    <div class="col-lg-4">
+      <input type="text"
+             [attr.disabled]="disable ? '' : null"
+             class="form-control"
+             formControlName="Voltaje" />
+    </div>
+    <div class="col-lg-4"></div>
+
+
+
+  </div>
+</form>

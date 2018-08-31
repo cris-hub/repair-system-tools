@@ -1,0 +1,14 @@
+{{tiposoldadura}}
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="active"><a>Trazabilidad de proceso</a></li>
+  </ul>
+  <br />
+  <app-trazabilidad-proceso *ngIf="tiposoldadura == 42" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [detalle]="proceso.DetalleSoldadura"></app-trazabilidad-proceso>
+  <app-trazabilidad-estructural *ngIf="tiposoldadura == 43" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [detalle]="proceso.DetalleSoldadura"></app-trazabilidad-estructural>
+  <app-trazabilidad-tungsteno *ngIf="tiposoldadura == 126" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [detalle]="proceso.DetalleSoldadura"></app-trazabilidad-tungsteno>
+  <app-trazabilidad-pta *ngIf="tiposoldadura == 127" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [detalle]="proceso.DetalleSoldadura"></app-trazabilidad-pta>
+  <app-trazabilidad-brocas *ngIf="tiposoldadura == 128" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [detalle]="proceso.DetalleSoldadura"></app-trazabilidad-brocas>
+  <app-trazabilidad-otro *ngIf="tiposoldadura == 129" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [detalle]="proceso.DetalleSoldadura"></app-trazabilidad-otro>
+  <br />
+</div>

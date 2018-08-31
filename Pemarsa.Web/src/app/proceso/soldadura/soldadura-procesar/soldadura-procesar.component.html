@@ -29,8 +29,8 @@
             <label class="float-right">Seleccione tipo de soldadura:</label>
           </div>
           <div class="col-lg-6">
-            <select class="form-control form-control-lg" formControlName="TipoSoldaduraId" validacion [validaciones]="['requerido']">
-              <option [value]="''">Seleccione</option>
+            <select [attr.disabled]="!ocultar ? '' : null" class="form-control form-control-lg" formControlName="TipoSoldaduraId" validacion [validaciones]="['requerido']">
+              <option value="''">Seleccione</option>
               <option *ngFor="let paramet of tipoSoldadura" [value]="paramet.Id">{{paramet.Valor}}</option>
             </select>
           </div>
@@ -44,12 +44,13 @@
 
         </app-trabajo-realizado>
 
-        <app-trazabilidad-proceso></app-trazabilidad-proceso>
+        <app-form-trazabilidad *ngIf="!ocultar" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [tiposoldadura]="proceso.TipoSoldaduraId"></app-form-trazabilidad>
+        <!--<app-trazabilidad-proceso *ngIf="!ocultar" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso"></app-trazabilidad-proceso>-->
 
 
         <div class="text-center" *ngIf="ocultar">
           <br />
-          <button type="submit" class="btn" >Continuar</button>
+          <button type="submit" class="btn">Continuar</button>
         </div>
 
 
