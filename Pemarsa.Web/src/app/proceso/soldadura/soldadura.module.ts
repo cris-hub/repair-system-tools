@@ -5,6 +5,7 @@ import { SoldaduraRoutingModule } from 'src/app/proceso/soldadura/soldadura.rout
 import { ProcesoModule } from 'src/app/proceso/proceso.module';
 import { CoordinadorModule } from 'src/app/proceso/coordinador/coordinador.module';
 import { UtilModule } from 'src/app/common/modules/util.module';
+import { SoldaduraProcesarComponent } from 'src/app/proceso/soldadura/soldadura-procesar/soldadura-procesar.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { UtilModule } from 'src/app/common/modules/util.module';
     CoordinadorModule,
     UtilModule,
   ],
-  declarations: [SoldaduraListarComponent]
+  declarations: [SoldaduraListarComponent, SoldaduraProcesarComponent]
 })
 export class SoldaduraModule { }

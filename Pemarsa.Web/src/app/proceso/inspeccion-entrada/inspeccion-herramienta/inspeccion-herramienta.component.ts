@@ -45,7 +45,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   private esPieza: boolean = false;
   private inspeccionesEnProceso: boolean = false;
   private iniciarProcesar = false;
-  private inspeccionesTerminada: boolean = false;
+  public inspeccionesTerminada: boolean = false;
   private PiezaId: any;
   private esPorCantidad: boolean;
   private loading: boolean = false;

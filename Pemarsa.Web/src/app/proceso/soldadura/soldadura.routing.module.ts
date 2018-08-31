@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SoldaduraListarComponent } from 'src/app/proceso/soldadura/soldadura-listar/soldadura-listar.component';
+import { SoldaduraProcesarComponent } from 'src/app/proceso/soldadura/soldadura-procesar/soldadura-procesar.component';
 
 const routes: Routes = [
 
-  //Listar alistamiento
-  { path: '', component: SoldaduraListarComponent }
+  { path: '', component: SoldaduraListarComponent },
+  { path: 'procesar/:id', component: SoldaduraProcesarComponent }
 ]
 
 @NgModule({

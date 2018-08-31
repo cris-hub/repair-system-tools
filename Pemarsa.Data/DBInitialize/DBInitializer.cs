@@ -345,16 +345,6 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Tipos.Proceso.TipoProceso.junk,
                         Grupo = CanonicalConstants.Grupos.TipoProceso
                     },new Catalogo{
-                        Id = 42,
-                        Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo1,
-                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
-                    },new Catalogo{
-                        Id = 43,
-                        Guid = Guid.NewGuid(),
-                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tipo2,
-                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
-                    },new Catalogo{
                         Id = 65,
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensional,
@@ -783,6 +773,77 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Proceso.ProcesoRealizar.Estampado,
                         Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    },
+                    new Catalogo
+                    {
+                        Id = 122,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.ProcesoRealizar.Pintura,
+                        Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    },
+                    new Catalogo
+                    {
+                        Id = 123,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.ProcesoRealizar.BanoQuimico,
+                        Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    },
+                    new Catalogo
+                    {
+                        Id = 124,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.ProcesoRealizar.ProbarGauge,
+                        Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    },
+                    new Catalogo
+                    {
+                        Id = 125,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.ProcesoRealizar.ShotPeening,
+                        Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    },
+                    new Catalogo
+                    {
+                        Id = 121,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Proceso.ProcesoRealizar.PulirDetalles,
+                        Grupo = CanonicalConstants.Grupos.ProcesoRealizar
+                    },new Catalogo{
+
+                        Id = 42,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.BaseReconstruccion,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },new Catalogo{
+
+                        Id = 43,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Estructural,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },new Catalogo{
+
+                        Id = 126,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Tungsteno,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },new Catalogo{
+
+                        Id = 127,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.PTA,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },new Catalogo{
+
+                        Id = 128,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Brocas,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },new Catalogo{
+
+                        Id = 129,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Otro,
+                        Grupo = CanonicalConstants.Grupos.TipoSoldadura
                     }
                 };
                 foreach (var proceso in procesos)
@@ -1271,6 +1332,19 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
+                        case CanonicalConstants.Grupos.TipoSoldadura:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
 
 
                     }
@@ -1401,7 +1475,6 @@ namespace Pemarsa.Data.DBInitialize
                                     OR Grupo = 'INSTRUCTIVO_PROCESO'  
                                     OR Grupo = 'OPERARIO' 
                                     OR Grupo = 'PROCESO_REALIZAR' 
-
                                 "
                     } ,
                     new Consulta

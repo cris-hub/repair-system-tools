@@ -226,8 +226,13 @@ namespace Pemarsa.CanonicalModels
 
                 public struct TipoSoldadura
                 {
-                    public const string Tipo1 = "Tipo1";
-                    public const string Tipo2 = "Tipo2";
+                    public const string BaseReconstruccion = "Base reconstrucción";
+                    public const string Estructural = "Estructural";
+                    public const string Tungsteno = "Tungsteno";
+                    public const string PTA = "PTA";
+                    public const string Brocas = "Brocas";
+                    public const string Otro = "Otro";
+
                 }
             }
 
@@ -263,6 +268,11 @@ namespace Pemarsa.CanonicalModels
             public struct ProcesoRealizar
             {
                 public const string Estampado = "Estampado";
+                public const string Pintura = "Pintura";
+                public const string BanoQuimico = "Baño químico";
+                public const string ProbarGauge = "Probar en gauge";
+                public const string ShotPeening = "Shot peening";
+                public const string PulirDetalles = "Pulir detalles";
             }
 
         }

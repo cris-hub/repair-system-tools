@@ -1,6 +1,4 @@
 <form [formGroup]="formularioAsignacioTrabajo" (ngSubmit)="enviar()">
-
-  {{disable}}
   <div class="form-group row ">
     <div *ngIf="!alistamiento" class="col-lg-4">
       <label class="float-right">Maquina asignada:</label>
@@ -49,7 +47,7 @@
     <div *ngIf="alistamiento && parametrosProcesoRealizarAdd.length > 0" class="col-lg-6">
       <br />
       <div *ngFor="let materialNew of parametrosProcesoRealizarAdd" class="col-md-12 top-10">
-        <span class="badge badge-pemarsa aliniar-text">
+        <span class="badge badge-pemarsa-proceso aliniar-text">
           {{materialNew.Valor}}
           &nbsp;
           <i *ngIf="!disable" (click)="eliminarProcesoRealizar(materialNew)" class="glyphicon glyphicon-minus pull-right pointer" data-toggle="tooltip" title="Eliminar proceso a realizar"></i>
