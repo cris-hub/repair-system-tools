@@ -40,6 +40,8 @@ import { TrazabilidadTungstenoComponent } from 'src/app/proceso/soldadura/forms-
 import { TrazabilidadPtaComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-pta/trazabilidad-pta.component';
 import { TrazabilidadBrocasComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-brocas/trazabilidad-brocas.component';
 import { TrazabilidadOtroComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-otro/trazabilidad-otro.component';
+import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
+import { ProcesarInspeccionComponent } from './mecanizado-torno/procesar-inspeccion/procesar-inspeccion.component';
 
 
 
@@ -64,12 +66,12 @@ import { TrazabilidadOtroComponent } from 'src/app/proceso/soldadura/forms-traza
     ConexionInspeccionComponent,
     TrazabilidadProcesoComponent,
     FormTrazabilidadComponent,
-    TrazabilidadEstructuralComponent,
+    TrazabilidadEstructuralComponent, SafePipe,
     TrazabilidadTungstenoComponent,
     TrazabilidadPtaComponent,
-      TrazabilidadBrocasComponent,
-      InspeccionConexionMotorComponent,
-      TrazabilidadOtroComponent, ProcesarInspeccionComponent
+    TrazabilidadBrocasComponent,
+    InspeccionConexionMotorComponent,
+    TrazabilidadOtroComponent, ProcesarInspeccionComponent
 
   ],
   exports: [
@@ -78,10 +80,10 @@ import { TrazabilidadOtroComponent } from 'src/app/proceso/soldadura/forms-traza
     TrabajoRealizadoComponent,
     ProcesarInspeccionDimensionalComponent,
     AsignarProcesoComponent,
-      InspeccionConexionComponent,
-      ProcesarInspeccionComponent,
+    InspeccionConexionComponent,
+    ProcesarInspeccionComponent,
     InspeccionConexionMotorComponent,
-    ConexionInspeccionComponent,
+    ConexionInspeccionComponent, SafePipe,
     TrazabilidadProcesoComponent,
     FormTrazabilidadComponent,
     TrazabilidadEstructuralComponent,

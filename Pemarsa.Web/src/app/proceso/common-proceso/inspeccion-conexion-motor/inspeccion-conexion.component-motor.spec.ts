@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { InspeccionConexionMotorComponent } from './inspeccion-conexion.component-motor';
 
-import { InspeccionConexionMotorComponent } from './inspeccion-conexion.component';
+
 
 describe('InspeccionConexionComponent', () => {
   let component: InspeccionConexionMotorComponent;
