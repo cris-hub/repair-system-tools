@@ -14,8 +14,6 @@ import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel
 export class AsignarProcesoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
-
-
     this.ngOnInit()
   }
   //paramtros

@@ -5,7 +5,7 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
-import { CatalogoModel, ProcesoModel, InspeccionModel } from "../../models/Index";
+import { CatalogoModel, ProcesoModel, InspeccionModel, DetalleSoldaduraModel } from "../../models/Index";
 
 @Injectable()
 export class ProcesoService {
@@ -120,5 +120,16 @@ export class ProcesoService {
     var x = this.obj_to_query(filtro);
     return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarProcesosPorTipoPorFiltro" + x,
       { headers: this.header });
+  }
+  public crearDetalleSoldadura(detalleSoldadura: DetalleSoldaduraModel): Observable<string> {
+    return this.http.post<string>(this.urlServer + 'CrearDetalleSoldadura', detalleSoldadura, {
+      headers: this.header
+    });
+  }
+
+  public consultarDetalleSoldaduraPorGuid(guidDetalleSoldadura: string): Observable<DetalleSoldaduraModel> {
+    return this.http.get<DetalleSoldaduraModel>(this.urlServer + 'ConsultarDetalleSoldaduraPorGuid?guidDetalleSoldadura=' + guidDetalleSoldadura, {
+      headers: this.header
+    });
   }
 }

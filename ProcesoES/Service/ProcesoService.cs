@@ -345,6 +345,32 @@ namespace ProcesoES.Service
                 throw;
             }
         }
+
+        public async Task<Guid> CrearDetalleSoldadura(DetalleSoldadura detalleSoldadura, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _procesoRepository.CrearDetalleSoldadura(detalleSoldadura, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<DetalleSoldadura> ConsultarDetalleSoldaduraPorGuid(Guid guidDetalleSoldadura, UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                return await _procesoRepository.ConsultarDetalleSoldaduraPorGuid(guidDetalleSoldadura,usuarioDTO);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 
 

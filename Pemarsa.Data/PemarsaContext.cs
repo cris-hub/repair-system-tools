@@ -71,7 +71,7 @@ namespace Pemarsa.Data
         public DbSet<Inspeccion> Inspeccion { get; set; }
         public DbSet<InspeccionInsumo> InspeccionInsumo { get; set; }
         public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
-
+        public DbSet<DetalleSoldadura> DetalleSoldadura { get; set; }
 
 
         #endregion

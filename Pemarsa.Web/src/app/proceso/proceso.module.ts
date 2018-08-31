@@ -33,7 +33,13 @@ import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccio
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
 import { FormatoModule } from '../formato/formato.module';
 import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
-import { TrazabilidadProcesoComponent } from './common-proceso/trazabilidad-proceso/trazabilidad-proceso.component';
+import { TrazabilidadProcesoComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-proceso/trazabilidad-proceso.component';
+import { FormTrazabilidadComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/form-trazabilidad/form-trazabilidad.component';
+import { TrazabilidadEstructuralComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-estructural/trazabilidad-estructural.component';
+import { TrazabilidadTungstenoComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-tungsteno/trazabilidad-tungsteno.component';
+import { TrazabilidadPtaComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-pta/trazabilidad-pta.component';
+import { TrazabilidadBrocasComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-brocas/trazabilidad-brocas.component';
+import { TrazabilidadOtroComponent } from 'src/app/proceso/soldadura/forms-trazabilidad/trazabilidad-otro/trazabilidad-otro.component';
 
 
 
@@ -47,7 +53,38 @@ import { TrazabilidadProcesoComponent } from './common-proceso/trazabilidad-proc
     
 
   ],
-  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent],
-  exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent, AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent]
+  declarations: [
+    EquipoMedicionComponent,
+    DetalleProcesoComponent,
+    AsignarProcesoComponent,
+    ProcesarInspeccionDimensionalComponent,
+    TrabajoRealizadoComponent,
+    InspeccionConexionComponent,
+    ConexionInspeccionComponent,
+    TrazabilidadProcesoComponent,
+    FormTrazabilidadComponent,
+    TrazabilidadEstructuralComponent,
+    TrazabilidadTungstenoComponent,
+    TrazabilidadPtaComponent,
+    TrazabilidadBrocasComponent,
+    TrazabilidadOtroComponent
+
+  ],
+  exports: [
+    EquipoMedicionComponent,
+    DetalleProcesoComponent,
+    TrabajoRealizadoComponent,
+    ProcesarInspeccionDimensionalComponent,
+    AsignarProcesoComponent,
+    InspeccionConexionComponent,
+    ConexionInspeccionComponent,
+    TrazabilidadProcesoComponent,
+    FormTrazabilidadComponent,
+    TrazabilidadEstructuralComponent,
+    TrazabilidadTungstenoComponent,
+    TrazabilidadPtaComponent,
+    TrazabilidadBrocasComponent,
+    TrazabilidadOtroComponent
+  ]
 })
 export class ProcesoModule { }

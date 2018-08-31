@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { SiguienteProcesoComponent } from 'src/app/proceso/coordinador/siguiente-proceso/siguiente-proceso.component';
 import { SugerirProcesoComponent } from 'src/app/proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
-import { ProcesoModel, ParametrosModel, CatalogoModel } from 'src/app/common/models/Index';
+import { ProcesoModel, ParametrosModel, CatalogoModel, DetalleSoldaduraModel } from 'src/app/common/models/Index';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcesoService } from 'src/app/common/services/entity';
@@ -25,15 +25,19 @@ export class SoldaduraProcesarComponent implements OnInit {
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
+  public detalleSoldadura: DetalleSoldaduraModel = new DetalleSoldaduraModel();
   public procesoRealizar: ProcesoRealizarModel[] = new Array<ProcesoRealizarModel>();
 
   //formulario
   public formularioAsignacion: FormGroup
   public formularioTrabajoRealizado: FormGroup
+  public formularioTrazabilidadProceso: FormGroup
   public formularioTipoSoldadura: FormGroup
   public esFormularioValido: Boolean = false;
 
   public ocultar: boolean = true;
+  public volverConsultar: boolean = false;
+  public guidDetalleSoldadura: string;
 
 
   public parametros: ParametrosModel;
@@ -52,7 +56,7 @@ export class SoldaduraProcesarComponent implements OnInit {
     private loaderService: LoaderService,
     private parametroSrv: ParametroService
   ) {
-
+    this.detalleSoldadura = new DetalleSoldaduraModel();
   }
 
   ngOnInit() {
@@ -70,8 +74,8 @@ export class SoldaduraProcesarComponent implements OnInit {
         this.proceso = response;
         this.procesoRealizar = response.ProcesoRealizar;
         this.accionRealizar(this.proceso.EstadoId);
+        this.validarSoldadura(this.proceso.TipoSoldaduraId);
         this.iniciarFormulario(this.proceso);
-        console.log(this.proceso)
       }, error => {
 
       }, () => {
@@ -93,6 +97,9 @@ export class SoldaduraProcesarComponent implements OnInit {
   iniciarformularioTrabajoRealizado(formularioTrabajoRealizado: FormGroup) {
     this.formularioTrabajoRealizado = formularioTrabajoRealizado;
   }
+  iniciarformularioSoldadura(formularioTrazabilidadProceso: FormGroup) {
+    this.formularioTrazabilidadProceso = formularioTrazabilidadProceso;
+  }
 
   //accionRealizar
   accionRealizar(estadoId: number) {
@@ -110,17 +117,20 @@ export class SoldaduraProcesarComponent implements OnInit {
     }
   }
 
+
+  validarSoldadura(idTipoldadura: number) {
+    if (idTipoldadura != null) {
+      this.ocultar = false;
+      this.volverConsultar = false;
+    }
+  }
+
   consultarParametros() {
     this.parametroSrv.consultarParametrosPorEntidad("PROCESO")
       .subscribe(response => {
         this.parametros = response;
         this.tipoSoldadura = response.Catalogos.filter(e => e.Grupo == "TIPO_SOLDADURA_PROCESO");
       });
-  }
-
-
-  continuar() {
-    this.ocultar = false;
   }
 
   iniciarFormulario(proceso: ProcesoModel) {
@@ -133,48 +143,85 @@ export class SoldaduraProcesarComponent implements OnInit {
     //debugger;
     if (this.formularioAsignacion != undefined && this.formularioTrabajoRealizado != undefined) {
 
-      if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid)) {
+      if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid || !this.formularioTrazabilidadProceso.valid)) {
         this.toastrService.error('Faltan datos por diligenciar');
         this.esFormularioValido = false;
         return;
       }
-      this.asignarDatosProceso()
-      this.actualizarDatos();
+      this.detalleSoldadura = new DetalleSoldaduraModel();
+      this.asignarDatosProceso();
+      if (this.accion == 'Asignar') {
+        this.actualizarDatos();
+      } else {
+        this.crearDetalleSoldadura();
+      }
     } else {
       if (this.formularioTipoSoldadura.valid) {
-        this.ocultar = false;
-
+        Object.assign(this.proceso, this.formularioTipoSoldadura.value)
+        this.volverConsultar = true;
+        this.actualizarDatos();
       }
     }
 
   }
   asignarDatosProceso() {
     if (this.accion == 'Asignar') {
-
       Object.assign(this.proceso, this.formularioAsignacion.value)
     } else {
       Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
+      Object.assign(this.detalleSoldadura, this.formularioTrazabilidadProceso.value)
     }
   }
 
   //persistir
   actualizarDatos() {
-
     this.loaderService.display(true);
     this.procesoService.actualizarProceso(this.proceso).subscribe(
       response => {
         response ?
           this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
           this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
-        this.location.back();
+
       }, error => {
         this.toastrService.error(error);
         this.loaderService.display(false)
 
       }, () => {
         this.loaderService.display(false)
-
+        this.ocultar = false;
+        if (this.volverConsultar) {
+          this.consultarProceso();
+        }
+        else {
+          this.location.back();
+        }
       })
+  }
+
+  crearDetalleSoldadura() {
+    this.procesoService.crearDetalleSoldadura(this.detalleSoldadura).subscribe(
+      response => {
+        this.guidDetalleSoldadura = response;
+      }, error => {
+
+      }, () => {
+        this.consultarDetalleSoldaduraPorGuid(this.guidDetalleSoldadura);
+      }
+
+    );
+  }
+
+
+  consultarDetalleSoldaduraPorGuid(guid: string) {
+    this.procesoService.consultarDetalleSoldaduraPorGuid(guid).subscribe(
+      response => {
+        this.proceso.DetalleSoldaduraId = response.Id;
+      }, error => {
+
+      }, () => {
+        this.actualizarDatos();
+      }
+);
   }
 
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
@@ -185,7 +232,7 @@ export class SoldaduraProcesarComponent implements OnInit {
     if (event) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
-          this.router.navigate(['alistamiento'])
+          this.location.back();
         };
       });
 
