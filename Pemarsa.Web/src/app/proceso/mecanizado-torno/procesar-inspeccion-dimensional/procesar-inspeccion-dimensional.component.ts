@@ -21,7 +21,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
   public procesoInspeccionEntrada: ProcesoModel = new ProcesoModel();
-  public conexiones: InspeccionConexionModel[] = new Array < InspeccionConexionModel>()
+  public conexiones: InspeccionConexionModel[] = new Array<InspeccionConexionModel>()
   //formulario
   public formularioAsignacion: FormGroup
   public formularioTrabajoRealizado: FormGroup
@@ -64,10 +64,10 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
       });
   }
 
-  consultarInspeccionEntradaOrdenTrabajo(tipoProceso:number,ordenTrabajo:string) {
+  consultarInspeccionEntradaOrdenTrabajo(tipoProceso: number, ordenTrabajo: string) {
     this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(tipoProceso, ordenTrabajo).subscribe(response => {
       this.procesoInspeccionEntrada = response;
-      this.procesoInspeccionEntrada.InspeccionEntrada.forEach(d => { this.conexiones = d.Inspeccion.Conexiones  });
+      this.procesoInspeccionEntrada.InspeccionEntrada.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
       console.log(this.conexiones)
     })
   }
@@ -103,27 +103,26 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
     }
   }
 
+  //inspeccionConexionCompoenteResponse
+  asignarValoresConexion(conexion: InspeccionConexionModel) {
+    Object.assign(this.conexiones.find(c => c.Id == conexion.Id), conexion);
+  }
+
   //procesar
   procesar() {
-    if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid)) {
-      this.toastrService.error('Faltan datos por diligenciar');
-      this.esFormularioValido = false;
-      return;
-    }
-    this.asignarDatosProceso()
+
+ 
     this.actualizarDatos();
 
   }
-  asignarDatosProceso() {
-    Object.assign(this.proceso, this.formularioAsignacion.value)
-    Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
-  }
+
 
   //persistir
   actualizarDatos() {
 
     this.loaderService.display(true)
-    this.procesoService.actualizarProceso(this.proceso).subscribe(
+    
+    this.procesoService.actualizarInspeccionConexiones(this.conexiones).subscribe(
       response => {
         response ?
           this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :

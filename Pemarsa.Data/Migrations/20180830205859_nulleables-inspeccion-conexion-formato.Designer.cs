@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180830205859_nulleables-inspeccion-conexion-formato")]
+    partial class nulleablesinspeccionconexionformato
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -846,7 +848,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClienteId");
+                    b.Property<int>("ClienteId");
 
                     b.Property<int?>("EquipoUsadoId");
 
@@ -866,11 +868,11 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("FloatValveId");
 
-                    b.Property<int?>("FormatoAdjuntoId");
+                    b.Property<int>("FormatoAdjuntoId");
 
                     b.Property<Guid?>("GuidUsuarioElabora");
 
-                    b.Property<int?>("HerramientaId");
+                    b.Property<int>("HerramientaId");
 
                     b.Property<int?>("IdAsignaUsuario");
 
@@ -1786,7 +1788,8 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "EquipoUsado")
                         .WithMany()
@@ -1798,11 +1801,13 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "FormatoAdjunto")
                         .WithMany()
-                        .HasForeignKey("FormatoAdjuntoId");
+                        .HasForeignKey("FormatoAdjuntoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Herramienta", "Herramienta")
                         .WithMany()
-                        .HasForeignKey("HerramientaId");
+                        .HasForeignKey("HerramientaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.InspeccionConexionFormatoAdendum", b =>

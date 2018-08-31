@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { FormatoParametroModel } from '../../common/models/Index';
 
@@ -7,8 +7,11 @@ import { FormatoParametroModel } from '../../common/models/Index';
   templateUrl: './parametros.component.html',
   styleUrls: ['./parametros.component.css']
 })
-export class ParametrosComponent implements OnInit {
+export class ParametrosComponent implements OnInit,OnChanges {
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
   public formulario: FormGroup;
   public formFormatoPatamtros: FormArray;
   @Input() public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();

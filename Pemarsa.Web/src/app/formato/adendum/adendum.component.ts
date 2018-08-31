@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { EntidadModel, FormatoAdendumModel } from '../../common/models/Index';
 import { TIPOSFORMATOADENDUM } from '../../common/enums/parametrosEnum';
@@ -8,8 +8,11 @@ import { TIPOSFORMATOADENDUM } from '../../common/enums/parametrosEnum';
   templateUrl: './adendum.component.html',
   styleUrls: ['./adendum.component.css']
 })
-export class AdendumComponent implements OnInit {
+export class AdendumComponent implements OnInit,OnChanges {
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit()
+  }
   @Input('tiposFormatos') public parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
 
   @Input() public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();

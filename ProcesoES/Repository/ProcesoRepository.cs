@@ -266,7 +266,7 @@ namespace ProcesoES.Repository
                             .Include(c => c.OrdenTrabajo.Responsable)
                             .Include(c => c.OrdenTrabajo.Anexos)
                             .Include(c => c.TipoProcesoSiguienteSugerido)
-                            .Include(c => c.ProcesoRealizar).ThenInclude(c=> c.TipoProceso)
+                            .Include(c => c.ProcesoRealizar).ThenInclude(c => c.TipoProceso)
                             .Include(c => c.ProcesoEquipoMedicion)
                             .Include(c => c.TipoProcesoAnterior);
 
@@ -716,7 +716,8 @@ namespace ProcesoES.Repository
             try
             {
                 var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo)
-                    .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d=>d.Inspeccion).ThenInclude(d=>d.Conexiones);
+                    .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoAdendum).ThenInclude(f => f.FormatoAdendum)
+                    .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoParametros).ThenInclude(f => f.FormatoParametro);
 
                 var procesos = query.Where(proceso => proceso.OrdenTrabajo.Guid == guidOrdenTrabajo && proceso.TipoProcesoId == tipoProceso);
                 var ordenadosPorultimaCreacion = procesos.OrderBy(t => t.FechaRegistro);
@@ -791,7 +792,73 @@ namespace ProcesoES.Repository
         {
             try
             {
-                _context.InspeccionConexion.UpdateRange(inspeccionesConexiones);
+                foreach (var insConexion in inspeccionesConexiones)
+                {
+                    if (insConexion.Id > 0)
+                    {
+                        _context.Entry(insConexion).State = EntityState.Modified;
+                        if (insConexion.InspeccionConexionFormato != null)
+                        {
+                            if (insConexion.InspeccionConexionFormato.Id > 0)
+                            {
+                                _context.Entry(insConexion.InspeccionConexionFormato)
+                                    .State = EntityState.Modified;
+                                foreach (var adendum in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoAdendum)
+                                {
+                                    
+                                    _context.Entry(adendum.FormatoAdendum)
+                  .State = EntityState.Modified;
+                                    _context.Entry(adendum)
+                            .State = EntityState.Modified;
+
+
+                                }
+
+                                foreach (var parame in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoParametros)
+                                {
+                                    
+                                    _context.Entry(parame.FormatoParametro)
+.State = EntityState.Modified;
+                                    _context.Entry(parame)
+                            .State = EntityState.Modified;
+                                }
+
+                            }
+                            else
+                            {
+                                _context.Entry(insConexion.InspeccionConexionFormato)
+                                .State = EntityState.Added;
+                                foreach (var adendum in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoAdendum)
+                                {
+                                    adendum.FormatoAdendum.Id = 0;
+                                    _context.Entry(adendum.FormatoAdendum)
+                  .State = EntityState.Added;
+                                    _context.Entry(adendum)
+                            .State = EntityState.Added;
+
+
+                                }
+
+                                foreach (var parame in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoParametros)
+                                {
+                                    parame.FormatoParametro.Id = 0;
+                                    _context.Entry(parame.FormatoParametro)
+.State = EntityState.Added;
+                                    _context.Entry(parame)
+                            .State = EntityState.Added;
+                                }
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        _context.Entry(insConexion).State = EntityState.Added;
+                    }
+                }
+                //_context.InspeccionConexion.UpdateRange(inspeccionesConexiones);
 
                 return await _context.SaveChangesAsync() > 0;
             }
@@ -830,18 +897,18 @@ namespace ProcesoES.Repository
                     foreach (var item in proceso.ProcesoEquipoMedicion)
                     {
 
-                    var actualizarProcesoInsp = _context.ProcesoEquipoMedicion.Where(p => p.ProcesoId == item.ProcesoId && p.IdEquipoMedicion == item.IdEquipoMedicion).Count();
+                        var actualizarProcesoInsp = _context.ProcesoEquipoMedicion.Where(p => p.ProcesoId == item.ProcesoId && p.IdEquipoMedicion == item.IdEquipoMedicion).Count();
 
-                    if (actualizarProcesoInsp > 0)
-                    {
-                        _context.Entry(item).State = EntityState.Modified;
-                        await _context.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        await _context.ProcesoEquipoMedicion.AddAsync(item);
-                        await _context.SaveChangesAsync();
-                    }
+                        if (actualizarProcesoInsp > 0)
+                        {
+                            _context.Entry(item).State = EntityState.Modified;
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            await _context.ProcesoEquipoMedicion.AddAsync(item);
+                            await _context.SaveChangesAsync();
+                        }
                     }
                 }
                 _context.Entry(proceso).State = EntityState.Modified;

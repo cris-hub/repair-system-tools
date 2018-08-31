@@ -1,11 +1,13 @@
 .centrar {
-  
-  margin-left: auto;
-  margin-right: auto;
-  display: table;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 .full-screen {
   max-width: 100% !important;
+  max-height: 100% !important;
+  height: 100% !important;
   display: contents !important;
 }
 

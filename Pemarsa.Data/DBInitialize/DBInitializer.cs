@@ -530,6 +530,32 @@ namespace Pemarsa.Data.DBInitialize
                         context.Catalogo.Add(Especificacion);
                 }
 
+                var FLOAT_VALVES = new List<Catalogo>
+                {
+                    new Catalogo{
+                        Id = 118,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.tipo1,
+                        Grupo = CanonicalConstants.Grupos.FLOAT_VALVE
+                    },
+                    new Catalogo{
+                        Id = 119,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.tipo2,
+                        Grupo = CanonicalConstants.Grupos.FLOAT_VALVE
+                     },new Catalogo{
+                        Id = 120,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Especificacion.tipo3,
+                        Grupo = CanonicalConstants.Grupos.FLOAT_VALVE
+                     }
+                };
+                foreach (var FLOAT_VALVE in FLOAT_VALVES)
+                {
+                    if (context.Catalogo.Where(c => c.Id == FLOAT_VALVE.Id).ToList().Count == 0)
+                        context.Catalogo.Add(FLOAT_VALVE);
+                }
+
                 #endregion
 
                 #region Responsables
@@ -846,6 +872,7 @@ namespace Pemarsa.Data.DBInitialize
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Proceso},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.MecanizadoTorno},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Formato},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.InspeccionConexion},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Inspeccion}
 
                     };
@@ -1449,6 +1476,17 @@ namespace Pemarsa.Data.DBInitialize
                                     OR Grupo = 'OPERARIO' 
                                     OR Grupo = 'PROCESO_REALIZAR' 
                                 "
+                    } ,
+                    new Consulta
+                    {
+                        Id = 8,
+                        Guid = Guid.NewGuid(),
+                        Campos = "Id, Guid, Valor, Id, Grupo",
+                        Tabla = "catalogo",
+                        Condicion = @" Grupo = 'ESPECIFICACION'
+                                  OR Grupo = 'FLOAT_VALVE'
+
+                                "
                     }
 
 
@@ -1553,6 +1591,19 @@ namespace Pemarsa.Data.DBInitialize
                                 {
                                     ConsultaId = consulta.Id,
                                     Entidad = CanonicalConstants.Entidades.MecanizadoTorno
+                                }
+                                );
+                            }
+                            break;
+                        case 8:
+                            if (context.ParametroConsulta.Where(pc => (pc.ConsultaId == 8) && (pc.Entidad == CanonicalConstants.Entidades.MecanizadoTorno)).ToList().Count == 0)
+                            {
+                                context.ParametroConsulta.Add
+                                (
+                                new ParametroConsulta
+                                {
+                                    ConsultaId = consulta.Id,
+                                    Entidad = CanonicalConstants.Entidades.InspeccionConexion
                                 }
                                 );
                             }

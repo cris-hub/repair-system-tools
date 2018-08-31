@@ -1,19 +1,25 @@
 <!-- Modal -->
-<div class="centrar" *ngFor="let conexion of conexiones">
-  <button [ngClass]="{'hidden': ocultar}"
+
+<div class="centrar">
+  <button *ngFor="let conexion of conexiones"
           [attr.data-target]="'#'+'modal-'+conexion.Id"
           data-toggle="modal"
           type="button"
+          (click)="seleccionConexion(conexion)"
           class="btn "
+          [value]="conexion"
           id="modalSugerir">
-    Inspeccion dimensional {{conexion.NumeroConexion}}
+    Inspeccion dimensional
     <span class="glyphicon glyphicon-hourglass gray"></span>
     <span class="glyphicon glyphicon-ok green"></span>
     <span class="glyphicon glyphicon-remove red"></span>
   </button>
+</div>
+<div class="centrar">
 
 
-  <div class="modal" id="modal-{{conexion.Id}}" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!--<div *ngIf="ocultar">-->
+  <div *ngFor="let conexion of conexiones" class="modal" id="modal-{{conexion.Id}}" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
       <div class="modal-content">
         <div class="modal-header">
@@ -109,7 +115,7 @@
                     Float valve:
                   </label>
                   <div class="col-md-4 color-gris">
-                    <select formControlName="FloatValveId" class="col-md-12 form-control">
+                    <select formControlName="FloatValveId" class="col-md-12 form-control form-lg">
                       <option [value]="">Seleccione</option>
                       <option *ngFor="let ParametrosFloatValveId of ParametrosFloatValveIds" [value]="ParametrosFloatValveId.Id">{{ParametrosFloatValveId.Valor}}</option>
                     </select>
@@ -117,6 +123,11 @@
 
                 </div>
               </div>
+              <div class="col-md-12">
+                <br />
+                <hr />
+              </div>
+
               <div class="col-md-6 unir-right ">
                 <table class="table table-bordered table-striped ">
                   <thead class="titleTable">
@@ -127,7 +138,7 @@
                       <th scope="col">TPI​</th>
                       <th scope="col">TPF​</th>
                       <th scope="col">CW​​</th>
-                      <th scope="col">STANDBLASTING​​​</th>
+                      <th scope="col">STANDBLASTING​​​ {{conexion.Formato ? conexion.Formato.EspecificacionId : 'null'}}</th>
 
 
                     </tr>
@@ -136,8 +147,10 @@
                     <tr>
 
                       <td [formGroup]="formularioformato">
-                        <select formControlName="EspecificacionId" class="form-control">
-                          <option [value]="''">Seleccione</option>
+
+                        <select formControlName="EspecificacionId" [value]="conexion.Formato ? conexion.Formato.EspecificacionId :'' " class="form-control">
+                          <option [value]="">Seleccione</option>
+
                           <option *ngFor="let ParametrosEspecificacion of ParametrosEspecificaciones" [value]="ParametrosEspecificacion.Id">{{ParametrosEspecificacion.Valor}}</option>
                         </select>
 
@@ -150,10 +163,10 @@
                         <input formControlName="EsBoreBack" class="form-check-input form-check form-check-inline" type="checkbox">
                       </td>
                       <td [formGroup]="formularioformato">
-                        <input formControlName="TPF" class="form-control" type="text">
+                        <input formControlName="TPF" class="form-control" type="text" [value]="conexion.Formato ? conexion.Formato.TPF : ''">
                       </td>
                       <td [formGroup]="formularioformato">
-                        <input formControlName="TPI" class="form-control" type="text">
+                        <input formControlName="TPI" class="form-control" type="text" [value]="conexion.Formato ? conexion.Formato.TPI : ''">
                       </td>
                       <td class="alinear-conetido ">
                         <input formControlName="EsCw" class="form-check-input form-check form-check-inline" type="checkbox">
@@ -188,15 +201,16 @@
                 </div>
                 <div class="col-md-2 unir-left ">
 
-                  <table class="table table-bordered table-striped ">
+                  <table formArrayName="InspeccionConexionFormatoParametros" class="table table-bordered table-striped ">
                     <thead class="titleTable">
                       <tr class="text-center">
 
                         <th scope="col">Conformidad</th>
+
                       </tr>
                     </thead>
-                    <tbody class="font-black center-table" [formGroup]="formularioInspeccionConexionFormatoParametro">
-                      <tr>
+                    <tbody *ngFor="let control of formularioInspeccionConexionFormato.get('InspeccionConexionFormatoParametros').controls;let i = index" class="font-black center-table">
+                      <tr [formGroupName]="i" *ngIf="parametros.length > 0">
                         <td>
                           <div class="col-md-6">
                             SI
@@ -208,6 +222,7 @@
                           </div>
 
                         </td>
+
                       </tr>
                     </tbody>
                   </table>
@@ -235,14 +250,14 @@
                   Elaborado por :
                 </label>
                 <div class="col-md-3">
-                  <input formControlName="NombreUsuarioElabora" class="form-check-input form-check form-check-inline " type="text" >
+                  <input formControlName="NombreUsuarioElabora" class="form-check-input form-check form-check-inline " type="text">
                 </div>
 
               </div>
               <div class="form-group col-md-12">
 
                 <label class="col-md-1" id="corre">
-                  Conforme : 
+                  Conforme :
                 </label>
                 <div class="col-md-2">
                   <div class="col-md-6">
@@ -260,14 +275,15 @@
             </div>
           </form>
           <div class="modal-footer aalinear-conetido">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
+            <button type="button" class="btn btn-secondary" id="close-inspeccion-conexion-{{conexion.Id}}" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="confirmarAction(conexion.Id)">Aceptar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
+<!--</div>-->
 
 
+<br />
