@@ -716,6 +716,7 @@ namespace ProcesoES.Repository
             try
             {
                 var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo)
+                    .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.ConexionEquipoMedicionUsado).ThenInclude(f => f.EquipoMedicion)
                     .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoAdendum).ThenInclude(f => f.FormatoAdendum)
                     .Include(proceso => proceso.InspeccionEntrada).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoParametros).ThenInclude(f => f.FormatoParametro);
 
@@ -806,10 +807,8 @@ namespace ProcesoES.Repository
                                 foreach (var adendum in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoAdendum)
                                 {
                                     
-                                    _context.Entry(adendum.FormatoAdendum)
-                  .State = EntityState.Modified;
-                                    _context.Entry(adendum)
-                            .State = EntityState.Modified;
+                                    _context.Entry(adendum.FormatoAdendum).State = EntityState.Modified;
+                                    _context.Entry(adendum).State = EntityState.Modified;
 
 
                                 }
@@ -817,11 +816,23 @@ namespace ProcesoES.Repository
                                 foreach (var parame in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoParametros)
                                 {
                                     
-                                    _context.Entry(parame.FormatoParametro)
-.State = EntityState.Modified;
-                                    _context.Entry(parame)
-                            .State = EntityState.Modified;
+                                    _context.Entry(parame.FormatoParametro).State = EntityState.Modified;
+                                    _context.Entry(parame).State = EntityState.Modified;
                                 }
+
+                                foreach (var ConexionEquipoMedicionUsado in insConexion.InspeccionConexionFormato.ConexionEquipoMedicionUsado)
+                                {
+                                    if (ConexionEquipoMedicionUsado.InspeccionConexionFormatoId >0 || ConexionEquipoMedicionUsado.InspeccionConexionFormatoId != null)
+                                    {
+                                        _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Modified;
+                                    }
+                                    else {
+
+                                    ConexionEquipoMedicionUsado.InspeccionConexionFormatoId = insConexion.InspeccionConexionFormato.Id;
+                                    _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Added;
+                                    }
+                                }
+
 
                             }
                             else
@@ -831,10 +842,8 @@ namespace ProcesoES.Repository
                                 foreach (var adendum in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoAdendum)
                                 {
                                     adendum.FormatoAdendum.Id = 0;
-                                    _context.Entry(adendum.FormatoAdendum)
-                  .State = EntityState.Added;
-                                    _context.Entry(adendum)
-                            .State = EntityState.Added;
+                                    _context.Entry(adendum.FormatoAdendum).State = EntityState.Added;
+                                    _context.Entry(adendum).State = EntityState.Added;
 
 
                                 }
@@ -842,11 +851,22 @@ namespace ProcesoES.Repository
                                 foreach (var parame in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoParametros)
                                 {
                                     parame.FormatoParametro.Id = 0;
-                                    _context.Entry(parame.FormatoParametro)
-.State = EntityState.Added;
-                                    _context.Entry(parame)
-                            .State = EntityState.Added;
+                                    _context.Entry(parame.FormatoParametro).State = EntityState.Added;
+                                    _context.Entry(parame).State = EntityState.Added;
                                 }
+                                if (insConexion.InspeccionConexionFormato.ConexionEquipoMedicionUsado != null)
+                                {
+                                    foreach (var ConexionEquipoMedicionUsado in insConexion.InspeccionConexionFormato.ConexionEquipoMedicionUsado)
+                                    {
+                                        if (ConexionEquipoMedicionUsado.EquipoMedicionId != null)
+                                        {
+                                            _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Added;
+                                            _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Added;
+
+                                        }
+                                    }
+                                }
+
 
                             }
 

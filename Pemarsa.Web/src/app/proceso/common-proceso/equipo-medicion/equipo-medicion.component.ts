@@ -80,8 +80,8 @@ export class EquipoMedicionComponent implements OnInit {
         for (var proces of this.equipomedicionMostrar) {
 
         this.EquiposMedicionUsadoView.push(<EntidadModel>{
-          Id: proces.IdEquipoMedicion,
-          Valor: proces.ValorEquipoMedicion
+          Id: proces.IdEquipoMedicion ? proces.IdEquipoMedicion : proces.Id ,
+          Valor: proces.ValorEquipoMedicion ? proces.ValorEquipoMedicion : proces.Valor
         });
         }
       }

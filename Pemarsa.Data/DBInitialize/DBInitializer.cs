@@ -1485,6 +1485,7 @@ namespace Pemarsa.Data.DBInitialize
                         Tabla = "catalogo",
                         Condicion = @" Grupo = 'ESPECIFICACION'
                                   OR Grupo = 'FLOAT_VALVE'
+                                  OR Grupo = 'EQUIPO_MEDICION_UTILIZADO_PROCESO'
 
                                 "
                     }

@@ -1,27 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
-import { ProcesoModel } from '../../../common/models/Index';
+import { ProcesoModel, CatalogoModel, InspeccionConexionModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { Location } from '@angular/common';
-import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO, CONEXION } from '../../inspeccion-enum/inspeccion.enum';
+import { Response } from '@angular/http';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
 
 @Component({
-  selector: 'app-procesar-mecanizado',
-  templateUrl: './procesar-mecanizado.component.html',
-  styleUrls: ['./procesar-mecanizado.component.css']
+  selector: 'app-procesar-inspeccion',
+  templateUrl: './procesar-inspeccion.component.html',
+  styleUrls: ['./procesar-inspeccion.component.css']
 })
-export class ProcesarMecanizadoComponent implements OnInit {
+export class ProcesarInspeccionComponent implements OnInit {
   @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
 
 
   //proceso
   public proceso: ProcesoModel = new ProcesoModel();
 
+  public conexiones: InspeccionConexionModel[] = new Array<InspeccionConexionModel>()
+  public conexion: InspeccionConexionModel = new InspeccionConexionModel()
   //formulario
   public formularioAsignacion: FormGroup
   public formularioTrabajoRealizado: FormGroup
@@ -55,13 +58,16 @@ export class ProcesarMecanizadoComponent implements OnInit {
       .subscribe(response => {
         this.proceso = response;
         this.accionRealizar(this.proceso.EstadoId)
-        console.log(this.proceso)
+        
+
       }, error => {
 
       }, () => {
         this.loaderService.display(false)
       });
   }
+
+
 
   //parametrosUri
   obtenerParametrosRuta() {
@@ -81,10 +87,6 @@ export class ProcesarMecanizadoComponent implements OnInit {
   //accionRealizar
   accionRealizar(estadoId: number) {
     switch (estadoId) {
-      case ESTADOS_PROCESOS.Rechazado:
-        this.accion = 'Asignar'
-        this.proceso.EstadoId = ESTADOS_PROCESOS.Asignado
-        break;
       case ESTADOS_PROCESOS.Pendiente:
         this.accion = 'Asignar'
         break;
@@ -92,39 +94,39 @@ export class ProcesarMecanizadoComponent implements OnInit {
         this.accion = 'Completar'
         break;
       case ESTADOS_PROCESOS.Completado:
-        if (this.proceso.OrdenTrabajo.Herramienta.EsHerramientaMotor) {
-          this.router.navigate(['/mecanizado/torno/' + this.proceso.Guid +'/procesar/inspeccion-dimencional'])
-        } else {
-          this.router.navigate(['/mecanizado/torno/' + this.proceso.Guid+'/procesar/inspeccion'])
-
-        }
         this.accion = 'Liberar'
         break;
       default:
     }
   }
 
+  //inspeccionConexionCompoenteResponse
+  asignarValoresConexion(conexion: InspeccionConexionModel) {
+    Object.assign(this.conexion, conexion);
+    this.conexiones.push(this.conexion);
+  }
+
   //procesar
   procesar() {
-    if ((!this.formularioAsignacion.valid || !this.formularioTrabajoRealizado.valid)) {
-      this.toastrService.error('Faltan datos por diligenciar');
-      this.esFormularioValido = false;
-      return;
-    }
-    this.asignarDatosProceso()
+    this.conexionesValidas();
+
     this.actualizarDatos();
 
   }
-  asignarDatosProceso() {
-    Object.assign(this.proceso, this.formularioAsignacion.value)
-    Object.assign(this.proceso, this.formularioTrabajoRealizado.value)
+
+  conexionesValidas() {
+    if (!this.conexiones.filter(t => t.ConexionId != CONEXION.NOAPLICA).every(t => t.InspeccionConexionFormato.EstaConforme)) {
+      this.toastrService.error('Falta alguna inspeccion por diligenciar')
+      return
+    }
   }
 
   //persistir
   actualizarDatos() {
 
     this.loaderService.display(true)
-    this.procesoService.actualizarProceso(this.proceso).subscribe(
+
+    this.procesoService.actualizarInspeccionConexiones(this.conexiones).subscribe(
       response => {
         response ?
           this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
@@ -140,9 +142,10 @@ export class ProcesarMecanizadoComponent implements OnInit {
       })
   }
 
-
   responseSugerenciaProceso(event) {
     if (event) {
+      this.procesar();
+
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
           this.location.back();
@@ -155,6 +158,5 @@ export class ProcesarMecanizadoComponent implements OnInit {
   confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
     this.sugerir.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
-
 
 }

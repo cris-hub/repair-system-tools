@@ -17,27 +17,32 @@
            *ngFor="let Parametros of formulario.get('Parametros').controls; let i = index;">
       <tr [formGroupName]="i">
 
-        <td>
+        <td [ngStyle]="{'height.px': alturar}">
           <p *ngIf="formulario.get('Parametros').controls[i]">{{formulario.get('Parametros').controls[i].value.Id }} </p>
         </td>
 
-        <td>
+        <td [ngStyle]="{'height.px': alturar}">
+
           <input formControlName="Item" class="form-control" type="text" />
         </td>
-        <td>
+        <td [ngStyle]="{'height.px': alturar}">
+
           <input formControlName="DimensionEspecifica" class="form-control" type="text" />
         </td>
 
 
-        <td>
+        <td [ngStyle]="{'height.px': alturar}">
+
           <input formControlName="ToleranciaMin" class="form-control" type="text" />
         </td>
 
-        <td>
+        <td [ngStyle]="{'height.px': alturar}">
+
           <input formControlName="ToleranciaMax" class="form-control" type="text" />
         </td>
 
-        <td>
+        <td [ngStyle]="{'height.px': alturar}">
+
           <div *ngIf="!esVer" class="btn-group" role="group" style="display:flex;" aria-label="...">
             <i (click)="removeItemFormFormatoPatamtros(i)">
               <i class="glyphicon glyphicon glyphicon-minus pointer"></i>

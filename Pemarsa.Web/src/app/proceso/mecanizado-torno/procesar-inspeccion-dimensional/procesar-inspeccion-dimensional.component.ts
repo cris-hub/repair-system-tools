@@ -7,8 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { Location } from '@angular/common';
-import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO } from '../../inspeccion-enum/inspeccion.enum';
+import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO, CONEXION } from '../../inspeccion-enum/inspeccion.enum';
 import { Response } from '@angular/http';
+import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
 
 @Component({
   selector: 'app-procesar-inspeccion-dimensional',
@@ -16,6 +17,7 @@ import { Response } from '@angular/http';
   styleUrls: ['./procesar-inspeccion-dimensional.component.css']
 })
 export class ProcesarInspeccionDimensionalComponent implements OnInit {
+  @ViewChild(SugerirProcesoComponent) public sugerir: SugerirProcesoComponent;
 
 
   //proceso
@@ -110,12 +112,18 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
 
   //procesar
   procesar() {
-
+    this.conexionesValidas();
  
     this.actualizarDatos();
 
   }
 
+  conexionesValidas() {
+    if (!this.conexiones.filter(t => t.ConexionId != CONEXION.NOAPLICA).every(t => t.InspeccionConexionFormato.EstaConforme)) {
+      this.toastrService.error('Falta alguna inspeccion por diligenciar')
+      return
+    }
+  }
 
   //persistir
   actualizarDatos() {
@@ -136,6 +144,22 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
         this.loaderService.display(false)
 
       })
+  }
+
+  responseSugerenciaProceso(event) {
+    if (event) {
+      this.procesar()
+      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+        if (response == true) {
+          this.location.back();
+        };
+      });
+
+    }
+  }
+
+  confirmarParams(titulo: string, Mensaje: string, Cancelar: boolean, objData: any) {
+    this.sugerir.llenarObjectoData(titulo, Mensaje, Cancelar, objData);
   }
 
 }

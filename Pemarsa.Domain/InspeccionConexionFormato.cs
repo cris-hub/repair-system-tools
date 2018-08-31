@@ -43,9 +43,7 @@ namespace Pemarsa.Domain
         public int? FloatValveId { get; set; }
         public virtual Catalogo FloatValve { get; set; }
 
-        [ForeignKey("EquipoUsado")]
-        public int? EquipoUsadoId { get; set; }
-        public virtual Catalogo EquipoUsado { get; set; }
+ 
 
         [ForeignKey("Cliente")]
         public int? ClienteId { get; set; }
@@ -59,7 +57,10 @@ namespace Pemarsa.Domain
         public int? HerramientaId { get; set; }
         public virtual Herramienta Herramienta { get; set; }
 
-
+        [ForeignKey("EquipoUsado")]
+        public int? EquipoUsadoId { get; set; }
+        public virtual Catalogo EquipoUsado { get; set; }
+        public virtual IEnumerable<ConexionEquipoMedicionUsado> ConexionEquipoMedicionUsado { get; set; }
         public virtual IEnumerable<InspeccionConexionFormatoParametros> InspeccionConexionFormatoParametros { get; set; }
         public virtual IEnumerable<InspeccionConexionFormatoAdendum> InspeccionConexionFormatoAdendum { get; set; }
 

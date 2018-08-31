@@ -1,9 +1,7 @@
 <form [formGroup]="formularioEquipoMedicion">
-  <div class="row">
-    <div class="col-lg-4">
-      <label class="float-right">Equipo de medición utilizado:​</label>
-    </div>
-    <div class="col-lg-3">
+  
+   
+    <div>
       <input type="text"
              [attr.disabled]="disable ? '' : Bloquear ? '' : null"
              class="form-control"
@@ -16,25 +14,25 @@
       <!--validacion [validaciones]="[disable ? '' : 'requerido']"-->
 
     </div>
-    <div class="col-lg-3" *ngIf="alistamiento">
+    <div  *ngIf="alistamiento">
       N/A <input type="checkbox"
                  formControlName="AplicaEquipoMedicion"
                  [attr.disabled]="disable ? '' : null"
                  (change)="aplicaEquipo($event)" />
     </div>
-    <div class="col-lg-3" *ngIf="!alistamiento"></div>
-    <div class="col-lg-4"></div>
+    <div *ngIf="!alistamiento"></div>
+    <div ></div>
 
-    <div class="col-lg-4">
+    <div >
 
 
       <div *ngFor="let equipo of EquiposMedicionUsadoView" class="line-heigth-33">
         <span class="badge badge-pemarsa">
           {{equipo.Valor}}
-          <i *ngIf="!disable" (click)="removerDeElementosSeleccionado(equipo)" class="glyphicon glyphicon-minus pull-right pointer"></i>
+          <i *ngIf="!disable" (click)="removerDeElementosSeleccionado(equipo)" class="glyphicon glyphicon-minus pointer"></i>
         </span>
       </div>
     </div>
 
-  </div>
+  
 </form>

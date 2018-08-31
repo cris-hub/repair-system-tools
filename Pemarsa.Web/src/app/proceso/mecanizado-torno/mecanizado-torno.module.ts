@@ -11,6 +11,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CoordinadorModule } from '../coordinador/coordinador.module';
 import { ProcesoModule } from '../proceso.module';
 import { FormatoModule } from '../../formato/formato.module';
+import { ProcesarInspeccionComponent } from './procesar-inspeccion/procesar-inspeccion.component';
 
 @NgModule({
   imports: [

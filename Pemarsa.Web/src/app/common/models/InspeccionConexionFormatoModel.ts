@@ -1,4 +1,4 @@
-import { InspeccionModel,  HerramientaModel, AttachmentModel, ClienteModel, CatalogoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel } from "./Index";
+import { InspeccionModel,  HerramientaModel, AttachmentModel, ClienteModel, CatalogoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, ConexionEquipoMedicionUsadoModel } from "./Index";
 
 export class InspeccionConexionFormatoModel {
 
@@ -34,8 +34,7 @@ export class InspeccionConexionFormatoModel {
   public FloatValve: CatalogoModel
 
 
-  public EquipoUsadoId : number
-  public EquipoUsado :CatalogoModel
+  
 
 
   public IdAsignaUsuario : number
@@ -56,6 +55,7 @@ export class InspeccionConexionFormatoModel {
   public Herramienta: HerramientaModel
 
   public InspeccionConexionFormatoAdendum: InspeccionConexionFormatoAdendumModel[]
+  public ConexionEquipoMedicionUsado: ConexionEquipoMedicionUsadoModel[]
 
   public InspeccionConexionFormatoParametros: InspeccionConexionFormatoParametrosModel[]
 

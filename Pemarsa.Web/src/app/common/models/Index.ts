@@ -36,6 +36,7 @@ export * from './FormatoFormatoParametroModel';
 export * from './InspeccionEspesorModel';
 export * from './InspeccionInsumoModel';
 export * from './FormatoTiposConexionModel';
+export * from './ConexionEquipoMedicionUsadoModel';
 
 
 

@@ -28,12 +28,14 @@ import { DetalleProcesoComponent } from './common-proceso/detalle-proceso/detall
 
 import { TrabajoRealizadoComponent } from './common-proceso/trabajo-realizado/trabajo-realizado.component';
 import { AsignarProcesoComponent } from './common-proceso/asignar-proceso/asignar-proceso.component';
-import { InspeccionConexionComponent, SafePipe } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
+import { InspeccionConexionMotorComponent, SafePipe } from './common-proceso/inspeccion-conexion-motor/inspeccion-conexion.component-motor';
 import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccion/conexion-inspeccion.component';
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
 import { FormatoModule } from '../formato/formato.module';
 import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
 import { TrazabilidadProcesoComponent } from './common-proceso/trazabilidad-proceso/trazabilidad-proceso.component';
+import { ProcesarInspeccionComponent } from './mecanizado-torno/procesar-inspeccion/procesar-inspeccion.component';
+import { InspeccionConexionComponent } from './common-proceso/inspeccion-conexion/inspeccion-conexion.component';
 
 
 
@@ -45,10 +47,10 @@ import { TrazabilidadProcesoComponent } from './common-proceso/trazabilidad-proc
     FormatoModule,
 
 
-      
+
 
   ],
-  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, TrabajoRealizadoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent],
-  exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent, AsignarProcesoComponent, InspeccionConexionComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent]
+  declarations: [EquipoMedicionComponent, DetalleProcesoComponent, AsignarProcesoComponent, ProcesarInspeccionDimensionalComponent, ProcesarInspeccionComponent, TrabajoRealizadoComponent, InspeccionConexionMotorComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent, InspeccionConexionComponent],
+  exports: [EquipoMedicionComponent, DetalleProcesoComponent, TrabajoRealizadoComponent, ProcesarInspeccionDimensionalComponent, ProcesarInspeccionComponent, AsignarProcesoComponent, InspeccionConexionMotorComponent, ConexionInspeccionComponent, TrazabilidadProcesoComponent, InspeccionConexionComponent]
 })
 export class ProcesoModule { }

@@ -292,7 +292,7 @@ namespace FormatoES.Repository
                     .Include(t => t.FormatoTiposConexion)
                     .Include(t => t.FormatoFormatoParametro).ThenInclude(a => a.FormatoParametro);
 
-                Formato formato = await query.FirstOrDefaultAsync(t => t.ConexionId == inspeccionConexion.ConexionId && t.FormatoTiposConexion.Any(d => d.TipoConexionId == inspeccionConexion.TipoConexionId));
+                Formato formato = await query.FirstOrDefaultAsync(t => t.ConexionId == inspeccionConexion.ConexionId && t.FormatoTiposConexion.Any(d => d.TipoConexionId == inspeccionConexion.TipoConexionId && d.Estado == true));
                 return formato;
 
                 throw new NotImplementedException();

@@ -15,7 +15,7 @@ export class ParametrosComponent implements OnInit,OnChanges {
   public formulario: FormGroup;
   public formFormatoPatamtros: FormArray;
   @Input() public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
-
+  @Input() public alturar : string = ''
 
   constructor(
     private formBuilder: FormBuilder,

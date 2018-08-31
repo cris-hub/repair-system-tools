@@ -9,7 +9,7 @@
       </div>
       <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
         <br />
-        <h3>Mecanizado torno</h3>
+        <h3>Mecanizado torno </h3>
       </div>
     </div>
     <hr />
@@ -31,17 +31,17 @@
 
         </app-trabajo-realizado>
 
-        <br />
+        <app-inspeccion-conexion (conexion)="asignarValoresConexion($event)"
+                                       [conexiones]="conexiones"
+                                       [proceso]="proceso">
 
-        <div class="text-center">
-          <button type="submit" class="btn" *ngIf="accion != 'Liberar'">
-            {{accion}}
-          </button>
-          <app-sugerir-proceso *ngIf="accion == 'Liberar'"
-                               [accion]="'procesar'"
-                               (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
-                               (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
-        </div>
+        </app-inspeccion-conexion>
+
+
+        <app-sugerir-proceso class="centrar" *ngIf="accion == 'Liberar'"
+                             [accion]="'procesar'"
+                             (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
+                             (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
       </form>
     </div>
 
