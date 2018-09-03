@@ -234,6 +234,30 @@ namespace Pemarsa.CanonicalModels
                     public const string Otro = "Otro";
 
                 }
+
+                public struct ModoAplicacion
+                {
+                    public const string Tipo1 = "Tipo 1";
+                    public const string Tipo2 = "Tipo 2";
+                }
+
+                public struct TamanoCortadores
+                {
+                    public const string Tamano1 = "Tamaño 1";
+                    public const string Tamano2 = "Tamaño 2";
+                }
+
+                public struct SubTipoSoldadura
+                {
+                    public const string Tipo1 = "Tipo 1";
+                    public const string Tipo2 = "Tipo 2";
+                }
+
+                public struct TipoFundente
+                {
+                    public const string Tipo1 = "Tipo F 1";
+                    public const string Tipo2 = "Tipo F 2";
+                }
             }
 
         }
@@ -356,8 +380,10 @@ namespace Pemarsa.CanonicalModels
             public const string EquiposEmi = "EQUIPOS_EMI";
             public const string BobinasMagneticas = "BOBINAS_MAGNETICAS";
 
-
-
+            public const string SoldaduraTipoSoldadura = "SOLDADURA_TIPO_SOLDADURA";
+            public const string SoldaduraModoAplicacion = "SOLDADURA_MODO_APLICACION";
+            public const string SoldaduraTamanoCortadores = "SOLDADURA_TAMANO_CORTADORES";
+            public const string SoldaduraTipoFundente = "SOLDADURA_TIPO_FUNDENTE";
 
         }
 

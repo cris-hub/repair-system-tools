@@ -1,7 +1,8 @@
 import { Component, OnInit, SimpleChanges, EventEmitter, Output, Input } from '@angular/core';
-import { ProcesoModel, DetalleSoldaduraModel } from 'src/app/common/models/Index';
+import { ProcesoModel, DetalleSoldaduraModel, CatalogoModel, ParametrosModel } from 'src/app/common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ESTADOS_PROCESOS } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
+import { ParametroService } from 'src/app/common/services/entity/parametro.service';
 
 @Component({
   selector: 'app-trazabilidad-brocas',
@@ -17,19 +18,25 @@ export class TrazabilidadBrocasComponent implements OnInit {
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel
   @Input() public detalle: DetalleSoldaduraModel
+  @Input() public parametros: ParametrosModel
 
   public formularioTrazabilidadProceso: FormGroup
+  public tipoSoldadura: CatalogoModel[] = new Array<CatalogoModel>();
+  public tamanoCortadores: CatalogoModel[] = new Array<CatalogoModel>();
+  public tipoFundente: CatalogoModel[] = new Array<CatalogoModel>();
 
 
   public disable: boolean;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private parametroSrv: ParametroService
   ) { }
 
   ngOnInit() {
     this.iniciarFormulario();
     this.validacionesFormulario();
+    this.consultarParametros();
   }
 
   iniciarFormulario() {
@@ -55,6 +62,17 @@ export class TrazabilidadBrocasComponent implements OnInit {
       this.formularioEvent.emit(this.formularioTrazabilidadProceso);
 
     })
+  }
+
+
+  consultarParametros() {
+    if (this.parametros) {
+      if (this.parametros.Catalogos.length > 0) {
+        this.tipoSoldadura = this.parametros.Catalogos.filter(e => e.Grupo == "SOLDADURA_TIPO_SOLDADURA");
+        this.tamanoCortadores = this.parametros.Catalogos.filter(e => e.Grupo == "SOLDADURA_TAMANO_CORTADORES");
+        this.tipoFundente = this.parametros.Catalogos.filter(e => e.Grupo == "SOLDADURA_TIPO_FUNDENTE");
+      }
+    }
   }
 
 

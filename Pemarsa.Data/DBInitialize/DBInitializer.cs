@@ -844,6 +844,62 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Tipos.Proceso.TipoSoldadura.Otro,
                         Grupo = CanonicalConstants.Grupos.TipoSoldadura
+                    },new Catalogo
+                    {
+
+                        Id = 130,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.ModoAplicacion.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraModoAplicacion
+                    },new Catalogo
+                    {
+
+                        Id = 131,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.ModoAplicacion.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraModoAplicacion
+                    },new Catalogo
+                    {
+
+                        Id = 132,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TamanoCortadores.Tamano1,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraTamanoCortadores
+                    },new Catalogo
+                    {
+
+                        Id = 133,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TamanoCortadores.Tamano2,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraTamanoCortadores
+                    },new Catalogo
+                    {
+
+                        Id = 134,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.SubTipoSoldadura.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraTipoSoldadura
+                    },new Catalogo
+                    {
+
+                        Id = 135,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.SubTipoSoldadura.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraTipoSoldadura
+                    },new Catalogo
+                    {
+
+                        Id = 136,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoFundente.Tipo1,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraTipoFundente
+                    },new Catalogo
+                    {
+
+                        Id = 137,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoFundente.Tipo2,
+                        Grupo = CanonicalConstants.Grupos.SoldaduraTipoFundente
                     }
                 };
                 foreach (var proceso in procesos)
@@ -1345,7 +1401,58 @@ namespace Pemarsa.Data.DBInitialize
                                 );
                             }
                             break;
-
+                        case CanonicalConstants.Grupos.SoldaduraModoAplicacion:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.SoldaduraTamanoCortadores:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.SoldaduraTipoSoldadura:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.SoldaduraTipoFundente:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == proceso.Id) && (pc.Entidad == CanonicalConstants.Entidades.Proceso)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.Add
+                                (
+                                new ParametroCatalogo
+                                {
+                                    CatalogoId = proceso.Id,
+                                    Entidad = CanonicalConstants.Entidades.Proceso
+                                }
+                                );
+                            }
+                            break;
 
                     }
                 }

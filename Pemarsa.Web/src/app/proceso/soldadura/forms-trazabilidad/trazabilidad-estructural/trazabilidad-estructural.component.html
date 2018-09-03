@@ -9,7 +9,8 @@
       <select class="form-control form-control-lg"
               [attr.disabled]="disable ? '' : null"
               formControlName="TipoSoldaduraId">
-        <option value="1">1</option>
+        <option [value]="''">Seleccione</option>
+        <option *ngFor="let paramet of tipoSoldadura" [value]="paramet.Id">{{paramet.Valor}}</option>
       </select>
     </div>
     <div class="col-lg-4"></div>
@@ -28,13 +29,14 @@
 
 
     <div class="col-lg-4">
-      <label class="float-lg-right">Mode de aplicación:</label>
+      <label class="float-lg-right">Modo de aplicación:</label>
     </div>
     <div class="col-lg-4">
       <select class="form-control form-control-lg"
               [attr.disabled]="disable ? '' : null"
               formControlName="ModoAplicacionId">
-        <option value="1">1</option>
+        <option [value]="''">Seleccione</option>
+        <option *ngFor="let paramet of modoAplicacion" [value]="paramet.Id">{{paramet.Valor}}</option>
       </select>
     </div>
     <div class="col-lg-4"></div>

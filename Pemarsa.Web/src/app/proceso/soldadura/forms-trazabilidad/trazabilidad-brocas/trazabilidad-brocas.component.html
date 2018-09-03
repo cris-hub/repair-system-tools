@@ -34,7 +34,8 @@
       <select class="form-control form-control-lg"
               [attr.disabled]="disable ? '' : null"
               formControlName="TipoSoldaduraId">
-        <option value="1">1</option>
+        <option [value]="''">Seleccione</option>
+        <option *ngFor="let paramet of tipoSoldadura" [value]="paramet.Id">{{paramet.Valor}}</option>
       </select>
     </div>
     <div class="col-lg-4"></div>
@@ -116,17 +117,20 @@
       <select class="form-control form-control-lg"
               [attr.disabled]="disable ? '' : null"
               formControlName="TamañoCortadoresId">
-        <option value="1">1</option>
+        <option [value]="''">Seleccione</option>
+        <option *ngFor="let paramet of tamanoCortadores" [value]="paramet.Id">{{paramet.Valor}}</option>
       </select>
     </div>
     <div class="col-lg-2">
       <label class="float-lg-right">Tipo de fundente:​</label>
     </div>
     <div class="col-lg-2">
-      <input type="text"
-             [attr.disabled]="disable ? '' : null"
-             class="form-control"
-             formControlName="TipoFuenteId" />
+      <select class="form-control form-control-lg"
+              [attr.disabled]="disable ? '' : null"
+              formControlName="TipoFuenteId">
+        <option [value]="''">Seleccione</option>
+        <option *ngFor="let paramet of tipoFundente" [value]="paramet.Id">{{paramet.Valor}}</option>
+      </select>
     </div>
     <div class="col-lg-4"></div>
 

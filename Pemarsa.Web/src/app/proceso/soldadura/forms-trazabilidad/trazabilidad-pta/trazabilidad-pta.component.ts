@@ -1,5 +1,5 @@
 import { Component, OnInit, SimpleChanges, EventEmitter, Output, Input } from '@angular/core';
-import { ProcesoModel, DetalleSoldaduraModel } from 'src/app/common/models/Index';
+import { ProcesoModel, DetalleSoldaduraModel, ParametrosModel, CatalogoModel } from 'src/app/common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ESTADOS_PROCESOS } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
 
@@ -17,8 +17,11 @@ export class TrazabilidadPtaComponent implements OnInit {
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel
   @Input() public detalle: DetalleSoldaduraModel
+  @Input() public parametros: ParametrosModel
 
   public formularioTrazabilidadProceso: FormGroup
+  public tipoSoldadura: CatalogoModel[] = new Array<CatalogoModel>();
+
 
 
   public disable: boolean;
@@ -30,6 +33,7 @@ export class TrazabilidadPtaComponent implements OnInit {
   ngOnInit() {
     this.iniciarFormulario();
     this.validacionesFormulario();
+    this.consultarParametros();
   }
 
   iniciarFormulario() {
@@ -55,6 +59,13 @@ export class TrazabilidadPtaComponent implements OnInit {
     })
   }
 
+  consultarParametros() {
+    if (this.parametros) {
+      if (this.parametros.Catalogos.length > 0) {
+        this.tipoSoldadura = this.parametros.Catalogos.filter(e => e.Grupo == "SOLDADURA_TIPO_SOLDADURA");
+      }
+    }
+  }
 
   validacionesFormulario() {
 

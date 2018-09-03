@@ -44,7 +44,7 @@
 
         </app-trabajo-realizado>
 
-        <app-form-trazabilidad *ngIf="!ocultar" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [tiposoldadura]="proceso.TipoSoldaduraId"></app-form-trazabilidad>
+        <app-form-trazabilidad *ngIf="!ocultar" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso" [tiposoldadura]="proceso.TipoSoldaduraId" [parametros]="parametros"></app-form-trazabilidad>
         <!--<app-trazabilidad-proceso *ngIf="!ocultar" (formularioEvent)="iniciarformularioSoldadura($event)" [proceso]="proceso"></app-trazabilidad-proceso>-->
 
 
