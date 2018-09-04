@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrdenTrabajoES.Service;
 using Pemarsa.Data;
 using ProcesoES.Service;
+using RemisionES.Service;
 
 namespace Pemarsa.API.ServicesDI
 {
@@ -19,7 +20,7 @@ namespace Pemarsa.API.ServicesDI
             services.AddTransient<IDocumentoAdjuntoService, DocumentoAdjuntoService>();
             services.AddTransient<IFormatoService, FormatoService>();
             services.AddTransient<IProcesoService, ProcesoService>();
-            
+            services.AddTransient<IRemisionService, RemisionService>();
             
 
         }
