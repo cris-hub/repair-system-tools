@@ -1,0 +1,29 @@
+<i data-target="#liberarProceso"
+   data-toggle="modal"
+   class="glyphicon glyphicon-share-alt pointer"
+   style=" transform: rotate(270deg);"
+   title="Enviar OIT a remisión"
+   id="modalSugerir">
+</i>
+
+
+<div class="modal" id="liberarProceso" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="z-index: 4000;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Criterio de liberación</h5>
+      </div>
+      <div class="modal-body">
+        Por favor especifique la conseción para la liberación
+        <!--<select (change)="seleccionarProcesoSugerir($event.target.value)" class="custom-select mr-sm-2 form-control-lg">
+          <option value="0">Seleccione</option>
+          <option *ngFor="let tipoProceso of tiposProcesos" [value]="tipoProceso.Guid">{{tipoProceso.Valor}}</option>
+        </select>-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmarAction()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

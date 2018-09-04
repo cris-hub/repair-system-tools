@@ -75,6 +75,17 @@ export class OrdenTrabajoService {
       headers : this.header
     });
   }
+
+  public consultarOrdenDeTrabajoParaRemision(paginacion: PaginacionModel): Observable<ListadoResponseModel> {
+
+    return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarOrdenDeTrabajoParaRemision",
+      {
+        headers: this.header,
+        params: new HttpParams()
+          .set('CantidadRegistros', paginacion.CantidadRegistros.toString())
+          .set('PaginaActual', paginacion.PaginaActual.toString())
+      });
+  }
 }
 
 

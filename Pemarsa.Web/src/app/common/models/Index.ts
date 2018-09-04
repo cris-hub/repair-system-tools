@@ -37,6 +37,7 @@ export * from './InspeccionEspesorModel';
 export * from './InspeccionInsumoModel';
 export * from './FormatoTiposConexionModel';
 export * from './ConexionEquipoMedicionUsadoModel';
+export * from './OrdenTrabajoRemisionDTO';
 
 
 

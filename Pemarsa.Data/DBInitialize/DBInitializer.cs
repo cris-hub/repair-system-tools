@@ -45,6 +45,12 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Estados.OrdenTrabajo.EnProceso,
                         Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
                     },
+                      new Catalogo{
+                        Id = 138,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.OrdenTrabajo.Remision,
+                        Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
+                    },
                     new Catalogo{
                         Id = 60,
                         Guid = Guid.NewGuid(),

@@ -46,28 +46,36 @@ namespace ProcesoES.Repository
         {
             try
             {
-                var proceso = await _context.Proceso.FirstOrDefaultAsync(a => a.Guid == guid);
+                var proceso = await _context.Proceso.Include(p => p.TipoProceso).FirstOrDefaultAsync(a => a.Guid == guid);
                 Int32.TryParse(estado, out int estadoid);
                 var estadoProceso = (await _context.Catalogo.FirstOrDefaultAsync(a => (a.Valor == estado || a.Id == estadoid) && a.Grupo == "ESTADOS_PROCESO")) ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
 
-                if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
+
+                if (proceso.TipoProceso.Valor == "Reasignacion" && estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
                 {
-                    Proceso nuevo = new Proceso()
+                    proceso.Reasignado = true;
+                }
+                else
+                {
+                    if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
                     {
-                        TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION,
-                        TipoProcesoAnteriorId = proceso.TipoProcesoId,
-                        OrdenTrabajoId = proceso.OrdenTrabajoId,
-                        TipoProcesoSiguienteSugeridoId = proceso.TipoProcesoSiguienteSugeridoId,
-                        ProcesoAnteriorId = proceso.Id,
-                        EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
-                        Guid = Guid.NewGuid(),
-                        NombreUsuarioCrea = "admin",
-                        FechaRegistro = DateTime.Now,
+                        Proceso nuevo = new Proceso()
+                        {
+                            TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION,
+                            TipoProcesoAnteriorId = proceso.TipoProcesoId,
+                            OrdenTrabajoId = proceso.OrdenTrabajoId,
+                            TipoProcesoSiguienteSugeridoId = proceso.TipoProcesoSiguienteSugeridoId,
+                            ProcesoAnteriorId = proceso.Id,
+                            EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
+                            Guid = Guid.NewGuid(),
+                            NombreUsuarioCrea = "admin",
+                            FechaRegistro = DateTime.Now,
 
-                    };
+                        };
 
-                    await CrearProceso(nuevo, usuarioDTO);
+                        await CrearProceso(nuevo, usuarioDTO);
 
+                    }
                 }
                 proceso.EstadoId = estadoProceso.Id;
                 proceso.FechaModifica = DateTime.Now;
@@ -807,7 +815,7 @@ namespace ProcesoES.Repository
                                     .State = EntityState.Modified;
                                 foreach (var adendum in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoAdendum)
                                 {
-                                    
+
                                     _context.Entry(adendum.FormatoAdendum).State = EntityState.Modified;
                                     _context.Entry(adendum).State = EntityState.Modified;
 
@@ -816,21 +824,22 @@ namespace ProcesoES.Repository
 
                                 foreach (var parame in insConexion.InspeccionConexionFormato.InspeccionConexionFormatoParametros)
                                 {
-                                    
+
                                     _context.Entry(parame.FormatoParametro).State = EntityState.Modified;
                                     _context.Entry(parame).State = EntityState.Modified;
                                 }
 
                                 foreach (var ConexionEquipoMedicionUsado in insConexion.InspeccionConexionFormato.ConexionEquipoMedicionUsado)
                                 {
-                                    if (ConexionEquipoMedicionUsado.InspeccionConexionFormatoId >0 || ConexionEquipoMedicionUsado.InspeccionConexionFormatoId != null)
+                                    if (ConexionEquipoMedicionUsado.InspeccionConexionFormatoId > 0 || ConexionEquipoMedicionUsado.InspeccionConexionFormatoId != null)
                                     {
                                         _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Modified;
                                     }
-                                    else {
+                                    else
+                                    {
 
-                                    ConexionEquipoMedicionUsado.InspeccionConexionFormatoId = insConexion.InspeccionConexionFormato.Id;
-                                    _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Added;
+                                        ConexionEquipoMedicionUsado.InspeccionConexionFormatoId = insConexion.InspeccionConexionFormato.Id;
+                                        _context.Entry(ConexionEquipoMedicionUsado).State = EntityState.Added;
                                     }
                                 }
 

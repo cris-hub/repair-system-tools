@@ -58,6 +58,18 @@
   background-color: #955c87;
 }
 
+#color12 {
+  background-color: #51c173;
+}
+
+#color13 {
+  background-color: #5154c1;
+}
+
+#color14 {
+  background-color: #28afd8;
+}
+
 /*Menu*/
 
 .nav-side-menu {
@@ -307,7 +319,7 @@
 
     .nav-side-menu2 li#color:hover, li#color2:hover, li#color3:hover, li#color4:hover,
     li#color5:hover, li#color6:hover, li#color7:hover, li#color8:hover,
-    li#color9:hover, li#color10:hover, li#color11:hover {
+    li#color9:hover, li#color10:hover, li#color11:hover, li#color12:hover, li#color13:hover, li#color14:hover {
       background-color: #145398;
       -webkit-transition: all 1s ease;
       -moz-transition: all 1s ease;

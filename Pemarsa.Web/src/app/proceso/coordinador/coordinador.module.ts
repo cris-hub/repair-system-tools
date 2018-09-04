@@ -15,6 +15,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ObservacionRechazoComponent } from './observacion-rechazo/observacion-rechazo.component';
 import { UtilModule } from '../../common/modules/util.module';
 import { ProcesoModule } from '../proceso.module';
+import { LiberarProcesoRemisionComponent } from './liberar-proceso-remision/liberar-proceso-remision.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,6 @@ import { ProcesoModule } from '../proceso.module';
     Ng2SearchPipeModule,
     ProcesoModule
   ],
-  declarations: [OitCambioProcesoComponent, CriterioLiberacionComponent, ProcesarOitComponent, ObservacionRechazoComponent], exports: [ObservacionRechazoComponent]
+  declarations: [OitCambioProcesoComponent, CriterioLiberacionComponent, ProcesarOitComponent, ObservacionRechazoComponent, LiberarProcesoRemisionComponent], exports: [ObservacionRechazoComponent, LiberarProcesoRemisionComponent]
 })
 export class CoordinadorModule { }

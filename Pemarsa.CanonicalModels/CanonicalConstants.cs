@@ -37,6 +37,7 @@ namespace Pemarsa.CanonicalModels
             {
                 public const string EnProceso = "En proceso";
                 public const string Inactiva = "Inactiva";
+                public const string Remision = "Remisión";
             }
             public struct Conexion_BOX
             {

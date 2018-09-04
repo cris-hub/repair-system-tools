@@ -40,6 +40,7 @@
     <None Remove="src\app\common\models\InspeccionDimensionalOtroModel.ts" />
     <None Remove="src\app\common\models\InspeccionEquipoUtilizadoModel.ts" />
     <None Remove="src\app\common\models\ListadoResponseModel.ts" />
+    <None Remove="src\app\common\models\OrdenTrabajoRemisionDTO.ts" />
     <None Remove="src\app\common\models\PaginacionModel.ts" />
     <None Remove="src\app\common\models\ParametrosModel.ts" />
     <None Remove="src\app\common\models\ProcesoEquipoMedicionModel.ts" />
@@ -63,6 +64,7 @@
     <None Remove="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
     <None Remove="src\app\proceso\soldadura\soldadura.routing.module.ts" />
+    <None Remove="src\app\remision\oit-terminadas\oit-terminadad.routing.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo.component.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo.component.ts" />
@@ -114,6 +116,7 @@
     <TypeScriptCompile Include="src\app\common\models\InspeccionDimensionalOtroModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\InspeccionEquipoUtilizadoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ListadoResponseModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\OrdenTrabajoRemisionDTO.ts" />
     <TypeScriptCompile Include="src\app\common\models\PaginacionModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ParametrosModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ProcesoEquipoMedicionModel.ts" />
@@ -137,6 +140,7 @@
     <TypeScriptCompile Include="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\soldadura\soldadura.routing.module.ts" />
+    <TypeScriptCompile Include="src\app\remision\oit-terminadas\oit-terminadad.routing.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo.component.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo.component.ts" />
