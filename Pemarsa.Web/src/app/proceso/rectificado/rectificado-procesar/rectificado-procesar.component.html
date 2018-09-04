@@ -1,3 +1,51 @@
-<p>
-  rectificado-procesar works!
-</p>
+<br />
+<div class="container-fluid">
+
+
+  <div class="row">
+    <div class="col-md-12 titulo">
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+
+      </div>
+      <div class="col-lg-6 col-sm-6 col-md-5 col-xs-8">
+        <br />
+        <h3>Alistamiento</h3>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div class="row contenido-interno">
+    <div class="col-md-12" *ngIf="proceso">
+
+      <form (ngSubmit)="procesar()">
+
+        <app-detalle-proceso [proceso]="proceso">
+
+        </app-detalle-proceso>
+
+        <app-asignar-proceso (formularioEvent)="iniciarformularioAsignacion($event)" [proceso]="proceso">
+
+        </app-asignar-proceso>
+
+        <app-trabajo-realizado (formularioEvent)="iniciarformularioTrabajoRealizado($event)" [proceso]="proceso" [procesosRealizar]="procesoRealizar" [rectificado]="true">
+
+        </app-trabajo-realizado>
+
+        <div class="text-center">
+          <button type="submit" class="btn" *ngIf="accion != 'Liberar'">
+            {{accion}}
+          </button>
+          <app-sugerir-proceso *ngIf="accion == 'Liberar'"
+                               [ocultar]="false"
+                               [accion]="'procesar'"
+                               (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
+                               (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+
+</div>

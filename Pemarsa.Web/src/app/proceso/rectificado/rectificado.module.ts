@@ -4,12 +4,14 @@ import { RectificadoListarComponent } from './rectificado-listar/rectificado-lis
 import { RectificadoProcesarComponent } from './rectificado-procesar/rectificado-procesar.component';
 import { RectificadoRoutingModule } from 'src/app/proceso/rectificado/rectificado.routing.module';
 import { UtilModule } from 'src/app/common/modules/util.module';
+import { ProcesoModule } from 'src/app/proceso/proceso.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RectificadoRoutingModule,
-    UtilModule
+    UtilModule,
+    ProcesoModule
   ],
   declarations: [RectificadoListarComponent, RectificadoProcesarComponent]
 })

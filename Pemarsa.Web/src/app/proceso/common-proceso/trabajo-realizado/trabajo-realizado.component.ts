@@ -34,6 +34,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
   @Input() public proceso: ProcesoModel
   @Input() public procesosRealizar: ProcesoRealizarModel[]
   @Input() public alistamiento
+  @Input() public rectificado
   //eventos
 
   public valor = new Array<string>();
@@ -106,6 +107,7 @@ export class TrabajoRealizadoComponent implements OnInit, OnChanges {
       EstadoId: [this.proceso.EstadoId],
       AplicaEquipoMedicion: [this.proceso.AplicaEquipoMedicion],
       ProcesoEquipoMedicion: [this.proceso.ProcesoEquipoMedicion],
+      EsPruebaConGauge: [this.proceso.EsPruebaConGauge],
       ProcesoRealizar: this.formBuilder.array([])
 
     })
