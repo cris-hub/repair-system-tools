@@ -4,10 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { Location } from '@angular/common';
 import { SiguienteProcesoComponent } from '../siguiente-proceso/siguiente-proceso.component';
-import { ProcesoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 
 @Component({

@@ -1,4 +1,6 @@
-import { EntityModel, AttachmentModel, SolicitudOrdenTrabajoModel } from "./Index";
+import { SolicitudOrdenTrabajoModel } from "./SolicitudOrdenTrabajoModel";
+import { AttachmentModel } from "./AttachmentModel";
+
 
 export class SolicitudOrdenTrabajoAnexosModel {
   public Estado: boolean;

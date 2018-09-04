@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormatoModel, AttachmentModel, HerramientaModel, PaginacionModel, FormatoAdendumModel, EntidadModel, FormatoParametroModel, ParametrosModel, FormatoFormatoParametroModel, FormatoTiposConexionModel, CatalogoModel } from "../../common/models/index";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { attachEmbeddedView } from '@angular/core/src/view';
 import { HerramientaService } from '../../common/services/entity';
@@ -18,6 +17,8 @@ import { LoaderService } from '../../common/services/entity/loaderService';
 import { TIPOS_FORMATO, TIPOS_ESPECIFICACION } from '../formato-enum/formato.enum';
 import { forEach } from '@angular/router/src/utils/collection';
 import { TIPOSFORMATOADENDUM } from '../../common/enums/parametrosEnum';
+import { AttachmentModel } from '../../common/models/AttachmentModel';
+import { PaginacionModel, HerramientaModel, EntidadModel, FormatoModel, FormatoParametroModel, FormatoFormatoParametroModel, FormatoAdendumModel, CatalogoModel } from '../../common/models/Index';
 
 
 @Component({

@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OrdenTrabajoModel, PaginacionModel, ParametrosModel, HerramientaModel } from '../../common/models/Index';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../common/services/entity/loaderService';
 import { DatePipe } from '@angular/common';
+import { OrdenTrabajoModel } from '../../common/models/OrdenTrabajoModel';
+import { PaginacionModel } from '../../common/models/PaginacionModel';
+import { ParametrosModel } from '../../common/models/ParametrosModel';
+import { HerramientaModel } from '../../common/models/HerramientaModel';
 
 
 @Component({
@@ -22,7 +25,8 @@ export class ListarOitComponent implements OnInit {
   public  ordenesTrabajo: Array<OrdenTrabajoModel> = new Array<OrdenTrabajoModel>();
   
 
-  public  paginacion: PaginacionModel;
+  public paginacion:
+    PaginacionModel;
   public filter: string
   constructor(
     private ordenTrabajoService: OrdenTrabajoService,

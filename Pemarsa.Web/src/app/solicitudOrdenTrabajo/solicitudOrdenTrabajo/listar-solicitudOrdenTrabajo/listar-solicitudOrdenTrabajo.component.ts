@@ -1,11 +1,13 @@
 import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
-import { PaginacionModel, ParametrosModel, SolicitudOrdenTrabajoModel, CatalogoModel } from '../../../common/models/Index';
 import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { SolicitudOrdenTrabajoService } from '../../../common/services/entity/SolicitudOrdenTrabajo.service';
 import { FiltroSolicitudOrdenTrabajoComponent } from '../index';
 import { DatePipe } from '@angular/common';
+import { SolicitudOrdenTrabajoModel } from '../../../common/models/SolicitudOrdenTrabajoModel';
+import { PaginacionModel } from '../../../common/models/PaginacionModel';
+import { ParametrosModel } from '../../../common/models/ParametrosModel';
 
 @Component({
   selector: 'app-listar-solicitudOrdenTrabajo',

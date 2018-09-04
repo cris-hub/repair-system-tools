@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { InspeccionConexionModel, InspeccionModel, EntidadModel } from '../../../common/models/Index';
 import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPOS_CONEXION, CONEXION, ALERTAS_INFO_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 
 import { ToastrService } from 'ngx-toastr';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { InspeccionConexionModel } from '../../../common/models/InspeccionConexionModel';
 
 
 @Component({

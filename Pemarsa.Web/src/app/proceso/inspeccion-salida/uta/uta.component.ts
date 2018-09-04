@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { AttachmentModel, ProcesoModel, InspeccionModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
@@ -8,13 +7,16 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
-import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
 import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { Location } from '@angular/common';
-import { ProcesoInspeccionSalidaModel } from '../../../common/models/ProcesoInspeccionSalidaModel';
+import { ProcesoInspeccion } from '../../../common/models/ProcesoInspeccionModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { AttachmentModel } from '../../../common/models/AttachmentModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { InspeccionModel } from '../../../common/models/InspeccionModel';
 
 @Component({
   selector: 'app-uta',
@@ -95,7 +97,7 @@ export class UTAComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response
-        let ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel = response.ProcesoInspeccionSalida.find(c => {
+        let ProcesoInspeccionSalida: ProcesoInspeccion = response.ProcesoInspeccion.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
@@ -179,7 +181,7 @@ export class UTAComponent implements OnInit {
   }
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.proceso.ProcesoInspeccionSalida.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
           this.router.navigate(['inspeccion/salida'])

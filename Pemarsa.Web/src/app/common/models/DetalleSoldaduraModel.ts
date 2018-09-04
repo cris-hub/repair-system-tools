@@ -1,4 +1,6 @@
-import { EntityModel, CatalogoModel, ProcesoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+import { ProcesoModel } from "./ProcesoModel";
+import { EntityModel } from "./EntityModel";
 
 
 export class DetalleSoldaduraModel extends EntityModel {

@@ -2,10 +2,11 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ProcesoModel, EntidadModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-observacion-rechazo',

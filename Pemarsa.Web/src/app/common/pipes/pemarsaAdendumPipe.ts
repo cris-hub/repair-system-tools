@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CONEXIONID, TIPOSFORMATOADENDUM } from '../enums/parametrosEnum';
-import { CatalogoModel } from '../models/Index';
 
 @Pipe({
   name: 'pemarsaAdendumPipe',

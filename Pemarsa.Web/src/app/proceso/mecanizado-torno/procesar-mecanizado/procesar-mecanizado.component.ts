@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
-import { ProcesoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +8,7 @@ import { LoaderService } from '../../../common/services/entity/loaderService';
 import { Location } from '@angular/common';
 import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-procesar-mecanizado',

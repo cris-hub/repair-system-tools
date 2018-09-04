@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
-import { ProcesoModel, CatalogoModel, InspeccionConexionModel, InspeccionConexionFormatoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +9,9 @@ import { Location } from '@angular/common';
 import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO, CONEXION } from '../../inspeccion-enum/inspeccion.enum';
 import { Response } from '@angular/http';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { InspeccionConexionModel } from '../../../common/models/InspeccionConexionModel';
+import { InspeccionConexionFormatoModel } from '../../../common/models/InspeccionConexionFormatoModel';
 
 @Component({
   selector: 'app-procesar-inspeccion',

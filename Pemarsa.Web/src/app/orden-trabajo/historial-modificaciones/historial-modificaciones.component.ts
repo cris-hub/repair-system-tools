@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { OrdenTrabajoHistorialModificacionModel, PaginacionModel } from '../../common/models/Index';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
+import { OrdenTrabajoHistorialModificacionModel } from '../../common/models/OrdenTrabajoHistorialModificacionModel';
+import { PaginacionModel } from '../../common/models/PaginacionModel';
 
 @Component({
   selector: 'app-historial-modificaciones',

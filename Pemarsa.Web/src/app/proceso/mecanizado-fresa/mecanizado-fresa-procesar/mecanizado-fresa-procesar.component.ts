@@ -3,7 +3,6 @@ import { FiltroProcesoComponent } from '../../filtro-proceso/filtro-proceso.comp
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ProcesoService } from '../../../common/services/entity';
-import { ProcesoModel } from '../../../common/models/Index';
 import { OrdenTrabajoService } from '../../../common/services/entity/orden-trabajo.service';
 import { SiguienteProcesoComponent } from 'src/app/proceso/coordinador/siguiente-proceso/siguiente-proceso.component';
 import { SugerirProcesoComponent } from 'src/app/proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
@@ -12,6 +11,7 @@ import { FormGroup } from '@angular/forms';
 import { ESTADOS_PROCESOS, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE } from 'src/app/proceso/inspeccion-enum/inspeccion.enum';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-mecanizado-fresa-procesar',

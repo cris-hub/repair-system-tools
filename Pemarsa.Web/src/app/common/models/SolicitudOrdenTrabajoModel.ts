@@ -1,4 +1,10 @@
-import { EntityModel, AttachmentModel, ClienteModel, CatalogoModel, ClienteLineaModel, SolicitudOrdenTrabajoAnexosModel } from "./Index";
+import { EntityModel } from "./EntityModel";
+import { ClienteLineaModel } from "./ClienteLineaModel";
+import { ClienteModel } from "./ClienteModel";
+import { CatalogoModel } from "./CatalogoModel";
+import { AttachmentModel } from "./AttachmentModel";
+import { SolicitudOrdenTrabajoAnexosModel } from "./SolicitudOrdenTrabajoAnexosModel";
+
 
 export class SolicitudOrdenTrabajoModel extends EntityModel {
 

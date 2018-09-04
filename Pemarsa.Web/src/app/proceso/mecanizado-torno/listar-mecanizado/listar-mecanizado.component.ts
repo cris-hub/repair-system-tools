@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { PaginacionModel, CatalogoModel, ParametrosModel, ProcesoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { PaginacionModel } from '../../../common/models/PaginacionModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { ParametrosModel } from '../../../common/models/ParametrosModel';
 
 @Component({
   selector: 'app-listar-mecanizado',

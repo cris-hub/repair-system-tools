@@ -1,4 +1,5 @@
-import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+import { InspeccionConexionFormatoModel } from "./InspeccionConexionFormatoModel";
 
 export class ConexionEquipoMedicionUsadoModel {
 

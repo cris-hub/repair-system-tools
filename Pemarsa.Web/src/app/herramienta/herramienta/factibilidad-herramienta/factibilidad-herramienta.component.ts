@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, Renderer2, OnChanges, SimpleChanges, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
-import { HerramientaEstudioFactibilidadModel } from "../../../common/models/Index";
+import { HerramientaEstudioFactibilidadModel } from "../../../common/models/HerramientaEstudioFactibilidadModel";
 
 @Component({
   selector: 'app-factibilidad-herramienta',

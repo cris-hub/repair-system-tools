@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { InspeccionModel, ProcesoModel, PaginacionModel, ParametrosModel, CatalogoModel, FiltroParametrosProcesosoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity/index';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
@@ -8,6 +7,11 @@ import { ToastrService } from 'ngx-toastr';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { FiltroProcesoComponent } from '../../filtro-proceso/filtro-proceso.component';
 import { DatePipe } from '@angular/common';
+import { PaginacionModel } from '../../../common/models/PaginacionModel';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { ParametrosModel } from '../../../common/models/ParametrosModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { FiltroParametrosProcesosoModel } from '../../../common/models/FiltroModel';
 
 
 @Component({

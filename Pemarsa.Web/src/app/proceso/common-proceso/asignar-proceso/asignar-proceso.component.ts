@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
-import { EntidadModel, ProcesoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { ValidacionDirective } from '../../../common/directivas/validacion/validacion.directive';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-asignar-proceso',

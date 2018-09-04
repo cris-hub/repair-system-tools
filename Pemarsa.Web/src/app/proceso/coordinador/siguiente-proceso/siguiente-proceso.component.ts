@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { ProcesoService } from '../../../common/services/entity';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
-import { ProcesoModel, EntidadModel } from '../../../common/models/Index';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-siguiente-proceso',

@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ParametroService } from '../../common/services/entity/parametro.service';
-import { ParametrosModel, OrdenTrabajoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaModel, HerramientaMaterialModel, HerramientaTamanoModel, SolicitudOrdenTrabajoModel, AttachmentModel, OrdenTrabajoAnexosModel, CatalogoModel, EntidadModel } from '../../common/models/Index';
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
@@ -14,6 +14,18 @@ import { Location } from '@angular/common';
 import { ConfirmacionComponent } from '../../common/directivas/confirmacion/confirmacion.component';
 import { VALID } from '@angular/forms/src/model';
 import { LoaderService } from '../../common/services/entity/loaderService';
+import { AttachmentModel } from '../../common/models/AttachmentModel';
+import { OrdenTrabajoAnexosModel } from '../../common/models/OrdenTrabajoAnexosModel';
+import { ParametrosModel } from '../../common/models/ParametrosModel';
+import { OrdenTrabajoModel } from '../../common/models/OrdenTrabajoModel';
+import { SolicitudOrdenTrabajoModel } from '../../common/models/SolicitudOrdenTrabajoModel';
+import { ClienteLineaModel } from '../../common/models/ClienteLineaModel';
+import { ClienteModel } from '../../common/models/ClienteModel';
+import { EntidadModel } from '../../common/models/EntidadDTOModel';
+import { HerramientaModel } from '../../common/models/HerramientaModel';
+import { HerramientaMaterialModel } from '../../common/models/HerramientaMaterialModel';
+import { PaginacionModel } from '../../common/models/PaginacionModel';
+import { HerramientaTamanoModel } from '../../common/models/HerramientaTamanoModel';
 
 @Component({
   selector: 'app-crear-oit',

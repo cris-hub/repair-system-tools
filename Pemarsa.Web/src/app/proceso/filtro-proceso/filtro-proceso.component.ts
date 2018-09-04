@@ -1,9 +1,10 @@
 import { Component, OnInit, EventEmitter, Output, Input, HostListener } from '@angular/core';
-import { FiltroModel, FiltroParametrosProcesosoModel, EntidadModel } from '../../common/models/Index';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';                  
 import { ProcesoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import * as $ from 'jquery';
+import { FiltroParametrosProcesosoModel } from '../../common/models/FiltroModel';
+import { EntidadModel } from '../../common/models/EntidadDTOModel';
 
 
 @Component({

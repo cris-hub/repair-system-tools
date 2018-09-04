@@ -2,19 +2,23 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProcesoService } from '../../../common/services/entity';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ProcesoModel, ParametrosModel, CatalogoModel, AttachmentModel, InspeccionModel } from '../../../common/models/Index';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { error } from 'protractor';
 import { isNullOrUndefined } from 'util';
 import { TIPO_PROCESO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
-import { ProcesoInspeccionSalidaModel } from '../../../common/models/ProcesoInspeccionSalidaModel';
-import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
+
 import { create } from 'domain';
 import { parse } from 'url';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 
 import { escape } from 'querystring';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { AttachmentModel } from '../../../common/models/AttachmentModel';
+import { ParametrosModel } from '../../../common/models/ParametrosModel';
+import { InspeccionModel } from '../../../common/models/InspeccionModel';
+import { ProcesoInspeccion } from '../../../common/models/ProcesoInspeccionModel';
 
 @Component({
   selector: 'app-inspeccion-herramienta',
@@ -112,7 +116,7 @@ export class InspeccionHerramientaComponent implements OnInit {
       }
       console.log(this.tieneProcesoSugerido)
 
-      if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+      if (this.Proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
         this.inspeccionesTerminada = true
         this.ModalOcultar = true;
         this.abrirmodal();
@@ -145,13 +149,13 @@ export class InspeccionHerramientaComponent implements OnInit {
 
   completarProcesoInspeccion(guidProceso: string) {
     this.consultarProceso();
-    if (this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
+    if (this.Proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA) && this.Proceso.TipoProcesoSiguienteSugeridoId) {
       this.procesoService.actualizarEstadoProceso(this.Proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
           this.router.navigate(['inspeccion/entrada'])
         };
       });
-    } else if ((this.Proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
+    } else if ((this.Proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
       .every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) && (!this.Proceso.TipoProcesoSiguienteSugeridoId)) {
       if (!this.ModalOcultar && this.inspeccionesTerminada) {
         this.ModalOcultar = false;
@@ -332,7 +336,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   quitarDeLaListaDeSeleccionDeInspecciones(inspecion) {
 
 
-    let inspeccionEntrada: ProcesoInspeccionEntradaModel = this.Proceso.InspeccionEntrada.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.PENDIENTE })
+    let inspeccionEntrada: ProcesoInspeccion = this.Proceso.ProcesoInspeccion.find(c => { return c.Inspeccion.TipoInspeccionId == inspecion.Id && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.PENDIENTE })
 
     this.procesoService.actualizarEstadoInspeccion(inspeccionEntrada.Inspeccion.Guid, ESTADOS_INSPECCION.ANULADA).subscribe(response => {
 
@@ -370,7 +374,7 @@ export class InspeccionHerramientaComponent implements OnInit {
   //inspecciones seleccionadas
   private AgregarElemntosUI(idInspeccionSeleccionada) {
 
-    this.Proceso.InspeccionEntrada.forEach(inspecion => {
+    this.Proceso.ProcesoInspeccion.forEach(inspecion => {
       this.tiposInspecciones.forEach(c => {
         if (c.Id == inspecion.Inspeccion.TipoInspeccionId
           && (inspecion.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
@@ -394,12 +398,12 @@ export class InspeccionHerramientaComponent implements OnInit {
   }
   private procesarInspeccionesSeleccionadas() {
     if (this.tipoProcesoActual.Id == TIPO_PROCESO.INSPECCIONENTRADA) {
-      let inspeccionEntrada: ProcesoInspeccionEntradaModel = new ProcesoInspeccionEntradaModel();
-      this.Proceso.InspeccionEntrada = this.crearInspecciones<ProcesoInspeccionEntradaModel>(inspeccionEntrada);
+      let inspeccionEntrada: ProcesoInspeccion = new ProcesoInspeccion();
+      this.Proceso.ProcesoInspeccion = this.crearInspecciones<ProcesoInspeccion>(inspeccionEntrada);
     }
     else if (this.tipoProcesoActual.Id == TIPO_PROCESO.INSPECCIONSALIDA) {
-      let inspeccionsalida: ProcesoInspeccionSalidaModel = new ProcesoInspeccionSalidaModel();
-      this.Proceso.ProcesoInspeccionSalida = this.crearInspecciones<ProcesoInspeccionSalidaModel>(inspeccionsalida);
+      let inspeccionsalida: ProcesoInspeccion = new ProcesoInspeccion();
+      this.Proceso.ProcesoInspeccion = this.crearInspecciones<ProcesoInspeccion>(inspeccionsalida);
     }
   }
   crearInspecciones<Inspeccion>(Inspeccion: Inspeccion): Array<Inspeccion> {
@@ -463,7 +467,7 @@ export class InspeccionHerramientaComponent implements OnInit {
 
 
   estadoCompleta(pieza) {
-    let inspecciones = this.Proceso.InspeccionEntrada
+    let inspecciones = this.Proceso.ProcesoInspeccion
       .filter(i => i.Inspeccion.Pieza == pieza)
       .filter(t => t.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA)
     if (inspecciones.length <= 0) {

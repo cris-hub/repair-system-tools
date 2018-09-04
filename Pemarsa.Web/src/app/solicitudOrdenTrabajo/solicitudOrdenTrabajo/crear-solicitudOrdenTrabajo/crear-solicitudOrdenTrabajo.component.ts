@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators, ValidationErrors } from "@angular/forms";
-import { SolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel, ClienteModel, PaginacionModel, ClienteLineaModel, AttachmentModel, SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import { ClienteService, SolicitudOrdenTrabajoService } from "../../../common/services/entity";
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +8,12 @@ import { debounceTime, distinctUntilChanged, filter, map, merge } from 'rxjs/ope
 import { Router, ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
+import { SolicitudOrdenTrabajoModel } from "../../../common/models/SolicitudOrdenTrabajoModel";
+import { CatalogoModel } from "../../../common/models/CatalogoModel";
+import { AttachmentModel } from "../../../common/models/AttachmentModel";
+import { ParametrosModel } from "../../../common/models/ParametrosModel";
+import { PaginacionModel } from "../../../common/models/PaginacionModel";
+import { SolicitudOrdenTrabajoAnexosModel } from "../../../common/models/SolicitudOrdenTrabajoAnexosModel";
 
 
 declare var jquery: any;

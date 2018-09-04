@@ -1,5 +1,16 @@
-/// <reference path="../../orden-trabajo/listar-oit/listar-oit.component.ts" />
-import { EntityModel, CatalogoModel, HerramientaMaterialModel, HerramientaTamanoModel, HerramientaModel, ClienteLineaModel, ClienteModel, AttachmentModel, SolicitudOrdenTrabajoModel, SolicitudOrdenTrabajoAnexosModel, OrdenTrabajoAnexosModel, RemisionModel } from "./Index";
+import { EntityModel } from "./EntityModel";
+import { AttachmentModel } from "./AttachmentModel";
+import { OrdenTrabajoAnexosModel } from "./OrdenTrabajoAnexosModel";
+import { SolicitudOrdenTrabajoModel } from "./SolicitudOrdenTrabajoModel";
+import { ClienteModel } from "./ClienteModel";
+import { HerramientaModel } from "./HerramientaModel";
+import { ClienteLineaModel } from "./ClienteLineaModel";
+import { HerramientaTamanoModel } from "./HerramientaTamanoModel";
+import { HerramientaMaterialModel } from "./HerramientaMaterialModel";
+import { CatalogoModel } from "./CatalogoModel";
+import { RemisionModel } from "./RemisionModel";
+
+
 
 export class OrdenTrabajoModel extends EntityModel {
   public Cantidad: number;

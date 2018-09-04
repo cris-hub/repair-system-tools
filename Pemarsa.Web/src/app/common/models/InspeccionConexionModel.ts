@@ -1,4 +1,8 @@
-import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel, EntityModel, FormatoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+import { InspeccionConexionFormatoModel } from "./InspeccionConexionFormatoModel";
+import { InspeccionModel } from "./InspeccionModel";
+import { FormatoModel } from "./FormatoModel";
+import { EntityModel } from "./EntityModel";
 
 export class InspeccionConexionModel extends EntityModel {
 

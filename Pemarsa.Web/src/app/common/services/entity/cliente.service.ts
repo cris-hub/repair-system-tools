@@ -5,7 +5,8 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
-import { ClienteModel, ClienteLineaModel } from "../../models/Index";
+import { ClienteLineaModel } from "../../models/ClienteLineaModel";
+import { ClienteModel } from "../../models/ClienteModel";
 
 @Injectable()
 export class ClienteService {

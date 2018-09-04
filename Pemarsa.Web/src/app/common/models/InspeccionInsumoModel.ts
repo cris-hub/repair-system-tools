@@ -1,4 +1,6 @@
-import { EntityModel, InspeccionModel, CatalogoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+import { InspeccionModel } from "./InspeccionModel";
+import { EntityModel } from "./EntityModel";
 
 export class InspeccionInsumoModel extends EntityModel {
 

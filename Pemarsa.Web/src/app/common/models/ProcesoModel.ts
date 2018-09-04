@@ -1,8 +1,11 @@
-import { EntityModel, CatalogoModel, OrdenTrabajoModel, DetalleSoldaduraModel, InspeccionConexionFormatoModel } from "./Index";
-import { ProcesoInspeccionEntradaModel } from "./ProcesoInspeccionEntradaModel";
-import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
 import { ProcesoRealizarModel } from "src/app/common/models/ProcesoRealizarModel";
 import { ProcesoEquipoMedicionModel } from "src/app/common/models/ProcesoEquipoMedicionModel";
+import { EntityModel } from "./EntityModel";
+import { CatalogoModel } from "./CatalogoModel";
+import { DetalleSoldaduraModel } from "./DetalleSoldaduraModel";
+import { InspeccionConexionFormatoModel } from "./InspeccionConexionFormatoModel";
+import { OrdenTrabajoModel } from "./OrdenTrabajoModel";
+import { ProcesoInspeccion } from "./ProcesoInspeccionModel";
 
 export class ProcesoModel extends EntityModel {
 
@@ -85,9 +88,9 @@ export class ProcesoModel extends EntityModel {
   public DetalleSoldaduraId: number
   public DetalleSoldadura: DetalleSoldaduraModel;
 
-  public ProcesoInspeccionSalida: ProcesoInspeccionSalidaModel[];
+  public ProcesoInspeccion: ProcesoInspeccion[];
   
-  public InspeccionEntrada: ProcesoInspeccionEntradaModel[];
+  
 
   public EstadoValor: string;
   public TipoProcesoAnteriorValor: string;

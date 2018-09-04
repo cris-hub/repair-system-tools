@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProcesoModel } from '../models/Index';
+import { ProcesoModel } from '../models/ProcesoModel';
 
 @Pipe({ name: 'pemarsaStringFormat' })
 export class PemarsaStringFormat implements PipeTransform {

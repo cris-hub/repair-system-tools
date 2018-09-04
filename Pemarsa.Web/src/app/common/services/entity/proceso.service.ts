@@ -5,7 +5,10 @@ import { ConfigService } from "../../config/config.service";
 import { PaginacionModel } from "../../models/PaginacionModel";
 import { Observable } from "rxjs";
 import { ListadoResponseModel } from "../../models/ListadoResponseModel";
-import { CatalogoModel, ProcesoModel, InspeccionModel, DetalleSoldaduraModel } from "../../models/Index";
+import { CatalogoModel } from "../../models/CatalogoModel";
+import { DetalleSoldaduraModel } from "../../models/DetalleSoldaduraModel";
+import { InspeccionModel } from "../../models/InspeccionModel";
+import { ProcesoModel } from "../../models/ProcesoModel";
 
 @Injectable()
 export class ProcesoService {

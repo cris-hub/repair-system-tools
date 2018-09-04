@@ -2,10 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { PaginacionModel, CatalogoModel, ParametrosModel, ProcesoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { TIPO_PROCESO, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { PaginacionModel } from '../../../common/models/PaginacionModel';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { ParametrosModel } from '../../../common/models/ParametrosModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-oit-cambio-proceso',

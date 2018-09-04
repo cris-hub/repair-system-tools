@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { OrdenTrabajoService } from '../../common/services/entity/orden-trabajo.service';
-import { OrdenTrabajoHistorialProcesosModel, ParametrosModel, EntidadModel, OrdenTrabajoModel } from '../../common/models/Index';
 import { ActivatedRoute } from '@angular/router';
+import { OrdenTrabajoHistorialProcesosModel } from '../../common/models/OrdenTrabajoHistorialProcesosModel';
+import { EntidadModel } from '../../common/models/EntidadDTOModel';
+import { OrdenTrabajoModel } from '../../common/models/OrdenTrabajoModel';
 
 @Component({
   selector: 'app-historial-procesos',

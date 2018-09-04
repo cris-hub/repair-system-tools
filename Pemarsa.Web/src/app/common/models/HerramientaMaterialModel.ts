@@ -1,6 +1,7 @@
 import { EntityModel } from "./EntityModel";
 import { HerramientaModel } from "./HerramientaModel";
-import { CatalogoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+
 
 export class HerramientaMaterialModel extends EntityModel {
   public Estado: boolean;

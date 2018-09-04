@@ -27,7 +27,7 @@ export * from './DetalleSoldaduraModel';
 export * from './InspeccionConexionFormatoParametrosModel';
 export * from './InspeccionModel';
 export * from './InspeccionFotosModel';
-export * from './InspeccionConexionModel';
+
 export * from './InspeccionConexionFormatoModel';
 export * from './InspeccionConexionFormatoAdendumModel';
 export * from './InspeccionDimensionalOtroModel';

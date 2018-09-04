@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
-import { ProcesoModel, CatalogoModel, InspeccionConexionModel } from '../../../common/models/Index';
-import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -10,6 +8,9 @@ import { Location } from '@angular/common';
 import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO, CONEXION } from '../../inspeccion-enum/inspeccion.enum';
 import { Response } from '@angular/http';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
+import {  ProcesoModel } from '../../../common/models/Index';
+import { ProcesoService } from '../../../common/services/entity/proceso.service';
+import { InspeccionConexionModel } from '../../../common/models/InspeccionConexionModel';
 
 @Component({
   selector: 'app-procesar-inspeccion-dimensional',
@@ -69,7 +70,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
   consultarInspeccionEntradaOrdenTrabajo(tipoProceso: number, ordenTrabajo: string) {
     this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(tipoProceso, ordenTrabajo).subscribe(response => {
       this.procesoInspeccionEntrada = response;
-      this.procesoInspeccionEntrada.InspeccionEntrada.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
+      this.procesoInspeccionEntrada.ProcesoInspeccion.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
       
     })
   }

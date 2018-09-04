@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ALERTAS_ERROR_MENSAJE } from '../../proceso/inspeccion-enum/inspeccion.enum';
-import { AttachmentModel } from '../../common/models/Index';
 import { ConfigService } from '../../common/config/config.service';
 import { isNullOrUndefined } from 'util';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AttachmentModel } from '../../common/models/AttachmentModel';
 
 @Component({
   selector: 'app-upload-file',

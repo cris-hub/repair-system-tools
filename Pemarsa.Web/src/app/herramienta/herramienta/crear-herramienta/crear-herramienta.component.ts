@@ -7,9 +7,14 @@ import { ParametrosModel } from "../../../common/models/ParametrosModel";
 import { EntidadModel } from "../../../common/models/EntidadDTOModel";
 import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/confirmacion.component";
 import { ToastrService } from "ngx-toastr";
-import { HerramientaModel, HerramientaEstudioFactibilidadModel, CatalogoModel, EntityModel, HerramientaTamanoMotorModel, HerramientaTamanoModel, ClienteModel, PaginacionModel, ClienteLineaModel, HerramientaMaterialModel } from "../../../common/models/Index";
 import { HerramientaService, ClienteService } from "../../../common/services/entity";
 import { retry } from "rxjs/operators";
+import { HerramientaTamanoModel } from "../../../common/models/HerramientaTamanoModel";
+import { HerramientaTamanoMotorModel } from "../../../common/models/HerramientaTamanoMotorModel";
+import { HerramientaMaterialModel } from "../../../common/models/HerramientaMaterialModel";
+import { HerramientaModel } from "../../../common/models/HerramientaModel";
+import { HerramientaEstudioFactibilidadModel } from "../../../common/models/HerramientaEstudioFactibilidadModel";
+import { CatalogoModel } from "../../../common/models/CatalogoModel";
 
 @Component({
   selector: 'app-crear-herramienta',

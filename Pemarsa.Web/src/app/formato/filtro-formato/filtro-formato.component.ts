@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FiltroFormatoModel } from '../../common/models/Index';
 import * as $ from 'jquery';
+import { FiltroFormatoModel } from '../../common/models/FiltroModel';
 
 @Component({
   selector: 'app-filtro-formato',

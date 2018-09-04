@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { ClienteModel, CatalogoModel } from "../../../common/models/Index";
 import { ClienteLineaModel } from "../../../common/models/ClienteLineaModel";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ClienteService } from "../../../common/services/entity";
@@ -13,6 +12,8 @@ import { ConfirmacionComponent } from "../../../common/directivas/confirmacion/c
 import { ToastrService } from "ngx-toastr";
 import { ignoreElements } from "rxjs/operators";
 import { LoaderService } from "../../../common/services/entity/loaderService";
+import { CatalogoModel } from "../../../common/models/CatalogoModel";
+import { ClienteModel } from "../../../common/models/ClienteModel";
 
 @Component({
   selector: 'app-crear-cliente',

@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 
 import { ClienteService } from '../../../common/services/entity/index';
-import {
-  ClienteModel, EntidadModel, CatalogoModel
-} from '../../../common/models/Index';
+
 
 import { FiltroClienteComponent } from '../filtro-cliente/filtro-cliente.component'
 import { LineaClienteComponent } from '../linea-cliente/linea-cliente.component';
@@ -16,6 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 import { debug } from 'util';
 import { ClienteLineaModel } from '../../../common/models/ClienteLineaModel';
 import { LoaderService } from '../../../common/services/entity/loaderService';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { ClienteModel } from '../../../common/models/ClienteModel';
 
 @Component({
   selector: 'app-listar-cliente',

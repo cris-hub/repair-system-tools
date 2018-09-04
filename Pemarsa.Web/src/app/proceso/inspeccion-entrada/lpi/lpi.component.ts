@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { AttachmentModel, ProcesoModel, InspeccionModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel, InspeccionFotosModel, InspeccionInsumoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
@@ -8,12 +7,20 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
-import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
 import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { debounceTime, map } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
+import { AttachmentModel } from '../../../common/models/AttachmentModel';
+import { InspeccionModel } from '../../../common/models/InspeccionModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { InspeccionFotosModel } from '../../../common/models/InspeccionFotosModel';
+import { ProcesoInspeccion } from '../../../common/models/ProcesoInspeccionModel';
+import { InspeccionEquipoUtilizadoModel } from '../../../common/models/InspeccionEquipoUtilizadoModel';
+import { InspeccionInsumoModel } from '../../../common/models/InspeccionInsumoModel';
 
 @Component({
   selector: 'app-lpi',
@@ -95,7 +102,7 @@ export class LPIComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response
-        let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
+        let inspeccionEntrada: ProcesoInspeccion = response.ProcesoInspeccion.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
@@ -237,7 +244,7 @@ export class LPIComponent implements OnInit {
 
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
           this.router.navigate(['inspeccion/entrada'])

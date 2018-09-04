@@ -1,11 +1,11 @@
 import { EntityModel } from "./EntityModel";
-import { ClienteModel } from "./Index";
 import { CatalogoModel } from "./CatalogoModel";
 import { ClienteLineaModel } from "./ClienteLineaModel";
 import { HerramientaTamanoModel } from "./HerramientaTamanoModel";
 import { HerramientaTamanoMotorModel } from "./HerramientaTamanoMotorModel";
 import { HerramientaEstudioFactibilidadModel } from "./HerramientaEstudioFactibilidadModel";
 import { HerramientaMaterialModel } from "./HerramientaMaterialModel";
+import { ClienteModel } from "./ClienteModel";
 
 export class HerramientaModel extends EntityModel {
   public ClienteId: number;

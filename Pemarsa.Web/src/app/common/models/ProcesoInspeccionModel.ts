@@ -1,6 +1,6 @@
 import { EntityModel, ProcesoModel, InspeccionModel } from "./Index";
 
-export class ProcesoInspeccionSalidaModel extends EntityModel {
+export class ProcesoInspeccion extends EntityModel {
 
 
   public InspeccionId: number;

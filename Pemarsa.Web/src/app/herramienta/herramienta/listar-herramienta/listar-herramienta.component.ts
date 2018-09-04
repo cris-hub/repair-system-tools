@@ -6,9 +6,9 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { ParametrosModel } from '../../../common/models/ParametrosModel';
 import { ConfirmacionComponent } from '../../../common/directivas/confirmacion/confirmacion.component';
 import { ToastrService } from 'ngx-toastr';
-import { HerramientaModel } from "../../../common/models/Index";
 
 import { FiltroHerramientaComponent } from '../filtro-herramienta/filtro-herramienta.component'
+import { HerramientaModel } from "../../../common/models/HerramientaModel";
 @Component({
   selector: 'app-listar-herramienta',
   templateUrl: './listar-herramienta.component.html'

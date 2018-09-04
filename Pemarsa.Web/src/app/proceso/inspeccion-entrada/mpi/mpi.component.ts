@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AttachmentModel, ProcesoModel, InspeccionModel, InspeccionFotosModel, EntidadModel, CatalogoModel, InspeccionEquipoUtilizadoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
-import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
 import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { isUndefined } from 'util';
 import { Observable } from 'rxjs';
@@ -14,6 +12,14 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
+import { AttachmentModel } from '../../../common/models/AttachmentModel';
+import { CatalogoModel } from '../../../common/models/CatalogoModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { InspeccionModel } from '../../../common/models/InspeccionModel';
+import { InspeccionEquipoUtilizadoModel } from '../../../common/models/InspeccionEquipoUtilizadoModel';
+import { InspeccionFotosModel } from '../../../common/models/InspeccionFotosModel';
+import { ProcesoInspeccion } from '../../../common/models/ProcesoInspeccionModel';
 
 @Component({
   selector: 'app-mpi',
@@ -88,7 +94,7 @@ export class MPIComponent implements OnInit {
       .subscribe(response => {
         this.proceso = response
 
-        let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
+        let inspeccionEntrada: ProcesoInspeccion = response.ProcesoInspeccion.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
@@ -230,7 +236,7 @@ export class MPIComponent implements OnInit {
 
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
           this.router.navigate(['inspeccion/entrada'])

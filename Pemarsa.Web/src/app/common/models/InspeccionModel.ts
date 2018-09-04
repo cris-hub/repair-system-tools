@@ -1,4 +1,12 @@
-import { EntityModel, AttachmentModel, CatalogoModel, InspeccionFotosModel, InspeccionConexionModel, InspeccionDimensionalOtroModel, InspeccionEquipoUtilizadoModel, InspeccionInsumoModel } from "./Index";
+import { EntityModel } from "./EntityModel";
+import { InspeccionFotosModel } from "./InspeccionFotosModel";
+import { CatalogoModel } from "./CatalogoModel";
+import { AttachmentModel } from "./AttachmentModel";
+import { InspeccionConexionModel } from "./InspeccionConexionModel";
+import { InspeccionInsumoModel } from "./InspeccionInsumoModel";
+import { InspeccionDimensionalOtroModel } from "./InspeccionDimensionalOtroModel";
+import { InspeccionEquipoUtilizadoModel } from "./InspeccionEquipoUtilizadoModel";
+
 
 export class InspeccionModel extends EntityModel {
   public Amperaje: number;

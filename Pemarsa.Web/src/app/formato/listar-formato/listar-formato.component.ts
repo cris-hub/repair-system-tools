@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormatoModel, PaginacionModel, ParametrosModel, CatalogoModel } from '../../common/models/Index';
 import { FormatoService } from '../../common/services/entity';
 import { ParametroService } from '../../common/services/entity/parametro.service';
 import { LoaderService } from '../../common/services/entity/loaderService';
 import { DatePipe } from '@angular/common';
+import { FormatoModel } from '../../common/models/FormatoModel';
+import { PaginacionModel } from '../../common/models/PaginacionModel';
+import { ParametrosModel } from '../../common/models/ParametrosModel';
+import { CatalogoModel } from '../../common/models/CatalogoModel';
 
 @Component({
   selector: 'app-listar-formato',

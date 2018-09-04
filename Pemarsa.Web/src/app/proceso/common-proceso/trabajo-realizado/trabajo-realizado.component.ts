@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener, ViewChild } from '@angular/core';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
-import { EntidadModel, ProcesoModel } from '../../../common/models/Index';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { ProcesoRealizarModel } from 'src/app/common/models/ProcesoRealizarModel';
 import { EquipoMedicionComponent } from 'src/app/proceso/common-proceso/equipo-medicion/equipo-medicion.component';
 import { ProcesoEquipoMedicionModel } from 'src/app/common/models/ProcesoEquipoMedicionModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-trabajo-realizado',

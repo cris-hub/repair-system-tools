@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { FormatoParametroModel } from '../../common/models/Index';
+import { FormatoParametroModel } from '../../common/models/FormatoParametroModel';
 
 @Component({
   selector: 'app-parametros',

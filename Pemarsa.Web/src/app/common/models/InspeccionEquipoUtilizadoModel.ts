@@ -1,4 +1,5 @@
-import { InspeccionModel, CatalogoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+import { InspeccionModel } from "./InspeccionModel";
 
 export class InspeccionEquipoUtilizadoModel {
 

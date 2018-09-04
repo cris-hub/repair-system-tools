@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, Pipe, PipeTransform } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormArray, Form } from '@angular/forms';
-import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, FormatoAdendumModel, FormatoParametroModel, FormatoModel, ConexionEquipoMedicionUsadoModel, AttachmentModel } from '../../../common/models/Index';
 import { ProcesoService, FormatoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -9,6 +8,12 @@ import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ConfigService } from '../../../common/config/config.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CONEXION } from '../../inspeccion-enum/inspeccion.enum';
+import { AttachmentModel } from '../../../common/models/AttachmentModel';
+import { ConexionEquipoMedicionUsadoModel } from '../../../common/models/ConexionEquipoMedicionUsadoModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { InspeccionConexionFormatoModel } from '../../../common/models/InspeccionConexionFormatoModel';
+import { InspeccionConexionModel } from '../../../common/models/InspeccionConexionModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
 
 @Component({
   selector: 'app-inspeccion-conexion',

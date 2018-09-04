@@ -6,10 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
-import { InspeccionModel, EntidadModel, ProcesoModel, InspeccionEspesorModel } from '../../../common/models/Index';
-import { ProcesoInspeccionEntradaModel } from '../../../common/models/ProcesoInspeccionEntradaModel';
 import { TIPO_INSPECCION, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
 import { Location } from '@angular/common';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { InspeccionModel } from '../../../common/models/InspeccionModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+import { InspeccionEspesorModel } from '../../../common/models/InspeccionEspesorModel';
+import { ProcesoInspeccion } from '../../../common/models/ProcesoInspeccionModel';
 
 @Component({
   selector: 'app-ut',
@@ -83,7 +86,7 @@ export class UTComponent implements OnInit {
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
         this.proceso = response
-        let inspeccionEntrada: ProcesoInspeccionEntradaModel = response.InspeccionEntrada.find(c => {
+        let inspeccionEntrada: ProcesoInspeccion = response.ProcesoInspeccion.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
@@ -186,7 +189,7 @@ export class UTComponent implements OnInit {
   }
   completarProcesoInspeccion(guidProceso: string) {
     debugger
-    if (this.proceso.InspeccionEntrada.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
+    if (this.proceso.ProcesoInspeccion.filter(d => d.Inspeccion.EstadoId != ESTADOS_INSPECCION.ANULADA).every(d => d.Inspeccion.EstadoId == ESTADOS_INSPECCION.COMPLETADA)) {
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response) {
           this.router.navigate(['inspeccion/entrada'])

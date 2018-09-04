@@ -1,4 +1,5 @@
-import { EntityModel, AttachmentModel,  OrdenTrabajoModel } from "./Index";
+import { OrdenTrabajoModel } from "./OrdenTrabajoModel";
+import { AttachmentModel } from "./AttachmentModel";
 
 export class OrdenTrabajoAnexosModel {
   public Estado: boolean;

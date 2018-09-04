@@ -1,14 +1,24 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, Pipe, PipeTransform } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormArray, Form } from '@angular/forms';
-import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, FormatoAdendumModel, FormatoParametroModel, FormatoModel, ConexionEquipoMedicionUsadoModel } from '../../../common/models/Index';
-import { ProcesoService, FormatoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { ConfigService } from '../../../common/config/config.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CONEXION } from '../../inspeccion-enum/inspeccion.enum';
+import { ConexionEquipoMedicionUsadoModel } from '../../../common/models/ConexionEquipoMedicionUsadoModel';
+import { EntidadModel } from '../../../common/models/EntidadDTOModel';
+import { FormatoAdendumModel } from '../../../common/models/FormatoAdendumModel';
+import { FormatoModel } from '../../../common/models/FormatoModel';
+import { FormatoParametroModel } from '../../../common/models/FormatoParametroModel';
+import { FormatoService, ProcesoService } from '../../../common/services/entity';
+import { InspeccionConexionFormatoAdendumModel } from '../../../common/models/InspeccionConexionFormatoAdendumModel';
+import { InspeccionConexionFormatoModel } from '../../../common/models/InspeccionConexionFormatoModel';
+import { InspeccionConexionFormatoParametrosModel } from '../../../common/models/InspeccionConexionFormatoParametrosModel';
+import { InspeccionConexionModel } from '../../../common/models/InspeccionConexionModel';
+import { ProcesoModel } from '../../../common/models/ProcesoModel';
+
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -46,7 +56,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
   public adendums: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>()
   public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>()
   public formato: FormatoModel = new FormatoModel();
-  public equipoUsado :EntidadModel[] = []
+  public equipoUsado: EntidadModel[] = []
 
   //pathServer
   public path: string = ''
@@ -108,7 +118,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
           this.parametros = i.InspeccionConexionFormato.InspeccionConexionFormatoParametros.map(t => t.FormatoParametro)
           if (this.InspeccionConexionFormato.ConexionEquipoMedicionUsado) {
 
-          this.equipoUsado = this.InspeccionConexionFormato.ConexionEquipoMedicionUsado.map(t => t.EquipoMedicion)
+            this.equipoUsado = this.InspeccionConexionFormato.ConexionEquipoMedicionUsado.map(t => t.EquipoMedicion)
           }
           console.log(this.equipoUsado)
         } else {
@@ -277,7 +287,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
 
   //enviarDatos
   //aciones
-  aplicaInspeccionConexion(conexion):boolean {
+  aplicaInspeccionConexion(conexion): boolean {
     return conexion == CONEXION.NOAPLICA
   }
   confirmarAction(conexion) {
@@ -291,7 +301,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
     this.cerrarModal(conexion);
   }
   private cerrarModal(conexion: any) {
-    document.getElementById('modalSugerir-' + conexion).setAttribute('disabled','true');
+    document.getElementById('modalSugerir-' + conexion).setAttribute('disabled', 'true');
 
     document.getElementById('close-inspeccion-conexion-' + conexion).click();
   }

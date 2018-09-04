@@ -1,8 +1,11 @@
 import { Injectable } from "@angular/core";
-import { FormatoModel, PaginacionModel, ListadoResponseModel, InspeccionConexionModel } from "../../models/Index";
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { ConfigService } from "../../config/config.service";
+import { FormatoModel } from "../../models/FormatoModel";
+import { InspeccionConexionModel } from "../../models/InspeccionConexionModel";
+import { ListadoResponseModel } from "../../models/ListadoResponseModel";
+import { PaginacionModel } from "../../models/PaginacionModel";
 
 @Injectable()
 export class FormatoService {

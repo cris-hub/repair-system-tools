@@ -1,8 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { ConfigService } from "../../config/config.service";
-import { PaginacionModel, ListadoResponseModel, SolicitudOrdenTrabajoModel, AttachmentModel } from "../../models/Index";
 import { Observable } from "rxjs";
+import { AttachmentModel } from "../../models/AttachmentModel";
+import { ListadoResponseModel } from "../../models/ListadoResponseModel";
+import { PaginacionModel } from "../../models/PaginacionModel";
+import { SolicitudOrdenTrabajoModel } from "../../models/SolicitudOrdenTrabajoModel";
 
 @Injectable()
 export class SolicitudOrdenTrabajoService {

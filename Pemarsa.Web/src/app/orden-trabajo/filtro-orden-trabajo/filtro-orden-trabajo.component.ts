@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, HostListener, EventEmitter} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ParametroService } from '../../common/services/entity/parametro.service';
-import { FiltroOrdenTrabajoModel, CatalogoModel, ParametrosModel } from '../../common/models/Index';
 import * as $ from 'jquery';
+import { CatalogoModel } from '../../common/models/CatalogoModel';
+import { ParametrosModel } from '../../common/models/ParametrosModel';
+import { FiltroOrdenTrabajoModel } from '../../common/models/FiltroModel';
 
 @Component({
   selector: 'app-filtro-orden-trabajo',

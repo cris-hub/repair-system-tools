@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, Output, HostListener, EventEmitter } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
-import { FiltroSolicitudOrdenTrabajoModel, CatalogoModel, ParametrosModel } from "../../../common/models/Index";
 import { ParametroService } from "../../../common/services/entity/parametro.service";
 import * as $ from 'jquery';
+import { CatalogoModel } from "../../../common/models/CatalogoModel";
+import { FiltroSolicitudOrdenTrabajoModel } from "../../../common/models/FiltroModel";
+import { ParametrosModel } from "../../../common/models/ParametrosModel";
 
 @Component({
   selector: 'app-filtro-solicitudOrdenTrabajo',

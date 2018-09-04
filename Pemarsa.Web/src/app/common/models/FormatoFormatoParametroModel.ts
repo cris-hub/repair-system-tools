@@ -1,4 +1,6 @@
-import { FormatoModel, FormatoParametroModel, CatalogoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
+import { FormatoModel } from "./FormatoModel";
+import { FormatoParametroModel } from "./FormatoParametroModel";
 
 export class FormatoFormatoParametroModel {
 

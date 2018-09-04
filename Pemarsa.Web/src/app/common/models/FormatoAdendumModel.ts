@@ -1,4 +1,4 @@
-import { EntityModel, HerramientaModel, AttachmentModel, CatalogoModel } from "./Index";
+import { CatalogoModel } from "./CatalogoModel";
 
 export class FormatoAdendumModel  {
 

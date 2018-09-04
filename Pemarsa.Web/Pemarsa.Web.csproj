@@ -35,7 +35,6 @@
     <None Remove="src\app\common\models\HerramientaModel.ts" />
     <None Remove="src\app\common\models\HerramientaTamanoModel.ts" />
     <None Remove="src\app\common\models\HerramientaTamanoMotorModel.ts" />
-    <None Remove="src\app\common\models\Index.ts" />
     <None Remove="src\app\common\models\InspeccionConexionFormatoAdendumModel.ts" />
     <None Remove="src\app\common\models\InspeccionDimensionalOtroModel.ts" />
     <None Remove="src\app\common\models\InspeccionEquipoUtilizadoModel.ts" />
@@ -112,7 +111,6 @@
     <TypeScriptCompile Include="src\app\common\models\HerramientaModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\HerramientaTamanoModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\HerramientaTamanoMotorModel.ts" />
-    <TypeScriptCompile Include="src\app\common\models\Index.ts" />
     <TypeScriptCompile Include="src\app\common\models\InspeccionConexionFormatoAdendumModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\InspeccionDimensionalOtroModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\InspeccionEquipoUtilizadoModel.ts" />

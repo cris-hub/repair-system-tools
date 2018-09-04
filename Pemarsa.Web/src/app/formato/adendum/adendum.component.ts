@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { EntidadModel, FormatoAdendumModel } from '../../common/models/Index';
 import { TIPOSFORMATOADENDUM } from '../../common/enums/parametrosEnum';
+import { EntidadModel } from '../../common/models/EntidadDTOModel';
+import { FormatoAdendumModel } from '../../common/models/FormatoAdendumModel';
 
 @Component({
   selector: 'app-adendum',
