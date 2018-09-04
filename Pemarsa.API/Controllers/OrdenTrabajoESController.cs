@@ -240,6 +240,24 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpGet("ConsultarOrdenDeTrabajoParaRemision")]
+        public async Task<IActionResult> ConsultarOrdenDeTrabajoParaRemision(Paginacion paginacion)
+        {
+            try
+            {
+                var result = await _ordenTrabajoServicio.ConsultarOrdenDeTrabajoParaRemision(paginacion, new UsuarioDTO());
+                //return Ok(result);
+
+                //var result = (await _ordenTrabajoServicio.ConsultarOrdenesDeTrabajoPorFiltro(parametrosDTO, new UsuarioDTO()));
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2.ToList() });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
     }
 }

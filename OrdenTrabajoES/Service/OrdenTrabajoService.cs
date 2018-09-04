@@ -287,8 +287,23 @@ namespace OrdenTrabajoES.Service
         {
             try
             {
-                IEnumerable < OrdenTrabajoHistorialProcesoDTO > historialProcesos = await _ordenTrabajoRepositorio.ConsultarHistorialProcesosDeOrdenDeTrabajo(guid, usuarioDTO);
+                IEnumerable<OrdenTrabajoHistorialProcesoDTO> historialProcesos = await _ordenTrabajoRepositorio.ConsultarHistorialProcesosDeOrdenDeTrabajo(guid, usuarioDTO);
                 return historialProcesos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>> ConsultarOrdenDeTrabajoParaRemision(Paginacion paginacion, UsuarioDTO usuario)
+        {
+            try
+            {
+                var query = await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoParaRemision(paginacion, usuario);
+                return query;
+
             }
             catch (Exception)
             {

@@ -258,6 +258,62 @@ export class AppComponent implements OnInit {
         title: "INDICADORES",
         submenu: false,
         complementarios: false
+      },
+      {
+        id: "8",
+        name: "REMISIONES",
+        image: "glyphicon glyphicon-list-alt",
+        url: "/home",
+        title: "REMISIONES",
+        submenu:
+        [
+          {
+            id: "9",
+            name: "OIT Terminadas",
+            image: "",
+            url: "/remisiones/oit-terminadas",
+            color: "color12",
+            title: "OIT Terminadas",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-reprocesos",
+              color: "color12",
+              class: "display"
+            }
+          },
+          {
+            id: "10",
+            name: "Remisiones",
+            image: "",
+            url: "/home",
+            color: "color13",
+            title: "Remisiones",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-capacidad2",
+              color: "color13",
+              class: "display"
+            }
+          },
+          {
+            id: "11",
+            name: "R. Cerradas",
+            image: "",
+            url: "/home",
+            color: "color14",
+            title: "R. Cerradas",
+            submenu: false,
+            complementarios:
+            {
+              icono: "icon-salida",
+              color: "color14",
+              class: "display"
+            }
+          }
+        ],
+        complementarios: false
       }
     ];
   constructor(private loaderService: LoaderService) {

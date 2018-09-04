@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ProcesoModel } from 'src/app/common/models/Index';
+import { ProcesoModel, ParametrosModel } from 'src/app/common/models/Index';
 
 @Component({
   selector: 'app-form-trazabilidad',
@@ -17,6 +17,7 @@ export class FormTrazabilidadComponent implements OnInit {
   @Output() formularioEvent = new EventEmitter();
   @Input() public proceso: ProcesoModel
   @Input() public tiposoldadura
+  @Input() public parametros: ParametrosModel
 
   formularioTrazabilidadProceso: FormGroup
 

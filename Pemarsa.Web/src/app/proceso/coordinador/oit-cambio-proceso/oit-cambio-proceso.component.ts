@@ -106,6 +106,12 @@ export class OitCambioProcesoComponent implements OnInit {
 
   }
 
+  liberarProceso(event: any) {
+    if (event) {
+      this.consultarProcesos();
+    }
+  }
+
   primeraLetraMayuscula(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }//convertir en pipe este metrodo

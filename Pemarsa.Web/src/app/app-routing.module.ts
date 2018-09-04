@@ -90,6 +90,8 @@ const routes: Routes = [
   { path: 'aprobacion-supervisor/procesar/:id', component: ProcesarOitComponent },
   { path: 'aprobacion-supervisor/:id', component: ProcesarOitComponent },
 
+  { path: 'remisiones/oit-terminadas', loadChildren: './remision/oit-terminadas/oit-terminadas.module#OitTerminadasModule'},
+
 ];
 
 @NgModule({

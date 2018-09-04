@@ -25,9 +25,9 @@ namespace OrdenTrabajoES.Repository
             try
             {
                 var oit = await _context.OrdenTrabajo.FirstOrDefaultAsync(a => a.Guid == guid);
-
+                Int32.TryParse(estado, out int estadoid);
                 var estadoId = (await _context.Catalogo
-                                .FirstOrDefaultAsync(a => a.Valor == estado && a.Grupo == "ESTADOS_ORDENTRABAJO"))?.Id;
+                                .FirstOrDefaultAsync(a => a.Valor == estado || a.Id == estadoid && a.Grupo == "ESTADOS_ORDENTRABAJO"))?.Id;
 
                 oit.EstadoId = estadoId
                     ?? throw new ApplicationException(CanonicalConstants.Excepciones.EstadoSolicitudNoEncontrado);
@@ -36,7 +36,7 @@ namespace OrdenTrabajoES.Repository
                 _context.Entry(oit).State = EntityState.Modified;
                 return await _context.SaveChangesAsync() > 0;
             }
-            catch (Exception) { throw; }
+            catch (Exception e) { throw e; }
         }
 
         public async Task<bool> ActualizarEstadoSolicitudDeTrabajo(Guid guidSolicitudOrdenTrabajo, string estado, UsuarioDTO usuario)
@@ -118,7 +118,7 @@ namespace OrdenTrabajoES.Repository
 
                 if (ordenTrabajo.Material.Id != 0)
                 {
-                ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
+                    ordenTrabajoBD.MaterialId = ordenTrabajo.Material.Id;
 
                 }
                 ordenTrabajoBD.Anexos = ordenTrabajo.Anexos;
@@ -126,7 +126,7 @@ namespace OrdenTrabajoES.Repository
                 ordenTrabajoBD.HerramientaId = ordenTrabajo.HerramientaId;
                 ordenTrabajoBD.ClienteId = ordenTrabajo.ClienteId;
                 ordenTrabajoBD.LineaId = ordenTrabajo.LineaId;
-                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramientaId == 0 ? null : ordenTrabajo.TamanoHerramientaId ;
+                ordenTrabajoBD.TamanoHerramientaId = ordenTrabajo.TamanoHerramientaId == 0 ? null : ordenTrabajo.TamanoHerramientaId;
                 ordenTrabajoBD.NombreUsuarioCrea = "admin";
 
 
@@ -369,10 +369,10 @@ namespace OrdenTrabajoES.Repository
                 if (ordenTrabajoBD.TamanoHerramienta != null)
                 {
 
-                _context.Entry(ordenTrabajoBD.TamanoHerramienta).State = EntityState.Unchanged;
+                    _context.Entry(ordenTrabajoBD.TamanoHerramienta).State = EntityState.Unchanged;
                 }
 
-             
+
                 ordenTrabajoBD.NombreUsuarioCrea = USUARIO_CREA.ADMIN.ToString();
                 _context.OrdenTrabajo.Add(ordenTrabajoBD);
                 await _context.SaveChangesAsync();
@@ -466,7 +466,7 @@ namespace OrdenTrabajoES.Repository
             {
                 var procesosOrdenTrabajoQuery = _context.OrdenTrabajo.Include(d => d.Procesos);
 
-                var procesosOrdenTrabajo = procesosOrdenTrabajoQuery.Where(d=>d.Guid == guid).SelectMany(d => d.Procesos.Select(t => new OrdenTrabajoHistorialProcesoDTO
+                var procesosOrdenTrabajo = procesosOrdenTrabajoQuery.Where(d => d.Guid == guid).SelectMany(d => d.Procesos.Select(t => new OrdenTrabajoHistorialProcesoDTO
                 {
                     EstadoProceso = t.EstadoId,
                     FechaFinalizacion = t.FechaFinalizacion,
@@ -482,6 +482,38 @@ namespace OrdenTrabajoES.Repository
 
                 return await procesosOrdenTrabajo.ToListAsync();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>> ConsultarOrdenDeTrabajoParaRemision(Paginacion paginacion, UsuarioDTO usuario)
+        {
+            try
+            {
+                //CanonicalConstants.Estados.OrdenTrabajo.Remision
+
+                var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == "Remisión");
+
+                var result =  query.Select(ot => new OrdenTrabajoRemisionDTO
+                {
+                    Id = ot.Id,
+                    Guid = ot.Guid,
+                    Cliente = ot.Cliente.NickName,
+                    Linea = ot.Linea.Nombre,
+                    Herramienta = ot.Herramienta.Nombre,
+                    Fecha = ot.FechaRegistro
+
+                }).OrderByDescending(c => c.Fecha)
+                  .Skip(paginacion.RegistrosOmitir())
+                  .Take(paginacion.CantidadRegistros)
+                  .ToList();
+
+                var cantidad = await query.CountAsync();
+                return new Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>(cantidad, result);
             }
             catch (Exception)
             {

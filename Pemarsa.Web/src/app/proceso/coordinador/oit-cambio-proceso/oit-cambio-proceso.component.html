@@ -1,6 +1,4 @@
 <br />
-
-
 <div class="container-fluid">
   <div class="row titulo">
     <div class="col-lg-3 col-md-6 col-sm-12">
@@ -57,7 +55,7 @@
     </div>
   </div>
 
-    <div class="row contenido-interno">
+    <div class="row contenido-interno-listar">
       <div class="col-md-12">
         <div class="table-responsive-sm table-responsive-md">
 
@@ -114,7 +112,8 @@
                     &nbsp;
 
                     <div>
-                      <i style=" transform: rotate(270deg);" class=" glyphicon glyphicon-share-alt pointer"></i>
+                      <!--<i style=" transform: rotate(270deg);" class=" glyphicon glyphicon-share-alt pointer"></i>-->
+                      <app-liberar-proceso-remision [guid]="Proceso.Guid" [proceso]="Proceso" (confir)="liberarProceso($event)"></app-liberar-proceso-remision>
                     </div>
                     &nbsp;
 
