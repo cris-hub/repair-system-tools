@@ -64,6 +64,7 @@
     <None Remove="src\app\proceso\alistamiento\alistamiento.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <None Remove="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
+    <None Remove="src\app\proceso\rectificado\rectificado.routing.module.ts" />
     <None Remove="src\app\proceso\soldadura\soldadura.routing.module.ts" />
     <None Remove="src\app\remision\oit-terminadas\oit-terminadad.routing.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
@@ -141,6 +142,7 @@
     <TypeScriptCompile Include="src\app\proceso\alistamiento\alistamiento.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-fresa\mecanizado-fresa.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\mecanizado-torno\mecanizado-torno.routing.module.ts" />
+    <TypeScriptCompile Include="src\app\proceso\rectificado\rectificado.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\soldadura\soldadura.routing.module.ts" />
     <TypeScriptCompile Include="src\app\remision\oit-terminadas\oit-terminadad.routing.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />

@@ -83,6 +83,9 @@ const routes: Routes = [
   {
     path: 'soldadura', loadChildren: './proceso/soldadura/soldadura.module#SoldaduraModule'
   },
+  {
+    path: 'rectificado', loadChildren: './proceso/rectificado/rectificado.module#RectificadoModule'
+  },
   
     // aprobacion
   
