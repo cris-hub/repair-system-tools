@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Pemarsa.Domain
 {
-    public class ProcesoInspeccionEntrada 
+    public class ProcesoInspeccion 
     {
 
         [Required, ForeignKey("Inspeccion")]

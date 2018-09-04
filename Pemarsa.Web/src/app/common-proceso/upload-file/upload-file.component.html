@@ -1,0 +1,35 @@
+<div class="col-md-6">
+  <div class="col-md-12">
+    <div *ngFor="let adjunto of listArchivos; let i = index">
+      <div *ngIf="adjunto.Estado" class="form-group row">
+        <div class="col-md-12">
+          <p class="form-control">
+            {{adjunto.NombreArchivo}}
+            <i *ngIf="removibles" (click)="eliminarAdjunto(i)" class="glyphicon glyphicon-minus pointer pull-right"></i>
+            <a *ngIf="descargable" target="_blank" href="{{path}}{{adjunto.Nombre}}" download  class="pull-right">
+              <i class="glyphicon glyphicon-download"></i>
+            </a>
+          </p>
+        </div>
+        <div *ngIf="mostrarImg" class="col-md-12 centrar">
+          <div *ngIf="adjunto.Stream" class="col-md-4">
+            <img style="width:100%;height:100%" src="data:image/png;base64,{{adjunto.Stream }}" alt="Red dot" />
+          </div> 
+          <div *ngIf="!adjunto.Stream" class="col-md-4">
+            <iframe style="width:100%;height:100%" [src]="sanitizer.bypassSecurityTrustResourceUrl(path+adjunto.Nombre)" alt="Red dot" ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="col-md-aut6 image-upload">
+  <label *ngIf="minDocumentos" for="file-input">
+    <span [ngClass]="{'badge badge-success pointer': minDocumentos == 0 ,'badge badge-danger pointer': minDocumentos != 0} "> {{minDocumentos}} <i class="glyphicon glyphicon-paperclip"></i></span>
+  </label>
+
+  <input  #fileInput (change)="addFile($event)" required type="file" [multiple]="multiplesArchivos" />
+</div>

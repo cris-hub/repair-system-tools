@@ -27,8 +27,8 @@ namespace Pemarsa.Domain
         #endregion
 
 
-        [Required, ForeignKey("Inspeccion")]
-        public int InspeccionId { get; set; }
+        [ForeignKey("Inspeccion")]
+        public int? InspeccionId { get; set; }
         public virtual Inspeccion Inspeccion { get; set; }
 
         [ForeignKey("InspeccionConexionFormato")]

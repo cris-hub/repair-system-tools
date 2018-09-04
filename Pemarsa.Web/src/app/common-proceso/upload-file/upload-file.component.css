@@ -1,0 +1,11 @@
+.centrar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+ul {
+  list-style-type: none;
+  display: inline;
+}

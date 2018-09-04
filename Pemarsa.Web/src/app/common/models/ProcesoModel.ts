@@ -1,4 +1,4 @@
-import { EntityModel, CatalogoModel, OrdenTrabajoModel, DetalleSoldaduraModel } from "./Index";
+import { EntityModel, CatalogoModel, OrdenTrabajoModel, DetalleSoldaduraModel, InspeccionConexionFormatoModel } from "./Index";
 import { ProcesoInspeccionEntradaModel } from "./ProcesoInspeccionEntradaModel";
 import { ProcesoInspeccionSalidaModel } from "./ProcesoInspeccionSalidaModel";
 import { ProcesoRealizarModel } from "src/app/common/models/ProcesoRealizarModel";
@@ -49,6 +49,10 @@ export class ProcesoModel extends EntityModel {
   public TipoSoldaduraId: number
   public TipoSoldadura: CatalogoModel;
 
+  public InspeccionConexionFormatoId: number
+  public InspeccionConexionFormato: InspeccionConexionFormatoModel;
+
+
   public EquipoMedicionUtilizadoId: number
   public EquipoMedicionUtilizado: CatalogoModel;
 
@@ -92,6 +96,7 @@ export class ProcesoModel extends EntityModel {
 
   constructor() {
     super();
+    this.InspeccionConexionFormato = new InspeccionConexionFormatoModel();
     this.OrdenTrabajo = new OrdenTrabajoModel();
     this.TipoProceso = new CatalogoModel();
     this.TipoProcesoAnterior = new CatalogoModel();

@@ -86,6 +86,11 @@ export class ProcesoService {
     return this.http.put<boolean>(this.urlServer + 'ActualizarInspeccionConexiones', model, { headers: this.header });
   }
 
+
+  public crearInspeccionConexiones(model): Observable<boolean> {
+    return this.http.post<boolean>(this.urlServer + 'crearInspeccionConexiones', model, { headers: this.header });
+  }
+
   public actualizarProcesoSugerir(guiidProceso: string, guidProcesoSugerir: string): Observable<boolean> {
     return this.http.put<boolean>(this.urlServer + 'ActualizarProcesoSugerir?guiidProceso=' + guiidProceso + '&guidProcesoSugerir=' + guidProcesoSugerir, {
       headers: this.header

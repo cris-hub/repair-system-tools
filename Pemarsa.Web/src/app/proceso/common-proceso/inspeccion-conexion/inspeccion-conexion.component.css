@@ -34,6 +34,21 @@
   background-color: #BEB8B8
 }
 
+.full-height {
+  height: 100%
+
+}
+
+.sesenta-height {
+  height: 12.5rem;
+  vertical-align: middle;
+}
+.vinte-height {
+  height: 37.5rem ;
+  
+}
+
+
 .borders {
   border: 1px solid #ced4da;
   border-radius: .25rem;

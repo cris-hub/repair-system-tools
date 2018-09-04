@@ -1,150 +1,162 @@
 <!-- Modal -->
 
 <div class="centrar">
-  <button 
-          [attr.data-target]="'#'+'modal'"
-         data-toggle="modal"
+  <button [attr.data-target]="'#'+'modal'"
+          data-toggle="modal"
           type="button"
-          (click)="seleccionConexion(InspeccionConexion)"
+          (click)="seleccionConexion(proceso.InspeccionConexionFormato)"
           class="btn "
-          [value]="InspeccionConexion"
+          [value]="proceso.InspeccionConexionFormato"
           id="modalSugerir">
     Inspeccion dimensional
-    <span *ngIf="InspeccionConexion.InspeccionConexionFormato">
-      <span *ngIf="InspeccionConexion.InspeccionConexionFormato.EstaConforme == undefined" class="glyphicon glyphicon-hourglass gray"></span>
-      <span *ngIf="InspeccionConexion.InspeccionConexionFormato.EstaConforme" class="glyphicon glyphicon-ok green"></span>
-      <span *ngIf="InspeccionConexion.InspeccionConexionFormato.EstaConforme == false" class="glyphicon glyphicon-remove red"></span>
+    <span *ngIf="proceso.InspeccionConexionFormato">
+      <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme == undefined" class="glyphicon glyphicon-hourglass gray"></span>
+      <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme" class="glyphicon glyphicon-ok green"></span>
+      <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme == false" class="glyphicon glyphicon-remove red"></span>
     </span>
-    <span *ngIf="!InspeccionConexion.InspeccionConexionFormato" class="glyphicon glyphicon-hourglass gray"></span>
+    <span *ngIf="!proceso.InspeccionConexionFormato" class="glyphicon glyphicon-hourglass gray"></span>
   </button>
 </div>
 <div class="centrar">
   <!--<div *ngIf="ocultar">-->
-  <div  class="modal" id="modal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal" id="modal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"><b>Inspeccion conexión {{InspeccionConexion.NumeroConexion}}</b></h5>
-        </div>
+      <div class="modal-content full-height">
+
         <div class="modal-body">
           <form [formGroup]="formularioInspeccionConexionFormato">
             <div class="container-fluid">
-              <div class="col-md-12">
-                <div class="form-group ">
-                  <label class="col-md-1" id="corre">
-                    Cliente :
-                  </label>
-                  <div class="col-md-5">
-                    <p class="form-control">
-                      {{proceso.OrdenTrabajo.Cliente.NickName}}
-                    </p>
-                  </div>
+                
 
-                  <label class="col-md-1  " id="corre">
-                    Herramienta :
-                  </label>
-                  <div class="col-md-4">
-                    <p class="form-control">
-                      {{proceso.OrdenTrabajo.Herramienta.Nombre}}
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <div class="form-group ">
-                  <label class="col-md-1 " id="corre">
-                    Serial :
-                  </label>
-                  <div class="col-md-2">
-                    <p class="form-control">
-                      {{proceso.OrdenTrabajo.SerialHerramienta}}
-                    </p>
-                  </div>
-
-                  <label class="col-md-1  " id="corre">
-                    OIT :
-                  </label>
-                  <div class="col-md-2">
-                    <p class="form-control">
-                      {{proceso.OrdenTrabajo.Id}}
-                    </p>
-                  </div>
-                  <label class="col-md-1  " id="corre">
-                    OD :
-                  </label>
-                  <div class="col-md-1">
-                    <p class="form-control">
-                      {{proceso.OrdenTrabajo.OrdenCompra}}
-                    </p>
-                  </div>
-                  <label class="col-md-1  " id="corre">
-                    ID :
-                  </label>
-                  <div>
-                    <input type="text" formControlName="IdAsignaUsuario" class="form-control col-md-1" />
-                  </div>
-
-                </div>
-
-              </div>
-              
-              <div class="col-md-12">
-                <br />
-                <hr />
-              </div>
-      
-
-
-
-              <div class="form-group col-md-12">
-
-                <div class="col-md-4">
-                  <label class="col-md-6">
-                    Equipo medición usado :
-                  </label>
-                  <div class="col-md-6">
-                    <app-equipo-medicion (formularioEvent)="asignarEquipoMedicion($event)" [disable]="true" [proceso]="proceso" [equipomedicion]="ParametrosEquipoMedicion" [equipomedicionMostrar]="equipoUsado"></app-equipo-medicion>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <label class="col-md-6">
-                    Elaborado por :
-                  </label>
-                  <div class="col-md-6">
-                    <input formControlName="NombreUsuarioElabora" class="form-control" type="text">
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <label class="col-md-6">
-                    Conforme :
-                  </label>
-                  <div class="col-md-6">
-
-                    <div class="col-md-6">
-                      SI
-                      <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="true">
+              <div class="vinte-height">
+                <div class="col-md-12">
+                  <div class="form-group ">
+                    <label class="col-md-1" id="corre">
+                      Cliente :
+                    </label>
+                    <div class="col-md-5">
+                      <p class="form-control">
+                        {{proceso.OrdenTrabajo.Cliente.NickName}}
+                      </p>
                     </div>
-                    <div class="col-md-6">
-                      NO
-                      <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="false">
+
+                    <label class="col-md-1  " id="corre">
+                      Herramienta :
+                    </label>
+                    <div class="col-md-4">
+                      <p class="form-control">
+                        {{proceso.OrdenTrabajo.Herramienta.Nombre}}
+                      </p>
                     </div>
+
                   </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group ">
+                    <label class="col-md-1 " id="corre">
+                      Serial :
+                    </label>
+                    <div class="col-md-2">
+                      <p class="form-control">
+                        {{proceso.OrdenTrabajo.SerialHerramienta}}
+                      </p>
+                    </div>
+
+                    <label class="col-md-1  " id="corre">
+                      OIT :
+                    </label>
+                    <div class="col-md-2">
+                      <p class="form-control">
+                        {{proceso.OrdenTrabajo.Id}}
+                      </p>
+                    </div>
+                    <label class="col-md-1  " id="corre">
+                      OD :
+                    </label>
+                    <div class="col-md-1">
+                      <p class="form-control">
+                        {{proceso.OrdenTrabajo.OrdenCompra}}
+                      </p>
+                    </div>
+                    <label class="col-md-1  " id="corre">
+                      ID :
+                    </label>
+                    <div  class="centrar">
+                      <input type="text" formControlName="IdAsignaUsuario" class="form-control col-md-1" />
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="col-md-12">
+                  <app-upload-file (fileOut)="asignarFile($event)" [removibles]="true" [multiplesCargaArchivos]="false" [tiposArchivosPermitidos]="['png']" [descargable]="true" [archivo]="proceso.InspeccionConexionFormato.FormatoAdjunto ">
+
+                  </app-upload-file>
                 </div>
 
               </div>
+                <div class="row sesenta-height">
+        
 
-            </div>
+                  <div class="sesenta-height">
+
+
+                    <div class="col-md-12">
+                      <br />
+                      <hr />
+                    </div>
+
+                    <div class="form-group col-md-12">
+
+                      <div class="col-md-4">
+                        <label class="col-md-6">
+                          Equipo medición usado :
+                        </label>
+                        <div class="col-md-6">
+                          <app-equipo-medicion (formularioEvent)="asignarEquipoMedicion($event)" [proceso]="proceso" [equipomedicion]="ParametrosEquipoMedicion" [equipomedicionMostrar]="equipoUsado"></app-equipo-medicion>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="col-md-6">
+                          Elaborado por :
+                        </label>
+                        <div class="col-md-6">
+                          <input formControlName="NombreUsuarioElabora" class="form-control" type="text">
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label class="col-md-6">
+                          Conforme :
+                        </label>
+                        <div class="col-md-6">
+
+                          <div class="col-md-6">
+                            SI
+                            <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="true">
+                          </div>
+                          <div class="col-md-6">
+                            NO
+                            <input formControlName="EstaConforme" class="form-check-input form-check form-check-inline " type="radio" [value]="false">
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="vinte-height">
+
+                  <div class="modal-footer centrar">
+                    <div class="btn-group">
+                      <button type="button" class="btn " id="close-inspeccion-conexion" data-dismiss="modal">Cancelar</button>
+                      <button type="button" class="btn " (click)="confirmarAction(InspeccionConexion)">Procesar</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
           </form>
-          <div class="modal-footer centrar">
-            <div class="btn-group">
-              <button type="button" class="btn " id="close-inspeccion-conexion" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn " (click)="confirmarAction(InspeccionConexion)">Procesar</button>
-
-            </div>
-          </div>
         </div>
       </div>
     </div>

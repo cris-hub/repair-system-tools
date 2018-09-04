@@ -49,7 +49,7 @@ export class InspeccionConexionFormatoModel {
 
 
   public FormatoAdjuntoId : number
-  public DocumentoAdjunto :AttachmentModel
+  public FormatoAdjunto :AttachmentModel
 
   public HerramientaId : number
   public Herramienta: HerramientaModel

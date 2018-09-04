@@ -336,6 +336,26 @@ namespace ProcesoES.Service
         {
             try
             {
+                if (proceso.InspeccionConexionFormato != null)
+                {
+                    if (proceso.InspeccionConexionFormato.FormatoAdjunto != null)
+                    {
+                        if (proceso.InspeccionConexionFormato.FormatoAdjunto.Id >= 0)
+                        {
+
+                            await _documentoAdjuntoService.CrearDocumentoAdjunto(proceso.InspeccionConexionFormato.FormatoAdjunto);
+                        }
+                        else
+                        {
+                            await _documentoAdjuntoService.ActualizarDocumentoAdjunto(proceso.InspeccionConexionFormato.FormatoAdjunto);
+
+                        }
+                    }
+                  
+
+
+                }
+
                 bool seActualizo = await _procesoRepository.ActualizarProceso(proceso, usuarioDTO);
                 return seActualizo;
             }
@@ -363,7 +383,7 @@ namespace ProcesoES.Service
         {
             try
             {
-                return await _procesoRepository.ConsultarDetalleSoldaduraPorGuid(guidDetalleSoldadura,usuarioDTO);
+                return await _procesoRepository.ConsultarDetalleSoldaduraPorGuid(guidDetalleSoldadura, usuarioDTO);
             }
             catch (Exception)
             {

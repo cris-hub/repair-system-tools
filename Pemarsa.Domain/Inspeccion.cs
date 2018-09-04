@@ -123,9 +123,8 @@ namespace Pemarsa.Domain
 
         public IEnumerable<InspeccionEspesor> Espesores { get; set; }
               
-        public IEnumerable<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
 
-        public IEnumerable<ProcesoInspeccionEntrada> ProcesoInspeccionEntrada { get; set; }
+        public IEnumerable<ProcesoInspeccion> ProcesoInspeccion { get; set; }
 
 
 

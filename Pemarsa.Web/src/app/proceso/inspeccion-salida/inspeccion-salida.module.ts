@@ -21,12 +21,14 @@ import { UtilModule } from '../../common/modules/util.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InspeccionSalidaRoutingModule } from './inspeccion-salida.routing.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ProcesoModule } from '../proceso.module';
 
 @NgModule({
   imports: [
     CommonModule,
     InspeccionSalidaRoutingModule,
     UtilModule,
+    ProcesoModule,
 
 
   ],

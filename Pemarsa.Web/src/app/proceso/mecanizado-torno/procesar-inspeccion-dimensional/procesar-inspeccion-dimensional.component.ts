@@ -151,7 +151,8 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
       this.procesar()
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
-          this.location.back();
+          this.router.navigate(['mecanizado/torno']);
+
         };
       });
 

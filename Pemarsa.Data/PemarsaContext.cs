@@ -22,8 +22,7 @@ namespace Pemarsa.Data
             modelBuilder.Entity<InspeccionFotos>().HasKey(k => new { k.InspeccionId, k.DocumentoAdjuntoId, k.Pieza });
             modelBuilder.Entity<InspeccionEquipoUtilizado>().HasKey(k => new { k.InspeccionId, k.EquipoUtilizadoId });
 
-            modelBuilder.Entity<ProcesoInspeccionSalida>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
-            modelBuilder.Entity<ProcesoInspeccionEntrada>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
+            modelBuilder.Entity<ProcesoInspeccion>().HasKey(k => new { k.InspeccionId, k.ProcesoId });
 
             modelBuilder.Entity<ProcesoRealizar>().HasKey(k => new { k.TipoProcesoId, k.ProcesoId });
             modelBuilder.Entity<ProcesoEquipoMedicion>().HasKey(k => new { k.IdEquipoMedicion, k.ProcesoId });
@@ -62,8 +61,7 @@ namespace Pemarsa.Data
         public DbSet<Formato> Formato { get; set; }
         public DbSet<OrdenTrabajo> OrdenTrabajo { get; set; }
         public DbSet<Proceso> Proceso { get; set; }
-        public DbSet<ProcesoInspeccionEntrada> ProcesoInspeccionEntrada { get; set; }
-        public DbSet<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
+        public DbSet<ProcesoInspeccion> ProcesoInspeccion { get; set; }
         public DbSet<ProcesoRealizar> ProcesoRealizar { get; set; }
         public DbSet<ProcesoEquipoMedicion> ProcesoEquipoMedicion { get; set; }
         public DbSet<InspeccionConexion> InspeccionConexion { get; set; }
@@ -73,6 +71,7 @@ namespace Pemarsa.Data
         public DbSet<InspeccionInsumo> InspeccionInsumo { get; set; }
         public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
         public DbSet<DetalleSoldadura> DetalleSoldadura { get; set; }
+        public DbSet<InspeccionConexionFormato> InspeccionConexionFormato { get; set; }
 
 
         #endregion

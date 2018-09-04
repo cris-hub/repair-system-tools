@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SiguienteProcesoComponent } from '../../coordinador/siguiente-proceso/siguiente-proceso.component';
-import { ProcesoModel, CatalogoModel, InspeccionConexionModel } from '../../../common/models/Index';
+import { ProcesoModel, CatalogoModel, InspeccionConexionModel, InspeccionConexionFormatoModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,8 +58,9 @@ export class ProcesarInspeccionComponent implements OnInit {
       .subscribe(response => {
         this.proceso = response;
         this.accionRealizar(this.proceso.EstadoId)
-        
-
+        this.proceso.InspeccionConexionFormato = response.InspeccionConexionFormato ? response.InspeccionConexionFormato : new InspeccionConexionFormatoModel();
+        this.conexion.InspeccionConexionFormato = this.proceso.InspeccionConexionFormato ;
+        this.conexiones.push(this.conexion);
       }, error => {
 
       }, () => {
@@ -101,9 +102,11 @@ export class ProcesarInspeccionComponent implements OnInit {
   }
 
   //inspeccionConexionCompoenteResponse
-  asignarValoresConexion(conexion: InspeccionConexionModel) {
-    Object.assign(this.conexion, conexion);
-    this.conexiones.push(this.conexion);
+  asignarValoresConexion(InspeccionConexionFormatoModel: InspeccionConexionFormatoModel) {
+
+  
+    Object.assign(this.proceso.InspeccionConexionFormato, InspeccionConexionFormatoModel);
+    
   }
 
   //procesar
@@ -115,7 +118,7 @@ export class ProcesarInspeccionComponent implements OnInit {
   }
 
   conexionesValidas() {
-    if (!this.conexiones.filter(t => t.ConexionId != CONEXION.NOAPLICA).every(t => t.InspeccionConexionFormato.EstaConforme)) {
+    if (!this.proceso.InspeccionConexionFormato) {
       this.toastrService.error('Falta alguna inspeccion por diligenciar')
       return
     }
@@ -126,7 +129,9 @@ export class ProcesarInspeccionComponent implements OnInit {
 
     this.loaderService.display(true)
 
-    this.procesoService.actualizarInspeccionConexiones(this.conexiones).subscribe(
+    
+
+    this.procesoService.actualizarProceso(this.proceso).subscribe(
       response => {
         response ?
           this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
@@ -148,7 +153,7 @@ export class ProcesarInspeccionComponent implements OnInit {
 
       this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
         if (response == true) {
-          this.location.back();
+          this.router.navigate(['/mecanizado/torno']);
         };
       });
 

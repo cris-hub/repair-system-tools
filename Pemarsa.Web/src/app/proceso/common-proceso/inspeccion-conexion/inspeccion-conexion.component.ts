@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, Pipe, PipeTransform } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormArray, Form } from '@angular/forms';
-import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, FormatoAdendumModel, FormatoParametroModel, FormatoModel, ConexionEquipoMedicionUsadoModel } from '../../../common/models/Index';
+import { ProcesoModel, EntidadModel, InspeccionConexionModel, InspeccionConexionFormatoModel, InspeccionConexionFormatoAdendumModel, InspeccionConexionFormatoParametrosModel, FormatoAdendumModel, FormatoParametroModel, FormatoModel, ConexionEquipoMedicionUsadoModel, AttachmentModel } from '../../../common/models/Index';
 import { ProcesoService, FormatoService } from '../../../common/services/entity';
 import { ParametroService } from '../../../common/services/entity/parametro.service';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -15,7 +15,7 @@ import { CONEXION } from '../../inspeccion-enum/inspeccion.enum';
   templateUrl: './inspeccion-conexion.component.html',
   styleUrls: ['./inspeccion-conexion.component.css']
 })
-export class InspeccionConexionComponent implements OnInit {
+export class InspeccionConexionComponent implements OnInit ,OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
   }
@@ -24,16 +24,10 @@ export class InspeccionConexionComponent implements OnInit {
 
   // proceso
   @Input() public proceso: ProcesoModel;
-  @Input() public conexiones: InspeccionConexionModel[];
   //response
   private response: Boolean
 
   //data binding
-  public InspeccionConexion: InspeccionConexionModel = new InspeccionConexionModel()
-  public InspeccionConexionFormato: InspeccionConexionFormatoModel = new InspeccionConexionFormatoModel()
-
-
-
 
   public equipoUsado: EntidadModel[] = []
 
@@ -53,9 +47,9 @@ export class InspeccionConexionComponent implements OnInit {
   public ParametrosEquipoMedicion: EntidadModel[]
 
   ngOnInit() {
+    this.proceso.InspeccionConexionFormato = this.proceso.InspeccionConexionFormato ? this.proceso.InspeccionConexionFormato : new InspeccionConexionFormatoModel();
     this.obtenerRutaServidor();
     this.consultarParametros();
-
     this.iniciarFormaulario();
   }
 
@@ -76,7 +70,7 @@ export class InspeccionConexionComponent implements OnInit {
     this.path = this.path.split("api")[0];
 
   }
-  
+
   consultarParametros() {
     this.loaderService.display(true)
 
@@ -90,22 +84,27 @@ export class InspeccionConexionComponent implements OnInit {
       });
   };
 
+
+
   //gestion formularios
   iniciarFormaulario() {
 
     this.formularioInspeccionConexionFormato = this.formBuilder.group({
       HerramientaId: [this.proceso.OrdenTrabajo.HerramientaId],
       ClienteId: [this.proceso.OrdenTrabajo.ClienteId],
-      IdAsignaUsuario: [this.InspeccionConexionFormato.IdAsignaUsuario],
-      NombreUsuarioElabora: [this.InspeccionConexionFormato.NombreUsuarioElabora],
-      EstaConforme: [this.InspeccionConexionFormato.EstaConforme],
+      IdAsignaUsuario: [this.proceso.InspeccionConexionFormato.IdAsignaUsuario],
+      NombreUsuarioElabora: [this.proceso.InspeccionConexionFormato.NombreUsuarioElabora],
+      EstaConforme: [this.proceso.InspeccionConexionFormato.EstaConforme],
 
 
     });
 
 
   }
- 
+
+  asignarFile(file: AttachmentModel) {
+    this.proceso.InspeccionConexionFormato.FormatoAdjunto = file;
+  }
 
   esFormalarioValido(): boolean {
     if (!(this.formularioInspeccionConexionFormato.valid)) {
@@ -113,20 +112,20 @@ export class InspeccionConexionComponent implements OnInit {
     }
     return true
   }
-  asignarDatosFormulario(InspeccionConexion: InspeccionConexionModel): InspeccionConexionModel {
-    if (!InspeccionConexion.InspeccionConexionFormato) {
-      InspeccionConexion.InspeccionConexionFormato = new InspeccionConexionFormatoModel();
+  asignarDatosFormulario(InspeccionConexionFormato: InspeccionConexionFormatoModel): InspeccionConexionFormatoModel {
+    if (!InspeccionConexionFormato) {
+      InspeccionConexionFormato = new InspeccionConexionFormatoModel();
 
     }
-    Object.assign(InspeccionConexion.InspeccionConexionFormato, this.formularioInspeccionConexionFormato.value)
-    delete InspeccionConexion.Formato
-    return InspeccionConexion;
+    Object.assign(InspeccionConexionFormato, this.formularioInspeccionConexionFormato.value)
+    
+    return InspeccionConexionFormato;
   }
 
   asignarEquipoMedicion(equipoMedicion: FormGroup) {
     let catalogos: EntidadModel[] = equipoMedicion.value.ProcesoEquipoMedicion;
 
-    this.InspeccionConexionFormato.ConexionEquipoMedicionUsado = catalogos
+    this.proceso.InspeccionConexionFormato.ConexionEquipoMedicionUsado = catalogos
       .map(t => {
         let ConexionEquipoMedicionUsado: ConexionEquipoMedicionUsadoModel = new ConexionEquipoMedicionUsadoModel()
         ConexionEquipoMedicionUsado.EquipoMedicionId = t.Id
@@ -138,10 +137,10 @@ export class InspeccionConexionComponent implements OnInit {
   //Conexixon Seleccionada
   seleccionConexion(conexion: InspeccionConexionModel) {
 
-      if (!conexion.InspeccionConexionFormato) {
-        this.disable = false;
+    if (!conexion.InspeccionConexionFormato) {
+      this.disable = false;
 
-      }
+    }
 
   }
 
@@ -155,9 +154,9 @@ export class InspeccionConexionComponent implements OnInit {
       this.toasrService.error('Faltan datos por diligenciar')
       return
     }
-  
-    this.InspeccionConexion = this.asignarDatosFormulario(this.InspeccionConexion)
-    this.conexion.emit(this.InspeccionConexion);
+
+    this.proceso.InspeccionConexionFormato = this.asignarDatosFormulario(this.proceso.InspeccionConexionFormato)
+    this.conexion.emit(this.proceso.InspeccionConexionFormato);
     this.cerrarModal(conexion);
   }
   private cerrarModal(conexion: any) {

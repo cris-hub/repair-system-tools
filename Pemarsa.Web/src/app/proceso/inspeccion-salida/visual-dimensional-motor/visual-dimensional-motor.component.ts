@@ -34,7 +34,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
   //procesoInpeccion
   public  proceso: ProcesoModel;
   public  inspeccion: InspeccionModel = new InspeccionModel();
-
+  public procesoMecanizadoTorno = new ProcesoModel();
 
 
   //catalogos
@@ -118,6 +118,13 @@ export class VisualDimensionalMotorComponent implements OnInit {
       this.EstadosConexion = response.Consultas.filter(estados => estados.Grupo == GRUPOS.ESTADOSCONEXIONBOX || estados.Grupo == GRUPOS.ESTADOSCONEXIONPIN);
       this.TiposConexion = response.Consultas.filter(tipos => tipos.Grupo == GRUPOS.TIPOCONEXION);
       this.EquiposMedicionUsado = response.Consultas.filter(equpo => equpo.Grupo == GRUPOS.EQUIPOMEDICIONUTILIZADO);
+
+    })
+  }
+  consultarMecanizadoTornoOrdenTrabajo(tipoProceso: number, ordenTrabajo: string) {
+    this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(tipoProceso, ordenTrabajo).subscribe(response => {
+      this.procesoMecanizadoTorno = response;
+      //this.procesoMecanizadoTorno.ins.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
 
     })
   }

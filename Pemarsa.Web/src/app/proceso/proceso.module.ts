@@ -28,7 +28,7 @@ import { DetalleProcesoComponent } from './common-proceso/detalle-proceso/detall
 
 import { TrabajoRealizadoComponent } from './common-proceso/trabajo-realizado/trabajo-realizado.component';
 import { AsignarProcesoComponent } from './common-proceso/asignar-proceso/asignar-proceso.component';
-import { InspeccionConexionMotorComponent, SafePipe } from './common-proceso/inspeccion-conexion-motor/inspeccion-conexion.component-motor';
+import { InspeccionConexionMotorComponent } from './common-proceso/inspeccion-conexion-motor/inspeccion-conexion.component-motor';
 import { ConexionInspeccionComponent } from './common-proceso/conexion-inspeccion/conexion-inspeccion.component';
 import { ProcesarInspeccionDimensionalComponent } from './mecanizado-torno/procesar-inspeccion-dimensional/procesar-inspeccion-dimensional.component';
 import { FormatoModule } from '../formato/formato.module';
@@ -66,7 +66,7 @@ import { ProcesarInspeccionComponent } from './mecanizado-torno/procesar-inspecc
     ConexionInspeccionComponent,
     TrazabilidadProcesoComponent,
     FormTrazabilidadComponent,
-    TrazabilidadEstructuralComponent, SafePipe,
+    TrazabilidadEstructuralComponent,
     TrazabilidadTungstenoComponent,
     TrazabilidadPtaComponent,
     TrazabilidadBrocasComponent,
@@ -83,7 +83,7 @@ import { ProcesarInspeccionComponent } from './mecanizado-torno/procesar-inspecc
     InspeccionConexionComponent,
     ProcesarInspeccionComponent,
     InspeccionConexionMotorComponent,
-    ConexionInspeccionComponent, SafePipe,
+    ConexionInspeccionComponent,
     TrazabilidadProcesoComponent,
     FormTrazabilidadComponent,
     TrazabilidadEstructuralComponent,

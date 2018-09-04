@@ -17,6 +17,8 @@ import { SiguienteProcesoComponent } from '../../proceso/coordinador/siguiente-p
 import { SugerirProcesoComponent } from '../../proceso/coordinador/sugerir-proceso/sugerir-proceso.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { UploadFileComponent } from '../../common-proceso/upload-file/upload-file.component';
+import { SafePipe } from '../../proceso/common-proceso/inspeccion-conexion-motor/inspeccion-conexion.component-motor';
 
 
 
@@ -38,19 +40,22 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     ValidacionDirective,
     AutocompletarComponent,
     PemarsaStringFormat,
+    SafePipe ,
     SiguienteProcesoComponent,
     SugerirProcesoComponent,
     CatalogoPipe,
     filterEstadoConexionPorConexion,
     pemarsaAdendumPipe,
     FiltroProcesoComponent,
-    filtrarColumnasAdendumPorTipoPipe
+    filtrarColumnasAdendumPorTipoPipe,
+    UploadFileComponent
   ],
 
   exports: [
     PaginationComponent,
     ConfirmacionComponent,
     ValidacionDirective,
+    SafePipe ,
     SugerirProcesoComponent,
     SiguienteProcesoComponent,
     AutocompletarComponent,
@@ -59,7 +64,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     FiltroProcesoComponent,
     FormsModule,
     AngularFontAwesomeModule,
-
+    UploadFileComponent,
     NgxPaginationModule,
     Ng2SearchPipeModule,
     ReactiveFormsModule,

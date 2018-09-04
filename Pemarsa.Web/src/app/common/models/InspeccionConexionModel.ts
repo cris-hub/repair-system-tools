@@ -1,11 +1,11 @@
 import { InspeccionModel, CatalogoModel, InspeccionConexionFormatoModel, EntityModel, FormatoModel } from "./Index";
 
-export class InspeccionConexionModel extends EntityModel{
+export class InspeccionConexionModel extends EntityModel {
 
 
   public NumeroConexion: number
 
-  public Observaciones:string
+  public Observaciones: string
 
   public ConexionId
   public Conexion: CatalogoModel
@@ -20,24 +20,24 @@ export class InspeccionConexionModel extends EntityModel{
 
 
   public InspeccionConexionFormatoId: number
-  public InspeccionConexionFormato :InspeccionConexionFormatoModel
+  public InspeccionConexionFormato: InspeccionConexionFormatoModel
 
 
   public InspeccionId: number
   public Inspeccion: InspeccionModel
 
-  public Formato : FormatoModel
+  public Formato: FormatoModel
 
   constructor() {
     super();
     this.NumeroConexion = 0
-    this.ConexionId = ''
-    this.EstadoId = ''
-    this.TipoConexionId = ''
-    this.Observaciones = ''
+    this.ConexionId = 0
+    this.EstadoId = 0
+    this.TipoConexionId = 0
+    this.Observaciones = null
     this.Id = 0
 
-    
+
   };
 }
 

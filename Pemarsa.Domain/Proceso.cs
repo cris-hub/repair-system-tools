@@ -89,6 +89,10 @@ namespace Pemarsa.Domain
         public int? ProcesoAnteriorId { get; set; }
         public virtual Proceso ProcesoAnterior { get; set; }
 
+        [ForeignKey("InspeccionConexionFormato")]
+        public int? InspeccionConexionFormatoId { get; set; }
+        public virtual InspeccionConexionFormato InspeccionConexionFormato { get; set; }
+
         [ForeignKey("OrdenTrabajo")]
         public int OrdenTrabajoId { get; set; }
         public virtual OrdenTrabajo OrdenTrabajo { get; set; }
@@ -97,8 +101,8 @@ namespace Pemarsa.Domain
         public int? DetalleSoldaduraId { get; set; }
         public virtual DetalleSoldadura DetalleSoldadura { get; set; }
 
-        public IEnumerable<ProcesoInspeccionSalida> ProcesoInspeccionSalida { get; set; }
-        public IEnumerable<ProcesoInspeccionEntrada> InspeccionEntrada { get; set; }
+        
+        public IEnumerable<ProcesoInspeccion> ProcesoInspeccion { get; set; }
 
         public IEnumerable<ProcesoRealizar> ProcesoRealizar { get; set; }
 
