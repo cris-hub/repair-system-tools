@@ -31,6 +31,26 @@
         <div class="col-lg-6">
           <textarea [attr.disabled]="disable ? '' : null" formControlName="TrabajoRealizado" validacion [validaciones]="[disable ? '' : 'requerido']" class="form-control"></textarea>
         </div>
+
+        <div *ngIf="rectificado" class="col-lg-4">
+          <label class="float-right">Prueba con gauge:​</label>
+        </div>
+        <div *ngIf="rectificado" class="col-lg-6">
+          Si
+          <input type="radio"
+                 [attr.disabled]="disable ? '' : null"
+                 name="name"
+                 [value]="true"
+                 formControlName="EsPruebaConGauge"/>
+          No
+          <input type="radio"
+                 [attr.disabled]="disable ? '' : null"
+                 name="name"
+                 [value]="false"
+                 formControlName="EsPruebaConGauge"
+                 validacion [validaciones]="[disable ? '' : '*']" />
+        </div>
+
       </div>
 
 

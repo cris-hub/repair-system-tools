@@ -11,7 +11,7 @@ namespace Pemarsa.Domain
         [Required]
         public int CantidadInspeccion { get; set; }
 
-        public bool? EsPruebaConGauge { get; set; }
+        public bool EsPruebaConGauge { get; set; }
 
         [Required]
         public Guid GuidOperario { get; set; }

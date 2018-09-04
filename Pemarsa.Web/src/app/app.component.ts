@@ -176,7 +176,7 @@ export class AppComponent implements OnInit {
             id: "15",
             name: "Rectificado",
             image: "",
-            url: "",
+            url: "/rectificado",
             color: "color",
             title: "Rectificado",
             submenu: false,
@@ -184,7 +184,7 @@ export class AppComponent implements OnInit {
               {
                 icono: "icon-rectificado",
                 color: "color7",
-                class: "remove"
+                class: "display"
               }
 
           },
