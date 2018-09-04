@@ -45,6 +45,7 @@
     <None Remove="src\app\common\models\ParametrosModel.ts" />
     <None Remove="src\app\common\models\ProcesoEquipoMedicionModel.ts" />
     <None Remove="src\app\common\models\ProcesoRealizarModel.ts" />
+    <None Remove="src\app\common\models\RemisionModel.ts" />
     <None Remove="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
     <None Remove="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <None Remove="src\app\common\modules\util.module.ts" />
@@ -121,6 +122,7 @@
     <TypeScriptCompile Include="src\app\common\models\ParametrosModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ProcesoEquipoMedicionModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\ProcesoRealizarModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\RemisionModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <TypeScriptCompile Include="src\app\common\modules\util.module.ts" />

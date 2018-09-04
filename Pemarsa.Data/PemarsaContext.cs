@@ -73,6 +73,7 @@ namespace Pemarsa.Data
         public DbSet<InspeccionInsumo> InspeccionInsumo { get; set; }
         public DbSet<OrdenTrabajoHistorialModificacion> OrdenTrabajoHistorialModificacion { get; set; }
         public DbSet<DetalleSoldadura> DetalleSoldadura { get; set; }
+        public DbSet<Remision> Remision { get; set; }
 
 
         #endregion
@@ -91,7 +92,7 @@ namespace Pemarsa.Data
 
     //public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<PemarsaContext>
     //{
-        
+
     //    public PemarsaContext CreateDbContext(string[] args)
     //    {
     //        var builder = new DbContextOptionsBuilder<PemarsaContext>();

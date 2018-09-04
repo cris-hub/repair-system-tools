@@ -72,6 +72,10 @@ namespace Pemarsa.Domain
         public int? RemisionInicialId { get; set; }
         public virtual DocumentoAdjunto RemisionInicial { get; set; }
 
+        [ForeignKey("Remision")]
+        public int? RemisionId { get; set; }
+        public virtual Remision Remision { get; set; }
+
         [ForeignKey("SolicitudOrdenTrabajo")]
         public int? SolicitudOrdenTrabajoId { get; set; }
         public virtual SolicitudOrdenTrabajo SolicitudOrdenTrabajo { get; set; }

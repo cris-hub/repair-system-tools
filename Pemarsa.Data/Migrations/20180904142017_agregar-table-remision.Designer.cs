@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180904142017_agregar-table-remision")]
+    partial class agregartableremision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1479,7 +1481,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid?>("GuidUsuarioModifica");
 
-                    b.Property<int>("ImagenFacturaId");
+                    b.Property<int>("ImagenFacturaID");
 
                     b.Property<int>("ImagenRemisionId");
 
@@ -1500,7 +1502,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasIndex("EstadoId");
 
-                    b.HasIndex("ImagenFacturaId");
+                    b.HasIndex("ImagenFacturaID");
 
                     b.HasIndex("ImagenRemisionId");
 
@@ -2182,7 +2184,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenFactura")
                         .WithMany()
-                        .HasForeignKey("ImagenFacturaId")
+                        .HasForeignKey("ImagenFacturaID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenRemision")
