@@ -20,6 +20,8 @@ export class OitTerminadasListarComponent implements OnInit {
   public paginacion: PaginacionModel;
 
   public filtro: string;
+  public EsPorFiltro: boolean = false;
+  public filtros: any;
 
   constructor(
     private ordenTrabajoService: OrdenTrabajoService,
@@ -29,12 +31,11 @@ export class OitTerminadasListarComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   ngOnInit() {
-    this.paginacion = new PaginacionModel(1, 1)
+    this.paginacion = new PaginacionModel(1, 30)
     this.consultarOrdenesDeTrabajo();
   }
 
   consultarOrdenesDeTrabajo() {
-    this.loaderService.display(true);
     this.ordenTrabajoService.consultarOrdenDeTrabajoParaRemision(this.paginacion)
       .subscribe(response => {
         this.ordenesTrabajoRemision = response.Listado;
@@ -42,15 +43,14 @@ export class OitTerminadasListarComponent implements OnInit {
           ot.Fecha = this.datePipe.transform(ot.Fecha, "dd/MM/yyyy");
         });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
-        this.loaderService.display(false);
       });
   }
 
   consultarOrdenesDeTrabajoPorFiltro(filtro: any) {
-    debugger;
-    this.loaderService.display(true);
     filtro.PaginaActual = this.paginacion.PaginaActual;
     filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    this.filtros = filtro;
+    this.EsPorFiltro = true;
     this.ordenTrabajoService.consultarOrdenDeTrabajoParaRemisionPorFiltro(filtro)
       .subscribe(response => {
         this.ordenesTrabajoRemision = response.Listado;
@@ -58,19 +58,29 @@ export class OitTerminadasListarComponent implements OnInit {
           ot.Fecha = this.datePipe.transform(ot.Fecha, "dd/MM/yyyy");
         });
         this.paginacion.TotalRegistros = response.CantidadRegistros;
-        this.loaderService.display(false);
       });
 
   }
 
   cambioPagina(page: any) {
     this.paginacion.PaginaActual = page;
-    this.consultarOrdenesDeTrabajo();
+    if (this.EsPorFiltro) {
+      this.consultarOrdenesDeTrabajoPorFiltro(this.filtros);
+    }
+    else {
+      this.consultarOrdenesDeTrabajo();
+
+    }
   }
 
   limiteConsulta(event: any) {
     this.paginacion = new PaginacionModel(1, event);
-    this.consultarOrdenesDeTrabajo();
+    if (this.EsPorFiltro) {
+      this.consultarOrdenesDeTrabajoPorFiltro(this.filtros);
+    }
+    else {
+      this.consultarOrdenesDeTrabajo();
+    }
   }
 
 }

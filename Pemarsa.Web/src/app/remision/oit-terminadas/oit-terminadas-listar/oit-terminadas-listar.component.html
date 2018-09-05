@@ -14,16 +14,13 @@
       <div class="row">
         <div class="col col-sm-5 col-md-5">
           <br />
-          <i class="glyphicon glyphicon-share pointer float-lg-right" data-toggle="tooltip" title="Generar remisión"></i>
-          <!--<filtro-cliente class="pointer float-right" data-toggle="tooltip" title="Filtros avanzados" (paramsFiltro)="consultarClientesPorFiltro($event)"></filtro-cliente>-->
+          <i class="glyphicon glyphicon-share pointer float-right" data-toggle="tooltip" title="Generar remisión"></i>
         </div>
         <div class="col col-sm-2 col-md-2">
           <br />
-          <app-filtro-oit-terminadas (paramsFiltro)="consultarOrdenesDeTrabajoPorFiltro($event)"></app-filtro-oit-terminadas>
-          <!--<i class="glyphicon glyphicon-filter flex-center"></i>-->
+          <app-filtro-oit-terminadas data-toggle="tooltip" title="Filtros avanzados" (paramsFiltro)="consultarOrdenesDeTrabajoPorFiltro($event)"></app-filtro-oit-terminadas>
         </div>
         <div class="col col-sm-3 col-md-4">
-
           <div class="btn-group margin-16 float-lg-left" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
             <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-list" data-toggle="tooltip" title="Paginación"></span>
@@ -52,7 +49,6 @@
               </li>
             </ul>
           </div>
-          <!--<i [routerLink]="['/cliente/crear']" class="glyphicon glyphicon-plus pointer" data-toggle="tooltip" title="Crear cliente"></i>-->
         </div>
       </div>
     </div>

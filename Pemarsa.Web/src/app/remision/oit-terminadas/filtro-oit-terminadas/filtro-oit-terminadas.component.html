@@ -1,7 +1,7 @@
 <!-- Modal -->
 <!-- Button trigger modal -->
-<a data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-  <span class="glyphicon glyphicon-filter"></span>
+<a data-toggle="dropdown" class="dropdown-toggle pointer" aria-haspopup="true" aria-expanded="false">
+  <span class="glyphicon glyphicon-filter pointer"></span>
 </a>
 <div class="dropdown-menu">
   <form [formGroup]="formulario" class="px-4 py-3">
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div class="btn-group">
+    <div class="btn-group float-right">
       <button (click)="limpiarFormulario()" role="button" id="clear" type="button" class="btn btn">Limpiar</button>
       &nbsp;&nbsp;&nbsp;
       <button (click)="submitFiltro(formulario.value)" class="btn btn-primary">Filtrar</button>
