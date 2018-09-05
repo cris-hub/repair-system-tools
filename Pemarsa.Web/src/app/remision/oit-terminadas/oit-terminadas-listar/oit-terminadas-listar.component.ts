@@ -22,6 +22,7 @@ export class OitTerminadasListarComponent implements OnInit {
   public filtro: string;
   public EsPorFiltro: boolean = false;
   public filtros: any;
+  public remisionModel: OrdenTrabajoRemisionDTO = new OrdenTrabajoRemisionDTO();
 
   constructor(
     private ordenTrabajoService: OrdenTrabajoService,
@@ -81,6 +82,16 @@ export class OitTerminadasListarComponent implements OnInit {
     else {
       this.consultarOrdenesDeTrabajo();
     }
+  }
+
+  actualizarObservacion(event: any) {
+    if (event) {
+      this.consultarOrdenesDeTrabajo();
+    }
+  }
+
+  cagarData(remision: OrdenTrabajoRemisionDTO) {
+    this.remisionModel = remision;
   }
 
 }

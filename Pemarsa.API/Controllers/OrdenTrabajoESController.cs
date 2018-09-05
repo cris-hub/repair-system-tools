@@ -270,6 +270,20 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpPut("ActualizarObservacionRemision")]
+        public async Task<IActionResult> ActualizarObservacionRemision([FromQuery]string Observacion,[FromQuery] string guidOrdenTrabajo)
+        {
+            try
+            {
+                return Ok(await _ordenTrabajoServicio.ActualizarObservacionRemision(Observacion,Guid.Parse(guidOrdenTrabajo), new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
     }
 }

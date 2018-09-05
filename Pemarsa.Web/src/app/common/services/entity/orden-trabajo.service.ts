@@ -92,6 +92,11 @@ export class OrdenTrabajoService {
     return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarOrdenDeTrabajoParaRemisionPorFiltro" + x,
       { headers: this.header });
   }
+
+  public actualizarObservacionRemision(Observacion: any, guidOrdenDeTrabajo: any): any {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarObservacionRemision?Observacion=' + Observacion + '&guidOrdenTrabajo=' + guidOrdenDeTrabajo,
+      { headers: this.header });
+  }
 }
 
 

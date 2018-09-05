@@ -10,5 +10,6 @@ namespace Pemarsa.CanonicalModels
         public string Linea { get; set; }
         public string Herramienta { get; set; }
         public DateTime Fecha { get; set; }
+        public string ObservacionRemision { get; set; }
     }
 }

@@ -5,4 +5,5 @@ export class OrdenTrabajoRemisionDTO {
   public Linea: string;
   public Herramienta: string;
   public Fecha: string;
+  public ObservacionRemision: string;
 }

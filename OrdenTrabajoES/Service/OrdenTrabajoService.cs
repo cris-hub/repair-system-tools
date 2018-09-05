@@ -324,5 +324,18 @@ namespace OrdenTrabajoES.Service
                 throw;
             }
         }
+
+        public async Task<bool> ActualizarObservacionRemision(string Observacion, Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ActualizarObservacionRemision(Observacion, guidOrdenTrabajo, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
