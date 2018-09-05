@@ -356,6 +356,12 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.VisualDimensional,
                         Grupo = CanonicalConstants.Grupos.TiposInspeccion
 
+                    },new Catalogo{
+                        Id = 139,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Tipos.Proceso.TipoInspeccion.ConexionFormato,
+                        Grupo = CanonicalConstants.Grupos.TiposInspeccion
+
                     }
                     ,new Catalogo{
                         Id = 66,

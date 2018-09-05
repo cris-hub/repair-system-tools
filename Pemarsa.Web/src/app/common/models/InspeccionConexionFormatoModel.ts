@@ -33,15 +33,7 @@ export class InspeccionConexionFormatoModel {
   public FloatValveId : number
   public FloatValve: CatalogoModel
 
-
-  
-
-
   public IdAsignaUsuario : number
-
-  
-  
-
 
 
   public ClienteId : number

@@ -41,10 +41,10 @@
 
           <div class="col-md-auto image-upload">
             <label for="file-input">
-              <span  [ngClass]="{'badge badge-success pointer': DocumetosRestantes == 0 ,'badge badge-danger pointer': DocumetosRestantes != 0} "  > {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
+              <span [ngClass]="{'badge badge-success pointer': DocumetosRestantes == 0 ,'badge badge-danger pointer': DocumetosRestantes != 0} "> {{DocumetosRestantes}} <i class="glyphicon glyphicon-paperclip"></i></span>
             </label>
 
-            <input id="file-input" formControlName="InspeccionFotos"  (change)="addFile($event)"  type="file" multiple />
+            <input id="file-input" formControlName="InspeccionFotos" (change)="addFile($event)" type="file" multiple />
           </div>
         </div>
 
@@ -71,53 +71,10 @@
         <hr style="    border-top: 1px solid #7c7373;" />
 
 
-        <div *ngIf="formInpeccionVisualDimensional.get('Conexiones')"
-             formArrayName="Conexiones" class="form-group">
-          <div class="row">
-            <div class="col-md-offset-2">
 
-              <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                <div [formGroupName]="i" class="row">
-                  <div *ngIf="false" class="col-lg-9 col-md-12 col-sm-12">
-                    <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']" [(ngModel)]="test" class="form-control " />
-                  </div>
-                  <div class="col-lg-9 col-md-12 col-sm-12">
-                    <label class="control-label" id="corre">* Conexión {{i+1}} </label>
-                    <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
-                      <option value="0">Seleccione</option>
-                      <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
-                    </select>
-                  </div>
-                  <br />
-                  <div class="col-lg-9 col-md-12 col-sm-12">
-                    <label class="control-label" id="corre">* Tipo conexión{{i+1}} </label>
-                    <select formControlName="TipoConexionId" class="form-control form-control-lg">
-                      <option value="0">Seleccione</option>
-                      <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
-                    </select>
-                  </div>
-                  <br />
-                  <div class="col-lg-9 col-md-12 col-sm-12">
-                    <label class="control-label" id="corre">*Estado {{i+1}} </label>
-                    <select formControlName="EstadoId" class="form-control form-control-lg">
-                      <option value="0">Seleccione</option>
-                      <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
-                    </select>
+        <app-conexion-inspeccion [conexiones]="formInpeccionVisualDimensional.get('Conexiones').value" (conexionesOut)="asignarFormularioConexion($event)">
 
-                  </div>
-                  <br />
-                  <div class="col-lg-9 col-md-12 col-sm-12">
-                    <label class="control-label" id="corre">*Observacion {{i+1}} </label>
-                    <textarea formControlName="Observaciones" class="form-control"></textarea>
-                  </div>
-                </div>
-              </div>
-
-
-
-            </div>
-          </div>
-        </div>
+        </app-conexion-inspeccion>
 
 
         <br />
@@ -152,7 +109,7 @@
         <div class="form-group row">
 
           <div class="col-md-offset-2 col-md-8">
-            <div >
+            <div>
               <span *ngFor="let equipo of inspeccion.InspeccionEquipoUtilizado" class="col-md-2 badge badge-secondary aliniar-text">
                 {{equipo.EquipoUtilizado.Valor}}
                 <i (click)="removerDeElementosSeleccionado(equipo.EquipoUtilizado)" class="glyphicon glyphicon-remove btn-xs pull-right btn btn-danger"></i>
@@ -164,12 +121,12 @@
 
         <!--<div class="form-group  row">
 
-          <div class="col-md-offset-3 ">
-            <label class=" control-label" id="corre">Inspección dimecional de cuerpo  </label>
-            <input class="form-control" />
-          </div>
+    <div class="col-md-offset-3 ">
+      <label class=" control-label" id="corre">Inspección dimecional de cuerpo  </label>
+      <input class="form-control" />
+    </div>
 
-        </div>-->
+  </div>-->
 
 
         <div class="form-group">

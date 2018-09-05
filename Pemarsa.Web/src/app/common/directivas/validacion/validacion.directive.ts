@@ -61,19 +61,6 @@ export class ValidacionDirective implements Validator,OnChanges {
   }
 
 
-  @HostListener('blur')
-  blur() {
-    this.asignar();
-  }
-  @HostListener('keyup')
-  keyup() {
-    this.asignar();
-  }
-  @HostListener('input')
-  input() {
-    this.asignar();
-  }
-
   @HostListener('document:submit')
   onsubmit() {
     this.asignar();

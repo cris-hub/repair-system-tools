@@ -221,6 +221,7 @@ namespace Pemarsa.CanonicalModels
                     public const string UT = "UT";
                     public const string EMI = "EMI";
                     public const string VR = "VR";
+                    public const string ConexionFormato = "Conexin Formato";
                     public const string UTA = "UTA";
 
                 }

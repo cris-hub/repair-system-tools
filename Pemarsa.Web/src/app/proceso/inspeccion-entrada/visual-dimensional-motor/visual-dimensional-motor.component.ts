@@ -133,8 +133,8 @@ export class VisualDimensionalMotorComponent implements OnInit {
   //actualizaciones
   procesar() {
     this.procesoService.iniciarProcesar = true
-    this.asignarDataDesdeElFormulario();
     this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
+    this.asignarDataDesdeElFormulario();
     if (this.esFormularioValido) {
       this.actualizarDatos()
     }
@@ -222,7 +222,14 @@ export class VisualDimensionalMotorComponent implements OnInit {
     delete this.formInpeccionVisualDimensional.value['InspeccionFotos']
     delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
+    Object.assign(this.inspeccion.Conexiones, this.formConexiones.value);
+
   }
+  asignarFormularioConexion(conexiones: FormArray) {
+    this.formConexiones = conexiones
+
+  }
+
 
   crearFormConexiones(): any {
 
@@ -295,7 +302,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
       != 'VALID'
       ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.LuzBlanca, ALERTAS_ERROR_TITULO.DatosObligatorios)
       : valido = false;
-    formulario.controls['Conexiones'].status
+    this.formConexiones.status
       != 'VALID'
       ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Conexiones, ALERTAS_ERROR_TITULO.DatosObligatorios)
       : valido = false;

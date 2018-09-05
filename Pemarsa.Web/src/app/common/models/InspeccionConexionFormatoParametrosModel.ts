@@ -13,5 +13,6 @@ export class InspeccionConexionFormatoParametrosModel {
 
 
   constructor() {
+    this.Id = 0
   }
 }

@@ -104,6 +104,8 @@ export class InspeccionConexionMotorComponent implements OnChanges {
     this.formatoService.consultarFormatoPorInspeccionConexion(i).subscribe(response => {
       if (response) {
         i.Formato = response
+        i.FormatoId = response.Id
+
         this.formato = i.Formato;
 
         if (i.InspeccionConexionFormato) {
@@ -211,8 +213,8 @@ export class InspeccionConexionMotorComponent implements OnChanges {
     if (!conexion) {
       this.InspeccionConexionFormatoParametro = []
       this.parametros.forEach(para => {
-        let InspeccionConexionFormatoParametro: InspeccionConexionFormatoParametrosModel =
-          { FormatoParametro: para }
+        let InspeccionConexionFormatoParametro =
+          { FormatoParametro: para, FormatoParametroId: para.Id}
         this.InspeccionConexionFormatoParametro.push(InspeccionConexionFormatoParametro)
       })
     }

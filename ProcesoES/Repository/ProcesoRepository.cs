@@ -256,7 +256,9 @@ namespace ProcesoES.Repository
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.ImagenMedicionEspesores)
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.Dimensionales)
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.ImagenMfl)
-                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.Conexiones).ThenInclude(d => d.Conexion)
+                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(c => c.InspeccionConexionFormato).ThenInclude(d => d.InspeccionConexionFormatoParametros)
+                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(c => c.InspeccionConexionFormato).ThenInclude(d => d.InspeccionConexionFormatoAdendum)
+
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.OrdenTrabajo.Herramienta)
                             .Include(c => c.OrdenTrabajo.TamanoHerramienta)
