@@ -18,6 +18,9 @@ export class InspeccionConexionModel extends EntityModel {
   public EstadoId
   public Estado: CatalogoModel
 
+  public FormatoId
+  public Formato: FormatoModel
+
 
   public TipoConexionId
   public TipoConexion: CatalogoModel
@@ -30,7 +33,7 @@ export class InspeccionConexionModel extends EntityModel {
   public InspeccionId: number
   public Inspeccion: InspeccionModel
 
-  public Formato: FormatoModel
+  
 
   constructor() {
     super();

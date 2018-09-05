@@ -17,15 +17,20 @@ namespace Pemarsa.Domain
         public int ConexionId { get; set; }
         public virtual Catalogo Conexion { get; set; }
 
-        [ ForeignKey("Estado")]
+        [ForeignKey("Estado")]
         public int? EstadoId { get; set; }
         public virtual Catalogo Estado { get; set; }
 
         [ForeignKey("TipoConexion")]
         public int? TipoConexionId { get; set; }
         public virtual Catalogo TipoConexion { get; set; }
-        #endregion
 
+
+        [ForeignKey("Formato")]
+        public int? FormatoId { get; set; }
+        public virtual Formato Formato { get; set; }
+
+        #endregion
 
         [ForeignKey("Inspeccion")]
         public int? InspeccionId { get; set; }

@@ -8,6 +8,7 @@ export enum TIPO_PROCESO {
 export enum TIPO_INSPECCION {
   'visualdimensional' = 65,
   'visualdimensionalmotor' = 65,
+  'ConexionFormato' = 139,
   'mpi' = 66,
   'lpi' = 67,
   'ut' = 68,

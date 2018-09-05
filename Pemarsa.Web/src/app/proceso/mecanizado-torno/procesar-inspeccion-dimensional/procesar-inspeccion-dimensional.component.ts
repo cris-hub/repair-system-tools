@@ -5,12 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { Location } from '@angular/common';
-import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO, CONEXION } from '../../inspeccion-enum/inspeccion.enum';
+import { ALERTAS_OK_MENSAJE, ALERTAS_ERROR_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO, CONEXION, TIPO_INSPECCION } from '../../inspeccion-enum/inspeccion.enum';
 import { Response } from '@angular/http';
 import { SugerirProcesoComponent } from '../../coordinador/sugerir-proceso/sugerir-proceso.component';
-import {  ProcesoModel } from '../../../common/models/Index';
+import { ProcesoModel, InspeccionModel } from '../../../common/models/Index';
 import { ProcesoService } from '../../../common/services/entity/proceso.service';
 import { InspeccionConexionModel } from '../../../common/models/InspeccionConexionModel';
+import { ProcesoInspeccion } from '../../../common/models/ProcesoInspeccionModel';
 
 @Component({
   selector: 'app-procesar-inspeccion-dimensional',
@@ -59,7 +60,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
         this.proceso = response;
         this.accionRealizar(this.proceso.EstadoId)
         this.consultarInspeccionEntradaOrdenTrabajo(TIPO_PROCESO.INSPECCIONENTRADA, this.proceso.OrdenTrabajo.Guid);
-        
+
       }, error => {
 
       }, () => {
@@ -71,7 +72,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
     this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(tipoProceso, ordenTrabajo).subscribe(response => {
       this.procesoInspeccionEntrada = response;
       this.procesoInspeccionEntrada.ProcesoInspeccion.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
-      
+
     })
   }
 
@@ -108,13 +109,16 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
 
   //inspeccionConexionCompoenteResponse
   asignarValoresConexion(conexion: InspeccionConexionModel) {
+    if (!conexion.InspeccionConexionFormatoId) {
+      conexion.InspeccionConexionFormatoId = 0
+    }
     Object.assign(this.conexiones.find(c => c.Id == conexion.Id), conexion);
   }
 
   //procesar
   procesar() {
     this.conexionesValidas();
- 
+
     this.actualizarDatos();
 
   }
@@ -130,12 +134,32 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
   actualizarDatos() {
 
     this.loaderService.display(true)
-    
-    this.procesoService.actualizarInspeccionConexiones(this.conexiones).subscribe(
+
+    let procesoInspeccion: ProcesoInspeccion = <ProcesoInspeccion>{
+      ProcesoId: this.proceso.Id,
+      Inspeccion: <InspeccionModel>{ Conexiones: this.conexiones, TipoInspeccionId: TIPO_INSPECCION.ConexionFormato, Pieza: 1 }
+    }
+
+    this.proceso.ProcesoInspeccion.push(procesoInspeccion);
+    this.procesoService.actualizarProceso(this.proceso).subscribe(
       response => {
+
+
+
         response ?
           this.toastrService.success(ALERTAS_OK_MENSAJE.InspeccionActualizada) :
           this.toastrService.error(ALERTAS_ERROR_MENSAJE.InspeccionERRORactualizar);
+
+        if (response) {
+
+          this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
+            if (response == true) {
+
+              this.router.navigate(['mecanizado/torno']);
+
+            };
+          });
+        }
         this.location.back();
       }, error => {
         this.toastrService.error(error);
@@ -150,12 +174,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
   responseSugerenciaProceso(event) {
     if (event) {
       this.procesar()
-      this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
-        if (response == true) {
-          this.router.navigate(['mecanizado/torno']);
 
-        };
-      });
 
     }
   }

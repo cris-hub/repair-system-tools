@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPOS_CONEXION, CONEXION, ALERTAS_INFO_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
 
@@ -27,7 +27,7 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
   public formConexiones: any
 
   @Input() public conexiones: InspeccionConexionModel[] = []
-
+  @Output() public  conexionesOut = new EventEmitter()
 
   //catalogos
   public Conexiones: EntidadModel[] = new Array<EntidadModel>();
@@ -52,7 +52,11 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
       Conexiones: this.formBuider.array([])
     });
     this.crearFormConexiones()
+    this.formInpeccionVisualDimensional.get('Conexiones').valueChanges.subscribe(change => {
+      this.conexionesOut.emit(this.formInpeccionVisualDimensional.get('Conexiones'));
+    })
   }
+
 
   crearFormConexiones(): any {
 

@@ -291,9 +291,16 @@ namespace FormatoES.Repository
                     .Include(d => d.Adjunto)
                     .Include(t => t.FormatoTiposConexion)
                     .Include(t => t.FormatoFormatoParametro).ThenInclude(a => a.FormatoParametro);
+                if (inspeccionConexion.TipoConexionId == 111 || inspeccionConexion.TipoConexionId == null)
+                {
 
-                Formato formato = await query.FirstOrDefaultAsync(t => t.ConexionId == inspeccionConexion.ConexionId && t.FormatoTiposConexion.Any(d => d.TipoConexionId == inspeccionConexion.TipoConexionId && d.Estado == true));
-                return formato;
+                    Formato formato = await query.FirstOrDefaultAsync(t => t.ConexionId == inspeccionConexion.ConexionId );
+                    return formato;
+                }
+                else {
+                    Formato formato = await query.FirstOrDefaultAsync(t => t.ConexionId == inspeccionConexion.ConexionId && t.FormatoTiposConexion.Any(d => d.TipoConexionId == inspeccionConexion.TipoConexionId && d.Estado == true));
+                    return formato;
+                }
 
                 throw new NotImplementedException();
             }

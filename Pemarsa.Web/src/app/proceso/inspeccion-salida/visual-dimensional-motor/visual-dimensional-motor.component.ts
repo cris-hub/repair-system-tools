@@ -32,35 +32,35 @@ export class VisualDimensionalMotorComponent implements OnInit {
 
 
   //carga archivos
-  public  lectorArchivos: FileReader;
-  public  adjuntos: AttachmentModel[] = [];
-  public  adjunto: AttachmentModel;
-  public  DocumetosRestantes: number = 2;
+  public lectorArchivos: FileReader;
+  public adjuntos: AttachmentModel[] = [];
+  public adjunto: AttachmentModel;
+  public DocumetosRestantes: number = 2;
 
   //procesoInpeccion
-  public  proceso: ProcesoModel;
-  public  inspeccion: InspeccionModel = new InspeccionModel();
+  public proceso: ProcesoModel;
+  public inspeccion: InspeccionModel = new InspeccionModel();
   public procesoMecanizadoTorno = new ProcesoModel();
 
 
   //catalogos
-  public  Conexiones: EntidadModel[] = new Array<EntidadModel>();
-  public  Conexion: EntidadModel = new EntidadModel();
-  public  EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
-  public  TiposConexion: EntidadModel[] = new Array<EntidadModel>();
-  public  EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  public Conexiones: EntidadModel[] = new Array<EntidadModel>();
+  public Conexion: EntidadModel = new EntidadModel();
+  public EstadosConexion: EntidadModel[] = new Array<EntidadModel>();
+  public TiposConexion: EntidadModel[] = new Array<EntidadModel>();
+  public EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
 
 
 
 
   //form
-  public  formInpeccionVisualDimensional: FormGroup;
-  public  esFormularioValido: Boolean = false;
-  public  esVer: Boolean = false;
-  public  formConexiones: FormArray;
+  public formInpeccionVisualDimensional: FormGroup;
+  public esFormularioValido: Boolean = false;
+  public esVer: Boolean = false;
+  public formConexiones: FormArray;
 
   //autoCompletar
-  public  equipo: CatalogoModel;
+  public equipo: CatalogoModel;
 
 
   constructor(
@@ -140,8 +140,8 @@ export class VisualDimensionalMotorComponent implements OnInit {
   //actualizaciones
   procesar() {
     this.procesoService.iniciarProcesar = true
-    this.asignarDataDesdeElFormulario();
     this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
+    this.asignarDataDesdeElFormulario();
     if (this.esFormularioValido) {
       this.actualizarDatos()
     }
@@ -229,7 +229,14 @@ export class VisualDimensionalMotorComponent implements OnInit {
     delete this.formInpeccionVisualDimensional.value['InspeccionFotos']
     delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
+    Object.assign(this.inspeccion.Conexiones,this.formConexiones.value);
+
   }
+  asignarFormularioConexion(conexiones: FormArray) {
+    this.formConexiones = conexiones
+
+  }
+
 
   crearFormConexiones(): any {
 
@@ -302,7 +309,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
       != 'VALID'
       ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.LuzBlanca, ALERTAS_ERROR_TITULO.DatosObligatorios)
       : valido = false;
-    formulario.controls['Conexiones'].status
+    this.formConexiones.status
       != 'VALID'
       ? this.toastrService.error(ALERTAS_ERROR_MENSAJE.Conexiones, ALERTAS_ERROR_TITULO.DatosObligatorios)
       : valido = false;
