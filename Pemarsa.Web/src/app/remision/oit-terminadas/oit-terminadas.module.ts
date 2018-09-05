@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FiltroOitTerminadasComponent } from 'src/app/remision/oit-terminadas/filtro-oit-terminadas/filtro-oit-terminadas.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     FormsModule,
     Ng2SearchPipeModule
   ],
-  declarations: [OitTerminadasListarComponent]
+  declarations: [OitTerminadasListarComponent, FiltroOitTerminadasComponent]
 })
 export class OitTerminadasModule { }

@@ -311,5 +311,18 @@ namespace OrdenTrabajoES.Service
                 throw;
             }
         }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>> ConsultarOrdenDeTrabajoParaRemisionPorFiltro(OrdenTrabajoRemisionFiltroDTO ordenTrabajoRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ConsultarOrdenDeTrabajoParaRemisionPorFiltro(ordenTrabajoRemision,usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

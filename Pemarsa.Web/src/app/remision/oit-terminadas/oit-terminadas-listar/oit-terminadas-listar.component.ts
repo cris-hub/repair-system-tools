@@ -29,7 +29,7 @@ export class OitTerminadasListarComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   ngOnInit() {
-    this.paginacion = new PaginacionModel(1, 30)
+    this.paginacion = new PaginacionModel(1, 1)
     this.consultarOrdenesDeTrabajo();
   }
 
@@ -44,6 +44,23 @@ export class OitTerminadasListarComponent implements OnInit {
         this.paginacion.TotalRegistros = response.CantidadRegistros;
         this.loaderService.display(false);
       });
+  }
+
+  consultarOrdenesDeTrabajoPorFiltro(filtro: any) {
+    debugger;
+    this.loaderService.display(true);
+    filtro.PaginaActual = this.paginacion.PaginaActual;
+    filtro.CantidadRegistros = this.paginacion.CantidadRegistros;
+    this.ordenTrabajoService.consultarOrdenDeTrabajoParaRemisionPorFiltro(filtro)
+      .subscribe(response => {
+        this.ordenesTrabajoRemision = response.Listado;
+        this.ordenesTrabajoRemision.forEach((ot) => {
+          ot.Fecha = this.datePipe.transform(ot.Fecha, "dd/MM/yyyy");
+        });
+        this.paginacion.TotalRegistros = response.CantidadRegistros;
+        this.loaderService.display(false);
+      });
+
   }
 
   cambioPagina(page: any) {

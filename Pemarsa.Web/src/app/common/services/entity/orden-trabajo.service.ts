@@ -72,7 +72,7 @@ export class OrdenTrabajoService {
 
   public consultarHistorialProcesosDeOrdenDeTrabajo(guid: string): Observable<Array<OrdenTrabajoHistorialProcesosModel>> {
     return this.http.get<Array<OrdenTrabajoHistorialProcesosModel>>(this.urlServer + 'ConsultarHistorialProcesosDeOrdenDeTrabajo?guidOrdenTrabajo=' + guid, {
-      headers : this.header
+      headers: this.header
     });
   }
 
@@ -85,6 +85,12 @@ export class OrdenTrabajoService {
           .set('CantidadRegistros', paginacion.CantidadRegistros.toString())
           .set('PaginaActual', paginacion.PaginaActual.toString())
       });
+  }
+
+  public consultarOrdenDeTrabajoParaRemisionPorFiltro(filtro: any): Observable<ListadoResponseModel> {
+    var x = this.obj_to_query(filtro);
+    return this.http.get<ListadoResponseModel>(this.urlServer + "ConsultarOrdenDeTrabajoParaRemisionPorFiltro" + x,
+      { headers: this.header });
   }
 }
 
