@@ -527,6 +527,7 @@ namespace OrdenTrabajoES.Repository
             try
             {
                 var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == CanonicalConstants.Estados.OrdenTrabajo.Remision && ot.RemisionId == null
+                                                 && (string.IsNullOrEmpty(ordenTrabajoRemision.Id) || ot.Id.ToString().Contains(ordenTrabajoRemision.Id))
                                                  && (string.IsNullOrEmpty(ordenTrabajoRemision.Cliente) || ot.Cliente.NickName.Contains(ordenTrabajoRemision.Cliente))
                                                  && (string.IsNullOrEmpty(ordenTrabajoRemision.Linea) || ot.Linea.Nombre.Contains(ordenTrabajoRemision.Linea))
                                                  && (string.IsNullOrEmpty(ordenTrabajoRemision.Herramienta) || ot.Herramienta.Nombre.Contains(ordenTrabajoRemision.Herramienta))
