@@ -32,6 +32,7 @@
     <ProjectReference Include="..\ParametroUs\ParametroUS.csproj" />
     <ProjectReference Include="..\Pemarsa.Data\Pemarsa.Data.csproj" />
     <ProjectReference Include="..\ProcesoES\ProcesoES.csproj" />
+    <ProjectReference Include="..\RemisionES\RemisionES.csproj" />
   </ItemGroup>
 
 </Project>

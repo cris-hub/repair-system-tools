@@ -496,7 +496,7 @@ namespace OrdenTrabajoES.Repository
             {
                 //CanonicalConstants.Estados.OrdenTrabajo.Remision
 
-                var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == "Remisión");
+                var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == CanonicalConstants.Estados.OrdenTrabajo.Remision && ot.RemisionId == null);
 
                 var result =  query.Select(ot => new OrdenTrabajoRemisionDTO
                 {
@@ -511,6 +511,40 @@ namespace OrdenTrabajoES.Repository
                   .Skip(paginacion.RegistrosOmitir())
                   .Take(paginacion.CantidadRegistros)
                   .ToList();
+
+                var cantidad = await query.CountAsync();
+                return new Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>(cantidad, result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>> ConsultarOrdenDeTrabajoParaRemisionPorFiltro(OrdenTrabajoRemisionFiltroDTO ordenTrabajoRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == CanonicalConstants.Estados.OrdenTrabajo.Remision && ot.RemisionId == null
+                                                 && (string.IsNullOrEmpty(ordenTrabajoRemision.Cliente) || ot.Cliente.NickName.Contains(ordenTrabajoRemision.Cliente))
+                                                 && (string.IsNullOrEmpty(ordenTrabajoRemision.Linea) || ot.Linea.Nombre.Contains(ordenTrabajoRemision.Linea))
+                                                 && (string.IsNullOrEmpty(ordenTrabajoRemision.Herramienta) || ot.Herramienta.Nombre.Contains(ordenTrabajoRemision.Herramienta))
+                                                 && (string.IsNullOrEmpty(ordenTrabajoRemision.Fecha) || ot.FechaRegistro.ToString().Contains(ordenTrabajoRemision.Fecha)));
+
+                var result = query.Select(ot => new OrdenTrabajoRemisionDTO
+                {
+                    Id = ot.Id,
+                    Guid = ot.Guid,
+                    Cliente = ot.Cliente.NickName,
+                    Linea = ot.Linea.Nombre,
+                    Herramienta = ot.Herramienta.Nombre,
+                    Fecha = ot.FechaRegistro
+
+                }).OrderByDescending(c => c.Fecha)
+                 .Skip(ordenTrabajoRemision.RegistrosOmitir())
+                 .Take(ordenTrabajoRemision.CantidadRegistros)
+                 .ToList();
 
                 var cantidad = await query.CountAsync();
                 return new Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>(cantidad, result);

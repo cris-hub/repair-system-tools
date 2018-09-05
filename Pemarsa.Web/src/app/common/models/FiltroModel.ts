@@ -20,7 +20,7 @@ export class FiltroModel extends PaginacionModel {
 export class FiltroFormatoModel extends PaginacionModel {
   public Codigo: string;
   public FechaCreacion: string;
-  public FormatoAdjunto: string; 
+  public FormatoAdjunto: string;
   public HerramientaId: string;
   public Conexion: string;
   public TipoConexion: string;
@@ -87,12 +87,12 @@ export class FiltroOrdenTrabajoModel extends PaginacionModel {
   }
 }
 export class FiltroParametrosProcesosoModel extends PaginacionModel {
-  public OrdenTrabajoPrioridad:string
-  public Estado:string
-  public TipoProceso:string
-  public NumeroOIT:string
-  public HerraminetaNombre:string
-  public ClienteNickname:string
+  public OrdenTrabajoPrioridad: string
+  public Estado: string
+  public TipoProceso: string
+  public NumeroOIT: string
+  public HerraminetaNombre: string
+  public ClienteNickname: string
   public SerialHerramienta: string
   public Fecha: string
 
@@ -108,5 +108,24 @@ export class FiltroParametrosProcesosoModel extends PaginacionModel {
     this.ClienteNickname = ''
     this.SerialHerramienta = ''
     this.Fecha = ''
+  }
+}
+
+export class FiltroOrdenTrabajoParaRemision extends PaginacionModel {
+  public Id: string;
+  public Guid: string;
+  public Cliente: string;
+  public Linea: string;
+  public Herramienta: string;
+  public Fecha: string;
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros)
+    this.Id = '';
+    this.Guid = '';
+    this.Cliente = '';
+    this.Linea = '';
+    this.Herramienta = '';
+    this.Fecha = '';
   }
 }
