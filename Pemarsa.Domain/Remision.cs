@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pemarsa.Domain
 {
@@ -10,18 +12,18 @@ namespace Pemarsa.Domain
         public virtual Catalogo Estado { get; set; }
 
         [ForeignKey("ImagenFactura")]
-        public int ImagenFacturaId { get; set; }
+        public int? ImagenFacturaId { get; set; }
         public virtual DocumentoAdjunto ImagenFactura { get; set; }
 
         [ForeignKey("ImagenRemision")]
-        public int ImagenRemisionId { get; set; }
+        public int? ImagenRemisionId { get; set; }
         public virtual DocumentoAdjunto ImagenRemision { get; set; }
 
-        [ForeignKey("OrdenTrabajo")]
-        public int OrdenTrabajoId { get; set; }
-        public virtual OrdenTrabajo OrdenTrabajo { get; set; }
+        public int? NumeroFactura { get; set; }
+        public int? ValorFactura { get; set; }
+        public string UsuarioAnula { get; set; }
+        public DateTime? FechaAnulacion { get; set; } 
 
-        public int NumeroFactura { get; set; }
-        public int ValorFactura { get; set; }
+        public IEnumerable<RemisionDetalle> RemisionDetalle { get; set; }
     }
 }

@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FiltroOitTerminadasComponent } from 'src/app/remision/oit-terminadas/filtro-oit-terminadas/filtro-oit-terminadas.component';
+import { ObservacionRemisionComponent } from 'src/app/remision/oit-terminadas/observacion-remision/observacion-remision.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,13 @@ import { FiltroOitTerminadasComponent } from 'src/app/remision/oit-terminadas/fi
     FormsModule,
     Ng2SearchPipeModule
   ],
-  declarations: [OitTerminadasListarComponent, FiltroOitTerminadasComponent]
+  declarations: [
+    OitTerminadasListarComponent,
+    FiltroOitTerminadasComponent,
+    ObservacionRemisionComponent
+  ],
+  exports: [
+    ObservacionRemisionComponent
+  ]
 })
 export class OitTerminadasModule { }

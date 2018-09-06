@@ -21,7 +21,6 @@ export class RemisionService {
   }
 
   public crearRemision(model: RemisionModel): Observable<boolean> {
-    debugger
     return this.http.post<boolean>(this.urlServer + 'CrearRemision',
       model,
       { headers: this.header }

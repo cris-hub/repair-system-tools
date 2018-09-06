@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClienteES\ClienteES.csproj" />
+    <ProjectReference Include="..\CrearRemisionTS\CrearRemisionTS.csproj" />
     <ProjectReference Include="..\DocumentoAdjuntoUS\DocumentoAdjuntoUS.csproj" />
     <ProjectReference Include="..\FormatoES\FormatoES.csproj" />
     <ProjectReference Include="..\HerramientaES\HerramientaES.csproj" />

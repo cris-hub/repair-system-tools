@@ -34,6 +34,9 @@ namespace Pemarsa.Data
             modelBuilder.Entity<OrdenTrabajoAnexos>().HasKey(k => new { k.OrdenTrabajoId, k.DocumentoAdjuntoId });
             modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
 
+            
+            modelBuilder.Entity<RemisionDetalle>().HasKey(k => new { k.RemisionId });
+
         }
 
 
@@ -73,6 +76,7 @@ namespace Pemarsa.Data
         public DbSet<DetalleSoldadura> DetalleSoldadura { get; set; }
         public DbSet<Remision> Remision { get; set; }
         public DbSet<InspeccionConexionFormato> InspeccionConexionFormato { get; set; }
+        public DbSet<RemisionDetalle> RemisionDetalle { get; set; }
 
 
         #endregion

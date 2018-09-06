@@ -498,14 +498,15 @@ namespace OrdenTrabajoES.Repository
 
                 var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == CanonicalConstants.Estados.OrdenTrabajo.Remision && ot.RemisionId == null);
 
-                var result =  query.Select(ot => new OrdenTrabajoRemisionDTO
+                var result = query.Select(ot => new OrdenTrabajoRemisionDTO
                 {
                     Id = ot.Id,
                     Guid = ot.Guid,
                     Cliente = ot.Cliente.NickName,
                     Linea = ot.Linea.Nombre,
                     Herramienta = ot.Herramienta.Nombre,
-                    Fecha = ot.FechaRegistro
+                    Fecha = ot.FechaRegistro,
+                    ObservacionRemision = ot.ObservacionRemision
 
                 }).OrderByDescending(c => c.Fecha)
                   .Skip(paginacion.RegistrosOmitir())
@@ -540,7 +541,8 @@ namespace OrdenTrabajoES.Repository
                     Cliente = ot.Cliente.NickName,
                     Linea = ot.Linea.Nombre,
                     Herramienta = ot.Herramienta.Nombre,
-                    Fecha = ot.FechaRegistro
+                    Fecha = ot.FechaRegistro,
+                    ObservacionRemision = ot.ObservacionRemision
 
                 }).OrderByDescending(c => c.Fecha)
                  .Skip(ordenTrabajoRemision.RegistrosOmitir())
@@ -549,6 +551,69 @@ namespace OrdenTrabajoES.Repository
 
                 var cantidad = await query.CountAsync();
                 return new Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>(cantidad, result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarObservacionRemision(string Observacion, Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                var OrdenTrabajo = await _context.OrdenTrabajo.FirstOrDefaultAsync(ot => ot.Guid == guidOrdenTrabajo);
+
+                OrdenTrabajo.ObservacionRemision = Observacion;
+                OrdenTrabajo.FechaModifica = DateTime.Now;
+
+                _context.Entry(OrdenTrabajo).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ConsultarOrdenTrabajoEstadoRemision(List<Guid> guidsOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                var query = await _context.OrdenTrabajo.Where(ot => guidsOrdenTrabajo.Contains(ot.Guid) && ot.Estado.Valor != "Remisión").ToListAsync();
+                return !(query.Count() > 0);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarEstadoOrdenesDeTrabajo(List<Guid> guidsOrdenesDeTrabajo, string estado, UsuarioDTO usuario)
+        {
+            try
+            {
+                var oit = await _context.OrdenTrabajo.Where(a => guidsOrdenesDeTrabajo.Contains(a.Guid)).ToListAsync(); ;
+                Int32.TryParse(estado, out int estadoid);
+
+                var estadoId = (await _context.Catalogo
+                                .FirstOrDefaultAsync(a => a.Valor == estado || a.Id == estadoid && a.Grupo == "ESTADOS_ORDENTRABAJO")).Id;
+
+                foreach (var item in oit)
+                {
+                    item.EstadoId = estadoId;
+                    item.FechaModifica = DateTime.Now;
+                    _context.OrdenTrabajo.Add(item);
+                    _context.Entry(item).State = EntityState.Modified;
+
+                }
+
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception)
             {

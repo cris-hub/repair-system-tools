@@ -324,5 +324,45 @@ namespace OrdenTrabajoES.Service
                 throw;
             }
         }
+
+        public async Task<bool> ActualizarObservacionRemision(string Observacion, Guid guidOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ActualizarObservacionRemision(Observacion, guidOrdenTrabajo, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ConsultarOrdenTrabajoEstadoRemision(List<Guid> guidsOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ConsultarOrdenTrabajoEstadoRemision(guidsOrdenTrabajo, usuario);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarEstadoOrdenesDeTrabajo(List<Guid> guidsOrdenesDeTrabajo, string estado, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _ordenTrabajoRepositorio.ActualizarEstadoOrdenesDeTrabajo(guidsOrdenesDeTrabajo, estado, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
