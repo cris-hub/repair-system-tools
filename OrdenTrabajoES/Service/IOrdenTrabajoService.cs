@@ -44,5 +44,9 @@ namespace OrdenTrabajoES.Service
         Task<Tuple<int, IEnumerable<OrdenTrabajoRemisionDTO>>> ConsultarOrdenDeTrabajoParaRemisionPorFiltro(OrdenTrabajoRemisionFiltroDTO ordenTrabajoRemision, UsuarioDTO usuario);
 
         Task<bool> ActualizarObservacionRemision(string Observacion, Guid guidOrdenTrabajo, UsuarioDTO usuario);
+
+        Task<bool> ConsultarOrdenTrabajoEstadoRemision(List<Guid> guidsOrdenTrabajo, UsuarioDTO usuario);
+
+        Task<bool> ActualizarEstadoOrdenesDeTrabajo(List<Guid> guidsOrdenesDeTrabajo, string estado, UsuarioDTO usuario);
     }
 }

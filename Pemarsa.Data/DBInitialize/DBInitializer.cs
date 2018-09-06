@@ -51,6 +51,12 @@ namespace Pemarsa.Data.DBInitialize
                         Valor = CanonicalConstants.Estados.OrdenTrabajo.Remision,
                         Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
                     },
+                      new Catalogo{
+                        Id = 140,
+                        Guid = Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.OrdenTrabajo.RemisionPendiente,
+                        Grupo = CanonicalConstants.Grupos.EstadosOrdenTrabajo,
+                    },
                     new Catalogo{
                         Id = 60,
                         Guid = Guid.NewGuid(),
@@ -152,7 +158,14 @@ namespace Pemarsa.Data.DBInitialize
                         Guid = Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Conexion_BOX.estado2,
                           Grupo = CanonicalConstants.Grupos.EstadosConexionPIN,
-                    }
+                    },
+                      new Catalogo
+                      {
+                        Id= 141,
+                        Guid= Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Remision.Pendiente,
+                        Grupo = CanonicalConstants.Grupos.EstadosRemision,
+                      }
                 };
 
 
@@ -941,7 +954,8 @@ namespace Pemarsa.Data.DBInitialize
                         new Parametro{ Entidad = CanonicalConstants.Entidades.MecanizadoTorno},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.Formato},
                         new Parametro{ Entidad = CanonicalConstants.Entidades.InspeccionConexion},
-                        new Parametro{ Entidad = CanonicalConstants.Entidades.Inspeccion}
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Inspeccion},
+                        new Parametro{ Entidad = CanonicalConstants.Entidades.Remision}
 
                     };
 
@@ -1022,6 +1036,19 @@ namespace Pemarsa.Data.DBInitialize
                                {
                                    CatalogoId = estado.Id,
                                    Entidad = CanonicalConstants.Entidades.Proceso
+                               }
+                           );
+                            }
+                            break;
+                        case CanonicalConstants.Grupos.EstadosRemision:
+                            if (context.ParametroCatalogo.Where(pc => (pc.CatalogoId == estado.Id) && (pc.Entidad == CanonicalConstants.Entidades.Remision)).ToList().Count == 0)
+                            {
+                                context.ParametroCatalogo.AddRange
+                           (
+                               new ParametroCatalogo
+                               {
+                                   CatalogoId = estado.Id,
+                                   Entidad = CanonicalConstants.Entidades.Remision
                                }
                            );
                             }

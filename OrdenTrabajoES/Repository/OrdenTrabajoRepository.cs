@@ -498,7 +498,7 @@ namespace OrdenTrabajoES.Repository
 
                 var query = _context.OrdenTrabajo.Where(ot => ot.Estado.Valor == CanonicalConstants.Estados.OrdenTrabajo.Remision && ot.RemisionId == null);
 
-                var result =  query.Select(ot => new OrdenTrabajoRemisionDTO
+                var result = query.Select(ot => new OrdenTrabajoRemisionDTO
                 {
                     Id = ot.Id,
                     Guid = ot.Guid,
@@ -572,6 +572,48 @@ namespace OrdenTrabajoES.Repository
                 return await _context.SaveChangesAsync() > 0;
 
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ConsultarOrdenTrabajoEstadoRemision(List<Guid> guidsOrdenTrabajo, UsuarioDTO usuario)
+        {
+            try
+            {
+                var query = await _context.OrdenTrabajo.Where(ot => guidsOrdenTrabajo.Contains(ot.Guid) && ot.Estado.Valor != "Remisión").ToListAsync();
+                return !(query.Count() > 0);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarEstadoOrdenesDeTrabajo(List<Guid> guidsOrdenesDeTrabajo, string estado, UsuarioDTO usuario)
+        {
+            try
+            {
+                var oit = await _context.OrdenTrabajo.Where(a => guidsOrdenesDeTrabajo.Contains(a.Guid)).ToListAsync(); ;
+                Int32.TryParse(estado, out int estadoid);
+
+                var estadoId = (await _context.Catalogo
+                                .FirstOrDefaultAsync(a => a.Valor == estado || a.Id == estadoid && a.Grupo == "ESTADOS_ORDENTRABAJO")).Id;
+
+                foreach (var item in oit)
+                {
+                    item.EstadoId = estadoId;
+                    item.FechaModifica = DateTime.Now;
+                    _context.OrdenTrabajo.Add(item);
+                    _context.Entry(item).State = EntityState.Modified;
+
+                }
+
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception)
             {

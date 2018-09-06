@@ -33,6 +33,7 @@ import { PemarsaStringFormat } from './common/pipes/pemarsaStringFormat';
 import { LoaderService } from './common/services/entity/loaderService';
 import { CoordinadorModule } from './proceso/coordinador/coordinador.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { CrearRemisionService } from 'src/app/common/services/task/crearRemision.service';
 
 
 
@@ -84,6 +85,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     ProcesoService,
     LoaderService,
     RemisionService,
+    CrearRemisionService,
 
     
     

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrdenTrabajoES\OrdenTrabajoES.csproj" />
+    <ProjectReference Include="..\Pemarsa.CanonicalModels\Pemarsa.CanonicalModels.csproj" />
+    <ProjectReference Include="..\RemisionES\RemisionES.csproj" />
+  </ItemGroup>
+
+</Project>

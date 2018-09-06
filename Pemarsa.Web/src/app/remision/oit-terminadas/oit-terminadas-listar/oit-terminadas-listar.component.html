@@ -14,7 +14,8 @@
       <div class="row">
         <div class="col col-sm-5 col-md-5">
           <br />
-          <i class="glyphicon glyphicon-share pointer float-right" data-toggle="tooltip" title="Generar remisión"></i>
+          <i (click)="confirmarParams('Generar remisión','¿Desea generar la remisión de las OIT seleccionadas?',true)" data-toggle="modal" data-target="#confirmarModal" class="glyphicon glyphicon-share pointer float-right" id="guardar"></i>
+          <!--<i class="glyphicon glyphicon-share pointer float-right" data-toggle="tooltip" title="Generar remisión" (click)="generarRemision()"></i>-->
         </div>
         <div class="col col-sm-2 col-md-2">
           <br />
@@ -83,15 +84,14 @@
                 <i data-toggle="modal" class="glyphicon glyphicon-print pointer" title="Imprimir"></i>
               </td>
               <td>
-                <i title="Rechzar proceso"
-                   class="glyphicon glyphicon-pencil pointer"
+                <i class="glyphicon glyphicon-pencil pointer"
                    (click)="cagarData(remision)"
                    data-target="#ObservacionRemision"
                    data-toggle="modal"
                    title="Editar observacion"
                    ></i>
                 &nbsp;&nbsp;
-                <input type="checkbox" class="" />
+                <input type="checkbox" (change)="agregarRemision($event,remision)"  />
               </td>
             </tr>
           </tbody>
@@ -111,6 +111,6 @@
   </div>
 </div>
 <app-observacion-remision (Observacion)="actualizarObservacion($event)" [oitRemision]="remisionModel"></app-observacion-remision>
-<!--<div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <app-confirmacion-modal (confir)="actualizarEstadoClienteConfirmacion($event)"></app-confirmacion-modal>
-</div>-->
+<div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <app-confirmacion-modal (confir)="crearRemision($event)"></app-confirmacion-modal>
+</div>

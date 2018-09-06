@@ -38,7 +38,14 @@ namespace Pemarsa.CanonicalModels
                 public const string EnProceso = "En proceso";
                 public const string Inactiva = "Inactiva";
                 public const string Remision = "Remisión";
+                public const string RemisionPendiente = "Remisión pendiente";
             }
+
+            public struct Remision
+            {
+                public const string Pendiente = "Pendiente";
+            }
+
             public struct Conexion_BOX
             {
                 public const string estado1 = "CounterBore Fuera de medida";
@@ -387,6 +394,8 @@ namespace Pemarsa.CanonicalModels
             public const string SoldaduraTamanoCortadores = "SOLDADURA_TAMANO_CORTADORES";
             public const string SoldaduraTipoFundente = "SOLDADURA_TIPO_FUNDENTE";
 
+            public const string EstadosRemision = "ESTADOS_REMISION";
+
         }
 
         public struct Entidades
@@ -400,6 +409,7 @@ namespace Pemarsa.CanonicalModels
             public const string Proceso = "PROCESO";
             public const string InspeccionConexion = "INSPECCION_CONEXION";
             public const string Inspeccion = "INSPECCION";
+            public const string Remision = "REMISION";
 
         }
 

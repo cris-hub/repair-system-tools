@@ -284,6 +284,34 @@ namespace Pemarsa.API.Controllers
             }
         }
 
+        [HttpGet("ConsultarOrdenTrabajoEstadoRemision")]
+        public async Task<IActionResult> ConsultarOrdenTrabajoEstadoRemision([FromQuery]List<Guid> guidOrdenTrabajo)
+        {
+            try
+            {
+                return Ok(await _ordenTrabajoServicio.ConsultarOrdenTrabajoEstadoRemision(guidOrdenTrabajo,new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPut("ActualizarEstadoOrdenesDeTrabajo")]
+        public async Task<IActionResult> ActualizarEstadoOrdenesDeTrabajo([FromQuery]List<Guid> guidsOrdenTrabajo, [FromQuery] string estado)
+        {
+            try
+            {
+                return Ok(await _ordenTrabajoServicio.ActualizarEstadoOrdenesDeTrabajo(guidsOrdenTrabajo, estado, new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
     }
 }

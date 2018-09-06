@@ -57,6 +57,7 @@ namespace Pemarsa.API
             
             services.AddEntityServices();
             services.AddUtilityServices();
+            services.AddTaskServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +76,7 @@ namespace Pemarsa.API
             {   
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pemarsa");
             });
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
 
 
