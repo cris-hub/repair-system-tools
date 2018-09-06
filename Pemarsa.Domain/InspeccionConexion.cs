@@ -14,7 +14,7 @@ namespace Pemarsa.Domain
 
         #region catalogos
         [ForeignKey("Conexion")]
-        public int ConexionId { get; set; }
+        public int? ConexionId { get; set; }
         public virtual Catalogo Conexion { get; set; }
 
         [ForeignKey("Estado")]

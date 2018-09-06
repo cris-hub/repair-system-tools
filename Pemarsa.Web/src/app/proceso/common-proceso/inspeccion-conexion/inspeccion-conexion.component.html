@@ -1,102 +1,102 @@
 <!-- Modal -->
+<div *ngIf="renderizar">
+  <div class="centrar">
+    <button [attr.data-target]="'#'+'modal'"
+            data-toggle="modal"
+            type="button"
+            (click)="seleccionConexion(proceso.InspeccionConexionFormato)"
+            class="btn "
+            [value]="proceso.InspeccionConexionFormato"
+            id="modalSugerir">
+      Inspeccion dimensional
+      <span *ngIf="proceso.InspeccionConexionFormato">
+        <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme == undefined" class="glyphicon glyphicon-hourglass gray"></span>
+        <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme" class="glyphicon glyphicon-ok green"></span>
+        <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme == false" class="glyphicon glyphicon-remove red"></span>
+      </span>
+      <span *ngIf="!proceso.InspeccionConexionFormato" class="glyphicon glyphicon-hourglass gray"></span>
+    </button>
+  </div>
+  <div class="centrar">
+    <!--<div *ngIf="ocultar">-->
+    <div class="modal" id="modal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
+        <div class="modal-content full-height">
 
-<div class="centrar">
-  <button [attr.data-target]="'#'+'modal'"
-          data-toggle="modal"
-          type="button"
-          (click)="seleccionConexion(proceso.InspeccionConexionFormato)"
-          class="btn "
-          [value]="proceso.InspeccionConexionFormato"
-          id="modalSugerir">
-    Inspeccion dimensional
-    <span *ngIf="proceso.InspeccionConexionFormato">
-      <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme == undefined" class="glyphicon glyphicon-hourglass gray"></span>
-      <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme" class="glyphicon glyphicon-ok green"></span>
-      <span *ngIf="proceso.InspeccionConexionFormato.EstaConforme == false" class="glyphicon glyphicon-remove red"></span>
-    </span>
-    <span *ngIf="!proceso.InspeccionConexionFormato" class="glyphicon glyphicon-hourglass gray"></span>
-  </button>
-</div>
-<div class="centrar">
-  <!--<div *ngIf="ocultar">-->
-  <div class="modal" id="modal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog full-screen modal-lg" role="document" style="z-index: 4000;">
-      <div class="modal-content full-height">
+          <div class="modal-body">
+            <form [formGroup]="formularioInspeccionConexionFormato">
+              <div class="container-fluid">
 
-        <div class="modal-body">
-          <form [formGroup]="formularioInspeccionConexionFormato">
-            <div class="container-fluid">
-                
 
-              <div class="vinte-height">
-                <div class="col-md-12">
-                  <div class="form-group ">
-                    <label class="col-md-1" id="corre">
-                      Cliente :
-                    </label>
-                    <div class="col-md-5">
-                      <p class="form-control">
-                        {{proceso.OrdenTrabajo.Cliente.NickName}}
-                      </p>
+                <div class="vinte-height">
+                  <div class="col-md-12">
+                    <div class="form-group ">
+                      <label class="col-md-1" id="corre">
+                        Cliente :
+                      </label>
+                      <div class="col-md-5">
+                        <p class="form-control">
+                          {{proceso.OrdenTrabajo.Cliente.NickName}}
+                        </p>
+                      </div>
+
+                      <label class="col-md-1  " id="corre">
+                        Herramienta :
+                      </label>
+                      <div class="col-md-4">
+                        <p class="form-control">
+                          {{proceso.OrdenTrabajo.Herramienta.Nombre}}
+                        </p>
+                      </div>
+
                     </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group ">
+                      <label class="col-md-1 " id="corre">
+                        Serial :
+                      </label>
+                      <div class="col-md-2">
+                        <p class="form-control">
+                          {{proceso.OrdenTrabajo.SerialHerramienta}}
+                        </p>
+                      </div>
 
-                    <label class="col-md-1  " id="corre">
-                      Herramienta :
-                    </label>
-                    <div class="col-md-4">
-                      <p class="form-control">
-                        {{proceso.OrdenTrabajo.Herramienta.Nombre}}
-                      </p>
+                      <label class="col-md-1  " id="corre">
+                        OIT :
+                      </label>
+                      <div class="col-md-2">
+                        <p class="form-control">
+                          {{proceso.OrdenTrabajo.Id}}
+                        </p>
+                      </div>
+                      <label class="col-md-1  " id="corre">
+                        OD :
+                      </label>
+                      <div class="col-md-1">
+                        <p class="form-control">
+                          {{proceso.OrdenTrabajo.OrdenCompra}}
+                        </p>
+                      </div>
+                      <label class="col-md-1  " id="corre">
+                        ID :
+                      </label>
+                      <div class="centrar">
+                        <input type="text" formControlName="IdAsignaUsuario" class="form-control col-md-1" />
+                      </div>
+
                     </div>
 
                   </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group ">
-                    <label class="col-md-1 " id="corre">
-                      Serial :
-                    </label>
-                    <div class="col-md-2">
-                      <p class="form-control">
-                        {{proceso.OrdenTrabajo.SerialHerramienta}}
-                      </p>
-                    </div>
+                  <div class="col-md-12" *ngIf ="FormatoAdjunto">
+                    <app-upload-file (fileOut)="asignarFile($event)" [disable]="disable" [removibles]="true" [multiplesCargaArchivos]="false" [tiposArchivosPermitidos]="['png']" [descargable]="true" [archivo]="FormatoAdjunto">
 
-                    <label class="col-md-1  " id="corre">
-                      OIT :
-                    </label>
-                    <div class="col-md-2">
-                      <p class="form-control">
-                        {{proceso.OrdenTrabajo.Id}}
-                      </p>
-                    </div>
-                    <label class="col-md-1  " id="corre">
-                      OD :
-                    </label>
-                    <div class="col-md-1">
-                      <p class="form-control">
-                        {{proceso.OrdenTrabajo.OrdenCompra}}
-                      </p>
-                    </div>
-                    <label class="col-md-1  " id="corre">
-                      ID :
-                    </label>
-                    <div  class="centrar">
-                      <input type="text" formControlName="IdAsignaUsuario" class="form-control col-md-1" />
-                    </div>
-
+                    </app-upload-file>
                   </div>
 
                 </div>
-                <div class="col-md-12">
-                  <app-upload-file (fileOut)="asignarFile($event)" [removibles]="true" [multiplesCargaArchivos]="false" [tiposArchivosPermitidos]="['png']" [descargable]="true" [archivo]="proceso.InspeccionConexionFormato.FormatoAdjunto ">
-
-                  </app-upload-file>
-                </div>
-
-              </div>
                 <div class="row sesenta-height">
-        
+
 
                   <div class="sesenta-height">
 
@@ -113,7 +113,7 @@
                           Equipo medición usado :
                         </label>
                         <div class="col-md-6">
-                          <app-equipo-medicion (formularioEvent)="asignarEquipoMedicion($event)" [proceso]="proceso" [equipomedicion]="ParametrosEquipoMedicion" [equipomedicionMostrar]="equipoUsado"></app-equipo-medicion>
+                          <app-equipo-medicion (formularioEvent)="asignarEquipoMedicion($event)" [disable]="disable" [proceso]="proceso" [equipomedicion]="ParametrosEquipoMedicion" [equipomedicionMostrar]="equipoUsado"></app-equipo-medicion>
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -150,19 +150,19 @@
                   <div class="modal-footer centrar">
                     <div class="btn-group">
                       <button type="button" class="btn " id="close-inspeccion-conexion" data-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn " (click)="confirmarAction(InspeccionConexion)">Procesar</button>
+                      <button type="button" class="btn " (click)="confirmarAction(proceso.InspeccionConexionFormato)">Procesar</button>
 
                     </div>
                   </div>
                 </div>
               </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <!--</div>-->
 </div>
-<!--</div>-->
-
 
 <br />

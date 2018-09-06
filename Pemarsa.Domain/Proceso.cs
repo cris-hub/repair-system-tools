@@ -93,6 +93,11 @@ namespace Pemarsa.Domain
         public int? InspeccionConexionFormatoId { get; set; }
         public virtual InspeccionConexionFormato InspeccionConexionFormato { get; set; }
 
+
+        [ForeignKey("ProcesoMecanizadoTorno")]
+        public int? ProcesoMecanizadoTornoId { get; set; }
+        public virtual Proceso ProcesoMecanizadoTorno { get; set; }
+
         [ForeignKey("OrdenTrabajo")]
         public int OrdenTrabajoId { get; set; }
         public virtual OrdenTrabajo OrdenTrabajo { get; set; }

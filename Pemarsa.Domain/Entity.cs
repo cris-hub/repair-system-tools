@@ -29,5 +29,11 @@ namespace Pemarsa.Domain
 
         [MaxLength(60)]
         public string NombreUsuarioModifica { get; set; }
+
+        public Entity()
+        {
+            this.Guid = Guid.NewGuid();
+            this.FechaRegistro = DateTime.Now;
+        }
     }
 }

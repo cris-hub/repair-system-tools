@@ -72,7 +72,7 @@ namespace ParametroUS.Repository
 
                         DbDataReader reader = await command.ExecuteReaderAsync();
 
-                        if (reader.HasRows)
+                            if (reader.HasRows)
                         {
                             while (await reader.ReadAsync())
                             {

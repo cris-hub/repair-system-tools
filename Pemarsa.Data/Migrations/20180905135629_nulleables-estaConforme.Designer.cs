@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180905135629_nulleables-estaConforme")]
+    partial class nulleablesestaConforme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1356,8 +1358,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("ProcesoAnteriorId");
 
-                    b.Property<int?>("ProcesoMecanizadoTornoId");
-
                     b.Property<int?>("ProcesoSiguienteId");
 
                     b.Property<bool?>("Reasignado");
@@ -1393,6 +1393,11 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("NormaId");
 
                     b.HasIndex("OrdenTrabajoId");
+
+                    b.HasIndex("ProcesoAnteriorId")
+                        .IsUnique();
+
+                    b.HasIndex("ProcesoSiguienteId");
 
                     b.HasIndex("TipoProcesoAnteriorId");
 
@@ -1459,8 +1464,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("EstadoId");
 
-                    b.Property<DateTime?>("FechaAnulacion");
-
                     b.Property<DateTime?>("FechaModifica");
 
                     b.Property<DateTime>("FechaRegistro");
@@ -1473,9 +1476,9 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<Guid?>("GuidUsuarioModifica");
 
-                    b.Property<int?>("ImagenFacturaId");
+                    b.Property<int>("ImagenFacturaId");
 
-                    b.Property<int?>("ImagenRemisionId");
+                    b.Property<int>("ImagenRemisionId");
 
                     b.Property<string>("NombreUsuarioCrea")
                         .IsRequired()
@@ -1484,11 +1487,11 @@ namespace Pemarsa.Data.Migrations
                     b.Property<string>("NombreUsuarioModifica")
                         .HasMaxLength(60);
 
-                    b.Property<int?>("NumeroFactura");
+                    b.Property<int>("NumeroFactura");
 
-                    b.Property<string>("UsuarioAnula");
+                    b.Property<int>("OrdenTrabajoId");
 
-                    b.Property<int?>("ValorFactura");
+                    b.Property<int>("ValorFactura");
 
                     b.HasKey("Id");
 
@@ -1498,20 +1501,9 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasIndex("ImagenRemisionId");
 
-                    b.ToTable("Remision");
-                });
-
-            modelBuilder.Entity("Pemarsa.Domain.RemisionDetalle", b =>
-                {
-                    b.Property<int>("RemisionId");
-
-                    b.Property<int>("OrdenTrabajoId");
-
-                    b.HasKey("RemisionId", "OrdenTrabajoId");
-
                     b.HasIndex("OrdenTrabajoId");
 
-                    b.ToTable("RemisionDetalle");
+                    b.ToTable("Remision");
                 });
 
             modelBuilder.Entity("Pemarsa.Domain.SolicitudOrdenTrabajo", b =>
@@ -2103,6 +2095,14 @@ namespace Pemarsa.Data.Migrations
                         .HasForeignKey("OrdenTrabajoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Pemarsa.Domain.Proceso", "ProcesoAnterior")
+                        .WithOne()
+                        .HasForeignKey("Pemarsa.Domain.Proceso", "ProcesoAnteriorId");
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "ProcesoSiguiente")
+                        .WithMany()
+                        .HasForeignKey("ProcesoSiguienteId");
+
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoProcesoAnterior")
                         .WithMany()
                         .HasForeignKey("TipoProcesoAnteriorId");
@@ -2172,23 +2172,17 @@ namespace Pemarsa.Data.Migrations
 
                     b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenFactura")
                         .WithMany()
-                        .HasForeignKey("ImagenFacturaId");
+                        .HasForeignKey("ImagenFacturaId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.DocumentoAdjunto", "ImagenRemision")
                         .WithMany()
-                        .HasForeignKey("ImagenRemisionId");
-                });
+                        .HasForeignKey("ImagenRemisionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("Pemarsa.Domain.RemisionDetalle", b =>
-                {
                     b.HasOne("Pemarsa.Domain.OrdenTrabajo", "OrdenTrabajo")
                         .WithMany()
                         .HasForeignKey("OrdenTrabajoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pemarsa.Domain.Remision", "Remision")
-                        .WithMany("RemisionDetalle")
-                        .HasForeignKey("RemisionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

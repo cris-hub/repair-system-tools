@@ -56,8 +56,9 @@ export class FormatoService {
     return this.http.get<FormatoModel>(this.urlServer + 'ConsultarFormatoPorInspeccionConexion', {
       headers: this.header,
       params: new HttpParams()
-        .set('TipoConexionId', Inspeccion.TipoConexionId)
-        .set('ConexionId', Inspeccion.ConexionId)
+        .set('TipoConexionId', Inspeccion.TipoConexionId ? Inspeccion.TipoConexionId.toString() : null)
+        .set('ConexionId', Inspeccion.ConexionId ? Inspeccion.ConexionId.toString() : null)
+        
     });
   }
   public actualizarFormato(model: FormatoModel): Observable<boolean> {

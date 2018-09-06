@@ -20,21 +20,24 @@ import { ProcesoModel } from '../../../common/models/ProcesoModel';
   templateUrl: './inspeccion-conexion.component.html',
   styleUrls: ['./inspeccion-conexion.component.css']
 })
-export class InspeccionConexionComponent implements OnInit ,OnChanges{
+export class InspeccionConexionComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit()
   }
   @Output() conexion = new EventEmitter();
-
-
+  @Input() public disable: boolean
+  
+  
   // proceso
   @Input() public proceso: ProcesoModel;
+  @Input() public InspeccionConexionFormato: InspeccionConexionFormatoModel = new InspeccionConexionFormatoModel();;
   //response
   private response: Boolean
-
+  public renderizar = false
   //data binding
 
   public equipoUsado: EntidadModel[] = []
+  public FormatoAdjunto: AttachmentModel = new AttachmentModel()
 
   //pathServer
   public path: string = ''
@@ -45,17 +48,26 @@ export class InspeccionConexionComponent implements OnInit ,OnChanges{
   public formularioInspeccionConexionFormato: FormGroup
   public formularioInspeccionConexionFormatoParametro: FormArray
   public formularioInspeccionConexionFormatoAdendum: FormArray
-  public disable = false;
+
   //formulario datos catalogos
   public ParametrosFloatValveIds: EntidadModel[]
   public ParametrosEspecificaciones: EntidadModel[]
   public ParametrosEquipoMedicion: EntidadModel[]
 
   ngOnInit() {
-    this.proceso.InspeccionConexionFormato = this.proceso.InspeccionConexionFormato ? this.proceso.InspeccionConexionFormato : new InspeccionConexionFormatoModel();
-    this.obtenerRutaServidor();
-    this.consultarParametros();
-    this.iniciarFormaulario();
+    if (this.proceso) {
+      this.InspeccionConexionFormato = this.InspeccionConexionFormato ? this.InspeccionConexionFormato : new InspeccionConexionFormatoModel();
+      
+      if (this.InspeccionConexionFormato && this.proceso.OrdenTrabajo) {
+        this.FormatoAdjunto = this.InspeccionConexionFormato.FormatoAdjunto ? this.InspeccionConexionFormato.FormatoAdjunto : new AttachmentModel();
+        this.obtenerRutaServidor();
+        this.consultarParametros();
+        this.iniciarFormaulario();
+      }
+    }
+
+
+    
   }
 
   constructor(
@@ -81,8 +93,9 @@ export class InspeccionConexionComponent implements OnInit ,OnChanges{
 
     this.parametrosService.consultarParametrosPorEntidad('INSPECCION_CONEXION').subscribe(
       response => {
-        this.ParametrosFloatValveIds = response.Consultas.filter(d => d.Grupo == 'FLOAT_VALVE')
-        this.ParametrosEspecificaciones = response.Consultas.filter(d => d.Grupo == 'ESPECIFICACION')
+
+        this.ParametrosFloatValveIds =  response.Consultas.filter(d => d.Grupo == 'FLOAT_VALVE')
+        this.ParametrosEspecificaciones =  response.Consultas.filter(d => d.Grupo == 'ESPECIFICACION')
         this.ParametrosEquipoMedicion = response.Consultas.filter(d => d.Grupo == 'EQUIPO_MEDICION_UTILIZADO_PROCESO')
         this.loaderService.display(false)
 
@@ -97,18 +110,22 @@ export class InspeccionConexionComponent implements OnInit ,OnChanges{
     this.formularioInspeccionConexionFormato = this.formBuilder.group({
       HerramientaId: [this.proceso.OrdenTrabajo.HerramientaId],
       ClienteId: [this.proceso.OrdenTrabajo.ClienteId],
-      IdAsignaUsuario: [this.proceso.InspeccionConexionFormato.IdAsignaUsuario],
-      NombreUsuarioElabora: [this.proceso.InspeccionConexionFormato.NombreUsuarioElabora],
-      EstaConforme: [this.proceso.InspeccionConexionFormato.EstaConforme],
+      IdAsignaUsuario: [this.InspeccionConexionFormato.IdAsignaUsuario],
+      NombreUsuarioElabora: [this.InspeccionConexionFormato.NombreUsuarioElabora],
+      EstaConforme: [this.InspeccionConexionFormato.EstaConforme],
 
 
     });
 
+    if (this.disable) {
+      this.formularioInspeccionConexionFormato.disable()
+    }
+    this.renderizar = true
 
   }
 
   asignarFile(file: AttachmentModel) {
-    this.proceso.InspeccionConexionFormato.FormatoAdjunto = file;
+    this.InspeccionConexionFormato.FormatoAdjunto = file;
   }
 
   esFormalarioValido(): boolean {
@@ -123,14 +140,14 @@ export class InspeccionConexionComponent implements OnInit ,OnChanges{
 
     }
     Object.assign(InspeccionConexionFormato, this.formularioInspeccionConexionFormato.value)
-    
+
     return InspeccionConexionFormato;
   }
 
   asignarEquipoMedicion(equipoMedicion: FormGroup) {
     let catalogos: EntidadModel[] = equipoMedicion.value.ProcesoEquipoMedicion;
 
-    this.proceso.InspeccionConexionFormato.ConexionEquipoMedicionUsado = catalogos
+    this.InspeccionConexionFormato.ConexionEquipoMedicionUsado = catalogos
       .map(t => {
         let ConexionEquipoMedicionUsado: ConexionEquipoMedicionUsadoModel = new ConexionEquipoMedicionUsadoModel()
         ConexionEquipoMedicionUsado.EquipoMedicionId = t.Id
@@ -140,11 +157,10 @@ export class InspeccionConexionComponent implements OnInit ,OnChanges{
   }
 
   //Conexixon Seleccionada
-  seleccionConexion(conexion: InspeccionConexionModel) {
+  seleccionConexion(conexion: InspeccionConexionFormatoModel) {
 
-    if (!conexion.InspeccionConexionFormato) {
+    if (!conexion) {
       this.disable = false;
-
     }
 
   }
@@ -160,8 +176,8 @@ export class InspeccionConexionComponent implements OnInit ,OnChanges{
       return
     }
 
-    this.proceso.InspeccionConexionFormato = this.asignarDatosFormulario(this.proceso.InspeccionConexionFormato)
-    this.conexion.emit(this.proceso.InspeccionConexionFormato);
+    this.InspeccionConexionFormato = this.asignarDatosFormulario(this.InspeccionConexionFormato)
+    this.conexion.emit(this.InspeccionConexionFormato);
     this.cerrarModal(conexion);
   }
   private cerrarModal(conexion: any) {

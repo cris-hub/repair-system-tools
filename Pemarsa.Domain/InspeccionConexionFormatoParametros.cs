@@ -5,7 +5,7 @@ namespace Pemarsa.Domain
     public class InspeccionConexionFormatoParametros
     {
         public int Id { get; set; }
-        public bool EstaConforme { get; set; }
+        public bool? EstaConforme { get; set; }
 
         [ForeignKey("FormatoParametro")]
         public int FormatoParametroId { get; set; }

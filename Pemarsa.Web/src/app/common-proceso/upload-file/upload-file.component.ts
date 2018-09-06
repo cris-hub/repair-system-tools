@@ -33,6 +33,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
   @Input() public maxDocumentos: number
   @Input() public removibles: boolean
   @Input() public descargable: boolean
+  @Input() public disable: boolean
 
   @Input() public tiposArchivosPermitidos: Array<string> = ['png']
 

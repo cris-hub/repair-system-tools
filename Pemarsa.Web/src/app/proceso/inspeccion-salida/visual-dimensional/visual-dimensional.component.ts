@@ -6,7 +6,7 @@ import { ParametroService } from '../../../common/services/entity/parametro.serv
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../../common/services/entity/loaderService';
-import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_TITULO, ALERTAS_ERROR_MENSAJE, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPO_PROCESO } from '../../inspeccion-enum/inspeccion.enum';
 import { ENTIDADES, GRUPOS } from '../../../common/enums/parametrosEnum';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -20,6 +20,8 @@ import { CatalogoModel } from '../../../common/models/CatalogoModel';
 import { InspeccionDimensionalOtroModel } from '../../../common/models/InspeccionDimensionalOtroModel';
 import { InspeccionEquipoUtilizadoModel } from '../../../common/models/InspeccionEquipoUtilizadoModel';
 import { InspeccionFotosModel } from '../../../common/models/InspeccionFotosModel';
+import { HttpErrorResponse } from '@angular/common/http';
+import { InspeccionConexionFormatoModel } from '../../../common/models/Index';
 
 @Component({
   selector: 'app-visual-dimensional',
@@ -32,32 +34,33 @@ export class VisualDimensionalComponent implements OnInit {
 
 
   //carga archivos
-  public  lectorArchivos: FileReader;
-  public  adjuntos: AttachmentModel[] = [];
-  public  adjunto: AttachmentModel;
-  public  DocumetosRestantes: number = 2;
+  public lectorArchivos: FileReader;
+  public adjuntos: AttachmentModel[] = [];
+  public adjunto: AttachmentModel;
+  public DocumetosRestantes: number = 2;
 
   //procesoInpeccion
-  public  proceso: ProcesoModel;
-  public  inspeccion: InspeccionModel = new InspeccionModel();
+  public proceso: ProcesoModel;
+  public inspeccion: InspeccionModel = new InspeccionModel();
+  public InspeccionConexionFormato: InspeccionConexionFormatoModel = new InspeccionConexionFormatoModel();
 
 
 
   //catalogos
 
-  public  EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
+  public EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
 
 
 
 
   //form
-  public  formInpeccionVisualDimensional: FormGroup;
-  public  esFormularioValido: Boolean = false;
-  public  esVer: Boolean = false;
-  public  formDimensionales: FormArray;
+  public formInpeccionVisualDimensional: FormGroup;
+  public esFormularioValido: Boolean = false;
+  public esVer: Boolean = false;
+  public formDimensionales: FormArray;
 
   //autoCompletar
-  public  equipo: CatalogoModel;
+  public equipo: CatalogoModel;
 
 
   constructor(
@@ -96,26 +99,70 @@ export class VisualDimensionalComponent implements OnInit {
     this.loaderService.display(true)
     this.procesoService.consultarProcesoPorGuid(this.obtenerParametrosRuta().get('procesoId'))
       .subscribe(response => {
-        this.proceso  = response
+        this.proceso = response
         let ProcesoInspeccionSalida: ProcesoInspeccion = response.ProcesoInspeccion.find(c => {
           return (
             c.Inspeccion.TipoInspeccionId
             == TIPO_INSPECCION[this.obtenerParametrosRuta().get('tipoInspeccion')]
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
         });
-        this.inspeccion = ProcesoInspeccionSalida.Inspeccion;
+
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
         console.log(this.inspeccion)
         this.loaderService.display(false)
       }, error => {
+        this.toastrService.error(error.error.Message);
+
+        this.loaderService.display(false)
 
       }, () => {
 
+        this.loaderService.display(false)
+        this.ConsultarMecanizadoTorno();
+        this.consultarInspeccionEntrada();
+        
 
+      });
+  }
+  private consultarInspeccionEntrada() {
+    this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(TIPO_PROCESO.INSPECCIONENTRADA, this.proceso.OrdenTrabajo.Guid)
+      .subscribe(respon => {
+        respon.ProcesoInspeccion
+
+        let inspeccion;
+         respon.ProcesoInspeccion.filter(t => {
+          if (t.Inspeccion.Dimensionales.some(t => t.Id != null)) {
+            inspeccion = t.Inspeccion
+          }
+          
+        })
+
+        this.inspeccion.Dimensionales = inspeccion.Dimensionales
+        if (this.inspeccion.Dimensionales .length>0) {
+          this.crearFormDimensiones();
+        }
+      }, (errorMesage) => {
+        this.toastrService.error(errorMesage.error.Message);
+        this.loaderService.display(false);
+      }, () =>  {
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
 
       });
   }
+
+  private ConsultarMecanizadoTorno() {
+    this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(TIPO_PROCESO.MECANIZADOTORNO, this.proceso.OrdenTrabajo.Guid)
+      .subscribe(respon => {
+        this.InspeccionConexionFormato = respon.InspeccionConexionFormato;
+        debugger;
+      }, (errorMesage) => {
+        this.toastrService.error(errorMesage.error.Message);
+        this.loaderService.display(false);
+      }, () => {
+        this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
+      });
+  }
+
   consultarParatros() {
     this.parametroService.consultarParametrosPorEntidad(ENTIDADES.INSPECCION).subscribe(response => {
 
@@ -130,6 +177,7 @@ export class VisualDimensionalComponent implements OnInit {
   procesar() {
     this.procesoService.iniciarProcesar = true
     this.asignarDataDesdeElFormulario();
+    debugger
     this.esFormularioValido = this.sonValidosLosDatosIngresadosPorElUsuario(this.formInpeccionVisualDimensional);
     if (this.esFormularioValido) {
       this.actualizarDatos()
@@ -227,14 +275,6 @@ export class VisualDimensionalComponent implements OnInit {
     }
 
     this.formDimensionales = this.formInpeccionVisualDimensional.get('Dimensionales') as FormArray;
-
-
-
-
-    while (this.inspeccion.Dimensionales.length < 3) {
-      this.inspeccion.Dimensionales.push(new InspeccionDimensionalOtroModel())
-
-    }
 
     this.inspeccion.Dimensionales.forEach(p => {
       let form = this.formBuider.group({});
@@ -334,7 +374,7 @@ export class VisualDimensionalComponent implements OnInit {
   ValorMostrar =
     (x: { Valor: string, x: number }) => x.Valor;
 
-  selectItem(event,input) {
+  selectItem(event, input) {
     if (!event.item) {
       return
     }
@@ -346,7 +386,7 @@ export class VisualDimensionalComponent implements OnInit {
     });
     this.removerDeListaAMostrar(this.EquiposMedicionUsado, event.item)
     event.preventDefault();
-    
+
     input.value = '';
   }
 

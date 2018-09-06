@@ -9,5 +9,6 @@ namespace Pemarsa.CanonicalModels
         public int Id { get; set; }
         public Guid Guid { get; set; }
         public string Nombre { get; set; }
+        public Guid GuidOrganizacion { get; set; }
     }
 }

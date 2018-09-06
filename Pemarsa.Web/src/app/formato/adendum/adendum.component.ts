@@ -17,6 +17,7 @@ export class AdendumComponent implements OnInit,OnChanges {
   @Input('tiposFormatos') public parametrosFormatoAdendumTiposFormatos: EntidadModel[] = new Array<EntidadModel>();
 
   @Input() public formatosAdendumModel: Array<FormatoAdendumModel> = new Array<FormatoAdendumModel>();
+  @Input() public disable : boolean
 
   public formAdendum: FormArray;
   public formulario: FormGroup;
@@ -39,6 +40,9 @@ export class AdendumComponent implements OnInit,OnChanges {
       Adendum: this.formBuilder.array([])
     })
     this.initFormFormatoAdendum();
+    if (this.disable) 
+      this.formulario.disable()
+    
   }
 
   //adendum

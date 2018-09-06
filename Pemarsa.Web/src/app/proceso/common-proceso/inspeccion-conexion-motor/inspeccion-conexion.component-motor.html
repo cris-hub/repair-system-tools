@@ -187,7 +187,7 @@
 
 
 
-                  <app-adendum [formatosAdendumModel]="adendums"></app-adendum>
+                  <app-adendum [disable]="disable" [formatosAdendumModel]="adendums"></app-adendum>
 
                 </div>
               </div>
@@ -226,7 +226,7 @@
                 <br />
 
                 <div class="col-md-10 unir-right">
-                  <app-parametros [alturar]="alturar" [parametros]="parametros">
+                  <app-parametros [disable]="disable" [alturar]="alturar" [parametros]="parametros">
 
                   </app-parametros>
                 </div>
@@ -271,7 +271,7 @@
                     Equipo medición usado :
                   </label>
                   <div class="col-md-6">
-                    <app-equipo-medicion (formularioEvent)="asignarEquipoMedicion($event)" [proceso]="proceso" [equipomedicion]="ParametrosEquipoMedicion" [equipomedicionMostrar]="equipoUsado"></app-equipo-medicion>
+                    <app-equipo-medicion (formularioEvent)="asignarEquipoMedicion($event)"  [disable]="disable"  [proceso]="proceso" [equipomedicion]="ParametrosEquipoMedicion" [equipomedicionMostrar]="equipoUsado"></app-equipo-medicion>
                   </div>
                 </div>
                 <div class="col-md-4">
