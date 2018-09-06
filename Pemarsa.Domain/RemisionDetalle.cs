@@ -8,7 +8,7 @@ namespace Pemarsa.Domain
 
 
         [ForeignKey("OrdenTrabajo")]
-        public int? OrdenTrabajoId { get; set; }
+        public int OrdenTrabajoId { get; set; }
         public virtual OrdenTrabajo OrdenTrabajo { get; set; }
 
         [ForeignKey("Remision")]

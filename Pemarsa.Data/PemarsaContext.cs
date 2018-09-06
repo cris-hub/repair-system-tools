@@ -35,7 +35,7 @@ namespace Pemarsa.Data
             modelBuilder.Entity<SolicitudOrdenTrabajoAnexos>().HasKey(k => new { k.SolicitudOrdenTrabajoId, k.DocumentoAdjuntoId });
 
             
-            modelBuilder.Entity<RemisionDetalle>().HasKey(k => new { k.RemisionId });
+            modelBuilder.Entity<RemisionDetalle>().HasKey(k => new { k.RemisionId, k.OrdenTrabajoId });
 
         }
 

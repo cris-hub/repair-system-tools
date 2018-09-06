@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180906202538_remisiondetalle")]
+    partial class remisiondetalle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1510,7 +1512,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("OrdenTrabajoId");
 
-                    b.HasKey("RemisionId", "OrdenTrabajoId");
+                    b.HasKey("RemisionId");
 
                     b.HasIndex("OrdenTrabajoId");
 

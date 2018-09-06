@@ -483,6 +483,7 @@ export class CrearHerramientaComponent implements OnInit {
   }
 
   ConfirmacionEvento(event: any) {
+    debugger;
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsDirty();
     this.frmHerramienta.get('EsHerramientaPetrolera').markAsTouched();
     this.validacionHerramientaMotor();
