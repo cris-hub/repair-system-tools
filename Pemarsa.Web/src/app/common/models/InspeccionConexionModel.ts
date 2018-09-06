@@ -7,31 +7,31 @@ import { EntityModel } from "./EntityModel";
 export class InspeccionConexionModel extends EntityModel {
 
 
-  public NumeroConexion: number
+  public NumeroConexion?: number
 
-  public Observaciones: string
+  public Observaciones?: string
 
-  public ConexionId
-  public Conexion: CatalogoModel
-
-
-  public EstadoId
-  public Estado: CatalogoModel
-
-  public FormatoId
-  public Formato: FormatoModel
+  public ConexionId?: number
+  public Conexion?: CatalogoModel
 
 
-  public TipoConexionId
-  public TipoConexion: CatalogoModel
+  public EstadoId?: number
+  public Estado?: CatalogoModel
+
+  public FormatoId?: number
+  public Formato?: FormatoModel
 
 
-  public InspeccionConexionFormatoId: number
-  public InspeccionConexionFormato: InspeccionConexionFormatoModel
+  public TipoConexionId?: number
+  public TipoConexion?: CatalogoModel
 
 
-  public InspeccionId: number
-  public Inspeccion: InspeccionModel
+  public InspeccionConexionFormatoId?: number
+  public InspeccionConexionFormato?: InspeccionConexionFormatoModel
+
+
+  public InspeccionId?: number
+  public Inspeccion?: InspeccionModel
 
   
 

@@ -4,46 +4,46 @@
     <div class="row">
 
 
-        <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-          <div [formGroupName]="i" class=" centrar">
+      <div *ngFor="let conexiones of formInpeccionVisualDimensional.get('Conexiones').controls; let i = index;" class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <div [formGroupName]="i" class=" centrar">
+          <div class="col-md-12 col-sm-12">
+            <label class="control-label" id="corre"> Conexión {{formInpeccionVisualDimensional.get('Conexiones').controls[i].value['NumeroConexion']}} </label>
             <div *ngIf="false" class=" col-md-12 col-sm-12">
-              <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']" [(ngModel)]="test" class="form-control " />
+              <input formControlName="NumeroConexion" validacion [validaciones]="['requerido']"  class="form-control " />
             </div>
-            <div class="col-md-12 col-sm-12">
-              <label class="control-label" id="corre"> Conexión {{i+1}} </label>
-              <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
-                <option [value]="''">Seleccione</option>
-                <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
-              </select>
-            </div>
-            <br />
-            <div class="col-md-12 col-sm-12">
-              <label class="control-label" id="corre"> Tipo conexión{{i+1}} </label>
-              <select formControlName="TipoConexionId" class="form-control form-control-lg">
-                <option [value]="''">Seleccione</option>
-                <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
-              </select>
-            </div>
-            <br />
-            <div class="col-md-12 col-sm-12">
-              <label class="control-label" id="corre">Estado {{i+1}} </label>
-              <select formControlName="EstadoId" class="form-control form-control-lg">
-                <option [value]="''">Seleccione</option>
-                <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
-              </select>
+            <select formControlName="ConexionId" validacion [validaciones]="['requerido']" (change)="cuandoEsNoAplica($event.target.value,i)" class="form-control form-control-lg">
+              <option [value]="''">Seleccione</option>
+              <option *ngFor="let Conexion of Conexiones" [value]="Conexion.Id">{{Conexion.Valor}}</option>
+            </select>
+          </div>
+          <br />
+          <div class="col-md-12 col-sm-12">
+            <label class="control-label" id="corre"> Tipo conexión </label>
+            <select formControlName="TipoConexionId" class="form-control form-control-lg">
+              <option [value]="''">Seleccione</option>
+              <option *ngFor="let TipoConexion of TiposConexion" [value]="TipoConexion.Id">{{TipoConexion.Valor}}</option>
+            </select>
+          </div>
+          <br />
+          <div class="col-md-12 col-sm-12">
+            <label class="control-label" id="corre">Estado </label>
+            <select formControlName="EstadoId" class="form-control form-control-lg">
+              <option [value]="''">Seleccione</option>
+              <option *ngFor="let EstadoConexion of EstadosConexion | filterEstadoConexionPorConexion:conexiones.controls.ConexionId.value " [value]="EstadoConexion.Id">{{EstadoConexion.Valor}}</option>
+            </select>
 
-            </div>
-            <br />
-            <div class="col-md-12 col-sm-12">
-              <label class="control-label" id="corre">Observacion {{i+1}} </label>
-              <textarea formControlName="Observaciones" placeholder="Observacion Inspeccion" class="form-control"></textarea>
-            </div>
+          </div>
+          <br />
+          <div class="col-md-12 col-sm-12">
+            <label class="control-label" id="corre">Observacion</label>
+            <textarea formControlName="Observaciones" placeholder="Observacion Inspeccion" class="form-control"></textarea>
           </div>
         </div>
+      </div>
 
 
 
-  
+
     </div>
   </div>
 </form>

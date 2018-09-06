@@ -136,6 +136,14 @@ body {
   left: -9px;
 }
 
+.centrar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+
 /*Contenido despues del panel*/
 .contenido-interno {
   background-color: rgba(249, 249, 249, 0.95);

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180905135629_nulleables-estaConforme")]
+    partial class nulleablesestaConforme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1356,8 +1358,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("ProcesoAnteriorId");
 
-                    b.Property<int?>("ProcesoMecanizadoTornoId");
-
                     b.Property<int?>("ProcesoSiguienteId");
 
                     b.Property<bool?>("Reasignado");
@@ -1393,6 +1393,11 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("NormaId");
 
                     b.HasIndex("OrdenTrabajoId");
+
+                    b.HasIndex("ProcesoAnteriorId")
+                        .IsUnique();
+
+                    b.HasIndex("ProcesoSiguienteId");
 
                     b.HasIndex("TipoProcesoAnteriorId");
 
@@ -2089,6 +2094,14 @@ namespace Pemarsa.Data.Migrations
                         .WithMany("Procesos")
                         .HasForeignKey("OrdenTrabajoId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "ProcesoAnterior")
+                        .WithOne()
+                        .HasForeignKey("Pemarsa.Domain.Proceso", "ProcesoAnteriorId");
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "ProcesoSiguiente")
+                        .WithMany()
+                        .HasForeignKey("ProcesoSiguienteId");
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoProcesoAnterior")
                         .WithMany()

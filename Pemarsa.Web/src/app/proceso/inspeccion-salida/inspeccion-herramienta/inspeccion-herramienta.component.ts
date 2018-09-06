@@ -163,67 +163,78 @@ export class InspeccionHerramientaComponent implements OnInit {
         });
       }
     }
-      else {
-        this.router.navigate([
-          'inspeccion/salida/' +
-          this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
-          this.obtenerProcesoDesdeUrl().get('accion')]);
-      }
+    else {
+      this.router.navigate([
+        'inspeccion/salida/' +
+        this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+        this.obtenerProcesoDesdeUrl().get('accion')]);
     }
+  }
 
-    consultarSiguienteInspeccion(guidProceso: string) {
+  consultarSiguienteInspeccion(guidProceso: string) {
 
-      console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
-      if (this.inspeccionesEnProceso) {
+    console.log(this.obtenerProcesoDesdeUrl().get('pieza'), this.inspeccionesEnProceso, this.inspeccionesTerminada, this.procesoService.iniciarProcesar)
+    if (this.inspeccionesEnProceso) {
 
-        this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
-          this.Inspeccion = response;
+      this.procesoService.consultarSiguienteInspeccion(guidProceso, this.obtenerProcesoDesdeUrl().get('pieza')).subscribe(response => {
+        this.Inspeccion = response;
 
-          if (response == null) {
-            this.completarProcesoInspeccion(guidProceso);
-            this.procesoService.iniciarProcesar = false;
-            this.router.navigate(['inspeccion/salida/']);
+        if (response == null) {
+          this.completarProcesoInspeccion(guidProceso);
+          this.procesoService.iniciarProcesar = false;
+          this.router.navigate(['inspeccion/salida/']);
 
-            return
-          }
+          return
+        }
+        if ((!this.Proceso.OrdenTrabajo.Herramienta.EsHerramientaMotor) && this.Inspeccion.TipoInspeccionId == TIPO_INSPECCION.visualdimensional) {
+          this.router.navigate([
+            'inspeccion/salida/visualdimensional/' +
+            this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+            this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
+            this.obtenerProcesoDesdeUrl().get('accion')]);
+
+        } else {
           this.router.navigate([
             'inspeccion/salida/' +
             TIPO_INSPECCION[this.Inspeccion.TipoInspeccionId] + '/' +
             this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
             this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
             this.obtenerProcesoDesdeUrl().get('accion')]);
+        }
+
+        
+      });
+    }
+  }
+
+  //Obtener Parametros uri
+  consultarParametros() {
+    this.parametrosService.consultarParametrosPorEntidad('PROCESO').subscribe(
+      response => {
+        this.Parametros = response;
+        this.tiposInspecciones = response.Consultas;
+
+        this.tiposProcesos = response.Catalogos.filter(catalogo => {
+          return catalogo.Grupo ==
+            "TIPO_PROCESO"
         });
-      }
-    }
+        this.obtenerTipoProceso(this.tiposProcesos, this.obtenerTipoInspeccionDesdeUrl());
 
-    //Obtener Parametros uri
-    consultarParametros() {
-      this.parametrosService.consultarParametrosPorEntidad('PROCESO').subscribe(
-        response => {
-          this.Parametros = response;
-          this.tiposInspecciones = response.Consultas;
-
-          this.tiposProcesos = response.Catalogos.filter(catalogo => {
-            return catalogo.Grupo ==
-              "TIPO_PROCESO"
-          });
-          this.obtenerTipoProceso(this.tiposProcesos, this.obtenerTipoInspeccionDesdeUrl());
-
-        }, error => {
-          this.toastrService.error(error.message)
-        }, () => {
-        })
-    }
-    obtenerProcesoDesdeUrl(): Map < string, string > {
-      let parametrosUlr: Map<string, string> = new Map<string, string>();
-      this.Proceso.CantidadInspeccion == 1 ? this.PiezaId = 1 : this.PiezaId = this.obtenerPiezadesdeUrl()
+      }, error => {
+        this.toastrService.error(error.message)
+      }, () => {
+      })
+  }
+  obtenerProcesoDesdeUrl(): Map<string, string> {
+    let parametrosUlr: Map<string, string> = new Map<string, string>();
+    this.Proceso.CantidadInspeccion == 1 ? this.PiezaId = 1 : this.PiezaId = this.obtenerPiezadesdeUrl()
     this.accionRealizar();
 
-      parametrosUlr.set('proceso', this.ObtenerPtroceso());
-      parametrosUlr.set('pieza', this.PiezaId);
-      parametrosUlr.set('accion', this.accion);
-      return parametrosUlr;
-    }
+    parametrosUlr.set('proceso', this.ObtenerPtroceso());
+    parametrosUlr.set('pieza', this.PiezaId);
+    parametrosUlr.set('accion', this.accion);
+    return parametrosUlr;
+  }
   private accionRealizar() {
     this.activedRoute.snapshot.url.forEach(url => url.path == 'procesar' || url.path == 'editar' || url.path == 'ver' ? this.accion = url.path : this.accion = undefined);
   }

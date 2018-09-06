@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProcesoService } from '../../../common/services/entity';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPOS_CONEXION, CONEXION, ALERTAS_INFO_MENSAJE } from '../../inspeccion-enum/inspeccion.enum';
+import { TIPO_INSPECCION, ALERTAS_ERROR_MENSAJE, ALERTAS_ERROR_TITULO, ESTADOS_INSPECCION, ALERTAS_OK_MENSAJE, ESTADOS_PROCESOS, TIPOS_CONEXION, CONEXION, ALERTAS_INFO_MENSAJE, TIPO_PROCESO } from '../../inspeccion-enum/inspeccion.enum';
 import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl, FormControl } from '@angular/forms';
 import { LoaderService } from '../../../common/services/entity/loaderService';
 import { isUndefined } from 'util';
@@ -21,6 +21,8 @@ import { InspeccionConexionModel } from '../../../common/models/InspeccionConexi
 import { InspeccionModel } from '../../../common/models/InspeccionModel';
 import { InspeccionFotosModel } from '../../../common/models/InspeccionFotosModel';
 import { InspeccionEquipoUtilizadoModel } from '../../../common/models/InspeccionEquipoUtilizadoModel';
+import { error } from '@angular/compiler/src/util';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-visualdimencional',
@@ -38,7 +40,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
   public DocumetosRestantes: number = 2;
 
   //procesoInpeccion
-  public proceso: ProcesoModel;
+  public proceso: ProcesoModel = new ProcesoModel();
   public inspeccion: InspeccionModel = new InspeccionModel();
   public procesoMecanizadoTorno = new ProcesoModel();
 
@@ -51,7 +53,7 @@ export class VisualDimensionalMotorComponent implements OnInit {
   public EquiposMedicionUsado: EntidadModel[] = new Array<EntidadModel>();
 
 
-
+  public conexiones: InspeccionConexionModel[]
 
   //form
   public formInpeccionVisualDimensional: FormGroup;
@@ -106,14 +108,30 @@ export class VisualDimensionalMotorComponent implements OnInit {
             && c.Inspeccion.EstadoId == ESTADOS_INSPECCION.ENPROCESO)
 
         });
+
         this.inspeccion = ProcesoInspeccionSalida.Inspeccion;
+        this.procesoService.consultarProcesoPorTipoYOrdenTrabajo(
+          TIPO_PROCESO.MECANIZADOTORNO,
+          this.proceso.OrdenTrabajo.Guid)
+          .subscribe(respon => {
+            this.proceso.ProcesoInspeccion = respon.ProcesoInspeccion.filter(t => t.Inspeccion.Conexiones.some(k => k.Id != null));
+            this.inspeccion = this.proceso.ProcesoInspeccion.find(t => t.Inspeccion.Conexiones.some(k => k.Id != null)).Inspeccion
+            this.conexiones = this.inspeccion.Conexiones;
+          },
+            (errorMesage) => {
+              this.toastrService.error(errorMesage.Message)
+              this.loaderService.display(false)
+
+            });
         this.DocumetosRestantes -= this.inspeccion.InspeccionFotos.length;
-        console.log(this.inspeccion)
-        this.loaderService.display(false)
+
       }, error => {
+        
+        this.loaderService.display(false)
 
       }, () => {
 
+        this.loaderService.display(false)
 
         this.inspeccion ? this.iniciarFormulario(this.inspeccion) : this.iniciarFormulario(new InspeccionModel());
       });
@@ -221,15 +239,15 @@ export class VisualDimensionalMotorComponent implements OnInit {
       IntensidadLuzBlanca: [this.inspeccion.IntensidadLuzBlanca, Validators.required],
       InspeccionEquipoUtilizado: [this.inspeccion.InspeccionEquipoUtilizado],
 
-      Conexiones: this.formBuider.array([])
+
     });
-    this.crearFormConexiones()
+
   }
   private asignarDataDesdeElFormulario() {
     delete this.formInpeccionVisualDimensional.value['InspeccionFotos']
     delete this.formInpeccionVisualDimensional.value['InspeccionEquipoUtilizado']
     Object.assign(this.inspeccion, this.formInpeccionVisualDimensional.value);
-    Object.assign(this.inspeccion.Conexiones,this.formConexiones.value);
+    Object.assign(this.inspeccion.Conexiones, this.formConexiones.value);
 
   }
   asignarFormularioConexion(conexiones: FormArray) {

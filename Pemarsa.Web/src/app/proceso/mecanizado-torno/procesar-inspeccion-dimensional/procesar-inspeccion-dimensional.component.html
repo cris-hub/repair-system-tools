@@ -29,16 +29,22 @@
         </app-conexion-inspeccion>
 
         <app-inspeccion-conexion-motor (conexion)="asignarValoresConexion($event)"
-                                 [conexiones]="conexiones"
-                                 [proceso]="proceso">
+                                       [conexiones]="conexiones"
+                                       [proceso]="proceso">
 
         </app-inspeccion-conexion-motor>
 
 
-        <app-sugerir-proceso  class="centrar" *ngIf="accion == 'Liberar'"
+        <app-sugerir-proceso class="centrar" *ngIf="accion == 'Liberar'"
                              [accion]="'procesar'"
                              (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
                              (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>
+
+        <div class="centrar">
+
+          <button *ngIf="!accion" type="button" class=" btn" (click)="redirect()">volver</button>
+        </div>
+
       </form>
     </div>
 

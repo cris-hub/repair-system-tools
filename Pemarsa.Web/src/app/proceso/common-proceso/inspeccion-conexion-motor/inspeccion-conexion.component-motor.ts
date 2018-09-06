@@ -43,6 +43,8 @@ export class InspeccionConexionMotorComponent implements OnChanges {
   // proceso
   @Input() public proceso: ProcesoModel;
   @Input() public conexiones: InspeccionConexionModel[];
+  @Input() public disable : boolean
+
   //response
   private response: Boolean
 
@@ -67,7 +69,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
   public formularioInspeccionConexionFormato: FormGroup
   public formularioInspeccionConexionFormatoParametro: FormArray
   public formularioInspeccionConexionFormatoAdendum: FormArray
-  public disable = false;
+  
   //formulario datos catalogos
   public ParametrosFloatValveIds: EntidadModel[]
   public ParametrosEspecificaciones: EntidadModel[]
@@ -137,7 +139,13 @@ export class InspeccionConexionMotorComponent implements OnChanges {
       this.iniciarFormaulario()
       this.inicicarFromularioInspeccionConexionFormatoParametros(i.InspeccionConexionFormato)
       this.inicicarFromularioInspeccionConexionFormatoAdendum(i.InspeccionConexionFormato)
+
     });
+    if (this.disable) {
+      this.formularioInspeccionConexionFormato.disable()
+      this.formularioformato.disable()
+
+    }
 
   }
   consultarParametros() {
@@ -177,7 +185,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
       InspeccionConexionFormatoAdendum: this.formBuilder.array([]),
       InspeccionConexionFormatoParametros: this.formBuilder.array([])
     });
-
+ 
 
   }
   inicicarFromularioInspeccionConexionFormatoAdendum(conexion?) {
@@ -204,7 +212,7 @@ export class InspeccionConexionMotorComponent implements OnChanges {
       })
     }
 
-    arrayForm.disable()
+    
   }
   inicicarFromularioInspeccionConexionFormatoParametros(conexion?) {
     let arrayForm = this.formularioInspeccionConexionFormato.get('InspeccionConexionFormatoParametros') as FormArray

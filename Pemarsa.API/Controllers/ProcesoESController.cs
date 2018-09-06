@@ -22,12 +22,14 @@ namespace Pemarsa.API.Controllers
     {
         private readonly IProcesoService _procesoService;
         private readonly IOrdenTrabajoService _ordenTrabajoService;
+        private UsuarioDTO _usuario;
 
         public static IConfiguration Configuration { get; set; }
         public ProcesoESController(IProcesoService procesoService, IOrdenTrabajoService ordenTrabajoService)
         {
             _procesoService = procesoService;
             _ordenTrabajoService = ordenTrabajoService;
+            _usuario = new UsuarioDTO { Guid = Guid.NewGuid(), Nombre = "admin" };
 
         }
 
@@ -66,12 +68,12 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                bool seActualizo = await _procesoService.ActualizarProceso(proceso, new UsuarioDTO());
+                bool seActualizo = await _procesoService.ActualizarProceso(proceso, _usuario);
                 return Ok(seActualizo);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                    return BadRequest(e.Message);
             }
         }
 
@@ -269,7 +271,7 @@ namespace Pemarsa.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(e);
             }
         }
 

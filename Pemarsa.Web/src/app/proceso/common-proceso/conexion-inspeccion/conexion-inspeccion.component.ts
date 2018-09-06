@@ -25,7 +25,7 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
   }
   public formInpeccionVisualDimensional: FormGroup
   public formConexiones: any
-
+  @Input() public disable: boolean
   @Input() public conexiones: InspeccionConexionModel[] = []
   @Output() public  conexionesOut = new EventEmitter()
 
@@ -53,8 +53,12 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
     });
     this.crearFormConexiones()
     this.formInpeccionVisualDimensional.get('Conexiones').valueChanges.subscribe(change => {
+      console.log(this.formInpeccionVisualDimensional.get('Conexiones').value)
       this.conexionesOut.emit(this.formInpeccionVisualDimensional.get('Conexiones'));
     })
+    if (this.disable) {
+      this.formInpeccionVisualDimensional.disable()
+    }
   }
 
 
@@ -65,10 +69,11 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
     }
 
     this.formConexiones = this.formInpeccionVisualDimensional.get('Conexiones') as FormArray;
+    
 
-    let posicion = this.formConexiones.controls.length
-
-
+    if (!this.conexiones) {
+      this.conexiones = []
+    }
     while (this.conexiones.length < 3) {
       this.conexiones.push(new InspeccionConexionModel())
 
@@ -78,9 +83,10 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
 
     this.conexiones.forEach((p, i) => {
 
+      let posicion = this.formConexiones.controls ? this.formConexiones.controls.length : 0
 
       let form = this.formBuider.group({});
-      form.addControl('NumeroConexion', new FormControl(posicion += 1));
+      form.addControl('NumeroConexion', new FormControl(p.NumeroConexion ? p.NumeroConexion : posicion += 1));
       form.addControl('Id', new FormControl(p.Id));
       form.addControl('ConexionId', new FormControl(p.ConexionId));
       form.addControl('TipoConexionId', new FormControl(p.TipoConexionId));
@@ -91,39 +97,44 @@ export class ConexionInspeccionComponent implements OnInit,OnChanges {
 
     })
 
+    console.log(this.formConexiones )  
   }
 
   cuandoEsNoAplica(event, i) {
+
     let formArray = this.formInpeccionVisualDimensional.get('Conexiones') as FormArray;
     let formGroup = formArray.get(i.toString());
+    let numeroConexion = formGroup.get('NumeroConexion').value
     if (event == CONEXION.NOAPLICA || formGroup.get('ConexionId').value == (CONEXION.NOAPLICA)) {
       let cantidadConexioneNoAplican = formArray.controls.filter(d => d.get('ConexionId').value == CONEXION.NOAPLICA).length;
+      let inspeccion = <InspeccionConexionModel>{
+        NumeroConexion: numeroConexion,
+        ConexionId: CONEXION.NOAPLICA,
+        EstadoId: 0,
+        TipoConexionId: 0,
+        Observaciones: '',
+        Id: 0
+      }
       if (cantidadConexioneNoAplican > 2) {
-        formGroup.get('ConexionId').setValue(0);
+        inspeccion.ConexionId = 0;
+        formGroup.get('ConexionId').setValue(inspeccion);
         this.toastrService.info(ALERTAS_INFO_MENSAJE.maximoNoAplica);
         return
       }
-
-      formGroup.reset({
-        NumeroConexion: formGroup.get('NumeroConexion').value,
-        ConexionId: CONEXION.NOAPLICA,
-        EstadoId: '',
-        TipoConexionId: '',
-        Observaciones: '',
-        Id: 0
-
-
-      })
+ 
+      formGroup.reset(inspeccion)
+      formGroup.setValue(inspeccion)
+      
       formGroup.disable()
       formGroup.get('ConexionId').enable();
-      formGroup.get('ConexionId').setValue(CONEXION.NOAPLICA)
+      formGroup.get('NumeroConexion').enable();
 
       
 
     } else {
       formGroup.enable();
     }
-    
+
   }
 
   //consulta

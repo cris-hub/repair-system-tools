@@ -189,12 +189,21 @@ export class InspeccionHerramientaComponent implements OnInit {
 
           return
         }
-        this.router.navigate([
-          'inspeccion/entrada/' +
-          TIPO_INSPECCION[this.Inspeccion.TipoInspeccionId] + '/' +
-          this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
-          this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
-          this.obtenerProcesoDesdeUrl().get('accion')]);
+        if ((!this.Proceso.OrdenTrabajo.Herramienta.EsHerramientaMotor) && this.Inspeccion.TipoInspeccionId == TIPO_INSPECCION.visualdimensional) {
+          this.router.navigate([
+            'inspeccion/entrada/visualdimensional/' +
+            this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+            this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
+            this.obtenerProcesoDesdeUrl().get('accion')]);
+
+        } else {
+          this.router.navigate([
+            'inspeccion/entrada/' +
+            TIPO_INSPECCION[this.Inspeccion.TipoInspeccionId] + '/' +
+            this.obtenerProcesoDesdeUrl().get('proceso') + '/' +
+            this.obtenerProcesoDesdeUrl().get('pieza') + '/' +
+            this.obtenerProcesoDesdeUrl().get('accion')]);
+        }
       });
     }
   }

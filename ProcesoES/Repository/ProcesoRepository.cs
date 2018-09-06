@@ -256,8 +256,8 @@ namespace ProcesoES.Repository
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.ImagenMedicionEspesores)
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.Dimensionales)
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.ImagenMfl)
-                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(c => c.InspeccionConexionFormato).ThenInclude(d => d.InspeccionConexionFormatoParametros)
-                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(c => c.InspeccionConexionFormato).ThenInclude(d => d.InspeccionConexionFormatoAdendum)
+                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(c => c.InspeccionConexionFormato).ThenInclude(d => d.InspeccionConexionFormatoParametros).ThenInclude(t => t.FormatoParametro)
+                            .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(c => c.InspeccionConexionFormato).ThenInclude(d => d.InspeccionConexionFormatoAdendum).ThenInclude(t => t.FormatoAdendum)
 
                             .Include(d => d.ProcesoInspeccion).ThenInclude(c => c.Inspeccion.Insumos)
                             .Include(c => c.OrdenTrabajo.Herramienta)
@@ -426,6 +426,7 @@ namespace ProcesoES.Repository
                 var proceso = await _context.Proceso
                     .Include(c => c.ProcesoInspeccion)
                     .Include(c => c.ProcesoInspeccion)
+                    .Include(c => c.OrdenTrabajo)
                     .FirstOrDefaultAsync(a => a.Guid == guidProceso);
 
 
@@ -459,6 +460,7 @@ namespace ProcesoES.Repository
                 }
                 else if (proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
                 {
+
 
                     ProcesoInspeccion ProcesoInspeccion = new ProcesoInspeccion()
                     {
@@ -719,15 +721,42 @@ namespace ProcesoES.Repository
         {
             try
             {
-                var query = _context.Proceso.Include(proceso => proceso.OrdenTrabajo)
-                    .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.ConexionEquipoMedicionUsado).ThenInclude(f => f.EquipoMedicion)
-                    .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoAdendum).ThenInclude(f => f.FormatoAdendum)
-                    .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoParametros).ThenInclude(f => f.FormatoParametro);
+                IQueryable query = _context.Proceso;
+                string nombreProceso = "";
+                switch (tipoProceso)
+                {
+                    case (int)TIPOPROCESOS.INSPECCIONENTRADA:
+                        nombreProceso = "Inspeccion entrada";
+                        query = _context.Proceso
+                        .Include(proceso => proceso.OrdenTrabajo)
+                        .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Dimensionales)
+                        .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.ConexionEquipoMedicionUsado).ThenInclude(f => f.EquipoMedicion)
+                        .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoAdendum).ThenInclude(f => f.FormatoAdendum)
+                        .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoParametros).ThenInclude(f => f.FormatoParametro);
 
-                var procesos = query.Where(proceso => proceso.OrdenTrabajo.Guid == guidOrdenTrabajo && proceso.TipoProcesoId == tipoProceso);
+                        break;
+                    case (int)TIPOPROCESOS.MECANIZADOTORNO:
+                        nombreProceso = "Mecanizado torno";
+                        query = _context.Proceso
+                           .Include(proceso => proceso.OrdenTrabajo)
+                           .Include(proceso => proceso.InspeccionConexionFormato)
+                           .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.ConexionEquipoMedicionUsado).ThenInclude(f => f.EquipoMedicion)
+                           .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoAdendum).ThenInclude(f => f.FormatoAdendum)
+                           .Include(proceso => proceso.ProcesoInspeccion).ThenInclude(d => d.Inspeccion).ThenInclude(d => d.Conexiones).ThenInclude(d => d.InspeccionConexionFormato).ThenInclude(t => t.InspeccionConexionFormatoParametros).ThenInclude(f => f.FormatoParametro);
+                        break;
+                    default:
+                        break;
+                }
+
+                var procesos = query.Cast<Proceso>().Where(proceso => proceso.OrdenTrabajo.Guid == guidOrdenTrabajo && proceso.TipoProcesoId == tipoProceso);
+
                 var ordenadosPorultimaCreacion = procesos.OrderBy(t => t.FechaRegistro);
 
-                Proceso procesoResult = await ordenadosPorultimaCreacion.FirstAsync();
+                Proceso procesoResult = await ordenadosPorultimaCreacion.FirstOrDefaultAsync();
+                if (procesoResult == null)
+                {
+                    throw new Exception("No se ha realizado el proceso " + nombreProceso);
+                }
 
                 return procesoResult;
 
@@ -915,6 +944,43 @@ namespace ProcesoES.Repository
                     _context.Entry(proceso.InspeccionConexionFormato).State = proceso.InspeccionConexionFormato.Id > 0 ? EntityState.Modified : EntityState.Added;
                     await _context.SaveChangesAsync();
 
+                }
+
+
+                if (proceso.ProcesoInspeccion != null)
+                {
+                    foreach (var ProcesoInspeccion in proceso.ProcesoInspeccion)
+                    {
+                        if (ProcesoInspeccion.InspeccionId > 0 && ProcesoInspeccion.ProcesoId > 0)
+                        {
+                            _context.Entry(ProcesoInspeccion).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            foreach (var conexion in ProcesoInspeccion.Inspeccion.Conexiones)
+                            {
+                                conexion.Id = 0;
+                                if (conexion.InspeccionConexionFormato != null)
+                                {
+                                    _context.Entry(conexion.InspeccionConexionFormato).State = EntityState.Added;
+
+                                }
+                                _context.Entry(conexion).State = EntityState.Added;
+                            }
+                            ProcesoInspeccion.Inspeccion.NombreUsuarioCrea = usuarioDTO.Nombre;
+                            ProcesoInspeccion.Inspeccion.GuidOrganizacion = usuarioDTO.GuidOrganizacion;
+
+
+
+                            _context.Entry(ProcesoInspeccion.Inspeccion).State = EntityState.Added;
+
+                            _context.Entry(ProcesoInspeccion).State = EntityState.Added;
+
+                        }
+                    }
+
+
+                    await _context.SaveChangesAsync();
                 }
 
                 if (proceso.ProcesoRealizar != null)

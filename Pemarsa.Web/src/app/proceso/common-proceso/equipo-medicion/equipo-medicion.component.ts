@@ -18,7 +18,6 @@ import { ESTADOS_PROCESOS } from 'src/app/proceso/inspeccion-enum/inspeccion.enu
 export class EquipoMedicionComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
-
     this.AsignarParametros();
     this.iniciarFormulario();
   }
@@ -67,6 +66,7 @@ export class EquipoMedicionComponent implements OnInit {
 
 
   AsignarParametros() {
+ 
     if (this.equipomedicion != undefined) {
       if (this.equipomedicion.length > 0 && !this.validar) {
         this.EquiposMedicionUsado = this.equipomedicion;
@@ -79,10 +79,10 @@ export class EquipoMedicionComponent implements OnInit {
         this.validarView = true;
         for (var proces of this.equipomedicionMostrar) {
 
-        this.EquiposMedicionUsadoView.push(<EntidadModel>{
-          Id: proces.IdEquipoMedicion ? proces.IdEquipoMedicion : proces.Id ,
-          Valor: proces.ValorEquipoMedicion ? proces.ValorEquipoMedicion : proces.Valor
-        });
+          this.EquiposMedicionUsadoView.push(<EntidadModel>{
+            Id: proces.IdEquipoMedicion ? proces.IdEquipoMedicion : proces.Id,
+            Valor: proces.ValorEquipoMedicion ? proces.ValorEquipoMedicion : proces.Valor
+          });
         }
       }
     }
@@ -160,8 +160,8 @@ export class EquipoMedicionComponent implements OnInit {
 
       }));
   ValorFiltrar =
-  (x: { Valor: string, x: number }) => x.Valor;
+    (x: { Valor: string, x: number }) => x.Valor;
   ValorMostrar =
-  (x: { Valor: string, x: number }) => x.Valor;
+    (x: { Valor: string, x: number }) => x.Valor;
 
 }

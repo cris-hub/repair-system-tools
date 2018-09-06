@@ -59,7 +59,13 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
       .subscribe(response => {
         this.proceso = response;
         this.accionRealizar(this.proceso.EstadoId)
-        this.consultarInspeccionEntradaOrdenTrabajo(TIPO_PROCESO.INSPECCIONENTRADA, this.proceso.OrdenTrabajo.Guid);
+        if (this.proceso.ProcesoInspeccion.length > 0) {
+          this.proceso.ProcesoInspeccion.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
+
+        } else {
+          this.consultarInspeccionEntradaOrdenTrabajo(TIPO_PROCESO.INSPECCIONENTRADA, this.proceso.OrdenTrabajo.Guid);
+
+        }
 
       }, error => {
 
@@ -154,8 +160,8 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
 
           this.procesoService.actualizarEstadoProceso(this.proceso.Guid, ESTADOS_PROCESOS.Procesado).subscribe(response => {
             if (response == true) {
+              this.router.navigate(['/mecanizado/torno']);
 
-              this.router.navigate(['mecanizado/torno']);
 
             };
           });
@@ -171,6 +177,11 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
       })
   }
 
+
+  redirect() {
+    this.router.navigate(['/mecanizado/torno']);
+
+  }
   responseSugerenciaProceso(event) {
     if (event) {
       this.procesar()

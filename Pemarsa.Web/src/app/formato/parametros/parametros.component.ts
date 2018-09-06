@@ -16,6 +16,7 @@ export class ParametrosComponent implements OnInit,OnChanges {
   public formFormatoPatamtros: FormArray;
   @Input() public parametros: Array<FormatoParametroModel> = new Array<FormatoParametroModel>();
   @Input() public alturar : string = ''
+  @Input() public disable : boolean
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,6 +31,8 @@ export class ParametrosComponent implements OnInit,OnChanges {
       Parametros: this.formBuilder.array([]),
     });
     this.initFormFormatoParamtros();
+    if (this.disable)
+      this.formulario.disable()
   }
 
   initFormFormatoParamtros() {

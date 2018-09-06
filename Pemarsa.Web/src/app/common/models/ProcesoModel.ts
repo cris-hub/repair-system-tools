@@ -74,6 +74,9 @@ export class ProcesoModel extends EntityModel {
   public ProcesoSiguienteId: number
   public ProcesoSiguiente: ProcesoModel;
 
+  public ProcesoMecanizadoTornoId: number
+  public ProcesoMecanizadoTorno: ProcesoModel;
+
   public ProcesoAnteriorId: number
   public ProcesoAnterior: ProcesoModel;
 

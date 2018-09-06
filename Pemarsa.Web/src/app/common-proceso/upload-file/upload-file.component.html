@@ -1,5 +1,5 @@
 <div class="col-md-6">
-  <div class="col-md-12">
+  <div class="col-md-12" *ngIf="listArchivos">
     <div *ngFor="let adjunto of listArchivos; let i = index">
       <div *ngIf="adjunto.Estado" class="form-group row">
         <div class="col-md-12">
@@ -31,5 +31,5 @@
     <span [ngClass]="{'badge badge-success pointer': minDocumentos == 0 ,'badge badge-danger pointer': minDocumentos != 0} "> {{minDocumentos}} <i class="glyphicon glyphicon-paperclip"></i></span>
   </label>
 
-  <input  #fileInput (change)="addFile($event)" required type="file" [multiple]="multiplesArchivos" />
+  <input [attr.disabled]="disable ? '' : null" #fileInput (change)="addFile($event)" required type="file" [multiple]="multiplesCargaArchivos" />
 </div>
