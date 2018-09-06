@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pemarsa.Data;
 
 namespace Pemarsa.Data.Migrations
 {
     [DbContext(typeof(PemarsaContext))]
-    partial class PemarsaContextModelSnapshot : ModelSnapshot
+    [Migration("20180906202538_remisiondetalle")]
+    partial class remisiondetalle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -806,7 +808,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ConexionId");
+                    b.Property<int>("ConexionId");
 
                     b.Property<int?>("EstadoId");
 
@@ -937,7 +939,7 @@ namespace Pemarsa.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("EstaConforme");
+                    b.Property<bool>("EstaConforme");
 
                     b.Property<int>("FormatoParametroId");
 
@@ -1356,8 +1358,6 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("ProcesoAnteriorId");
 
-                    b.Property<int?>("ProcesoMecanizadoTornoId");
-
                     b.Property<int?>("ProcesoSiguienteId");
 
                     b.Property<bool?>("Reasignado");
@@ -1393,6 +1393,11 @@ namespace Pemarsa.Data.Migrations
                     b.HasIndex("NormaId");
 
                     b.HasIndex("OrdenTrabajoId");
+
+                    b.HasIndex("ProcesoAnteriorId")
+                        .IsUnique();
+
+                    b.HasIndex("ProcesoSiguienteId");
 
                     b.HasIndex("TipoProcesoAnteriorId");
 
@@ -1507,7 +1512,7 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int>("OrdenTrabajoId");
 
-                    b.HasKey("RemisionId", "OrdenTrabajoId");
+                    b.HasKey("RemisionId");
 
                     b.HasIndex("OrdenTrabajoId");
 
@@ -1841,7 +1846,8 @@ namespace Pemarsa.Data.Migrations
                 {
                     b.HasOne("Pemarsa.Domain.Catalogo", "Conexion")
                         .WithMany()
-                        .HasForeignKey("ConexionId");
+                        .HasForeignKey("ConexionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "Estado")
                         .WithMany()
@@ -2102,6 +2108,14 @@ namespace Pemarsa.Data.Migrations
                         .WithMany("Procesos")
                         .HasForeignKey("OrdenTrabajoId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "ProcesoAnterior")
+                        .WithOne()
+                        .HasForeignKey("Pemarsa.Domain.Proceso", "ProcesoAnteriorId");
+
+                    b.HasOne("Pemarsa.Domain.Proceso", "ProcesoSiguiente")
+                        .WithMany()
+                        .HasForeignKey("ProcesoSiguienteId");
 
                     b.HasOne("Pemarsa.Domain.Catalogo", "TipoProcesoAnterior")
                         .WithMany()

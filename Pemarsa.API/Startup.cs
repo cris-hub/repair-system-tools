@@ -80,8 +80,8 @@ namespace Pemarsa.API
 
 
 
-            //TODO: Esta linea debe estar comentada para ejecutar las migraciones
-            DBInitializer.Initialize(context);
+            //////TODO: Esta linea debe estar comentada para ejecutar las migraciones
+            //DBInitializer.Initialize(context);
         }
     }
 }
