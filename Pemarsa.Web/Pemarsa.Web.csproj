@@ -42,6 +42,7 @@
     <None Remove="src\app\common\models\ProcesoRealizarModel.ts" />
     <None Remove="src\app\common\models\RemisionDTO.ts" />
     <None Remove="src\app\common\models\RemisionModel.ts" />
+    <None Remove="src\app\common\models\RemisionPendienteDTO.ts" />
     <None Remove="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
     <None Remove="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <None Remove="src\app\common\modules\util.module.ts" />
@@ -65,6 +66,7 @@
     <None Remove="src\app\proceso\rectificado\rectificado.routing.module.ts" />
     <None Remove="src\app\proceso\soldadura\soldadura.routing.module.ts" />
     <None Remove="src\app\remision\oit-terminadas\oit-terminadad.routing.module.ts" />
+    <None Remove="src\app\remision\remisiones-pendientes\remisiones-pendientes.routing.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo.component.ts" />
     <None Remove="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo.component.ts" />
@@ -122,6 +124,7 @@
     <TypeScriptCompile Include="src\app\common\models\ProcesoRealizarModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\RemisionDTO.ts" />
     <TypeScriptCompile Include="src\app\common\models\RemisionModel.ts" />
+    <TypeScriptCompile Include="src\app\common\models\RemisionPendienteDTO.ts" />
     <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoAnexosModel.ts" />
     <TypeScriptCompile Include="src\app\common\models\SolicitudOrdenTrabajoModel.ts" />
     <TypeScriptCompile Include="src\app\common\modules\util.module.ts" />
@@ -145,6 +148,7 @@
     <TypeScriptCompile Include="src\app\proceso\rectificado\rectificado.routing.module.ts" />
     <TypeScriptCompile Include="src\app\proceso\soldadura\soldadura.routing.module.ts" />
     <TypeScriptCompile Include="src\app\remision\oit-terminadas\oit-terminadad.routing.module.ts" />
+    <TypeScriptCompile Include="src\app\remision\remisiones-pendientes\remisiones-pendientes.routing.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo.module.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo\crear-solicitudOrdenTrabajo.component.ts" />
     <TypeScriptCompile Include="src\app\solicitudOrdenTrabajo\solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo\filtro-solicitudOrdenTrabajo.component.ts" />

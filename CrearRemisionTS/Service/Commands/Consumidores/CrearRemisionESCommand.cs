@@ -2,8 +2,6 @@
 using CrearRemisionTS.Service.Interface;
 using RemisionES.Service;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CrearRemisionTS.Service.Commands.Consumidores

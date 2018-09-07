@@ -19,6 +19,37 @@ namespace Pemarsa.API.Controllers
             _service = service;
         }
 
+
+        [HttpGet("ConsultarRemisionesPendientes")]
+        public async Task<IActionResult> ConsultarRemisionesPendientes(Paginacion paginacion)
+        {
+            try
+            {
+                var result = await _service.ConsultarRemisionesPendientes(paginacion, new UsuarioDTO());
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2 });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("ConsultarRemisionesPendientesPorFiltro")]
+        public async Task<IActionResult> ConsultarRemisionesPendientesPorFiltro([FromQuery]RemisionPendienteFiltroDTO remisionPendiente)
+        {
+            try
+            {
+                var result = await _service.ConsultarRemisionesPendientesPorFiltro(remisionPendiente, new UsuarioDTO());
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2 });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost("CrearRemision")]
         public async Task<IActionResult> CrearRemision([FromBody]Remision remision)
         {

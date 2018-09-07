@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DocumentoAdjuntoUS.Service;
 using Pemarsa.CanonicalModels;
@@ -20,6 +21,32 @@ namespace RemisionES.Service
             _repository = new RemisionRepository(context);
             _serviceDocumentoAdjunto = serviceDocumentoAdjunto;
             _context = context;
+        }
+
+        public async Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientes(Paginacion paginacion, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ConsultarRemisionesPendientes(paginacion,usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientesPorFiltro(RemisionPendienteFiltroDTO remisionFiltro, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ConsultarRemisionesPendientesPorFiltro(remisionFiltro, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<Guid> CrearRemision(Remision remision, UsuarioDTO usuario)
