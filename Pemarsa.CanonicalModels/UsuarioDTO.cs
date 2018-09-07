@@ -10,5 +10,14 @@ namespace Pemarsa.CanonicalModels
         public Guid Guid { get; set; }
         public string Nombre { get; set; }
         public Guid GuidOrganizacion { get; set; }
+
+        public UsuarioDTO()
+        {
+            this.Nombre = "admin";
+            this.Guid = Guid.NewGuid();
+            this.GuidOrganizacion = Guid.NewGuid();
+
+
+        }
     }
 }
