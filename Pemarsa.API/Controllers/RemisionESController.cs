@@ -24,7 +24,7 @@ namespace Pemarsa.API.Controllers
         {
             try
             {
-                return Ok(await _service.ActualizarEstadoRemision(estado,Guid.Parse(guidRemision), new UsuarioDTO()));
+                return Ok(await _service.ActualizarEstadoRemision(estado, Guid.Parse(guidRemision), new UsuarioDTO()));
             }
             catch (Exception)
             {
@@ -90,6 +90,20 @@ namespace Pemarsa.API.Controllers
             {
 
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("CrearDocumentoAdjuntoRemision")]
+        public async Task<IActionResult> CrearDocumentoAdjuntoRemision([FromBody]Remision remision)
+        {
+            try
+            {
+                return Ok(await _service.CrearDocumentoAdjuntoRemision(remision, new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

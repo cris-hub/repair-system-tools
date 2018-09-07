@@ -13,5 +13,6 @@ namespace RemisionES.Service
         Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientes(Paginacion paginacion, UsuarioDTO usuario);
         Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientesPorFiltro(RemisionPendienteFiltroDTO remisionFiltro, UsuarioDTO usuario);
         Task<Guid> CrearRemision(Remision remision, UsuarioDTO usuario);
+        Task<bool> CrearDocumentoAdjuntoRemision(Remision remision, UsuarioDTO usuario);
     }
 }

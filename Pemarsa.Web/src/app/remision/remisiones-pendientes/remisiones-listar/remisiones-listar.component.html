@@ -74,7 +74,7 @@
             <tr *ngFor="let remision of remisiones | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filtro">
               <td>{{remision.RemisionId}}</td>
               <td>{{remision.OrdenTrabajoId}}</td>
-              <td>{{remision.Cliente}}</td>
+              <td>{{remision.Cliente}}</td> 
               <td>{{remision.Linea}}</td>
               <td>{{remision.Herramienta}}</td>
               <td>{{remision.Serial}}</td>
@@ -87,6 +87,12 @@
                    data-target="#ObservacionRemisionesPendientes"
                    data-toggle="modal"
                    title="Editar observacion"></i>
+                &nbsp;
+                <i class="glyphicon glyphicon-minus pointer"
+                   data-target="#AdjuntarRemision"
+                   data-toggle="modal"
+                   (click)="cagarData(remision)"
+                   title="Adjuntar remisión"></i>
                 &nbsp;
                 <i data-toggle="modal" class="glyphicon glyphicon-print pointer" title="Imprimir"></i>
                 &nbsp;&nbsp;
@@ -108,6 +114,5 @@
     </div>
   </div>
 </div>
-
-
 <app-observacion-remision-pendiente (Observacion)="actualizarEstado($event)" [remision]="remisionModel"></app-observacion-remision-pendiente>
+<app-adjuntar-remision [remision]="remisionModel"></app-adjuntar-remision>

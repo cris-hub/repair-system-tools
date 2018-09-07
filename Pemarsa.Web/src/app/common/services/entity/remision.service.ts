@@ -65,4 +65,10 @@ export class RemisionService {
       { headers: this.header });
   }
 
+  public crearDocumentoAdjuntoRemision(model: RemisionModel): Observable<boolean> {
+    return this.http.put<boolean>(this.urlServer + 'CrearDocumentoAdjuntoRemision',
+      model,
+      { headers: this.header });
+  }
+
 }

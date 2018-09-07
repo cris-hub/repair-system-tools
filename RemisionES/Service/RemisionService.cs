@@ -52,7 +52,7 @@ namespace RemisionES.Service
         {
             try
             {
-                return await _repository.ConsultarRemisionesPendientes(paginacion,usuario);
+                return await _repository.ConsultarRemisionesPendientes(paginacion, usuario);
             }
             catch (Exception)
             {
@@ -91,6 +91,29 @@ namespace RemisionES.Service
 
                 return await _repository.CrearRemision(remision, usuario);
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> CrearDocumentoAdjuntoRemision(Remision remision, UsuarioDTO usuario)
+        {
+            try
+            {
+                if (remision.ImagenFactura != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(remision.ImagenFactura);
+                }
+
+                if (remision.ImagenRemision != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(remision.ImagenRemision);
+                }
+
+                return await _repository.CrearDocumentoAdjuntoRemision(remision, usuario);
             }
             catch (Exception)
             {

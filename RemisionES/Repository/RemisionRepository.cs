@@ -187,5 +187,24 @@ namespace RemisionES.Repository
                 throw;
             }
         }
+
+        public async Task<bool> CrearDocumentoAdjuntoRemision(Remision remision, UsuarioDTO usuario)
+        {
+            try
+            {
+                var remisionBD = await _context.Remision.FirstOrDefaultAsync(r => r.Guid == remision.Guid);
+
+                remisionBD.ImagenRemision = remision.ImagenRemision;
+
+                _context.Entry(remisionBD).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
