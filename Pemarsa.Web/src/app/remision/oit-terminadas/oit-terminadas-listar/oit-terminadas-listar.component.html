@@ -15,7 +15,6 @@
         <div class="col col-sm-5 col-md-5">
           <br />
           <i (click)="confirmarParams('Generar remisión','¿Desea generar la remisión de las OIT seleccionadas?',true)" data-toggle="modal" data-target="#confirmarModal" class="glyphicon glyphicon-share pointer float-right" id="guardar"></i>
-          <!--<i class="glyphicon glyphicon-share pointer float-right" data-toggle="tooltip" title="Generar remisión" (click)="generarRemision()"></i>-->
         </div>
         <div class="col col-sm-2 col-md-2">
           <br />
@@ -73,7 +72,6 @@
           <tbody class="font-black center-table">
             <tr *ngFor="let remision of ordenesTrabajoRemision | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filtro">
               <td>{{remision.Id}}</td>
-              <!--<td>{{remision.ObservacionRemision}}</td>-->
               <td>{{remision.Cliente}}</td>
               <td>{{remision.Linea}}</td>
               <td>{{remision.Herramienta}}</td>

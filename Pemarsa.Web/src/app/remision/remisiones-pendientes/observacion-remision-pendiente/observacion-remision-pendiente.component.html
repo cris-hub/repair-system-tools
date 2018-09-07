@@ -1,0 +1,19 @@
+<div class="modal" id="ObservacionRemisionesPendientes" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form [formGroup]="formulario">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Observación para anular la remisión</h5>
+        </div>
+        <div class="modal-body">
+          <textarea formControlName="Observacion" validacion [validaciones]="['requerido']" required class="form-control"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+          <button type="button" class="hidden" data-dismiss="modal" id="cerrar">cerrar</button>
+          <button type="submit" class="btn btn-primary" (click)="confirmarAction()">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

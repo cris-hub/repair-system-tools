@@ -11,6 +11,7 @@ import { PaginacionModel } from 'src/app/common/models/Index';
 export class RemisionesListarComponent implements OnInit {
 
   public remisiones: Array<RemisionPendienteDTO> = new Array<RemisionPendienteDTO>();
+  public remisionModel: RemisionPendienteDTO = new RemisionPendienteDTO();
   public paginacion: PaginacionModel;
   public EsPorFiltro: boolean = false;
   public filtro: string;
@@ -67,6 +68,17 @@ export class RemisionesListarComponent implements OnInit {
     else {
       this.consultarRemisionesPendientes();
     }
+  }
+
+  cagarData(remision: RemisionPendienteDTO) {
+    this.remisionModel = remision;
+  }
+
+  actualizarEstado(event: any) {
+    if (event) {
+      this.consultarRemisionesPendientes();
+    }
+
   }
 
 }

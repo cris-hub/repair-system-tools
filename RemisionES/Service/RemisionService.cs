@@ -23,6 +23,31 @@ namespace RemisionES.Service
             _context = context;
         }
 
+        public async Task<bool> ActualizarEstadoRemision(string estado, Guid guidRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ActualizarEstadoRemision(estado, guidRemision, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarObservacion(string observacion, Guid guidRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ActualizarObservacion(observacion, guidRemision, usuario);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientes(Paginacion paginacion, UsuarioDTO usuario)
         {
             try

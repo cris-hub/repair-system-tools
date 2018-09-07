@@ -19,6 +19,65 @@ namespace RemisionES.Repository
             _context = (PemarsaContext)context;
         }
 
+        public async Task<bool> ActualizarEstadoRemision(string estado, Guid guidRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                var remision = await _context.Remision.FirstOrDefaultAsync(r => r.Guid == guidRemision);
+                Int32.TryParse(estado, out int estadoid);
+                var estadoId = (await _context.Catalogo
+                            .FirstOrDefaultAsync(a => a.Valor == estado || a.Id == estadoid && a.Grupo == CanonicalConstants.Grupos.EstadosRemision)).Id;
+
+                switch (estadoId)
+                {
+                    case (int)ESTADOSREMISION.ANULAR:
+                        remision.UsuarioAnula = "usuario anula";
+                        remision.FechaAnulacion = DateTime.Now;
+                        break;
+                    case (int)ESTADOSREMISION.CERRAR:
+                        if (remision.ImagenRemisionId == null)
+                        {
+                            throw new ApplicationException("Debe tener una remisión escaneada.");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                remision.EstadoId = estadoId;
+                remision.FechaModifica = DateTime.Now;
+                
+                _context.Entry(remision).State = EntityState.Modified;
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarObservacion(string observacion, Guid guidRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                var remision = await _context.Remision
+                    .Where(r => r.Guid == guidRemision)
+                    .FirstOrDefaultAsync();
+
+                remision.Observacion = observacion;
+                remision.FechaModifica = DateTime.Now;
+
+                _context.Entry(remision).State = EntityState.Modified;
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientes(Paginacion paginacion, UsuarioDTO usuario)
         {
             try
@@ -29,6 +88,7 @@ namespace RemisionES.Repository
                                    select new RemisionPendienteDTO
                                    {
                                        RemisionId = r.Id,
+                                       GuidRemision = r.Guid,
                                        OrdenTrabajoId = rd.OrdenTrabajo.Id,
                                        Cliente = rd.OrdenTrabajo.Cliente.NickName,
                                        Linea = rd.OrdenTrabajo.Linea.Nombre,
@@ -76,6 +136,7 @@ namespace RemisionES.Repository
                                    select new RemisionPendienteDTO
                                    {
                                        RemisionId = r.Id,
+                                       GuidRemision = r.Guid,
                                        OrdenTrabajoId = rd.OrdenTrabajo.Id,
                                        Cliente = rd.OrdenTrabajo.Cliente.NickName,
                                        Linea = rd.OrdenTrabajo.Linea.Nombre,

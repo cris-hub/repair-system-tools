@@ -1486,6 +1486,8 @@ namespace Pemarsa.Data.Migrations
 
                     b.Property<int?>("NumeroFactura");
 
+                    b.Property<string>("Observacion");
+
                     b.Property<string>("UsuarioAnula");
 
                     b.Property<int?>("ValorFactura");

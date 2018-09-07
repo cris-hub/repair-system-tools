@@ -9,6 +9,7 @@ import { UtilModule } from 'src/app/common/modules/util.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { FiltroRemisionesComponent } from 'src/app/remision/remisiones-pendientes/filtro-remisiones/filtro-remisiones.component';
+import { ObservacionRemisionPendienteComponent } from 'src/app/remision/remisiones-pendientes/observacion-remision-pendiente/observacion-remision-pendiente.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { FiltroRemisionesComponent } from 'src/app/remision/remisiones-pendiente
   ],
   declarations: [
     RemisionesListarComponent,
-    FiltroRemisionesComponent
+    FiltroRemisionesComponent,
+    ObservacionRemisionPendienteComponent
   ]
 })
 export class RemisionesPendientesModule { }

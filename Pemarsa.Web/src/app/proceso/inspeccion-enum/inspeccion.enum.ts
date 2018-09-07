@@ -37,6 +37,11 @@ export enum ESTADOS_PROCESOS {
   'Rechazado' = 64,
   'En Proceso' = 106,
 }
+export enum ESTADOS_REMISION {
+  'Pendiente' = 141,
+  'Anular' = 142,
+  'Cerrar' = 143,
+}
 export enum ALERTAS_ERROR_TITULO {
   DatosObligatorios = 'Falta diligenciar datos'
 }

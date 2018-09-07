@@ -55,4 +55,14 @@ export class RemisionService {
       { headers: this.header });
   }
 
+  public actualizarObservacion(Observacion: any, guidRemision: any): any {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarObservacion?Observacion=' + Observacion + '&guidRemision=' + guidRemision,
+      { headers: this.header });
+  }
+
+  public actualizarEstadoRemision(estado: any, guidRemision: any): any {
+    return this.http.put<boolean>(this.urlServer + 'ActualizarEstadoRemision?estado=' + estado + '&guidRemision=' + guidRemision,
+      { headers: this.header });
+  }
+
 }

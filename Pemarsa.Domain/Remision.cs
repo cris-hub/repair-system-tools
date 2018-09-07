@@ -22,7 +22,8 @@ namespace Pemarsa.Domain
         public int? NumeroFactura { get; set; }
         public int? ValorFactura { get; set; }
         public string UsuarioAnula { get; set; }
-        public DateTime? FechaAnulacion { get; set; } 
+        public DateTime? FechaAnulacion { get; set; }
+        public string Observacion { get; set; }
 
         public IEnumerable<RemisionDetalle> RemisionDetalle { get; set; }
     }

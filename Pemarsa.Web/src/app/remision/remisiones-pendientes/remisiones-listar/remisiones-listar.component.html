@@ -81,6 +81,13 @@
               <td>{{remision.DetalleSolicitud}}</td>
               <td>{{remision.Estado}}</td>
               <td>
+                <i class="glyphicon glyphicon-plus icono-mas pointer"></i>
+                <i class="glyphicon glyphicon-star pointer"
+                   (click)="cagarData(remision)"
+                   data-target="#ObservacionRemisionesPendientes"
+                   data-toggle="modal"
+                   title="Editar observacion"></i>
+                &nbsp;
                 <i data-toggle="modal" class="glyphicon glyphicon-print pointer" title="Imprimir"></i>
                 &nbsp;&nbsp;
               </td>
@@ -101,3 +108,6 @@
     </div>
   </div>
 </div>
+
+
+<app-observacion-remision-pendiente (Observacion)="actualizarEstado($event)" [remision]="remisionModel"></app-observacion-remision-pendiente>

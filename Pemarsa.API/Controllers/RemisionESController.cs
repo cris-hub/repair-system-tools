@@ -19,6 +19,33 @@ namespace Pemarsa.API.Controllers
             _service = service;
         }
 
+        [HttpPut("ActualizarEstadoRemision")]
+        public async Task<IActionResult> ActualizarEstadoRemision([FromQuery] string estado, [FromQuery] string guidRemision)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarEstadoRemision(estado,Guid.Parse(guidRemision), new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPut("ActualizarObservacion")]
+        public async Task<IActionResult> ActualizarObservacion([FromQuery]string Observacion, [FromQuery] string guidRemision)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarObservacion(Observacion, Guid.Parse(guidRemision), new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         [HttpGet("ConsultarRemisionesPendientes")]
         public async Task<IActionResult> ConsultarRemisionesPendientes(Paginacion paginacion)
