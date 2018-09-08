@@ -44,6 +44,8 @@ namespace Pemarsa.CanonicalModels
             public struct Remision
             {
                 public const string Pendiente = "Pendiente";
+                public const string Anular = "Anular";
+                public const string Cerrar = "Cerrar";
             }
 
             public struct Conexion_BOX

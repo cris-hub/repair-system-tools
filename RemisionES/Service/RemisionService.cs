@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DocumentoAdjuntoUS.Service;
 using Pemarsa.CanonicalModels;
@@ -22,6 +23,57 @@ namespace RemisionES.Service
             _context = context;
         }
 
+        public async Task<bool> ActualizarEstadoRemision(string estado, Guid guidRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ActualizarEstadoRemision(estado, guidRemision, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> ActualizarObservacion(string observacion, Guid guidRemision, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ActualizarObservacion(observacion, guidRemision, usuario);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientes(Paginacion paginacion, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ConsultarRemisionesPendientes(paginacion, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int, IEnumerable<RemisionPendienteDTO>>> ConsultarRemisionesPendientesPorFiltro(RemisionPendienteFiltroDTO remisionFiltro, UsuarioDTO usuario)
+        {
+            try
+            {
+                return await _repository.ConsultarRemisionesPendientesPorFiltro(remisionFiltro, usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<Guid> CrearRemision(Remision remision, UsuarioDTO usuario)
         {
             try
@@ -39,6 +91,29 @@ namespace RemisionES.Service
 
                 return await _repository.CrearRemision(remision, usuario);
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> CrearDocumentoAdjuntoRemision(Remision remision, UsuarioDTO usuario)
+        {
+            try
+            {
+                if (remision.ImagenFactura != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(remision.ImagenFactura);
+                }
+
+                if (remision.ImagenRemision != null)
+                {
+                    await _serviceDocumentoAdjunto.CrearDocumentoAdjunto(remision.ImagenRemision);
+                }
+
+                return await _repository.CrearDocumentoAdjuntoRemision(remision, usuario);
             }
             catch (Exception)
             {

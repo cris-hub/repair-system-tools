@@ -1,0 +1,17 @@
+<div class="modal" id="AdjuntarRemision" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Adjuntar remisión firmada</h5>
+        </div>
+        <div class="modal-body">
+          <input type="file" name="name" value="" (change)="addDocumentoAdjuntoFormato($event)"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarAction()">Cancelar</button>
+          <button type="button" class="hidden" data-dismiss="modal" id="cerrar">cerrar</button>
+          <button type="submit" class="btn btn-primary" (click)="confirmarAction()">Guardar</button>
+        </div>
+    </div>
+  </div>
+</div>

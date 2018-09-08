@@ -19,6 +19,64 @@ namespace Pemarsa.API.Controllers
             _service = service;
         }
 
+        [HttpPut("ActualizarEstadoRemision")]
+        public async Task<IActionResult> ActualizarEstadoRemision([FromQuery] string estado, [FromQuery] string guidRemision)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarEstadoRemision(estado, Guid.Parse(guidRemision), new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPut("ActualizarObservacion")]
+        public async Task<IActionResult> ActualizarObservacion([FromQuery]string Observacion, [FromQuery] string guidRemision)
+        {
+            try
+            {
+                return Ok(await _service.ActualizarObservacion(Observacion, Guid.Parse(guidRemision), new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("ConsultarRemisionesPendientes")]
+        public async Task<IActionResult> ConsultarRemisionesPendientes(Paginacion paginacion)
+        {
+            try
+            {
+                var result = await _service.ConsultarRemisionesPendientes(paginacion, new UsuarioDTO());
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2 });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("ConsultarRemisionesPendientesPorFiltro")]
+        public async Task<IActionResult> ConsultarRemisionesPendientesPorFiltro([FromQuery]RemisionPendienteFiltroDTO remisionPendiente)
+        {
+            try
+            {
+                var result = await _service.ConsultarRemisionesPendientesPorFiltro(remisionPendiente, new UsuarioDTO());
+                return Ok(new { CantidadRegistros = result.Item1, Listado = result.Item2 });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost("CrearRemision")]
         public async Task<IActionResult> CrearRemision([FromBody]Remision remision)
         {
@@ -32,6 +90,20 @@ namespace Pemarsa.API.Controllers
             {
 
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("CrearDocumentoAdjuntoRemision")]
+        public async Task<IActionResult> CrearDocumentoAdjuntoRemision([FromBody]Remision remision)
+        {
+            try
+            {
+                return Ok(await _service.CrearDocumentoAdjuntoRemision(remision, new UsuarioDTO()));
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

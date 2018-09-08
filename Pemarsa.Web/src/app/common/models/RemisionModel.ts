@@ -1,6 +1,6 @@
-import { CatalogoModel, AttachmentModel, OrdenTrabajoModel } from "src/app/common/models/Index";
+import { CatalogoModel, AttachmentModel, OrdenTrabajoModel, EntityModel } from "src/app/common/models/Index";
 
-export class RemisionModel {
+export class RemisionModel extends EntityModel{
   public EstadoId: number;
   public Estado: CatalogoModel;
 
@@ -8,7 +8,7 @@ export class RemisionModel {
   public ImagenFactura: AttachmentModel;
 
   public ImagenRemisionId: number;
-  public ImagenRemsion: AttachmentModel;
+  public ImagenRemision: AttachmentModel;
 
   public OrdenTrabajoId: number;
   public OrdenTrabajo: OrdenTrabajoModel;

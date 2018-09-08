@@ -2,10 +2,10 @@
 <div class="container-fluid">
   <div class="row titulo">
     <div class="col-lg-3 col-md-6 col-sm-12">
-      <h3 class="margin-20 text-center"><b>Listado de OIT´s procesadas</b></h3>
+      <h3 class="margin-20 text-center"><b>Listado de Remisiones pendientes</b></h3>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <input [(ngModel)]="filtro" type="text" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm">
+      <input type="text" [(ngModel)]="filtro" placeholder="Busqueda básica" class="form-control  inputBuscar form-control-sm">
       <br />
     </div>
     <div class="col-lg-2 col-md-6 col-sm-3 col-xs-3">
@@ -14,11 +14,10 @@
       <div class="row">
         <div class="col col-sm-5 col-md-5">
           <br />
-          <i (click)="confirmarParams('Generar remisión','¿Desea generar la remisión de las OIT seleccionadas?',true)" data-toggle="modal" data-target="#confirmarModal" class="glyphicon glyphicon-share pointer float-right" id="guardar"></i>
         </div>
         <div class="col col-sm-2 col-md-2">
           <br />
-          <app-filtro-oit-terminadas data-toggle="tooltip" title="Filtros avanzados" (paramsFiltro)="consultarOrdenesDeTrabajoPorFiltro($event)"></app-filtro-oit-terminadas>
+          <app-filtro-remisiones data-toggle="tooltip" title="Filtros avanzados" (paramsFiltro)="consultarRemisionesPendientesPorFiltro($event)"></app-filtro-remisiones>
         </div>
         <div class="col col-sm-3 col-md-4">
           <div class="btn-group margin-16 float-lg-left" role="group" data-toggle="dropdown" uib-popover="Paginación" popover-placement="right">
@@ -60,36 +59,43 @@
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
             <tr class="titleTable text-center">
+              <th>Remisión</th>
               <th>OIT</th>
               <th>Cliente</th>
               <th>Línea</th>
               <th>Herramienta</th>
-              <th>Fecha</th>
-              <th class="width-9">Inspección de salida</th>
+              <th>Serial</th>
+              <th>Detalle de solicitud</th>
+              <th>Estado</th>
               <th class="width-9">Acciones</th>
             </tr>
           </thead>
           <tbody class="font-black center-table">
-            <tr *ngFor="let remision of ordenesTrabajoRemision | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filtro">
-              <td>{{remision.Id}}</td>
-              <td>{{remision.Cliente}}</td>
+            <tr *ngFor="let remision of remisiones | paginate: { itemsPerPage: paginacion.CantidadRegistros, currentPage: paginacion.PaginaActual, totalItems: paginacion.TotalRegistros, id: 'cliente'} | filter:filtro">
+              <td>{{remision.RemisionId}}</td>
+              <td>{{remision.OrdenTrabajoId}}</td>
+              <td>{{remision.Cliente}}</td> 
               <td>{{remision.Linea}}</td>
               <td>{{remision.Herramienta}}</td>
-              <td>{{remision.Fecha}}</td>
+              <td>{{remision.Serial}}</td>
+              <td>{{remision.DetalleSolicitud}}</td>
+              <td>{{remision.Estado}}</td>
               <td>
-                <i class="glyphicon glyphicon-eye-open pointer" data-toggle="tooltip" title="Ver detalle OIT"></i>
-                &nbsp;&nbsp;
-                <i data-toggle="modal" class="glyphicon glyphicon-print pointer" title="Imprimir"></i>
-              </td>
-              <td>
-                <i class="glyphicon glyphicon-pencil pointer"
+                <i class="glyphicon glyphicon-plus icono-mas pointer"></i>
+                <i class="glyphicon glyphicon-star pointer"
                    (click)="cagarData(remision)"
-                   data-target="#ObservacionRemision"
+                   data-target="#ObservacionRemisionesPendientes"
                    data-toggle="modal"
-                   title="Editar observacion"
-                   ></i>
+                   title="Editar observacion"></i>
+                &nbsp;
+                <i class="glyphicon glyphicon-minus pointer"
+                   data-target="#AdjuntarRemision"
+                   data-toggle="modal"
+                   (click)="cagarData(remision)"
+                   title="Adjuntar remisión"></i>
+                &nbsp;
+                <i data-toggle="modal" class="glyphicon glyphicon-print pointer" title="Imprimir"></i>
                 &nbsp;&nbsp;
-                <input type="checkbox" (change)="agregarRemision($event,remision)"  />
               </td>
             </tr>
           </tbody>
@@ -108,7 +114,5 @@
     </div>
   </div>
 </div>
-<app-observacion-remision (Observacion)="actualizarObservacion($event)" [oitRemision]="remisionModel"></app-observacion-remision>
-<div class="modal" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <app-confirmacion-modal (confir)="crearRemision($event)"></app-confirmacion-modal>
-</div>
+<app-observacion-remision-pendiente (Observacion)="actualizarEstado($event)" [remision]="remisionModel"></app-observacion-remision-pendiente>
+<app-adjuntar-remision [remision]="remisionModel"></app-adjuntar-remision>

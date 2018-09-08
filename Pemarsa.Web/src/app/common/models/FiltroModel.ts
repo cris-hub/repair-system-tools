@@ -129,3 +129,31 @@ export class FiltroOrdenTrabajoParaRemision extends PaginacionModel {
     this.Fecha = '';
   }
 }
+
+export class RemisionPendienteFiltroDTO extends PaginacionModel {
+  public RemisionId: string;
+  public GuidRemision: string;
+  public OrdenTrabajoId: string;
+  public Cliente: string;
+  public Linea: string;
+  public Herramienta: string;
+  public Serial: string;
+  public DetalleSolicitud: string;
+  public Estado: string;
+  public Fecha: string;
+
+  constructor(public PaginaActual: number, public CantidadRegistros: number) {
+    super(PaginaActual, CantidadRegistros)
+    this.RemisionId = '';
+    this.OrdenTrabajoId = '';
+    this.Cliente = '';
+    this.Linea = '';
+    this.Herramienta = '';
+    this.Fecha = '';
+    this.Serial = '';
+    this.DetalleSolicitud = '';
+    this.Estado = '';
+
+  }
+}
+

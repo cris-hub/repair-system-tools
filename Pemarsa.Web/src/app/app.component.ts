@@ -286,7 +286,7 @@ export class AppComponent implements OnInit {
             id: "10",
             name: "Remisiones",
             image: "",
-            url: "/home",
+            url: "/remisiones/remisiones-pendientes",
             color: "color13",
             title: "Remisiones",
             submenu: false,

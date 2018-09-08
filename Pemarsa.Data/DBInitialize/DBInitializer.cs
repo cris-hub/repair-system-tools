@@ -165,6 +165,20 @@ namespace Pemarsa.Data.DBInitialize
                         Guid= Guid.NewGuid(),
                         Valor = CanonicalConstants.Estados.Remision.Pendiente,
                         Grupo = CanonicalConstants.Grupos.EstadosRemision,
+                      },
+                      new Catalogo
+                      {
+                        Id= 142,
+                        Guid= Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Remision.Anular,
+                        Grupo = CanonicalConstants.Grupos.EstadosRemision,
+                      },
+                      new Catalogo
+                      {
+                        Id= 143,
+                        Guid= Guid.NewGuid(),
+                        Valor = CanonicalConstants.Estados.Remision.Cerrar,
+                        Grupo = CanonicalConstants.Grupos.EstadosRemision,
                       }
                 };
 

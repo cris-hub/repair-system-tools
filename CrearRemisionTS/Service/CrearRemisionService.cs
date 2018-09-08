@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using CrearRemisionTS.DTO;
 using CrearRemisionTS.Service.Commands.Consumidores;
@@ -54,11 +52,12 @@ namespace CrearRemisionTS.Service
                     {
                         //crear el modelo de remision con la remision detalle
                         _parametros.remision = await _crearRemisionDetalle.Execute(_parametros);
-                        //crear la remisión
+                        //crear la remisión retorna el guid de la remisión creada
                         _parametros.guidRemision = await _crearRemision.Execute(_parametros);
 
                         if(Guid.Empty != _parametros.guidRemision || _parametros.guidRemision != null)
                         {
+                            //actualiza el estado de las ordenes de trabajo
                             var actualizo = await _actualizarEstadosOrdenesDeTrabajo.Execute(_parametros);
                         }
 

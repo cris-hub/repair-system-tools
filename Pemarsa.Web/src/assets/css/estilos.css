@@ -7,6 +7,12 @@ body {
   font-size: 14px !important;
 }
 
+.icono-mas {
+  font-size: 7px !important;
+  right: -2px !important;
+  top: 0px !important;
+}
+
 .icono-descarga {
   color: #495057;
   position: relative;
@@ -424,8 +430,8 @@ h4 {
   margin-left: -13px;
 }
 
-.margin-16{
-  margin-top:16px;
+.margin-16 {
+  margin-top: 16px;
 }
 
 /**/

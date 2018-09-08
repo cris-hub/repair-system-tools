@@ -21,7 +21,7 @@ namespace CrearRemisionTS.Service.Commands.Negocio
                 List<RemisionDetalle> ListRemisionDetalle = new List<RemisionDetalle>();
 
                 Remision remision = new Remision();
-                remision.EstadoId = 140;
+                remision.EstadoId = 141;
 
                 foreach (var orden in parametros.OrdenTrabajo)
                 {

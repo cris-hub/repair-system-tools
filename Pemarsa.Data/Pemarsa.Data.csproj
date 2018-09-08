@@ -5,19 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180821212819_se-agrega-alter-key-fotmato-formato-parametro.cs" />
-    <Compile Remove="Migrations\20180904163858_remove-nulleable-espruebaconGauge.cs" />
-    <Compile Remove="Migrations\20180904204617_referencia-a-formato-desde-la-inspeccion-conexion-coreespondiente-al-formato.cs" />
-    <Compile Remove="Migrations\20180906135408_agregar-table-remisionDetalle.cs" />
-    <Compile Remove="Migrations\20180906135756_actualizarModelo.cs" />
-    <Compile Remove="Migrations\20180906152340_actualizarModeloRemision.cs" />
-    <Compile Remove="Migrations\20180906173018_ajustar-modelo-remision-remisionDetalle.cs" />
-    <Compile Remove="Migrations\20180906175136_agregar-remision-detalle-2.cs" />
-    <Compile Remove="Migrations\20180906203158_unique-remision-detalle.cs" />
-    <Compile Remove="Migrations\20180906203640_keys-remision-detalle.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="..\Pemarsa.API\appsettings.json" Link="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
