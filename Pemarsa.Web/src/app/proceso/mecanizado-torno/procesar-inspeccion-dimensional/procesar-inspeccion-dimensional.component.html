@@ -35,7 +35,8 @@
         </app-inspeccion-conexion-motor>
 
 
-        <app-sugerir-proceso class="centrar" *ngIf="accion == 'Liberar'"
+        <app-sugerir-proceso class="centrar"
+                             *ngIf="accion == 'Liberar'"
                              [accion]="'procesar'"
                              (click)="confirmarParams('Seleccione siguiente proceso sugerido', '¿Desea sugerir el proceso?', true, proceso)"
                              (confir)="responseSugerenciaProceso($event)"></app-sugerir-proceso>

@@ -31,15 +31,7 @@ namespace ProcesoES.Service
 
                 if (proceso.Id == 0)
                 {
-
-                    proceso.TipoProcesoId = proceso.TipoProcesoId ?? (int)TIPOPROCESOS.INSPECCIONENTRADA;
-                    proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
-                    proceso.Guid = Guid.NewGuid();
-                    proceso.NombreUsuarioCrea = "admin";
-                    proceso.FechaRegistro = DateTime.Now;
-                    Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
-
-                    return procesoGuid;
+                    return await CrearInspeccionEntrada(proceso, usuario);
 
                 }
                 else
@@ -59,6 +51,17 @@ namespace ProcesoES.Service
             }
         }
 
+        private async Task<Guid> CrearInspeccionEntrada(Proceso proceso, UsuarioDTO usuario)
+        {
+            proceso.TipoProcesoId = proceso.TipoProcesoId ?? (int)TIPOPROCESOS.INSPECCIONENTRADA;
+            proceso.EstadoId = (int)ESTADOSPROCESOS.PENDIENTE;
+            proceso.Guid = Guid.NewGuid();
+            proceso.NombreUsuarioCrea =usuario.Nombre;
+            proceso.FechaRegistro = DateTime.Now;
+            Guid procesoGuid = await _procesoRepository.CrearProceso(proceso, usuario);
+
+            return procesoGuid;
+        }
 
         public async Task<Proceso> ConsultarProcesoPorGuid(Guid guidProceso, UsuarioDTO usuarioDTO)
         {

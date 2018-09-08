@@ -62,10 +62,7 @@ export class ProcesarInspeccionDimensionalComponent implements OnInit {
         if (this.proceso.ProcesoInspeccion.length > 0) {
           this.proceso.ProcesoInspeccion.forEach(d => { this.conexiones = d.Inspeccion.Conexiones });
 
-        } else {
-          this.consultarInspeccionEntradaOrdenTrabajo(TIPO_PROCESO.INSPECCIONENTRADA, this.proceso.OrdenTrabajo.Guid);
-
-        }
+        } 
 
       }, error => {
 

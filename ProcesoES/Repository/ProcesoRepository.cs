@@ -57,33 +57,38 @@ namespace ProcesoES.Repository
                 }
                 else
                 {
-                    if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
-                    {
-                        Proceso nuevo = new Proceso()
-                        {
-                            TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION,
-                            TipoProcesoAnteriorId = proceso.TipoProcesoId,
-                            OrdenTrabajoId = proceso.OrdenTrabajoId,
-                            TipoProcesoSiguienteSugeridoId = proceso.TipoProcesoSiguienteSugeridoId,
-                            ProcesoAnteriorId = proceso.Id,
-                            EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
-                            Guid = Guid.NewGuid(),
-                            NombreUsuarioCrea = "admin",
-                            FechaRegistro = DateTime.Now,
-
-                        };
-
-                        await CrearProceso(nuevo, usuarioDTO);
-
-                    }
+                    await CrearProcesoCoodinador(usuarioDTO, proceso, estadoProceso);
                 }
+
                 proceso.EstadoId = estadoProceso.Id;
                 proceso.FechaModifica = DateTime.Now;
                 _context.Entry(proceso).State = EntityState.Modified;
-
                 return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception e) { throw e; }
+        }
+
+        private async Task CrearProcesoCoodinador(UsuarioDTO usuarioDTO, Proceso proceso, Catalogo estadoProceso)
+        {
+            if (estadoProceso.Id == (int)ESTADOSPROCESOS.PROCESADO)
+            {
+                Proceso nuevo = new Proceso()
+                {
+                    TipoProcesoId = (int)TIPOPROCESOS.REASIGNACION,
+                    TipoProcesoAnteriorId = proceso.TipoProcesoId,
+                    OrdenTrabajoId = proceso.OrdenTrabajoId,
+                    TipoProcesoSiguienteSugeridoId = proceso.TipoProcesoSiguienteSugeridoId,
+                    ProcesoAnteriorId = proceso.Id,
+                    EstadoId = (int)ESTADOSPROCESOS.PENDIENTE,
+                    Guid = Guid.NewGuid(),
+                    NombreUsuarioCrea = "admin",
+                    FechaRegistro = DateTime.Now,
+
+                };
+
+                await CrearProceso(nuevo, usuarioDTO);
+
+            }
         }
 
         public async Task<bool> ActualizarInspección(Inspeccion inspeccion, UsuarioDTO usuarioDTO)
@@ -514,17 +519,7 @@ namespace ProcesoES.Repository
                     await _context.SaveChangesAsync();
 
 
-                    proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
-                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
-                    {
-                        await CrearInspeccion(nuevoProceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
-                    }
-
-                    proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
-                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
-                    {
-                        await CrearInspeccion(nuevoProceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
-                    }
+        
 
 
                     return nuevoProceso.Guid;
@@ -532,75 +527,21 @@ namespace ProcesoES.Repository
 
 
                 proceso.TipoProcesoId = proceso.TipoProcesoId;
+
+                await _context.Proceso.AddAsync(proceso);
+                await _context.SaveChangesAsync();
+
+                await CrearInspeccionInicial(proceso, usuario);
+
+
+                await AsignarValoresProcesosRelacionados(proceso, usuario);
                 proceso.EstadoId = proceso.EstadoId ?? (int)ESTADOSPROCESOS.PENDIENTE;
 
                 proceso.Guid = Guid.NewGuid();
                 proceso.NombreUsuarioCrea = usuario.Nombre;
                 proceso.FechaRegistro = DateTime.Now;
 
-                await _context.Proceso.AddAsync(proceso);
-
-                await _context.SaveChangesAsync();
-
-                if (proceso.ProcesoInspeccion == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
-                {
-                    proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
-                    for (int i = 1; i <= proceso.CantidadInspeccion; i++)
-                    {
-                        await CrearInspeccion(proceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
-                    }
-
-                }
-
-                if (proceso.ProcesoInspeccion == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
-                {
-                    var ordentrabajo = _context.OrdenTrabajo.FirstOrDefault(t => t.Id == proceso.Id);
-
-                    proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
-                    var procesoMecanizado = await ConsultarProcesoPorTipoYOrdenTrabajo((int)TIPOPROCESOS.MECANIZADOTORNO, ordentrabajo.Guid, usuario);
-                    if (procesoMecanizado != null)
-                        proceso.ProcesoInspeccion.ToList().AddRange(procesoMecanizado.ProcesoInspeccion);
-
-
-                    var ProcesoInspeccionEntrada = await ConsultarProcesoPorTipoYOrdenTrabajo((int)TIPOPROCESOS.INSPECCIONENTRADA, proceso.OrdenTrabajo.Guid, usuario);
-                    if (ProcesoInspeccionEntrada != null)
-                        proceso.ProcesoInspeccion.ToList().AddRange(ProcesoInspeccionEntrada.ProcesoInspeccion);
-
-                    foreach (var inspeccion in proceso.ProcesoInspeccion)
-                    {
-                        _context.Entry(inspeccion).State = EntityState.Added;
-                    }
-
-                }
-
-
-                if (proceso.ProcesoInspeccion == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.MECANIZADOTORNO)
-                {
-                    var ordentrabajo = _context.OrdenTrabajo.FirstOrDefault(t => t.Id == proceso.OrdenTrabajoId);
-
-                    proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
-                    var ProcesoInspeccionEntrada = await ConsultarProcesoPorTipoYOrdenTrabajo((int)TIPOPROCESOS.INSPECCIONENTRADA, ordentrabajo.Guid, usuario);
-                    if (ProcesoInspeccionEntrada != null)
-                        proceso.ProcesoInspeccion.ToList().AddRange(ProcesoInspeccionEntrada.ProcesoInspeccion);
-
-
-                    foreach (var inspeccion in proceso.ProcesoInspeccion)
-                    {
-                        _context.Entry(inspeccion.Inspeccion).State = EntityState.Added;
-                        inspeccion.ProcesoId = proceso.Id;
-                        inspeccion.InspeccionId = inspeccion.Inspeccion.Id;
-
-                        _context.Entry(inspeccion).State = EntityState.Added;
-                    }
-
-
-                }
-
-           
-
-
-
-                    return proceso.Guid;
+                return proceso.Guid;
             }
             catch (Exception e)
             {
@@ -608,6 +549,158 @@ namespace ProcesoES.Repository
                 throw e;
             }
 
+        }
+
+        private async Task AsignarValoresProcesosRelacionados(Proceso proceso, UsuarioDTO usuario)
+        {
+            bool persistir = false;
+            var ordentrabajo = _context.OrdenTrabajo.FirstOrDefault(t => t.Id == proceso.OrdenTrabajoId);
+            var lista = new List<ProcesoInspeccion>();
+            var listaConexiones = new List<InspeccionConexion>();
+            if ((proceso.ProcesoInspeccion == null || proceso.ProcesoInspeccion.Count() == 0) && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONSALIDA)
+            {
+                proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
+                var procesoMecanizado = await ConsultarProcesoPorTipoYOrdenTrabajo((int)TIPOPROCESOS.MECANIZADOTORNO, ordentrabajo.Guid, usuario);
+                if (procesoMecanizado != null)
+                {
+                    foreach (var inspeccion in procesoMecanizado.ProcesoInspeccion)
+                    {
+                        _context.Entry(inspeccion).State = EntityState.Detached;
+
+                        var procesoInspeccion = new ProcesoInspeccion
+                        {
+                            Inspeccion = inspeccion.Inspeccion,
+                            ProcesoId = proceso.Id
+                        };
+
+                        lista.Add(procesoInspeccion);
+                        persistir = true;
+                    }
+
+
+                }
+
+
+                var ProcesoInspeccionEntrada = await ConsultarProcesoPorTipoYOrdenTrabajo((int)TIPOPROCESOS.INSPECCIONENTRADA, proceso.OrdenTrabajo.Guid, usuario);
+                if (ProcesoInspeccionEntrada != null)
+                {
+
+                    foreach (var inspeccion in ProcesoInspeccionEntrada.ProcesoInspeccion)
+                    {
+                        _context.Entry(inspeccion).State = EntityState.Detached;
+
+                        var procesoInspeccion = new ProcesoInspeccion
+                        {
+                            Inspeccion = inspeccion.Inspeccion,
+                            ProcesoId = proceso.Id
+                        };
+
+                        lista.Add(procesoInspeccion);
+                        persistir = true;
+                    }
+
+
+                }
+
+            }
+            if ((proceso.ProcesoInspeccion == null || proceso.ProcesoInspeccion.Count() == 0) && proceso.TipoProcesoId == (int)TIPOPROCESOS.MECANIZADOTORNO)
+            {
+
+                proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
+
+                var ProcesoInspeccionEntrada = await ConsultarProcesoPorTipoYOrdenTrabajo((int)TIPOPROCESOS.INSPECCIONENTRADA, ordentrabajo.Guid, usuario);
+                if (ProcesoInspeccionEntrada != null)
+                {
+                    foreach (var inspeccion in ProcesoInspeccionEntrada.ProcesoInspeccion)
+                    {
+                        _context.Entry(inspeccion).State = EntityState.Detached;
+                        _context.Entry(inspeccion.Inspeccion).State = EntityState.Detached;
+                        listaConexiones = inspeccion.Inspeccion.Conexiones.ToList();
+                        var procesoInspeccion = new ProcesoInspeccion
+                        {
+                            Inspeccion = inspeccion.Inspeccion,
+                            ProcesoId = proceso.Id,
+
+                        };
+
+                        lista.Add(procesoInspeccion);
+                        persistir = true;
+                    }
+
+
+                }
+            }
+            if (persistir)
+            {
+
+                if (proceso.ProcesoInspeccion != null)
+                {
+                    foreach (var inspeccion in lista)
+                    {
+                        _context.Entry(inspeccion.Inspeccion).State = EntityState.Detached;
+                        //_context.Entry(inspeccion.Inspeccion).Property(t => t.Id).IsModified = false;
+                        inspeccion.Inspeccion.Id = 0;
+                        _context.Entry(inspeccion.Inspeccion).State = EntityState.Added;
+
+                        if (inspeccion != null)
+                        {
+                            if (inspeccion.Inspeccion.Conexiones != null)
+
+                            {
+                                foreach (var conexion in inspeccion.Inspeccion.Conexiones)
+                                {
+
+
+                                    _context.Entry(conexion).State = EntityState.Detached;
+                                    //_context.Entry(conexion).Property(t => t.Id).IsModified = false;
+                                    conexion.Id = 0;
+                                    conexion.InspeccionId = inspeccion.InspeccionId;
+
+
+                                    _context.Entry(conexion).State = EntityState.Added;
+
+                                }
+                            }
+                            if (inspeccion.Inspeccion.Dimensionales != null)
+                            {
+                                foreach (var dimensional in inspeccion.Inspeccion.Dimensionales)
+                                {
+
+                                    _context.Entry(dimensional).State = EntityState.Detached;
+                                    //_context.Entry(dimensional).Property(t => t.Id).IsModified = false;
+                                    dimensional.InspeccionId = inspeccion.InspeccionId;
+                                    dimensional.Id = 0;
+                                    _context.Entry(dimensional).State = EntityState.Added;
+
+
+                                }
+                            }
+
+                        }
+
+                        _context.Entry(inspeccion).State = EntityState.Added;
+                        _context.SaveChanges();
+
+                    }
+
+
+
+                }
+            }
+            var cantidadCambios = _context.SaveChanges();
+        }
+        //TODO: verificar la inspeccion de entrada cuando se va a crear
+        private async Task CrearInspeccionInicial(Proceso proceso, UsuarioDTO usuario)
+        {
+            if (proceso.ProcesoInspeccion == null && proceso.TipoProcesoId == (int)TIPOPROCESOS.INSPECCIONENTRADA)
+            {
+                proceso.ProcesoInspeccion = new List<ProcesoInspeccion>();
+                for (int i = 1; i <= proceso.CantidadInspeccion; i++)
+                {
+                    await CrearInspeccion(proceso.Guid, (int)TIPOS_INSPECCIONES.VISUALDIMENSIONAL, i, usuario);
+                }
+
+            }
         }
 
         private static Proceso AsignarValoresProcesoReasignacion(Proceso proceso)
